@@ -12,6 +12,9 @@
   "peerDependencies": {
     "react": "^18.3.1"
   },
+  "dependencies": {
+    "@li4chess/engine": "workspace:*"
+  },
   "devDependencies": {
     "@types/react": "^18.3.12",
     "typescript": "^5.6.3"
