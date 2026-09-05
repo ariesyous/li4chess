@@ -11,8 +11,15 @@ import {
 } from "../types.js";
 import { applyMoveToBoard } from "./boardOps.js";
 import { isPlayerInCheck } from "./check.js";
-import { computeGameResult, countActive, recomputeCastlingRights, removeAllPiecesOf } from "./elimination.js";
+import {
+  computeDrawResult,
+  computeGameResult,
+  countActive,
+  recomputeCastlingRights,
+  removeAllPiecesOf,
+} from "./elimination.js";
 import { legalMoves } from "./legality.js";
+import { positionKey, REPETITION_DRAW_COUNT } from "./repetition.js";
 import { PIECE_VALUES } from "./scoring.js";
 
 function isDoublePawnPush(move: Move): boolean {
@@ -62,6 +69,7 @@ export function applyMove(state: GameState, move: Move): GameState {
     enPassantTarget,
     moveHistory: state.moveHistory,
     result: null,
+    positionCounts: state.positionCounts,
   };
 
   const eliminated: PlayerColor[] = [];
@@ -94,6 +102,16 @@ export function applyMove(state: GameState, move: Move): GameState {
 
   if (countActive(working.players) <= 1) {
     working = { ...working, result: computeGameResult(working.players) };
+  }
+
+  // Threefold repetition: the same position (board + turn + castling rights +
+  // en passant target + player statuses) recurring 3 times draws the game,
+  // even if the elimination check above didn't already end it.
+  const key = positionKey(working);
+  const count = (working.positionCounts[key] ?? 0) + 1;
+  working = { ...working, positionCounts: { ...working.positionCounts, [key]: count } };
+  if (working.result === null && count >= REPETITION_DRAW_COUNT) {
+    working = { ...working, result: computeDrawResult(working.players) };
   }
 
   const recordedMove: Move = { ...move, eliminates: eliminated };

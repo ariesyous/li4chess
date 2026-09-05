@@ -65,7 +65,8 @@ test("4-CPU autoplay: the whole game drives itself turn after turn with no error
   expect(lastTurnNumber).toBeGreaterThan(1);
 
   if (sawResult) {
-    await expect(page.getByTestId("winner-name")).toBeVisible();
+    // Either a single winner (elimination) or a tied draw (threefold repetition) —
+    // both are valid outcomes, so just confirm the result view rendered sanely.
     const placements = page.getByTestId("game-result").locator("li");
     await expect(placements).toHaveCount(4);
   }
