@@ -1,5 +1,6 @@
 import { GameState, Move, PlayerColor, PIECE_VALUES, applyMove, legalMoves } from "@li4chess/engine";
 import { evaluateUtility, evaluateVector, terminalUtility, UtilityFn, UtilityVector } from "./utility.js";
+import { positionHash, searchSignature, TranspositionTable } from "./hash.js";
 
 export interface LabOptions {
   maxDepth: number;
@@ -12,6 +13,7 @@ export interface LabOptions {
   evaluate?: UtilityFn;
   /** Exact root scores are required for score-distance personality sampling. */
   exactRootScores?: boolean;
+  ttCapacity?: number;
 }
 export interface LabStats {
   nodes: number; leaves: number; legalMoves: number; moveGenerations: number;
@@ -42,6 +44,7 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
   const stats: LabStats = { nodes: 0, leaves: 0, legalMoves: 0, moveGenerations: 0, cutoffs: 0,
     ttHits: 0, qNodes: 0, depthReached: 0, elapsedMs: 0, nodesPerSecond: 0 };
   let stopped: LabResult["stopped"] = "depth";
+  const table = new TranspositionTable(options.ttCapacity ?? 0);
   function checkBudget() {
     if (options.cancelled?.()) stopped = "cancelled";
     else if (stats.nodes >= (options.nodeBudget ?? Infinity)) stopped = "nodes";
@@ -55,7 +58,20 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
   function paranoid(s: GameState, depth: number, alpha: number, beta: number): { value: number; pv: Move[] } {
     checkBudget(); stats.nodes++;
     if (depth === 0 || s.result) { stats.leaves++; return { value: evaluate(s,root), pv: [] }; }
-    const moves = order(generate(s));
+    const originalAlpha = alpha, originalBeta = beta;
+    const hash = options.ttCapacity ? positionHash(s) : 0n;
+    const signature = options.ttCapacity ? searchSignature(s) : "";
+    const entry = table.get(hash,signature);
+    // Reuse only equal horizons: deeper heuristic values need not equal shallow values.
+    if (entry && entry.depth === depth) {
+      stats.ttHits++;
+      if (entry.bound === "exact") return {value:entry.value,pv:[]};
+      if (entry.bound === "lower") alpha = Math.max(alpha,entry.value);
+      else beta = Math.min(beta,entry.value);
+      if (alpha >= beta) return {value:entry.value,pv:[]};
+    }
+    const generated = generate(s);
+    const moves = order(generated,generated.find(m=>searchMoveId(m) === entry?.bestMove));
     if (!moves.length) throw new Error("Oracle supplied active turn without legal moves");
     const max = s.turn === root;
     let value = max ? -Infinity : Infinity;
@@ -67,6 +83,7 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
       if (max) alpha = Math.max(alpha,value); else beta = Math.min(beta,value);
       if (alpha >= beta) { stats.cutoffs++; break; }
     }
+    table.set(hash,{signature,depth,value,bound:value <= originalAlpha ? "upper" : value >= originalBeta ? "lower" : "exact",bestMove:pv[0] && searchMoveId(pv[0])});
     return { value, pv };
   }
   function maxn(s: GameState, depth: number): { vector: UtilityVector; pv: Move[] } {
