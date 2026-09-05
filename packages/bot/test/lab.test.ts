@@ -87,6 +87,10 @@ describe("position corpus", () => {
       expect(result.move).toMatchObject(spec.expect);
       if (spec.winner !== undefined) expect(applyMove(state,result.move).result?.winner).toBe(spec.winner);
     }
+    if (spec.avoid) {
+      const move=searchPosition(state,{maxDepth:2}).move;
+      expect(move.from===spec.avoid.from && move.to===spec.avoid.to).toBe(false);
+    }
     if (spec.id === "king-escape") for (const m of legalMoves(state)) expect(isPlayerInCheck(applyMove(state,m),state.turn)).toBe(false);
   });
 });

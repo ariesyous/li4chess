@@ -1,0 +1,236 @@
+{
+  "kind": "V8 self samples in engine/bot source only",
+  "total": 1905,
+  "functions": [
+    {
+      "name": "isSquareAttacked",
+      "samples": 682,
+      "fraction": 0.35800524934383204
+    },
+    {
+      "name": "pawnAttackSquares",
+      "samples": 268,
+      "fraction": 0.14068241469816273
+    },
+    {
+      "name": "raySquares",
+      "samples": 217,
+      "fraction": 0.11391076115485564
+    },
+    {
+      "name": "leaperDestinations",
+      "samples": 191,
+      "fraction": 0.10026246719160105
+    },
+    {
+      "name": "anonymous",
+      "samples": 148,
+      "fraction": 0.07769028871391076
+    },
+    {
+      "name": "get",
+      "samples": 93,
+      "fraction": 0.048818897637795275
+    },
+    {
+      "name": "legalMoves",
+      "samples": 65,
+      "fraction": 0.03412073490813648
+    },
+    {
+      "name": "forwardVector",
+      "samples": 47,
+      "fraction": 0.024671916010498687
+    },
+    {
+      "name": "sideVector",
+      "samples": 32,
+      "fraction": 0.01679790026246719
+    },
+    {
+      "name": "pseudoLegalMoves",
+      "samples": 26,
+      "fraction": 0.013648293963254593
+    },
+    {
+      "name": "applyMove",
+      "samples": 21,
+      "fraction": 0.011023622047244094
+    },
+    {
+      "name": "findKingSquare",
+      "samples": 20,
+      "fraction": 0.010498687664041995
+    },
+    {
+      "name": "positionKey",
+      "samples": 18,
+      "fraction": 0.009448818897637795
+    },
+    {
+      "name": "evaluateFull",
+      "samples": 16,
+      "fraction": 0.008398950131233596
+    },
+    {
+      "name": "applyMoveToBoard",
+      "samples": 8,
+      "fraction": 0.004199475065616798
+    },
+    {
+      "name": "pawnMoves",
+      "samples": 7,
+      "fraction": 0.003674540682414698
+    },
+    {
+      "name": "paranoid",
+      "samples": 5,
+      "fraction": 0.0026246719160104987
+    },
+    {
+      "name": "localToBoard",
+      "samples": 5,
+      "fraction": 0.0026246719160104987
+    },
+    {
+      "name": "pushDestination",
+      "samples": 4,
+      "fraction": 0.002099737532808399
+    },
+    {
+      "name": "order",
+      "samples": 4,
+      "fraction": 0.002099737532808399
+    },
+    {
+      "name": "isInCheck",
+      "samples": 3,
+      "fraction": 0.0015748031496062992
+    },
+    {
+      "name": "activePlayersExcept",
+      "samples": 3,
+      "fraction": 0.0015748031496062992
+    },
+    {
+      "name": "localSquare",
+      "samples": 3,
+      "fraction": 0.0015748031496062992
+    },
+    {
+      "name": "loadPosition",
+      "samples": 2,
+      "fraction": 0.0010498687664041995
+    },
+    {
+      "name": "castlingMoves",
+      "samples": 2,
+      "fraction": 0.0010498687664041995
+    },
+    {
+      "name": "evaluateUtility",
+      "samples": 2,
+      "fraction": 0.0010498687664041995
+    },
+    {
+      "name": "slidingDestinations",
+      "samples": 2,
+      "fraction": 0.0010498687664041995
+    },
+    {
+      "name": "ordered",
+      "samples": 2,
+      "fraction": 0.0010498687664041995
+    },
+    {
+      "name": "rankMoves",
+      "samples": 2,
+      "fraction": 0.0010498687664041995
+    },
+    {
+      "name": "emitWithPromotion",
+      "samples": 1,
+      "fraction": 0.0005249343832020997
+    },
+    {
+      "name": "searchPosition",
+      "samples": 1,
+      "fraction": 0.0005249343832020997
+    },
+    {
+      "name": "recomputeCastlingRights",
+      "samples": 1,
+      "fraction": 0.0005249343832020997
+    },
+    {
+      "name": "evaluate",
+      "samples": 1,
+      "fraction": 0.0005249343832020997
+    },
+    {
+      "name": "checkBudget",
+      "samples": 1,
+      "fraction": 0.0005249343832020997
+    },
+    {
+      "name": "set",
+      "samples": 1,
+      "fraction": 0.0005249343832020997
+    },
+    {
+      "name": "repeatsPriorPosition",
+      "samples": 1,
+      "fraction": 0.0005249343832020997
+    },
+    {
+      "name": "baseMove",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "movesTo",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "generate",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "isDoublePawnPush",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "isPlayerInCheck",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "isCenterSquare",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "tacticalScore",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "searchMoveId",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "chooseCpuMove",
+      "samples": 0,
+      "fraction": 0
+    },
+    {
+      "name": "alphaBeta",
+      "samples": 0,
+      "fraction": 0
+    }
+  ]
+}

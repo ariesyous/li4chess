@@ -1,0 +1,10 @@
+{"id":"king-endgame","level":1,"elapsedMs":2.4121000000000095,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":2,"elapsedMs":3.8292000000000144,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":3,"elapsedMs":7.8986999999999625,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":4,"elapsedMs":13.137300000000039,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":5,"elapsedMs":23.105199999999968,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":1,"elapsedMs":91.45059999999995,"move":{"from":4,"to":33,"piece":{"type":"N","owner":0,"hasMoved":false},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":2,"elapsedMs":178.90249999999997,"move":{"from":4,"to":33,"piece":{"type":"N","owner":0,"hasMoved":false},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":3,"elapsedMs":7488.0634,"move":{"from":21,"to":49,"piece":{"type":"P","owner":0,"hasMoved":false},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":4,"termination":"process-timeout","processElapsedMs":10017.4139,"error":"spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT"}
+{"id":"opening","level":5,"termination":"process-timeout","processElapsedMs":10014.682100000002,"error":"spawnSync C:\\Program Files\\nodejs\\node.exe ETIMEDOUT"}

@@ -30,3 +30,19 @@ it("TT preserves fixed-depth values", () => {
   const a=searchPosition(state,{maxDepth:3}),b=searchPosition(state,{maxDepth:3,ttCapacity:1000});
   expect(a.value).toBe(b.value); expect(a.move).toEqual(b.move);
 });
+it("hash deltas include castling, en passant removal, promotion and cascading elimination", () => {
+  const base=createInitialState();const board=base.board.slice();board[8]=null;board[9]=null;
+  const castle={...base,board};
+  const castleMove=legalMoves(castle).find(m=>m.castle==="kingside")!;
+  expect(castleMove).toBeDefined();
+  const epStart=loadPosition({id:"ep",tags:[],inactive:[1,3],pieces:[[7,0,"K"],[188,2,"K"],[20,0,"P"],[47,2,"P"]]});
+  const push=legalMoves(epStart).find(m=>m.from===20 && m.to===48)!;
+  const epState=applyMove(epStart,push);
+  const ep=legalMoves(epState).find(m=>m.enPassantCapture===48)!;expect(ep).toBeDefined();
+  const promotion=loadPosition(positions.find(p=>p.id==="promotion")!);
+  const mate=loadPosition(positions.find(p=>p.id==="mate-in-one")!);
+  for (const [state,move] of [[castle,castleMove],[epState,ep],[promotion,legalMoves(promotion).find(m=>m.promotion)!],
+    [mate,legalMoves(mate).find(m=>m.from===73 && m.to===3)!]] as const) {
+    const child=applyMove(state,move);expect(updatePositionHash(positionHash(state),state,child)).toBe(positionHash(child));
+  }
+});

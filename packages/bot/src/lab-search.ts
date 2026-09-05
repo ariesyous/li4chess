@@ -10,6 +10,7 @@ export interface LabOptions {
   timeMs?: number;
   cancelled?: () => boolean;
   now?: () => number;
+  /** Pure position utility; with TT it must depend only on fields covered by searchSignature. */
   evaluate?: UtilityFn;
   /** Exact root scores are required for score-distance personality sampling. */
   exactRootScores?: boolean;
