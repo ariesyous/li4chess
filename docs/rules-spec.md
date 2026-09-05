@@ -19,6 +19,8 @@ A move is illegal iff, after applying it, the **moving player's own** king is le
 
 Separately (detection, not a legality constraint): after a move is applied, each of the other (up to 3) players' kings is checked for check, and the move is annotated with which colors are newly in check (`Move.isCheck`, 0-3 entries). A single move can check multiple opponents at once (e.g. a discovered check plus a direct check along a different line).
 
+**Deferred checkmate consequence:** because turn order is a fixed rotation (not "whoever is in check moves next"), a move can check a player who isn't next in rotation (e.g. Green's move checks Red, but Red->Blue->Yellow->Green->Red means Blue or Yellow may move first). That player's checkmate/stalemate status is only evaluated once rotation actually reaches them, using the board as it stands at that moment (which may have changed in the meantime) — not eagerly resolved the instant the check occurs. This is a deliberate consequence of the legality rule above (only the mover's own king matters when validating a move), not a special case bolted on afterward.
+
 ## Checkmate
 
 A player with no legal move while their king is in check is **checkmated**: their king and all remaining pieces are immediately removed from the board (they vanish — not captured by, nor scored to, any opponent). Their status becomes `checkmated`, and the turn passes to the next active player in rotation. No other piece's pin/check calculation may reference the removed king afterward.
