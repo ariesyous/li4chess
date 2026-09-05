@@ -1,0 +1,9 @@
+{"id":"king-endgame","level":1,"elapsedMs":2.919499999999971,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":2,"elapsedMs":3.0208999999999833,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":3,"elapsedMs":4.0779,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":4,"elapsedMs":7.277600000000007,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"king-endgame","level":5,"elapsedMs":13.874700000000018,"move":{"from":6,"to":7,"piece":{"owner":0,"type":"K","hasMoved":true},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":1,"elapsedMs":94.16570000000002,"move":{"from":4,"to":33,"piece":{"type":"N","owner":0,"hasMoved":false},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":2,"elapsedMs":154.3909,"move":{"from":4,"to":33,"piece":{"type":"N","owner":0,"hasMoved":false},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":3,"elapsedMs":8199.0085,"move":{"from":21,"to":49,"piece":{"type":"P","owner":0,"hasMoved":false},"isCheck":[],"eliminates":[]}}
+{"id":"opening","level":4,"elapsedMs":190573.2392,"move":{"from":21,"to":49,"piece":{"type":"P","owner":0,"hasMoved":false},"isCheck":[],"eliminates":[]}}

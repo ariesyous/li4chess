@@ -6,6 +6,11 @@ import { ScoredMove, SearchOptions, rankMoves, scoreMovesExactly } from "./searc
 export * from "./difficulty.js";
 export * from "./evaluate.js";
 export * from "./search.js";
+export * from "./lab-search.js";
+export * from "./utility.js";
+export * from "./positions.js";
+export * from "./hash.js";
+export { chooseCpuMove as chooseClassicMove, DIFFICULTY_PRESETS as CLASSIC_PRESETS } from "./classic/index.js";
 
 /** Would playing this move recreate a position already reached earlier in the game? */
 function repeatsPriorPosition(state: GameState, move: Move): boolean {

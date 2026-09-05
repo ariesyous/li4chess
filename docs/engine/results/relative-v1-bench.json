@@ -1,0 +1,218 @@
+[
+  {
+    "id": "opening",
+    "base": {
+      "nodes": 84,
+      "leaves": 64,
+      "legalMoves": 415,
+      "moveGenerations": 21,
+      "cutoffs": 19,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 178.50200000000768,
+      "nodesPerSecond": 470.58296265586034
+    },
+    "relative": {
+      "nodes": 84,
+      "leaves": 64,
+      "legalMoves": 415,
+      "moveGenerations": 21,
+      "cutoffs": 19,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 172.79159999999683,
+      "nodesPerSecond": 486.13474266111047
+    }
+  },
+  {
+    "id": "promotion",
+    "base": {
+      "nodes": 31,
+      "leaves": 22,
+      "legalMoves": 54,
+      "moveGenerations": 10,
+      "cutoffs": 8,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 9.582300000009127,
+      "nodesPerSecond": 3235.131440256564
+    },
+    "relative": {
+      "nodes": 31,
+      "leaves": 22,
+      "legalMoves": 54,
+      "moveGenerations": 10,
+      "cutoffs": 8,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 6.635600000008708,
+      "nodesPerSecond": 4671.77045029226
+    }
+  },
+  {
+    "id": "hanging-queen",
+    "base": {
+      "nodes": 82,
+      "leaves": 56,
+      "legalMoves": 1061,
+      "moveGenerations": 27,
+      "cutoffs": 25,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 59.445799999986775,
+      "nodesPerSecond": 1379.4077966823265
+    },
+    "relative": {
+      "nodes": 82,
+      "leaves": 56,
+      "legalMoves": 1061,
+      "moveGenerations": 27,
+      "cutoffs": 25,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 55.570000000006985,
+      "nodesPerSecond": 1475.616339751479
+    }
+  },
+  {
+    "id": "poisoned-pawn",
+    "base": {
+      "nodes": 165,
+      "leaves": 122,
+      "legalMoves": 466,
+      "moveGenerations": 44,
+      "cutoffs": 40,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 31.857600000017555,
+      "nodesPerSecond": 5179.297875543326
+    },
+    "relative": {
+      "nodes": 165,
+      "leaves": 122,
+      "legalMoves": 466,
+      "moveGenerations": 44,
+      "cutoffs": 40,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 30.792000000015832,
+      "nodesPerSecond": 5358.534684330838
+    }
+  },
+  {
+    "id": "double-check",
+    "base": {
+      "nodes": 108,
+      "leaves": 73,
+      "legalMoves": 223,
+      "moveGenerations": 36,
+      "cutoffs": 34,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 14.033200000005309,
+      "nodesPerSecond": 7696.035116720288
+    },
+    "relative": {
+      "nodes": 108,
+      "leaves": 73,
+      "legalMoves": 223,
+      "moveGenerations": 36,
+      "cutoffs": 34,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 14.364000000001397,
+      "nodesPerSecond": 7518.796992480472
+    }
+  },
+  {
+    "id": "mate-in-one",
+    "base": {
+      "nodes": 113,
+      "leaves": 76,
+      "legalMoves": 296,
+      "moveGenerations": 38,
+      "cutoffs": 37,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 12.443799999979092,
+      "nodesPerSecond": 9080.827400005614
+    },
+    "relative": {
+      "nodes": 113,
+      "leaves": 76,
+      "legalMoves": 296,
+      "moveGenerations": 38,
+      "cutoffs": 37,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 16.87170000001788,
+      "nodesPerSecond": 6697.60605036127
+    }
+  },
+  {
+    "id": "king-endgame",
+    "base": {
+      "nodes": 19,
+      "leaves": 14,
+      "legalMoves": 30,
+      "moveGenerations": 6,
+      "cutoffs": 4,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 0.9407000000064727,
+      "nodesPerSecond": 20197.725098192055
+    },
+    "relative": {
+      "nodes": 19,
+      "leaves": 14,
+      "legalMoves": 30,
+      "moveGenerations": 6,
+      "cutoffs": 4,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 0.5934000000124797,
+      "nodesPerSecond": 32018.874283114954
+    }
+  },
+  {
+    "id": "king-escape",
+    "base": {
+      "nodes": 50,
+      "leaves": 46,
+      "legalMoves": 128,
+      "moveGenerations": 5,
+      "cutoffs": 3,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 7.8307000000204425,
+      "nodesPerSecond": 6385.1252122887445
+    },
+    "relative": {
+      "nodes": 132,
+      "leaves": 128,
+      "legalMoves": 128,
+      "moveGenerations": 5,
+      "cutoffs": 3,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 14.325799999991432,
+      "nodesPerSecond": 9214.14510883015
+    }
+  }
+]

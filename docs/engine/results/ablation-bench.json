@@ -1,0 +1,1476 @@
+[
+  {
+    "position": "opening",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 4,
+      "to": 33,
+      "piece": {
+        "type": "N",
+        "owner": 0,
+        "hasMoved": false
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": null,
+    "stats": {
+      "nodes": 500,
+      "leaves": 474,
+      "legalMoves": 535,
+      "moveGenerations": 27,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 0,
+      "elapsedMs": 993.7416000000001,
+      "nodesPerSecond": 503.1489071203218
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "opening",
+    "variant": "lab-id",
+    "move": {
+      "from": 21,
+      "to": 49,
+      "piece": {
+        "type": "P",
+        "owner": 0,
+        "hasMoved": false
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": -2.4067576534817143,
+    "stats": {
+      "nodes": 500,
+      "leaves": 459,
+      "legalMoves": 830,
+      "moveGenerations": 42,
+      "cutoffs": 19,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 930.8404999999998,
+      "nodesPerSecond": 537.1489530161183
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "opening",
+    "variant": "lab-tt",
+    "move": {
+      "from": 21,
+      "to": 49,
+      "piece": {
+        "type": "P",
+        "owner": 0,
+        "hasMoved": false
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": -2.4067576534817143,
+    "stats": {
+      "nodes": 500,
+      "leaves": 459,
+      "legalMoves": 830,
+      "moveGenerations": 42,
+      "cutoffs": 19,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 929.1768999999999,
+      "nodesPerSecond": 538.110665471774
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "opening",
+    "variant": "lab-order",
+    "move": {
+      "from": 21,
+      "to": 49,
+      "piece": {
+        "type": "P",
+        "owner": 0,
+        "hasMoved": false
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": -2.4067576534817143,
+    "stats": {
+      "nodes": 500,
+      "leaves": 455,
+      "legalMoves": 910,
+      "moveGenerations": 46,
+      "cutoffs": 21,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 881.1822999999995,
+      "nodesPerSecond": 567.4194772182785
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "opening",
+    "variant": "lab-q",
+    "move": {
+      "from": 21,
+      "to": 49,
+      "piece": {
+        "type": "P",
+        "owner": 0,
+        "hasMoved": false
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": -2.4099216426647665,
+    "stats": {
+      "nodes": 500,
+      "leaves": 476,
+      "legalMoves": 5616,
+      "moveGenerations": 245,
+      "cutoffs": 152,
+      "ttHits": 0,
+      "qNodes": 476,
+      "depthReached": 2,
+      "elapsedMs": 1378.0950000000003,
+      "nodesPerSecond": 362.81968949890967
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "opening",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 21,
+      "to": 49,
+      "piece": {
+        "type": "P",
+        "owner": 0,
+        "hasMoved": false
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": -2.4067576534817143,
+    "stats": {
+      "nodes": 500,
+      "leaves": 475,
+      "legalMoves": 515,
+      "moveGenerations": 26,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 1693.6616999999997,
+      "nodesPerSecond": 295.21834260053237
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "promotion",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 171,
+      "to": 185,
+      "piece": {
+        "owner": 0,
+        "type": "P",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": [],
+      "promotion": "Q"
+    },
+    "value": 0.5863774640339534,
+    "stats": {
+      "nodes": 45,
+      "leaves": 23,
+      "legalMoves": 106,
+      "moveGenerations": 23,
+      "cutoffs": 16,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 13.395000000000437,
+      "nodesPerSecond": 3359.46248600213
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "promotion",
+    "variant": "lab-id",
+    "move": {
+      "from": 171,
+      "to": 185,
+      "piece": {
+        "owner": 0,
+        "type": "P",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": [],
+      "promotion": "Q"
+    },
+    "value": 0.5863774640339534,
+    "stats": {
+      "nodes": 76,
+      "leaves": 45,
+      "legalMoves": 151,
+      "moveGenerations": 32,
+      "cutoffs": 24,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 9.247099999999591,
+      "nodesPerSecond": 8218.792918861413
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "promotion",
+    "variant": "lab-tt",
+    "move": {
+      "from": 171,
+      "to": 185,
+      "piece": {
+        "owner": 0,
+        "type": "P",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": [],
+      "promotion": "Q"
+    },
+    "value": 0.5863774640339534,
+    "stats": {
+      "nodes": 76,
+      "leaves": 45,
+      "legalMoves": 151,
+      "moveGenerations": 32,
+      "cutoffs": 24,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 10.183199999999488,
+      "nodesPerSecond": 7463.2728415433085
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "promotion",
+    "variant": "lab-order",
+    "move": {
+      "from": 171,
+      "to": 185,
+      "piece": {
+        "owner": 0,
+        "type": "P",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": [],
+      "promotion": "Q"
+    },
+    "value": 0.5863774640339534,
+    "stats": {
+      "nodes": 76,
+      "leaves": 45,
+      "legalMoves": 151,
+      "moveGenerations": 32,
+      "cutoffs": 24,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 8.377600000000712,
+      "nodesPerSecond": 9071.810542398007
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "promotion",
+    "variant": "lab-q",
+    "move": {
+      "from": 171,
+      "to": 185,
+      "piece": {
+        "owner": 0,
+        "type": "P",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": [],
+      "promotion": "Q"
+    },
+    "value": 0.5863774640339534,
+    "stats": {
+      "nodes": 112,
+      "leaves": 81,
+      "legalMoves": 339,
+      "moveGenerations": 74,
+      "cutoffs": 49,
+      "ttHits": 0,
+      "qNodes": 81,
+      "depthReached": 3,
+      "elapsedMs": 13.946599999999307,
+      "nodesPerSecond": 8030.631121564077
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "promotion",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 171,
+      "to": 185,
+      "piece": {
+        "owner": 0,
+        "type": "P",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": [],
+      "promotion": "Q"
+    },
+    "value": 0.5863774640339534,
+    "stats": {
+      "nodes": 317,
+      "leaves": 254,
+      "legalMoves": 299,
+      "moveGenerations": 64,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 34.682299999999486,
+      "nodesPerSecond": 9140.108931645384
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "hanging-queen",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 75,
+      "to": 117,
+      "piece": {
+        "owner": 0,
+        "type": "R",
+        "hasMoved": true
+      },
+      "captured": {
+        "owner": 1,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.3434397213521444,
+    "stats": {
+      "nodes": 96,
+      "leaves": 40,
+      "legalMoves": 1160,
+      "moveGenerations": 57,
+      "cutoffs": 50,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 38.80000000000018,
+      "nodesPerSecond": 2474.2268041237
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "hanging-queen",
+    "variant": "lab-id",
+    "move": {
+      "from": 75,
+      "to": 117,
+      "piece": {
+        "owner": 0,
+        "type": "R",
+        "hasMoved": true
+      },
+      "captured": {
+        "owner": 1,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.3434397213521444,
+    "stats": {
+      "nodes": 178,
+      "leaves": 96,
+      "legalMoves": 2195,
+      "moveGenerations": 83,
+      "cutoffs": 75,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 88.39359999999942,
+      "nodesPerSecond": 2013.7204503493597
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "hanging-queen",
+    "variant": "lab-tt",
+    "move": {
+      "from": 75,
+      "to": 117,
+      "piece": {
+        "owner": 0,
+        "type": "R",
+        "hasMoved": true
+      },
+      "captured": {
+        "owner": 1,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.3434397213521444,
+    "stats": {
+      "nodes": 178,
+      "leaves": 96,
+      "legalMoves": 2195,
+      "moveGenerations": 83,
+      "cutoffs": 75,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 92.42150000000038,
+      "nodesPerSecond": 1925.9587866459565
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "hanging-queen",
+    "variant": "lab-order",
+    "move": {
+      "from": 75,
+      "to": 117,
+      "piece": {
+        "owner": 0,
+        "type": "R",
+        "hasMoved": true
+      },
+      "captured": {
+        "owner": 1,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.3434397213521444,
+    "stats": {
+      "nodes": 178,
+      "leaves": 96,
+      "legalMoves": 2195,
+      "moveGenerations": 83,
+      "cutoffs": 75,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 94.86059999999998,
+      "nodesPerSecond": 1876.4376358572479
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "hanging-queen",
+    "variant": "lab-q",
+    "move": {
+      "from": 75,
+      "to": 117,
+      "piece": {
+        "owner": 0,
+        "type": "R",
+        "hasMoved": true
+      },
+      "captured": {
+        "owner": 1,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.3434397213521444,
+    "stats": {
+      "nodes": 251,
+      "leaves": 169,
+      "legalMoves": 2579,
+      "moveGenerations": 141,
+      "cutoffs": 161,
+      "ttHits": 0,
+      "qNodes": 169,
+      "depthReached": 3,
+      "elapsedMs": 132.49089999999978,
+      "nodesPerSecond": 1894.4697333930135
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "hanging-queen",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 75,
+      "to": 117,
+      "piece": {
+        "owner": 0,
+        "type": "R",
+        "hasMoved": true
+      },
+      "captured": {
+        "owner": 1,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.3458922032858847,
+    "stats": {
+      "nodes": 500,
+      "leaves": 486,
+      "legalMoves": 512,
+      "moveGenerations": 15,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 1,
+      "elapsedMs": 95.71909999999934,
+      "nodesPerSecond": 5223.617856833207
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "poisoned-pawn",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 75,
+      "to": 88,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [
+        1
+      ],
+      "eliminates": []
+    },
+    "value": 0.3505908930955436,
+    "stats": {
+      "nodes": 384,
+      "leaves": 252,
+      "legalMoves": 856,
+      "moveGenerations": 133,
+      "cutoffs": 76,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 50.63209999999981,
+      "nodesPerSecond": 7584.121535547636
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "poisoned-pawn",
+    "variant": "lab-id",
+    "move": {
+      "from": 75,
+      "to": 88,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [
+        1
+      ],
+      "eliminates": []
+    },
+    "value": 0.3505908930955436,
+    "stats": {
+      "nodes": 364,
+      "leaves": 224,
+      "legalMoves": 1145,
+      "moveGenerations": 141,
+      "cutoffs": 124,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 60.53610000000026,
+      "nodesPerSecond": 6012.941038487753
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "poisoned-pawn",
+    "variant": "lab-tt",
+    "move": {
+      "from": 75,
+      "to": 88,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [
+        1
+      ],
+      "eliminates": []
+    },
+    "value": 0.3505908930955436,
+    "stats": {
+      "nodes": 316,
+      "leaves": 184,
+      "legalMoves": 1104,
+      "moveGenerations": 133,
+      "cutoffs": 124,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 61.43299999999999,
+      "nodesPerSecond": 5143.815213321831
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "poisoned-pawn",
+    "variant": "lab-order",
+    "move": {
+      "from": 75,
+      "to": 88,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [
+        1
+      ],
+      "eliminates": []
+    },
+    "value": 0.3505908930955436,
+    "stats": {
+      "nodes": 311,
+      "leaves": 179,
+      "legalMoves": 1096,
+      "moveGenerations": 133,
+      "cutoffs": 124,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 60.23000000000047,
+      "nodesPerSecond": 5163.539764237051
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "poisoned-pawn",
+    "variant": "lab-q",
+    "move": {
+      "from": 75,
+      "to": 120,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.3554911809853246,
+    "stats": {
+      "nodes": 500,
+      "leaves": 488,
+      "legalMoves": 943,
+      "moveGenerations": 190,
+      "cutoffs": 60,
+      "ttHits": 0,
+      "qNodes": 488,
+      "depthReached": 1,
+      "elapsedMs": 156.6260000000002,
+      "nodesPerSecond": 3192.3180059504766
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "poisoned-pawn",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 75,
+      "to": 103,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [
+        3
+      ],
+      "eliminates": []
+    },
+    "value": 0.35671581901771576,
+    "stats": {
+      "nodes": 500,
+      "leaves": 457,
+      "legalMoves": 466,
+      "moveGenerations": 44,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 1,
+      "elapsedMs": 84.61440000000039,
+      "nodesPerSecond": 5909.15967022159
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "double-check",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 6,
+      "to": 104,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.6007284698227767,
+    "stats": {
+      "nodes": 259,
+      "leaves": 167,
+      "legalMoves": 555,
+      "moveGenerations": 93,
+      "cutoffs": 62,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 25.46979999999894,
+      "nodesPerSecond": 10168.90591995268
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "double-check",
+    "variant": "lab-id",
+    "move": {
+      "from": 6,
+      "to": 104,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.6007284698227767,
+    "stats": {
+      "nodes": 261,
+      "leaves": 149,
+      "legalMoves": 658,
+      "moveGenerations": 113,
+      "cutoffs": 100,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 29.676499999999578,
+      "nodesPerSecond": 8794.837666166957
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "double-check",
+    "variant": "lab-tt",
+    "move": {
+      "from": 6,
+      "to": 104,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.6007284698227767,
+    "stats": {
+      "nodes": 261,
+      "leaves": 149,
+      "legalMoves": 658,
+      "moveGenerations": 113,
+      "cutoffs": 100,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 35.943299999999,
+      "nodesPerSecond": 7261.436762901772
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "double-check",
+    "variant": "lab-order",
+    "move": {
+      "from": 6,
+      "to": 104,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.6007284698227767,
+    "stats": {
+      "nodes": 260,
+      "leaves": 148,
+      "legalMoves": 643,
+      "moveGenerations": 113,
+      "cutoffs": 100,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 35.23689999999988,
+      "nodesPerSecond": 7378.628653485434
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "double-check",
+    "variant": "lab-q",
+    "move": {
+      "from": 6,
+      "to": 104,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.6007284698227767,
+    "stats": {
+      "nodes": 498,
+      "leaves": 386,
+      "legalMoves": 1274,
+      "moveGenerations": 200,
+      "cutoffs": 213,
+      "ttHits": 0,
+      "qNodes": 386,
+      "depthReached": 3,
+      "elapsedMs": 68.1833000000006,
+      "nodesPerSecond": 7303.841263183149
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "double-check",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 6,
+      "to": 76,
+      "piece": {
+        "owner": 0,
+        "type": "Q",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0.600139521924715,
+    "stats": {
+      "nodes": 500,
+      "leaves": 426,
+      "legalMoves": 459,
+      "moveGenerations": 75,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 66.65339999999924,
+      "nodesPerSecond": 7501.492797066702
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "mate-in-one",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 23,
+      "to": 35,
+      "piece": {
+        "owner": 3,
+        "type": "N",
+        "hasMoved": true
+      },
+      "isCheck": [
+        0
+      ],
+      "eliminates": []
+    },
+    "value": null,
+    "stats": {
+      "nodes": 500,
+      "leaves": 470,
+      "legalMoves": 715,
+      "moveGenerations": 31,
+      "cutoffs": 14,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 0,
+      "elapsedMs": 40.083699999999226,
+      "nodesPerSecond": 12473.8983676659
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "mate-in-one",
+    "variant": "lab-id",
+    "move": {
+      "from": 73,
+      "to": 3,
+      "piece": {
+        "owner": 3,
+        "type": "R",
+        "hasMoved": true
+      },
+      "isCheck": [
+        0
+      ],
+      "eliminates": []
+    },
+    "value": 3,
+    "stats": {
+      "nodes": 500,
+      "leaves": 441,
+      "legalMoves": 772,
+      "moveGenerations": 60,
+      "cutoffs": 47,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 39.58730000000105,
+      "nodesPerSecond": 12630.313257029065
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "mate-in-one",
+    "variant": "lab-tt",
+    "move": {
+      "from": 73,
+      "to": 3,
+      "piece": {
+        "owner": 3,
+        "type": "R",
+        "hasMoved": true
+      },
+      "isCheck": [
+        0
+      ],
+      "eliminates": []
+    },
+    "value": 3,
+    "stats": {
+      "nodes": 500,
+      "leaves": 441,
+      "legalMoves": 772,
+      "moveGenerations": 60,
+      "cutoffs": 47,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 40.92030000000159,
+      "nodesPerSecond": 12218.874250677061
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "mate-in-one",
+    "variant": "lab-order",
+    "move": {
+      "from": 73,
+      "to": 3,
+      "piece": {
+        "owner": 3,
+        "type": "R",
+        "hasMoved": true
+      },
+      "isCheck": [
+        0
+      ],
+      "eliminates": []
+    },
+    "value": 3,
+    "stats": {
+      "nodes": 500,
+      "leaves": 441,
+      "legalMoves": 772,
+      "moveGenerations": 60,
+      "cutoffs": 47,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 41.74120000000039,
+      "nodesPerSecond": 11978.57272910207
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "mate-in-one",
+    "variant": "lab-q",
+    "move": {
+      "from": 73,
+      "to": 3,
+      "piece": {
+        "owner": 3,
+        "type": "R",
+        "hasMoved": true
+      },
+      "isCheck": [
+        0
+      ],
+      "eliminates": []
+    },
+    "value": 3,
+    "stats": {
+      "nodes": 500,
+      "leaves": 447,
+      "legalMoves": 2380,
+      "moveGenerations": 149,
+      "cutoffs": 383,
+      "ttHits": 0,
+      "qNodes": 444,
+      "depthReached": 2,
+      "elapsedMs": 52.832900000001246,
+      "nodesPerSecond": 9463.800018548825
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "mate-in-one",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 73,
+      "to": 3,
+      "piece": {
+        "owner": 3,
+        "type": "R",
+        "hasMoved": true
+      },
+      "isCheck": [
+        0
+      ],
+      "eliminates": []
+    },
+    "value": 3,
+    "stats": {
+      "nodes": 500,
+      "leaves": 456,
+      "legalMoves": 505,
+      "moveGenerations": 45,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 67.42070000000058,
+      "nodesPerSecond": 7416.119975022444
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "king-endgame",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 6,
+      "to": 7,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0,
+    "stats": {
+      "nodes": 56,
+      "leaves": 42,
+      "legalMoves": 84,
+      "moveGenerations": 15,
+      "cutoffs": 8,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 1.636399999999412,
+      "nodesPerSecond": 34221.46174530684
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-endgame",
+    "variant": "lab-id",
+    "move": {
+      "from": 6,
+      "to": 20,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0,
+    "stats": {
+      "nodes": 71,
+      "leaves": 52,
+      "legalMoves": 121,
+      "moveGenerations": 20,
+      "cutoffs": 12,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 1.9724999999998545,
+      "nodesPerSecond": 35994.93029151089
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-endgame",
+    "variant": "lab-tt",
+    "move": {
+      "from": 6,
+      "to": 20,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0,
+    "stats": {
+      "nodes": 71,
+      "leaves": 52,
+      "legalMoves": 121,
+      "moveGenerations": 20,
+      "cutoffs": 12,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 2.652299999999741,
+      "nodesPerSecond": 26769.219168271662
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-endgame",
+    "variant": "lab-order",
+    "move": {
+      "from": 6,
+      "to": 20,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0,
+    "stats": {
+      "nodes": 71,
+      "leaves": 52,
+      "legalMoves": 121,
+      "moveGenerations": 20,
+      "cutoffs": 12,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 2.8922999999995227,
+      "nodesPerSecond": 24547.93762749774
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-endgame",
+    "variant": "lab-q",
+    "move": {
+      "from": 6,
+      "to": 20,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0,
+    "stats": {
+      "nodes": 71,
+      "leaves": 52,
+      "legalMoves": 199,
+      "moveGenerations": 32,
+      "cutoffs": 52,
+      "ttHits": 0,
+      "qNodes": 52,
+      "depthReached": 3,
+      "elapsedMs": 4.387500000000728,
+      "nodesPerSecond": 16182.336182333498
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-endgame",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 6,
+      "to": 20,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [],
+      "eliminates": []
+    },
+    "value": 0,
+    "stats": {
+      "nodes": 235,
+      "leaves": 200,
+      "legalMoves": 225,
+      "moveGenerations": 36,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 7.466099999999642,
+      "nodesPerSecond": 31475.603059162248
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-escape",
+    "variant": "lab-fixed",
+    "move": {
+      "from": 6,
+      "to": 21,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": []
+    },
+    "value": -0.34016869792670373,
+    "stats": {
+      "nodes": 370,
+      "leaves": 296,
+      "legalMoves": 426,
+      "moveGenerations": 75,
+      "cutoffs": 4,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 33.365599999999176,
+      "nodesPerSecond": 11089.265590908275
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-escape",
+    "variant": "lab-id",
+    "move": {
+      "from": 6,
+      "to": 21,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": []
+    },
+    "value": -0.34016869792670373,
+    "stats": {
+      "nodes": 267,
+      "leaves": 217,
+      "legalMoves": 428,
+      "moveGenerations": 51,
+      "cutoffs": 9,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 26.331899999999223,
+      "nodesPerSecond": 10139.792419081337
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-escape",
+    "variant": "lab-tt",
+    "move": {
+      "from": 6,
+      "to": 21,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": []
+    },
+    "value": -0.34016869792670373,
+    "stats": {
+      "nodes": 225,
+      "leaves": 183,
+      "legalMoves": 394,
+      "moveGenerations": 43,
+      "cutoffs": 9,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 25.938200000000506,
+      "nodesPerSecond": 8674.464689145569
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-escape",
+    "variant": "lab-order",
+    "move": {
+      "from": 6,
+      "to": 21,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": []
+    },
+    "value": -0.34016869792670373,
+    "stats": {
+      "nodes": 228,
+      "leaves": 186,
+      "legalMoves": 394,
+      "moveGenerations": 43,
+      "cutoffs": 9,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 3,
+      "elapsedMs": 25.972499999999854,
+      "nodesPerSecond": 8778.515737799646
+    },
+    "stopped": "depth"
+  },
+  {
+    "position": "king-escape",
+    "variant": "lab-q",
+    "move": {
+      "from": 6,
+      "to": 21,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": []
+    },
+    "value": -0.34016869792670373,
+    "stats": {
+      "nodes": 500,
+      "leaves": 497,
+      "legalMoves": 999,
+      "moveGenerations": 186,
+      "cutoffs": 6,
+      "ttHits": 0,
+      "qNodes": 497,
+      "depthReached": 1,
+      "elapsedMs": 51.068600000000515,
+      "nodesPerSecond": 9790.752047246155
+    },
+    "stopped": "nodes"
+  },
+  {
+    "position": "king-escape",
+    "variant": "lab-maxn",
+    "move": {
+      "from": 6,
+      "to": 21,
+      "piece": {
+        "owner": 0,
+        "type": "K",
+        "hasMoved": true
+      },
+      "isCheck": [
+        2
+      ],
+      "eliminates": []
+    },
+    "value": -0.3221571449437791,
+    "stats": {
+      "nodes": 500,
+      "leaves": 423,
+      "legalMoves": 520,
+      "moveGenerations": 78,
+      "cutoffs": 0,
+      "ttHits": 0,
+      "qNodes": 0,
+      "depthReached": 2,
+      "elapsedMs": 61.00340000000142,
+      "nodesPerSecond": 8196.264470504731
+    },
+    "stopped": "nodes"
+  }
+]

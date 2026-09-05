@@ -1,0 +1,2298 @@
+[
+  {
+    "suite": "baseline-smoke",
+    "log": "games.jsonl",
+    "report": {
+      "games": 4,
+      "completed": 0,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 4,
+        "mean": 80,
+        "p50": 80,
+        "p95": 80,
+        "max": 80
+      },
+      "durationMs": {
+        "count": 4,
+        "mean": 3294.64555,
+        "p50": 3251.0901000000003,
+        "p95": 3341.7190999999993,
+        "max": 3513.5915999999997
+      },
+      "engines": [
+        {
+          "id": "random-v1",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 239,
+            "mean": 2.2473811715481076,
+            "p50": 2.2085000000006403,
+            "p95": 3.740099999999984,
+            "max": 4.986300000000483
+          },
+          "branching": {
+            "count": 239,
+            "mean": 31.355648535564853,
+            "p50": 30,
+            "p95": 52,
+            "max": 70
+          },
+          "searchNodes": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "reachedDepth": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          }
+        },
+        {
+          "id": "classic-v1-level1",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 81,
+            "mean": 139.91277037037034,
+            "p50": 129.52070000000094,
+            "p95": 279.85549999999967,
+            "max": 337.41719999999987
+          },
+          "branching": {
+            "count": 81,
+            "mean": 28.234567901234566,
+            "p50": 25,
+            "p95": 48,
+            "max": 64
+          },
+          "searchNodes": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "reachedDepth": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "classic-v1-level1",
+          "b": "random-v1",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "sparse-v1",
+    "log": "EXP-1.jsonl",
+    "report": {
+      "games": 8,
+      "completed": 0,
+      "censored": 8,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 8,
+        "mean": 160,
+        "p50": 160,
+        "p95": 160,
+        "max": 160
+      },
+      "durationMs": {
+        "count": 8,
+        "mean": 1025.4194750000001,
+        "p50": 990.9156000000003,
+        "p95": 1261.3588999999993,
+        "max": 1300.6906999999992
+      },
+      "engines": [
+        {
+          "id": "classic-v1-level1",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 946,
+            "mean": 5.059538372093008,
+            "p50": 1.9752999999982421,
+            "p95": 19.052600000000893,
+            "max": 78.92699999999968
+          },
+          "branching": {
+            "count": 946,
+            "mean": 8.279069767441861,
+            "p50": 5,
+            "p95": 32,
+            "max": 53
+          },
+          "searchNodes": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "reachedDepth": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          }
+        },
+        {
+          "id": "lab-id",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 334,
+            "mean": 8.588391916167621,
+            "p50": 7.873199999999997,
+            "p95": 18.16020000000026,
+            "max": 48.90049999999974
+          },
+          "branching": {
+            "count": 334,
+            "mean": 27.631736526946106,
+            "p50": 33,
+            "p95": 66,
+            "max": 79
+          },
+          "searchNodes": {
+            "count": 334,
+            "mean": 52.67065868263473,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 334,
+            "mean": 1.284431137724551,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "classic-v1-level1",
+          "b": "lab-id",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "sparse-v1",
+    "log": "EXP-2.jsonl",
+    "report": {
+      "games": 8,
+      "completed": 4,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0.5,
+      "plies": {
+        "count": 8,
+        "mean": 112.125,
+        "p50": 72,
+        "p95": 160,
+        "max": 160
+      },
+      "durationMs": {
+        "count": 8,
+        "mean": 1018.4524874999997,
+        "p50": 922.0396000000001,
+        "p95": 1104.5819999999985,
+        "max": 1889.4203000000016
+      },
+      "engines": [
+        {
+          "id": "lab-fixed",
+          "completedSeatGames": 12,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 6.583333333333333,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 673,
+            "mean": 8.591505200594428,
+            "p50": 4.373999999999796,
+            "p95": 32.838700000000244,
+            "max": 58.52260000000024
+          },
+          "branching": {
+            "count": 673,
+            "mean": 9.279346210995543,
+            "p50": 8,
+            "p95": 32,
+            "max": 51
+          },
+          "searchNodes": {
+            "count": 673,
+            "mean": 33.44725111441308,
+            "p50": 28,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 673,
+            "mean": 1.6017830609212482,
+            "p50": 2,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-id",
+          "completedSeatGames": 4,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 9.5,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 224,
+            "mean": 9.034785714285833,
+            "p50": 5.347700000002078,
+            "p95": 23.47739999999976,
+            "max": 50.34449999999924
+          },
+          "branching": {
+            "count": 224,
+            "mean": 19.964285714285715,
+            "p50": 8,
+            "p95": 51,
+            "max": 77
+          },
+          "searchNodes": {
+            "count": 224,
+            "mean": 44.72767857142857,
+            "p50": 35,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 224,
+            "mean": 1.5892857142857142,
+            "p50": 2,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-fixed",
+          "b": "lab-id",
+          "seatNormalizedPairScore": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "suite": "sparse-v1",
+    "log": "EXP-3.jsonl",
+    "report": {
+      "games": 8,
+      "completed": 4,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0.5,
+      "plies": {
+        "count": 8,
+        "mean": 156.5,
+        "p50": 153,
+        "p95": 160,
+        "max": 160
+      },
+      "durationMs": {
+        "count": 8,
+        "mean": 1566.5856125000005,
+        "p50": 1302.9536999999982,
+        "p95": 1865.2785000000003,
+        "max": 2035.752199999999
+      },
+      "engines": [
+        {
+          "id": "lab-id",
+          "completedSeatGames": 12,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 4.75,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 939,
+            "mean": 8.364727156549513,
+            "p50": 5.2642999999952735,
+            "p95": 20.815600000001723,
+            "max": 45.43630000000121
+          },
+          "branching": {
+            "count": 939,
+            "mean": 11.677316293929712,
+            "p50": 8,
+            "p95": 34,
+            "max": 37
+          },
+          "searchNodes": {
+            "count": 939,
+            "mean": 40.91373801916933,
+            "p50": 34,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 939,
+            "mean": 1.7028753993610224,
+            "p50": 2,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-tt",
+          "completedSeatGames": 4,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 4.75,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 313,
+            "mean": 13.574099999999904,
+            "p50": 12.397500000006403,
+            "p95": 23.969700000001467,
+            "max": 54.183899999999994
+          },
+          "branching": {
+            "count": 313,
+            "mean": 11.677316293929712,
+            "p50": 8,
+            "p95": 34,
+            "max": 37
+          },
+          "searchNodes": {
+            "count": 313,
+            "mean": 40.91373801916933,
+            "p50": 34,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 313,
+            "mean": 1.7028753993610224,
+            "p50": 2,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-id",
+          "b": "lab-tt",
+          "seatNormalizedPairScore": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "suite": "sparse-v1",
+    "log": "EXP-4.jsonl",
+    "report": {
+      "games": 8,
+      "completed": 4,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0.5,
+      "plies": {
+        "count": 8,
+        "mean": 156.5,
+        "p50": 153,
+        "p95": 160,
+        "max": 160
+      },
+      "durationMs": {
+        "count": 8,
+        "mean": 2152.2360750000007,
+        "p50": 2018.8130999999994,
+        "p95": 2326.3430999999982,
+        "max": 2369.5806999999986
+      },
+      "engines": [
+        {
+          "id": "lab-tt",
+          "completedSeatGames": 12,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 4.75,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 939,
+            "mean": 13.433688391906365,
+            "p50": 12.461199999997916,
+            "p95": 23.080999999998312,
+            "max": 46.35809999999765
+          },
+          "branching": {
+            "count": 939,
+            "mean": 11.677316293929712,
+            "p50": 8,
+            "p95": 34,
+            "max": 37
+          },
+          "searchNodes": {
+            "count": 939,
+            "mean": 40.91373801916933,
+            "p50": 34,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 939,
+            "mean": 1.7028753993610224,
+            "p50": 2,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-order",
+          "completedSeatGames": 4,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 4.75,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 313,
+            "mean": 13.363098722044787,
+            "p50": 12.443100000004051,
+            "p95": 23.77599999999802,
+            "max": 44.731800000001385
+          },
+          "branching": {
+            "count": 313,
+            "mean": 11.677316293929712,
+            "p50": 8,
+            "p95": 34,
+            "max": 37
+          },
+          "searchNodes": {
+            "count": 313,
+            "mean": 39.843450479233226,
+            "p50": 32,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 313,
+            "mean": 1.706070287539936,
+            "p50": 2,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-order",
+          "b": "lab-tt",
+          "seatNormalizedPairScore": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "suite": "sparse-v1",
+    "log": "EXP-5.jsonl",
+    "report": {
+      "games": 8,
+      "completed": 5,
+      "censored": 3,
+      "errors": 0,
+      "repetitionRate": 0.625,
+      "plies": {
+        "count": 8,
+        "mean": 112.625,
+        "p50": 91,
+        "p95": 160,
+        "max": 160
+      },
+      "durationMs": {
+        "count": 8,
+        "mean": 1785.853724999999,
+        "p50": 1400.914300000004,
+        "p95": 2504.118499999997,
+        "max": 2718.798800000004
+      },
+      "engines": [
+        {
+          "id": "lab-order",
+          "completedSeatGames": 15,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 7.133333333333334,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 4,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 4,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 4,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 674,
+            "mean": 16.22447314540052,
+            "p50": 14.255499999999302,
+            "p95": 33.34640000000218,
+            "max": 49.63839999999618
+          },
+          "branching": {
+            "count": 674,
+            "mean": 16.781899109792285,
+            "p50": 8,
+            "p95": 51,
+            "max": 53
+          },
+          "searchNodes": {
+            "count": 674,
+            "mean": 46.98367952522255,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 674,
+            "mean": 1.489614243323442,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-q",
+          "completedSeatGames": 5,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 2.2,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 2,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 227,
+            "mean": 12.80391101321603,
+            "p50": 11.108799999994517,
+            "p95": 27.453099999998813,
+            "max": 42.7951999999932
+          },
+          "branching": {
+            "count": 227,
+            "mean": 8.176211453744493,
+            "p50": 6,
+            "p95": 31,
+            "max": 35
+          },
+          "searchNodes": {
+            "count": 227,
+            "mean": 50.55506607929515,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 227,
+            "mean": 1.13215859030837,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-order",
+          "b": "lab-q",
+          "seatNormalizedPairScore": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "suite": "sparse-v1",
+    "log": "EXP-6.jsonl",
+    "report": {
+      "games": 8,
+      "completed": 4,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0.5,
+      "plies": {
+        "count": 8,
+        "mean": 156.5,
+        "p50": 153,
+        "p95": 160,
+        "max": 160
+      },
+      "durationMs": {
+        "count": 8,
+        "mean": 1602.6446874999983,
+        "p50": 1196.865300000005,
+        "p95": 2163.2465999999986,
+        "max": 2303.7243000000017
+      },
+      "engines": [
+        {
+          "id": "lab-paranoid-order",
+          "completedSeatGames": 12,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 4.75,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 3,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 939,
+            "mean": 8.474987859425019,
+            "p50": 4.955600000001141,
+            "p95": 20.951600000000326,
+            "max": 56.17720000000554
+          },
+          "branching": {
+            "count": 939,
+            "mean": 11.677316293929712,
+            "p50": 8,
+            "p95": 34,
+            "max": 37
+          },
+          "searchNodes": {
+            "count": 939,
+            "mean": 39.843450479233226,
+            "p50": 32,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 939,
+            "mean": 1.706070287539936,
+            "p50": 2,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-maxn",
+          "completedSeatGames": 4,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 4.75,
+          "survival": 1,
+          "seatNormalizedFirst": 1,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 1,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 313,
+            "mean": 14.139967731629463,
+            "p50": 10.401199999992969,
+            "p95": 30.01270000000659,
+            "max": 72.08960000000661
+          },
+          "branching": {
+            "count": 313,
+            "mean": 11.677316293929712,
+            "p50": 8,
+            "p95": 34,
+            "max": 37
+          },
+          "searchNodes": {
+            "count": 313,
+            "mean": 60.99041533546326,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 313,
+            "mean": 1.2108626198083068,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-maxn",
+          "b": "lab-paranoid-order",
+          "seatNormalizedPairScore": 0.5
+        }
+      ]
+    }
+  },
+  {
+    "suite": "opening-v1",
+    "log": "EXP-1.jsonl",
+    "report": {
+      "games": 4,
+      "completed": 0,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 4,
+        "mean": 80,
+        "p50": 80,
+        "p95": 80,
+        "max": 80
+      },
+      "durationMs": {
+        "count": 4,
+        "mean": 6318.76055,
+        "p50": 6336.455299999998,
+        "p95": 6663.911100000001,
+        "max": 6870.2593000000015
+      },
+      "engines": [
+        {
+          "id": "classic-v1-level1",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 237,
+            "mean": 70.97963333333321,
+            "p50": 53.84569999999803,
+            "p95": 189.94670000000042,
+            "max": 418.9434999999994
+          },
+          "branching": {
+            "count": 237,
+            "mean": 21.751054852320674,
+            "p50": 21,
+            "p95": 40,
+            "max": 56
+          },
+          "searchNodes": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "reachedDepth": {
+            "count": 0,
+            "mean": null,
+            "p50": null,
+            "p95": null,
+            "max": null
+          }
+        },
+        {
+          "id": "lab-id",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 83,
+            "mean": 92.46637349397578,
+            "p50": 84.06899999999587,
+            "p95": 183.29899999999907,
+            "max": 263.6209999999992
+          },
+          "branching": {
+            "count": 83,
+            "mean": 27.650602409638555,
+            "p50": 29,
+            "p95": 46,
+            "max": 60
+          },
+          "searchNodes": {
+            "count": 83,
+            "mean": 61.9277108433735,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 83,
+            "mean": 1.108433734939759,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "classic-v1-level1",
+          "b": "lab-id",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "opening-v1",
+    "log": "EXP-2.jsonl",
+    "report": {
+      "games": 4,
+      "completed": 0,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 4,
+        "mean": 80,
+        "p50": 80,
+        "p95": 80,
+        "max": 80
+      },
+      "durationMs": {
+        "count": 4,
+        "mean": 7569.140974999998,
+        "p50": 7538.977699999996,
+        "p95": 7764.7647,
+        "max": 7930.944100000001
+      },
+      "engines": [
+        {
+          "id": "lab-fixed",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 236,
+            "mean": 94.40554322033883,
+            "p50": 86.59990000000107,
+            "p95": 176.86260000000038,
+            "max": 268.616399999999
+          },
+          "branching": {
+            "count": 236,
+            "mean": 20.86864406779661,
+            "p50": 21,
+            "p95": 43,
+            "max": 52
+          },
+          "searchNodes": {
+            "count": 236,
+            "mean": 59.11440677966102,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 236,
+            "mean": 0.5,
+            "p50": 0,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-id",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 84,
+            "mean": 86.83498571428606,
+            "p50": 79.66990000000078,
+            "p95": 157.99619999999413,
+            "max": 253.28830000000016
+          },
+          "branching": {
+            "count": 84,
+            "mean": 23.226190476190474,
+            "p50": 22,
+            "p95": 36,
+            "max": 48
+          },
+          "searchNodes": {
+            "count": 84,
+            "mean": 62.214285714285715,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 84,
+            "mean": 1.0714285714285714,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-fixed",
+          "b": "lab-id",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "opening-v1",
+    "log": "EXP-3.jsonl",
+    "report": {
+      "games": 4,
+      "completed": 0,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 4,
+        "mean": 80,
+        "p50": 80,
+        "p95": 80,
+        "max": 80
+      },
+      "durationMs": {
+        "count": 4,
+        "mean": 7946.851800000004,
+        "p50": 7926.838300000003,
+        "p95": 7960.074200000003,
+        "max": 7976.327400000009
+      },
+      "engines": [
+        {
+          "id": "lab-id",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 240,
+            "mean": 95.82091333333368,
+            "p50": 87.55869999999413,
+            "p95": 179.80809999999474,
+            "max": 198.80229999999574
+          },
+          "branching": {
+            "count": 240,
+            "mean": 24.95,
+            "p50": 26,
+            "p95": 45,
+            "max": 66
+          },
+          "searchNodes": {
+            "count": 240,
+            "mean": 61.025,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 240,
+            "mean": 1.1,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-tt",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 80,
+            "mean": 99.96236499999978,
+            "p50": 87.80779999999504,
+            "p95": 176.1186999999918,
+            "max": 191.43739999999525
+          },
+          "branching": {
+            "count": 80,
+            "mean": 24.95,
+            "p50": 26,
+            "p95": 45,
+            "max": 66
+          },
+          "searchNodes": {
+            "count": 80,
+            "mean": 61.025,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 80,
+            "mean": 1.1,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-id",
+          "b": "lab-tt",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "opening-v1",
+    "log": "EXP-4.jsonl",
+    "report": {
+      "games": 4,
+      "completed": 0,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 4,
+        "mean": 80,
+        "p50": 80,
+        "p95": 80,
+        "max": 80
+      },
+      "durationMs": {
+        "count": 4,
+        "mean": 8067.692524999999,
+        "p50": 8023.915099999998,
+        "p95": 8032.387799999997,
+        "max": 8232.193899999998
+      },
+      "engines": [
+        {
+          "id": "lab-tt",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 240,
+            "mean": 98.18657583333315,
+            "p50": 88.33699999999953,
+            "p95": 180.25750000000698,
+            "max": 207.3640000000014
+          },
+          "branching": {
+            "count": 240,
+            "mean": 24.5,
+            "p50": 25,
+            "p95": 45,
+            "max": 66
+          },
+          "searchNodes": {
+            "count": 240,
+            "mean": 61.325,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 240,
+            "mean": 1.1041666666666667,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-order",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 80,
+            "mean": 98.85654749999995,
+            "p50": 90.27939999999944,
+            "p95": 175.35890000000654,
+            "max": 192.7453999999998
+          },
+          "branching": {
+            "count": 80,
+            "mean": 24.5125,
+            "p50": 21,
+            "p95": 60,
+            "max": 68
+          },
+          "searchNodes": {
+            "count": 80,
+            "mean": 59.975,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 80,
+            "mean": 1.1875,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-order",
+          "b": "lab-tt",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "opening-v1",
+    "log": "EXP-5.jsonl",
+    "report": {
+      "games": 4,
+      "completed": 0,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 4,
+        "mean": 80,
+        "p50": 80,
+        "p95": 80,
+        "max": 80
+      },
+      "durationMs": {
+        "count": 4,
+        "mean": 7268.9783000000025,
+        "p50": 5250.879599999986,
+        "p95": 9449.260100000014,
+        "max": 9744.895199999999
+      },
+      "engines": [
+        {
+          "id": "lab-order",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 221,
+            "mean": 95.24664705882428,
+            "p50": 81.1649000000034,
+            "p95": 219.22890000001644,
+            "max": 359.27390000000014
+          },
+          "branching": {
+            "count": 221,
+            "mean": 23.14027149321267,
+            "p50": 21,
+            "p95": 49,
+            "max": 64
+          },
+          "searchNodes": {
+            "count": 221,
+            "mean": 60.113122171945705,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 221,
+            "mean": 1.167420814479638,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-q",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 99,
+            "mean": 74.01836464646615,
+            "p50": 55.89300000001094,
+            "p95": 191.77169999998296,
+            "max": 364.61230000000796
+          },
+          "branching": {
+            "count": 99,
+            "mean": 29.32323232323232,
+            "p50": 27,
+            "p95": 60,
+            "max": 70
+          },
+          "searchNodes": {
+            "count": 99,
+            "mean": 63.686868686868685,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 99,
+            "mean": 0.4444444444444444,
+            "p50": 0,
+            "p95": 1,
+            "max": 2
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-order",
+          "b": "lab-q",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "opening-v1",
+    "log": "EXP-6.jsonl",
+    "report": {
+      "games": 4,
+      "completed": 0,
+      "censored": 4,
+      "errors": 0,
+      "repetitionRate": 0,
+      "plies": {
+        "count": 4,
+        "mean": 80,
+        "p50": 80,
+        "p95": 80,
+        "max": 80
+      },
+      "durationMs": {
+        "count": 4,
+        "mean": 8496.84195000001,
+        "p50": 8418.400000000023,
+        "p95": 8425.227299999999,
+        "max": 8740.089500000002
+      },
+      "engines": [
+        {
+          "id": "lab-paranoid-order",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 240,
+            "mean": 91.55849958333371,
+            "p50": 81.27970000001369,
+            "p95": 182.2685000000056,
+            "max": 207.5130000000063
+          },
+          "branching": {
+            "count": 240,
+            "mean": 23.166666666666668,
+            "p50": 19,
+            "p95": 60,
+            "max": 68
+          },
+          "searchNodes": {
+            "count": 240,
+            "mean": 60.96666666666667,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 240,
+            "mean": 1.175,
+            "p50": 1,
+            "p95": 2,
+            "max": 2
+          }
+        },
+        {
+          "id": "lab-maxn",
+          "completedSeatGames": 0,
+          "firstPlace": null,
+          "soleWin": null,
+          "averagePlacement": null,
+          "averageScore": null,
+          "survival": null,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 80,
+            "mean": 140.56076250000115,
+            "p50": 118.62140000000363,
+            "p95": 269.96020000000135,
+            "max": 287.02509999999893
+          },
+          "branching": {
+            "count": 80,
+            "mean": 23.1625,
+            "p50": 19,
+            "p95": 60,
+            "max": 68
+          },
+          "searchNodes": {
+            "count": 80,
+            "mean": 64,
+            "p50": 64,
+            "p95": 64,
+            "max": 64
+          },
+          "reachedDepth": {
+            "count": 80,
+            "mean": 0.9625,
+            "p50": 1,
+            "p95": 1,
+            "max": 1
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-maxn",
+          "b": "lab-paranoid-order",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  },
+  {
+    "suite": "relative-v1",
+    "log": "games.jsonl",
+    "report": {
+      "games": 8,
+      "completed": 2,
+      "censored": 6,
+      "errors": 0,
+      "repetitionRate": 0.25,
+      "plies": {
+        "count": 8,
+        "mean": 239.25,
+        "p50": 240,
+        "p95": 240,
+        "max": 240
+      },
+      "durationMs": {
+        "count": 8,
+        "mean": 24264.382862500006,
+        "p50": 24077.01450000002,
+        "p95": 25016.0536,
+        "max": 25073.7612
+      },
+      "engines": [
+        {
+          "id": "lab-id-128",
+          "completedSeatGames": 6,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 34.333333333333336,
+          "survival": 1,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 1,
+              "count": 2,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 2,
+              "count": 2,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 3,
+              "count": 2,
+              "first": 1,
+              "placement": 1
+            }
+          ],
+          "moveMs": {
+            "count": 1434,
+            "mean": 101.31774728033473,
+            "p50": 50.906199999997625,
+            "p95": 312.7202000000034,
+            "max": 494.66300000000047
+          },
+          "branching": {
+            "count": 1434,
+            "mean": 16.19804741980474,
+            "p50": 14,
+            "p95": 38,
+            "max": 65
+          },
+          "searchNodes": {
+            "count": 1434,
+            "mean": 126.85076708507671,
+            "p50": 128,
+            "p95": 128,
+            "max": 128
+          },
+          "reachedDepth": {
+            "count": 1434,
+            "mean": 1.8256624825662482,
+            "p50": 2,
+            "p95": 3,
+            "max": 3
+          }
+        },
+        {
+          "id": "lab-relative-128",
+          "completedSeatGames": 2,
+          "firstPlace": 1,
+          "soleWin": 0,
+          "averagePlacement": 1,
+          "averageScore": 49,
+          "survival": 1,
+          "seatNormalizedFirst": null,
+          "firstPlaceCluster95": null,
+          "perSeat": [
+            {
+              "seat": 0,
+              "count": 2,
+              "first": 1,
+              "placement": 1
+            },
+            {
+              "seat": 1,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 2,
+              "count": 0,
+              "first": null,
+              "placement": null
+            },
+            {
+              "seat": 3,
+              "count": 0,
+              "first": null,
+              "placement": null
+            }
+          ],
+          "moveMs": {
+            "count": 480,
+            "mean": 96.84240729166662,
+            "p50": 56.62239999999292,
+            "p95": 287.1772999999994,
+            "max": 472.3371999999945
+          },
+          "branching": {
+            "count": 480,
+            "mean": 17.5875,
+            "p50": 12,
+            "p95": 54,
+            "max": 73
+          },
+          "searchNodes": {
+            "count": 480,
+            "mean": 122.05833333333334,
+            "p50": 128,
+            "p95": 128,
+            "max": 128
+          },
+          "reachedDepth": {
+            "count": 480,
+            "mean": 2.0166666666666666,
+            "p50": 2,
+            "p95": 3,
+            "max": 3
+          }
+        }
+      ],
+      "headToHead": [
+        {
+          "a": "lab-id-128",
+          "b": "lab-relative-128",
+          "seatNormalizedPairScore": null
+        }
+      ]
+    }
+  }
+]
