@@ -1,0 +1,94 @@
+export enum PlayerColor {
+  Red = 0,
+  Blue = 1,
+  Yellow = 2,
+  Green = 3,
+}
+
+export const ALL_COLORS: readonly PlayerColor[] = [
+  PlayerColor.Red,
+  PlayerColor.Blue,
+  PlayerColor.Yellow,
+  PlayerColor.Green,
+];
+
+/** Turn order rotates clockwise: Red -> Blue -> Yellow -> Green -> Red ... */
+export function nextColor(color: PlayerColor): PlayerColor {
+  return ((color + 1) % 4) as PlayerColor;
+}
+
+export enum PieceType {
+  Pawn = "P",
+  Knight = "N",
+  Bishop = "B",
+  Rook = "R",
+  Queen = "Q",
+  King = "K",
+}
+
+export interface Piece {
+  readonly type: PieceType;
+  readonly owner: PlayerColor;
+  readonly hasMoved: boolean;
+}
+
+/** Index into the flat 196-cell (14x14) board array. 0..195. */
+export type Square = number;
+
+export type PlayerStatus = "active" | "checkmated" | "stalemated" | "resigned";
+
+export interface PlayerState {
+  readonly color: PlayerColor;
+  readonly status: PlayerStatus;
+  readonly isCPU: boolean;
+  readonly cpuDifficulty?: number;
+  readonly score: number;
+  readonly eliminatedOnTurn?: number;
+}
+
+export interface CastlingRights {
+  readonly kingside: boolean;
+  readonly queenside: boolean;
+}
+
+export interface Move {
+  readonly from: Square;
+  readonly to: Square;
+  readonly piece: Piece;
+  readonly captured?: Piece;
+  readonly promotion?: PieceType;
+  readonly castle?: "kingside" | "queenside";
+  /** Square of the pawn removed by an en passant capture (distinct from `to`). */
+  readonly enPassantCapture?: Square;
+  /** Colors of opponents whose king this move puts in check (0-3 entries). Populated by applyMove. */
+  readonly isCheck: readonly PlayerColor[];
+  /** Colors of players eliminated (checkmated) as a direct result of this move. Populated by applyMove. */
+  readonly eliminates: readonly PlayerColor[];
+}
+
+export interface Placement {
+  readonly color: PlayerColor;
+  readonly place: number;
+  readonly score: number;
+}
+
+export interface GameResult {
+  readonly placements: readonly Placement[];
+  readonly winner: PlayerColor | null;
+}
+
+export interface GameState {
+  readonly board: readonly (Piece | null)[];
+  readonly players: Readonly<Record<PlayerColor, PlayerState>>;
+  readonly turn: PlayerColor;
+  readonly turnNumber: number;
+  readonly castlingRights: Readonly<Record<PlayerColor, CastlingRights>>;
+  readonly enPassantTarget: Square | null;
+  readonly moveHistory: readonly Move[];
+  readonly result: GameResult | null;
+}
+
+export interface SeatConfig {
+  readonly isCPU: Readonly<Record<PlayerColor, boolean>>;
+  readonly cpuDifficulty?: Readonly<Partial<Record<PlayerColor, number>>>;
+}

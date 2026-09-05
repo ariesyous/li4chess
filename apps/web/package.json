@@ -1,0 +1,11 @@
+{
+  "name": "@li4chess/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'web app not yet scaffolded'",
+    "build": "echo 'web app not yet scaffolded'",
+    "lint": "echo 'web app not yet scaffolded'"
+  }
+}
