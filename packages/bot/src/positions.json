@@ -1,0 +1,11 @@
+[
+  { "id": "opening", "tags": ["legal", "perft"], "initial": true, "perft": [1,20,395] },
+  { "id": "promotion", "tags": ["promotion", "underpromotion", "pawn-race"], "pieces": [[7,0,"K"],[84,1,"K"],[188,2,"K"],[111,3,"K"],[171,0,"P"]], "expect": { "promotion": "Q" } },
+  { "id": "hanging-queen", "tags": ["capture", "hanging-queen", "middlegame"], "pieces": [[7,0,"K"],[84,1,"K"],[188,2,"K"],[111,3,"K"],[75,0,"R"],[117,1,"Q"]], "expect": { "to": 117 } },
+  { "id": "poisoned-pawn", "tags": ["poisoned-capture", "turn-order", "quiescence"], "pieces": [[7,0,"K"],[84,1,"K"],[188,2,"K"],[111,3,"K"],[75,0,"Q"],[117,1,"P"],[147,1,"N"]], "avoid": { "from": 75, "to": 117 } },
+  { "id": "double-check", "tags": ["multiplayer-fork", "double-check", "third-party", "tactically-dense"], "pieces": [[3,0,"K"],[94,1,"K"],[120,2,"K"],[153,3,"K"],[6,0,"Q"]], "legalProperty": { "from": 6, "to": 90, "checks": [1,2] } },
+  { "id": "mate-in-one", "turn": 3, "tags": ["mate", "forced-elimination", "survival"], "inactive": [1,2], "pieces": [[6,0,"K"],[19,0,"P"],[20,0,"P"],[21,0,"P"],[23,3,"N"],[73,3,"R"],[92,3,"K"]], "expect": { "from": 73, "to": 3 }, "winner": 3 },
+  { "id": "king-endgame", "tags": ["endgame", "repetition", "elimination-state"], "inactive": [2,3], "pieces": [[6,0,"K"],[84,1,"K"]] },
+  { "id": "king-escape", "tags": ["king-escape", "avoid-elimination", "check"], "pieces": [[6,0,"K"],[84,1,"K"],[188,2,"K"],[111,3,"K"],[76,1,"R"]] }
+]
+
