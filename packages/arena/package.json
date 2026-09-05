@@ -1,0 +1,24 @@
+{
+  "name": "@li4chess/arena",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "arena": "vite-node src/cli.ts",
+    "bench": "vite-node src/bench.ts"
+  },
+  "dependencies": {
+    "@li4chess/engine": "workspace:*",
+    "@li4chess/bot": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.6.3",
+    "vite-node": "^2.1.9",
+    "vitest": "^2.1.4"
+  }
+}
