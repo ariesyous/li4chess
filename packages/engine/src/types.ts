@@ -75,6 +75,8 @@ export interface Placement {
 export interface GameResult {
   readonly placements: readonly Placement[];
   readonly winner: PlayerColor | null;
+  /** "elimination": exactly one active player remained. "repetition": drawn — the same position recurred 3 times, so every still-active player ties for first. */
+  readonly reason: "elimination" | "repetition";
 }
 
 export interface GameState {
@@ -86,6 +88,8 @@ export interface GameState {
   readonly enPassantTarget: Square | null;
   readonly moveHistory: readonly Move[];
   readonly result: GameResult | null;
+  /** Counts how many times each position (see rules/repetition.ts) has occurred, for threefold-repetition draw detection. */
+  readonly positionCounts: Readonly<Record<string, number>>;
 }
 
 export interface SeatConfig {

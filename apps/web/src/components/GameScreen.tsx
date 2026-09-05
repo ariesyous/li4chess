@@ -71,12 +71,17 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
 
         {state.result ? (
           <div data-testid="game-result">
-            <h3>Game over</h3>
+            <h3>
+              Game over
+              {state.result.reason === "repetition"
+                ? " — draw by threefold repetition"
+                : ""}
+            </h3>
             <ol style={{ paddingLeft: 20 }}>
               {state.result.placements.map((p) => (
                 <li
                   key={p.color}
-                  data-testid={p.place === 1 ? "winner-name" : undefined}
+                  data-testid={p.place === 1 && state.result!.winner !== null ? "winner-name" : undefined}
                   style={{
                     color: PLAYER_COLOR_HEX[p.color],
                     fontWeight: p.place === 1 ? "bold" : "normal",

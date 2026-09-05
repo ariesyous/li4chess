@@ -8,5 +8,6 @@ export * from "./rules/check.js";
 export * from "./rules/legality.js";
 export * from "./rules/scoring.js";
 export * from "./rules/elimination.js";
+export * from "./rules/repetition.js";
 export * from "./rules/applyMove.js";
 export * from "./api.js";

@@ -1,4 +1,5 @@
 import { localSquare, NUM_SQUARES } from "./board.js";
+import { positionKey } from "./rules/repetition.js";
 import {
   ALL_COLORS,
   GameState,
@@ -54,7 +55,7 @@ export function createInitialState(seatConfig?: SeatConfig): GameState {
     };
   }
 
-  return {
+  const initial: GameState = {
     board,
     players,
     turn: PlayerColor.Red,
@@ -63,5 +64,7 @@ export function createInitialState(seatConfig?: SeatConfig): GameState {
     enPassantTarget: null,
     moveHistory: [],
     result: null,
+    positionCounts: {},
   };
+  return { ...initial, positionCounts: { [positionKey(initial)]: 1 } };
 }
