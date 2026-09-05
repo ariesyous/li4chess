@@ -1,0 +1,56 @@
+{
+  "date": "2026-09-05T19:53:04.941Z",
+  "mode": "opening",
+  "seedCount": 1,
+  "cap": 80,
+  "baseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+  "node": "v24.18.0",
+  "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+  "variants": [
+    {
+      "id": "lab-fixed",
+      "config": {
+        "maxDepth": 2,
+        "iterative": false
+      }
+    },
+    {
+      "id": "lab-id",
+      "config": {
+        "maxDepth": 2
+      }
+    },
+    {
+      "id": "lab-tt",
+      "config": {
+        "maxDepth": 2,
+        "ttCapacity": 2000
+      }
+    },
+    {
+      "id": "lab-order",
+      "config": {
+        "maxDepth": 2,
+        "ttCapacity": 2000,
+        "ordering": "enhanced"
+      }
+    },
+    {
+      "id": "lab-q",
+      "config": {
+        "maxDepth": 2,
+        "ttCapacity": 2000,
+        "ordering": "enhanced",
+        "quiescenceDepth": 2
+      }
+    },
+    {
+      "id": "lab-maxn",
+      "config": {
+        "maxDepth": 2,
+        "strategy": "maxn",
+        "ordering": "enhanced"
+      }
+    }
+  ]
+}
