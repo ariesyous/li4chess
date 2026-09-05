@@ -4,6 +4,7 @@ import {
   PIECE_VALUES,
   PieceType,
   PlayerColor,
+  boardToLocal,
   fileOf,
   isPlayerInCheck,
   isSquareAttacked,
@@ -29,6 +30,8 @@ export interface EvalWeights {
   readonly mobility: number;
   readonly threatBalance: number;
   readonly survivalBias: number;
+  /** Rewards pawns for being closer to their own promotion rank — without this, nothing in the eval favors pushing a pawn over any other quiet move, so it never seeks to force promotion/checkmate on its own. */
+  readonly pawnAdvancement: number;
 }
 
 export const FULL_EVAL_WEIGHTS: EvalWeights = {
@@ -38,6 +41,7 @@ export const FULL_EVAL_WEIGHTS: EvalWeights = {
   mobility: 0.02,
   threatBalance: 0.15,
   survivalBias: 3,
+  pawnAdvancement: 0.1,
 };
 
 export const MATERIAL_ONLY_WEIGHTS: EvalWeights = {
@@ -47,6 +51,7 @@ export const MATERIAL_ONLY_WEIGHTS: EvalWeights = {
   mobility: 0,
   threatBalance: 0,
   survivalBias: 0,
+  pawnAdvancement: 0,
 };
 
 // Central squares of the 14x14 cross board — contested by all 4 players at once,
@@ -81,6 +86,7 @@ export function evaluateFull(
   let material = 0;
   let centerControl = 0;
   let threatBalance = 0;
+  let pawnAdvancement = 0;
 
   for (let square = 0; square < state.board.length; square++) {
     const piece = state.board[square];
@@ -90,6 +96,11 @@ export function evaluateFull(
     material += isBot ? value : -value;
 
     if (isCenterSquare(square)) centerControl += isBot ? 1 : -1;
+
+    if (piece.type === PieceType.Pawn) {
+      const [, localRank] = boardToLocal(piece.owner, fileOf(square), rankOf(square));
+      pawnAdvancement += isBot ? localRank : -localRank;
+    }
 
     if (piece.type !== PieceType.King) {
       if (isBot) {
@@ -122,6 +133,7 @@ export function evaluateFull(
     mobility * weights.mobility +
     threatBalance * weights.threatBalance +
     kingSafety * weights.kingSafety +
-    survivalBias * weights.survivalBias
+    survivalBias * weights.survivalBias +
+    pawnAdvancement * weights.pawnAdvancement
   );
 }
