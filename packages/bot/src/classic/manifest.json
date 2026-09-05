@@ -1,0 +1,9 @@
+{
+  "sha": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+  "files": {
+    "index.ts": "93e4151c383ca9e154fb51cbaafe00a3b0d628443c63d7c62da0b4a869e8e4c0",
+    "search.ts": "a652b5131c0025518ec9db18eff849852143b681801f586c2375b1d054ee028e",
+    "evaluate.ts": "1d4cbebdca348c0b892322abcec3f1365f922d3b78823bbd4b66f6128e1e4457",
+    "difficulty.ts": "f8d8db68c90de46d634d33e329412a8f454bf744f8bfae92cff23f2c2f4171ea"
+  }
+}
