@@ -1,8 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { aggregate, replay, rotateSeats, runGame, seededRandom, Seats } from "../src/index.js";
 import { randomEngine } from "../src/engines.js";
+import { createInitialState, computeDrawResult } from "@li4chess/engine";
 
 describe("arena", () => {
+  it("records four tied first places separately from sole wins", async () => {
+    const initial=createInitialState();
+    const game=await runGame([randomEngine,randomEngine,randomEngine,randomEngine],{seed:1,maxPlies:0,initial:{...initial,result:computeDrawResult(initial.players)}});
+    const report=aggregate([game]);
+    expect(report.completed).toBe(1);expect(report.engines[0].firstPlace).toBe(1);
+    expect(report.engines[0].soleWin).toBe(0);expect(report.engines[0].firstPlaceCluster95).toBeNull();
+  });
   it("reproduces seeded games and replays against the oracle", async () => {
     const seats: Seats = [randomEngine, randomEngine, randomEngine, randomEngine];
     const a = await runGame(seats, { seed: 42, maxPlies: 8 });

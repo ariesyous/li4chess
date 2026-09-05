@@ -10,7 +10,8 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "arena": "vite-node src/cli.ts",
     "bench": "vite-node src/bench.ts",
-    "experiments": "vite-node src/experiments.ts"
+    "experiments": "vite-node src/experiments.ts",
+    "report": "vite-node src/report.ts"
   },
   "dependencies": {
     "@li4chess/engine": "workspace:*",

@@ -101,12 +101,24 @@ export function distribution(values: number[]) {
     p50: sorted[Math.floor((sorted.length - 1) * .5)], p95: sorted[Math.floor((sorted.length - 1) * .95)], max: sorted.at(-1)! };
 }
 const mean = (v: number[]) => v.length ? v.reduce((a,b) => a+b, 0) / v.length : null;
+/** Resample whole seed blocks, preserving correlated seats/games. Tiny samples are explicitly unestimated. */
+export function clusterInterval(blocks: number[][]): {low:number;high:number} | null {
+  if (blocks.length < 5 || blocks.some(b=>!b.length)) return null;
+  const random=seededRandom(91827), estimates:number[]=[];
+  for (let i=0;i<1000;i++) {
+    const sampled=Array.from({length:blocks.length},()=>blocks[Math.floor(random()*blocks.length)]).flat();
+    estimates.push(mean(sampled)!);
+  }
+  estimates.sort((a,b)=>a-b);return {low:estimates[24],high:estimates[974]};
+}
 export function aggregate(games: GameRecord[]) {
   const ids = [...new Set(games.flatMap(g => g.engines.map(e => e.id)))];
   const complete = games.filter(g => g.result !== null && g.termination !== "error");
   const engines = ids.map(id => {
     const entries = complete.flatMap(g => g.engines.flatMap((e, c) => e.id === id ? [{ g, c, p: g.result!.placements.find(p => p.color === c)! }] : []));
     const times = games.flatMap(g => g.moves.filter(m => g.engines[m.color].id === id).map(m => m.elapsedMs));
+    const engineMoves=games.flatMap(g=>g.moves.filter(m=>g.engines[m.color].id===id));
+    const seeds=[...new Set(games.map(g=>g.seed))];
     const perSeat = ALL_COLORS.map(c => ({ seat: c, count: entries.filter(e => e.c === c).length,
       first: mean(entries.filter(e => e.c === c).map(e => +(e.p.place === 1))),
       placement: mean(entries.filter(e => e.c === c).map(e => e.p.place)) }));
@@ -114,7 +126,10 @@ export function aggregate(games: GameRecord[]) {
       soleWin: mean(entries.map(e => +(e.g.result!.winner === e.c))), averagePlacement: mean(entries.map(e => e.p.place)),
       averageScore: mean(entries.map(e => e.p.score)), survival: mean(entries.map(e => +(e.g.statuses[e.c] === "active"))),
       seatNormalizedFirst: perSeat.every(s => s.first !== null) ? mean(perSeat.map(s => s.first!)) : null,
-      perSeat, moveMs: distribution(times) };
+      firstPlaceCluster95:clusterInterval(seeds.map(seed=>entries.filter(e=>e.g.seed===seed).map(e=>+(e.p.place===1)))),
+      perSeat, moveMs: distribution(times), branching:distribution(engineMoves.map(m=>m.branching)),
+      searchNodes:distribution(engineMoves.flatMap(m=>typeof m.stats?.nodes === "number" ? [m.stats.nodes] : [])),
+      reachedDepth:distribution(engineMoves.flatMap(m=>typeof m.stats?.depthReached === "number" ? [m.stats.depthReached] : [])) };
   });
   const headToHead = ids.flatMap(a => ids.filter(b => a < b).map(b => {
     const bySeat = ALL_COLORS.map(c => complete.flatMap(g => g.engines[c].id !== a ? [] :

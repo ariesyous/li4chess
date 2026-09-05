@@ -1,11 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { ALL_COLORS, applyMove, computeDrawResult, computeGameResult, createInitialState, isPlayerInCheck, legalMoves, positionKey } from "@li4chess/engine";
 import { chooseWithinDistance, searchMoveId, searchPosition } from "../src/lab-search.js";
-import { evaluateUtility, terminalUtility } from "../src/utility.js";
+import { evaluateRelativeUtility, evaluateUtility, terminalUtility } from "../src/utility.js";
 import { loadPosition, perft, positions } from "../src/positions.js";
 const position = (id: string) => loadPosition(positions.find(p => p.id === id)!);
 
 describe("experimental search semantics", () => {
+  it("the relative-material ablation preserves rotational opening symmetry and outcome bounds", () => {
+    const state=createInitialState();const values=ALL_COLORS.map(c=>evaluateRelativeUtility(state,c));
+    for (const v of values) expect(v).toBeCloseTo(values[0]);
+    expect(Math.abs(values[0])).toBeLessThan(Math.abs(evaluateUtility(state,0)));
+  });
   it("enhanced ordering preserves fixed-depth values and bounded quiescence sees a poisoned capture", () => {
     const state=position("poisoned-pawn");
     const material = (s: typeof state,c: number) => s.board.reduce((n,p)=>n+(p ? (p.owner===c ? 1 : -1)*({P:1,N:3,B:3,R:5,Q:9,K:0}[p.type]) : 0),0);
@@ -60,6 +65,13 @@ describe("experimental search semantics", () => {
   it("Maxn and paranoid agree on depth-one own utility", () => {
     const state = position("promotion");
     expect(searchPosition(state,{maxDepth:1,strategy:"maxn"}).move).toEqual(searchPosition(state,{maxDepth:1}).move);
+  });
+  it("Maxn backs up the acting opponent's utility instead of assuming a coalition", () => {
+    const state=position("king-endgame");
+    const evaluate=(s:typeof state) => s.moveHistory.at(-1)?.to===85 ? .8 : -.8;
+    const paranoid=searchPosition(state,{maxDepth:2,evaluate});
+    const maxn=searchPosition(state,{maxDepth:2,evaluate,strategy:"maxn"});
+    expect(paranoid.value).toBe(-.8); expect(maxn.value).toBe(.8);
   });
 });
 describe("position corpus", () => {
