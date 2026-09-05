@@ -1,4 +1,4 @@
-import { GameState, Move, PlayerColor, PIECE_VALUES, applyMove, legalMoves } from "@li4chess/engine";
+import { GameState, Move, PlayerColor, PIECE_VALUES, applyMove, legalMoves, isPlayerInCheck } from "@li4chess/engine";
 import { evaluateUtility, evaluateVector, terminalUtility, UtilityFn, UtilityVector } from "./utility.js";
 import { positionHash, searchSignature, TranspositionTable } from "./hash.js";
 
@@ -14,6 +14,8 @@ export interface LabOptions {
   /** Exact root scores are required for score-distance personality sampling. */
   exactRootScores?: boolean;
   ttCapacity?: number;
+  ordering?: "classic" | "enhanced";
+  quiescenceDepth?: number;
 }
 export interface LabStats {
   nodes: number; leaves: number; legalMoves: number; moveGenerations: number;
@@ -36,6 +38,8 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
   if (!Number.isInteger(options.maxDepth) || options.maxDepth < 1) throw new Error("maxDepth must be a positive integer");
   if (options.nodeBudget !== undefined && (!Number.isInteger(options.nodeBudget) || options.nodeBudget < 0)) throw new Error("Invalid nodeBudget");
   if (options.timeMs !== undefined && (!Number.isFinite(options.timeMs) || options.timeMs < 0)) throw new Error("Invalid timeMs");
+  if (options.quiescenceDepth !== undefined && (!Number.isInteger(options.quiescenceDepth) || options.quiescenceDepth < 0)) throw new Error("Invalid quiescenceDepth");
+  if (options.strategy === "maxn" && options.quiescenceDepth) throw new Error("Vector quiescence is not implemented; compare Maxn against non-quiescent paranoid");
   if (state.result || state.players[state.turn].status !== "active") throw new Error("Search requires an active turn");
   const now = options.now ?? (() => performance.now());
   const start = now();
@@ -45,6 +49,22 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
     ttHits: 0, qNodes: 0, depthReached: 0, elapsedMs: 0, nodesPerSecond: 0 };
   let stopped: LabResult["stopped"] = "depth";
   const table = new TranspositionTable(options.ttCapacity ?? 0);
+  const killers = new Map<string,string>();
+  const history = new Map<string,number>();
+  function ordered(moves: Move[], turn: PlayerColor, depth: number, preferred?: Move) {
+    if (options.ordering !== "enhanced") return order(moves,preferred);
+    const score = (m: Move) => {
+      const id=searchMoveId(m);
+      // Priority bands reflect ordering only, never evaluation units.
+      if (preferred && id===searchMoveId(preferred)) return 1e9;
+      if (m.promotion || m.captured) return 1e6 + 100*(m.promotion ? PIECE_VALUES[m.promotion]-1 : 0)
+        + 10*(m.captured ? PIECE_VALUES[m.captured.type] : 0)-PIECE_VALUES[m.piece.type];
+      if (m.isCheck.length) return 1e5+m.isCheck.length;
+      if (killers.get(`${turn}:${depth}`)===id) return 1e4;
+      return Math.min(9999,history.get(`${turn}:${id}`) ?? 0);
+    };
+    return [...moves].sort((a,b)=>score(b)-score(a));
+  }
   function checkBudget() {
     if (options.cancelled?.()) stopped = "cancelled";
     else if (stats.nodes >= (options.nodeBudget ?? Infinity)) stopped = "nodes";
@@ -55,7 +75,28 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
   function generate(s: GameState) {
     const moves = legalMoves(s); stats.moveGenerations++; stats.legalMoves += moves.length; return moves;
   }
+  function quiescence(s: GameState, depth: number, alpha: number, beta: number): {value:number;pv:Move[]} {
+    checkBudget(); stats.nodes++; stats.qNodes++;
+    const stand=evaluate(s,root); stats.leaves++;
+    if (!depth || s.result) return {value:stand,pv:[]};
+    const inCheck=isPlayerInCheck(s,s.turn), max=s.turn===root;
+    let value=inCheck ? (max ? -Infinity : Infinity) : stand;
+    let pv:Move[]=[];
+    if (!inCheck) {
+      if (max) alpha=Math.max(alpha,value); else beta=Math.min(beta,value);
+      if (alpha>=beta) {stats.cutoffs++;return {value,pv};}
+    }
+    const moves=ordered(generate(s).filter(m=>inCheck || !!m.captured || !!m.promotion || m.isCheck.length>0),s.turn,depth);
+    for (const move of moves) {
+      checkBudget(); const child=quiescence(applyMove(s,move),depth-1,alpha,beta);
+      if (max ? child.value>value : child.value<value) {value=child.value;pv=[move,...child.pv];}
+      if (max) alpha=Math.max(alpha,value); else beta=Math.min(beta,value);
+      if (alpha>=beta) {stats.cutoffs++;break;}
+    }
+    return {value,pv};
+  }
   function paranoid(s: GameState, depth: number, alpha: number, beta: number): { value: number; pv: Move[] } {
+    if (depth === 0 && options.quiescenceDepth && !s.result) return quiescence(s,options.quiescenceDepth,alpha,beta);
     checkBudget(); stats.nodes++;
     if (depth === 0 || s.result) { stats.leaves++; return { value: evaluate(s,root), pv: [] }; }
     const originalAlpha = alpha, originalBeta = beta;
@@ -71,7 +112,7 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
       if (alpha >= beta) return {value:entry.value,pv:[]};
     }
     const generated = generate(s);
-    const moves = order(generated,generated.find(m=>searchMoveId(m) === entry?.bestMove));
+    const moves = ordered(generated,s.turn,depth,generated.find(m=>searchMoveId(m) === entry?.bestMove));
     if (!moves.length) throw new Error("Oracle supplied active turn without legal moves");
     const max = s.turn === root;
     let value = max ? -Infinity : Infinity;
@@ -81,7 +122,14 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
       const child = paranoid(applyMove(s,move),depth-1,alpha,beta);
       if (max ? child.value > value : child.value < value) { value = child.value; pv = [move,...child.pv]; }
       if (max) alpha = Math.max(alpha,value); else beta = Math.min(beta,value);
-      if (alpha >= beta) { stats.cutoffs++; break; }
+      if (alpha >= beta) {
+        stats.cutoffs++;
+        if (options.ordering === "enhanced" && !move.captured && !move.promotion) {
+          const id=searchMoveId(move); killers.set(`${s.turn}:${depth}`,id);
+          const key=`${s.turn}:${id}`;history.set(key,(history.get(key) ?? 0)+depth*depth);
+        }
+        break;
+      }
     }
     table.set(hash,{signature,depth,value,bound:value <= originalAlpha ? "upper" : value >= originalBeta ? "lower" : "exact",bestMove:pv[0] && searchMoveId(pv[0])});
     return { value, pv };
@@ -89,7 +137,7 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
   function maxn(s: GameState, depth: number): { vector: UtilityVector; pv: Move[] } {
     checkBudget(); stats.nodes++;
     if (depth === 0 || s.result) { stats.leaves++; return { vector: evaluateVector(s,evaluate), pv: [] }; }
-    const moves = order(generate(s));
+    const moves = ordered(generate(s),s.turn,depth);
     if (!moves.length) throw new Error("Oracle supplied active turn without legal moves");
     let best: { vector: UtilityVector; pv: Move[] } | undefined;
     for (const move of moves) {
@@ -99,7 +147,7 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
     }
     return best!;
   }
-  const rootMoves = order(generate(state));
+  const rootMoves = ordered(generate(state),root,options.maxDepth);
   if (!rootMoves.length) throw new Error("No legal root moves");
   let ranked: RankedChoice[] = [];
   let pv: Move[] = [];
@@ -107,7 +155,7 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
     for (let depth = options.iterative === false ? options.maxDepth : 1; depth <= options.maxDepth; depth++) {
       const iteration: RankedChoice[] = [];
       let alpha = -Infinity;
-      for (const move of order(rootMoves,pv[0])) {
+      for (const move of ordered(rootMoves,root,depth,pv[0])) {
         checkBudget();
         const child = applyMove(state,move);
         const window = options.exactRootScores ? -Infinity : alpha;

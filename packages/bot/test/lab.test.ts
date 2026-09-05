@@ -6,6 +6,16 @@ import { loadPosition, perft, positions } from "../src/positions.js";
 const position = (id: string) => loadPosition(positions.find(p => p.id === id)!);
 
 describe("experimental search semantics", () => {
+  it("enhanced ordering preserves fixed-depth values and bounded quiescence sees a poisoned capture", () => {
+    const state=position("poisoned-pawn");
+    const material = (s: typeof state,c: number) => s.board.reduce((n,p)=>n+(p ? (p.owner===c ? 1 : -1)*({P:1,N:3,B:3,R:5,Q:9,K:0}[p.type]) : 0),0);
+    const plain=searchPosition(state,{maxDepth:1,evaluate:material});
+    expect(plain.move.to).toBe(117);
+    const q=searchPosition(state,{maxDepth:1,quiescenceDepth:2,evaluate:material,nodeBudget:3000});
+    expect(q.stats.depthReached).toBe(1); expect(q.move.to).not.toBe(117); expect(q.stats.qNodes).toBeGreaterThan(0);
+    const a=searchPosition(state,{maxDepth:2}),b=searchPosition(state,{maxDepth:2,ordering:"enhanced"});
+    expect(a.value).toBeCloseTo(b.value);
+  });
   it("separates sole victory and fourth from all nonterminal static values", () => {
     const state = createInitialState();
     for (const color of ALL_COLORS) expect(Math.abs(evaluateUtility(state,color))).toBeLessThan(3);
