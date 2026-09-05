@@ -1,14 +1,7 @@
-import { ALL_COLORS, PieceType, PlayerColor } from "@li4chess/engine";
-import { Board, PIECE_GLYPHS, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
+import { ALL_COLORS, PlayerColor } from "@li4chess/engine";
+import { Board, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
 import { useState } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
-
-const PROMOTION_CHOICES: readonly PieceType[] = [
-  PieceType.Queen,
-  PieceType.Rook,
-  PieceType.Bishop,
-  PieceType.Knight,
-];
 
 function squareLabel(square: number): string {
   const file = square % 14;
@@ -17,15 +10,7 @@ function squareLabel(square: number): string {
 }
 
 export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart: () => void }) {
-  const {
-    state,
-    selectedSquare,
-    legalTargets,
-    selectSquare,
-    pendingPromotion,
-    choosePromotion,
-    cancelPromotion,
-  } = useLocalGame(seats);
+  const { state, selectedSquare, legalTargets, selectSquare } = useLocalGame(seats);
   const [rotateToMover, setRotateToMover] = useState(false);
 
   const lastMove = state.moveHistory[state.moveHistory.length - 1] ?? null;
@@ -38,50 +23,15 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
     <div
       style={{ display: "flex", gap: 24, padding: 24, fontFamily: "system-ui, sans-serif", alignItems: "flex-start" }}
     >
-      <div style={{ position: "relative" }}>
-        <Board
-          board={state.board}
-          onSquareClick={selectSquare}
-          selectedSquare={selectedSquare}
-          legalTargets={legalTargets}
-          checkedColors={checkedColors}
-          lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
-          bottomColor={rotateToMover ? state.turn : PlayerColor.Red}
-        />
-
-        {pendingPromotion && (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "rgba(0,0,0,0.55)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <div style={{ background: "white", borderRadius: 8, padding: 16, textAlign: "center" }}>
-              <p style={{ margin: "0 0 12px" }}>Promote to:</p>
-              <div style={{ display: "flex", gap: 8 }}>
-                {PROMOTION_CHOICES.map((choice) => (
-                  <button
-                    key={choice}
-                    type="button"
-                    data-testid={`promote-${choice}`}
-                    onClick={() => choosePromotion(choice)}
-                    style={{ fontSize: 28, padding: 8, cursor: "pointer" }}
-                  >
-                    {PIECE_GLYPHS[choice]}
-                  </button>
-                ))}
-              </div>
-              <button type="button" onClick={cancelPromotion} style={{ marginTop: 8 }}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+      <Board
+        board={state.board}
+        onSquareClick={selectSquare}
+        selectedSquare={selectedSquare}
+        legalTargets={legalTargets}
+        checkedColors={checkedColors}
+        lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
+        bottomColor={rotateToMover ? state.turn : PlayerColor.Red}
+      />
 
       <div style={{ minWidth: 240 }}>
         <h2>Status</h2>
