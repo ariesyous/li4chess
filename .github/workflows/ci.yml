@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to the same branch supersedes whatever is still running for it.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # No version pin here: pnpm/action-setup reads packageManager from
+      # package.json, and pinning both is the conflict that broke the Pages
+      # workflow in #2.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Separate steps rather than one `turbo run lint test build`, so a red
+      # check names which of the three failed without opening the log.
+      - run: pnpm lint
+
+      - run: pnpm test
+
+      - run: pnpm build
+
+      - name: Install Chromium for browser tests
+        run: pnpm --filter @li4chess/web exec playwright install --with-deps chromium
+
+      - name: Run browser tests
+        run: pnpm --filter @li4chess/web test:e2e
