@@ -52,10 +52,44 @@ export function computeGameResult(players: Readonly<Record<PlayerColor, PlayerSt
 
   return {
     winner,
+    reason: "elimination",
     placements: ranked.map((color, index) => ({
       color,
       place: index + 1,
       score: players[color].score,
     })),
+  };
+}
+
+/**
+ * A draw by threefold repetition: every still-active player ties for 1st
+ * (nobody was eliminated, so nobody "won"), followed by already-eliminated
+ * players ranked exactly as in computeGameResult.
+ */
+export function computeDrawResult(players: Readonly<Record<PlayerColor, PlayerState>>): GameResult {
+  const active = [...ALL_COLORS].filter((c) => players[c].status === "active").sort((a, b) => a - b);
+  const eliminated = [...ALL_COLORS]
+    .filter((c) => players[c].status !== "active")
+    .sort((a, b) => {
+      const pa = players[a];
+      const pb = players[b];
+      const turnA = pa.eliminatedOnTurn ?? -Infinity;
+      const turnB = pb.eliminatedOnTurn ?? -Infinity;
+      if (turnA !== turnB) return turnB - turnA;
+      if (pa.score !== pb.score) return pb.score - pa.score;
+      return a - b;
+    });
+
+  return {
+    winner: null,
+    reason: "repetition",
+    placements: [
+      ...active.map((color) => ({ color, place: 1, score: players[color].score })),
+      ...eliminated.map((color, index) => ({
+        color,
+        place: active.length + 1 + index,
+        score: players[color].score,
+      })),
+    ],
   };
 }

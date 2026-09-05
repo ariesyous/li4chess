@@ -41,6 +41,10 @@ Points are credited to the capturing player at the moment of capture: Pawn = 1, 
 
 The game ends when exactly one player remains `active`; that player is the winner. Among eliminated/stalemated players, placement ranks by later elimination turn = better placement. Ties (e.g. two players eliminated on the exact same move, via a simultaneous double-checkmate) are broken by score, then by fixed seat order (Red > Blue > Yellow > Green) as a last, deterministic resort.
 
+## Draws by threefold repetition
+
+If the same position — board occupants, whose turn it is, castling rights, the en passant target, and every player's status (active/checkmated/stalemated) — recurs 3 times over the course of the game, the game ends immediately in a **draw**: every currently-`active` player ties for 1st place, and already-eliminated players are ranked below them exactly as in a normal game end. This exists because weak CPU endgames (e.g. a lone king and knight with no way to force progress) can otherwise shuffle forever with no other end condition to stop them. `GameResult.reason` distinguishes `"elimination"` from `"repetition"` so the UI can label a draw as a draw rather than showing a false single winner.
+
 ## En passant
 
 Standard rule, evaluated relative to each pawn's own player-local forward direction (Red moves toward increasing rank, Blue toward increasing file, Yellow toward decreasing rank, Green toward decreasing file). The en passant target square is set only immediately after a double pawn push and is cleared unconditionally after the very next move by any player, matching standard chess timing.
