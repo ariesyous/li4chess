@@ -29,13 +29,42 @@ const CONTENDER_TOLERANCE = 0.5;
 const MAX_REFINED_CONTENDERS = 8;
 
 /**
+ * The entries within `CONTENDER_TOLERANCE` of the best, given a list already
+ * sorted best-first.
+ */
+function nearBest(scored: readonly ScoredMove[]): ScoredMove[] {
+  const cutoff = scored[0].value - CONTENDER_TOLERANCE;
+  return scored.filter((entry) => entry.value >= cutoff);
+}
+
+/**
+ * The pool rule, separated from how exact scores are obtained so it can be
+ * tested against controlled values: a real position rarely produces a bound
+ * that badly overstates its move, which is exactly the case that has to work.
+ *
+ * `near` are the candidates chosen by their upper bounds. Rescoring them is not
+ * enough on its own — the result has to be filtered again, because a bound only
+ * says a move is *no better* than the cutoff and says nothing about how much
+ * worse it really is.
+ */
+export function refineContenders(
+  near: readonly ScoredMove[],
+  rescore: (moves: readonly Move[]) => ScoredMove[]
+): ScoredMove[] {
+  if (near.length <= 1) return near.slice(0, 1);
+  return nearBest(rescore(near.map((scored) => scored.move)));
+}
+
+/**
  * The moves genuinely worth choosing between, each with an exact value.
  *
- * rankMoves leaves everything but the winner holding an upper bound, which is
- * enough to rule a move out — a bound below the cutoff means the real value is
- * below it too — but not to compare the ones that survive against each other.
- * So the survivors are re-searched properly and everything else is dropped:
- * whatever this returns, the caller may pick from freely.
+ * rankMoves leaves everything but the winner holding an upper bound, so the
+ * cutoff is applied twice: once against the bounds, to decide what is worth the
+ * cost of an exact search (a bound below the cutoff means the real value is
+ * below it too, so those are safe to drop), and once against the exact values.
+ * Filtering on bounds alone let a move whose bound sat just under the leader
+ * survive into the pool with a true value of anything at all, and the
+ * repetition preference below would then play it over the leader.
  */
 function contenders(
   state: GameState,
@@ -43,10 +72,9 @@ function contenders(
   ranked: readonly ScoredMove[],
   options: SearchOptions
 ): ScoredMove[] {
-  const cutoff = ranked[0].value - CONTENDER_TOLERANCE;
-  const near = ranked.filter((scored) => scored.value >= cutoff).slice(0, MAX_REFINED_CONTENDERS);
-  if (near.length <= 1) return [ranked[0]];
-  return scoreMovesExactly(state, color, near.map((scored) => scored.move), options);
+  return refineContenders(nearBest(ranked).slice(0, MAX_REFINED_CONTENDERS), (moves) =>
+    scoreMovesExactly(state, color, moves, options)
+  );
 }
 
 /**
