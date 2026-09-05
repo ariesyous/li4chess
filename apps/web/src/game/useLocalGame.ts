@@ -34,9 +34,16 @@ function toSeatConfig(seats: SeatSetups): SeatConfig {
 
 const CPU_MOVE_DELAY_MS = 400;
 
+export interface PendingPromotion {
+  readonly from: number;
+  readonly to: number;
+  readonly candidates: readonly Move[];
+}
+
 export function useLocalGame(seats: SeatSetups) {
   const [state, setState] = useState<GameState>(() => createInitialState(toSeatConfig(seats)));
   const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
+  const [pendingPromotion, setPendingPromotion] = useState<PendingPromotion | null>(null);
 
   const currentSeat = seats[state.turn];
   const legal = useMemo(() => legalMoves(state, state.turn), [state]);
@@ -59,7 +66,7 @@ export function useLocalGame(seats: SeatSetups) {
 
   const selectSquare = useCallback(
     (square: number) => {
-      if (currentSeat.isCPU || state.result !== null) return;
+      if (currentSeat.isCPU || state.result !== null || pendingPromotion !== null) return;
 
       if (selectedSquare === null) {
         const hasMoveFrom = legal.some((m) => m.from === square);
@@ -73,18 +80,35 @@ export function useLocalGame(seats: SeatSetups) {
       }
 
       const candidates = legal.filter((m) => m.from === selectedSquare && m.to === square);
-      // MVP: auto-resolve promotions to Queen; a picker UI lands in the polish pass.
-      const move = candidates.find((m) => m.promotion === PieceType.Queen) ?? candidates[0];
-      if (move) {
-        play(move);
+      if (candidates.length > 1 && candidates.some((m) => m.promotion)) {
+        setPendingPromotion({ from: selectedSquare, to: square, candidates });
+        return;
+      }
+      if (candidates[0]) {
+        play(candidates[0]);
         return;
       }
 
       const hasMoveFrom = legal.some((m) => m.from === square);
       setSelectedSquare(hasMoveFrom ? square : null);
     },
-    [legal, play, selectedSquare, currentSeat, state.result]
+    [legal, play, selectedSquare, currentSeat, state.result, pendingPromotion]
   );
+
+  const choosePromotion = useCallback(
+    (promotion: PieceType) => {
+      if (pendingPromotion === null) return;
+      const move = pendingPromotion.candidates.find((m) => m.promotion === promotion);
+      setPendingPromotion(null);
+      if (move) play(move);
+    },
+    [pendingPromotion, play]
+  );
+
+  const cancelPromotion = useCallback(() => {
+    setPendingPromotion(null);
+    setSelectedSquare(null);
+  }, []);
 
   const legalTargets = useMemo(() => {
     if (selectedSquare === null) return new Set<number>();
@@ -94,7 +118,17 @@ export function useLocalGame(seats: SeatSetups) {
   const reset = useCallback(() => {
     setState(createInitialState(toSeatConfig(seats)));
     setSelectedSquare(null);
+    setPendingPromotion(null);
   }, [seats]);
 
-  return { state, selectedSquare, legalTargets, selectSquare, reset };
+  return {
+    state,
+    selectedSquare,
+    legalTargets,
+    selectSquare,
+    reset,
+    pendingPromotion,
+    choosePromotion,
+    cancelPromotion,
+  };
 }
