@@ -18,7 +18,7 @@ import {
   recomputeCastlingRights,
   removeAllPiecesOf,
 } from "./elimination.js";
-import { legalMoves } from "./legality.js";
+import { hasLegalMove } from "./legality.js";
 import { positionKey, REPETITION_DRAW_COUNT } from "./repetition.js";
 import { PIECE_VALUES } from "./scoring.js";
 
@@ -81,8 +81,7 @@ export function applyMove(state: GameState, move: Move): GameState {
       continue;
     }
 
-    const candidateMoves = legalMoves(working, candidate);
-    if (candidateMoves.length > 0) {
+    if (hasLegalMove(working, candidate)) {
       working = { ...working, turn: candidate };
       break;
     }

@@ -80,3 +80,56 @@ export function findKingSquare(
   }
   return null;
 }
+
+/**
+ * Every square attacked by `byColor`, as a 0/1 map indexed by square.
+ *
+ * Equivalent to calling isSquareAttacked for every square, but computed in a
+ * single sweep outward from each of `byColor`'s pieces instead of a separate
+ * inward scan per query. Callers that need many attack queries against the
+ * same board (evaluation, king-confinement checks) should build one of these
+ * rather than calling isSquareAttacked in a loop — the latter re-walks all 160
+ * squares and re-casts every ray on each call.
+ *
+ * Semantics deliberately match isSquareAttacked exactly, including its quirk
+ * that pawns "attack" their own occupied diagonals while other piece types do
+ * not (see pawnAttackSquares, which ignores occupancy). test/attacks.test.ts
+ * pins the two implementations together.
+ */
+export function attackMap(
+  board: readonly (Piece | null)[],
+  byColor: PlayerColor
+): Uint8Array {
+  const map = new Uint8Array(board.length);
+  const mark = (squares: readonly number[]): void => {
+    for (const square of squares) map[square] = 1;
+  };
+
+  for (const from of VALID_SQUARES) {
+    const piece = board[from];
+    if (piece === null || piece.owner !== byColor) continue;
+
+    switch (piece.type) {
+      case PieceType.Pawn:
+        mark(pawnAttackSquares(from, byColor));
+        break;
+      case PieceType.Knight:
+        mark(leaperDestinations(from, KNIGHT_DELTAS, board, byColor));
+        break;
+      case PieceType.King:
+        mark(leaperDestinations(from, KING_DELTAS, board, byColor));
+        break;
+      case PieceType.Bishop:
+        for (const dir of BISHOP_DIRECTIONS) mark(raySquares(from, dir, board, byColor));
+        break;
+      case PieceType.Rook:
+        for (const dir of ROOK_DIRECTIONS) mark(raySquares(from, dir, board, byColor));
+        break;
+      case PieceType.Queen:
+        for (const dir of QUEEN_DIRECTIONS) mark(raySquares(from, dir, board, byColor));
+        break;
+    }
+  }
+
+  return map;
+}

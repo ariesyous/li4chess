@@ -1,9 +1,33 @@
-import { ALL_COLORS, GameState, Move, PlayerColor } from "../types.js";
+import { ALL_COLORS, GameState, Move, Piece, PlayerColor } from "../types.js";
 import { kingPathSquares } from "../movegen/castling.js";
 import { pseudoLegalMoves } from "../movegen/index.js";
 import { isSquareAttacked } from "./attacks.js";
 import { applyMoveToBoard } from "./boardOps.js";
 import { activePlayersExcept, isInCheck } from "./check.js";
+
+/**
+ * The legality test itself: castling's extra path restrictions, then the one
+ * universal rule — a move is illegal iff it leaves the mover's own king in
+ * check. Returns the board the move produces (so callers that need it don't
+ * rebuild it), or null if the move is illegal.
+ */
+function boardAfterIfLegal(
+  state: GameState,
+  move: Move,
+  color: PlayerColor,
+  opponents: readonly PlayerColor[]
+): readonly (Piece | null)[] | null {
+  if (move.castle !== undefined) {
+    if (isInCheck(state.board, color, opponents)) return null;
+    const path = kingPathSquares(color, move.castle);
+    if (path.some((square) => opponents.some((opp) => isSquareAttacked(state.board, square, opp)))) {
+      return null;
+    }
+  }
+
+  const resultingBoard = applyMoveToBoard(state.board, move);
+  return isInCheck(resultingBoard, color, opponents) ? null : resultingBoard;
+}
 
 /**
  * All fully legal moves for `color` (or state.turn if omitted): pseudo-legal,
@@ -14,20 +38,11 @@ import { activePlayersExcept, isInCheck } from "./check.js";
  */
 export function legalMoves(state: GameState, color: PlayerColor = state.turn): Move[] {
   const opponents = activePlayersExcept(state, color);
-  const pseudo = pseudoLegalMoves(state, color);
   const result: Move[] = [];
 
-  for (const move of pseudo) {
-    if (move.castle !== undefined) {
-      if (isInCheck(state.board, color, opponents)) continue;
-      const path = kingPathSquares(color, move.castle);
-      if (path.some((square) => opponents.some((opp) => isSquareAttacked(state.board, square, opp)))) {
-        continue;
-      }
-    }
-
-    const resultingBoard = applyMoveToBoard(state.board, move);
-    if (isInCheck(resultingBoard, color, opponents)) continue;
+  for (const move of pseudoLegalMoves(state, color)) {
+    const resultingBoard = boardAfterIfLegal(state, move, color, opponents);
+    if (resultingBoard === null) continue;
 
     // Report every opponent left in check after this move (not only ones this
     // specific move directly attacks) — with fixed turn rotation, a king can be
@@ -38,6 +53,25 @@ export function legalMoves(state: GameState, color: PlayerColor = state.turn): M
   }
 
   return result;
+}
+
+/**
+ * Whether `color` has any legal move at all — the checkmate/stalemate question,
+ * without generating the answer.
+ *
+ * Equivalent to `legalMoves(state, color).length > 0`, but stops at the first
+ * legal move and skips the `isCheck` annotation, which is by far the expensive
+ * part: annotating costs an attack scan per opponent per move, and every
+ * applyMove asks this question about the next player in rotation. Building the
+ * full annotated list to then only read its length made a single applyMove cost
+ * as much as a full move generation.
+ */
+export function hasLegalMove(state: GameState, color: PlayerColor = state.turn): boolean {
+  const opponents = activePlayersExcept(state, color);
+  for (const move of pseudoLegalMoves(state, color)) {
+    if (boardAfterIfLegal(state, move, color, opponents) !== null) return true;
+  }
+  return false;
 }
 
 /** All legal moves for every currently-active player (not just the side to move) — used by checkmate/stalemate detection. */
