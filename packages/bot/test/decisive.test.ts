@@ -93,3 +93,63 @@ describe("decisive outcomes outweigh material", () => {
     );
   });
 });
+
+/**
+ * The lab's bounded placement ladder (utility.ts) scores a checkmated player by
+ * finishing place on the same scale as live positions, which puts "checkmated
+ * last, so second place" at +1 and an ordinary losing position at about -0.4.
+ * A bot reading those numbers walks into mate on purpose. Production keeps
+ * placement ordering but pushes the whole elimination band below every live
+ * position, and these pin that apart.
+ */
+describe("placement never outranks staying in the game", () => {
+  const losingButAlive = () =>
+    position(
+      [
+        place(PieceType.King, PlayerColor.Red, 1, 3),
+        place(PieceType.Queen, PlayerColor.Red, 4, 11),
+        place(PieceType.King, PlayerColor.Yellow, 7, 2),
+        place(PieceType.Queen, PlayerColor.Yellow, 9, 6),
+        place(PieceType.Rook, PlayerColor.Yellow, 9, 4),
+        place(PieceType.Rook, PlayerColor.Yellow, 4, 13),
+      ],
+      PlayerColor.Red,
+      TWO_PLAYER
+    );
+
+  it("scores a badly losing live position above being checkmated into second", () => {
+    const alive = losingButAlive();
+    const grab = legalMoves(alive, PlayerColor.Red).find((m) => m.captured?.type === PieceType.Queen)!;
+    const after = applyMove(alive, grab);
+    const mate = legalMoves(after, PlayerColor.Yellow).find(
+      (m) => applyMove(after, m).players[PlayerColor.Red].status !== "active"
+    )!;
+    const mated = applyMove(after, mate);
+
+    expect(mated.players[PlayerColor.Red].status).toBe("checkmated");
+    expect(mated.result!.placements.find((p) => p.color === PlayerColor.Red)!.place).toBe(2);
+    expect(evaluateFull(mated, PlayerColor.Red)).toBeLessThan(evaluateFull(alive, PlayerColor.Red));
+    expect(evaluateFull(mated, PlayerColor.Red)).toBeLessThanOrEqual(-MATE_THRESHOLD);
+  });
+
+  it("still prefers a higher finish once the game is lost either way", () => {
+    // Same board, but scored for a player who went out first rather than last.
+    const alive = losingButAlive();
+    const outLast = { ...alive, players: { ...alive.players } };
+    outLast.players[PlayerColor.Red] = {
+      ...outLast.players[PlayerColor.Red],
+      status: "checkmated",
+      eliminatedOnTurn: 99,
+    };
+    const outFirst = { ...alive, players: { ...alive.players } };
+    outFirst.players[PlayerColor.Red] = {
+      ...outFirst.players[PlayerColor.Red],
+      status: "checkmated",
+      eliminatedOnTurn: 0,
+    };
+
+    expect(evaluateFull(outLast, PlayerColor.Red)).toBeGreaterThan(evaluateFull(outFirst, PlayerColor.Red));
+    // ...but both stay decisively worse than any live position.
+    expect(evaluateFull(outLast, PlayerColor.Red)).toBeLessThanOrEqual(-MATE_THRESHOLD);
+  });
+});

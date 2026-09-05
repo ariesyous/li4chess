@@ -7,6 +7,7 @@ import {
   PieceType,
   PlayerColor,
   attackMap,
+  computeGameResult,
   boardToLocal,
   fileOf,
   isOnBoard,
@@ -39,6 +40,23 @@ export function evaluateMaterial(state: GameState, botColor: PlayerColor): numbe
  */
 export const WIN_SCORE = 1_000_000;
 export const MATE_THRESHOLD = WIN_SCORE / 2;
+
+/**
+ * How much a better finishing place is worth once the game is lost anyway,
+ * borrowed from the placement ladder in utility.ts — surviving into third is
+ * genuinely better than going out first, and in a free-for-all that is most of
+ * what is left to play for once winning is off the table.
+ *
+ * Deliberately three orders of magnitude below WIN_SCORE and three above the
+ * ply discount, which fixes the priority order: never be eliminated at all,
+ * then finish as high as possible, then get there quickly. The gap matters —
+ * scoring placement on the same scale as live positions, as the lab's bounded
+ * ladder does, makes being checkmated last (second place, +1) score higher than
+ * playing on from a losing position (about -0.4), and a bot reading that will
+ * walk into mate on purpose. Every elimination has to stay below every live
+ * position, however bad that position looks.
+ */
+const PLACEMENT_CREDIT = 1_000;
 
 export interface EvalWeights {
   readonly material: number;
@@ -195,6 +213,17 @@ function kingHuntScore(
 }
 
 /**
+ * Score for a game the bot is no longer playing in: decisively bad, ordered by
+ * how high it finished. `computeGameResult` is consulted directly rather than
+ * read off `state.result`, since a player can be checkmated several turns
+ * before the game itself ends.
+ */
+function eliminatedScore(state: GameState, botColor: PlayerColor): number {
+  const place = computeGameResult(state.players).placements.find((p) => p.color === botColor)!.place;
+  return -WIN_SCORE + (ALL_COLORS.length - place) * PLACEMENT_CREDIT;
+}
+
+/**
  * Value of a repetition draw, which in this variant hands shared first place to
  * everyone still active: the position's own static value, docked by contempt in
  * proportion to how far ahead the bot is of its strongest surviving opponent.
@@ -219,8 +248,12 @@ function drawScore(
 }
 
 /**
- * Full v2 eval, weighted sum of several factors, all folded to a single scalar
- * from `botColor`'s perspective (required by the paranoid search backup).
+ * Full v2 positional eval: a weighted sum of several factors folded to a single
+ * scalar from `botColor`'s perspective (required by the paranoid search backup).
+ *
+ * Decisive outcomes short-circuit the weighted terms entirely (see WIN_SCORE
+ * and PLACEMENT_CREDIT above); everything below them is the ordinary positional
+ * judgement of a live position.
  * Mobility/threat terms deliberately use cheap approximations
  * (pseudo-legal move counts, precomputed attack maps rather than per-piece
  * legality simulation), since this runs at every leaf node of the search.
@@ -235,7 +268,7 @@ export function evaluateFull(
   // and once it has won nothing else needs measuring. The old eval charged a
   // flat 3 pawns (`survivalBias`) for being checkmated, which a bot would
   // gladly pay to win a queen.
-  if (state.players[botColor].status !== "active") return -WIN_SCORE;
+  if (state.players[botColor].status !== "active") return eliminatedScore(state, botColor);
   if (state.result?.winner === botColor) return WIN_SCORE;
 
   const opponents = activeOpponentsOf(state, botColor);

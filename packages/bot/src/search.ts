@@ -65,6 +65,10 @@ function orderMoves(moves: readonly Move[], killers: KillerTable, ply: number): 
  * it every winning line scores identically and the bot has no reason to ever
  * actually finish one — it can put mate off indefinitely and still believe it is
  * playing the best move.
+ *
+ * The discount is small next to the placement credit inside a decisive score,
+ * so it separates equally-placed outcomes by speed without ever reordering the
+ * places themselves.
  */
 function adjustForDistance(value: number, ply: number): number {
   if (value >= MATE_THRESHOLD) return value - ply;
