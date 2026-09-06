@@ -16,7 +16,7 @@ the product-owned identifiers, v2 deterministic event/state requirements, legacy
 preservation, and evidence-status fixture inventory. All release-affecting game
 semantics have D/O target evidence. **M1-03 is in progress:** the
 setup/core/en-passant, castling, passive dead-army, and promotion slices are implemented;
-SCORE capture and own-army multi-check ledgers are also implemented in the current slice;
+SCORE ledgers, deferred mate/stalemate causation, walking kings and opening aborts are implemented in the current slice;
 the remaining accepted differences still need fixture-first engine, protocol, UI, bot,
 and arena changes.
 The first public release is M4, public FFA matchmaking with ratings, anonymous
@@ -51,13 +51,36 @@ adding a continuing-Queen control, ledger hash test, and a format fence against
 prior partial states missing scoring history. No classic or archived evidence
 changed. See [SCORE acceptance](m1-score-acceptance.md) for inputs and boundaries.
 
-**Pending rule detail:** the accepted documents give mate/stalemate amounts but
-do not define multiple-owner mate attribution, intervening escape-blocker credit,
-or deferred self-stalemate causation. Mixed-owner discovered-check credit/tier
-also needs clarification. Independent requirements review confirmed these gaps;
-questions were sent to the maintainer on 2026-09-06. Do not invent those predicates.
-SCORE-03..06, mate stacking in 15, and mixed-owner cases remain unimplemented;
-settled amounts/objectives remain authoritative. Continue independent M1 work.
+The maintainer resolved the pending SCORE predicates (D11): active checking
+owners split 20, nonchecking escape-blockers receive zero, last legal-move-loss
+actor determines stalemate credit with rescue clearing it, and other-owner
+pieces never count or select the mover's Queen tier. These now have 80 rotated
+SCORE tests, including capture/check/mate stacking and a resigned checker.
+
+The current WALK/ABORT slice adds local resignation/zero-clock timeout, per-seat
+opening counts, live walking Kings with passive armies, scheduled seeded legal
+selection, recorded candidate hashes/cursors/actions, deferred no-move awards,
+and abort facts without placements. There are 41 WALK and 21 ABORT tests plus
+browser action coverage. Production and laboratory search use the same recorded
+walking successor; a fresh reviewer identified and verified that integration
+gap. Frozen classic stays unchanged. The UI distinguishes live Kings from dead
+armies. Arena aborts are excluded from completed results. Replay v2 validation
+and final points-based results remain subsequent slices.
+
+Next: END, DRAW, REPLAY, complete-game evidence and final consumer alignment.
+The draft PR is [#10](https://github.com/ariesyous/li4chess/pull/10); PROMO and
+SCORE core (`f3a0101`) are pushed. Standard-v1 remains reserved.
+
+**WALK/ABORT + SCORE resolution validation, 2026-09-06:** Windows, Node 24.18.0,
+pinned pnpm 10.33.0, `f3a0101` plus this slice. Fresh `pnpm lint --force`,
+`pnpm test --force` (482 tests), and `pnpm build --force` passed with no Turbo
+cache hits. Added arena/protocol integration cases then passed their affected
+suites (7 each), bringing covered unit cases to 485: engine 421, bot 50,
+protocol 7, arena 7. All changed/new test files passed a separate strict
+TypeScript check. All 9 Playwright tests passed, including both forfeit paths.
+Independent source review approved after fixing walking search successors and
+adding cross-feature regressions. Local Markdown links and diff checks passed.
+No classic, archived experiment, historical specification, or deployment changed.
 
 The fourth slice implements eighth-rank automatic one-point Queens and pawn
 provenance. `FFA-PROMO-01..08` has 36 rotated tests, including EP promotion after
@@ -261,6 +284,7 @@ slice, subsequently committed as `0f01a2b8e23c3e14e293650e579f79e5b2d4a7f1`:
 | D08 | 2026-09-06 | The game UI/UX should take a board-first, four-player-panel reference direction similar in interaction quality to the observed Chess.com FFA client, while using original li4chess design and accessible non-colour cues. |
 | D09 | 2026-09-06 | M3 will start with a Cloudflare-native architecture: React/Vite via Workers Static Assets, a TypeScript Worker API, one authoritative `GameRoom` Durable Object per active game with WebSockets, and D1 as the initial canonical SQL store. Local development uses Wrangler, Vite, and workerd on Windows; deployment targets Cloudflare's GitHub build integration. R2, Queues, Containers, PostgreSQL, or other infrastructure require demonstrated need. M3-01 must validate this direction in an architecture spike and ADR before implementation. |
 | D10 | 2026-09-06 | Accept the M1-02 standard-FFA migration contract as written: the five product identifiers, replay v2 invariants, canonical state/hash policy, and provenance-based legacy classification are authoritative for M1-03. Acceptance does not claim the target ruleset is implemented; `li4chess-ffa-standard-v1` remains reserved until its fixtures and implementation pass. |
+| D11 | 2026-09-06 | Clarify standard FFA SCORE attribution: active checking owners split +20 equally at scheduled mate, nonchecking escape-blockers get zero; the last actor changing legal moves from positive to zero determines self/opponent stalemate, rescue clears that cause; other-owner checking pieces never contribute to mover multi-check count or Queen tier. [Acceptance cases](m1-score-acceptance.md). |
 
 The seven-milestone sequence and architecture details in the roadmap are the
 working implementation plan. Revise them when evidence warrants it; distinguish
@@ -275,7 +299,7 @@ the first M3 task when that milestone becomes actionable.
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, passive DEAD, PROMO and SCORE core implemented. SCORE causation details pending clarification; WALK/END/DRAW/ABORT/REPLAY and consumer alignment remain. [Coverage and next work](m1-03-fixtures.md). Complete only when all M1 exit criteria and fresh final-revision validation/CI pass. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, DEAD, PROMO, SCORE, WALK and opening ABORT implemented. END/DRAW/REPLAY, complete-game evidence and final consumer alignment remain. [Coverage and next work](m1-03-fixtures.md). Complete only when all M1 exit criteria and fresh final-revision validation/CI pass. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |

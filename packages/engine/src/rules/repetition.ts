@@ -13,7 +13,7 @@ export function positionKey(state: GameState): string {
   const castlingPart = ALL_COLORS.map(
     (c) => `${state.castlingRights[c].kingside ? 1 : 0}${state.castlingRights[c].queenside ? 1 : 0}`
   ).join("");
-  const statusPart = ALL_COLORS.map((c) => state.players[c].status[0]).join("");
+  const statusPart = ALL_COLORS.map((c) => `${state.players[c].status}:${state.players[c].kingStatus ?? ""}`).join(",");
   const epPart = JSON.stringify([...state.enPassantRights]
     .sort((a, b) => a.target - b.target || a.pawnSquare - b.pawnSquare || a.pawnOwner - b.pawnOwner)
     .map(right => [right.target, right.pawnSquare, right.pawnOwner, [...right.eligiblePlayers].sort((a, b) => a - b)]));

@@ -106,7 +106,8 @@ export function findKingSquare(
  */
 export function attackMap(
   board: readonly (Piece | null)[],
-  byColor: PlayerColor
+  byColor: PlayerColor,
+  include: (piece: Piece) => boolean = () => true
 ): Uint8Array {
   const map = new Uint8Array(board.length);
   const mark = (squares: readonly number[]): void => {
@@ -115,7 +116,7 @@ export function attackMap(
 
   for (const from of VALID_SQUARES) {
     const piece = board[from];
-    if (piece === null || piece.owner !== byColor) continue;
+    if (piece === null || piece.owner !== byColor || !include(piece)) continue;
 
     switch (piece.type) {
       case PieceType.Pawn:

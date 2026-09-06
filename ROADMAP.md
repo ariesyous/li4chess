@@ -77,9 +77,10 @@ armies, zero-point capture, occupancy/no attacks/no moves, rights cleanup, and
 dead-pawn EP. The fourth slice adds automatic eighth-rank one-point Queens,
 provenance, and promotion/EP interaction tests. See the
 [coverage map](docs/m1-03-fixtures.md). SCORE now implements capture/new-own-army
-multi-check ledgers and promoted-Queen awards. Full standard-v1, remaining SCORE
-attribution, walking kings, endings and replay v2 remain incomplete. Continue
-SCORE causation clarification and WALK/END/DRAW/ABORT/REPLAY fixtures.
+multi-check ledgers and promoted-Queen awards. The clarified mate/stalemate
+attribution, walking kings and opening abort actions now have executable cases.
+Full standard-v1 remains incomplete. Continue END/DRAW/REPLAY, complete-game
+evidence and final consumer alignment.
 
 **Capabilities**
 

@@ -1,4 +1,4 @@
-import { ALL_COLORS, GameState, Move, PlayerColor, applyMove, assertLocalMigrationState, createInitialState, legalMoves, positionKey } from "@li4chess/engine";
+import { ALL_COLORS, GameState, Move, PlayerColor, applyMove, advanceWalkingKing,selectWalkingMove, assertLocalMigrationState, createInitialState, legalMoves, positionKey } from "@li4chess/engine";
 
 export interface EngineReply { move: Move; stats?: Record<string, unknown> }
 export interface ArenaEngine {
@@ -27,7 +27,7 @@ export interface GameRecord {
   version: 1; seed: number; engines: { id: string; config?: unknown }[];
   initial: GameState; moves: MoveRecord[]; result: GameState["result"];
   scores: number[]; statuses: string[]; eliminations: { color: PlayerColor; turn: number }[];
-  termination: "elimination" | "repetition" | "max-ply" | "error";
+  termination: "elimination" | "repetition" | "abort" | "max-ply" | "error";
   error?: string; errorSeat?: PlayerColor; plies: number; elapsedMs: number;
 }
 export async function runGame(seats: Seats, options: { seed: number; maxPlies: number; initial?: GameState }): Promise<GameRecord> {
@@ -46,11 +46,12 @@ export async function runGame(seats: Seats, options: { seed: number; maxPlies: n
       const legal = legalMoves(state);
       const start = performance.now();
       // A plugin cannot mutate the oracle state used for legality/replay.
-      const reply = await seats[color].choose(structuredClone(state), random[color]);
+      const walking=state.players[color].kingStatus === "walking";
+      const reply = walking ? { move:selectWalkingMove(state).move } : await seats[color].choose(structuredClone(state), random[color]);
       const elapsedMs = performance.now() - start;
       const move = legal.find(m => moveId(m) === moveId(reply.move));
       if (!move) throw new Error(`Illegal engine move ${moveId(reply.move)}`);
-      state = applyMove(state, move);
+      state = walking ? advanceWalkingKing(state) : applyMove(state, move);
       moves.push({ color, move, elapsedMs, branching: legal.length, keyAfter: positionKey(state), stats: reply.stats });
     } catch (caught) {
       error = caught instanceof Error ? caught.stack ?? caught.message : String(caught);
@@ -76,7 +77,10 @@ export function replay(game: GameRecord): GameState {
     if (state.result || state.turn !== record.color) throw new Error("Replay turn mismatch");
     const move = legalMoves(state).find(m => moveId(m) === moveId(record.move));
     if (!move) throw new Error("Replay illegal move");
-    state = applyMove(state, move);
+    if (state.players[state.turn].kingStatus === "walking") {
+      if (moveId(selectWalkingMove(state).move)!==moveId(move)) throw new Error("Replay random move mismatch");
+      state=advanceWalkingKing(state);
+    } else state = applyMove(state, move);
     if (positionKey(state) !== record.keyAfter) throw new Error("Replay position mismatch");
   }
   if (JSON.stringify(state.result) !== JSON.stringify(game.result)) throw new Error("Replay result mismatch");
@@ -116,7 +120,7 @@ export function clusterInterval(blocks: number[][]): {low:number;high:number} | 
 export function aggregate(games: GameRecord[]) {
   for (const game of games) assertLocalMigrationState(game.initial);
   const ids = [...new Set(games.flatMap(g => g.engines.map(e => e.id)))];
-  const complete = games.filter(g => g.result !== null && g.termination !== "error");
+  const complete = games.filter(g => g.result !== null && g.result.reason !== "abort" && g.termination !== "error");
   const engines = ids.map(id => {
     const entries = complete.flatMap(g => g.engines.flatMap((e, c) => e.id === id ? [{ g, c, p: g.result!.placements.find(p => p.color === c)! }] : []));
     const times = games.flatMap(g => g.moves.filter(m => g.engines[m.color].id === id).map(m => m.elapsedMs));
@@ -142,6 +146,7 @@ export function aggregate(games: GameRecord[]) {
   }));
   return { games: games.length, completed: complete.length, censored: games.filter(g => g.termination === "max-ply").length,
     errors: games.filter(g => g.termination === "error").length,
+    aborted: games.filter(g=>g.termination === "abort").length,
     repetitionRate: mean(games.map(g => +(g.termination === "repetition"))),
     plies: distribution(games.map(g => g.plies)), durationMs: distribution(games.map(g => g.elapsedMs)), engines, headToHead };
 }

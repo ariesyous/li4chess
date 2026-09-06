@@ -14,6 +14,8 @@ import {
   isPlayerInCheck,
   pseudoLegalMoves,
   rankOf,
+  hasLiveKing,
+  isLivePiece,
 } from "@li4chess/engine";
 
 // A king has a rule award value of 20, but is not capturable material.
@@ -126,7 +128,7 @@ function isCenterSquare(square: number): boolean {
 }
 
 function activeOpponentsOf(state: GameState, color: PlayerColor): PlayerColor[] {
-  return ALL_COLORS.filter((c) => c !== color && state.players[c].status === "active");
+  return ALL_COLORS.filter((c) => c !== color && hasLiveKing(state,c));
 }
 
 function chebyshevDistance(a: number, b: number): number {
@@ -266,6 +268,7 @@ export function evaluateFull(
   botColor: PlayerColor,
   weights: EvalWeights = FULL_EVAL_WEIGHTS
 ): number {
+  if (state.result?.reason === "abort") return 0;
   // Decisive outcomes come first and are not weighted: once the bot is out of
   // the game no amount of material it happened to be holding is worth anything,
   // and once it has won nothing else needs measuring. The old eval charged a
@@ -279,8 +282,8 @@ export function evaluateFull(
   // One sweep per color up front, instead of an isSquareAttacked scan per piece
   // per opponent: the threat term alone used to re-walk the whole board ~100
   // times for a single leaf evaluation.
-  const botAttacks = attackMap(state.board, botColor);
-  const opponentAttacks = opponents.map((opp) => attackMap(state.board, opp));
+  const botAttacks = attackMap(state.board, botColor,piece=>isLivePiece(state,piece));
+  const opponentAttacks = opponents.map((opp) => attackMap(state.board, opp,piece=>isLivePiece(state,piece)));
 
   let material = 0;
   let centerControl = 0;
@@ -293,7 +296,7 @@ export function evaluateFull(
 
   for (let square = 0; square < state.board.length; square++) {
     const piece = state.board[square];
-    if (piece === null || state.players[piece.owner].status !== "active") continue;
+    if (piece === null || !isLivePiece(state,piece)) continue;
     const value = MATERIAL_VALUES[piece.type];
     const isBot = piece.owner === botColor;
     material += isBot ? value : -value;

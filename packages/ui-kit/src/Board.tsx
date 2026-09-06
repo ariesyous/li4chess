@@ -10,6 +10,8 @@ export interface BoardProps {
   readonly checkedColors?: ReadonlySet<PlayerColor>;
   /** Passive army owners supplied by the application; the board does not decide game status. */
   readonly deadColors?: ReadonlySet<PlayerColor>;
+  /** Per-square passive appearance, including dead armies with a live King. */
+  readonly deadSquares?: ReadonlySet<number>;
   readonly lastMove?: { readonly from: number; readonly to: number } | null;
   /** Which color's side renders at the bottom of the screen. Defaults to Red (the board's "natural" orientation). */
   readonly bottomColor?: PlayerColor;
@@ -45,6 +47,7 @@ export function Board({
   legalTargets,
   checkedColors,
   deadColors,
+  deadSquares,
   lastMove,
   bottomColor = PlayerColor.Red,
 }: BoardProps) {
@@ -61,7 +64,7 @@ export function Board({
 
       const square = squareOf(file, rank);
       const piece = board[square];
-      const isDead = piece !== null && deadColors?.has(piece.owner) === true;
+      const isDead = piece !== null && (deadSquares?.has(square) ?? (deadColors?.has(piece.owner) === true));
       const isSelected = selectedSquare === square;
       const isLegalTarget = legalTargets?.has(square) ?? false;
       const isLastMove = lastMove?.from === square || lastMove?.to === square;

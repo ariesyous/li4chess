@@ -285,7 +285,13 @@ unimplemented.
 The promotion slice now implements eighth-rank automatic one-point Queens and
 provenance, including en-passant promotion for all seats. Its Queen classification
 and Queen-tier multi-check awards are covered. SCORE capture/own-army multi-check
-ledgers are implemented; outstanding causation/attribution details are recorded
-in [SCORE acceptance](m1-score-acceptance.md), without changing settled amounts.
+ledgers and deferred mate/stalemate awards are implemented. The maintainer's
+2026-09-06 [SCORE addendum](m1-score-acceptance.md) is authoritative: active
+checking owners split 20 equally at scheduled mate; nonchecking escape-blockers
+get zero. The last actor changing legal moves from positive to zero determines
+self/opponent stalemate; rescue clears that cause. Only mover-owned checking
+pieces count toward multi-check and Queen tier. This closes the attribution
+details without changing settled amounts. WALK and opening ABORT also have
+local engine/UI fixtures; END/DRAW and v2 replay validation remain.
 Further boundaries and remaining work are in
 [project state](project-state.md).

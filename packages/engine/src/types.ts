@@ -37,9 +37,12 @@ export interface Piece {
 /** Index into the flat 196-cell (14x14) board array. 0..195. */
 export type Square = number;
 
-export type PlayerStatus = "active" | "checkmated" | "stalemated" | "resigned";
+export type PlayerStatus = "active" | "checkmated" | "stalemated" | "resigned" | "timed-out";
 
 export interface PlayerState {
+  readonly noMoveCause?: { readonly actor:PlayerColor;readonly sequence:number };
+  readonly kingStatus?: "walking" | "checkmated" | "stalemated";
+  readonly forfeit?: { readonly reason:"resign" | "timeout"; readonly sequence:number; readonly clock?:{ readonly remainingMs:number } };
   readonly color: PlayerColor;
   readonly status: PlayerStatus;
   readonly isCPU: boolean;
@@ -78,10 +81,17 @@ export interface GameResult {
   readonly placements: readonly Placement[];
   readonly winner: PlayerColor | null;
   /** "elimination": exactly one active player remained. "repetition": drawn — the same position recurred 3 times, so every still-active player ties for first. */
-  readonly reason: "elimination" | "repetition";
+  readonly reason: "elimination" | "repetition" | "abort";
+  readonly abort?: { readonly classification:"early-resign" | "early-timeout"; readonly actor:PlayerColor;
+    readonly causeSequence:number; readonly completedMoves:Readonly<Record<PlayerColor,number>>; readonly ratingLiable:PlayerColor;
+    readonly clock?:{ readonly remainingMs:number } };
 }
 
 export interface GameState {
+  readonly completedMoves: Readonly<Record<PlayerColor,number>>;
+  readonly randomSeed: string;
+  readonly randomDrawIndex: number;
+  readonly randomActions: readonly RandomKingAction[];
   /** Logical event sequence: actions and individual nonzero awards each advance it. */
   readonly eventSequence: number;
   readonly awardLedger: readonly ScoreAward[];
@@ -102,10 +112,26 @@ export interface GameState {
 export interface ScoreAward {
   readonly sequence: number;
   readonly causeSequence: number;
-  readonly rule: "capture" | "multi-check";
+  readonly rule: "capture" | "multi-check" | "walking-stalemate" | "mate" | "self-stalemate" | "opponent-stalemate";
   readonly recipient: PlayerColor;
   readonly delta: number;
   readonly total: number;
+}
+
+export interface WalkingSelection {
+  readonly algorithmId: "splitmix32-rejection-v1";
+  readonly seed: string;
+  readonly drawIndex: number;
+  readonly drawsUsed: number;
+  readonly candidateMovesHash: string;
+}
+
+export interface RandomKingAction {
+  readonly sequence:number;
+  readonly causeSequence:number;
+  readonly actor:PlayerColor;
+  readonly move:Move;
+  readonly selection:WalkingSelection;
 }
 
 /** One double push can grant several opponents one opportunity each. */

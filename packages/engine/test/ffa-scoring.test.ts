@@ -107,4 +107,27 @@ for (const rotation of ALL_COLORS) describe(`FFA scoring: ${PlayerColor[rotation
     expect(play(JSON.parse(JSON.stringify(captured)) as GameState, rotation, [0,6], [0,5])).toEqual(after);
     expect(legalMoves(after).length).toBeGreaterThan(0);
   });
+
+  it("FFA-SCORE-13/14: uncovered other-owner checks neither count nor select the Queen tier", () => {
+    const single = position(rotation, [[7,0,K,0],[6,10,K,1],[10,6,K,2],[13,3,K,3],[6,4,R,2],[6,6,N,0]]);
+    expect(deltas(play(single,rotation,[6,6],[8,7]))).toEqual([]);
+    const double = position(rotation, [[7,0,K,0],[6,10,K,1],[10,6,K,2],[10,10,K,3],
+      [6,4,R,0],[6,6,N,0],[4,4,Q,1]]);
+    expect(deltas(play(double,rotation,[6,6],[8,7]))).toEqual([["multi-check",rotation,5,5]]);
+    const shared = position(rotation, [[7,0,K,0],[6,10,K,1],[10,6,K,2],[13,3,K,3],
+      [6,4,R,0],[6,6,N,0],[4,6,Q,1]]);
+    expect(deltas(play(shared,rotation,[6,6],[8,7]))).toEqual([["multi-check",rotation,5,5]]);
+  });
+
+  it("FFA-SCORE-15: capture, new double check and scheduled mate stack in order", () => {
+    const before = position(rotation, [[7,0,K,0],[3,0,K,1],[10,3,K,2],[13,7,K,3],
+      [5,0,N,0],[6,1,N,0],[6,2,N,0],[3,5,R,0],[3,3,N,1]]);
+    const after = play(before,rotation,[3,5],[3,3]);
+    expect(after.awardLedger).toEqual([
+      { sequence:2,causeSequence:1,rule:"capture",recipient:rotation,delta:3,total:3 },
+      { sequence:3,causeSequence:1,rule:"multi-check",recipient:rotation,delta:5,total:8 },
+      { sequence:4,causeSequence:1,rule:"mate",recipient:rotation,delta:20,total:28 },
+    ]);
+    expect(after.players[c(1)].status).toBe("checkmated");
+  });
 });

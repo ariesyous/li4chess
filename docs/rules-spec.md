@@ -32,7 +32,8 @@ file (Blue), decreasing rank (Yellow), or decreasing file (Green).
 ## Turn order and ordinary legality
 
 Red always starts. Rotation is Red → Blue → Yellow → Green → Red, skipping
-inactive seats. Inactive players generate no moves. The current game ends when
+passive seats. Resigned/timed-out seats with live walking Kings still receive
+scheduled automatic King moves. The current game ends when
 only one player remains active; the target's point-based endings remain later work.
 
 Moves obey ordinary piece geometry and occupancy. A pawn's two-square push
@@ -78,10 +79,24 @@ center, and pawn-advancement evaluation excludes passive pieces while retaining
 their occupancy for movement and attack geometry. Low-level board-only attack
 helpers describe geometry; rules consumers filter to active opponents.
 
-Mate/stalemate awards remain unimplemented pending the SCORE causation
-clarifications recorded in [SCORE acceptance](m1-score-acceptance.md). `resigned` is a representable
-inactive status, but there is still no resignation, timeout, or walking-king
-action; a live walking king will need finer state than owner status alone.
+At scheduled mate resolution, active checking owners split +20 equally; an
+intervening nonchecking escape-blocker gets zero. The engine tracks the actor
+of the last transition from at least one legal move to zero. A self-caused
+stalemate gives the victim +20; an opponent-caused stalemate gives each remaining
+active player +10. A rescue clears causation, and a later re-block sets it anew.
+See [SCORE acceptance](m1-score-acceptance.md) for exact rotated fixtures.
+
+Resignation and explicit zero-clock timeout are local deterministic actions.
+If any seat has completed fewer than three moves, either action aborts with
+the actor, classification, exact count vector, liable seat, and timeout clock
+fact; no normal placements or awards are generated. Otherwise the army becomes
+passive, except its live King. Its original forfeit reason remains after its
+King later mates/stalemates. Only legal King moves are selected automatically
+on its regular turn by the versioned seeded random algorithm; manual requests
+reject. Walking owners earn no ordinary capture/multi-check points. A walking
+King's stalemate gives each remaining active player +10; mate uses the active
+checking-owner split. Walking Kings constrain king safety and cannot be captured.
+See [WALK/ABORT acceptance](m1-walk-abort-acceptance.md) for random provenance.
 
 ## En passant
 
@@ -107,7 +122,7 @@ If an eligible opponent's target pawn remains on the board after its owner
 becomes inactive, it can still be captured en passant for **zero points**. The
 EP fixture supplies an explicit post-death state; DEAD-08 additionally resolves
 mate/stalemate from a synthetic pending-right snapshot before the capture.
-Resignation/timeout transitions remain unimplemented. The old opposite-seat-only
+Resignation/timeout likewise preserve victim rights but remove capturer rights. The old opposite-seat-only
 claim and next-global-move expiry were implementation errors, now replaced.
 
 ## Castling
@@ -155,12 +170,12 @@ Two/three kings newly checked by the mover's army award +1/+5 if any newly
 checking piece is a Queen, otherwise +5/+20. Own-army discovered checks count.
 Kings already in check before the action and passive kings do not count;
 continuing Queen checks do not downgrade new non-Queen checks. Captures and
-multi-checks stack. Mixed-owner discovered-check attribution and deferred
-mate/self-stalemate causation await maintainer clarification; this subset is not
-full SCORE compatibility. Mate, stalemate, survivor and named-draw awards are
-not implemented yet.
+multi-checks stack with deferred mate awards. Other owners' pieces do not count
+or select the Queen tier, including shared checks on the same king. Deferred
+mate/stalemate attribution is specified above. Survivor and named-draw awards
+remain END/DRAW work.
 
-Every nonzero capture/multi-check award appends an immutable `awardLedger` entry:
+Every nonzero award appends an immutable `awardLedger` entry:
 `sequence`, `causeSequence`, `rule`, `recipient`, `delta`, and resulting `total`.
 The action advances `eventSequence` once, then each award advances it once;
 capture precedes multi-check. This order is a li4chess recording convention.
@@ -195,7 +210,8 @@ labelled `li4chess-state-v2` or wrapped as `li4chess-replay-v2`.
 The reducer, protocol serialization, and arena input/replay/aggregation entry
 points reject old or labelled snapshots instead of treating them as this partial
 migration. This format fence checks the migration marker, presence of rights,
-nonnegative integer event sequence and award array;
+nonnegative integer event sequence, award array, per-seat completed moves and
+seed/cursor/random action fields;
 it does not validate arbitrary network state. The protocol remains JSON helpers.
 The existing arena v1 harness is regression infrastructure, not a completed v2
 writer or a source of new versioned research evidence. Do not run or publish new

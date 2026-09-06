@@ -6,6 +6,7 @@ export type UtilityFn = (state: GameState, color: PlayerColor) => number;
 /** Placement ladder: 1st=3, 2nd=1, 3rd=-1, 4th=-3. */
 export function terminalUtility(state: GameState, color: PlayerColor): number | null {
   if (!state.result) return null;
+  if (state.result.reason === "abort") return 0;
   const place = state.result.placements.find(p => p.color === color)!.place;
   if (state.result.reason === "repetition" && state.players[color].status === "active") {
     // Share the occupied ranks among tied survivors, rather than reward four

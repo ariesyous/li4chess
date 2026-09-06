@@ -1,9 +1,26 @@
 import { describe, expect, it } from "vitest";
 import { aggregate, replay, rotateSeats, runGame, seededRandom, Seats } from "../src/index.js";
 import { randomEngine } from "../src/engines.js";
-import { createInitialState, computeDrawResult } from "@li4chess/engine";
+import { createInitialState, computeDrawResult,resignPlayer,advanceWalkingKing } from "@li4chess/engine";
 
 describe("arena", () => {
+  it("records an abort separately without inventing placements or completed-seat statistics",async()=>{
+    const initial=resignPlayer(createInitialState(),0);
+    const game=await runGame([randomEngine,randomEngine,randomEngine,randomEngine],{ seed:1,maxPlies:1,initial });
+    expect(replay(game)).toEqual(initial);
+    expect(game.termination).toBe("abort");
+    const report=aggregate([game]);
+    expect(report).toMatchObject({ completed:0,aborted:1,censored:0,errors:0 });
+    expect(report.engines[0].averagePlacement).toBeNull();
+  });
+  it("walking actions bypass seat engines and replay the recorded choice",async()=>{
+    const base=createInitialState();
+    const initial=resignPlayer({ ...base,board:base.board.map(p=>p?.type === "K" || p?.type === "R" ? p : null),completedMoves:{ 0:3,1:3,2:3,3:3 } },0);
+    const bad={ id:"must-not-run",choose(){ throw new Error("walking king called a seat engine"); } };
+    const game=await runGame([bad,randomEngine,randomEngine,randomEngine],{ seed:1,maxPlies:1,initial });
+    expect(game.termination).toBe("max-ply");
+    expect(replay(game)).toEqual(advanceWalkingKing(initial));
+  });
   it("records four tied first places separately from sole wins", async () => {
     const initial=createInitialState();
     const game=await runGame([randomEngine,randomEngine,randomEngine,randomEngine],{seed:1,maxPlies:0,initial:{...initial,result:computeDrawResult(initial.players)}});

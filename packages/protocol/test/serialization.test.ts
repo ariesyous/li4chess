@@ -1,8 +1,16 @@
-import { GameState, PieceType, applyMoveRequest, createInitialState, legalMoves } from "@li4chess/engine";
+import { GameState, PieceType, applyMoveRequest, createInitialState, legalMoves,timeoutPlayer,advanceWalkingKing } from "@li4chess/engine";
 import { describe, expect, it } from "vitest";
 import { deserializeGameState, deserializeMove, serializeGameState, serializeMove } from "../src/index.js";
 
 describe("serialization round-trip", () => {
+  it("retains timeout clock facts, opening aborts and walking random continuation",()=>{
+    const base=createInitialState();
+    const abort=timeoutPlayer(base,0,{ remainingMs:0 });
+    expect(deserializeGameState(serializeGameState(abort))).toEqual(abort);
+    const walking=timeoutPlayer({ ...base,board:base.board.map(p=>p?.type === "K" || p?.type === "R" ? p : null),
+      completedMoves:{ 0:3,1:3,2:3,3:3 } },0,{ remainingMs:0 });
+    expect(advanceWalkingKing(deserializeGameState(serializeGameState(walking)))).toEqual(advanceWalkingKing(walking));
+  });
   it("rejects prior partial snapshots without scoring history instead of inventing it", () => {
     for (const patch of [{ eventSequence:undefined }, { eventSequence:-1 }, { awardLedger:undefined }]) {
       const prior = { ...createInitialState(), ...patch };

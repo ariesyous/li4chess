@@ -35,9 +35,11 @@ Pawns automatically promote on their eighth rank to Queens worth one capture
 point; provenance survives moves, captures, serialization, and search hashes.
 Captures use standard piece values, and own-army newly delivered multi-checks
 award the Queen/non-Queen schedule. An ordered points ledger explains those
-awards in the local UI. Remaining SCORE attribution cases are recorded in
-[SCORE acceptance](docs/m1-score-acceptance.md).
-Full standard FFA, its scoring, walking kings, and versioned
+awards in the local UI. Active checking owners split mate points; stalemate
+credit tracks the last cause of losing all legal moves. Local resignation and
+simulated timeout abort during the opening, then leave dead armies with live
+Kings that move automatically on scheduled turns using recorded seeded choices.
+Full standard FFA, points-based endings, named draws, and versioned
 replays remain M1-03 work. `li4chess-ffa-standard-v1` is still reserved.
 
 CPU search currently runs on the browser's main thread, so higher difficulties

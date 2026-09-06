@@ -213,7 +213,19 @@ tests. PROMO-07's Queen-tier integration is now covered. The initial 48 cases
 failed before ledger implementation; fixture geometry was corrected to avoid
 accidental pre-existing checks, and a continuing-Queen regression was added.
 
-SCORE-03..06, mate stacking in 15, and mixed-owner discovered-check semantics
-remain pending clarification of attribution/causation. Other accepted amounts
-are unchanged. WALK, END, DRAW, ABORT and state-v2/replay-v2 remain, with consumer
+The maintainer's [causation addendum](m1-score-acceptance.md) closes SCORE-03..06,
+mate stacking in 15 and mixed-owner checks. The expanded scoring file has 60
+tests; [deferred resolution](../packages/engine/test/ffa-score-resolution.test.ts)
+adds 20. It covers equal two/three-owner splits, nonchecking interveners,
+self-block/rescue/re-block attribution and a checker resigning before resolution.
+
+[WALK/ABORT acceptance](m1-walk-abort-acceptance.md) maps WALK-01..08 to
+[41 tests](../packages/engine/test/ffa-walking.test.ts) and ABORT-01..06 to
+[21 tests](../packages/engine/test/ffa-abort.test.ts). Independent random words,
+candidate destinations and hashes cover all rotations. Local UI tests cover
+resign/timeout opening abort and post-opening automatic King action; bot tests
+inspect descendants against recorded engine actions. WALK-08 event tampering
+remains a REPLAY invariant, not claimed by JSON round-trip alone.
+
+END, DRAW and state-v2/replay-v2 remain, with consumer
 alignment and complete-game evidence. Standard-v1 stays reserved; no M2/M3 work.

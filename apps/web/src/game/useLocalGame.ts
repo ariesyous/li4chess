@@ -8,6 +8,9 @@ import {
   applyMoveRequest,
   createInitialState,
   legalMoves,
+  advanceWalkingKing,
+  resignPlayer,
+  timeoutPlayer,
 } from "@li4chess/engine";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -49,6 +52,10 @@ export function useLocalGame(seats: SeatSetups) {
   // Drive CPU turns automatically.
   useEffect(() => {
     if (state.result !== null) return;
+    if (state.players[state.turn].kingStatus === "walking") {
+      const timer = setTimeout(() => { setState(prev=>advanceWalkingKing(prev));setSelectedSquare(null); },CPU_MOVE_DELAY_MS);
+      return () => clearTimeout(timer);
+    }
     if (!currentSeat.isCPU) return;
     const timer = setTimeout(() => {
       const move = chooseCpuMove(state, state.turn, currentSeat.difficulty);
@@ -59,7 +66,7 @@ export function useLocalGame(seats: SeatSetups) {
 
   const selectSquare = useCallback(
     (square: number) => {
-      if (currentSeat.isCPU || state.result !== null) return;
+      if (currentSeat.isCPU || state.result !== null || state.players[state.turn].kingStatus === "walking") return;
 
       if (selectedSquare === null) {
         const hasMoveFrom = legal.some((m) => m.from === square);
@@ -96,5 +103,8 @@ export function useLocalGame(seats: SeatSetups) {
     setSelectedSquare(null);
   }, [seats]);
 
-  return { state, selectedSquare, legalTargets, selectSquare, reset };
+  const resign = useCallback(() => { setState(prev=>resignPlayer(prev,prev.turn));setSelectedSquare(null); },[]);
+  const timeout = useCallback(() => { setState(prev=>timeoutPlayer(prev,prev.turn,{ remainingMs:0 }));setSelectedSquare(null); },[]);
+
+  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout };
 }
