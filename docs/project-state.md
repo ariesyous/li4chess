@@ -10,16 +10,16 @@ Git history preserves earlier snapshots; keep this file focused on current work.
 
 **M1 is in progress.** M1-01 completed the sourced
 [standard-FFA compatibility audit](rules-compatibility.md) on 2026-09-06; it
-does not change the local house rules. **M1-02 is in progress:** its
-[ruleset/replay migration contract](ruleset-versioning.md) now locks final
-proposed product-owned identifiers, v2 deterministic event/state requirements,
-legacy preservation, and evidence-status fixture inventory. All
-release-affecting game semantics now have D/O target evidence; the remaining
-work is maintainer acceptance of the migration choices and M1-03 fixtures/
-implementation. The first public release is M4, public FFA
-matchmaking with ratings, anonymous access, and CPU play.
+does not change the local house rules. **M1-02 is complete:** the maintainer
+accepted the [ruleset/replay migration contract](ruleset-versioning.md), including
+the product-owned identifiers, v2 deterministic event/state requirements, legacy
+preservation, and evidence-status fixture inventory. All release-affecting game
+semantics have D/O target evidence. **M1-03 is next:** write executable fixtures
+before implementing the verified engine, protocol, UI, bot, and arena changes.
+The first public release is M4, public FFA matchmaking with ratings, anonymous
+access, and CPU play.
 
-Code baseline reviewed: `25fbe5e201fc6ef5241f939d142673e059fd87d1` on `main`.
+Repository baseline reviewed: `e987741f48ff0cbbe3cfe0496f59fcc14215a852` on `main`.
 The local game currently implements house rules. CPU search is synchronous;
 networking, application persistence, clocks, accounts, queues, and ratings are
 not implemented. See [README.md](../README.md) for the package map.
@@ -41,6 +41,7 @@ provision infrastructure, or change the current M1 focus.
 | D07 | 2026-09-06 | Anonymous players get casual matchmaking and CPU games. Accounts are required for rated play and persistent leaderboards; confirmed after the initial planning questions. |
 | D08 | 2026-09-06 | The game UI/UX should take a board-first, four-player-panel reference direction similar in interaction quality to the observed Chess.com FFA client, while using original li4chess design and accessible non-colour cues. |
 | D09 | 2026-09-06 | M3 will start with a Cloudflare-native architecture: React/Vite via Workers Static Assets, a TypeScript Worker API, one authoritative `GameRoom` Durable Object per active game with WebSockets, and D1 as the initial canonical SQL store. Local development uses Wrangler, Vite, and workerd on Windows; deployment targets Cloudflare's GitHub build integration. R2, Queues, Containers, PostgreSQL, or other infrastructure require demonstrated need. M3-01 must validate this direction in an architecture spike and ADR before implementation. |
+| D10 | 2026-09-06 | Accept the M1-02 standard-FFA migration contract as written: the five product identifiers, replay v2 invariants, canonical state/hash policy, and provenance-based legacy classification are authoritative for M1-03. Acceptance does not claim the target ruleset is implemented; `li4chess-ffa-standard-v1` remains reserved until its fixtures and implementation pass. |
 
 The seven-milestone sequence and architecture details in the roadmap are the
 working implementation plan. Revise them when evidence warrants it; distinguish
@@ -48,15 +49,15 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-These are queued tasks, not claims of work already started. Continue the active
-M1-02 acceptance/implementation sequence; M3-01 is the first M3 task when that
-milestone becomes actionable.
+These are queued tasks, not claims of work already started. Begin M1-03 with
+executable fixtures before changing behavior; M3-01 is the first M3 task when
+that milestone becomes actionable.
 
 | ID | Task | Done when |
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
-| M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **In progress 2026-09-06.** [Migration contract](ruleset-versioning.md) now has D/O target evidence for every release-affecting rule, including setup, ordinary legality, special moves, draws, endings, and disconnects. Next: maintainer acceptance of the proposed identifiers/replay/legacy policy; then M1-03 writes the fixture inventory as executable tests. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | M1 exit criteria and repository validation pass; historical evidence remains intact. |
+| M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **Next.** Start with executable `FFA-SETUP`, `FFA-CORE`, and `FFA-EP` fixtures before behavior changes. M1 exit criteria and repository validation pass; historical evidence remains intact. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |
@@ -74,12 +75,12 @@ as measurements of the new ruleset.
 | Q3 | Must rating calculations exactly match Chess.com's? | Rules compatibility is accepted. Use its rating overview as a reference; document ties, parameters, and corrections before choosing an implementation. | M4 |
 | Q4 | Which Cloudflare plan, data location, budget ceiling, and load target meet the release needs? | M3-01 verifies current limits and pricing without purchasing or provisioning. Set the concrete budget/load gate when deployment becomes actionable; leave the D1-to-PostgreSQL fallback evidence-based. | M3 architecture / M4 release gate |
 | Q5 | How should mixed online human/CPU games work? | Local anonymous CPU play is required. Shared online CPUs are optional; propose explicit opt-in, labels, server ownership, and exclusion from human rating pools. | Before adding online CPU seats |
-| Q6 | Which remaining standard-FFA mechanics still need evidence before implementation? | None are currently unresolved: the maintainer supplied D/O-equivalent standard-FFA answers for setup, legality, special moves, scoring, endings, draws, ties, and disconnects. The remaining M1-02 gate is a maintainer decision on identifiers/replay/legacy migration; M1-03 then makes each documented fixture executable. | M1-02 |
-| Q7 | What must a replay record for authoritative timeout/resignation randomness? | Record server PRNG algorithm/seed, canonical candidate ordering/hash, draw index, selected legal move, trigger sequence, and state hash. M3 must supply server authority; M1-02 defines the schema contract only. | M1-02 / M3 |
 
-Q1 (anonymous rating eligibility) is resolved by D07. No unresolved question
-blocks beginning the rules audit. Only ask for decisions when the current work
-depends on them; do not reopen already accepted requirements.
+Q1 (anonymous rating eligibility) is resolved by D07. Q6 (remaining rule
+evidence), Q7 (authoritative-randomness replay fields), and the M1-02 contract
+gate are resolved by D10. M3 must supply server authority for those replay fields.
+No unresolved question blocks beginning M1-03. Only ask for decisions when the
+current work depends on them; do not reopen already accepted requirements.
 
 ## Evidence and validation
 
@@ -116,8 +117,8 @@ depends on them; do not reopen already accepted requirements.
   eighth-rank 1-point-queen promotion, +20 mate, points to the stalemated
   player, and disabled No En Passant/Capture the King rules. These are observed
   configuration facts, recorded in [the compatibility audit](rules-compatibility.md)
-  and [versioning proposal](ruleset-versioning.md); the behavior-specific replay
-  fixtures still need execution before M1-02 can complete.
+  and [versioning contract](ruleset-versioning.md); the behavior-specific replay
+  fixtures remain M1-03 implementation work.
 - M1-02 live standard-game observation on 2026-09-06: reviewed the completed
   linked [1 | 7 FFA / Modern replay](https://www.chess.com/variants/4-player-chess/game/108222020)
   read-only. It observed `O-O-O`/`O-O` castling, `=Q` promotion notation,
@@ -171,21 +172,29 @@ depends on them; do not reopen already accepted requirements.
   only the trailing player +20 while the leader gets +0; Standard Modern sole
   survivors get +20 per live walking king, with +40 legacy/custom only. Queen
   multi-check is +1/+5 and non-Queen is +5/+20. This resolves the recorded
-  conflict; remaining work is evidence fixtures and maintainer acceptance, not
-  target-score guessing.
+  conflict; executable evidence fixtures remain M1-03 work, not target-score
+  guessing.
 - M1-02 complete rule-answer update on 2026-09-06: maintainer-provided standard
   FFA behavior resolved canonical setup/orientation, normal self-check/pin/king
   legality, en-passant pin legality, passive dead-piece semantics, pawn-Queen
   classification/no spare king, Queen-priority mixed checks, full draw identity
   and thresholds/material predicates, immediate Claim Win, and cumulative
-  disconnect-bank behavior. The contract now classifies every release-affecting
-  game rule D/O; it still requires explicit maintainer acceptance of the
-  product-owned identifiers and replay/legacy policy before M1-03.
+  disconnect-bank behavior. The contract classifies every release-affecting game
+  rule D/O; the maintainer subsequently accepted its product-owned identifiers
+  and replay/legacy policy in D10.
 - Documentation validation on 2026-09-06: local Markdown links in the audit,
   versioning proposal, project state, and roadmap resolve; `git diff --check`
   also passed (including the untracked proposal). The official help and event
   rulebook links opened successfully. The linked game replay was inspected in
   the signed-in client; do not treat its availability as a public-API contract.
+- M1-02 acceptance and closeout on 2026-09-06: the maintainer explicitly
+  accepted the migration contract as written. D10 records acceptance of the five
+  identifiers, replay v2 invariants, canonical state/hash policy, and
+  provenance-based legacy policy. M1-02 is complete; M1-03 starts with executable
+  setup, core-legality, and en-passant fixtures before behavior changes.
+  `li4chess-ffa-standard-v1` remains reserved until implementation and validation.
+  Local links in all 12 Markdown files containing links resolved, and
+  `git diff --check` passed. Documentation only; code tests were not rerun.
 - UI/UX reference observation on 2026-09-06: inspected the completed FFA game
   screen on a narrow client viewport and documented the observed board-first
   hierarchy, four edge player panels, compact context header, terminal result,

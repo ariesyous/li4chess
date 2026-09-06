@@ -1,10 +1,10 @@
 # M1-02 standard-FFA ruleset and replay migration contract
 
-**Status:** proposed migration contract, refined 2026-09-06. This document
-locks the proposed identifiers and the evidence/replay requirements for the
-first li4chess standard-FFA ruleset. It does **not** make the local engine
-compatible, resolve an undocumented Chess.com behavior, or authorize M1-03
-implementation to guess one.
+**Status:** accepted migration contract; M1-02 complete 2026-09-06. The
+maintainer accepted the identifiers, replay v2 invariants, canonical state/hash
+policy, and legacy classification policy below. This document does **not** make
+the local engine compatible, resolve an undocumented Chess.com behavior, or
+authorize M1-03 implementation to guess one.
 
 The target is Chess.com's current **standard FFA / Modern** game only. Teams,
 Solo, Diplomacy, custom variants, generic two-player chess rules, and historic
@@ -29,21 +29,20 @@ An assertion has exactly one of these evidence states:
 
 `standard` in an identifier means li4chess intends to match the documented and
 verified standard-FFA contract; it does not claim Chess.com ownership or imply
-that an unresolved item has been copied. A target ruleset remains **reserved**
-until the maintainer accepts the target contract and M1-03 implements/tests it.
+that an unresolved item has been copied. The target ruleset remains **reserved**
+until M1-03 implements and tests the accepted contract.
 
-## Final proposed identifiers
+## Accepted identifiers
 
-These are the identifiers M1-03 must use if the maintainer accepts this
-contract. They are intentionally stable product identifiers, not dates, display
-labels, or a Chess.com trademark.
+These are the identifiers M1-03 must use. They are intentionally stable product
+identifiers, not dates, display labels, or a Chess.com trademark.
 
 | Identifier | Status | Meaning and write policy |
 | --- | --- | --- |
 | `li4chess-house-ffa-v1` | M — historical | The current engine behavior in [rules-spec.md](rules-spec.md): far-edge promotion, removed mate armies, frozen stalemates, elimination-first result, and immediate threefold draw. It is never rewritten to mean the target rules. |
 | `li4chess-ffa-standard-v1` | M — reserved | The first ruleset which satisfies the documented/observed standard-FFA contract. Do not produce, advertise, or accept it as an implemented game before V items, implementation, and tests close. |
-| `li4chess-replay-v2` | M — proposed schema identifier | The append-only replay envelope below. Its numeric JSON field is `replaySchemaVersion: 2`; its string identifier prevents a bare number being mistaken for semantic rules. |
-| `li4chess-state-v2` | M — proposed canonical state identifier | The canonical snapshot/hash projection used by replay v2. It changes only when a state field's serialized meaning changes. |
+| `li4chess-replay-v2` | M — accepted schema identifier | The append-only replay envelope below. Its numeric JSON field is `replaySchemaVersion: 2`; its string identifier prevents a bare number being mistaken for semantic rules. |
+| `li4chess-state-v2` | M — accepted canonical state identifier | The canonical snapshot/hash projection used by replay v2. It changes only when a state field's serialized meaning changes. |
 | `legacy-arena-v1` | M — historical format identifier | Existing `GameRecord.version === 1` arena data. It is not replay v2 and is not automatically any semantic ruleset. |
 
 Every new replay additionally records an **engine build identity**, not another
@@ -64,7 +63,7 @@ be represented by a separately stored patch/content digest or be labelled
 create a new engine build identity, not a new ruleset ID. A semantic rules
 change creates a new ruleset ID even if its envelope schema is unchanged.
 
-## Target contract: verified core and implementation stops
+## Target contract: verified core and implementation boundaries
 
 The following is all that M1-02 may presently state as target behavior. It
 summarizes, but does not replace, the detailed audit.
@@ -83,10 +82,11 @@ summarizes, but does not replace, the detailed audit.
 
 ### Release-affecting verification ledger
 
-No row below may be filled with a rule borrowed from another mode. `V` requires
-the reproducible evidence specified here and the common capture protocol in the
-[audit](rules-compatibility.md#reproducible-verification-protocol-for-unresolved-rules).
-Until closed, M1-03 must reject the behavior as an implementation decision.
+All release-affecting rows below are closed with D/O evidence. If later evidence
+reopens a row as `V`, it requires the reproducible procedure specified here and
+the common capture protocol in the
+[audit](rules-compatibility.md#reproducible-verification-protocol-for-unresolved-rules);
+M1-03 must not fill it with a rule borrowed from another mode.
 
 | Area | Current status | Required standard-FFA evidence / procedure | Contract after verification |
 | --- | --- | --- | --- |
@@ -252,29 +252,28 @@ Blue, Yellow, and Green.
 | `FFA-CORE-01..12` | O | Ordinary legality, active-king capture, deferred mate/stalemate timing, and turn rotation. |
 | `REPLAY-01..12` | M | v2 round-trip, event/hash rejection, ruleset/setup mismatch, random action, award ledger, abort, incomplete game, build provenance, and legacy-manifest rejection. |
 
-## Decision gates and next action
+## Completed M1-02 gates and next action
 
 These gates deliberately keep maintainer authority distinct from reference-game
 evidence.
 
-1. **Evidence gate (D/O):** The current ledger has a D/O target fact for every
+1. **Evidence gate (D/O) — complete:** The current ledger has a D/O target fact for every
    release-affecting behavior. Preserve the source date/scope and write the
    listed fixtures as executable evidence; a later contradiction reopens the
    affected row rather than silently changing the ruleset.
-2. **Contract gate (M):** The maintainer accepts or revises the five identifiers,
-   replay v2 invariants, canonical state/hash policy, and legacy classification
-   policy. This acceptance chooses li4chess storage/migration behavior; it does
-   not resolve a Chess.com rule.
-3. **Specification gate (D/O + M):** Write one target expected result per
-   fixture, including event ordering, awards, final placement/ties, and any
-   verified randomness. There must be no fallback to a house-rule behavior for
-   a V item.
-4. **Implementation gate:** Only then begin M1-03 in focused engine, protocol,
-   UI, bot, and arena changes. Preserve old artifacts and run a ruleset-specific
-   replay reader/fixture suite before comparing measurements.
+2. **Contract gate (M) — complete 2026-09-06:** The maintainer accepted the five
+   identifiers, replay v2 invariants, canonical state/hash policy, and legacy
+   classification policy. This chooses li4chess storage/migration behavior; it
+   does not assert a Chess.com rule or claim implementation compatibility.
+3. **Executable-fixture gate (D/O + M) — first M1-03 phase:** Write one target
+   input and expected result per fixture, including event ordering, awards,
+   final placement/ties, and verified randomness. There must be no fallback to
+   house-rule behavior for a reopened `V` item.
+4. **Behavior-change gate — M1-03:** Only after its relevant fixtures exist,
+   implement focused engine, protocol, UI, bot, and arena changes. Preserve old
+   artifacts and run a ruleset-specific replay reader/fixture suite before
+   comparing measurements.
 
-**Exact next actionable task:** the maintainer accepts or revises the proposed
-identifiers, replay v2 invariants, canonical state/hash policy, and legacy
-classification policy. Once accepted, begin M1-03 by turning the D/O fixture
+**Exact next actionable task:** begin M1-03 by turning the D/O fixture
 inventory—starting with `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
 `FFA-EP-01..12`—into focused engine/replay tests before changing behavior.

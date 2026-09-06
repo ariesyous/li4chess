@@ -62,13 +62,13 @@ capabilities do not make a milestone complete.
 ### M1 — Compatible, versioned FFA rules
 
 **Status note (2026-09-06):** M1-01 produced the sourced
-[compatibility audit](docs/rules-compatibility.md), and M1-02 now records a
-[versioned migration contract](docs/ruleset-versioning.md) with proposed
-identifiers, replay requirements, evidence-status fixtures, and no-guess
-decision gates. M1 remains in progress: M1-02 now has D/O target evidence for
-each release-affecting game rule, but its product-owned identifier/replay/legacy
-policy still needs maintainer acceptance; M1-03 implementation and exit-criterion
-validation remain.
+[compatibility audit](docs/rules-compatibility.md). M1-02 is complete: the
+maintainer accepted the [versioned migration contract](docs/ruleset-versioning.md),
+including its product-owned identifiers, deterministic replay/state requirements,
+legacy-preservation policy, evidence-status fixture inventory, and no-guess
+decision gates. M1 remains in progress because M1-03 must turn the inventory into
+executable fixtures, implement the verified behavior, and satisfy the milestone
+exit criteria.
 
 **Capabilities**
 
