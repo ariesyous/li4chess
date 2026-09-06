@@ -1,0 +1,12 @@
+{
+  "started": "2026-09-05T23:51:55.915Z",
+  "pid": 17312,
+  "node": "v24.18.0",
+  "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+  "seeds": 1,
+  "maxPlies": 250,
+  "geometry": "adjacent AABB, four cyclic rotations",
+  "production": "PR #8 f6f97bd",
+  "laboratory": "PR #7 7e15461",
+  "note": "Both bots use the post-PR-8 rules engine. One seed is not a strength estimate."
+}

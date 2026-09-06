@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig.json",
     "lint": "tsc -p tsconfig.json --noEmit",
     "arena": "vite-node src/cli.ts",
+    "compare-production": "vite-node src/compare-production.ts",
     "bench": "vite-node src/bench.ts",
     "experiments": "vite-node src/experiments.ts",
     "report": "vite-node src/report.ts"

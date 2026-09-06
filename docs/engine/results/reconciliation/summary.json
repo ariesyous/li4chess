@@ -1,0 +1,160 @@
+{
+  "games": 4,
+  "completed": 3,
+  "censored": 1,
+  "errors": 0,
+  "repetitionRate": 0,
+  "plies": {
+    "count": 4,
+    "mean": 199.5,
+    "p50": 204,
+    "p95": 216,
+    "max": 250
+  },
+  "durationMs": {
+    "count": 4,
+    "mean": 172874.968975,
+    "p50": 114434.11919999999,
+    "p95": 182927.51450000005,
+    "max": 281834.2981
+  },
+  "engines": [
+    {
+      "id": "production-v2-level3",
+      "completedSeatGames": 6,
+      "firstPlace": 0.3333333333333333,
+      "soleWin": 0.3333333333333333,
+      "averagePlacement": 2.1666666666666665,
+      "averageScore": 31.833333333333332,
+      "survival": 0.3333333333333333,
+      "seatNormalizedFirst": 0.25,
+      "firstPlaceCluster95": null,
+      "perSeat": [
+        {
+          "seat": 0,
+          "count": 2,
+          "first": 0,
+          "placement": 3
+        },
+        {
+          "seat": 1,
+          "count": 1,
+          "first": 0,
+          "placement": 3
+        },
+        {
+          "seat": 2,
+          "count": 1,
+          "first": 0,
+          "placement": 2
+        },
+        {
+          "seat": 3,
+          "count": 2,
+          "first": 1,
+          "placement": 1
+        }
+      ],
+      "moveMs": {
+        "count": 470,
+        "mean": 510.6638359574455,
+        "p50": 262.91890000004787,
+        "p95": 1740.0528999999951,
+        "max": 3641.2755999999936
+      },
+      "branching": {
+        "count": 470,
+        "mean": 29.748936170212765,
+        "p50": 28,
+        "p95": 69,
+        "max": 90
+      },
+      "searchNodes": {
+        "count": 0,
+        "mean": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "reachedDepth": {
+        "count": 0,
+        "mean": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    },
+    {
+      "id": "classic-v1-level3",
+      "completedSeatGames": 6,
+      "firstPlace": 0.16666666666666666,
+      "soleWin": 0.16666666666666666,
+      "averagePlacement": 2.8333333333333335,
+      "averageScore": 20.833333333333332,
+      "survival": 0.16666666666666666,
+      "seatNormalizedFirst": 0.125,
+      "firstPlaceCluster95": null,
+      "perSeat": [
+        {
+          "seat": 0,
+          "count": 1,
+          "first": 0,
+          "placement": 4
+        },
+        {
+          "seat": 1,
+          "count": 2,
+          "first": 0,
+          "placement": 3
+        },
+        {
+          "seat": 2,
+          "count": 2,
+          "first": 0.5,
+          "placement": 1.5
+        },
+        {
+          "seat": 3,
+          "count": 1,
+          "first": 0,
+          "placement": 4
+        }
+      ],
+      "moveMs": {
+        "count": 328,
+        "mean": 1374.1459792682901,
+        "p50": 546.3223999999464,
+        "p95": 5314.912699999999,
+        "max": 14758.583899999969
+      },
+      "branching": {
+        "count": 328,
+        "mean": 39.47256097560975,
+        "p50": 39,
+        "p95": 82,
+        "max": 90
+      },
+      "searchNodes": {
+        "count": 0,
+        "mean": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "reachedDepth": {
+        "count": 0,
+        "mean": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    }
+  ],
+  "headToHead": [
+    {
+      "a": "classic-v1-level3",
+      "b": "production-v2-level3",
+      "seatNormalizedPairScore": 0.25
+    }
+  ]
+}

@@ -1,5 +1,28 @@
 # Recommendation: make the laboratory informative before choosing a winner
 
+## Status after production-bot reconciliation
+
+PR #8 updates the production bot's outcome scoring, endgame guidance, exact-score
+selection and engine hot path. Keep these production fixes alongside the laboratory;
+the recommendation below records the earlier research baseline, not a request to
+restore the old production bot. Its 530 nodes/s, 191-second level-4 move and attack
+profile figures predate that optimization and are historical measurements.
+
+The refreshed benchmark and production-versus-classic comparison are documented in
+[the reconciliation report](reconciliation.md). The laboratory's `utility.ts`
+imports the production `evaluateFull`, so its experimental evaluation changes too.
+The frozen classic bot sources remain intact, but both bots use the optimized
+rules engine. New trials must record this distinction.
+
+Step 3 below is partly complete: `hasLegalMove` avoids full move generation for
+the next player's availability check, and `attackMap` batches evaluation queries.
+Worker integration with bounded difficulty remains the next product priority.
+Search still runs synchronously in the browser, and high difficulty is not yet
+safe for responsive play. The lab's placement calibration and documented rules
+edge cases still require separate work before promoting experimental search.
+
+## Original research recommendation
+
 Keep the TypeScript rules oracle and classic production bot. Develop Engine v2
 as a local Worker running bounded iterative search behind a stable strategy and
 vector-evaluation interface. Start with paranoid for an affordable tactical

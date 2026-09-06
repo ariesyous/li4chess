@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "source": "PR #7 7e15461 plus PR #8 f6f97bd; bot and engine sources verified byte-identical to integration commit 76b3feb",
+  "note": "Historical evidence remains unchanged. Every new game replay-verified; four unique adjacent AABB seatings, one seed.",
+  "files": [
+    {
+      "file": "benchmark.json",
+      "bytes": 22723,
+      "sha256": "5a1b99f5b9be20db9a4b6c50ba0f010eb5a5622edb871a16eb0d63591355cac8"
+    },
+    {
+      "file": "history-map.json",
+      "bytes": 1064,
+      "sha256": "886c2a756f1fb5b34174f737bbb202494007f31d6d518bf3312859f7e8fef212"
+    },
+    {
+      "file": "run.json",
+      "bytes": 386,
+      "sha256": "2929c9a3ce1a38b67a060c6c4488712a3715b681697caf15e0304c6db67a37a2"
+    },
+    {
+      "file": "summary.json",
+      "bytes": 3358,
+      "sha256": "a9a1d9419fd9550119658a3bb46cda16a592340448022862953cc8ebae73182a"
+    },
+    {
+      "file": "games.jsonl.gz",
+      "bytes": 29659,
+      "sha256": "ca2f4ccca9ef7312ff4277a2548e2300eb268c977e0c0254d9f8483f9f8e2fce"
+    }
+  ]
+}
