@@ -19,16 +19,14 @@ work is maintainer acceptance of the migration choices and M1-03 fixtures/
 implementation. The first public release is M4, public FFA
 matchmaking with ratings, anonymous access, and CPU play.
 
-Code baseline reviewed: `5c089934d736bd19199875637a864e4bd395055b` on `main`.
+Code baseline reviewed: `25fbe5e201fc6ef5241f939d142673e059fd87d1` on `main`.
 The local game currently implements house rules. CPU search is synchronous;
 networking, application persistence, clocks, accounts, queues, and ratings are
 not implemented. See [README.md](../README.md) for the package map.
 
-This planning update includes README/agent guidance, AGPL licensing and package
-metadata, and the roadmap and session handoff documents. The maintainer requested
-that these changes be committed and pushed to `origin/main`. Check `git status`
-and branch history at the next session to establish the current checkout; do not
-assume a new worktree includes uncommitted changes from another checkout.
+The accepted M3 direction is now Cloudflare-native, with an architecture spike
+and ADR required before implementation. This planning decision does not start M3,
+provision infrastructure, or change the current M1 focus.
 
 ## Accepted decisions
 
@@ -38,10 +36,11 @@ assume a new worktree includes uncommitted changes from another checkout.
 | D02 | 2026-09-06 | First public release targets FFA public matchmaking and ratings. Invite rooms can serve internal testing but do not replace this goal. |
 | D03 | 2026-09-06 | Free access, no ads, anonymous play, and CPU opponents are initial requirements. Competitive fairness and community governance are longer-term guiding principles. |
 | D04 | 2026-09-06 | Match Chess.com's standard FFA rules. Existing house rules must be audited and migrated before launch, rather than assumed compatible. |
-| D05 | 2026-09-06 | No target date; lean hosting budget. Keep a VPS behind Cloudflare plus PostgreSQL as the hosting direction. Aiven is a candidate, not a selected dependency. |
+| D05 | 2026-09-06 | Superseded by D09. The earlier hosting direction was a VPS behind Cloudflare plus PostgreSQL, with Aiven only a candidate. Preserve this row as decision history; do not implement it as the current plan. |
 | D06 | 2026-09-06 | Repository licensing is AGPL v3, declared as `AGPL-3.0-only` in `package.json`. Preserve original research evidence and human Git attribution. |
 | D07 | 2026-09-06 | Anonymous players get casual matchmaking and CPU games. Accounts are required for rated play and persistent leaderboards; confirmed after the initial planning questions. |
 | D08 | 2026-09-06 | The game UI/UX should take a board-first, four-player-panel reference direction similar in interaction quality to the observed Chess.com FFA client, while using original li4chess design and accessible non-colour cues. |
+| D09 | 2026-09-06 | M3 will start with a Cloudflare-native architecture: React/Vite via Workers Static Assets, a TypeScript Worker API, one authoritative `GameRoom` Durable Object per active game with WebSockets, and D1 as the initial canonical SQL store. Local development uses Wrangler, Vite, and workerd on Windows; deployment targets Cloudflare's GitHub build integration. R2, Queues, Containers, PostgreSQL, or other infrastructure require demonstrated need. M3-01 must validate this direction in an architecture spike and ADR before implementation. |
 
 The seven-milestone sequence and architecture details in the roadmap are the
 working implementation plan. Revise them when evidence warrants it; distinguish
@@ -49,7 +48,9 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-These are queued tasks, not claims of work already started. Start with M1-01.
+These are queued tasks, not claims of work already started. Continue the active
+M1-02 acceptance/implementation sequence; M3-01 is the first M3 task when that
+milestone becomes actionable.
 
 | ID | Task | Done when |
 | --- | --- | --- |
@@ -58,6 +59,7 @@ These are queued tasks, not claims of work already started. Start with M1-01.
 | M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | M1 exit criteria and repository validation pass; historical evidence remains intact. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
+| M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |
 
 Do not change game rules while merely collecting comparison evidence. M1-02
 must identify compatibility tests before M1-03 changes behavior. Do not treat
@@ -70,7 +72,7 @@ as measurements of the new ruleset.
 | --- | --- | --- | --- |
 | Q2 | Which launch time controls and disconnect/abort details? | Start with few queues; verify Chess.com behavior before choosing compatible defaults. | M1 audit / M3 clocks |
 | Q3 | Must rating calculations exactly match Chess.com's? | Rules compatibility is accepted. Use its rating overview as a reference; document ties, parameters, and corrections before choosing an implementation. | M4 |
-| Q4 | Which hosting provider, region, budget ceiling, and load target? | Defer selection and current price research until deployment design; keep PostgreSQL portable. | M4 release gate |
+| Q4 | Which Cloudflare plan, data location, budget ceiling, and load target meet the release needs? | M3-01 verifies current limits and pricing without purchasing or provisioning. Set the concrete budget/load gate when deployment becomes actionable; leave the D1-to-PostgreSQL fallback evidence-based. | M3 architecture / M4 release gate |
 | Q5 | How should mixed online human/CPU games work? | Local anonymous CPU play is required. Shared online CPUs are optional; propose explicit opt-in, labels, server ownership, and exclusion from human rating pools. | Before adding online CPU seats |
 | Q6 | Which remaining standard-FFA mechanics still need evidence before implementation? | None are currently unresolved: the maintainer supplied D/O-equivalent standard-FFA answers for setup, legality, special moves, scoring, endings, draws, ties, and disconnects. The remaining M1-02 gate is a maintainer decision on identifiers/replay/legacy migration; M1-03 then makes each documented fixture executable. | M1-02 |
 | Q7 | What must a replay record for authoritative timeout/resignation randomness? | Record server PRNG algorithm/seed, canonical candidate ordering/hash, draw index, selected legal move, trigger sequence, and state hash. M3 must supply server authority; M1-02 defines the schema contract only. | M1-02 / M3 |
@@ -190,6 +192,14 @@ depends on them; do not reopen already accepted requirements.
   and replay/chat controls in [ui-ux-reference.md](ui-ux-reference.md). This
   is a product direction (D08), not a visual copy, rules claim, or implemented
   UI change.
+- M3 architecture planning update on 2026-09-06: replaced the superseded
+  VPS/PostgreSQL direction with accepted decision D09 and an explicit M3-01 through
+  M3-06 work breakdown. The intended initial stack is Workers Static Assets,
+  Workers, a per-game authoritative Durable Object with WebSockets, and D1;
+  optional Cloudflare services and database migration require evidence. This is a
+  documentation-only decision record: no runtime code, account, paid plan,
+  infrastructure, or deployment changed. Local links across all 12 Markdown files
+  containing links resolved, and `git diff --check` passed.
 - Historical production/research measurements remain in
   [engine/reconciliation.md](engine/reconciliation.md) and linked artifacts.
 

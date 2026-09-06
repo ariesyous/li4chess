@@ -19,8 +19,11 @@ four-player chess.
 - **Long-term principles:** competitive fairness and community participation in
   governance, alongside the existing AGPL-3.0-only licensing.
 - **Constraints:** no target date; lean operating costs; keep the system simple.
-  Plan for a VPS behind Cloudflare and PostgreSQL, potentially managed by Aiven
-  or another provider. No provider or paid service has been selected.
+  Start the online service on Cloudflare's application platform: Workers and
+  Static Assets, Durable Objects for active games, and D1 for canonical SQL
+  persistence. Add R2, Queues, Containers, or another data store only when a
+  demonstrated requirement justifies them. No paid plan has been selected or
+  infrastructure provisioned.
 
 Teams/2v2 and other variants are later candidates. Invite rooms are useful for
 development and testing; an invite-only release does not fulfill the public
@@ -140,23 +143,48 @@ direction, not Chess.com visual copying or a claim of implemented parity.
 
 **Capabilities**
 
-- A TypeScript service reusing the engine, with HTTP and WebSocket interfaces,
-  runtime-validated commands, seat authorization, and versioned messages.
+- An architecture spike and ADR that validate the Cloudflare design against game
+  ownership, WebSocket lifecycle, D1 consistency and recovery, local development,
+  deployment, observability, limits, costs, and failure modes before runtime code
+  commits the project to the design.
+- A TypeScript Worker reusing the engine, serving the React/Vite application with
+  Workers Static Assets and exposing HTTP interfaces. Use Wrangler, Vite, and
+  workerd for local Windows development, and Cloudflare's GitHub build integration
+  for deployment.
 - Rooms, invite links, ready/start flow, guest sessions, and complete game actions.
-  The server owns legal moves, clocks, timeouts, final results, and randomness
+  One authoritative `GameRoom` Durable Object per active game owns legal moves,
+  clocks, timeouts, final results, sequence numbers, WebSockets, and randomness
   required by the rules; clients send intentions rather than trusted game state.
-- Per-game command ordering, sequence numbers, duplicate-command handling,
-  reconnect/resynchronization, and a documented disconnect/abort policy.
-- PostgreSQL migrations and durable games/events sufficient for replay and
-  recovery. Persist rule-driven random actions so replay is deterministic.
+- A runtime-validated, versioned multiplayer protocol covering commands, events,
+  seat authorization, duplicate and stale commands, reconnect/resynchronization,
+  and a documented disconnect/abort policy.
+- D1 migrations and durable users, games, and events sufficient for replay and
+  recovery. D1 is the initial canonical SQL store; moving to PostgreSQL or another
+  database requires demonstrated limitations. Persist rule-driven random actions
+  so replay is deterministic.
 - Saved-game replay and rematches. Client-side CPU games remain available
   independently; any shared online CPU seats need a separate server-owned design.
+- R2 is reserved for blobs, Queues for asynchronous work, and Containers for
+  compute that cannot remain in the browser or Worker; none is an initial M3
+  dependency without evidence.
 
 **Exit criteria:** four independent browser sessions complete games with clocks;
 refresh, reconnect, duplicate commands, out-of-turn commands, and late moves
-cannot desynchronize results. Restart and database-failure tests demonstrate the
-specified recovery/abort behavior, without inventing moves or silently changing
-results. Server tests and multi-browser tests are added to CI.
+cannot desynchronize results. Durable Object restart/eviction and D1-failure tests
+demonstrate the specified recovery/abort behavior, without inventing moves or
+silently changing results. Server tests and four-browser Playwright scenarios are
+added to CI and cover refresh, disconnect, restart, and recovery.
+
+**Initial work breakdown**
+
+| ID | Work item | Outcome |
+| --- | --- | --- |
+| M3-01 | Cloudflare architecture spike and ADR | The intended topology, consistency model, recovery contract, limits, cost assumptions, local workflow, and fallback criteria are recorded and validated with focused prototypes. |
+| M3-02 | Workers deployment foundation | React/Vite is served with Workers Static Assets; the Worker has a minimal HTTP surface, repeatable Wrangler/Vite/workerd development, CI, and GitHub deployment configuration. |
+| M3-03 | D1 persistence model | Versioned migrations cover users, games, events, and replay data; write ordering, idempotency, retention, and recovery semantics are tested. |
+| M3-04 | Authoritative `GameRoom` Durable Object | One game owner validates moves and owns state, clocks, sequence numbers, randomness, and WebSockets, with persistence and recovery behavior defined. |
+| M3-05 | Multiplayer protocol | Runtime-validated commands/events cover authorization, versioning, duplicates, stale input, reconnect, resync, and terminal actions. |
+| M3-06 | Four-browser multiplayer validation | Playwright proves complete games and the required refresh, reconnect, disconnect, restart, and recovery cases in CI. |
 
 ### M4 — Public matchmaking and rated beta (first public release)
 
@@ -231,23 +259,39 @@ on broad later-stage work.
 
 ## Architecture direction and scope control
 
-Start with the existing monorepo, one deployable application service, and
-PostgreSQL. Keep rules, service, UI, and bot responsibilities modular inside that
-system. A VPS behind Cloudflare is the intended hosting shape; managed Postgres
-is optional. This is a planning direction, not an infrastructure purchase or
-deployment authorization.
+Start with the existing monorepo and a Cloudflare-native TypeScript application:
 
-Initially, one service process can own active games and matchmaking while the
-database stores durable state. Specify crash recovery and deployment behavior
-before depending on this arrangement. Add replicas only with a design for game
-ownership and routing. Choose a region, hosting size, database provider, and a
-concrete operating budget when deployment work is actionable. Verify then-current
-WebSocket/proxy limits and database connectivity before provisioning.
+| Responsibility | Initial direction |
+| --- | --- |
+| Frontend and static assets | React/Vite through Workers Static Assets |
+| HTTP API | Cloudflare Workers |
+| Active game ownership and realtime | One `GameRoom` Durable Object per game, with WebSockets |
+| Canonical SQL persistence | D1 |
+| Assets and blobs | R2 when required |
+| Asynchronous work | Queues when required |
+| Heavy engine compute | Browser initially; Containers only if justified |
+| Deployment | Cloudflare GitHub build integration |
+| Local development | Wrangler, Vite, and workerd on Windows |
+
+Keep rules, Worker, Durable Object, persistence, protocol, UI, and bot
+responsibilities modular. Treat D1 as the initial canonical SQL store; a move to
+PostgreSQL or another database requires measured limits or missing capabilities,
+an explicit migration decision, and a recovery plan. This is a planning direction,
+not authorization to create accounts, purchase a plan, provision resources, or
+deploy the application.
+
+Specify Durable Object lifecycle, command ordering, persistence boundaries,
+alarms/clocks, WebSocket behavior, crash recovery, and deployment rollback before
+depending on the topology. M3-01 must verify then-current platform limits, pricing,
+data-location options, development tooling, D1 transaction/consistency behavior,
+and observability. Choose a concrete operating budget and load target when
+deployment work becomes actionable.
 
 Do not introduce Kubernetes, a service mesh, distributed queues, Redis, a native
-app, or a language rewrite without a demonstrated requirement. Keep CPU practice
-and early analysis in the browser to limit server compute. Accessibility,
-fairness, observability, and documentation are ongoing work, not deferred until M7.
+app, PostgreSQL, Containers, R2, Queues, or a language rewrite without a
+demonstrated requirement. Keep CPU practice and early analysis in the browser to
+limit server compute. Accessibility, fairness, observability, and documentation
+are ongoing work, not deferred until M7.
 
 Stronger bots, Teams, correspondence play, advanced anti-cheat automation,
 donations, and public datasets are future workstreams. Define scope and privacy
