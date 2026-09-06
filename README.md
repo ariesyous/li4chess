@@ -1,29 +1,133 @@
 # li4chess
 
-An open-source 4-player chess site, in the spirit of [lichess](https://lichess.org) — because right now Chess.com is the only place to play 4-player chess online.
+An open-source four-player chess site, inspired by [lichess](https://lichess.org).
 
 ## Status
 
-Early development. Current milestone: a fully-correct, locally-playable 4-player free-for-all chess game (hotseat humans and/or CPU bots, single browser tab). See `docs/rules-spec.md` for the rules this variant implements, and the plan doc in this repo's history for the full roadmap.
+Early development, with a playable local free-for-all game in a single browser
+tab. Each of the four seats can be a hotseat human or a CPU, including fully
+automatic four-CPU games. Networked multiplayer is not implemented yet.
+
+The goal is a free, ad-free four-player equivalent of Lichess. The first public
+release will offer Chess.com-compatible FFA, public matchmaking, anonymous
+casual and CPU play, and account-based rated play. See [ROADMAP.md](ROADMAP.md)
+for milestones and [project state](docs/project-state.md) for current decisions
+and next tasks.
+
+Current features include:
+
+- A cross-shaped board with 160 playable squares and Red → Blue → Yellow → Green turn order.
+- Legal-move highlighting, last-move and check indicators, move history, and optional board rotation to the current player.
+- Five CPU difficulty levels using paranoid alpha-beta search, which treats opponents as a coalition against the searching player.
+- Castling, en passant, promotion, deferred checkmate/stalemate resolution, placements, and threefold-repetition draws.
+
+The [rules specification](docs/rules-spec.md) describes the current house rules,
+which still need migration to the Chess.com-compatible target. In the current
+implementation, checkmated players' pieces are removed; stalemated
+players' pieces remain frozen and capturable. The last active player wins, with
+capture points used only to break placement ties among eliminated players.
+
+CPU search currently runs on the browser's main thread, so higher difficulties
+can make the page unresponsive while thinking. The UI automatically promotes
+pawns to queens, including human pawns; the engine supports all four promotion
+choices. Known rules edge cases still need an audit before claiming full
+correctness.
 
 ## Monorepo layout
 
-- `packages/engine` — pure 4-player chess rules engine (board, movegen, check/checkmate/elimination rules). No UI/IO dependencies.
-- `packages/bot` — search-based CPU opponent, built on `engine`.
-- `packages/arena` — local seeded engine tournaments, replay validation, and benchmarks.
-- `packages/protocol` — shared DTO/event types for (de)serializing game state, used by the UI now and by a future networked server.
-- `packages/ui-kit` — presentational board/piece components, no game logic.
-- `apps/web` — the React app tying it all together.
+The TypeScript monorepo uses pnpm workspaces and Turborepo.
+
+| Package | Responsibility |
+| --- | --- |
+| [`apps/web`](apps/web) | React/Vite app, seat setup, local game state, and CPU turn scheduling. |
+| [`packages/engine`](packages/engine) | Pure rules engine: board geometry, move generation, legality, scoring, elimination, and repetition. No UI or I/O dependencies. |
+| [`packages/bot`](packages/bot) | Production CPU search and evaluation, frozen classic bot, and experimental search. |
+| [`packages/arena`](packages/arena) | Seeded tournaments, replay validation, reports, and benchmarks. |
+| [`packages/protocol`](packages/protocol) | JSON serialization helpers and shared types for future networking. |
+| [`packages/ui-kit`](packages/ui-kit) | Presentational board, piece glyphs, and player colors. |
+
+The main application flow lives in
+[`useLocalGame`](apps/web/src/game/useLocalGame.ts): human input or CPU search
+selects a legal move, the engine's `applyMove` produces the next state, and React
+renders the updated board. Game state is plain JSON-shaped data.
 
 ## Development
 
+Use Node.js 20 or newer and pnpm **10.33.0**, the version pinned in
+`package.json`. Run commands from the repository root:
+
 ```sh
-pnpm install
-pnpm test    # run all test suites
-pnpm dev     # run the web app
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-The [engine R&D spike](docs/engine/engine-v2-recommendation.md) includes a frozen
-classic bot, experimental bounded paranoid/Maxⁿ search, a tactical corpus, and
-[reproducible arena commands](docs/engine/arena-methodology.md). See the
-[experiment ledger](docs/engine/experiments.md) for measured results and limitations.
+Open the local Vite server at `/li4chess/` (normally
+`http://localhost:5173/li4chess/`). The default setup is a human playing Red
+against three level-3 CPUs. Configure each seat before starting, then click a
+piece and a highlighted destination to move.
+
+### Validation
+
+```sh
+pnpm lint                             # TypeScript checks across all packages
+pnpm test                             # Unit tests, including rules, bots, and arena
+pnpm build                            # Build all packages and the web app
+pnpm --filter @li4chess/web exec playwright install chromium
+pnpm --filter @li4chess/web test:e2e    # Human/CPU turn flow and four-CPU autoplay
+```
+
+CI runs lint, unit tests, the production build, and both browser tests on pull
+requests and pushes to `main`. Playwright starts its own local Vite server.
+The GitHub Pages workflow deploys `apps/web/dist` from `main`; Vite's base path
+is configured for `/li4chess/`.
+
+## Bot research and benchmarks
+
+The production bot includes outcome-aware scoring, endgame guidance, and
+selection among moves with comparable evaluated scores. The laboratory adds
+bounded iterative search with paranoid and Maxⁿ strategies, optional
+transposition tables and quiescence, and a tactical position corpus. Experimental
+search has not been promoted to the browser's production bot.
+
+Run a benchmark or a small production-versus-classic comparison from the root:
+
+```sh
+pnpm --filter @li4chess/arena bench ../../arena-results/current-benchmark
+pnpm --filter @li4chess/arena compare-production ../../arena-results/current-comparison 1 250
+```
+
+Choose a fresh output directory for each run. These paths are relative to
+`packages/arena`; the examples write into the root `arena-results` directory.
+The comparison uses one seed, four seat rotations, and a 250-ply cap per game,
+and can take several minutes. Capped games are unfinished, not draws.
+
+- [Arena methodology](docs/engine/arena-methodology.md): commands, replay validation, seat rotation, and interpretation of results.
+- [Production reconciliation](docs/engine/reconciliation.md): production changes and measurements after their integration with the laboratory.
+- [Experiment ledger](docs/engine/experiments.md): historical results and limitations.
+- [Engine recommendation](docs/engine/engine-v2-recommendation.md): research conclusions and next engineering steps.
+
+Keep the frozen sources in `packages/bot/src/classic` and historical evidence
+intact. Both production and classic bots use the current rules engine; new
+measurements must identify their code version and environment. Historical
+timings do not describe current performance, and the existing small comparisons
+do not establish general playing strength.
+
+## Roadmap and project continuity
+
+[ROADMAP.md](ROADMAP.md) defines capability milestones and completion criteria:
+compatible FFA rules, responsive CPU play, reliable online games, public rated
+matchmaking, learning tools, community events, and a sustainable open platform.
+
+[docs/project-state.md](docs/project-state.md) retains accepted decisions,
+current focus, the next actionable tasks, open questions, and dated validation
+between development sessions. The immediate focus is the FFA compatibility
+audit; Worker integration is the next local-play milestone. Research continues
+alongside the product roadmap with versioned, reproducible evidence.
+
+See [AGENTS.md](AGENTS.md) for repository conventions, including validation,
+preserving research evidence, and commit attribution.
+
+## License
+
+li4chess is licensed under the GNU Affero General Public License, version 3
+(`AGPL-3.0-only`). See [LICENSE](LICENSE) for the full terms.

@@ -1,5 +1,12 @@
 # li4chess Rules Spec — 4-Player Free-For-All
 
+> **Current implementation baseline, not the public-release target.** On
+> 2026-09-06, the maintainer chose compatibility with Chess.com's standard FFA
+> rules. The house rules below remain the existing engine's specification until
+> the versioned M1 migration. See [ROADMAP.md](../ROADMAP.md) and
+> [project state](project-state.md). Do not claim compatibility from this document;
+> preserve its historical version when replacing it.
+
 This is the authoritative ruleset the engine implements and tests are checked against. Where no universal standard exists across other 4-player chess implementations, a deliberate house ruling is made and flagged as such.
 
 ## Board
