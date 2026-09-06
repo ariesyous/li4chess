@@ -1,8 +1,16 @@
-import { GameState, PieceType, applyMoveRequest, createInitialState, legalMoves,timeoutPlayer,advanceWalkingKing } from "@li4chess/engine";
+import { GameState, PieceType, applyMoveRequest, createInitialState, legalMoves,timeoutPlayer,advanceWalkingKing,claimWin } from "@li4chess/engine";
 import { describe, expect, it } from "vitest";
 import { deserializeGameState, deserializeMove, serializeGameState, serializeMove } from "../src/index.js";
 
 describe("serialization round-trip", () => {
+  it("FFA-END-08: claim result retains surrendered winner, shared ranks and precise awards",()=>{
+    const base=createInitialState();
+    const initial={ ...base,players:{ ...base.players,0:{ ...base.players[0],score:21 },
+      2:{ ...base.players[2],status:"checkmated" as const },3:{ ...base.players[3],status:"checkmated" as const } } };
+    const result=claimWin(initial,0);
+    expect(deserializeGameState(serializeGameState(result))).toEqual(result);
+    expect(result.result?.placements.map(p=>p.meanRank)).toEqual([1,2,3.5,3.5]);
+  });
   it("retains timeout clock facts, opening aborts and walking random continuation",()=>{
     const base=createInitialState();
     const abort=timeoutPlayer(base,0,{ remainingMs:0 });

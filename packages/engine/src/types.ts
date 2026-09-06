@@ -41,7 +41,7 @@ export type PlayerStatus = "active" | "checkmated" | "stalemated" | "resigned" |
 
 export interface PlayerState {
   readonly noMoveCause?: { readonly actor:PlayerColor;readonly sequence:number };
-  readonly kingStatus?: "walking" | "checkmated" | "stalemated";
+  readonly kingStatus?: "walking" | "checkmated" | "stalemated" | "surrendered";
   readonly forfeit?: { readonly reason:"resign" | "timeout"; readonly sequence:number; readonly clock?:{ readonly remainingMs:number } };
   readonly color: PlayerColor;
   readonly status: PlayerStatus;
@@ -75,13 +75,15 @@ export interface Placement {
   readonly color: PlayerColor;
   readonly place: number;
   readonly score: number;
+  /** Mean occupied rank for shared placements; not a rating calculation. */
+  readonly meanRank: number;
 }
 
 export interface GameResult {
   readonly placements: readonly Placement[];
   readonly winner: PlayerColor | null;
-  /** "elimination": exactly one active player remained. "repetition": drawn — the same position recurred 3 times, so every still-active player ties for first. */
-  readonly reason: "elimination" | "repetition" | "abort";
+  readonly reason: "elimination" | "claim-win" | "repetition" | "abort";
+  readonly claim?: { readonly actor:PlayerColor;readonly trailer:PlayerColor;readonly lead:number;readonly causeSequence:number };
   readonly abort?: { readonly classification:"early-resign" | "early-timeout"; readonly actor:PlayerColor;
     readonly causeSequence:number; readonly completedMoves:Readonly<Record<PlayerColor,number>>; readonly ratingLiable:PlayerColor;
     readonly clock?:{ readonly remainingMs:number } };
@@ -112,7 +114,8 @@ export interface GameState {
 export interface ScoreAward {
   readonly sequence: number;
   readonly causeSequence: number;
-  readonly rule: "capture" | "multi-check" | "walking-stalemate" | "mate" | "self-stalemate" | "opponent-stalemate";
+  readonly rule: "capture" | "multi-check" | "walking-stalemate" | "mate" | "self-stalemate" | "opponent-stalemate" | "survivor" | "claim-win";
+  readonly subject?: PlayerColor;
   readonly recipient: PlayerColor;
   readonly delta: number;
   readonly total: number;

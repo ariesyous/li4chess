@@ -1,4 +1,4 @@
-import { ALL_COLORS, PlayerColor, isPlayerInCheck, isLivePiece,hasLiveKing } from "@li4chess/engine";
+import { ALL_COLORS, PlayerColor, isPlayerInCheck, isLivePiece,hasLiveKing,canClaimWin } from "@li4chess/engine";
 import { Board, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
 import { useState } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
@@ -10,7 +10,7 @@ function squareLabel(square: number): string {
 }
 
 export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart: () => void }) {
-  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout } = useLocalGame(seats);
+  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim } = useLocalGame(seats);
   const [rotateToMover, setRotateToMover] = useState(false);
 
   const lastMove = state.moveHistory[state.moveHistory.length - 1] ?? null;
@@ -82,6 +82,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
                 : ""}
             </h3>
             {state.result.abort && <p>{PLAYER_COLOR_NAME[state.result.abort.actor]} {state.result.abort.classification === "early-resign" ? "resigned" : "timed out"} before every seat completed three moves. No placements are awarded.</p>}
+            {state.result.claim && <p>{PLAYER_COLOR_NAME[state.result.claim.actor]} claimed the win. {PLAYER_COLOR_NAME[state.result.claim.trailer]} received 20 points; play ends immediately.</p>}
             <ol style={{ paddingLeft: 20 }}>
               {state.result.placements.map((p) => (
                 <li
@@ -93,7 +94,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
                   }}
                 >
                   {p.place === 1 ? "🏆 " : ""}
-                  {PLAYER_COLOR_NAME[p.color]} — {p.score} pts
+                  {PLAYER_COLOR_NAME[p.color]} — {p.score} pts · place {p.place}{p.meanRank!==p.place ? " (shared)" : ""}
                 </li>
               ))}
             </ol>
@@ -117,6 +118,10 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
           <button type="button" onClick={timeout}>Simulate timeout</button>
           <p style={{ fontSize:14 }}>A forfeit before every seat completes three moves aborts the game. Later, the army becomes dead and its King moves automatically. Timeout is a local action; this game has no running clock.</p>
         </div>}
+        {ALL_COLORS.filter(color=>!seats[color].isCPU && canClaimWin(state,color)).map(color=><div key={color}>
+          <button type="button" onClick={()=>claim(color)}>Claim Win for {PLAYER_COLOR_NAME[color]}</button>
+          <p>End now: the other active player receives 20 points. Final points determine placements.</p>
+        </div>)}
 
         <h3 style={{ marginTop: 24 }}>Move history</h3>
         <p style={{ fontSize: 14 }}>Pawns automatically become Queens on their eighth rank. A promoted Queen is worth one capture point.</p>

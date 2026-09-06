@@ -11,6 +11,8 @@ import {
   advanceWalkingKing,
   resignPlayer,
   timeoutPlayer,
+  claimSecuresSoleWin,
+  claimWin,
 } from "@li4chess/engine";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -58,6 +60,7 @@ export function useLocalGame(seats: SeatSetups) {
     }
     if (!currentSeat.isCPU) return;
     const timer = setTimeout(() => {
+      if (claimSecuresSoleWin(state,state.turn)) { setState(prev=>claimWin(prev,prev.turn));setSelectedSquare(null);return; }
       const move = chooseCpuMove(state, state.turn, currentSeat.difficulty);
       play(move);
     }, CPU_MOVE_DELAY_MS);
@@ -105,6 +108,7 @@ export function useLocalGame(seats: SeatSetups) {
 
   const resign = useCallback(() => { setState(prev=>resignPlayer(prev,prev.turn));setSelectedSquare(null); },[]);
   const timeout = useCallback(() => { setState(prev=>timeoutPlayer(prev,prev.turn,{ remainingMs:0 }));setSelectedSquare(null); },[]);
+  const claim = useCallback((actor:PlayerColor) => { setState(prev=>claimWin(prev,actor));setSelectedSquare(null); },[]);
 
-  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout };
+  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout,claim };
 }

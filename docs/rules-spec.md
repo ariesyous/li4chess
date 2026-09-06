@@ -33,8 +33,8 @@ file (Blue), decreasing rank (Yellow), or decreasing file (Green).
 
 Red always starts. Rotation is Red → Blue → Yellow → Green → Red, skipping
 passive seats. Resigned/timed-out seats with live walking Kings still receive
-scheduled automatic King moves. The current game ends when
-only one player remains active; the target's point-based endings remain later work.
+scheduled automatic King moves. Third elimination ends play; final points
+determine placements regardless of which player remains active.
 
 Moves obey ordinary piece geometry and occupancy. A pawn's two-square push
 requires `hasMoved: false`, its designated starting line, and two empty squares.
@@ -158,7 +158,7 @@ hashes. Its active capture value is one; a native Queen remains nine and a dead
 Queen zero. Movement and checking classification remain Queen. Own-army
 Queen-tier multi-check awards now have executable ledgers, including an actual
 promotion that checks two kings. Bot material heuristics
-still value Queen movement strength; the points objective follows in SCORE/END.
+still value Queen movement strength; production utility also values earned points.
 
 ## Scores and remaining placement migration
 
@@ -172,8 +172,7 @@ Kings already in check before the action and passive kings do not count;
 continuing Queen checks do not downgrade new non-Queen checks. Captures and
 multi-checks stack with deferred mate awards. Other owners' pieces do not count
 or select the Queen tier, including shared checks on the same king. Deferred
-mate/stalemate attribution is specified above. Survivor and named-draw awards
-remain END/DRAW work.
+mate/stalemate attribution is specified above. Named-draw awards remain DRAW work.
 
 Every nonzero award appends an immutable `awardLedger` entry:
 `sequence`, `causeSequence`, `rule`, `recipient`, `delta`, and resulting `total`.
@@ -182,15 +181,26 @@ capture precedes multi-check. This order is a li4chess recording convention.
 JSON and bot search identity preserve the ledger/sequence. The UI displays it.
 This remains partial state, not the accepted complete replay-v2 implementation.
 
-The last active player wins. Other players rank by later elimination turn,
-then score, then Red/Blue/Yellow/Green seat order. Standard FFA's point-based
-placements/shared ties and Claim Win remain unimplemented.
+Final points rank all four players, including eliminated ones. Equal scores
+share the first occupied place (1/1/3/4 for a first-place tie). `meanRank` records
+the average occupied rank (1.5 for that tie); it does not calculate ratings.
+Seat order only displays equal entries. `winner` is the unique highest scorer,
+or null for shared first. The survivor earns a separate +20 entry for each
+still-live walking King, with the King owner recorded as award subject.
+
+With exactly two active players and a lead of at least 21 over the other active
+player, `claimWin` surrenders the leader's King, grants the trailer +20 and
+immediately freezes the points result. It does not award survivor extras or
+schedule another walking move. Claims may occur out of turn; the opening
+forfeit guard does not apply to this distinct action. All terminal actions reject
+repetition. The UI exposes human claims; automated play claims only when the
+projected result secures a sole first place. A higher-scoring eliminated player
+can otherwise still win the game. [END acceptance](m1-end-acceptance.md).
 
 ## Repetition — current behavior
 
-The third occurrence ends the game immediately: all active players tie for
-first, with inactive players ordered below them by the existing placement rule.
-There is no point award. `GameResult.reason` distinguishes `elimination` and
+The third occurrence ends the game immediately and ranks final points.
+There is no point award yet. `GameResult.reason` distinguishes `elimination` and
 `repetition`. Insufficient-material and 50-move endings are not implemented.
 
 The repetition key includes board type/owner/promotion provenance, pawn first-move flags, current

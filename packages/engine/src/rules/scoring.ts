@@ -17,13 +17,13 @@ export const PIECE_VALUES: Readonly<Record<PieceType, number>> = {
 };
 
 /** Append one immutable nonzero award; events retain their initiating cause. */
-export function awardPoints(state: GameState, rule: ScoreAward["rule"], recipient: PlayerColor, delta: number, causeSequence: number): GameState {
+export function awardPoints(state: GameState, rule: ScoreAward["rule"], recipient: PlayerColor, delta: number, causeSequence: number, subject?: PlayerColor): GameState {
   if (delta === 0) return state;
   const total = (Math.round(state.players[recipient].score*3) + Math.round(delta*3))/3;
   const sequence = state.eventSequence + 1;
   return { ...state, eventSequence:sequence,
     players:{ ...state.players, [recipient]:{ ...state.players[recipient], score:total } },
-    awardLedger:[...state.awardLedger, { sequence,causeSequence,rule,recipient,delta,total }] };
+    awardLedger:[...state.awardLedger, { sequence,causeSequence,rule,recipient,delta,total,...(subject === undefined ? {} : { subject }) }] };
 }
 
 /** New checks by the mover's army only; continuing checks never count.

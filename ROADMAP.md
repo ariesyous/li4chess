@@ -79,7 +79,8 @@ provenance, and promotion/EP interaction tests. See the
 [coverage map](docs/m1-03-fixtures.md). SCORE now implements capture/new-own-army
 multi-check ledgers and promoted-Queen awards. The clarified mate/stalemate
 attribution, walking kings and opening abort actions now have executable cases.
-Full standard-v1 remains incomplete. Continue END/DRAW/REPLAY, complete-game
+Points-based endings, shared ranks, immediate claims and survivor awards are
+implemented. Full standard-v1 remains incomplete. Continue DRAW/REPLAY, complete-game
 evidence and final consumer alignment.
 
 **Capabilities**

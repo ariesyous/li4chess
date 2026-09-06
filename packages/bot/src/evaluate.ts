@@ -7,7 +7,6 @@ import {
   PieceType,
   PlayerColor,
   attackMap,
-  computeGameResult,
   boardToLocal,
   fileOf,
   isOnBoard,
@@ -34,7 +33,7 @@ export function evaluateMaterial(state: GameState, botColor: PlayerColor): numbe
 
 /**
  * Magnitude of a decisive result. Far above any reachable material score, so
- * winning or being eliminated always dominates every positional term — without
+ * terminal result ordering dominates every positional term — without
  * this the bot happily walks into checkmate to win a queen. Historically,
  * mate removed its army and `survivalBias` charged only 3 pawns for losing.
  * Retained passive material likewise has no live evaluation value.
@@ -46,21 +45,7 @@ export function evaluateMaterial(state: GameState, botColor: PlayerColor): numbe
 export const WIN_SCORE = 1_000_000;
 export const MATE_THRESHOLD = WIN_SCORE / 2;
 
-/**
- * How much a better finishing place is worth once the game is lost anyway,
- * borrowed from the placement ladder in utility.ts — surviving into third is
- * genuinely better than going out first, and in a free-for-all that is most of
- * what is left to play for once winning is off the table.
- *
- * Deliberately three orders of magnitude below WIN_SCORE and three above the
- * ply discount, which fixes the priority order: never be eliminated at all,
- * then finish as high as possible, then get there quickly. The gap matters —
- * scoring placement on the same scale as live positions, as the lab's bounded
- * ladder does, makes being checkmated last (second place, +1) score higher than
- * playing on from a losing position (about -0.4), and a bot reading that will
- * walk into mate on purpose. Every elimination has to stay below every live
- * position, however bad that position looks.
- */
+/** Terminal outcomes rank by points and shared mean rank; chronology is irrelevant. */
 const PLACEMENT_CREDIT = 1_000;
 
 export interface EvalWeights {
@@ -82,12 +67,7 @@ export interface EvalWeights {
    * nothing to distinguish one queen move from another and shuffles forever.
    */
   readonly kingHunt: number;
-  /**
-   * Ceiling on the contempt charged against a drawn (threefold-repetition)
-   * finish while the bot is ahead on material — the actual charge scales with
-   * the size of its lead. Keeps a winning bot from settling for the shared
-   * first place a repetition hands out.
-   */
+  /** Historical configuration field; points-based terminal ranks do not use material contempt. */
   readonly drawContempt: number;
 }
 
@@ -218,41 +198,6 @@ function kingHuntScore(
 }
 
 /**
- * Score for a game the bot is no longer playing in: decisively bad, ordered by
- * how high it finished. `computeGameResult` is consulted directly rather than
- * read off `state.result`, since a player can be checkmated several turns
- * before the game itself ends.
- */
-function eliminatedScore(state: GameState, botColor: PlayerColor): number {
-  const place = computeGameResult(state.players).placements.find((p) => p.color === botColor)!.place;
-  return -WIN_SCORE + (ALL_COLORS.length - place) * PLACEMENT_CREDIT;
-}
-
-/**
- * Value of a repetition draw, which in this variant hands shared first place to
- * everyone still active: the position's own static value, docked by contempt in
- * proportion to how far ahead the bot is of its strongest surviving opponent.
- *
- * Scaling matters — a flat penalty would make a bot that is one pawn up throw a
- * rook at avoiding a draw. `drawContempt` is the ceiling, reached only when the
- * bot is so far ahead that settling for a share of the win is giving up a
- * genuinely won game.
- */
-function drawScore(
-  botColor: PlayerColor,
-  opponents: readonly PlayerColor[],
-  weights: EvalWeights,
-  summary: BoardSummary,
-  positional: number
-): number {
-  if (opponents.length === 0) return positional;
-  const lead = Math.min(
-    ...opponents.map((c) => summary.nonKingMaterial[botColor] - summary.nonKingMaterial[c])
-  );
-  return positional - Math.max(0, Math.min(lead, weights.drawContempt));
-}
-
-/**
  * Full v2 positional eval: a weighted sum of several factors folded to a single
  * scalar from `botColor`'s perspective (required by the paranoid search backup).
  *
@@ -269,13 +214,12 @@ export function evaluateFull(
   weights: EvalWeights = FULL_EVAL_WEIGHTS
 ): number {
   if (state.result?.reason === "abort") return 0;
-  // Decisive outcomes come first and are not weighted: once the bot is out of
-  // the game no amount of material it happened to be holding is worth anything,
-  // and once it has won nothing else needs measuring. The old eval charged a
-  // flat 3 pawns (`survivalBias`) for being checkmated, which a bot would
-  // gladly pay to win a queen.
-  if (state.players[botColor].status !== "active") return eliminatedScore(state, botColor);
-  if (state.result?.winner === botColor) return WIN_SCORE;
+  // Final points outrank player status: an eliminated player can still win.
+  if (state.result) {
+    if (state.result.winner === botColor) return WIN_SCORE;
+    const rank=state.result.placements.find(p=>p.color===botColor)!.meanRank;
+    return -WIN_SCORE+(ALL_COLORS.length-rank)*PLACEMENT_CREDIT;
+  }
 
   const opponents = activeOpponentsOf(state, botColor);
 
@@ -344,7 +288,9 @@ export function evaluateFull(
     eliminatedOpponents * weights.eliminationBonus +
     kingHuntScore(state.board, botColor, opponents, summary, botAttacks) * weights.kingHunt;
 
-  return state.result === null
-    ? positional
-    : drawScore(botColor, opponents, weights, summary, positional);
+  const rivals=ALL_COLORS.filter(color=>color!==botColor);
+  const pointLead=state.players[botColor].score-Math.max(...rivals.map(color=>state.players[color].score));
+  // Scores persist after elimination. They are the result objective; material
+  // and king safety estimate the ability to earn further points.
+  return pointLead*10+positional;
 }

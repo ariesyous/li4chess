@@ -1,6 +1,7 @@
 import { ALL_COLORS,GameState,PlayerColor,nextColor } from "../types.js";
 import { isPlayerInCheck } from "./check.js";
-import { countActive,computeGameResult } from "./elimination.js";
+import { countActive } from "./elimination.js";
+import { finishElimination } from "./finish.js";
 import { remainingEnPassantRights } from "./enPassant.js";
 import { hasLegalMove } from "./legality.js";
 import { hasLiveKing } from "./live.js";
@@ -42,6 +43,6 @@ export function resolveScheduledTurns(state: GameState,first: PlayerColor,causeS
     }
     candidate=nextColor(candidate);
   }
-  if (countActive(working.players)<=1) working={ ...working,result:computeGameResult(working.players) };
+  working=finishElimination(working,causeSequence);
   return { state:working,eliminated };
 }

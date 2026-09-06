@@ -1,9 +1,29 @@
 import { describe, expect, it } from "vitest";
 import { aggregate, replay, rotateSeats, runGame, seededRandom, Seats } from "../src/index.js";
 import { randomEngine } from "../src/engines.js";
-import { createInitialState, computeDrawResult,resignPlayer,advanceWalkingKing } from "@li4chess/engine";
+import { createInitialState, computeDrawResult,resignPlayer,advanceWalkingKing,computeGameResult } from "@li4chess/engine";
 
 describe("arena", () => {
+  it("FFA-END-08: auto-claims preserve replay and reports use shared mean ranks",async()=>{
+    const base=createInitialState();
+    const initial={ ...base,players:{ ...base.players,0:{ ...base.players[0],score:21 },
+      2:{ ...base.players[2],status:"checkmated" as const },3:{ ...base.players[3],status:"checkmated" as const } } };
+    const seats=[0,1,2,3].map(c=>({ ...randomEngine,id:`seat-${c}` })) as unknown as Seats;
+    const game=await runGame(seats,{ seed:1,maxPlies:1,initial });
+    expect(game.termination).toBe("claim-win");
+    expect(game.moves).toHaveLength(0);
+    expect(replay(game).result?.winner).toBe(0);
+    const report=aggregate([game]);
+    expect(report.engines.map(e=>e.averagePlacement)).toEqual([1,2,3.5,3.5]);
+    const players={ ...initial.players,0:{ ...initial.players[0],status:"resigned" as const,score:50 },1:{ ...initial.players[1],score:0 } };
+    const terminal=await runGame(seats,{ seed:1,maxPlies:0,initial:{ ...initial,players,result:computeGameResult(players) } });
+    expect(aggregate([terminal]).engines[0].soleWin).toBe(1);
+    const behindDead={ ...initial,players:{ ...initial.players,2:{ ...initial.players[2],score:50 } } };
+    const continued=await runGame(seats,{ seed:1,maxPlies:1,initial:behindDead });
+    expect(continued.claim).toBeUndefined();
+    expect(continued.moves).toHaveLength(1);
+    expect(continued.termination).toBe("max-ply");
+  });
   it("records an abort separately without inventing placements or completed-seat statistics",async()=>{
     const initial=resignPlayer(createInitialState(),0);
     const game=await runGame([randomEngine,randomEngine,randomEngine,randomEngine],{ seed:1,maxPlies:1,initial });

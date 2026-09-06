@@ -28,9 +28,11 @@ acceptance fixtures for all four orientations. Castling enforces own home
 pieces, permanent rights loss, king-path safety, and passive dead-piece blocking.
 Checkmated and stalemated armies remain as grey passive pieces: they occupy and
 block squares, cannot move or attack, lose special rights, and are capturable
-for zero points (including eligible dead-pawn en passant). The last active
-player wins, with capture points used only to break placement ties among
-eliminated players.
+for zero points (including eligible dead-pawn en passant). Final points determine
+all placements, including eliminated players; equal scores share a place. The
+third elimination ends play and the survivor gets 20 per live walking King.
+With two active players, a leader ahead by at least 21 may Claim Win immediately,
+awarding the trailer 20 points without further walking turns.
 Pawns automatically promote on their eighth rank to Queens worth one capture
 point; provenance survives moves, captures, serialization, and search hashes.
 Captures use standard piece values, and own-army newly delivered multi-checks
@@ -39,7 +41,7 @@ awards in the local UI. Active checking owners split mate points; stalemate
 credit tracks the last cause of losing all legal moves. Local resignation and
 simulated timeout abort during the opening, then leave dead armies with live
 Kings that move automatically on scheduled turns using recorded seeded choices.
-Full standard FFA, points-based endings, named draws, and versioned
+Full standard FFA, named draw awards/triggers, and versioned
 replays remain M1-03 work. `li4chess-ffa-standard-v1` is still reserved.
 
 CPU search currently runs on the browser's main thread, so higher difficulties

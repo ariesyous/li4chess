@@ -46,7 +46,8 @@ dependencies. Preserve immutable state transitions and JSON-shaped game state.
 - A legal move must leave the mover's own king safe. Resolve another player's checkmate or stalemate when rotation reaches that player, not immediately when they are checked.
 - Checkmate and stalemate retain passive dead armies: zero-point capturable blockers that cannot move or attack. Their owners lose special rights and skip turns.
 - Pawns automatically promote on their eighth rank to Queens with pawn provenance and one-point capture value; no underpromotion or spare king.
-- The last active player wins. Capture points break elimination-placement ties; they are not the primary win condition. Threefold repetition ties active players for first.
+- Final points determine every placement, including eliminated players; equal scores share place and mean occupied rank. Third elimination ends play, with +20 per live walking King to the survivor. Claim Win is immediate; named draw awards remain migration work.
+- Resignation/timeout during the per-seat opening guard aborts; afterwards only the forfeiter's King stays live and receives recorded seeded legal moves on its regular turn. Automatic claims must secure first place even against eliminated high scorers.
 - `applyMove` assumes a legal move. Validate external move requests against the engine's legal moves before applying them.
 - For intentional rules changes, update the specification and add focused regression coverage. Cover all four orientations when changing pawn movement, castling, or board transforms.
 

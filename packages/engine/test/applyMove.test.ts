@@ -131,10 +131,10 @@ describe("applyMove: scoring and game end", () => {
 
     expect(after.result).not.toBeNull();
     expect(after.result!.winner).toBe(PlayerColor.Red);
-    expect(after.result!.placements[0]).toEqual({ color: PlayerColor.Red, place: 1, score: 5 });
-    // Green eliminated last (turn 7) among the non-winners -> 2nd place.
-    expect(after.result!.placements[1].color).toBe(PlayerColor.Green);
+    expect(after.result!.placements[0]).toEqual({ color: PlayerColor.Red, place: 1, meanRank:1, score: 5 });
+    // Final points outrank the elimination chronology.
+    expect(after.result!.placements[1].color).toBe(PlayerColor.Blue);
     expect(after.result!.placements[2].color).toBe(PlayerColor.Yellow);
-    expect(after.result!.placements[3].color).toBe(PlayerColor.Blue);
+    expect(after.result!.placements[3].color).toBe(PlayerColor.Green);
   });
 });

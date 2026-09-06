@@ -227,5 +227,12 @@ resign/timeout opening abort and post-opening automatic King action; bot tests
 inspect descendants against recorded engine actions. WALK-08 event tampering
 remains a REPLAY invariant, not claimed by JSON round-trip alone.
 
-END, DRAW and state-v2/replay-v2 remain, with consumer
+END-01..08 now have [acceptance inputs](m1-end-acceptance.md) and
+[17 engine tests](../packages/engine/test/ffa-end.test.ts): points over chronology,
+shared places/mean ranks, all rotated claims, third forfeit, 0..3 walking-King
+awards, and mate/survivor/result ordering. Protocol, bot, arena and browser
+consumers have result/claim fixtures. Tests whose expectations encoded the old
+house objective were migrated to explicit points; historical sources stay frozen.
+
+DRAW and state-v2/replay-v2 remain, with consumer
 alignment and complete-game evidence. Standard-v1 stays reserved; no M2/M3 work.

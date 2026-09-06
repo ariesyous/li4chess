@@ -51,13 +51,18 @@ describe("fuzz: random self-play games", () => {
       // either way, no exceptions and no stuck-forever loop.
       if (state.result !== null) {
         expect(state.result.placements).toHaveLength(4);
-        expect(state.result.placements.map((p) => p.place).sort()).toEqual([1, 2, 3, 4]);
+        for(const placement of state.result.placements) {
+          const higher=state.result.placements.filter(p=>p.score>placement.score).length;
+          const tied=state.result.placements.filter(p=>p.score===placement.score).length;
+          expect(placement.place).toBe(higher+1);
+          expect(placement.meanRank).toBe(higher+(tied+1)/2);
+        }
       }
       expect(plies).toBeGreaterThan(0);
     }
   });
 
-  it("whenever a random game does reach a result within the ply cap, placements are a permutation of the 4 colors with a single winner", () => {
+  it("completed games include every color and only a unique highest scorer is winner", () => {
     // Random play rarely delivers an actual checkmate chain within a short ply
     // cap (that's expected — see the scripted checkmate/game-end tests for
     // targeted coverage of the end-of-game logic itself); this just checks the
@@ -67,8 +72,8 @@ describe("fuzz: random self-play games", () => {
       if (state.result === null) continue;
       const colors = state.result.placements.map((p) => p.color).sort();
       expect(colors).toEqual([0, 1, 2, 3]);
-      expect(state.result.winner).not.toBeNull();
-      expect(state.result.placements.find((p) => p.color === state.result!.winner)!.place).toBe(1);
+      const first=state.result.placements.filter(p=>p.place===1);
+      expect(state.result.winner).toBe(first.length===1 ? first[0].color : null);
     }
   });
 });

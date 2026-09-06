@@ -27,6 +27,7 @@ import { updateNoMoveCauses } from "./causation.js";
  */
 export function applyMove(state: GameState, move: Move): GameState {
   assertLocalMigrationState(state);
+  if (state.result) throw new Error("Cannot move in a finished game");
   const board = applyMoveToBoard(state.board, move);
 
   const players: Record<PlayerColor, PlayerState> = { ...state.players };

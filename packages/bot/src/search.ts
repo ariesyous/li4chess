@@ -1,4 +1,4 @@
-import { GameState, Move, PIECE_VALUES, PlayerColor, advanceWalkingKing, applyMove, gamePhase, legalMoves } from "@li4chess/engine";
+import { GameState, Move, PIECE_VALUES, PlayerColor, advanceWalkingKing, applyMove, gamePhase, legalMoves,claimSecuresSoleWin,claimWin } from "@li4chess/engine";
 import { MATE_THRESHOLD, evaluateMaterial } from "./evaluate.js";
 
 export type EvaluateFn = (state: GameState, botColor: PlayerColor) => number;
@@ -101,6 +101,7 @@ function alphaBeta(
   if (state.players[state.turn].kingStatus === "walking") {
     return alphaBeta(advanceWalkingKing(state), depth - 1, alpha, beta, botColor, evaluate, ply + 1, killers);
   }
+  if (claimSecuresSoleWin(state,state.turn)) return adjustForDistance(evaluate(claimWin(state,state.turn),botColor),ply);
   const moves = orderMoves(legalMoves(state, state.turn), killers, ply);
   const maximizing = state.turn === botColor;
   let value = maximizing ? -Infinity : Infinity;

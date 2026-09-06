@@ -1,4 +1,4 @@
-import { ALL_COLORS, GameState, Move, PlayerColor, applyMove, advanceWalkingKing,selectWalkingMove, assertLocalMigrationState, createInitialState, legalMoves, positionKey } from "@li4chess/engine";
+import { ALL_COLORS, GameState, Move, PlayerColor, applyMove, advanceWalkingKing,selectWalkingMove,claimSecuresSoleWin,claimWin, assertLocalMigrationState, createInitialState, legalMoves, positionKey } from "@li4chess/engine";
 
 export interface EngineReply { move: Move; stats?: Record<string, unknown> }
 export interface ArenaEngine {
@@ -24,10 +24,11 @@ export interface MoveRecord {
   keyAfter: string; stats?: Record<string, unknown>;
 }
 export interface GameRecord {
+  claim?: { actor:PlayerColor;afterPly:number };
   version: 1; seed: number; engines: { id: string; config?: unknown }[];
   initial: GameState; moves: MoveRecord[]; result: GameState["result"];
   scores: number[]; statuses: string[]; eliminations: { color: PlayerColor; turn: number }[];
-  termination: "elimination" | "repetition" | "abort" | "max-ply" | "error";
+  termination: "elimination" | "claim-win" | "repetition" | "abort" | "max-ply" | "error";
   error?: string; errorSeat?: PlayerColor; plies: number; elapsedMs: number;
 }
 export async function runGame(seats: Seats, options: { seed: number; maxPlies: number; initial?: GameState }): Promise<GameRecord> {
@@ -40,9 +41,11 @@ export async function runGame(seats: Seats, options: { seed: number; maxPlies: n
   const moves: MoveRecord[] = [];
   let error: string | undefined;
   let errorSeat: PlayerColor | undefined;
+  let claim:GameRecord["claim"];
   while (!state.result && moves.length < options.maxPlies) {
     const color = state.turn;
     try {
+      if (claimSecuresSoleWin(state,color)) { claim={ actor:color,afterPly:moves.length };state=claimWin(state,color);break; }
       const legal = legalMoves(state);
       const start = performance.now();
       // A plugin cannot mutate the oracle state used for legality/replay.
@@ -66,7 +69,7 @@ export async function runGame(seats: Seats, options: { seed: number; maxPlies: n
     eliminations: ALL_COLORS.filter(c => state.players[c].status !== "active")
       .map(color => ({ color, turn: state.players[color].eliminatedOnTurn ?? -1 }))
       .sort((a, b) => a.turn - b.turn || a.color - b.color),
-    termination: error ? "error" : state.result?.reason ?? "max-ply", error, errorSeat,
+    termination: error ? "error" : state.result?.reason ?? "max-ply", error, errorSeat,claim,
     plies: moves.length, elapsedMs: performance.now() - started,
   };
 }
@@ -82,6 +85,10 @@ export function replay(game: GameRecord): GameState {
       state=advanceWalkingKing(state);
     } else state = applyMove(state, move);
     if (positionKey(state) !== record.keyAfter) throw new Error("Replay position mismatch");
+  }
+  if (game.claim) {
+    if (game.claim.afterPly!==game.moves.length) throw new Error("Replay claim boundary mismatch");
+    state=claimWin(state,game.claim.actor);
   }
   if (JSON.stringify(state.result) !== JSON.stringify(game.result)) throw new Error("Replay result mismatch");
   if (JSON.stringify(ALL_COLORS.map(c => state.players[c].score)) !== JSON.stringify(game.scores)) throw new Error("Replay score mismatch");
@@ -128,9 +135,9 @@ export function aggregate(games: GameRecord[]) {
     const seeds=[...new Set(games.map(g=>g.seed))];
     const perSeat = ALL_COLORS.map(c => ({ seat: c, count: entries.filter(e => e.c === c).length,
       first: mean(entries.filter(e => e.c === c).map(e => +(e.p.place === 1))),
-      placement: mean(entries.filter(e => e.c === c).map(e => e.p.place)) }));
+      placement: mean(entries.filter(e => e.c === c).map(e => e.p.meanRank)) }));
     return { id, completedSeatGames: entries.length, firstPlace: mean(entries.map(e => +(e.p.place === 1))),
-      soleWin: mean(entries.map(e => +(e.g.result!.winner === e.c))), averagePlacement: mean(entries.map(e => e.p.place)),
+      soleWin: mean(entries.map(e => +(e.g.result!.winner === e.c))), averagePlacement: mean(entries.map(e => e.p.meanRank)),
       averageScore: mean(entries.map(e => e.p.score)), survival: mean(entries.map(e => +(e.g.statuses[e.c] === "active"))),
       seatNormalizedFirst: perSeat.every(s => s.first !== null) ? mean(perSeat.map(s => s.first!)) : null,
       firstPlaceCluster95:clusterInterval(seeds.map(seed=>entries.filter(e=>e.g.seed===seed).map(e=>+(e.p.place===1)))),

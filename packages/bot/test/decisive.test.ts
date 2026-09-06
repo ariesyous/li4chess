@@ -94,15 +94,7 @@ describe("decisive outcomes outweigh material", () => {
   });
 });
 
-/**
- * The lab's bounded placement ladder (utility.ts) scores a checkmated player by
- * finishing place on the same scale as live positions, which puts "checkmated
- * last, so second place" at +1 and an ordinary losing position at about -0.4.
- * A bot reading those numbers walks into mate on purpose. Production keeps
- * placement ordering but pushes the whole elimination band below every live
- * position, and these pin that apart.
- */
-describe("placement never outranks staying in the game", () => {
+describe("points-based outcome objective", () => {
   const losingButAlive = () =>
     position(
       [
@@ -132,8 +124,7 @@ describe("placement never outranks staying in the game", () => {
     expect(evaluateFull(mated, PlayerColor.Red)).toBeLessThanOrEqual(-MATE_THRESHOLD);
   });
 
-  it("still prefers a higher finish once the game is lost either way", () => {
-    // Same board, but scored for a player who went out first rather than last.
+  it("elimination chronology does not alter utility, while retained points do", () => {
     const alive = losingButAlive();
     const outLast = { ...alive, players: { ...alive.players } };
     outLast.players[PlayerColor.Red] = {
@@ -148,8 +139,8 @@ describe("placement never outranks staying in the game", () => {
       eliminatedOnTurn: 0,
     };
 
-    expect(evaluateFull(outLast, PlayerColor.Red)).toBeGreaterThan(evaluateFull(outFirst, PlayerColor.Red));
-    // ...but both stay decisively worse than any live position.
-    expect(evaluateFull(outLast, PlayerColor.Red)).toBeLessThanOrEqual(-MATE_THRESHOLD);
+    expect(evaluateFull(outLast, PlayerColor.Red)).toBe(evaluateFull(outFirst, PlayerColor.Red));
+    const ahead={ ...outFirst,players:{ ...outFirst.players,0:{ ...outFirst.players[0],score:50 } } };
+    expect(evaluateFull(ahead,PlayerColor.Red)).toBeGreaterThan(evaluateFull(outFirst,PlayerColor.Red));
   });
 });

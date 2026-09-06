@@ -19,13 +19,14 @@ describe("experimental search semantics", () => {
     const q=searchPosition(state,{maxDepth:1,quiescenceDepth:2,evaluate:material,nodeBudget:3000});
     expect(q.stats.depthReached).toBe(1); expect(q.move.to).not.toBe(117); expect(q.stats.qNodes).toBeGreaterThan(0);
     const a=searchPosition(state,{maxDepth:2}),b=searchPosition(state,{maxDepth:2,ordering:"enhanced"});
-    expect(a.value).toBeCloseTo(b.value);
+    expect(a.value).not.toBeNull();expect(b.value).not.toBeNull();
+    expect(a.value).toBeCloseTo(b.value!);
   });
   it("separates sole victory and fourth from all nonterminal static values", () => {
     const state = createInitialState();
     for (const color of ALL_COLORS) expect(Math.abs(evaluateUtility(state,color))).toBeLessThan(3);
-    const players = { ...state.players, 1: {...state.players[1], status: "checkmated" as const, eliminatedOnTurn:1},
-      2: {...state.players[2], status:"checkmated" as const, eliminatedOnTurn:2}, 3: {...state.players[3], status:"checkmated" as const, eliminatedOnTurn:3} };
+    const players = { ...state.players,0:{ ...state.players[0],score:50 }, 1: {...state.players[1],score:0, status: "checkmated" as const, eliminatedOnTurn:1},
+      2: {...state.players[2],score:20, status:"checkmated" as const, eliminatedOnTurn:2}, 3: {...state.players[3],score:30, status:"checkmated" as const, eliminatedOnTurn:3} };
     const terminal = {...state, players, result:computeGameResult(players)};
     expect(terminalUtility(terminal,0)).toBe(3); expect(terminalUtility(terminal,1)).toBe(-3);
     const draw = {...state, result:computeDrawResult(state.players)};
@@ -48,7 +49,8 @@ describe("experimental search semantics", () => {
     const state = position("hanging-queen");
     const options = {maxDepth:2,exactRootScores:true};
     const a = searchPosition(state,options), b = searchPosition(state,{...options,iterative:false});
-    expect(a.value).toBeCloseTo(b.value); expect(a.move).toEqual(b.move);
+    expect(a.value).not.toBeNull();expect(b.value).not.toBeNull();
+    expect(a.value).toBeCloseTo(b.value!); expect(a.move).toEqual(b.move);
     let s = state;
     for (const m of a.pv) { expect(legalMoves(s).map(searchMoveId)).toContain(searchMoveId(m)); s = applyMove(s,m); }
     expect(chooseWithinDistance(a,0,()=>.9)).toEqual(a.move);

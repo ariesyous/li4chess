@@ -60,6 +60,6 @@ describe("threefold repetition", () => {
     expect(working.result!.reason).toBe("repetition");
     expect(working.result!.winner).toBeNull();
     const first = working.result!.placements.filter((p) => p.place === 1).map((p) => p.color);
-    expect(first.sort()).toEqual([PlayerColor.Blue, PlayerColor.Red].sort());
+    expect(first.sort()).toEqual([0,1,2,3]); // all four have equal points before DRAW award migration
   });
 });
