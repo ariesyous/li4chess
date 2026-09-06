@@ -39,6 +39,26 @@ jobs:
 
       - run: pnpm build
 
+      - name: Validate local Cloudflare architecture and crash recovery
+        run: pnpm --filter @li4chess/architecture-spike test:integration
+        env:
+          M3_OUTPUT: ${{ github.workspace }}/arena-results/m3-01-ci
+          WRANGLER_SEND_METRICS: "false"
+
+      - name: Retain architecture integration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m3-01-local-runtime-evidence
+          path: |
+            arena-results/m3-01-ci/manifest.json
+            arena-results/m3-01-ci/configuration.json
+            arena-results/m3-01-ci/summary.json
+            arena-results/m3-01-ci/observations.json
+            arena-results/m3-01-ci/runtime.log
+            arena-results/m3-01-ci/*.replay.json
+          retention-days: 14
+
       - name: Install Chromium for browser tests
         run: pnpm --filter @li4chess/web exec playwright install --with-deps chromium
 

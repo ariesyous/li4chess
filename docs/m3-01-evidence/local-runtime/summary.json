@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checks": [
+    "static Worker asset, seat authorization, strict versions/fields, server-only actions, rejected methods and bounded bodies",
+    "duplicate/lost response, key collision, stale command, concurrent serialization and reconnect full resync",
+    "WebSocket version/origin/seat checks and room-bound tokens",
+    "actual runtime restart at before-prepare, deterministic recovery and duplicate retry",
+    "actual runtime restart at after-prepare, deterministic recovery and duplicate retry",
+    "actual runtime restart at after-d1, deterministic recovery and duplicate retry",
+    "actual runtime restart at after-finalize, deterministic recovery and duplicate retry",
+    "injected D1 failure freezes reads/commands and prevents unpersisted broadcast; repair recovers exact command",
+    "injected delayed D1 persistence holds acknowledgement/broadcast and serializes a concurrent stale command across the await",
+    "lost after-finalize response explicitly invalidates stale socket; immediate reconnect and retry recover canonical success",
+    "Modern 16-move repetition completes exact terminal result/ordered awards across after-D1 restart",
+    "post-opening walking action and third-forfeit terminal survive restart with exact PRNG and survivor awards",
+    "runtime log contains no unhandled request-stream or WebSocket errors",
+    "source/build identity unchanged throughout integration"
+  ],
+  "runtimeStarts": 8
+}

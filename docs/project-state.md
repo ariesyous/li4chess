@@ -8,16 +8,25 @@ superseded handoffs.
 
 ## Current focus
 
-**M2 is complete.** The authorized goal stops before M3. Acceptance inputs,
-expected outcomes and measurable thresholds are in [M2 acceptance](m2-acceptance.md).
-Reviewed slices are `839aa46` (Workers), `a61031b` (save/resume), `386ca59`
-(frame/accessibility), and `e02a0ad` (calibration/complete games).
-[Acceptance evidence](m2-evidence/README.md) covers every M2 capability and exit
-criterion. Fresh full local checks and [final implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34058335008)
-passed; all substantive independent reviews are resolved. The documentation
-closeout is verified again on its pushed revision before ending the goal.
-[Draft PR #11](https://github.com/ariesyous/li4chess/pull/11) remains unmerged.
-M3 has not started, and no service was published or provisioned.
+**M3-01 is complete**, scoped to isolated Cloudflare prototypes and the
+[architecture ADR](m3-01-adr.md), [acceptance plan](m3-01-acceptance.md) and
+[official-source research](m3-01-platform-research.md). The authorized goal ends
+before M3-02. [Acceptance evidence](m3-01-evidence/README.md), independent review,
+fresh local checks and [implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34062822436)
+passed. Implementation/evidence commit is `c23746b3b3611b322132b637c3ee76be93e4b46e`;
+[PR #12](https://github.com/ariesyous/li4chess/pull/12) remains a draft.
+M3 as a whole is incomplete. Next recommended slice is M3-02 Workers foundation;
+the ADR contains the concrete M3-02 through M3-06 handoff and hosted gates.
+No merge, main push, deployment, provisioning or purchase is authorized.
+
+**M2 is complete and merged.** [PR #11](https://github.com/ariesyous/li4chess/pull/11)
+merged at `d0249a3deffe0ed3e147b49b33e50ebc8b5c6f05`.
+[Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/34060918247) and
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/34060918157)
+were independently verified successful at that revision on 2026-09-06.
+M3-01 started on `codex/m3-01-architecture` from that fetched remote baseline.
+Pre-existing Wrangler dependency/workspace edits were preserved and reused for
+the authorized prototype; their original patch was saved outside the checkout.
 
 **M1 is complete.** M1-01/M1-02/M1-03 are complete and
 all D/O requirements in the accepted contract have executable coverage. The
@@ -27,8 +36,8 @@ reviewed rule and replay implementations. Preserve its accepted contract.
 M2 began from clean fetched `origin/main`, merge `7f2593c96301853c6b3a9ebeaaaf6ea4683dc698`,
 on dedicated `codex/m2-completion`. GitHub verifies [M1 PR #10](https://github.com/ariesyous/li4chess/pull/10)
 merged with passing checks. Human Git identity is Aries Youssefian. Node 24.18.0
-and pinned pnpm 10.33.0 via temporary Corepack shims are verified. No merge,
-main push, publication, provisioning or M3 work is authorized.
+and pinned pnpm 10.33.0 via temporary Corepack shims are verified. Current
+M3-01 scope is stated above.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
 uses the bounded Worker path with measured resource policies. Live clocks, connection-bank tracking,
@@ -166,9 +175,9 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-The authorized M2 work is complete. The draft PR is ready for maintainer review;
-merge/publication and M3-01 are outside this goal. The M3 task below records the
-next roadmap item only, without authorizing implementation.
+M3-01 is complete; its implementation and validation are linked below.
+Next is M3-02 Workers foundation. The ADR records
+the M3-02 through M3-06 handoff; no later implementation is authorized here.
 
 | ID | Task | Done when |
 | --- | --- | --- |
@@ -179,7 +188,7 @@ next roadmap item only, without authorizing implementation.
 | M2-02 | Implement the original board-first frame and accessible controls. | **Complete 2026-09-06.** Desktop/tablet/phone emulation, keyboard/accessible-name checks and inspected captures pass. Physical-device and screen-reader testing were unavailable and are not claimed. |
 | M2-03 | Provide validated local save/resume and refresh recovery. | **Complete 2026-09-06.** Strict replay-backed journals preserve seats, scores, randomness, pending effects and lineage; active-search refresh and storage failures are covered. |
 | M2-04 | Calibrate resource policies and prove complete local games. | **Complete 2026-09-06.** [Evidence](m2-evidence/README.md) retains 214 searches, 360 active-search inputs, complete hotseat/mixed/four-CPU replays, independent review and full validation. |
-| M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |
+| M3-01 | Validate the accepted Cloudflare architecture with focused local prototypes and an ADR. | **Complete 2026-09-06.** [Evidence](m3-01-evidence/README.md) includes real runtime/restarts, exact canonical replay/awards/randomness, independent reviews and passing local/CI checks. [ADR](m3-01-adr.md) fixes consistency/recovery policy and operational/hosted gates. No production infrastructure was provisioned. |
 
 Do not change game rules while merely collecting comparison evidence. Preserve
 the accepted M1 contract and its coverage. Do not treat the old recommendation's
@@ -404,4 +413,47 @@ passed on `e02a0adf6c95e812912eb8dbebdf5d38e0261198`: frozen install, lint, unit
 tests, build and browser tests on Ubuntu/Node 24/pnpm 10.33.0. Every M2 exit
 criterion has evidence; M2 is complete. This final closeout changes documentation
 only, with links/diff checks and pushed-revision CI verified again before ending
-the goal. M3 has not started; the PR remains a draft with no merge or deployment.
+the goal. This was the M2 closeout state; PR #11 has since merged, and its successful
+post-merge CI/deployment are verified in the current focus above.
+
+## M3-01 validation and handoff
+
+Retain D09's Worker/Static Assets, per-game SQLite Durable Object and canonical
+D1 topology under the [ADR](m3-01-adr.md). Durable prepare records exact intent;
+D1 commit precedes acknowledgement/gameplay broadcast, with predecessor/prefix
+checks and stable receipts. Explicit resyncRequired handles ambiguous responses
+without waiting for local TCP close. There is no cross-store atomic transaction.
+
+Independent reviewers verified consistency, authorization, source/artifact hashes
+and all 34 distinct recorded replays. The accepted local run passed 14 groups
+across 8 runtime starts, including complete repetition and walking/survivor games,
+real D1 failure, concurrent arrivals, boundary restarts and exact recovery. The
+272-file source snapshot records base d0249a3 and dirty fingerprint
+`sha256:f2df1ffc9634697115e700338d9ee6436650d8a77ffb380ef20049527ea9b1f3`.
+Unsuccessful attempts remain explicitly labelled; stream handling and close
+notification fixes were validated without weakening canonical-state assertions.
+
+Fresh Windows/Node 24.18.0/pnpm 10.33.0 checks passed: frozen install, lint,
+606 unit tests, build and all 46 browser tests without retries; the final runtime
+source and changed tests additionally passed the complete integration and lint.
+All 260 local Markdown file links resolved before closeout and diff checks passed.
+The shipped engine/protocol/web/bot, frozen classic, archived experiments and
+Pages deployment workflow have no changes. Historical archive byte-preservation
+attributes remain alongside the new M3 evidence attribute.
+
+[CI run 34062822436](https://github.com/ariesyous/li4chess/actions/runs/34062822436)
+passed every step on PR head `c23746b3b3611b322132b637c3ee76be93e4b46e`.
+Its clean PR merge checkout was `76ed445c0c70d1e60811647edd6a395bb21c298d`;
+the uploaded runtime artifact was inspected: all 14 groups and 8 starts passed
+on Linux/Node 24.20.0, pnpm 10.33.0, Wrangler 4.129.0 and workerd 1.20260903.1.
+The documentation-only closeout is checked again through the draft PR's checks.
+
+M3-02 should establish the actual Worker/Static Assets foundation and local
+workflow without promoting fixture credentials/fault hooks. M3-03 owns normalized
+D1 migrations; M3-04 owns clocks/alarms/room authority; M3-05 owns multiplayer
+protocol and guest/reconnect UX; M3-06 proves four-browser complete/recoverable
+games. Hosted latency, hibernation, failover, restoration, rollback and costs
+require separately authorized staging. Launch time controls, operating plan,
+region, load target and budget remain open; none blocks this local architecture
+conclusion. Stop here: M3 remains incomplete, PR #12 is a draft, and no merge,
+publication, provisioning, purchase or M3-02 implementation occurred.

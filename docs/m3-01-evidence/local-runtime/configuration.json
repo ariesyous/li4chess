@@ -1,0 +1,43 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "li4chess-architecture-spike-local-only",
+  "main": "C:\\Users\\sith\\Code\\li4chess\\packages\\architecture-spike\\src\\worker.ts",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "C:\\Users\\sith\\Code\\li4chess\\packages\\architecture-spike\\.generated\\site-1788731920922",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*",
+      "/health"
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",
+        "class_name": "GameRoom"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "spike-v1",
+      "new_sqlite_classes": [
+        "GameRoom"
+      ]
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "spike-local",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "vars": {
+    "SPIKE_KEY": "[SPIKE_KEY redacted]",
+    "ENGINE_BUILD": "{\"format\":\"li4chess-engine-build-v1\",\"sourceRevision\":\"d0249a3deffe0ed3e147b49b33e50ebc8b5c6f05\",\"packageVersions\":{\"@li4chess/web\":\"0.0.0\",\"@li4chess/architecture-spike\":\"0.0.0\",\"@li4chess/arena\":\"0.0.0\",\"@li4chess/bot\":\"0.0.0\",\"@li4chess/engine\":\"0.0.0\",\"@li4chess/protocol\":\"0.0.0\",\"@li4chess/ui-kit\":\"0.0.0\"},\"buildFingerprint\":\"sha256:f2df1ffc9634697115e700338d9ee6436650d8a77ffb380ef20049527ea9b1f3\",\"workingTree\":{\"status\":\"dirty\",\"contentHash\":\"sha256:f2df1ffc9634697115e700338d9ee6436650d8a77ffb380ef20049527ea9b1f3\"}}"
+  }
+}

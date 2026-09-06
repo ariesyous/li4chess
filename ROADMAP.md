@@ -53,7 +53,7 @@ capabilities do not make a milestone complete.
 | --- | --- | --- | --- | --- |
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
 | M2 | Responsive local and CPU play | Complete | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
-| M3 | Reliable online game service | Planned | M1 | Four remote players can finish and recover a game. |
+| M3 | Reliable online game service | In progress | M1 | Four remote players can finish and recover a game. |
 | M4 | Public matchmaking and rated beta | Planned | M2, M3 | Players can find opponents and build a credible rating. |
 | M5 | Analysis and learning | Planned | M4; editor/replay work can begin earlier | Players can understand and improve their play. |
 | M6 | Community and organized competition | Planned | M4 | Communities can organize and follow events. |
@@ -120,8 +120,8 @@ second slice (`a61031b`). The responsive frame and keyboard navigation are
 satisfy the local capability gates in `e02a0ad`. Independent review and fresh full
 validation (602 unit tests, 46 browser tests, lint and build) passed, as did
 [CI on the final implementation](https://github.com/ariesyous/li4chess/actions/runs/34058335008).
-The documentation closeout is checked again on its pushed revision. M3 has not
-started; physical-device and screen-reader testing remain documented limitations.
+PR #11 merged at `d0249a3`; its post-merge CI and Pages deployment passed.
+Physical-device and screen-reader testing remain documented limitations.
 
 **Capabilities**
 
@@ -152,6 +152,13 @@ event/replay history, and mobile/accessibility parity. This is a product
 direction, not Chess.com visual copying or a claim of implemented parity.
 
 ### M3 — Reliable online game service (internal alpha)
+
+**M3-01 complete (2026-09-06):** the isolated local prototype and
+[ADR](docs/m3-01-adr.md) validate consistency/recovery boundaries, with
+[reviewed evidence](docs/m3-01-evidence/README.md) and
+[passing CI](https://github.com/ariesyous/li4chess/actions/runs/34062822436).
+The accepted topology is retained subject to explicit hosted gates. No online
+service is shipped or provisioned. M3-02 through M3-06 remain planned; M3 is incomplete.
 
 **Capabilities**
 
@@ -191,7 +198,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 
 | ID | Work item | Outcome |
 | --- | --- | --- |
-| M3-01 | Cloudflare architecture spike and ADR | The intended topology, consistency model, recovery contract, limits, cost assumptions, local workflow, and fallback criteria are recorded and validated with focused prototypes. |
+| M3-01 | Cloudflare architecture spike and ADR | **Complete 2026-09-06.** Topology, consistency/recovery, limits, costs, workflow and fallback criteria have an ADR, independent review, real local runtime/restart evidence and passing Windows/Ubuntu checks. Hosted validation gates remain explicit. |
 | M3-02 | Workers deployment foundation | React/Vite is served with Workers Static Assets; the Worker has a minimal HTTP surface, repeatable Wrangler/Vite/workerd development, CI, and GitHub deployment configuration. |
 | M3-03 | D1 persistence model | Versioned migrations cover users, games, events, and replay data; write ordering, idempotency, retention, and recovery semantics are tested. |
 | M3-04 | Authoritative `GameRoom` Durable Object | One game owner validates moves and owns state, clocks, sequence numbers, randomness, and WebSockets, with persistence and recovery behavior defined. |
