@@ -188,13 +188,13 @@ promotion oracle is Red `(5,6)→(5,7)`, Blue `(6,8)→(7,8)`, Yellow
 | Fixture | Explicit input / expected result |
 | --- | --- |
 | FFA-PROMO-01 | Pawn `(5,6)→(5,7)` has one legal Queen outcome; exact absolute square, moved flag, pawn provenance, unchanged scores, and `=Q` move metadata. |
-| FFA-PROMO-02 | Same pawn captures a Blue Knight on either `(4,7)` or `(6,7)`; Queen/provenance and +3. |
+| FFA-PROMO-02 | Same pawn captures a Blue Knight on either `(4,7)` or `(6,7)`; Queen/provenance, +3 capture. SCORE adds +1 double-check at `(6,7)` for total 4, with separate entries. |
 | FFA-PROMO-03 | Pawn advances from rank 5, 7, or historical rank 12; remains Pawn with no promotion. Post-eighth-rank pawns are explicit synthetic boundary inputs, not reachable Modern histories. |
 | FFA-PROMO-04 | Omitted promotion equals explicit Queen request; Pawn/Knight/Bishop/Rook/King requests reject without mutation; board still has exactly four Kings. |
 | FFA-PROMO-05 | Actual promotion followed by Blue Knight `(4,9)→(5,7)` gives +1 and captured provenance. Native Queen gives +9; explicit dead promoted Queen gives +0. |
 | FFA-PROMO-06 | Promote, legal intervening Kings `(0,6)→(0,5)`, `(6,13)→(6,12)`, `(13,7)→(12,8)`, Queen `(5,7)→(8,10)`; provenance survives, JSON replay agrees, native versus promoted repetition keys differ. |
-| FFA-PROMO-07 | Promoted Queen generates orthogonal/diagonal moves and checks with Queen type. **Partial:** exact Queen-tier multi-check awards await SCORE integration. |
-| FFA-PROMO-08 | Pawn pinned to King `(5,0)` by Rook `(5,9)` cannot capture off-file to promote. Capture of a dead Knight still promotes for zero. Cross-feature extension: Blue Pawn `(1,7)→(3,7)`, intervening turns, Red Pawn `(3,6)→(2,7)` EP promotes; remove victim, clear rights, +1 live/+0 dead. |
+| FFA-PROMO-07 | Promoted Queen generates orthogonal/diagonal moves and checks with Queen type. SCORE-11 now supplies +1/+5 ledgers for saved pawn-Queens and an actual promotion delivering double-check. |
+| FFA-PROMO-08 | Pawn pinned to King `(5,0)` by Rook `(5,9)` cannot capture off-file to promote. Capture of a dead Knight promotes for zero capture points; SCORE adds a separate +1 double-check. Cross-feature extension: Blue Pawn `(1,7)→(3,7)`, intervening turns, Red Pawn `(3,6)→(2,7)` EP promotes; remove victim, clear rights, +1 live/+0 dead. |
 
 The initial 32-test baseline failed before promotion implementation (one invalid
 Knight capture and two intervening King destinations were corrected). Independent
@@ -204,10 +204,16 @@ promotion tests. Protocol state/move round-trips, bot full/delta hash identity,
 and a browser promotion/capture scenario cover direct consumers. The current bot
 corpus promotion input moves to rank 6; historical artifacts are unchanged.
 
-## Exact next slice
+## SCORE progress and next slices
 
-Write `FFA-SCORE-01..16` explicit ledgers before behavior changes. Cover accepted
-piece values, mate/stalemate recipients, newly delivered checks, Queen-priority
-mixed checks, stacking and deterministic order; close PROMO-07's award assertion.
-Then WALK, END, DRAW, ABORT and state-v2/replay-v2, with consumer alignment and
-complete-game evidence. Standard-v1 stays reserved. M2/M3 remain outside scope.
+[SCORE acceptance](m1-score-acceptance.md) defines the explicit inputs and
+expected ledgers. [Executable SCORE tests](../packages/engine/test/ffa-scoring.test.ts)
+cover SCORE-01/02 and 07–16's capture/new-own-army-check subset with 52 rotated
+tests. PROMO-07's Queen-tier integration is now covered. The initial 48 cases
+failed before ledger implementation; fixture geometry was corrected to avoid
+accidental pre-existing checks, and a continuing-Queen regression was added.
+
+SCORE-03..06, mate stacking in 15, and mixed-owner discovered-check semantics
+remain pending clarification of attribution/causation. Other accepted amounts
+are unchanged. WALK, END, DRAW, ABORT and state-v2/replay-v2 remain, with consumer
+alignment and complete-game evidence. Standard-v1 stays reserved; no M2/M3 work.

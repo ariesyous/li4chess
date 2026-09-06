@@ -130,6 +130,14 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
             </li>
           ))}
         </ol>
+        <h3>Points</h3>
+        <ol data-testid="award-ledger" style={{ maxHeight: 160, overflowY: "auto", fontSize: 14 }}>
+          {state.awardLedger.map(award => (
+            <li key={award.sequence}>
+              {PLAYER_COLOR_NAME[award.recipient]} +{award.delta} {award.rule === "capture" ? "capture" : "multiple kings checked"} — {award.total} pts
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );

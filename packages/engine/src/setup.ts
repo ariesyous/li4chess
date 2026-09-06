@@ -56,6 +56,8 @@ export function createInitialState(seatConfig?: SeatConfig): GameState {
   }
 
   const initial: GameState = {
+    eventSequence: 0,
+    awardLedger: [],
     rulesetId: null,
     board,
     players,

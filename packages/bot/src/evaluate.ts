@@ -16,12 +16,15 @@ import {
   rankOf,
 } from "@li4chess/engine";
 
+// A king has a rule award value of 20, but is not capturable material.
+const MATERIAL_VALUES = { ...PIECE_VALUES, [PieceType.King]: 0 };
+
 /** Active material only, from `botColor`'s perspective. */
 export function evaluateMaterial(state: GameState, botColor: PlayerColor): number {
   let score = 0;
   for (const piece of state.board) {
     if (piece === null || state.players[piece.owner].status !== "active") continue;
-    const value = PIECE_VALUES[piece.type];
+    const value = MATERIAL_VALUES[piece.type];
     score += piece.owner === botColor ? value : -value;
   }
   return score;
@@ -291,7 +294,7 @@ export function evaluateFull(
   for (let square = 0; square < state.board.length; square++) {
     const piece = state.board[square];
     if (piece === null || state.players[piece.owner].status !== "active") continue;
-    const value = PIECE_VALUES[piece.type];
+    const value = MATERIAL_VALUES[piece.type];
     const isBot = piece.owner === botColor;
     material += isBot ? value : -value;
 

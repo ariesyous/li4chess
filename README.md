@@ -33,6 +33,10 @@ player wins, with capture points used only to break placement ties among
 eliminated players.
 Pawns automatically promote on their eighth rank to Queens worth one capture
 point; provenance survives moves, captures, serialization, and search hashes.
+Captures use standard piece values, and own-army newly delivered multi-checks
+award the Queen/non-Queen schedule. An ordered points ledger explains those
+awards in the local UI. Remaining SCORE attribution cases are recorded in
+[SCORE acceptance](docs/m1-score-acceptance.md).
 Full standard FFA, its scoring, walking kings, and versioned
 replays remain M1-03 work. `li4chess-ffa-standard-v1` is still reserved.
 

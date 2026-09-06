@@ -3,6 +3,13 @@ import { describe, expect, it } from "vitest";
 import { deserializeGameState, deserializeMove, serializeGameState, serializeMove } from "../src/index.js";
 
 describe("serialization round-trip", () => {
+  it("rejects prior partial snapshots without scoring history instead of inventing it", () => {
+    for (const patch of [{ eventSequence:undefined }, { eventSequence:-1 }, { awardLedger:undefined }]) {
+      const prior = { ...createInitialState(), ...patch };
+      expect(() => deserializeGameState(JSON.stringify(prior))).toThrow(/migration/i);
+      expect(() => applyMoveRequest(prior as GameState, { from:20,to:34 })).toThrow(/migration/i);
+    }
+  });
   it("retains automatic promotion provenance in state and move capture metadata", () => {
     const base = createInitialState();
     const board = base.board.map(() => null) as GameState["board"][number][];
@@ -14,6 +21,7 @@ describe("serialization round-trip", () => {
     expect(restored.board[103]?.promotedFrom).toBe(PieceType.Pawn);
     const captured = applyMoveRequest(restored, { from:130, to:103 });
     expect(captured.players[1].score).toBe(1);
+    expect(deserializeGameState(serializeGameState(captured)).awardLedger).toEqual(captured.awardLedger);
     expect(deserializeMove(serializeMove(captured.moveHistory.at(-1)!)).captured?.promotedFrom).toBe(PieceType.Pawn);
   });
   it("round-trips a fresh GameState through JSON unchanged", () => {

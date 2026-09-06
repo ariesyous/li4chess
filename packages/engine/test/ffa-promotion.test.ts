@@ -29,7 +29,10 @@ for (const rotation of ALL_COLORS) describe(`FFA promotion: ${PlayerColor[rotati
       const state = position(rotation, [...kings, [5,6,P,0], [file,7,N,1]]);
       const after = play(state, rotation, [5,6], [file,7]);
       expect(after.board[s(file,7)]).toEqual({ owner:rotation, type:Q, hasMoved:true, promotedFrom:P });
-      expect(after.players[rotation].score).toBe(3);
+      // On (6,7) the new Queen checks Yellow on file 6 and Green on rank 7.
+      expect(after.players[rotation].score).toBe(file === 6 ? 4 : 3);
+      expect(after.awardLedger.filter(a => a.rule === "capture").map(a => a.delta)).toEqual([3]);
+      expect(after.awardLedger.filter(a => a.rule === "multi-check").map(a => a.delta)).toEqual(file === 6 ? [1] : []);
       expect(after.moveHistory.at(-1)?.captured?.type).toBe(N);
     }
   });
@@ -96,7 +99,8 @@ for (const rotation of ALL_COLORS) describe(`FFA promotion: ${PlayerColor[rotati
     const live = position(rotation, [...kings, [5,6,P,0], [6,7,N,1]]);
     const dead: GameState = { ...live, players:{ ...live.players, [c(1)]:{ ...live.players[c(1)], status:"checkmated" } } };
     const after = play(dead, rotation, [5,6], [6,7]);
-    expect(after.players[rotation].score).toBe(0);
+    expect(after.players[rotation].score).toBe(1); // Queen checks Yellow and Green; dead capture itself is zero.
+    expect(after.awardLedger.map(a => [a.rule,a.delta])).toEqual([["multi-check",1]]);
     expect(after.board[s(6,7)]).toEqual({ owner:rotation, type:Q, hasMoved:true, promotedFrom:P });
   });
 

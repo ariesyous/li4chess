@@ -14,6 +14,17 @@ it("distinguishes native and pawn-Queens in full and incremental hashes", () => 
   expect(updatePositionHash(positionHash(before), before, after)).toBe(positionHash(after));
 });
 
+it("retains award history and logical event sequence in search identity", () => {
+  const before = createInitialState();
+  for (const after of [{ ...before,eventSequence:1 }, { ...before,awardLedger:[
+    { sequence:2,causeSequence:1,rule:"capture" as const,recipient:0 as const,delta:1,total:1 },
+  ] }]) {
+    expect(positionHash(after)).not.toBe(positionHash(before));
+    expect(searchSignature(after)).not.toBe(searchSignature(before));
+    expect(updatePositionHash(positionHash(before),before,after)).toBe(positionHash(after));
+  }
+});
+
 it("delta hashes match full recomputation over legal paths and tactical transitions", () => {
   for (const spec of positions) {
     let state = loadPosition(spec); let hash = positionHash(state);

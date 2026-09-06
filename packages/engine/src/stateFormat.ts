@@ -5,7 +5,8 @@ import { GameState } from "./types.js";
  * The accepted replay-v2 and canonical state-v2 schemas are not implemented yet.
  */
 export function assertLocalMigrationState(state: GameState): void {
-  if (state?.rulesetId !== null || !Array.isArray(state.enPassantRights)) {
+  if (state?.rulesetId !== null || !Array.isArray(state.enPassantRights) ||
+      !Number.isSafeInteger(state.eventSequence) || state.eventSequence < 0 || !Array.isArray(state.awardLedger)) {
     throw new Error("Unsupported state: this reducer accepts only the local partial M1 migration shape");
   }
 }

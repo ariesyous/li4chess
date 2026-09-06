@@ -82,6 +82,9 @@ export interface GameResult {
 }
 
 export interface GameState {
+  /** Logical event sequence: actions and individual nonzero awards each advance it. */
+  readonly eventSequence: number;
+  readonly awardLedger: readonly ScoreAward[];
   /** Partial M1 migration only. Neither historical house-v1 nor reserved standard-v1. */
   readonly rulesetId: null;
   readonly board: readonly (Piece | null)[];
@@ -94,6 +97,15 @@ export interface GameState {
   readonly result: GameResult | null;
   /** Counts how many times each position (see rules/repetition.ts) has occurred, for threefold-repetition draw detection. */
   readonly positionCounts: Readonly<Record<string, number>>;
+}
+
+export interface ScoreAward {
+  readonly sequence: number;
+  readonly causeSequence: number;
+  readonly rule: "capture" | "multi-check";
+  readonly recipient: PlayerColor;
+  readonly delta: number;
+  readonly total: number;
 }
 
 /** One double push can grant several opponents one opportunity each. */

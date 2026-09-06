@@ -29,4 +29,5 @@ test("eighth-rank promotion displays Queen and history, then capture scores one 
   await square(103).click();
   await expect(square(103)).toHaveAttribute("aria-label", "f8 Blue N");
   await expect(page.getByText("Blue (You) — active · 1 pts", { exact:true })).toBeVisible();
+  await expect(page.getByTestId("award-ledger")).toContainText("Blue +1 capture — 1 pts");
 });

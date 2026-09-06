@@ -16,6 +16,7 @@ the product-owned identifiers, v2 deterministic event/state requirements, legacy
 preservation, and evidence-status fixture inventory. All release-affecting game
 semantics have D/O target evidence. **M1-03 is in progress:** the
 setup/core/en-passant, castling, passive dead-army, and promotion slices are implemented;
+SCORE capture and own-army multi-check ledgers are also implemented in the current slice;
 the remaining accepted differences still need fixture-first engine, protocol, UI, bot,
 and arena changes.
 The first public release is M4, public FFA matchmaking with ratings, anonymous
@@ -36,12 +37,33 @@ provision infrastructure, or change the current M1 focus.
 
 ## Completed M1-03 slices and remaining work
 
+Promotion is committed as `4c331f2`. The next SCORE core slice implements accepted
+capture values (including Bishop 5), own-army newly delivered multi-checks,
+Queen-priority classification, capture/check stacking, immutable award ledgers
+and logical event sequences. Its 52 rotated cases cover SCORE-01/02 and the
+settled portions of 07–16; PROMO-07 now has saved and actual promoted-Queen award
+evidence. The UI displays point events; protocol and bot hashes preserve them.
+Production material excludes the King rule award value (20). Search ordering
+still uses piece-value heuristics; final points-based utility remains END work.
+
+The fresh reviewer found no remaining correctness issue in this subset after
+adding a continuing-Queen control, ledger hash test, and a format fence against
+prior partial states missing scoring history. No classic or archived evidence
+changed. See [SCORE acceptance](m1-score-acceptance.md) for inputs and boundaries.
+
+**Pending rule detail:** the accepted documents give mate/stalemate amounts but
+do not define multiple-owner mate attribution, intervening escape-blocker credit,
+or deferred self-stalemate causation. Mixed-owner discovered-check credit/tier
+also needs clarification. Independent requirements review confirmed these gaps;
+questions were sent to the maintainer on 2026-09-06. Do not invent those predicates.
+SCORE-03..06, mate stacking in 15, and mixed-owner cases remain unimplemented;
+settled amounts/objectives remain authoritative. Continue independent M1 work.
+
 The fourth slice implements eighth-rank automatic one-point Queens and pawn
 provenance. `FFA-PROMO-01..08` has 36 rotated tests, including EP promotion after
 real adjacent-seat double pushes, live/dead capture value, native Queen controls,
-no spare King/underpromotion, legal geometry and saved-state identity. **PROMO-07
-is partial:** Queen movement/check classification is established; exact
-Queen-tier multi-check awards are the next SCORE integration assertion.
+no spare King/underpromotion, legal geometry and saved-state identity. PROMO-07
+originally deferred Queen-tier multi-check ledgers; SCORE-11 now covers them.
 
 The independent reviewer found EP bypassed the promotion emitter. Four new
 regressions failed before the fix and pass after it; the reviewer rechecked the
@@ -122,10 +144,10 @@ award-free scoring, elimination-first placements, and the
 old draw ending remain partial-migration limitations, accurately described in
 [rules-spec.md](rules-spec.md). No M2/M3 work was started.
 
-**Exact next slice:** fixture-first `FFA-SCORE-01..16`: accepted capture values,
-mate/stalemate recipients, newly delivered checks, Queen-priority mixed checks,
-stacking, and ordered ledgers; close PROMO-07's award integration. Then WALK,
-END, DRAW, ABORT, replay-v2/state-v2, remaining consumers and complete-game evidence.
+**Exact next work:** finish SCORE attribution-dependent fixtures when the
+maintainer clarifies the pending predicates. Continue independent WALK/ABORT
+state/action inputs, then END/DRAW, replay-v2/state-v2, remaining consumers and
+complete-game evidence. Each slice still requires fresh review/checks/commit.
 Standard-v1 remains reserved. M2/M3 remain untouched.
 
 **PROMO validation, 2026-09-06:** Windows, Node 24.18.0, pinned pnpm 10.33.0
@@ -141,6 +163,17 @@ through temporary Corepack shims, against `802d2b4` plus this slice:
 - Dependencies installed from the frozen lockfile; sandbox command/path/network
   restrictions required approved execution outside the sandbox. Browser npm
   environment/colour warnings were non-failing. No benchmark measurements.
+
+**SCORE core validation, 2026-09-06:** against `4c331f2` plus the current slice,
+same Windows/Node/pinned pnpm environment: fresh `pnpm lint --force`,
+`pnpm test --force` (**391 passed**: engine 331, bot 49, protocol 6, arena 5),
+and `pnpm build --force` passed with zero Turbo cache hits. Strict TypeScript
+checks for every changed/new fixture passed. All **5 browser tests passed**,
+including the new visible award-ledger assertion. An earlier browser run during
+source edits loaded the normal setup instead of its injected promotion fixture;
+the isolated rerun and stable final full run passed. Independent reviewer
+approved the implemented subset after the noted test/fence additions. No new
+research data; frozen sources and historical artifacts remain intact.
 
 **DEAD validation, 2026-09-06:** against
 `432c0a8e6b35dc3602a4f46b5a43566c08531951` plus the uncommitted DEAD slice,
@@ -242,7 +275,7 @@ the first M3 task when that milestone becomes actionable.
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, passive DEAD and promotion implemented; PROMO-07 award integration pending SCORE. [Coverage and exact next slice](m1-03-fixtures.md). Next: fixture-first SCORE. Complete only when all M1 exit criteria and repository validation pass; historical evidence remains intact. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, passive DEAD, PROMO and SCORE core implemented. SCORE causation details pending clarification; WALK/END/DRAW/ABORT/REPLAY and consumer alignment remain. [Coverage and next work](m1-03-fixtures.md). Complete only when all M1 exit criteria and fresh final-revision validation/CI pass. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |

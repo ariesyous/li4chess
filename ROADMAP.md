@@ -76,9 +76,10 @@ fixes ownership and permanent rights loss/cleanup. The third slice adds
 armies, zero-point capture, occupancy/no attacks/no moves, rights cleanup, and
 dead-pawn EP. The fourth slice adds automatic eighth-rank one-point Queens,
 provenance, and promotion/EP interaction tests. See the
-[coverage map](docs/m1-03-fixtures.md). Full standard-v1, scoring, walking kings,
-endings, and replay v2 remain incomplete. Next is fixture-first SCORE, including
-the pending promoted-Queen multi-check ledger assertion, then WALK/END/DRAW/ABORT/REPLAY.
+[coverage map](docs/m1-03-fixtures.md). SCORE now implements capture/new-own-army
+multi-check ledgers and promoted-Queen awards. Full standard-v1, remaining SCORE
+attribution, walking kings, endings and replay v2 remain incomplete. Continue
+SCORE causation clarification and WALK/END/DRAW/ABORT/REPLAY fixtures.
 
 **Capabilities**
 

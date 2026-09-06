@@ -78,7 +78,8 @@ center, and pawn-advancement evaluation excludes passive pieces while retaining
 their occupancy for movement and attack geometry. Low-level board-only attack
 helpers describe geometry; rules consumers filter to active opponents.
 
-Mate/stalemate awards remain unimplemented. `resigned` is a representable
+Mate/stalemate awards remain unimplemented pending the SCORE causation
+clarifications recorded in [SCORE acceptance](m1-score-acceptance.md). `resigned` is a representable
 inactive status, but there is still no resignation, timeout, or walking-king
 action; a live walking king will need finer state than owner status alone.
 
@@ -139,15 +140,32 @@ promotion choice selects the canonical Queen; explicit non-Queen choices reject.
 The resulting piece has `type: Queen` and `promotedFrom: Pawn`. That provenance
 survives later movement, captured metadata, JSON, repetition identity, and bot
 hashes. Its active capture value is one; a native Queen remains nine and a dead
-Queen zero. Movement and checking classification remain Queen. The exact
-Queen-tier multi-check award ledger remains SCORE work. Bot material heuristics
+Queen zero. Movement and checking classification remain Queen. Own-army
+Queen-tier multi-check awards now have executable ledgers, including an actual
+promotion that checks two kings. Bot material heuristics
 still value Queen movement strength; the points objective follows in SCORE/END.
 
-## Scores and placements — remaining house behavior
+## Scores and remaining placement migration
 
-Active captures score Pawn/pawn-Queen 1, Knight 3, Bishop 3, Rook 5, native Queen 9, King 0.
-All captures of inactive material, including en passant, score zero. There are
-no mate, stalemate, multi-check, survivor, or named-draw awards yet.
+Active captures score Pawn/pawn-Queen 1, Knight 3, Bishop 5, Rook 5, native Queen 9.
+The King rule value is 20, while active kings remain non-capturable. All captures
+of inactive material, including en passant, score zero.
+
+Two/three kings newly checked by the mover's army award +1/+5 if any newly
+checking piece is a Queen, otherwise +5/+20. Own-army discovered checks count.
+Kings already in check before the action and passive kings do not count;
+continuing Queen checks do not downgrade new non-Queen checks. Captures and
+multi-checks stack. Mixed-owner discovered-check attribution and deferred
+mate/self-stalemate causation await maintainer clarification; this subset is not
+full SCORE compatibility. Mate, stalemate, survivor and named-draw awards are
+not implemented yet.
+
+Every nonzero capture/multi-check award appends an immutable `awardLedger` entry:
+`sequence`, `causeSequence`, `rule`, `recipient`, `delta`, and resulting `total`.
+The action advances `eventSequence` once, then each award advances it once;
+capture precedes multi-check. This order is a li4chess recording convention.
+JSON and bot search identity preserve the ledger/sequence. The UI displays it.
+This remains partial state, not the accepted complete replay-v2 implementation.
 
 The last active player wins. Other players rank by later elimination turn,
 then score, then Red/Blue/Yellow/Green seat order. Standard FFA's point-based
@@ -176,7 +194,8 @@ labelled `li4chess-state-v2` or wrapped as `li4chess-replay-v2`.
 
 The reducer, protocol serialization, and arena input/replay/aggregation entry
 points reject old or labelled snapshots instead of treating them as this partial
-migration. This format fence checks the migration marker and presence of rights;
+migration. This format fence checks the migration marker, presence of rights,
+nonnegative integer event sequence and award array;
 it does not validate arbitrary network state. The protocol remains JSON helpers.
 The existing arena v1 harness is regression infrastructure, not a completed v2
 writer or a source of new versioned research evidence. Do not run or publish new

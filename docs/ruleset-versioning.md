@@ -284,6 +284,8 @@ state has no certified ruleset ID; standard-v1 remains reserved and replay-v2/st
 unimplemented.
 The promotion slice now implements eighth-rank automatic one-point Queens and
 provenance, including en-passant promotion for all seats. Its Queen classification
-is covered; the exact Queen-tier multi-check award assertion remains SCORE work.
-Next is fixture-first SCORE, with boundaries and remaining work in
+and Queen-tier multi-check awards are covered. SCORE capture/own-army multi-check
+ledgers are implemented; outstanding causation/attribution details are recorded
+in [SCORE acceptance](m1-score-acceptance.md), without changing settled amounts.
+Further boundaries and remaining work are in
 [project state](project-state.md).
