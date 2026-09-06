@@ -30,8 +30,7 @@ An assertion has exactly one of these evidence states:
 `standard` in an identifier means li4chess intends to match the documented and
 verified standard-FFA contract; it does not claim Chess.com ownership or imply
 that an unresolved item has been copied. A target ruleset remains **reserved**
-until every release-affecting V item is closed and the maintainer accepts the
-target contract.
+until the maintainer accepts the target contract and M1-03 implements/tests it.
 
 ## Final proposed identifiers
 
@@ -72,12 +71,13 @@ summarizes, but does not replace, the detailed audit.
 
 | Area | Target fact now safe to state | Evidence | Implementation boundary |
 | --- | --- | --- | --- |
+| Setup and normal legality | Modern setup is the recorded 14×14/160-square four-wing position; Red starts and rotation is clockwise. Ordinary self-check, pins, live-king non-capture, king adjacency, and first-move double pushes apply across active opponents. | D + O | Use the recorded coordinate fixture; do not retain a differing house orientation. |
 | Objective and finish | Points determine placement; three eliminations end a game. A two-player leader may claim at a 21-point lead by surrendering their king; the trailing player gets +20 and the leader +0. A sole survivor gets +20 per live walking king; +40 is legacy/custom, not Modern. | D + O | Fixture the claim and per-walking-king ledgers; do not infer tie ordering. |
 | Scores | The sources list active-piece values, +20 mate/self-stalemate, +10 for each remaining active player when an opponent or walking king is stalemated, multi-check awards, final live-king award, and +10 named draws. Direct-current-move eligibility and same-move stacking are observed; Queens use +1/+5 and other pieces +5/+20. | D + O | Fixture award ordering and mixed discovered-check ledgers. |
-| Promotion | A pawn promotes automatically to a Queen on its eighth rank; capturing that promoted Queen gives one point. Default Modern configuration says `PromoteTo=D`; replay notation displays `=Q`. | D + O | Do not assume the four-orientation coordinates beyond a fixture. |
-| Elimination | Checkmate/stalemate pieces become inactive/dead/grey; captures give no points. Dead pieces do not attack, but occupy/block; a dead double-pushed pawn remains en-passant capturable for zero. | D + O | Do not assume unreported special-right interactions. |
+| Promotion | A pawn promotes automatically to a Queen on its eighth rank; capturing that promoted Queen gives one point. It remains a Queen for multi-check scoring; spare kings are legacy/custom-only and unreachable in Modern. | D + O | Preserve promoted-piece provenance in state/replay; omit spare king from Modern fixtures. |
+| Elimination | Checkmate/stalemate pieces become inactive/dead/grey; captures give no points. Dead pieces never move, attack, or retain special rights; they only occupy/block and remain zero-point capturable, including after a dead double push. | D + O | Model a passive obstacle rather than an active owner piece. |
 | Resign/timeout | The army becomes dead, its king remains live and moves uniformly at random from legal moves on its own scheduled turn; mate gives +20 and stalemate gives +10 to each remaining active player. | D + O | Record server PRNG algorithm/seed, candidate ordering, and chosen move. |
-| Draws | Insufficient material, threefold, and 50-move outcomes are automatic and award a flat, non-stacking +10 to each active player. The 50-move counter resets on pawn moves/captures, including dead capture; insufficient material means no active player can mate another. | D + O | Fixture thresholds and edge material. |
+| Draws | Insufficient material, threefold, and 50-move outcomes are automatic and award a flat, non-stacking +10 to each active player. The counter resets on pawn moves/captures, including dead capture; 50 rotations = 200 turns. Three/four-player insufficient material requires bare kings; two-player uses the stated FIDE dead positions. | D + O | Fixture the stated thresholds and material cases. |
 | Early abort | A resign or timeout before **all** players have made at least three moves aborts; the resigning player loses rating points. | D | Record per-seat move counts and event boundary; do not infer rating arithmetic or a normal placement. |
 | Special-move availability | Modern FFA replay shows both castles; Modern defaults enable en passant and disable Capture the King. | O | Availability is not a complete legality contract. |
 
@@ -90,16 +90,16 @@ Until closed, M1-03 must reject the behavior as an implementation decision.
 
 | Area | Current status | Required standard-FFA evidence / procedure | Contract after verification |
 | --- | --- | --- | --- |
-| Castling rights and geometry | O + V | O (maintainer report, 2026-09-06) establishes ordinary two-player destination/path and rights rules, plus dead-path blocking and no dead-piece attacks. Capture any remaining dead-piece special-right case in four-seat standard FFA and preserve board, legal/rejected action, and move list. | Standard geometry/rights/path rules, dead-path blocking/no attacks, and any confirmed special-right interaction. |
-| En-passant timing | O + V | O establishes each eligible pawn owner gets one chance on that owner's next scheduled turn, with no global expiry; a dead double-pushed pawn remains zero-point capturable. Capture every geometry and a pinned/king-safety case. | Per-player eligibility/expiry, target state, dead-pawn case, and king-safety treatment. |
-| Dead-piece interactions | D + O + V | D establishes inactive pieces and zero-point capture; O establishes no attacks, castle-path blocking, normal zero-point capture, and dead-pawn en passant. Confirm any unreported special-right interaction after checkmate and ordinary stalemate. | Inactive occupancy, zero-point capture, no attacks, path blocking, dead-pawn en-passant, and remaining special-right semantics. |
+| Castling rights and geometry | O | O establishes ordinary two-player destination/path and rights rules, plus passive dead-path blocking/no attack. Add fixtures and replay evidence; no further target semantic is open. | Standard geometry/rights/path rules and passive dead-path blocking. |
+| En-passant timing | O | O establishes each eligible pawn owner gets one chance on that owner's next scheduled turn, no global expiry, a zero-point dead-double-push capture, and ordinary self-check rejection. Add every-geometry fixture. | Per-player eligibility/expiry, target state, dead-pawn case, and king-safety treatment. |
+| Dead-piece interactions | D + O | D/O establish passive occupancy, zero-point capture, no attacks, no moves/special rights, path blocking, and dead-pawn en-passant. Add checkmate/stalemate fixtures. | Passive obstacle semantics. |
 | Walking-king randomness | D + O | O establishes regular-turn cadence, uniform legal-move choice, active-opponent safety, and no-legal-move resolution. The replay design must record PRNG algorithm/seed/candidate ordering and canonical selected move. | Server-authoritative deterministic replay of the stated selection rule. |
-| Promotion value and choices | D + O + V | D establishes automatic Queen and one-point capture value. From each colour, reach eighth rank and preserve coordinate/token evidence; verify whether any standard-FFA UI can contradict the automatic-choice rule and resolve any spare-king path separately. | Four-orientation coordinate fixture, automatic identity/provenance, and spare-king relation. |
-| Score-award timing | D + O + V | O establishes direct-current-move eligibility, capture/mate stacking, and Queen/non-Queen schedule. Capture award ordering and mixed discovered-check behavior. | Recipient, one-versus-per-king timing, stacking, and ledger ordering. |
-| Final +20/+40 predicate and claim | D + O + V | D establishes the two-player 21-point claim/+20 grant; O resolves Standard Modern as +20 per live walking king only for a sole survivor, with +40 legacy/custom only. Capture claim and walking-king ledgers. | Claim event, per-walking-king award, point ordering, and shared ties. |
-| Draw counters | D + O + V | D/O establish automatic triggers, flat +10 award, pawn/capture resets including dead capture, and no-active-mating-material predicate. Capture thresholds and edge material. | Counter projection, reset/automatic semantics, material predicate, and terminal ledger. |
+| Promotion value and choices | D + O | Automatic Queen, one-point capture value, Queen scoring classification, and no Modern spare king are settled. Add four-orientation fixture. | Four-orientation coordinate fixture and provenance. |
+| Score-award timing | D + O | Direct-current-move eligibility, capture/mate stacking, Queen/non-Queen schedule, and Queen-priority mixed discovered checks are settled. Add award-ledger fixture. | Recipient, mixed-check classification, and ledger ordering. |
+| Final +20/+40 predicate and claim | D + O | Standard Modern is +20 per live walking king only for a sole survivor; +40 is legacy/custom. A Claim Win ends immediately after the leader's surrendered king awards +20 to the trailer. Add ledgers. | Claim event, per-walking-king award, point ordering, and shared ties. |
+| Draw counters | D + O | Automatic triggers, flat +10 award, 50-rotation/200-turn threshold, pawn/capture resets, and stated 2-player/3+-player material predicates are settled. Add fixtures. | Counter projection and terminal ledger. |
 | Placement ties | O | O establishes shared equal placements and mean rank points for ratings; add result/rating fixtures. | Shared ranks with no chronology/seat/threshold tie-break. |
-| Early-abort boundaries | D + V | Exercise resign and timeout with per-seat completed-move vectors `[2,3,3,3]`, `[3,3,3,3]`, and at least one uneven vector where the actor has more than three moves. Preserve terminal panel and rating/result classification. | Inclusive/exclusive boundary, which action checks it, and abort replay/result fields. |
+| Early-abort boundaries | D | Exercise resign and timeout with per-seat completed-move vectors `[2,3,3,3]`, `[3,3,3,3]`, and an uneven vector. The documented predicate remains: abort iff any player has fewer than three completed moves. | Authoritative counter and abort replay/result fields. |
 
 An official support response that explicitly answers a row may replace a live
 replay for that row. The evidence record must retain the URL, retrieval date,
@@ -239,17 +239,17 @@ Blue, Yellow, and Green.
 
 | IDs | Evidence status | Required assertion |
 | --- | --- | --- |
-| `FFA-SETUP-01..04` | D + O + V | Canonical 160-square setup, Red-first clockwise order, orientation, and coordinate fixture. |
-| `FFA-CASTLE-01..16` | O + V | Both sides, all seats, ordinary rights/path restrictions, dead-path blocker/no attack, and any remaining special-right case. |
-| `FFA-EP-01..12` | O + V | Per-player eligibility/expiry, target, dead-pawn capture, and king-safety timing. |
-| `FFA-DEAD-01..08` | D + O + V | Zero score, inactive/no-attack, occupation/path blocking, and remaining special-right behavior. |
+| `FFA-SETUP-01..04` | D + O | Canonical 160-square setup, Red-first clockwise order, orientation, and coordinate fixture. |
+| `FFA-CASTLE-01..16` | O | Both sides, all seats, ordinary rights/path restrictions, and passive dead-path blocking/no attack. |
+| `FFA-EP-01..12` | O | Per-player eligibility/expiry, target, dead-pawn capture, and king-safety timing. |
+| `FFA-DEAD-01..08` | D + O | Zero score, passive occupation/no attack/no special rights, path blocking, and dead-pawn en passant. |
 | `FFA-WALK-01..08` | D + O | Resign/timeout transition, regular-turn uniform legal move, PRNG derivation, and stalemate award. |
-| `FFA-PROMO-01..08` | D + O + V | Eighth-rank coordinates, automatic 1-point-Queen provenance/value, and spare-king relation. |
-| `FFA-SCORE-01..16` | D + O + V | Active-piece values, mate/stalemate, direct-check/stacking, Queen schedule, mixed discovered checks, award ledger. |
-| `FFA-END-01..08` | D + O + V | Third elimination, 21-point claim, sole-survivor per-walking-king award, point ordering and shared ties. |
-| `FFA-DRAW-01..09` | D + O + V | Automatic insufficient-material/repetition/50-move triggers, resets, material predicate, and flat +10 terminal award. |
-| `FFA-ABORT-01..06` | D + V | Resign/timeout opening vectors and terminal classification without normal placement. |
-| `FFA-CORE-01..12` | O + V | Ordinary legality, active-king capture, mate/stalemate timing, and turn rotation. |
+| `FFA-PROMO-01..08` | D + O | Eighth-rank coordinates, automatic 1-point-Queen provenance/value/classification, and no spare king. |
+| `FFA-SCORE-01..16` | D + O | Active-piece values, mate/stalemate, direct-check/stacking, Queen schedule, mixed discovered checks, award ledger. |
+| `FFA-END-01..08` | D + O | Third elimination, immediate 21-point claim, sole-survivor per-walking-king award, point ordering and shared ties. |
+| `FFA-DRAW-01..09` | D + O | Automatic insufficient-material/repetition/50-move triggers, 50 rotations/200 turns, resets, material predicate, and flat +10 terminal award. |
+| `FFA-ABORT-01..06` | D | Resign/timeout opening vectors and terminal classification without normal placement. |
+| `FFA-CORE-01..12` | O | Ordinary legality, active-king capture, deferred mate/stalemate timing, and turn rotation. |
 | `REPLAY-01..12` | M | v2 round-trip, event/hash rejection, ruleset/setup mismatch, random action, award ledger, abort, incomplete game, build provenance, and legacy-manifest rejection. |
 
 ## Decision gates and next action
@@ -257,9 +257,10 @@ Blue, Yellow, and Green.
 These gates deliberately keep maintainer authority distinct from reference-game
 evidence.
 
-1. **Evidence gate (D/O/V):** Close every V row above with a linked official
-   clarification or reproducible standard-FFA evidence reviewed into the audit.
-   Mark its fixture expectation `D` or `O`; retain the source date and scope.
+1. **Evidence gate (D/O):** The current ledger has a D/O target fact for every
+   release-affecting behavior. Preserve the source date/scope and write the
+   listed fixtures as executable evidence; a later contradiction reopens the
+   affected row rather than silently changing the ruleset.
 2. **Contract gate (M):** The maintainer accepts or revises the five identifiers,
    replay v2 invariants, canonical state/hash policy, and legacy classification
    policy. This acceptance chooses li4chess storage/migration behavior; it does
@@ -272,7 +273,8 @@ evidence.
    UI, bot, and arena changes. Preserve old artifacts and run a ruleset-specific
    replay reader/fixture suite before comparing measurements.
 
-**Exact next actionable task:** capture `FFA-EP-01..12` king-safety/geometry
-evidence in standard FFA / Modern: every eligible-owner geometry, each player's
-scheduled expiry, dead-double-push capture, and a pinned/self-check rejection.
-Add the evidence to the audit before implementation.
+**Exact next actionable task:** the maintainer accepts or revises the proposed
+identifiers, replay v2 invariants, canonical state/hash policy, and legacy
+classification policy. Once accepted, begin M1-03 by turning the D/O fixture
+inventory—starting with `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
+`FFA-EP-01..12`—into focused engine/replay tests before changing behavior.

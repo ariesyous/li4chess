@@ -82,13 +82,14 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   [setup.ts](../packages/engine/src/setup.ts), and
   [board.test.ts](../packages/engine/test/board.test.ts) /
   [setup.test.ts](../packages/engine/test/setup.test.ts).
-- **Target — documented + observed, with coordinate fixture unresolved:** FFA
-  terms documents a 160-square board, Red first, and clockwise Red → Blue →
-  Yellow → Green play. The current FFA / Modern editor visibly uses a 14×14
-  cross and four standard 16-piece armies, matching the broad current geometry.
-  The source still does not serialize the exact starting coordinates or settle
-  random seat assignment; the event rulebook only identifies "modern setup"
-  with random colors. A canonical coordinate fixture remains required.
+- **Target — documented + observed (maintainer report):** FFA terms documents
+  a 160-square board, Red first, and clockwise Red → Blue → Yellow → Green
+  play. The exact Modern layout is a 14×14 grid with four 3×3 corner cutouts:
+  Red occupies ranks 1–2/files d–k, Blue files a–b/ranks 4–11, Yellow ranks
+  13–14/files d–k, and Green files m–n/ranks 4–11. In each player's outward
+  baseline frame, the back rank is Rook, Knight, Bishop, Queen, King, Bishop,
+  Knight, Rook; the Queen is left of the King. Random color assignment assigns
+  seats only—Red always moves first.
 - **Required change / acceptance scenario:** Record a standard, non-Diplomacy
   FFA board at game creation (all 64 piece squares, color order, first mover,
   and orientation) and convert it into a four-color fixture. Assert the target
@@ -108,17 +109,14 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   [legality.ts](../packages/engine/src/rules/legality.ts), and
   [movegen.test.ts](../packages/engine/test/movegen.test.ts) /
   [legality.test.ts](../packages/engine/test/legality.test.ts).
-- **Target — observed + unresolved:** The FFA help article does not define
-  ordinary piece movement, pawn double pushes, self-check, or king adjacency.
-  The current Modern rules editor has **Capture the King** disabled, supporting
-  (but not yet proving through a played move) that active enemy kings are not
-  capturable in standard FFA. Its +20 active-king scoring entry therefore must
-  not be read as permission to capture a live normal king.
-- **Required change / acceptance scenario:** In an isolated standard FFA game,
-  test a legal ordinary move for each of four orientations, a move exposing the
-  mover's king, adjacent live kings, and an apparent capture of an active
-  opponent king. Save the move list/rejection and replay. Add a fixture for
-  every confirmed behavior before altering move generation.
+- **Target — observed (maintainer report):** A move may not leave its own king
+  in check from any active opponent; absolute pins apply across all opponents.
+  Active kings cannot be orthogonally or diagonally adjacent and a live king can
+  never be captured. Pawns may double-push from their designated starting
+  rank/file on their first move. These rules apply in all four orientations.
+- **Required change / acceptance scenario:** Add four-orientation fixtures for
+  self-check/pin rejection, live-king capture rejection, king adjacency, and
+  unobstructed first-move double pushes.
 
 ### Check, checkmate, and stalemate
 
@@ -157,8 +155,8 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   [elimination.ts](../packages/engine/src/rules/elimination.ts), and
   [movegen.test.ts](../packages/engine/test/movegen.test.ts) /
   [legality.test.ts](../packages/engine/test/legality.test.ts).
-- **Target — observed + maintainer-reported observation, with dead-army attack
-  semantics unresolved:** The current FFA help and event rulebook do not mention
+- **Target — observed + maintainer-reported observation:** The current FFA help
+  and event rulebook do not mention
   castling. The observed standard FFA replay includes both `O-O-O` and `O-O`,
   confirming that castling exists in current Modern FFA. On 2026-09-06, the
   maintainer reported that live standard FFA castling otherwise follows ordinary
@@ -170,14 +168,14 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   maintainer observation, not an official documentation claim or an attached
   replay fixture. FFA terms now documents that pieces of a checkmated or
   stalemated player are inactive; the maintainer additionally confirmed that
-  dead pieces do not attack. The remaining question is whether any unreported
-  dead-piece special right affects castling beyond path clearance.
+  dead pieces do not attack or retain special rights. They are only passive
+  physical obstacles until an active piece captures them for zero points.
 - **Required change / acceptance scenario:** Add four-orientation fixtures for
   each side's standard destination, rights loss after king/rook movement or
   rook capture, check/transit/destination restriction, and dead-path blocker.
-  The remaining targeted capture must test whether any unreported dead-piece
-  special-right behavior changes the result. Preserve a replay or screenshot
-  when available; do not invent those remaining dead-army interactions.
+  Fixture all four orientations and both castle sides, including the passive
+  dead-path blocker/no-attack case. Preserve a replay or screenshot when
+  available.
 
 ### En passant
 
@@ -194,12 +192,12 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   permanently after making another move. Thus each eligible opponent has one
   chance when their clockwise turn arrives, not one global-move window. The
   current Modern header's `EnPassant` setting corroborates that the feature is
-  enabled. The report does not separately state the pinned/king-safety result.
+  enabled. Like every move, en passant is illegal if it exposes the capturer's
+  king to any active opponent; standard absolute-pin legality applies.
 - **Required change / acceptance scenario:** Store eligibility per player, not
   one globally cleared target. In standard FFA, arrange every geometrically
   possible double-push/capturer relation and assert each player's scheduled
-  expiry. Add a pinned case and confirm that ordinary king-safety legality
-  rejects it when appropriate.
+  expiry. Add a pinned/self-check case and assert its rejection.
 
 ### Promotion
 
@@ -216,13 +214,16 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   1-point queen on the 8th rank" and emits `PromoteTo=D`; the replay records
   ordinary and capture promotions as `=Q` (including `7xh6=Q`). This establishes
   default identity, automatic choice, and capture value. Exact modern-board
-  coordinates still need a four-orientation fixture. The Teams 11th-rank rule
-  and underpromotion option are not applicable.
+  coordinates now have the recorded Modern setup fixture. A promoted pawn-Queen
+  is still a Queen for multi-check scoring despite its one-point capture value.
+  "Spare King +3" is legacy/custom odds infrastructure: standard Modern FFA
+  matchmaking never creates spare kings, so it is outside target fixtures. The
+  Teams 11th-rank rule and underpromotion option are not applicable.
 - **Required change / acceptance scenario:** From each color's starting edge,
   advance a pawn to the product's displayed eighth rank and assert automatic
   Queen promotion, its 1-point capture value, and the replay token. Assert a
-  pawn at the old far edge does not promote unless the live product demonstrates
-  otherwise.
+  pawn at the old far edge does not promote, and assert Queen-tier multi-check
+  scoring for a pawn-Queen.
 
 ### Scoring
 
@@ -233,7 +234,8 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   [scoring.ts](../packages/engine/src/rules/scoring.ts),
   [applyMove.ts](../packages/engine/src/rules/applyMove.ts), and
   [applyMove.test.ts](../packages/engine/test/applyMove.test.ts).
-- **Target — documented + observed, with remaining terms unresolved:** FFA help specifies:
+- **Target — documented + observed, with replay-ledger fixture work remaining:**
+  FFA help specifies:
   mate +20; self-stalemate +20; active Pawn/"1-point Queen" +1, Knight +3,
   Bishop +5, Rook +5, Queen +9, King +20, and Spare king +3; a double check is
   Queen +1/other +5 and a triple check is Queen +5/other +20. It calls the
@@ -247,15 +249,15 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   stack with capture and mate rewards on that move. The documented Queen-specific
   schedule applies: Queen double/triple check = +1/+5; a Rook, Bishop, Knight,
   or Pawn = +5/+20. For a discovered/mixed check, evaluate every checking piece
-  newly delivered on that turn; fixture the exact mixed-piece ledger.
+  newly delivered on that turn; if any is a Queen (including a pawn-Queen), use
+  the lower Queen tier to prevent score inflation.
 - **Required change / acceptance scenario:** Build independent fixtures for
   every active-piece value, mate, self-stalemate, queen/non-queen double and
   triple checks, last-live-king award, automatic 1-point Queen, and a spare
   king. For each, assert exact deltas, recipients, event ordering, direct-check
   eligibility, stacking, Queen/non-Queen schedule, mixed discovered checks, and
-  no award for a capture of a dead piece. Resolve the undefined spare-king
-  identity by inspecting standard FFA move history/scoreboard rather than
-  guessing.
+  no award for a capture of a dead piece. Omit spare king from Standard Modern
+  fixtures; it is not a reachable target-game piece.
 
 ### Eliminated and dead pieces
 
@@ -273,12 +275,11 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   castle path. Dead pieces can be captured normally for zero points. They cannot
   move or execute en passant; a pawn which double-pushes then immediately dies
   may still be captured en passant by an eligible active opponent for zero
-  points. The source/report do not settle unreported special-right interactions
-  beyond these cases.
+  points. They retain no special rights beyond these explicitly passive cases.
 - **Required change / acceptance scenario:** Checkmate a player with a blocker,
   slider, pawn, rook, and king still on board. On the next turns, confirm
   blocking, zero-point capture, no attacks, and the dead-double-push en-passant
-  case. Repeat for a stalemate. Model a confirmed dead piece distinctly enough
+  case. Repeat for a stalemate. Model the passive obstacle distinctly enough
   that replay and move generation preserve its interaction rules.
 
 ### Resignation
@@ -331,14 +332,15 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   test. [useLocalGame.ts](../apps/web/src/game/useLocalGame.ts) owns all state
   in React and [protocol/index.ts](../packages/protocol/src/index.ts) only
   JSON-stringifies state.
-- **Target — documented:** FFA help gives a disconnected player 60 seconds to
-  reconnect before forfeiture on time. It does not define grace-period clock
-  behavior, repeated disconnects, or reconnect authorization.
+- **Target — documented + observed (maintainer report):** FFA help gives a
+  disconnected player 60 seconds to reconnect before forfeiture on time. The
+  main game clock continues during that window and flags immediately at zero.
+  The 60 seconds is one cumulative disconnect bank per match; after it is spent
+  across any number of drops, a later disconnect forfeits immediately.
 - **Required change / acceptance scenario:** In an authoritative multiplayer
-  harness, sever a player connection at 59 s and 61 s, reconnect with the same
-  identity, and confirm the authoritative clock/result. Test a move sent around
-  a disconnect boundary and duplicate reconnects. These belong to M3 but must
-  share the M1 timeout semantics.
+  harness, test clock flag before reconnect, cumulative 59/60-second drops,
+  reconnect authorization, duplicate reconnects, and move ordering around a
+  disconnect. These are M3 tests but must share M1 timeout semantics.
 
 ### Draws and non-elimination endings
 
@@ -356,12 +358,17 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   non-stacking +10 award regardless of whether two or three players remain;
   threefold and 50-move triggers are automatic. The latter resets on every pawn
   move or capture, including capture of a dead piece. Insufficient material is
-  automatic when no remaining active player can mate another (for example, King
-  versus King or King plus one minor versus King with two players).
+  automatic when no remaining active player can mate another. With three or
+  four active players, that means every active player is a bare King; any pawn
+  or minor piece preserves mating potential. With two active players, standard
+  FIDE dead-position cases apply: K v K, K+B v K, K+N v K, and K+B v K+B with
+  bishops on the same colour.
 - **Required change / acceptance scenario:** Fixture automatic threefold,
   automatic 50-move threshold/reset (including dead capture), and the stated
-  insufficient-material predicate. Preserve the score ledger before/after the
-  terminal event and assert exactly +10 to each active player.
+  insufficient-material predicate. The 50-move threshold is 50 completed
+  four-player rotations (200 individual turns), not 100 plies. Preserve the
+  score ledger before/after the terminal event and assert exactly +10 to each
+  active player.
 
 ### Game conclusion and placement ties
 
@@ -371,7 +378,7 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   See [rules-spec.md](rules-spec.md),
   [elimination.ts](../packages/engine/src/rules/elimination.ts), and
   [applyMove.test.ts](../packages/engine/test/applyMove.test.ts).
-- **Target — documented + observed, with ties/final-award predicate unresolved:**
+- **Target — documented + observed:**
   FFA help says the objective is most points, three eliminations end the game,
   the final surviving player gets +20 (or +40) for each other live king, and
   only final placement affects ratings. FFA terms additionally documents a
@@ -396,7 +403,9 @@ from the [FFA help article](https://support.chess.com/en/articles/8614233-4-play
   Named draws instead award only their flat +10. In Standard Modern FFA, a sole
   survivor receives +20 for **each live walking king** left on the board; +40
   is legacy/custom configuration, not the Standard Modern base value. Fixture
-  the claim ledger and per-walking-king award alongside point ordering/ties.
+  the claim ledger and per-walking-king award alongside point ordering/ties. A
+  Claim Win ends the game immediately: scores/placements freeze and no walking
+  king turn follows.
 
 ### Early aborts
 

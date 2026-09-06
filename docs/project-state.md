@@ -13,10 +13,10 @@ Git history preserves earlier snapshots; keep this file focused on current work.
 does not change the local house rules. **M1-02 is in progress:** its
 [ruleset/replay migration contract](ruleset-versioning.md) now locks final
 proposed product-owned identifiers, v2 deterministic event/state requirements,
-legacy preservation, and evidence-status fixture inventory. The remaining work
-is standard-FFA verification of every release-affecting V row and maintainer
-acceptance of the migration choices; no unresolved semantics may be guessed in
-M1-03. The first public release is M4, public FFA
+legacy preservation, and evidence-status fixture inventory. All
+release-affecting game semantics now have D/O target evidence; the remaining
+work is maintainer acceptance of the migration choices and M1-03 fixtures/
+implementation. The first public release is M4, public FFA
 matchmaking with ratings, anonymous access, and CPU play.
 
 Code baseline reviewed: `5c089934d736bd19199875637a864e4bd395055b` on `main`.
@@ -54,7 +54,7 @@ These are queued tasks, not claims of work already started. Start with M1-01.
 | ID | Task | Done when |
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
-| M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **In progress 2026-09-06.** [Migration contract](ruleset-versioning.md) defines the proposed ruleset/schema/build IDs, canonical state/event/hash requirements, legacy manifest policy, evidence-status fixture IDs, and explicit no-guess gates. Maintainer clarification resolves terminal scoring and Queen/non-Queen multi-check values. Next: capture `FFA-EP-01..12` king-safety/geometry evidence. Complete it only after remaining V rows and migration choices are accepted. |
+| M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **In progress 2026-09-06.** [Migration contract](ruleset-versioning.md) now has D/O target evidence for every release-affecting rule, including setup, ordinary legality, special moves, draws, endings, and disconnects. Next: maintainer acceptance of the proposed identifiers/replay/legacy policy; then M1-03 writes the fixture inventory as executable tests. |
 | M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | M1 exit criteria and repository validation pass; historical evidence remains intact. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
@@ -72,7 +72,7 @@ as measurements of the new ruleset.
 | Q3 | Must rating calculations exactly match Chess.com's? | Rules compatibility is accepted. Use its rating overview as a reference; document ties, parameters, and corrections before choosing an implementation. | M4 |
 | Q4 | Which hosting provider, region, budget ceiling, and load target? | Defer selection and current price research until deployment design; keep PostgreSQL portable. | M4 release gate |
 | Q5 | How should mixed online human/CPU games work? | Local anonymous CPU play is required. Shared online CPUs are optional; propose explicit opt-in, labels, server ownership, and exclusion from human rating pools. | Before adding online CPU seats |
-| Q6 | Which remaining standard-FFA mechanics still need evidence before implementation? | The M1-02 ledger now has a target contract for terminal scoring, multi-check, walking kings, draws, ties, and dead pieces. Remaining V work is canonical setup/orientation, complete castling/dead-special cases, en-passant king safety, score-event ordering/mixed discovered checks, draw thresholds/material edges, early-abort boundaries, and a maintainer decision on identifiers/migration policy. | M1-02 |
+| Q6 | Which remaining standard-FFA mechanics still need evidence before implementation? | None are currently unresolved: the maintainer supplied D/O-equivalent standard-FFA answers for setup, legality, special moves, scoring, endings, draws, ties, and disconnects. The remaining M1-02 gate is a maintainer decision on identifiers/replay/legacy migration; M1-03 then makes each documented fixture executable. | M1-02 |
 | Q7 | What must a replay record for authoritative timeout/resignation randomness? | Record server PRNG algorithm/seed, canonical candidate ordering/hash, draw index, selected legal move, trigger sequence, and state hash. M3 must supply server authority; M1-02 defines the schema contract only. | M1-02 / M3 |
 
 Q1 (anonymous rating eligibility) is resolved by D07. No unresolved question
@@ -171,6 +171,14 @@ depends on them; do not reopen already accepted requirements.
   multi-check is +1/+5 and non-Queen is +5/+20. This resolves the recorded
   conflict; remaining work is evidence fixtures and maintainer acceptance, not
   target-score guessing.
+- M1-02 complete rule-answer update on 2026-09-06: maintainer-provided standard
+  FFA behavior resolved canonical setup/orientation, normal self-check/pin/king
+  legality, en-passant pin legality, passive dead-piece semantics, pawn-Queen
+  classification/no spare king, Queen-priority mixed checks, full draw identity
+  and thresholds/material predicates, immediate Claim Win, and cumulative
+  disconnect-bank behavior. The contract now classifies every release-affecting
+  game rule D/O; it still requires explicit maintainer acceptance of the
+  product-owned identifiers and replay/legacy policy before M1-03.
 - Documentation validation on 2026-09-06: local Markdown links in the audit,
   versioning proposal, project state, and roadmap resolve; `git diff --check`
   also passed (including the untracked proposal). The official help and event
