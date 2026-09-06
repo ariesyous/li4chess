@@ -53,7 +53,7 @@ capabilities do not make a milestone complete.
 | --- | --- | --- | --- | --- |
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
 | M2 | Responsive local and CPU play | Complete | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
-| M3 | Reliable online game service | Planned | M1 | Four remote players can finish and recover a game. |
+| M3 | Reliable online game service | In progress | M1 | Four remote players can finish and recover a game. |
 | M4 | Public matchmaking and rated beta | Planned | M2, M3 | Players can find opponents and build a credible rating. |
 | M5 | Analysis and learning | Planned | M4; editor/replay work can begin earlier | Players can understand and improve their play. |
 | M6 | Community and organized competition | Planned | M4 | Communities can organize and follow events. |
@@ -120,8 +120,8 @@ second slice (`a61031b`). The responsive frame and keyboard navigation are
 satisfy the local capability gates in `e02a0ad`. Independent review and fresh full
 validation (602 unit tests, 46 browser tests, lint and build) passed, as did
 [CI on the final implementation](https://github.com/ariesyous/li4chess/actions/runs/34058335008).
-The documentation closeout is checked again on its pushed revision. M3 has not
-started; physical-device and screen-reader testing remain documented limitations.
+PR #11 merged at `d0249a3`; its post-merge CI and Pages deployment passed.
+Physical-device and screen-reader testing remain documented limitations.
 
 **Capabilities**
 
@@ -152,6 +152,10 @@ event/replay history, and mobile/accessibility parity. This is a product
 direction, not Chess.com visual copying or a claim of implemented parity.
 
 ### M3 — Reliable online game service (internal alpha)
+
+**M3-01 in progress (2026-09-06):** the isolated local prototype and
+[ADR](docs/m3-01-adr.md) validate consistency/recovery boundaries. No online
+service is shipped or provisioned. M3-02 through M3-06 remain planned.
 
 **Capabilities**
 

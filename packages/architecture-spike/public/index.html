@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>li4chess architecture probe</title>
+<h1>Local architecture probe</h1>
+<p>This isolated probe does not provide online play. The integration client exercises authenticated rooms and reconnection.</p>
+<button id="check">Check Worker connection</button><output id="status" aria-live="polite"></output>
+<script type="module">
+document.querySelector('#check').onclick = async () => {
+  const response = await fetch('/health');
+  document.querySelector('#status').textContent = response.ok ? 'Worker connected' : 'Worker unavailable';
+};
+</script></html>

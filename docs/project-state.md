@@ -8,17 +8,20 @@ superseded handoffs.
 
 ## Current focus
 
-**M2 is complete.** The authorized goal stops before M3. Acceptance inputs,
-expected outcomes and measurable thresholds are in [M2 acceptance](m2-acceptance.md).
-Reviewed slices are `839aa46` (Workers), `a61031b` (save/resume), `386ca59`
-(frame/accessibility), and `e02a0ad` (calibration/complete games).
-[Acceptance evidence](m2-evidence/README.md) covers every M2 capability and exit
-criterion. Fresh full local checks and [final implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34058335008)
-passed; all substantive independent reviews are resolved. The documentation
-closeout is verified again on its pushed revision before ending the goal.
-[Draft PR #11](https://github.com/ariesyous/li4chess/pull/11) remains unmerged.
-M3 has not started, and no service was published or provisioned.
+**M3-01 is in progress**, scoped to isolated Cloudflare prototypes and the
+[architecture ADR](m3-01-adr.md), [acceptance plan](m3-01-acceptance.md) and
+[official-source research](m3-01-platform-research.md). The authorized goal ends
+before M3-02, after independent review, fresh checks, commits and a draft PR.
+No merge, main push, deployment, provisioning or purchase is authorized.
 
+**M2 is complete and merged.** [PR #11](https://github.com/ariesyous/li4chess/pull/11)
+merged at `d0249a3deffe0ed3e147b49b33e50ebc8b5c6f05`.
+[Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/34060918247) and
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/34060918157)
+were independently verified successful at that revision on 2026-09-06.
+M3-01 started on `codex/m3-01-architecture` from that fetched remote baseline.
+Pre-existing Wrangler dependency/workspace edits were preserved and reused for
+the authorized prototype; their original patch was saved outside the checkout.
 **M1 is complete.** M1-01/M1-02/M1-03 are complete and
 all D/O requirements in the accepted contract have executable coverage. The
 implementation activates `li4chess-ffa-standard-v1` after independently
@@ -27,8 +30,8 @@ reviewed rule and replay implementations. Preserve its accepted contract.
 M2 began from clean fetched `origin/main`, merge `7f2593c96301853c6b3a9ebeaaaf6ea4683dc698`,
 on dedicated `codex/m2-completion`. GitHub verifies [M1 PR #10](https://github.com/ariesyous/li4chess/pull/10)
 merged with passing checks. Human Git identity is Aries Youssefian. Node 24.18.0
-and pinned pnpm 10.33.0 via temporary Corepack shims are verified. No merge,
-main push, publication, provisioning or M3 work is authorized.
+and pinned pnpm 10.33.0 via temporary Corepack shims are verified. Current
+M3-01 scope is stated above.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
 uses the bounded Worker path with measured resource policies. Live clocks, connection-bank tracking,
@@ -166,9 +169,8 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-The authorized M2 work is complete. The draft PR is ready for maintainer review;
-merge/publication and M3-01 are outside this goal. The M3 task below records the
-next roadmap item only, without authorizing implementation.
+Complete only M3-01 under the current goal. The ADR records the handoff to
+M3-02 through M3-06; no later implementation is authorized in this task.
 
 | ID | Task | Done when |
 | --- | --- | --- |
@@ -404,4 +406,5 @@ passed on `e02a0adf6c95e812912eb8dbebdf5d38e0261198`: frozen install, lint, unit
 tests, build and browser tests on Ubuntu/Node 24/pnpm 10.33.0. Every M2 exit
 criterion has evidence; M2 is complete. This final closeout changes documentation
 only, with links/diff checks and pushed-revision CI verified again before ending
-the goal. M3 has not started; the PR remains a draft with no merge or deployment.
+the goal. This was the M2 closeout state; PR #11 has since merged, and its successful
+post-merge CI/deployment are verified in the current focus above.

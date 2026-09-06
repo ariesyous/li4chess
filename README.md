@@ -83,6 +83,7 @@ The TypeScript monorepo uses pnpm workspaces and Turborepo.
 | [`packages/arena`](packages/arena) | Seeded tournaments, replay validation, reports, and benchmarks. |
 | [`packages/protocol`](packages/protocol) | Validated state-v2/replay-v2, canonical hashes and producer provenance. |
 | [`packages/ui-kit`](packages/ui-kit) | Presentational board, piece glyphs, and player colors. |
+| [`packages/architecture-spike`](packages/architecture-spike) | Isolated M3-01 local Cloudflare consistency/recovery prototype; no shipped online play. |
 
 The main application flow lives in
 [`useLocalGame`](apps/web/src/game/useLocalGame.ts): human input or CPU search
@@ -119,6 +120,15 @@ CI runs lint, unit tests, the production build, and browser tests on pull
 requests and pushes to `main`. Playwright starts its own local Vite server.
 The GitHub Pages workflow deploys `apps/web/dist` from `main`; Vite's base path
 is configured for `/li4chess/`.
+
+The isolated [M3-01 architecture probe](packages/architecture-spike/README.md)
+uses actual local Wrangler/workerd, SQLite Durable Objects, D1 and WebSockets.
+After `pnpm build`, run
+`pnpm --filter @li4chess/architecture-spike test:integration` to exercise
+authorization, retries, persistence boundaries and whole-runtime restart.
+It stages the existing Vite assets locally and requires no Cloudflare account.
+The [ADR](docs/m3-01-adr.md) defines canonical persistence, recovery and hosted
+validation gates. Existing local play and Pages deployment remain as described above.
 
 ## Bot research and benchmarks
 
@@ -165,7 +175,8 @@ current focus, the next actionable tasks, open questions, and dated validation
 between development sessions. M1 is complete; see the
 [fixture coverage](docs/m1-03-fixtures.md).
 M2 is complete; [acceptance evidence](docs/m2-evidence/README.md) records production
-budgets, complete games and inspected layouts. M3 has not started. Research continues
+budgets, complete games and inspected layouts. M3-01 is in progress as an isolated
+architecture spike; M3 remains incomplete. Research continues
 alongside the product roadmap with versioned, reproducible evidence.
 
 See [AGENTS.md](AGENTS.md) for repository conventions, including validation,
