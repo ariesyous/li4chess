@@ -9,7 +9,7 @@ import { ALL_COLORS, GameState, PieceType } from "../types.js";
  * board+turn wouldn't otherwise capture).
  */
 export function positionKey(state: GameState): string {
-  const boardPart = state.board.map((p) => (p ? `${p.owner}${p.type}${p.type === PieceType.Pawn ? +p.hasMoved : ""}` : ".")).join("");
+  const boardPart = state.board.map((p) => (p ? `${p.owner}${p.type}${p.promotedFrom ?? ""}${p.type === PieceType.Pawn ? +p.hasMoved : ""}` : ".")).join("");
   const castlingPart = ALL_COLORS.map(
     (c) => `${state.castlingRights[c].kingside ? 1 : 0}${state.castlingRights[c].queenside ? 1 : 0}`
   ).join("");

@@ -12,19 +12,20 @@ function emptyState(): GameState {
 }
 
 describe("pawn moves per orientation", () => {
-  it("promotes on reaching local rank 13, for every color", () => {
+  it("promotes automatically on reaching local rank 7, for every color", () => {
     for (const color of ALL_COLORS) {
       const state = emptyState();
       const board = state.board.slice();
-      const from = localSquare(color, 3, 12);
+      const from = localSquare(color, 3, 6);
       board[from] = { type: PieceType.Pawn, owner: color, hasMoved: true };
       const testState = { ...state, board, turn: color };
 
       const moves = pseudoLegalMoves(testState, color);
       const promotions = moves.filter((m) => m.promotion !== undefined);
-      expect(promotions.length).toBe(4); // Q, R, B, N
+      expect(promotions.length).toBe(1);
       for (const m of promotions) {
-        expect(m.to).toBe(localSquare(color, 3, 13));
+        expect(m.to).toBe(localSquare(color, 3, 7));
+        expect(m.promotion).toBe(PieceType.Queen);
       }
     }
   });

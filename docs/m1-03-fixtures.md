@@ -1,4 +1,4 @@
-# M1-03 setup, core, en-passant, castling, and passive dead-army fixtures
+# M1-03 executable fixture coverage
 
 Implemented 2026-09-06 from the accepted D/O inventory in
 [the migration contract](ruleset-versioning.md). The dated coordinate and
@@ -175,13 +175,39 @@ pushes. Awards and walking kings are outside this slice.
   the accepted replay-v2 format and must not be published as new versioned
   research evidence before that migration is complete.
 
+## Promotion fixture inputs and expected results
+
+Written before behavior changes on 2026-09-06; source:
+[FFA promotion](../packages/engine/test/ffa-promotion.test.ts). All cases rotate
+through four seats. Starting positions have the four home kings, moved pieces,
+empty remaining squares, revoked castles and empty EP/repetition records unless
+stated. Coordinates below use the Red frame. The independent absolute quiet
+promotion oracle is Red `(5,6)→(5,7)`, Blue `(6,8)→(7,8)`, Yellow
+`(8,7)→(8,6)`, Green `(7,5)→(6,5)`.
+
+| Fixture | Explicit input / expected result |
+| --- | --- |
+| FFA-PROMO-01 | Pawn `(5,6)→(5,7)` has one legal Queen outcome; exact absolute square, moved flag, pawn provenance, unchanged scores, and `=Q` move metadata. |
+| FFA-PROMO-02 | Same pawn captures a Blue Knight on either `(4,7)` or `(6,7)`; Queen/provenance and +3. |
+| FFA-PROMO-03 | Pawn advances from rank 5, 7, or historical rank 12; remains Pawn with no promotion. Post-eighth-rank pawns are explicit synthetic boundary inputs, not reachable Modern histories. |
+| FFA-PROMO-04 | Omitted promotion equals explicit Queen request; Pawn/Knight/Bishop/Rook/King requests reject without mutation; board still has exactly four Kings. |
+| FFA-PROMO-05 | Actual promotion followed by Blue Knight `(4,9)→(5,7)` gives +1 and captured provenance. Native Queen gives +9; explicit dead promoted Queen gives +0. |
+| FFA-PROMO-06 | Promote, legal intervening Kings `(0,6)→(0,5)`, `(6,13)→(6,12)`, `(13,7)→(12,8)`, Queen `(5,7)→(8,10)`; provenance survives, JSON replay agrees, native versus promoted repetition keys differ. |
+| FFA-PROMO-07 | Promoted Queen generates orthogonal/diagonal moves and checks with Queen type. **Partial:** exact Queen-tier multi-check awards await SCORE integration. |
+| FFA-PROMO-08 | Pawn pinned to King `(5,0)` by Rook `(5,9)` cannot capture off-file to promote. Capture of a dead Knight still promotes for zero. Cross-feature extension: Blue Pawn `(1,7)→(3,7)`, intervening turns, Red Pawn `(3,6)→(2,7)` EP promotes; remove victim, clear rights, +1 live/+0 dead. |
+
+The initial 32-test baseline failed before promotion implementation (one invalid
+Knight capture and two intervening King destinations were corrected). Independent
+review identified EP's separate emission path; four new rotated regressions
+failed before routing EP through the same promotion emitter. There are now 36
+promotion tests. Protocol state/move round-trips, bot full/delta hash identity,
+and a browser promotion/capture scenario cover direct consumers. The current bot
+corpus promotion input moves to rank 6; historical artifacts are unchanged.
+
 ## Exact next slice
 
-Proposed next: write `FFA-PROMO-01..08` inputs and expected results first,
-covering eighth-rank coordinates for every seat, automatic Queen promotion,
-one-point capture provenance/value, Queen classification, and no spare king.
-Then implement only the promotion slice and necessary consumers. This is not
-work started here. Awards and walking kings remain separate SCORE/WALK work.
-Continue to reserve standard-v1 and preserve historical sources. SCORE, WALK,
-END, DRAW, ABORT, and replay-v2/state-v2 remain later M1-03 work; M2/M3 remain
-outside this work.
+Write `FFA-SCORE-01..16` explicit ledgers before behavior changes. Cover accepted
+piece values, mate/stalemate recipients, newly delivered checks, Queen-priority
+mixed checks, stacking and deterministic order; close PROMO-07's award assertion.
+Then WALK, END, DRAW, ABORT and state-v2/replay-v2, with consumer alignment and
+complete-game evidence. Standard-v1 stays reserved. M2/M3 remain outside scope.

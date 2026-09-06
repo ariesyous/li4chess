@@ -1,8 +1,18 @@
 import { expect, it } from "vitest";
-import { applyMove, createInitialState, legalMoves } from "@li4chess/engine";
+import { PieceType, applyMove, createInitialState, legalMoves } from "@li4chess/engine";
 import { positionHash, searchSignature, TranspositionTable, updatePositionHash } from "../src/hash.js";
 import { loadPosition, positions } from "../src/positions.js";
 import { searchPosition } from "../src/lab-search.js";
+
+it("distinguishes native and pawn-Queens in full and incremental hashes", () => {
+  const before = createInitialState();
+  const board = before.board.slice();
+  board[6] = { ...board[6]!, promotedFrom:PieceType.Pawn };
+  const after = { ...before, board };
+  expect(positionHash(after)).not.toBe(positionHash(before));
+  expect(searchSignature(after)).not.toBe(searchSignature(before));
+  expect(updatePositionHash(positionHash(before), before, after)).toBe(positionHash(after));
+});
 
 it("delta hashes match full recomputation over legal paths and tactical transitions", () => {
   for (const spec of positions) {

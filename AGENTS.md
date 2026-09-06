@@ -44,20 +44,24 @@ dependencies. Preserve immutable state transitions and JSON-shaped game state.
 - Implement rules in `packages/engine`; avoid duplicating legality or scoring in the UI or bot.
 - Use the shared board transforms for player-relative geometry. The board is a 14×14 array with 160 playable squares; turn order is Red → Blue → Yellow → Green, skipping inactive players.
 - A legal move must leave the mover's own king safe. Resolve another player's checkmate or stalemate when rotation reaches that player, not immediately when they are checked.
-- Checkmate removes that player's pieces. Stalemate freezes their pieces in place and skips their turns.
+- Checkmate and stalemate retain passive dead armies: zero-point capturable blockers that cannot move or attack. Their owners lose special rights and skip turns.
+- Pawns automatically promote on their eighth rank to Queens with pawn provenance and one-point capture value; no underpromotion or spare king.
 - The last active player wins. Capture points break elimination-placement ties; they are not the primary win condition. Threefold repetition ties active players for first.
 - `applyMove` assumes a legal move. Validate external move requests against the engine's legal moves before applying them.
 - For intentional rules changes, update the specification and add focused regression coverage. Cover all four orientations when changing pawn movement, castling, or board transforms.
 
-The behavior above describes the existing house rules. The accepted product
+The behavior above describes the partial migration; the historical house rules
+are preserved in `docs/rules-spec-house-ffa-v1.md`. The accepted product
 target is Chess.com's standard FFA rules, including its different scoring,
 promotion, and elimination behavior. M1 is the compatibility audit and migration;
 do not preserve the current house rules as a product requirement. Verify unclear
 reference behavior, version the replacement specification/replays, and preserve
 historical evidence rather than rewriting it to fit the new rules.
 
-The documented enemy-king capture and castling-ownership edge cases still need
-audit against that target. Keep rules fixes separate from bot comparisons so
+Active-king non-capture and castling ownership/rights now have accepted fixtures
+in all four orientations. The migration contract settles the remaining target
+semantics; follow its inventory without reopening decisions absent contradictory
+evidence. Keep rules fixes separate from bot comparisons so
 changes to the rules engine do not silently alter the experiment being measured.
 
 ## Bot and research work

@@ -3,6 +3,19 @@ import { describe, expect, it } from "vitest";
 import { deserializeGameState, deserializeMove, serializeGameState, serializeMove } from "../src/index.js";
 
 describe("serialization round-trip", () => {
+  it("retains automatic promotion provenance in state and move capture metadata", () => {
+    const base = createInitialState();
+    const board = base.board.map(() => null) as GameState["board"][number][];
+    for (const square of [7,84,188,111]) board[square] = base.board[square];
+    board[89] = { type:PieceType.Pawn, owner:0, hasMoved:true };
+    board[130] = { type:PieceType.Knight, owner:1, hasMoved:true };
+    const promoted = applyMoveRequest({ ...base, board, positionCounts:{} }, { from:89, to:103 });
+    const restored = deserializeGameState(serializeGameState(promoted));
+    expect(restored.board[103]?.promotedFrom).toBe(PieceType.Pawn);
+    const captured = applyMoveRequest(restored, { from:130, to:103 });
+    expect(captured.players[1].score).toBe(1);
+    expect(deserializeMove(serializeMove(captured.moveHistory.at(-1)!)).captured?.promotedFrom).toBe(PieceType.Pawn);
+  });
   it("round-trips a fresh GameState through JSON unchanged", () => {
     const state = createInitialState();
     const restored = deserializeGameState(serializeGameState(state));

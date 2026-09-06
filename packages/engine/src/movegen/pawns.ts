@@ -2,14 +2,7 @@ import { boardToLocal, fileOf, isOnBoard, localSquare, rankOf, squareOf } from "
 import { GameState, Move, Piece, PieceType, PlayerColor } from "../types.js";
 import { addVectors, forwardVector, sideVector } from "./directions.js";
 
-const PROMOTION_CHOICES: readonly PieceType[] = [
-  PieceType.Queen,
-  PieceType.Rook,
-  PieceType.Bishop,
-  PieceType.Knight,
-];
-
-const PROMOTION_LOCAL_RANK = 13;
+const PROMOTION_LOCAL_RANK = 7;
 const START_LOCAL_RANK = 1;
 
 function baseMove(from: number, to: number, piece: Piece): Omit<Move, "promotion"> {
@@ -39,9 +32,7 @@ export function pawnMoves(state: GameState, from: number, piece: Piece): Move[] 
   const emitWithPromotion = (from: number, to: number, extra: Partial<Move> = {}) => {
     const [, toLocalRank] = boardToLocal(color, fileOf(to), rankOf(to));
     if (toLocalRank === PROMOTION_LOCAL_RANK) {
-      for (const promotion of PROMOTION_CHOICES) {
-        moves.push({ ...baseMove(from, to, piece), promotion, ...extra });
-      }
+      moves.push({ ...baseMove(from, to, piece), promotion: PieceType.Queen, ...extra });
     } else {
       moves.push({ ...baseMove(from, to, piece), ...extra });
     }
@@ -78,8 +69,7 @@ export function pawnMoves(state: GameState, from: number, piece: Piece): Move[] 
         if (right.target !== to || !right.eligiblePlayers.includes(color)) continue;
         const capturedPawn = board[right.pawnSquare];
         if (!capturedPawn || capturedPawn.owner !== right.pawnOwner || capturedPawn.owner === color || capturedPawn.type !== PieceType.Pawn) continue;
-        moves.push({
-          ...baseMove(from, to, piece),
+        emitWithPromotion(from, to, {
           captured: capturedPawn,
           enPassantCapture: right.pawnSquare,
         });

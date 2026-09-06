@@ -30,6 +30,8 @@ export interface Piece {
   readonly type: PieceType;
   readonly owner: PlayerColor;
   readonly hasMoved: boolean;
+  /** Automatic pawn-Queen: Queen geometry/classification, one capture point. */
+  readonly promotedFrom?: PieceType.Pawn;
 }
 
 /** Index into the flat 196-cell (14x14) board array. 0..195. */

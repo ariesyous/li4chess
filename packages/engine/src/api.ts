@@ -10,7 +10,7 @@ import { assertLocalMigrationState } from "./stateFormat.js";
 export function applyMoveRequest(state: GameState, request: Pick<Move, "from" | "to" | "promotion">): GameState {
   assertLocalMigrationState(state);
   if (state.result !== null) throw new Error("Cannot move in a finished game");
-  const move = legalMoves(state).find(candidate => candidate.from === request.from && candidate.to === request.to && candidate.promotion === request.promotion);
+  const move = legalMoves(state).find(candidate => candidate.from === request.from && candidate.to === request.to && (request.promotion === undefined || candidate.promotion === request.promotion));
   if (!move) throw new Error("Request does not match a legal move for the current player");
   return applyMove(state, move);
 }

@@ -2,7 +2,7 @@
 
 > **Implemented behavior as of 2026-09-06, not full standard FFA.** The completed
 > M1-03 slices implement the accepted setup, core-legality, en-passant,
-> castling, and passive dead-army fixtures. Remaining house behavior is identified below. The complete
+> castling, passive dead-army, and promotion fixtures. Remaining house behavior is identified below. The complete
 > target is the accepted [migration contract](ruleset-versioning.md), supported
 > by [the audit](rules-compatibility.md). `li4chess-ffa-standard-v1` stays reserved.
 
@@ -128,15 +128,24 @@ owners cannot castle; advancement clears their stored rights, including in the
 same transition that resolves mate/stalemate. `FFA-CASTLE-01..16` cover both
 sides and all four seats, with independent absolute destination assertions.
 
-## Promotion — remaining house behavior
+## Promotion
 
-A pawn promotes at local rank 13 (the far edge), with Queen, Rook, Bishop, or
-Knight choices in the engine. The app automatically selects Queen. Standard
-FFA's automatic eighth-rank one-point Queen and provenance are not implemented.
+A pawn arriving at local rank 7 (its eighth rank) automatically becomes a Queen,
+including ordinary and en-passant captures. Red promotes on absolute rank 7,
+Blue on file 7, Yellow on rank 6, Green on file 6 (zero-based). Other ranks do
+not promote. There is no underpromotion or spare king. An omitted external
+promotion choice selects the canonical Queen; explicit non-Queen choices reject.
+
+The resulting piece has `type: Queen` and `promotedFrom: Pawn`. That provenance
+survives later movement, captured metadata, JSON, repetition identity, and bot
+hashes. Its active capture value is one; a native Queen remains nine and a dead
+Queen zero. Movement and checking classification remain Queen. The exact
+Queen-tier multi-check award ledger remains SCORE work. Bot material heuristics
+still value Queen movement strength; the points objective follows in SCORE/END.
 
 ## Scores and placements — remaining house behavior
 
-Active captures score Pawn 1, Knight 3, Bishop 3, Rook 5, Queen 9, King 0.
+Active captures score Pawn/pawn-Queen 1, Knight 3, Bishop 3, Rook 5, native Queen 9, King 0.
 All captures of inactive material, including en passant, score zero. There are
 no mate, stalemate, multi-check, survivor, or named-draw awards yet.
 
@@ -151,7 +160,7 @@ first, with inactive players ordered below them by the existing placement rule.
 There is no point award. `GameResult.reason` distinguishes `elimination` and
 `repetition`. Insufficient-material and 50-move endings are not implemented.
 
-The repetition key includes board type/owner, pawn first-move flags, current
+The repetition key includes board type/owner/promotion provenance, pawn first-move flags, current
 turn, castling rights, every pending en-passant target/victim/eligible owner,
 and player statuses. Pending-right/eligibility array order does not change this
 identity. The bot's search hash/signature also includes the new rights. These

@@ -74,10 +74,11 @@ implementation. The second slice adds `FFA-CASTLE-01..16` for all seats and
 fixes ownership and permanent rights loss/cleanup. The third slice adds
 `FFA-DEAD-01..08` in all four orientations: retained passive mate/stalemate
 armies, zero-point capture, occupancy/no attacks/no moves, rights cleanup, and
-dead-pawn EP. See the [coverage map](docs/m1-03-fixtures.md). Full standard-v1,
-scoring, promotion, walking kings, and replay v2 remain incomplete.
-The next proposed focused slice is fixture-first `FFA-PROMO-01..08`;
-scoring awards and walking kings remain separate.
+dead-pawn EP. The fourth slice adds automatic eighth-rank one-point Queens,
+provenance, and promotion/EP interaction tests. See the
+[coverage map](docs/m1-03-fixtures.md). Full standard-v1, scoring, walking kings,
+endings, and replay v2 remain incomplete. Next is fixture-first SCORE, including
+the pending promoted-Queen multi-check ledger assertion, then WALK/END/DRAW/ABORT/REPLAY.
 
 **Capabilities**
 

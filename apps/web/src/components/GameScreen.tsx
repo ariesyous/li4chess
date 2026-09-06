@@ -112,6 +112,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
         </button>
 
         <h3 style={{ marginTop: 24 }}>Move history</h3>
+        <p style={{ fontSize: 14 }}>Pawns automatically become Queens on their eighth rank. A promoted Queen is worth one capture point.</p>
         <ol
           data-testid="move-history"
           style={{ maxHeight: 300, overflowY: "auto", paddingLeft: 20, fontSize: 14, margin: 0 }}

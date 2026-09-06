@@ -15,17 +15,17 @@ accepted the [ruleset/replay migration contract](ruleset-versioning.md), includi
 the product-owned identifiers, v2 deterministic event/state requirements, legacy
 preservation, and evidence-status fixture inventory. All release-affecting game
 semantics have D/O target evidence. **M1-03 is in progress:** the
-setup/core/en-passant, castling, and passive dead-army slices are implemented;
+setup/core/en-passant, castling, passive dead-army, and promotion slices are implemented;
 the remaining accepted differences still need fixture-first engine, protocol, UI, bot,
 and arena changes.
 The first public release is M4, public FFA matchmaking with ratings, anonymous
 access, and CPU play.
 
-Repository baseline verified: `432c0a8e6b35dc3602a4f46b5a43566c08531951` on
-`main`, with a clean working tree before the DEAD slice. SETUP/CORE/EP and
-CASTLE are committed. The DEAD slice follows that baseline; the maintainer
-authorized its commit and push on 2026-09-06 after validation. Use Git history
-and status to verify its revision and publication state on the next handoff.
+Repository baseline verified: `802d2b4` on `main`, clean before this goal.
+SETUP/CORE/EP, CASTLE and DEAD are committed. Work continues on the dedicated
+`codex/m1-completion` branch. The maintainer authorizes successive fixture-first,
+independently reviewed, validated commits through M1 completion, plus branch
+push/draft PR and final-revision CI. No merge, main push, or M2+ work is authorized.
 The local game now implements a partial M1 migration. CPU search is synchronous;
 networking, application persistence, clocks, accounts, queues, and ratings are
 not implemented. See [README.md](../README.md) for the package map.
@@ -35,6 +35,23 @@ and ADR required before implementation. This planning decision does not start M3
 provision infrastructure, or change the current M1 focus.
 
 ## Completed M1-03 slices and remaining work
+
+The fourth slice implements eighth-rank automatic one-point Queens and pawn
+provenance. `FFA-PROMO-01..08` has 36 rotated tests, including EP promotion after
+real adjacent-seat double pushes, live/dead capture value, native Queen controls,
+no spare King/underpromotion, legal geometry and saved-state identity. **PROMO-07
+is partial:** Queen movement/check classification is established; exact
+Queen-tier multi-check awards are the next SCORE integration assertion.
+
+The independent reviewer found EP bypassed the promotion emitter. Four new
+regressions failed before the fix and pass after it; the reviewer rechecked the
+source/tests/docs with no remaining substantive finding. Existing EP-01 now
+expects a promoted Queen for the Green-relative eighth-rank capture while
+retaining its eligibility/removal/scoring assertions. Protocol provenance, bot
+full/delta hashes, and browser promotion/history/+1 capture have focused tests.
+The current bot corpus moves its promotion pawn to rank 6; classic and archived
+evidence remain unchanged. The audit's original **Current** sections are now
+explicitly historical; AGENTS' stale mate-removal/pending-audit claims are fixed.
 
 The third slice implements `FFA-DEAD-01..08`: 32 tests across all four seats
 cover exact retained mate/stalemate boards, deferred resolution and permanent
@@ -101,17 +118,29 @@ from an explicit pending-right snapshot rather than claiming a complete reachabl
 opening history. Existing EP fixtures separately validate grants and expiry from
 legal double pushes. The existing owner status expresses passive armies,
 but a live walking king with a dead army will need finer state. Resign/timeout,
-far-edge promotion, award-free scoring, elimination-first placements, and the
+award-free scoring, elimination-first placements, and the
 old draw ending remain partial-migration limitations, accurately described in
 [rules-spec.md](rules-spec.md). No M2/M3 work was started.
 
-**Exact next slice (proposed working plan):** fixture-first `FFA-PROMO-01..08`,
-covering eighth-rank coordinates for every seat, automatic Queen promotion,
-one-point capture provenance/value, Queen classification, and no spare king.
-Then implement only promotion and its necessary consumers. No PROMO work has
-started. Awards and walking kings remain separate SCORE/WALK work; END, DRAW,
-ABORT, replay-v2/state-v2, and remaining consumer alignment follow in M1-03.
+**Exact next slice:** fixture-first `FFA-SCORE-01..16`: accepted capture values,
+mate/stalemate recipients, newly delivered checks, Queen-priority mixed checks,
+stacking, and ordered ledgers; close PROMO-07's award integration. Then WALK,
+END, DRAW, ABORT, replay-v2/state-v2, remaining consumers and complete-game evidence.
 Standard-v1 remains reserved. M2/M3 remain untouched.
+
+**PROMO validation, 2026-09-06:** Windows, Node 24.18.0, pinned pnpm 10.33.0
+through temporary Corepack shims, against `802d2b4` plus this slice:
+
+- Fresh `pnpm lint --force`, `pnpm test --force` (**337 passed**: engine 279,
+  bot 48, protocol 5, arena 5), and `pnpm build --force` passed; zero Turbo cache hits.
+- Strict TypeScript checks for changed/new engine, bot, protocol and browser
+  fixtures passed after correcting tuple destructuring; the 36 promotion cases
+  were rerun and passed after that test-only correction.
+- `pnpm --filter @li4chess/web test:e2e`: **5 passed**, including new promotion,
+  existing passive armies, human/CPU rotation and four-CPU autoplay.
+- Dependencies installed from the frozen lockfile; sandbox command/path/network
+  restrictions required approved execution outside the sandbox. Browser npm
+  environment/colour warnings were non-failing. No benchmark measurements.
 
 **DEAD validation, 2026-09-06:** against
 `432c0a8e6b35dc3602a4f46b5a43566c08531951` plus the uncommitted DEAD slice,
@@ -213,7 +242,7 @@ the first M3 task when that milestone becomes actionable.
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, and passive DEAD slices implemented; [coverage and exact next slice](m1-03-fixtures.md). Proposed next: fixture-first `FFA-PROMO-01..08`. Complete only when all M1 exit criteria and repository validation pass; historical evidence remains intact. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, passive DEAD and promotion implemented; PROMO-07 award integration pending SCORE. [Coverage and exact next slice](m1-03-fixtures.md). Next: fixture-first SCORE. Complete only when all M1 exit criteria and repository validation pass; historical evidence remains intact. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |

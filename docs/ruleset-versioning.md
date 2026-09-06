@@ -282,5 +282,8 @@ cover retained passive mate/stalemate armies and their interactions in all four
 orientations, with focused engine, bot evaluation, and UI updates. The local
 state has no certified ruleset ID; standard-v1 remains reserved and replay-v2/state-v2 remain
 unimplemented.
-The next proposed slice is fixture-first `FFA-PROMO-01..08`, with the boundaries
-and remaining work recorded in [project state](project-state.md).
+The promotion slice now implements eighth-rank automatic one-point Queens and
+provenance, including en-passant promotion for all seats. Its Queen classification
+is covered; the exact Queen-tier multi-check award assertion remains SCORE work.
+Next is fixture-first SCORE, with boundaries and remaining work in
+[project state](project-state.md).

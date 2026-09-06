@@ -31,14 +31,15 @@ block squares, cannot move or attack, lose special rights, and are capturable
 for zero points (including eligible dead-pawn en passant). The last active
 player wins, with capture points used only to break placement ties among
 eliminated players.
-Full standard FFA, its scoring, promotion, walking kings, and versioned
+Pawns automatically promote on their eighth rank to Queens worth one capture
+point; provenance survives moves, captures, serialization, and search hashes.
+Full standard FFA, its scoring, walking kings, and versioned
 replays remain M1-03 work. `li4chess-ffa-standard-v1` is still reserved.
 
 CPU search currently runs on the browser's main thread, so higher difficulties
-can make the page unresponsive while thinking. The UI automatically promotes
-pawns to queens, including human pawns; the engine supports all four promotion
-choices. Known rules edge cases still need an audit before claiming full
-correctness.
+can make the page unresponsive while thinking. The accepted rules audit is
+complete; remaining scoring, endings, actions, and replay implementation must
+pass its fixtures before claiming standard compatibility.
 
 ## Monorepo layout
 

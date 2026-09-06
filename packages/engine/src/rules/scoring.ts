@@ -1,4 +1,9 @@
-import { PieceType } from "../types.js";
+import { Piece, PieceType } from "../types.js";
+
+/** Value of a live captured piece; caller handles passive/dead eligibility. */
+export function captureValue(piece: Piece): number {
+  return piece.promotedFrom === PieceType.Pawn ? 1 : PIECE_VALUES[piece.type];
+}
 
 export const PIECE_VALUES: Readonly<Record<PieceType, number>> = {
   [PieceType.Pawn]: 1,

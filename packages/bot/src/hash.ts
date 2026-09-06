@@ -12,7 +12,7 @@ function token(key: string): bigint {
 const pieceKeys = new Map<string,bigint>();
 function pieceKey(square: number, piece: Piece | null): bigint {
   if (!piece) return 0n;
-  const key = `${square}:${piece.owner}:${piece.type}:${+piece.hasMoved}`;
+  const key = `${square}:${piece.owner}:${piece.type}:${+piece.hasMoved}:${piece.promotedFrom ?? ""}`;
   let value = pieceKeys.get(key);
   if (value === undefined) { value = token(key); pieceKeys.set(key,value); }
   return value;

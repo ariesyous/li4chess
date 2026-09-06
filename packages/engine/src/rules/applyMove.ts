@@ -17,7 +17,7 @@ import {
 } from "./elimination.js";
 import { hasLegalMove } from "./legality.js";
 import { positionKey, REPETITION_DRAW_COUNT } from "./repetition.js";
-import { PIECE_VALUES } from "./scoring.js";
+import { captureValue } from "./scoring.js";
 import { enPassantRightsAfterMove, remainingEnPassantRights } from "./enPassant.js";
 
 const MAX_ROTATION_STEPS = 4;
@@ -36,7 +36,7 @@ export function applyMove(state: GameState, move: Move): GameState {
   const players: Record<PlayerColor, PlayerState> = { ...state.players };
   if (move.captured && state.players[move.captured.owner].status === "active") {
     const mover = players[move.piece.owner];
-    players[move.piece.owner] = { ...mover, score: mover.score + PIECE_VALUES[move.captured.type] };
+    players[move.piece.owner] = { ...mover, score: mover.score + captureValue(move.captured) };
   }
 
   const castlingRights = { ...state.castlingRights };
