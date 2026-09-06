@@ -4,6 +4,15 @@ import { randomEngine } from "../src/engines.js";
 import { createInitialState, computeDrawResult,resignPlayer,advanceWalkingKing,computeGameResult } from "@li4chess/engine";
 
 describe("arena", () => {
+  it("FFA-DRAW-09: automatic draws are completed and replay their flat awards",async()=>{
+    const base=createInitialState();
+    const initial={ ...base,board:base.board.map(p=>p?.type==="K" ? p : null) };
+    const game=await runGame([randomEngine,randomEngine,randomEngine,randomEngine],{ seed:1,maxPlies:1,initial });
+    expect(game.termination).toBe("insufficient-material");
+    expect(replay(game).awardLedger.map(a=>a.delta)).toEqual([10,10,10,10]);
+    expect(aggregate([game])).toMatchObject({ completed:1,aborted:0,censored:0 });
+    expect(aggregate([game]).engines[0].averagePlacement).toBe(2.5);
+  });
   it("FFA-END-08: auto-claims preserve replay and reports use shared mean ranks",async()=>{
     const base=createInitialState();
     const initial={ ...base,players:{ ...base.players,0:{ ...base.players[0],score:21 },

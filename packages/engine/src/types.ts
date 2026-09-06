@@ -82,7 +82,7 @@ export interface Placement {
 export interface GameResult {
   readonly placements: readonly Placement[];
   readonly winner: PlayerColor | null;
-  readonly reason: "elimination" | "claim-win" | "repetition" | "abort";
+  readonly reason: "elimination" | "claim-win" | "repetition" | "insufficient-material" | "fifty-move" | "abort";
   readonly claim?: { readonly actor:PlayerColor;readonly trailer:PlayerColor;readonly lead:number;readonly causeSequence:number };
   readonly abort?: { readonly classification:"early-resign" | "early-timeout"; readonly actor:PlayerColor;
     readonly causeSequence:number; readonly completedMoves:Readonly<Record<PlayerColor,number>>; readonly ratingLiable:PlayerColor;
@@ -90,6 +90,7 @@ export interface GameResult {
 }
 
 export interface GameState {
+  readonly reversibleMoves: number;
   readonly completedMoves: Readonly<Record<PlayerColor,number>>;
   readonly randomSeed: string;
   readonly randomDrawIndex: number;
@@ -114,7 +115,7 @@ export interface GameState {
 export interface ScoreAward {
   readonly sequence: number;
   readonly causeSequence: number;
-  readonly rule: "capture" | "multi-check" | "walking-stalemate" | "mate" | "self-stalemate" | "opponent-stalemate" | "survivor" | "claim-win";
+  readonly rule: "capture" | "multi-check" | "walking-stalemate" | "mate" | "self-stalemate" | "opponent-stalemate" | "survivor" | "claim-win" | "repetition" | "insufficient-material" | "fifty-move";
   readonly subject?: PlayerColor;
   readonly recipient: PlayerColor;
   readonly delta: number;

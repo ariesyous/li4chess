@@ -79,7 +79,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
               {state.result.reason === "abort" ? "Game aborted" : "Game over"}
               {state.result.reason === "repetition"
                 ? " — draw by threefold repetition"
-                : ""}
+                : state.result.reason === "insufficient-material" ? " — draw by insufficient material" : state.result.reason === "fifty-move" ? " — draw by 50-move rule" : ""}
             </h3>
             {state.result.abort && <p>{PLAYER_COLOR_NAME[state.result.abort.actor]} {state.result.abort.classification === "early-resign" ? "resigned" : "timed out"} before every seat completed three moves. No placements are awarded.</p>}
             {state.result.claim && <p>{PLAYER_COLOR_NAME[state.result.claim.actor]} claimed the win. {PLAYER_COLOR_NAME[state.result.claim.trailer]} received 20 points; play ends immediately.</p>}

@@ -41,8 +41,11 @@ awards in the local UI. Active checking owners split mate points; stalemate
 credit tracks the last cause of losing all legal moves. Local resignation and
 simulated timeout abort during the opening, then leave dead armies with live
 Kings that move automatically on scheduled turns using recorded seeded choices.
-Full standard FFA, named draw awards/triggers, and versioned
-replays remain M1-03 work. `li4chess-ffa-standard-v1` is still reserved.
+Automatic repetition, insufficient-material and 50-move draws each award a
+flat 10 points per active player. The 50-move rule counts 200 individual turns
+and resets on pawn moves or any capture, including dead pieces.
+Versioned replays and full compatibility closeout remain M1-03 work.
+`li4chess-ffa-standard-v1` is still reserved.
 
 CPU search currently runs on the browser's main thread, so higher difficulties
 can make the page unresponsive while thinking. The accepted rules audit is

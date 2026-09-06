@@ -3,16 +3,16 @@ import {
   ALL_COLORS,
   GameState,
   Move,
+  PieceType,
   PlayerColor,
   PlayerState,
   nextColor,
 } from "../types.js";
 import { applyMoveToBoard } from "./boardOps.js";
 import {
-  computeDrawResult,
   recomputeCastlingRights,
 } from "./elimination.js";
-import { positionKey, REPETITION_DRAW_COUNT } from "./repetition.js";
+import { resolveDraws } from "./draw.js";
 import { awardPoints, captureValue, multiCheckPoints } from "./scoring.js";
 import { enPassantRightsAfterMove } from "./enPassant.js";
 import { resolveScheduledTurns } from "./turn.js";
@@ -42,6 +42,7 @@ export function applyMove(state: GameState, move: Move): GameState {
 
   let working: GameState = {
     ...state,
+    reversibleMoves: move.piece.type===PieceType.Pawn || move.captured ? 0 : state.reversibleMoves+1,
     completedMoves: { ...state.completedMoves,[move.piece.owner]:state.completedMoves[move.piece.owner]+1 },
     eventSequence: state.eventSequence + 1,
     awardLedger: state.awardLedger,
@@ -67,15 +68,7 @@ export function applyMove(state: GameState, move: Move): GameState {
   const resolved = resolveScheduledTurns(working,nextColor(move.piece.owner),causeSequence);
   working = resolved.state;
 
-  // Threefold repetition: the same position (board + turn + castling rights +
-  // en passant rights + player statuses) recurring 3 times draws the game,
-  // even if the elimination check above didn't already end it.
-  const key = positionKey(working);
-  const count = (working.positionCounts[key] ?? 0) + 1;
-  working = { ...working, positionCounts: { ...working.positionCounts, [key]: count } };
-  if (working.result === null && count >= REPETITION_DRAW_COUNT) {
-    working = { ...working, result: computeDrawResult(working.players) };
-  }
+  working=resolveDraws(working,causeSequence);
 
   const recordedMove: Move = { ...move, eliminates: resolved.eliminated };
   working = { ...working, moveHistory: [...state.moveHistory, recordedMove] };

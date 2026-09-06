@@ -25,6 +25,8 @@ describe("threefold repetition", () => {
     const blueAway = squareOf(1, 6);
     board[redHome] = { type: PieceType.King, owner: PlayerColor.Red, hasMoved: true };
     board[blueHome] = { type: PieceType.King, owner: PlayerColor.Blue, hasMoved: true };
+    // Retain mating material so this isolates repetition from the automatic bare-King draw.
+    board[squareOf(5,5)] = { type:PieceType.Rook,owner:PlayerColor.Red,hasMoved:true };
 
     let working: GameState = {
       ...state,
@@ -60,6 +62,6 @@ describe("threefold repetition", () => {
     expect(working.result!.reason).toBe("repetition");
     expect(working.result!.winner).toBeNull();
     const first = working.result!.placements.filter((p) => p.place === 1).map((p) => p.color);
-    expect(first.sort()).toEqual([0,1,2,3]); // all four have equal points before DRAW award migration
+    expect(first.sort()).toEqual([0,1]); // each active player receives the flat +10
   });
 });

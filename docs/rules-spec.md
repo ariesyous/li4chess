@@ -172,7 +172,8 @@ Kings already in check before the action and passive kings do not count;
 continuing Queen checks do not downgrade new non-Queen checks. Captures and
 multi-checks stack with deferred mate awards. Other owners' pieces do not count
 or select the Queen tier, including shared checks on the same king. Deferred
-mate/stalemate attribution is specified above. Named-draw awards remain DRAW work.
+mate/stalemate attribution is specified above. Named draws award a flat +10 each
+to active players, without survivor/claim stacking.
 
 Every nonzero award appends an immutable `awardLedger` entry:
 `sequence`, `causeSequence`, `rule`, `recipient`, `delta`, and resulting `total`.
@@ -197,11 +198,28 @@ repetition. The UI exposes human claims; automated play claims only when the
 projected result secures a sole first place. A higher-scoring eliminated player
 can otherwise still win the game. [END acceptance](m1-end-acceptance.md).
 
-## Repetition — current behavior
+## Automatic draws
 
-The third occurrence ends the game immediately and ranks final points.
-There is no point award yet. `GameResult.reason` distinguishes `elimination` and
-`repetition`. Insufficient-material and 50-move endings are not implemented.
+The third occurrence, insufficient material, or the 200th reversible individual
+move ends the game automatically, after scheduled elimination resolution. Each
+active player receives one flat +10; passive/walking owners receive zero.
+Final points still determine placements, including earlier eliminated players.
+When predicates coincide, only one draw ledger is emitted: repetition before
+insufficient material before `fifty-move`. Existing terminal results take
+precedence and never receive draw/survivor extras.
+
+`reversibleMoves` increments per completed move, including walking King moves,
+and resets to zero on every pawn move or capture (live, dead, or EP). Castling
+increments it. The threshold is 200 regardless of active-player count.
+Forfeits do not increment the counter or repetition occurrence, but can remove
+active material and trigger insufficient material.
+
+With three/four active players, only bare active Kings satisfy insufficient
+material. With two active players, the listed dead cases are K v K, K+B v K,
+K+N v K, and K+B v K+B with one Bishop per owner on the same colour. Passive
+armies do not count as material. A Pawn or other unlisted combination preserves
+play. [DRAW acceptance](m1-draw-acceptance.md) records rotated controls and exact
+threshold/reset/cross-feature cases.
 
 The repetition key includes board type/owner/promotion provenance, pawn first-move flags, current
 turn, castling rights, every pending en-passant target/victim/eligible owner,

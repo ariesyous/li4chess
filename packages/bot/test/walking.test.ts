@@ -5,7 +5,8 @@ import { searchPosition } from "../src/lab-search.js";
 
 it("production and laboratory descendants use the recorded random King action and advance its cursor",()=>{
   const base=createInitialState();
-  const state=resignPlayer({ ...base,board:base.board.map(p=>p?.type === "K" ? p : null),
+  // Keep a Red Pawn so the automatic bare-King draw does not preempt walking.
+  const state=resignPlayer({ ...base,board:base.board.map((p,square)=>p?.type === "K" || square===20 ? p : null),
     castlingRights:{ 0:{ kingside:false,queenside:false },1:{ kingside:false,queenside:false },2:{ kingside:false,queenside:false },3:{ kingside:false,queenside:false } },
     completedMoves:{ 0:3,1:3,2:3,3:3 } },1);
   const roots=legalMoves(state);

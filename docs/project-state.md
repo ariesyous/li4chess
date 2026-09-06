@@ -87,7 +87,23 @@ an eliminated high scorer. The fresh reviewer approved after that automatic-clai
 fix. Prior house chronology and survivor-first test expectations were replaced
 with explicit points-based inputs; classic/history remain unchanged.
 
-Next: DRAW, REPLAY, complete-game evidence and final consumer alignment.
+END is committed and pushed as `11bdfae`. The current DRAW slice implements
+automatic repetition/insufficient-material/200-turn endings, flat active-seat
+awards, all pawn/capture resets including walking/dead capture, and forfeit
+material adjudication without incrementing counters. [DRAW acceptance](m1-draw-acceptance.md)
+and 33 engine tests cover predicates and interactions. Supporting protocol,
+hash, arena and browser cases cover consumers. Continuing bare-King fixtures
+now retain explicit sufficient material; the automatic predicate is never bypassed.
+
+Next: REPLAY, complete-game evidence and final consumer alignment.
+
+**DRAW validation, 2026-09-06:** `11bdfae` plus this slice, Windows/Node 24.18.0,
+pinned pnpm 10.33.0. Fresh lint, 542 unit tests (engine 471, bot 53, protocol 9,
+arena 9), build and strict changed-test TypeScript checks passed. All 16 browser
+tests passed. Exact draw event totals/sequences and passive-blocker identity
+assertions added during review passed the 33-case affected suite and strict types
+again. The fresh reviewer approved the final diff. No archived/classic artifact
+or deployment changed. Replay-v2 invariants are not yet claimed by these tests.
 The draft PR is [#10](https://github.com/ariesyous/li4chess/pull/10); PROMO and
 SCORE core (`f3a0101`) are pushed. Standard-v1 remains reserved.
 
@@ -182,12 +198,11 @@ No accepted-contract conflict was found. DEAD's EP transition fixture starts
 from an explicit pending-right snapshot rather than claiming a complete reachable
 opening history. Existing EP fixtures separately validate grants and expiry from
 legal double pushes. The existing owner status expresses passive armies,
-but a live walking king with a dead army will need finer state. Resign/timeout,
-award-free scoring, elimination-first placements, and the
-old draw ending remain partial-migration limitations, accurately described in
-[rules-spec.md](rules-spec.md). No M2/M3 work was started.
+and WALK now adds per-King live state. SCORE, END and DRAW supersede the earlier
+award-free scoring and elimination-first limitations. The current behavior is
+described in [rules-spec.md](rules-spec.md). No M2/M3 work was started.
 
-**Exact next work:** DRAW, replay-v2/state-v2, remaining consumers and
+**Exact next work:** replay-v2/state-v2, remaining consumers and
 complete-game evidence. Each slice still requires fresh review/checks/commit.
 Standard-v1 remains reserved. M2/M3 remain untouched.
 
@@ -317,7 +332,7 @@ the first M3 task when that milestone becomes actionable.
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, DEAD, PROMO, SCORE, WALK, END and opening ABORT implemented. DRAW/REPLAY, complete-game evidence and final consumer alignment remain. [Coverage and next work](m1-03-fixtures.md). Complete only when all M1 exit criteria and fresh final-revision validation/CI pass. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, DEAD, PROMO, SCORE, WALK, END, DRAW and opening ABORT implemented. REPLAY, complete-game evidence and final consumer alignment remain. [Coverage and next work](m1-03-fixtures.md). Complete only when all M1 exit criteria and fresh final-revision validation/CI pass. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |

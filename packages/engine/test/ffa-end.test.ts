@@ -97,7 +97,7 @@ for(const rotation of ALL_COLORS) describe(`FFA endings: ${PlayerColor[rotation]
   it("FFA-END-07: third normal elimination awards mate before the last walking-King award and result",()=>{
     const base=position(rotation,[[3,0,K,1],[0,6,K,0],[8,10,K,2],[13,7,K,3],
       [5,0,N,0],[6,1,N,0],[6,2,N,0],[3,3,R,0]]);
-    const before={ ...base,players:{ ...base.players,[c(2)]:{ ...base.players[c(2)],status:"resigned" as const,kingStatus:"walking" as const },
+    const before={ ...base,reversibleMoves:199,players:{ ...base.players,[c(2)]:{ ...base.players[c(2)],status:"resigned" as const,kingStatus:"walking" as const },
       [c(3)]:{ ...base.players[c(3)],status:"stalemated" as const } } };
     const after=play(before,rotation,[0,6],[0,7]);
     expect(after.awardLedger).toEqual([
@@ -106,5 +106,6 @@ for(const rotation of ALL_COLORS) describe(`FFA endings: ${PlayerColor[rotation]
     ]);
     expect(after.eventSequence).toBe(4);
     expect(after.result?.winner).toBe(rotation);
+    expect(after.result?.reason).toBe("elimination"); // terminal precedence over simultaneous 200th quiet move
   });
 });

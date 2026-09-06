@@ -95,7 +95,7 @@ for (const rotation of ALL_COLORS) describe(`FFA core: ${PlayerColor[rotation]}`
   });
   it("FFA-CORE-12: rotation skips inactive players and they cannot generate moves", () => {
     for (const status of ["checkmated", "stalemated", "resigned"] as const) {
-      let state = position(rotation, kings);
+      let state = position(rotation, [...kings,[5,5,R,0]]); // retain mating material while testing rotation
       const skipped = colorAt(rotation,1);
       state = { ...state, players: { ...state.players, [skipped]: { ...state.players[skipped], status } } };
       expect(legalMoves(state, skipped)).toEqual([]);

@@ -14,7 +14,8 @@ it("FFA-WALK-04: independent BigInt-derived golden words and rejection of incomp
 for (const rotation of ALL_COLORS) describe(`FFA walking kings: ${PlayerColor[rotation]}`, () => {
   const c = (seat: number) => colorAt(rotation,seat);
   const s = (f: number,r: number) => sq(rotation,f,r);
-  const start = (turn = 0) => opened(position(rotation,[...kings,[5,5,R,0],[6,1,P,0]],turn));
+  // Blue's remote Pawn keeps active mating material after Red forfeits.
+  const start = (turn = 0) => opened(position(rotation,[...kings,[5,5,R,0],[6,1,P,0],[8,8,P,1]],turn));
 
   it("FFA-WALK-01: resignation leaves a live King and passive army, losing special rights", () => {
     const before = start();

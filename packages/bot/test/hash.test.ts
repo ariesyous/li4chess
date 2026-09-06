@@ -70,6 +70,13 @@ it("hash deltas include castling, en passant removal, promotion and cascading el
   }
 });
 
+it("FFA-DRAW-09: draw counter changes search identity and incremental hash",()=>{
+  const before=createInitialState(),after={ ...before,reversibleMoves:199 };
+  expect(positionHash(before)).not.toBe(positionHash(after));
+  expect(searchSignature(before)).not.toBe(searchSignature(after));
+  expect(updatePositionHash(positionHash(before),before,after)).toBe(positionHash(after));
+});
+
 it("hashes and signatures distinguish all en-passant rights and per-player eligibility", () => {
   const state=createInitialState();
   const right={target:34,pawnSquare:48,pawnOwner:0 as const,eligiblePlayers:[1 as const,2 as const]};

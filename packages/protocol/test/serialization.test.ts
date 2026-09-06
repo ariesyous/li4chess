@@ -52,6 +52,17 @@ describe("serialization round-trip", () => {
     const restored = deserializeMove(serializeMove(move));
     expect(restored).toEqual(move);
   });
+  it("FFA-DRAW-09: counter/history survive save-resume and reproduce terminal awards",()=>{
+    const before={ ...createInitialState(),reversibleMoves:199 };
+    const move=legalMoves(before).find(m=>m.piece.type===PieceType.Knight)!;
+    const restored=deserializeGameState(serializeGameState(before));
+    const after=applyMoveRequest(restored,move);
+    expect(after.result?.reason).toBe("fifty-move");
+    expect(after.awardLedger.map(a=>a.delta)).toEqual([10,10,10,10]);
+    expect(deserializeGameState(serializeGameState(after))).toEqual(after);
+    const old={ ...before,reversibleMoves:undefined };
+    expect(()=>deserializeGameState(JSON.stringify(old))).toThrow(/migration/);
+  });
 
   it("retains pending EP eligibility across JSON and replays the canonical capture", () => {
     const initial = createInitialState();

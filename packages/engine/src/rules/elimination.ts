@@ -38,6 +38,6 @@ export function computeGameResult(players: Readonly<Record<PlayerColor, PlayerSt
 }
 
 /** The draw trigger changes the reason, while final points still determine rank. */
-export function computeDrawResult(players: Readonly<Record<PlayerColor, PlayerState>>): GameResult {
-  return { ...computeGameResult(players),reason:"repetition" };
+export function computeDrawResult(players: Readonly<Record<PlayerColor, PlayerState>>,reason:"repetition" | "insufficient-material" | "fifty-move"="repetition"): GameResult {
+  return { ...computeGameResult(players),reason };
 }

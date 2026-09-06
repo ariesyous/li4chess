@@ -234,5 +234,13 @@ awards, and mate/survivor/result ordering. Protocol, bot, arena and browser
 consumers have result/claim fixtures. Tests whose expectations encoded the old
 house objective were migrated to explicit points; historical sources stay frozen.
 
-DRAW and state-v2/replay-v2 remain, with consumer
+[DRAW acceptance](m1-draw-acceptance.md) maps DRAW-01..09 to
+[33 engine cases](../packages/engine/test/ffa-draw.test.ts), plus END's third-
+elimination precedence at counter 200, protocol save/resume, bot hash, arena
+completion and browser cause/award tests. Continuing CORE/WALK/repetition fixtures
+now retain explicit active material to avoid the automatic bare-King draw;
+their original legality/cadence/random hash assertions remain. The current bot
+king-endgame corpus adds a Pawn; frozen classic and archived evidence do not change.
+
+State-v2/replay-v2 remain, with consumer
 alignment and complete-game evidence. Standard-v1 stays reserved; no M2/M3 work.

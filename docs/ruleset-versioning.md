@@ -293,6 +293,7 @@ self/opponent stalemate; rescue clears that cause. Only mover-owned checking
 pieces count toward multi-check and Queen tier. This closes the attribution
 details without changing settled amounts. WALK and opening ABORT also have
 local engine/UI fixtures. END now implements points-based shared ranks,
-immediate claims and survivor awards. DRAW and v2 replay validation remain.
+immediate claims and survivor awards. DRAW now covers automatic repetition,
+material and 200-turn triggers with flat awards. V2 replay validation remains.
 Further boundaries and remaining work are in
 [project state](project-state.md).

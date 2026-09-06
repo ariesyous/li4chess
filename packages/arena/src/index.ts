@@ -28,7 +28,7 @@ export interface GameRecord {
   version: 1; seed: number; engines: { id: string; config?: unknown }[];
   initial: GameState; moves: MoveRecord[]; result: GameState["result"];
   scores: number[]; statuses: string[]; eliminations: { color: PlayerColor; turn: number }[];
-  termination: "elimination" | "claim-win" | "repetition" | "abort" | "max-ply" | "error";
+  termination: NonNullable<GameState["result"]>["reason"] | "max-ply" | "error";
   error?: string; errorSeat?: PlayerColor; plies: number; elapsedMs: number;
 }
 export async function runGame(seats: Seats, options: { seed: number; maxPlies: number; initial?: GameState }): Promise<GameRecord> {

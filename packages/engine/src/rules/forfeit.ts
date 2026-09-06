@@ -3,6 +3,7 @@ import { assertLocalMigrationState } from "../stateFormat.js";
 import { remainingEnPassantRights } from "./enPassant.js";
 import { resolveScheduledTurns } from "./turn.js";
 import { updateNoMoveCauses } from "./causation.js";
+import { resolveDraws } from "./draw.js";
 
 function forfeit(state:GameState,actor:PlayerColor,reason:"resign" | "timeout",clock?:{ readonly remainingMs:number }): GameState {
   assertLocalMigrationState(state);
@@ -20,7 +21,7 @@ function forfeit(state:GameState,actor:PlayerColor,reason:"resign" | "timeout",c
     castlingRights:{ ...state.castlingRights,[actor]:{ kingside:false,queenside:false } } };
   working={ ...working,enPassantRights:remainingEnPassantRights(working) };
   working=updateNoMoveCauses(state,working,actor,sequence);
-  return resolveScheduledTurns(working,working.turn,sequence).state;
+  return resolveDraws(resolveScheduledTurns(working,working.turn,sequence).state,sequence,false);
 }
 
 export function resignPlayer(state:GameState,actor:PlayerColor): GameState { return forfeit(state,actor,"resign"); }

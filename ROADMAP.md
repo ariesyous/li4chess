@@ -80,7 +80,8 @@ provenance, and promotion/EP interaction tests. See the
 multi-check ledgers and promoted-Queen awards. The clarified mate/stalemate
 attribution, walking kings and opening abort actions now have executable cases.
 Points-based endings, shared ranks, immediate claims and survivor awards are
-implemented. Full standard-v1 remains incomplete. Continue DRAW/REPLAY, complete-game
+implemented. Automatic draw triggers/counters and flat awards now have fixtures.
+Full standard-v1 remains incomplete. Continue REPLAY, complete-game
 evidence and final consumer alignment.
 
 **Capabilities**

@@ -56,6 +56,7 @@ export function createInitialState(seatConfig?: SeatConfig): GameState {
   }
 
   const initial: GameState = {
+    reversibleMoves: 0,
     completedMoves: { 0:0,1:0,2:0,3:0 },
     randomSeed: "00000001",
     randomDrawIndex: 0,
