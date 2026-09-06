@@ -10,7 +10,7 @@ function squareLabel(square: number): string {
 }
 
 export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart: () => void }) {
-  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim } = useLocalGame(seats);
+  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim,exportReplay,importReplay,replayBusy,replayMessage } = useLocalGame(seats);
   const [rotateToMover, setRotateToMover] = useState(false);
 
   const lastMove = state.moveHistory[state.moveHistory.length - 1] ?? null;
@@ -47,7 +47,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
               }}
             >
               {PLAYER_COLOR_NAME[color]}
-              {seats[color].isCPU ? ` (CPU L${seats[color].difficulty})` : " (You)"} — {state.players[color].status}
+              {state.players[color].isCPU ? ` (CPU L${state.players[color].cpuDifficulty ?? 3})` : " (You)"} — {state.players[color].status}
               {" · "}
               {state.players[color].score} pts
               {state.players[color].kingStatus === "walking" ? " · King walks automatically" : ""}
@@ -113,12 +113,22 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
         <button type="button" onClick={onRestart} style={{ marginTop: 8 }}>
           New game
         </button>
+        <div style={{ marginTop:12 }}>
+          <button type="button" disabled={replayBusy} onClick={()=>void exportReplay()}>Export replay</button>
+          <label style={{ display:"block",marginTop:8 }}>Import replay
+            <input type="file" accept=".json,application/json" disabled={replayBusy} onChange={event=>{
+              const file=event.currentTarget.files?.[0];event.currentTarget.value="";
+              if (file) void importReplay(file);
+            }} />
+          </label>
+          {replayMessage && <p role="status" data-testid="replay-message">{replayMessage}</p>}
+        </div>
         {!state.result && state.players[state.turn].status === "active" && <div style={{ marginTop:8 }}>
           <button type="button" onClick={resign}>Resign {PLAYER_COLOR_NAME[state.turn]}</button>{" "}
           <button type="button" onClick={timeout}>Simulate timeout</button>
           <p style={{ fontSize:14 }}>A forfeit before every seat completes three moves aborts the game. Later, the army becomes dead and its King moves automatically. Timeout is a local action; this game has no running clock.</p>
         </div>}
-        {ALL_COLORS.filter(color=>!seats[color].isCPU && canClaimWin(state,color)).map(color=><div key={color}>
+        {ALL_COLORS.filter(color=>!state.players[color].isCPU && canClaimWin(state,color)).map(color=><div key={color}>
           <button type="button" onClick={()=>claim(color)}>Claim Win for {PLAYER_COLOR_NAME[color]}</button>
           <p>End now: the other active player receives 20 points. Final points determine placements.</p>
         </div>)}

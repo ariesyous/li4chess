@@ -46,7 +46,6 @@ export function applyMove(state: GameState, move: Move): GameState {
     completedMoves: { ...state.completedMoves,[move.piece.owner]:state.completedMoves[move.piece.owner]+1 },
     eventSequence: state.eventSequence + 1,
     awardLedger: state.awardLedger,
-    rulesetId: null,
     board,
     players,
     turn: state.turn,

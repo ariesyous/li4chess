@@ -13,6 +13,10 @@ absolute-coordinate oracle for all 64 initial pieces; it does not derive its
 expected board from the setup implementation. Every move sequence matches a
 current legal move and asserts that applying it leaves the input state unchanged.
 
+The sections below retain the acceptance inputs written before each slice.
+Descriptions of a slice's then-pending work are historical boundaries; the final
+REPLAY section records the completed implementation and current validation gate.
+
 ## Executable coverage
 
 | Fixture | Explicit input / expected result |
@@ -53,8 +57,8 @@ Source tests: [setup](../packages/engine/test/ffa-setup.test.ts),
 Additional [protocol](../packages/protocol/test/serialization.test.ts),
 [bot hash](../packages/bot/test/hash.test.ts), and
 [arena](../packages/arena/test/arena.test.ts) checks cover serialization,
-pending-right identity, and historical-input rejection. No REPLAY fixture ID is
-claimed: JSON move reproduction is not the accepted replay-v2 event/hash schema.
+pending-right identity, and historical-input rejection. REPLAY coverage is
+listed separately below; JSON move reproduction alone did not establish it.
 
 ## Castling fixture inputs and expected results
 
@@ -133,7 +137,7 @@ reachable opening history or introducing resignation/timeout actions. EP-01..12
 remain the evidence for eligibility creation/expiry from actual legal double
 pushes. Awards and walking kings are outside this slice.
 
-## Implementation boundaries
+## Historical boundaries of the first three slices
 
 - DEAD retains the board during deferred checkmate resolution. Existing passive
   move/attack filtering, zero-point captures, castling cleanup, and EP cleanup
@@ -242,5 +246,28 @@ now retain explicit active material to avoid the automatic bare-King draw;
 their original legality/cadence/random hash assertions remain. The current bot
 king-endgame corpus adds a Pawn; frozen classic and archived evidence do not change.
 
-State-v2/replay-v2 remain, with consumer
-alignment and complete-game evidence. Standard-v1 stays reserved; no M2/M3 work.
+## REPLAY and complete-game coverage
+
+[REPLAY-01..12 acceptance](m1-replay-acceptance.md) maps to
+[26 protocol replay cases](../packages/protocol/test/replay.test.ts), nine
+[state/move serialization cases](../packages/protocol/test/serialization.test.ts),
+[producer identity/drift](../packages/protocol/test/node.test.ts),
+[11 arena/legacy cases](../packages/arena/test/arena.test.ts),
+[archived-byte checks](../packages/arena/test/legacy.test.ts), and
+[five browser replay cases](../apps/web/e2e/replay.spec.ts).
+
+| IDs | Executable evidence |
+| --- | --- |
+| REPLAY-01/02 | Required identities/build fields, independent SHA-256 vectors, canonical scalar/object/array behavior, normalized EP checkpoint hashes, malformed inputs and actual clean/dirty/HMR/source-drift provenance. |
+| REPLAY-03/04 | Wrong actor/action/metadata/sequence/hash rejection; each individual award, capture/promotion, rotated capture + multi-check + scheduled mate, three-way fractional mate credit, omitted/reordered/edited effects. |
+| REPLAY-05/06 | Fixed recorded random action/cause/seed/cursor/candidate hash despite ambient RNG failure; local resign/timeout/disconnect facts, opening abort vector and liability, later walking transition. |
+| REPLAY-07/08 | Exact named terminal/abort results, shared placements, incomplete state, every partial draw-award prefix, transaction recovery and rejection of post-terminal moves. |
+| REPLAY-09 | All 29 historical artifact byte hashes and all 14 legacy replay logs reject before the new reducer or aggregation. No relabelling or historical remeasurement. |
+| REPLAY-10 | Complete canonical Modern games: 12 opening moves + three forfeits/survivor +60; 16 legal Knight moves to threefold repetition +10 each/shared first. App export/import/resume, walking cursor, pending terminal recovery, CPU ownership and source producer linkage. |
+| REPLAY-11/12 | Content-addressed checkpoints with separate local/global sequence causes, historical walking cause, all-four-orientation EP input checks, passive-turn rejection, terminal predicates and claim consistency. |
+
+The complete-game tests assert explicit standings/awards, actual legal actions,
+continuous hashes and exact replay state, rather than relying on isolated fixture
+counts. Engine, protocol, local app, production bot and arena use the same points
+objective. Standard-v1 is implemented; final local validation and final-revision
+CI are tracked in [project state](project-state.md). M2/M3 remain outside scope.

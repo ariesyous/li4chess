@@ -1,14 +1,14 @@
 # Reproducible local engine laboratory
 
-Run from the repository root after `pnpm install` (Node >=20):
+Run from the repository root after `pnpm install` (Node >=24):
 
 ```sh
 pnpm --filter @li4chess/arena test
-pnpm --filter @li4chess/arena arena arena-results/example 2 160 random-v1,random-v1,random-v1,classic-v1-level1
-pnpm --filter @li4chess/arena experiments arena-results/sparse-example sparse 2 160
-pnpm --filter @li4chess/arena experiments arena-results/opening-example opening 1 80
-pnpm --filter @li4chess/arena exec vite-node src/relative-experiment.ts arena-results/relative-example
-pnpm --filter @li4chess/arena report arena-results/example/games.jsonl
+pnpm --filter @li4chess/arena arena ../../arena-results/example 2 160 random-v1,random-v1,random-v1,classic-v1-level1
+pnpm --filter @li4chess/arena experiments ../../arena-results/sparse-example sparse 2 160
+pnpm --filter @li4chess/arena experiments ../../arena-results/opening-example opening 1 80
+pnpm --filter @li4chess/arena exec vite-node src/relative-experiment.ts ../../arena-results/relative-example
+pnpm --filter @li4chess/arena report ../../arena-results/example/games.jsonl
 ```
 
 Output paths in these commands are relative to `packages/arena`, because pnpm
@@ -16,6 +16,22 @@ runs package scripts there. Choose a new output directory: log creation fails
 if it would overwrite prior evidence. `report` accepts `.jsonl.gz` too. No
 telemetry/network is part of arena execution. Set `TURBO_TELEMETRY_DISABLED=1`
 when using the repository's existing root Turbo commands if desired.
+
+## Version-2 migration boundary
+
+Current writers use arena version 2 with the accepted
+[state-v2/replay-v2 format](../state-replay-v2.md), actual source/build identity,
+runtime/hardware, engine configurations, seeds and budgets. Output directories
+must be empty. Producers capture the loaded build and reject source drift.
+Replay/aggregation are asynchronous and validate all games before reporting.
+Walking-King moves are recorded game plies but excluded from engine timing and
+search statistics; aborts, errors and capped games do not enter completed results.
+
+Legacy arena-v1 is rejected by default. The [legacy manifest](../legacy-replay-manifest.json)
+checksums frozen evidence; an old declared baseline is not automatically its
+producing build. Do not reinterpret those measurements under the current engine.
+The current sparse experiment's pawns are on local rank six (version-2 setup),
+not the archived far-rank experiment. No M1 validation run measures strength.
 
 ## Engine contract and replay
 

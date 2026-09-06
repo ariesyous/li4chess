@@ -1,10 +1,9 @@
-# li4chess rules specification — partial M1 migration
+# li4chess rules specification — standard FFA v1
 
-> **Implemented behavior as of 2026-09-06, not full standard FFA.** The completed
-> M1-03 slices implement the accepted setup, core-legality, en-passant,
-> castling, passive dead-army, and promotion fixtures. Remaining house behavior is identified below. The complete
-> target is the accepted [migration contract](ruleset-versioning.md), supported
-> by [the audit](rules-compatibility.md). `li4chess-ffa-standard-v1` stays reserved.
+> **Implemented contract as of 2026-09-06:** `li4chess-ffa-standard-v1`, with
+> state-v2/replay-v2. The accepted [migration contract](ruleset-versioning.md)
+> and [audit](rules-compatibility.md) define scope and evidence. Final M1
+> validation/CI status is recorded in [project state](project-state.md).
 
 The pre-migration specification is preserved in
 [rules-spec-house-ffa-v1.md](rules-spec-house-ffa-v1.md), from commit
@@ -160,7 +159,7 @@ Queen-tier multi-check awards now have executable ledgers, including an actual
 promotion that checks two kings. Bot material heuristics
 still value Queen movement strength; production utility also values earned points.
 
-## Scores and remaining placement migration
+## Scores and placements
 
 Active captures score Pawn/pawn-Queen 1, Knight 3, Bishop 5, Rook 5, native Queen 9.
 The King rule value is 20, while active kings remain non-capturable. All captures
@@ -180,7 +179,7 @@ Every nonzero award appends an immutable `awardLedger` entry:
 The action advances `eventSequence` once, then each award advances it once;
 capture precedes multi-check. This order is a li4chess recording convention.
 JSON and bot search identity preserve the ledger/sequence. The UI displays it.
-This remains partial state, not the accepted complete replay-v2 implementation.
+Replay-v2 records every nonzero award as its own validated, hashed event.
 
 Final points rank all four players, including eliminated ones. Equal scores
 share the first occupied place (1/1/3/4 for a first-place tie). `meanRank` records
@@ -225,22 +224,28 @@ The repetition key includes board type/owner/promotion provenance, pawn first-mo
 turn, castling rights, every pending en-passant target/victim/eligible owner,
 and player statuses. Pending-right/eligibility array order does not change this
 identity. The bot's search hash/signature also includes the new rights. These
-keys are not the accepted future canonical state-v2 replay hash.
+keys serve repetition/search; replay uses the full canonical state-v2 SHA-256.
 
-## Partial state and historical inputs
+## Versioned state, replay and historical inputs
 
-Current local states explicitly carry `rulesetId: null`: this is a development
-migration shape with no certified ruleset ID, not a new semantic ruleset.
-`li4chess-house-ffa-v1` retains its original meaning; standard-v1 is reserved
-until the full contract is implemented and validated. No current state is
-labelled `li4chess-state-v2` or wrapped as `li4chess-replay-v2`.
+The engine carries `li4chess-ffa-standard-v1` and rejects old house, partial-null
+and unknown identities. Protocol snapshot readers require state-v2 and validate
+all inputs; replay-v2 readers additionally recompute every legal action, award,
+random selection, hash chain and terminal result. Checkpoint setup IDs are
+content-addressed and do not claim prior reachability from the Modern board.
+Imported unfinished games preserve counters, rights, ledgers and random cursors.
+Interrupted award transactions retain a hashed pending queue and cannot accept
+another action before deterministic recovery.
 
-The reducer, protocol serialization, and arena input/replay/aggregation entry
-points reject old or labelled snapshots instead of treating them as this partial
-migration. This format fence checks the migration marker, presence of rights,
-nonnegative integer event sequence, award array, per-seat completed moves and
-seed/cursor/random action fields;
-it does not validate arbitrary network state. The protocol remains JSON helpers.
-The existing arena v1 harness is regression infrastructure, not a completed v2
-writer or a source of new versioned research evidence. Do not run or publish new
-bot comparisons before the replay/provenance migration supports them.
+Each replay identifies its producer revision/packages and clean/dirty/content
+provenance. App imports create a new checkpoint on export with the source replay
+hash; arena output includes environment, configurations, seeds and budgets and
+is validated before reporting. Legacy records are rejected by default, their
+bytes preserved and independently checksummed. Full format and event details:
+[state-v2/replay-v2](state-replay-v2.md).
+
+`disconnectForfeitPlayer` accepts an exhausted cumulative 60-second bank fact,
+using timeout/early-timeout semantics while preserving the distinct disconnect
+cause and elapsed-bank fact. It never invents a zero main clock. M1 exposes
+deterministic local rule inputs; live clocks, reconnect tracking, network seat
+authorization and server authority remain M3 responsibilities.

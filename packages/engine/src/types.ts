@@ -1,3 +1,5 @@
+export const RULESET_ID = "li4chess-ffa-standard-v1" as const;
+
 export enum PlayerColor {
   Red = 0,
   Blue = 1,
@@ -42,7 +44,8 @@ export type PlayerStatus = "active" | "checkmated" | "stalemated" | "resigned" |
 export interface PlayerState {
   readonly noMoveCause?: { readonly actor:PlayerColor;readonly sequence:number };
   readonly kingStatus?: "walking" | "checkmated" | "stalemated" | "surrendered";
-  readonly forfeit?: { readonly reason:"resign" | "timeout"; readonly sequence:number; readonly clock?:{ readonly remainingMs:number } };
+  readonly forfeit?: { readonly reason:"resign" | "timeout" | "disconnect"; readonly sequence:number;
+    readonly clock?:{ readonly remainingMs:number }; readonly disconnect?:DisconnectFact };
   readonly color: PlayerColor;
   readonly status: PlayerStatus;
   readonly isCPU: boolean;
@@ -86,7 +89,14 @@ export interface GameResult {
   readonly claim?: { readonly actor:PlayerColor;readonly trailer:PlayerColor;readonly lead:number;readonly causeSequence:number };
   readonly abort?: { readonly classification:"early-resign" | "early-timeout"; readonly actor:PlayerColor;
     readonly causeSequence:number; readonly completedMoves:Readonly<Record<PlayerColor,number>>; readonly ratingLiable:PlayerColor;
-    readonly clock?:{ readonly remainingMs:number } };
+    readonly clock?:{ readonly remainingMs:number }; readonly disconnect?:DisconnectFact };
+}
+
+/** Local exhausted cumulative bank fact; connection tracking/authority belongs to M3. */
+export interface DisconnectFact {
+  readonly bankMs:60000;
+  readonly cumulativeDisconnectedMs:number;
+  readonly remainingMs:0;
 }
 
 export interface GameState {
@@ -98,8 +108,8 @@ export interface GameState {
   /** Logical event sequence: actions and individual nonzero awards each advance it. */
   readonly eventSequence: number;
   readonly awardLedger: readonly ScoreAward[];
-  /** Partial M1 migration only. Neither historical house-v1 nor reserved standard-v1. */
-  readonly rulesetId: null;
+  /** Accepted standard FFA semantics; historical and partial states are rejected. */
+  readonly rulesetId: typeof RULESET_ID;
   readonly board: readonly (Piece | null)[];
   readonly players: Readonly<Record<PlayerColor, PlayerState>>;
   readonly turn: PlayerColor;

@@ -78,8 +78,9 @@ describe("serialization round-trip", () => {
     expect(applyMoveRequest(restored,request)).toEqual(applyMoveRequest(state,request));
   });
 
-  it("rejects historical and reserved standard snapshots without relabelling them", () => {
-    for (const rulesetId of [undefined,"li4chess-house-ffa-v1","li4chess-ffa-standard-v1"]) {
+  it("rejects historical, partial and unversioned snapshots without relabelling them", () => {
+    expect(()=>deserializeGameState(JSON.stringify(createInitialState()))).toThrow(/migration/i);
+    for (const rulesetId of [undefined,null,"li4chess-house-ffa-v1"]) {
       const snapshot = {...createInitialState(),rulesetId};
       expect(() => deserializeGameState(JSON.stringify(snapshot))).toThrow(/migration/i);
       expect(() => serializeGameState(snapshot as unknown as GameState)).toThrow(/migration/i);

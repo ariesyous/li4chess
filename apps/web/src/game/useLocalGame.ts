@@ -5,16 +5,13 @@ import {
   PieceType,
   PlayerColor,
   SeatConfig,
-  applyMoveRequest,
   createInitialState,
   legalMoves,
-  advanceWalkingKing,
-  resignPlayer,
-  timeoutPlayer,
   claimSecuresSoleWin,
-  claimWin,
 } from "@li4chess/engine";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { canonicalJson, recordReplay, replayCheckpoint, resolveAction } from "@li4chess/protocol";
+import type { ActionRequest } from "@li4chess/protocol";
 
 export interface SeatSetup {
   readonly isCPU: boolean;
@@ -42,34 +39,43 @@ const CPU_MOVE_DELAY_MS = 400;
 export function useLocalGame(seats: SeatSetups) {
   const [state, setState] = useState<GameState>(() => createInitialState(toSeatConfig(seats)));
   const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
+  const [replayBusy,setReplayBusy] = useState(false);
+  const [replayMessage,setReplayMessage] = useState("");
+  const currentState = useRef(state);
+  const journal = useRef<{ initial:GameState;requests:ActionRequest[];sourceReplayHash?:string }>({ initial:state,requests:[] });
 
-  const currentSeat = seats[state.turn];
+  const currentSeat = useMemo(()=>({ isCPU:state.players[state.turn].isCPU,difficulty:state.players[state.turn].cpuDifficulty ?? 3 }),[state]);
   const legal = useMemo(() => legalMoves(state, state.turn), [state]);
 
-  const play = useCallback((move: Move) => {
-    setState((prev) => applyMoveRequest(prev, move));
+  const commit = useCallback((request:ActionRequest) => {
+    const after = resolveAction(currentState.current,request).after;
+    journal.current.requests.push(request);
+    currentState.current=after;
+    setState(after);
     setSelectedSquare(null);
   }, []);
+  const play = useCallback((move:Move)=>commit({ type:"move",actor:currentState.current.turn,move }),[commit]);
 
   // Drive CPU turns automatically.
   useEffect(() => {
-    if (state.result !== null) return;
+    if (state.result !== null || replayBusy) return;
     if (state.players[state.turn].kingStatus === "walking") {
-      const timer = setTimeout(() => { setState(prev=>advanceWalkingKing(prev));setSelectedSquare(null); },CPU_MOVE_DELAY_MS);
+      const timer = setTimeout(() => { if (currentState.current === state) commit({ type:"randomKingMove",actor:state.turn }); },CPU_MOVE_DELAY_MS);
       return () => clearTimeout(timer);
     }
     if (!currentSeat.isCPU) return;
     const timer = setTimeout(() => {
-      if (claimSecuresSoleWin(state,state.turn)) { setState(prev=>claimWin(prev,prev.turn));setSelectedSquare(null);return; }
-      const move = chooseCpuMove(state, state.turn, currentSeat.difficulty);
+      if (currentState.current !== state) return;
+      if (claimSecuresSoleWin(state,state.turn)) { commit({ type:"claimWin",actor:state.turn });return; }
+      const move = chooseCpuMove(state, state.turn, currentSeat.difficulty as 1|2|3|4|5);
       play(move);
     }, CPU_MOVE_DELAY_MS);
     return () => clearTimeout(timer);
-  }, [state, currentSeat, play]);
+  }, [state, currentSeat, play, commit, replayBusy]);
 
   const selectSquare = useCallback(
     (square: number) => {
-      if (currentSeat.isCPU || state.result !== null || state.players[state.turn].kingStatus === "walking") return;
+      if (replayBusy || currentSeat.isCPU || state.result !== null || state.players[state.turn].kingStatus === "walking") return;
 
       if (selectedSquare === null) {
         const hasMoveFrom = legal.some((m) => m.from === square);
@@ -93,7 +99,7 @@ export function useLocalGame(seats: SeatSetups) {
       const hasMoveFrom = legal.some((m) => m.from === square);
       setSelectedSquare(hasMoveFrom ? square : null);
     },
-    [legal, play, selectedSquare, currentSeat, state.result]
+    [legal, play, selectedSquare, currentSeat, state, replayBusy]
   );
 
   const legalTargets = useMemo(() => {
@@ -102,13 +108,38 @@ export function useLocalGame(seats: SeatSetups) {
   }, [legal, selectedSquare]);
 
   const reset = useCallback(() => {
-    setState(createInitialState(toSeatConfig(seats)));
+    const initial=createInitialState(toSeatConfig(seats));
+    currentState.current=initial;journal.current={ initial,requests:[] };setState(initial);
     setSelectedSquare(null);
   }, [seats]);
 
-  const resign = useCallback(() => { setState(prev=>resignPlayer(prev,prev.turn));setSelectedSquare(null); },[]);
-  const timeout = useCallback(() => { setState(prev=>timeoutPlayer(prev,prev.turn,{ remainingMs:0 }));setSelectedSquare(null); },[]);
-  const claim = useCallback((actor:PlayerColor) => { setState(prev=>claimWin(prev,actor));setSelectedSquare(null); },[]);
+  const resign = useCallback(() => { if (!replayBusy) commit({ type:"resign",actor:currentState.current.turn }); },[commit,replayBusy]);
+  const timeout = useCallback(() => { if (!replayBusy) commit({ type:"timeout",actor:currentState.current.turn,clock:{ remainingMs:0 } }); },[commit,replayBusy]);
+  const claim = useCallback((actor:PlayerColor) => { if (!replayBusy) commit({ type:"claimWin",actor }); },[commit,replayBusy]);
 
-  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout,claim };
+  const exportReplay = useCallback(async()=>{
+    setReplayBusy(true);setReplayMessage("");
+    try {
+      const saved=structuredClone(journal.current);
+      const replay=await recordReplay(saved.initial,saved.requests,__ENGINE_BUILD__,saved.sourceReplayHash);
+      const url=URL.createObjectURL(new Blob([canonicalJson(replay)],{type:"application/json"}));
+      const link=document.createElement("a");link.href=url;link.download="li4chess-replay-v2.json";link.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      setReplayMessage("Replay exported.");
+    } catch (error) { setReplayMessage(error instanceof Error ? error.message : String(error)); }
+    finally { setReplayBusy(false); }
+  },[]);
+  const importReplay = useCallback(async(file:File)=>{
+    setReplayBusy(true);setReplayMessage("");
+    try {
+      const recovered=await replayCheckpoint(JSON.parse(await file.text()));
+      currentState.current=recovered.state;
+      journal.current={ initial:recovered.state,requests:[],sourceReplayHash:recovered.sourceReplayHash };
+      setState(recovered.state);setSelectedSquare(null);
+      setReplayMessage(recovered.state.result ? "Finished replay loaded." : "Replay verified. Play can continue; exports retain a link to the imported replay.");
+    } catch (error) { setReplayMessage(error instanceof Error ? error.message : String(error)); }
+    finally { setReplayBusy(false); }
+  },[]);
+
+  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout,claim,exportReplay,importReplay,replayBusy,replayMessage };
 }

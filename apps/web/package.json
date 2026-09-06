@@ -11,6 +11,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@li4chess/protocol": "workspace:*",
     "@li4chess/bot": "workspace:*",
     "@li4chess/engine": "workspace:*",
     "@li4chess/ui-kit": "workspace:*",

@@ -9,7 +9,7 @@ for(const {lead,turn,cpu,deadScore} of [
   const base=createInitialState();
   const initial:GameState={ ...base,turn,completedMoves:{ 0:3,1:3,2:3,3:3 },
     board:base.board.map(p=>p?.type === "K" || p?.type === "R" ? p : null),
-    players:{ ...base.players,0:{ ...base.players[0],score:lead },
+    players:{ ...base.players,0:{ ...base.players[0],score:lead,isCPU:cpu,cpuDifficulty:1 },
       2:{ ...base.players[2],score:deadScore,status:"resigned",kingStatus:"walking",forfeit:{ reason:"resign",sequence:1 } },
       3:{ ...base.players[3],status:"resigned",kingStatus:"walking",forfeit:{ reason:"resign",sequence:2 } } },eventSequence:2 };
   await page.route("**/src/game/useLocalGame.ts",async route=>{

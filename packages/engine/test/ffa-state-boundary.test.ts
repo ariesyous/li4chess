@@ -14,10 +14,11 @@ it("external move intentions are matched to current legal moves; supplied metada
   expect(() => applyMoveRequest({...state,result:{winner:0,reason:"elimination",placements:[]}},move)).toThrow(/finished/i);
 });
 
-it("the current reducer rejects historical/standard labels instead of silently reinterpreting them", () => {
+it("the standard reducer rejects historical, partial and unknown rulesets", () => {
   const state = createInitialState();
   const move = legalMoves(state)[0];
-  for (const rulesetId of [undefined,"li4chess-house-ffa-v1","li4chess-ffa-standard-v1"]) {
+  expect(state.rulesetId).toBe("li4chess-ffa-standard-v1");
+  for (const rulesetId of [undefined,null,"li4chess-house-ffa-v1","unknown-ruleset"]) {
     expect(() => applyMove({...state,rulesetId} as unknown as GameState,move)).toThrow(/migration/i);
   }
 });

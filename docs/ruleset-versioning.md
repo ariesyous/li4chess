@@ -40,7 +40,7 @@ identifiers, not dates, display labels, or a Chess.com trademark.
 | Identifier | Status | Meaning and write policy |
 | --- | --- | --- |
 | `li4chess-house-ffa-v1` | M — historical | The frozen engine behavior in [the historical specification](rules-spec-house-ffa-v1.md): far-edge promotion, removed mate armies, frozen stalemates, elimination-first result, and immediate threefold draw. It is never rewritten to mean the target rules. |
-| `li4chess-ffa-standard-v1` | M — reserved | The first ruleset which satisfies the documented/observed standard-FFA contract. Do not produce, advertise, or accept it as an implemented game before V items, implementation, and tests close. |
+| `li4chess-ffa-standard-v1` | M — implemented; final M1 gate pending | The first ruleset which satisfies the documented/observed standard-FFA contract. Do not produce, advertise, or accept it as an implemented game before V items, implementation, and tests close. |
 | `li4chess-replay-v2` | M — accepted schema identifier | The append-only replay envelope below. Its numeric JSON field is `replaySchemaVersion: 2`; its string identifier prevents a bare number being mistaken for semantic rules. |
 | `li4chess-state-v2` | M — accepted canonical state identifier | The canonical snapshot/hash projection used by replay v2. It changes only when a state field's serialized meaning changes. |
 | `legacy-arena-v1` | M — historical format identifier | Existing `GameRecord.version === 1` arena data. It is not replay v2 and is not automatically any semantic ruleset. |
@@ -134,7 +134,8 @@ interface ReplayEnvelopeV2 {
 
 `RulesetStateV2` and `RulesetResultV2` are names for future explicitly
 versioned types, not aliases for today's unversioned `GameState`/`GameResult`.
-Their canonical projection must contain every rules input and visible result:
+The implemented explicitly versioned wrappers are documented in
+[state-v2/replay-v2](state-replay-v2.md). Their canonical projection contains every rules input and visible result:
 
 - setup ID, board square contents, each piece's owner, identity/provenance and
   dead/live interaction state; current turn and player/king state;
@@ -274,26 +275,24 @@ evidence.
    artifacts and run a ruleset-specific replay reader/fixture suite before
    comparing measurements.
 
-**M1-03 progress (2026-09-06):** `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
-`FFA-EP-01..12` now have [executable coverage](m1-03-fixtures.md) and their
-focused engine/state changes. `FFA-CASTLE-01..16` now also run for every seat,
-with ownership and permanent rights-loss/cleanup fixes. `FFA-DEAD-01..08` now
-cover retained passive mate/stalemate armies and their interactions in all four
-orientations, with focused engine, bot evaluation, and UI updates. The local
-state has no certified ruleset ID; standard-v1 remains reserved and replay-v2/state-v2 remain
-unimplemented.
-The promotion slice now implements eighth-rank automatic one-point Queens and
-provenance, including en-passant promotion for all seats. Its Queen classification
-and Queen-tier multi-check awards are covered. SCORE capture/own-army multi-check
-ledgers and deferred mate/stalemate awards are implemented. The maintainer's
-2026-09-06 [SCORE addendum](m1-score-acceptance.md) is authoritative: active
-checking owners split 20 equally at scheduled mate; nonchecking escape-blockers
-get zero. The last actor changing legal moves from positive to zero determines
-self/opponent stalemate; rescue clears that cause. Only mover-owned checking
-pieces count toward multi-check and Queen tier. This closes the attribution
-details without changing settled amounts. WALK and opening ABORT also have
-local engine/UI fixtures. END now implements points-based shared ranks,
-immediate claims and survivor awards. DRAW now covers automatic repetition,
-material and 200-turn triggers with flat awards. V2 replay validation remains.
-Further boundaries and remaining work are in
+**M1-03 progress (2026-09-06):** Every accepted fixture group now has executable
+coverage: SETUP, CORE, EP, CASTLE, DEAD, PROMO, SCORE, WALK, END, DRAW, ABORT and
+REPLAY. D11's score attribution remains authoritative: active checking owners
+split 20; nonchecking escape-blockers get zero; the last positive-to-zero legal
+move transition determines stalemate cause; other owners' pieces do not count
+toward mover multi-check or Queen tier.
+
+The [v2 implementation](state-replay-v2.md) records canonical SHA-256, all actions
+and individual effects, actual producer provenance and recoverable incomplete
+transactions. Modern starts are enforced; content-addressed checkpoints preserve
+history without claiming reachability. `sequence` is contiguous in the replay;
+`positionSequence` preserves checkpoint history. Event-level causes use local
+sequence or an explicit pre-checkpoint cause; embedded engine ledgers/results
+retain their position sequences. The explicit `claimWin` action supplements the
+original event union without conflating immediate claims with walking resignations.
+
+Local app controls and arena version-2 writers/readers are aligned. Legacy
+archives remain unchanged and all v1 logs reject by default under the separate
+checksum/provenance manifest. Final fresh validation and final-revision CI remain
+before M1 is marked complete. [Coverage](m1-03-fixtures.md),
 [project state](project-state.md).

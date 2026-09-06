@@ -9,7 +9,7 @@ const armies = [
   { id: "FFA-SETUP-03", color: PlayerColor.Yellow, back: [192,191,190,189,188,187,186,185], pawns: [178,177,176,175,174,173,172,171] },
   { id: "FFA-SETUP-04", color: PlayerColor.Green, back: [55,69,83,97,111,125,139,153], pawns: [54,68,82,96,110,124,138,152] },
 ] as const;
-describe("accepted Modern setup (partial migration, not standard-v1 certification)", () => {
+describe("accepted Modern setup and implemented standard-v1 identity", () => {
   for (const { id, color, back, pawns } of armies) it(`${id}: ${PlayerColor[color]} coordinates and clockwise opening`, () => {
     const state = createInitialState();
     const order = [PieceType.Rook, PieceType.Knight, PieceType.Bishop, PieceType.Queen, PieceType.King, PieceType.Bishop, PieceType.Knight, PieceType.Rook];
@@ -27,7 +27,7 @@ describe("accepted Modern setup (partial migration, not standard-v1 certificatio
     expect(state.board.filter(Boolean)).toHaveLength(64);
     expect(state.board.filter(p => p?.owner === color).every(p => !p!.hasMoved)).toBe(true);
     expect(legalMoves(state, color)).toHaveLength(20);
-    expect(state.rulesetId).toBeNull();
+    expect(state.rulesetId).toBe("li4chess-ffa-standard-v1");
     let current = state;
     for (const seat of ALL_COLORS) {
       expect(current.turn).toBe(seat);

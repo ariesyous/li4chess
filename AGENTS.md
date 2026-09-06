@@ -4,8 +4,7 @@ These instructions apply throughout this repository. Start with [README.md](READ
 for setup and implemented capabilities, [ROADMAP.md](ROADMAP.md) for product
 direction, and [docs/project-state.md](docs/project-state.md) for accepted
 decisions, current work, and the next tasks. [docs/rules-spec.md](docs/rules-spec.md)
-describes the current implementation's rules; it is not yet the target
-Chess.com-compatible FFA specification.
+describes the implemented standard FFA contract and local replay boundaries.
 
 ## Session continuity
 
@@ -32,7 +31,7 @@ and CPU seats. Networked multiplayer is not implemented.
 - `packages/engine`: pure rules engine. Keep React, browser APIs, network calls, and filesystem I/O out of this package.
 - `packages/bot`: production search/evaluation, experimental search, and the frozen `src/classic/` snapshot.
 - `packages/arena`: seeded tournaments, replay validation, benchmarks, and result reporting.
-- `packages/protocol`: JSON serialization helpers and shared game types for future networking.
+- `packages/protocol`: validated state-v2/replay-v2, canonical SHA-256 and producer provenance; network authority remains M3.
 - `packages/ui-kit`: presentational board, piece glyphs, and theme. Keep game decisions in the engine or application.
 
 Follow existing strict TypeScript and ESM conventions, including `.js` extensions
@@ -51,7 +50,7 @@ dependencies. Preserve immutable state transitions and JSON-shaped game state.
 - `applyMove` assumes a legal move. Validate external move requests against the engine's legal moves before applying them.
 - For intentional rules changes, update the specification and add focused regression coverage. Cover all four orientations when changing pawn movement, castling, or board transforms.
 
-The behavior above describes the partial migration; the historical house rules
+The behavior above describes `li4chess-ffa-standard-v1`; the historical house rules
 are preserved in `docs/rules-spec-house-ffa-v1.md`. The accepted product
 target is Chess.com's standard FFA rules, including its different scoring,
 promotion, and elimination behavior. M1 is the compatibility audit and migration;
@@ -70,7 +69,7 @@ changes to the rules engine do not silently alter the experiment being measured.
 Production CPU turns currently call `chooseCpuMove` synchronously after a timer.
 A timer delays search but does not move computation off the UI thread. Bounded
 search in a Web Worker, with cancellation and stale-result handling, is the next
-documented M2 priority, alongside M1 rules compatibility. Experimental
+documented M2 priority after M1 validation. Experimental
 `searchPosition` is separate from the production choice path; do not assume
 the UI already uses its budgets.
 
@@ -88,7 +87,7 @@ experiment methodology or interpreting archived results.
 
 ## Development and validation
 
-Use Node.js 20 or newer and the pnpm version pinned in `package.json` (10.33.0).
+Use Node.js 24 or newer and the pnpm version pinned in `package.json` (10.33.0).
 Run commands from the repository root:
 
 ```sh

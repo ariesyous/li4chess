@@ -21,8 +21,8 @@ Current features include:
 - Five CPU difficulty levels using paranoid alpha-beta search, which treats opponents as a coalition against the searching player.
 - Castling, en passant, promotion, deferred checkmate/stalemate resolution, placements, and threefold-repetition draws.
 
-The [rules specification](docs/rules-spec.md) describes a partial migration to
-the Chess.com-compatible target. Setup, ordinary king safety, active-king
+The [rules specification](docs/rules-spec.md) describes the implemented
+standard FFA contract. Setup, ordinary king safety, active-king
 non-capture, per-player en-passant windows, and castling now have executable
 acceptance fixtures for all four orientations. Castling enforces own home
 pieces, permanent rights loss, king-path safety, and passive dead-piece blocking.
@@ -44,13 +44,16 @@ Kings that move automatically on scheduled turns using recorded seeded choices.
 Automatic repetition, insufficient-material and 50-move draws each award a
 flat 10 points per active player. The 50-move rule counts 200 individual turns
 and resets on pawn moves or any capture, including dead pieces.
-Versioned replays and full compatibility closeout remain M1-03 work.
-`li4chess-ffa-standard-v1` is still reserved.
+The local app exports and imports validated replay-v2 files, including unfinished
+games and terminal results. State-v2 canonical SHA-256 hashes cover actions,
+individual awards, random provenance and results. Imported games resume from an
+explicit checkpoint under the current build, retaining a source replay hash.
+The implemented ruleset is `li4chess-ffa-standard-v1`; M1's final validation/CI
+gate is tracked in [project state](docs/project-state.md).
 
 CPU search currently runs on the browser's main thread, so higher difficulties
-can make the page unresponsive while thinking. The accepted rules audit is
-complete; remaining scoring, endings, actions, and replay implementation must
-pass its fixtures before claiming standard compatibility.
+can make the page unresponsive while thinking. Worker scheduling is M2 work;
+network authority, live clocks and disconnect tracking are M3 work.
 
 ## Monorepo layout
 
@@ -62,7 +65,7 @@ The TypeScript monorepo uses pnpm workspaces and Turborepo.
 | [`packages/engine`](packages/engine) | Pure rules engine: board geometry, move generation, legality, scoring, elimination, and repetition. No UI or I/O dependencies. |
 | [`packages/bot`](packages/bot) | Production CPU search and evaluation, frozen classic bot, and experimental search. |
 | [`packages/arena`](packages/arena) | Seeded tournaments, replay validation, reports, and benchmarks. |
-| [`packages/protocol`](packages/protocol) | JSON serialization helpers and shared types for future networking. |
+| [`packages/protocol`](packages/protocol) | Validated state-v2/replay-v2, canonical hashes and producer provenance. |
 | [`packages/ui-kit`](packages/ui-kit) | Presentational board, piece glyphs, and player colors. |
 
 The main application flow lives in
@@ -73,7 +76,7 @@ plain JSON-shaped data.
 
 ## Development
 
-Use Node.js 20 or newer and pnpm **10.33.0**, the version pinned in
+Use Node.js 24 or newer and pnpm **10.33.0**, the version pinned in
 `package.json`. Run commands from the repository root:
 
 ```sh
@@ -109,10 +112,10 @@ bounded iterative search with paranoid and Maxⁿ strategies, optional
 transposition tables and quiescence, and a tactical position corpus. Experimental
 search has not been promoted to the browser's production bot.
 
-The benchmark/comparison commands remain available from the root, but new
-research runs are paused during the partial rules migration until replay v2
-and build provenance are implemented. The current arena v1 harness is used for
-regression tests; it must not silently reinterpret archived records:
+Arena writers produce version-2 records with replay hashes, actual build and
+runtime/hardware provenance, engine configuration, seeds and budgets. Readers
+validate games before aggregation. Legacy v1 records are rejected and preserved
+in a separate [checksum manifest](docs/legacy-replay-manifest.json):
 
 ```sh
 pnpm --filter @li4chess/arena bench ../../arena-results/current-benchmark
@@ -143,8 +146,8 @@ matchmaking, learning tools, community events, and a sustainable open platform.
 
 [docs/project-state.md](docs/project-state.md) retains accepted decisions,
 current focus, the next actionable tasks, open questions, and dated validation
-between development sessions. The immediate focus is fixture-first M1-03 rules
-implementation; see the [completed slice and next fixtures](docs/m1-03-fixtures.md).
+between development sessions. The immediate focus is the M1 final validation/CI
+gate; see the [fixture coverage](docs/m1-03-fixtures.md).
 Worker integration is the next local-play milestone. Research continues
 alongside the product roadmap with versioned, reproducible evidence.
 

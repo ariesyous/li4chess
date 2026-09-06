@@ -4,6 +4,8 @@ import { gzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import { aggregate, GameRecord, replay } from "./index.js";
 
+throw new Error("Historical archive utility is read-only in M1: use its producing revision. Never rewrite docs/engine/results with the current engine.");
+
 const destination=resolve(process.argv[2] ?? "../../docs/engine/results");
 mkdirSync(destination,{recursive:true});
 const manifest:{file:string;sha256:string;bytes:number}[]=[];
@@ -18,8 +20,8 @@ for (const directory of ["baseline-smoke","sparse-v1","opening-v1","relative-v1"
   for (const log of logs) {
     const bytes=readFileSync(resolve(root,log));
     const games=bytes.toString("utf8").trim().split("\n").map(l=>JSON.parse(l) as GameRecord);
-    for (const game of games) replay(game);
-    all.push(...games);summaries.push({suite:directory,log,report:aggregate(games)});
+    for (const game of games) await replay(game);
+    all.push(...games);summaries.push({suite:directory,log,report:await aggregate(games)});
     save(`${directory}-${log}.gz`,gzipSync(bytes,{level:9}));
   }
   for (const file of ["manifest.json","ablation-bench.json","bench.json"]) {

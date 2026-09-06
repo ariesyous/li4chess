@@ -34,7 +34,7 @@ matchmaking-and-ratings goal.
 The repository has local hotseat and CPU games, a pure TypeScript rules engine,
 a React board, production bot search, a separate research laboratory, and CI.
 It does not yet have a multiplayer server, durable player accounts, public
-queues, ratings, authoritative clocks, or application game persistence.
+queues, ratings, authoritative clocks, or server-side game persistence. Local replay export/import is implemented.
 
 The protocol package currently serializes JSON; it is not yet a validated
 network protocol. CPU search still runs synchronously on the browser thread.
@@ -61,28 +61,13 @@ capabilities do not make a milestone complete.
 
 ### M1 — Compatible, versioned FFA rules
 
-**Status note (2026-09-06):** M1-01 produced the sourced
-[compatibility audit](docs/rules-compatibility.md). M1-02 is complete: the
-maintainer accepted the [versioned migration contract](docs/ruleset-versioning.md),
-including its product-owned identifiers, deterministic replay/state requirements,
-legacy-preservation policy, evidence-status fixture inventory, and no-guess
-decision gates. M1 remains in progress because M1-03 must turn the inventory into
-executable fixtures, implement the verified behavior, and satisfy the milestone
-exit criteria. The first M1-03 slice now has executable `FFA-SETUP-01..04`,
-`FFA-CORE-01..12`, and `FFA-EP-01..12` coverage and the required setup/core/EP
-implementation. The second slice adds `FFA-CASTLE-01..16` for all seats and
-fixes ownership and permanent rights loss/cleanup. The third slice adds
-`FFA-DEAD-01..08` in all four orientations: retained passive mate/stalemate
-armies, zero-point capture, occupancy/no attacks/no moves, rights cleanup, and
-dead-pawn EP. The fourth slice adds automatic eighth-rank one-point Queens,
-provenance, and promotion/EP interaction tests. See the
-[coverage map](docs/m1-03-fixtures.md). SCORE now implements capture/new-own-army
-multi-check ledgers and promoted-Queen awards. The clarified mate/stalemate
-attribution, walking kings and opening abort actions now have executable cases.
-Points-based endings, shared ranks, immediate claims and survivor awards are
-implemented. Automatic draw triggers/counters and flat awards now have fixtures.
-Full standard-v1 remains incomplete. Continue REPLAY, complete-game
-evidence and final consumer alignment.
+**Status note (2026-09-06):** All accepted M1 rule groups and replay-v2/state-v2
+are implemented and independently reviewed. `li4chess-ffa-standard-v1` is
+activated in the current implementation. Complete Modern games, rotated
+cross-feature awards, checkpoint recovery, browser controls, arena reports and
+legacy rejection have executable evidence. M1 remains in progress until fresh
+final validation and final-revision CI pass. See the [fixture map](docs/m1-03-fixtures.md),
+[format implementation](docs/state-replay-v2.md), and [current gate](docs/project-state.md).
 
 **Capabilities**
 
@@ -103,10 +88,10 @@ validation passes; known king-capture and castling-ownership issues are audited
 against the target rules. Old evidence remains unchanged and replayable through
 its recorded revision or an explicit compatibility path.
 
-**Initial research:** the current engine and the published FFA overview differ
+**Historical initial research:** the audited house engine and the published FFA overview differed
 in these areas. This is a starting inventory, not a complete specification.
 
-| Area | Current engine | Published Chess.com FFA target |
+| Area | Audited historical engine | Published Chess.com FFA target |
 | --- | --- | --- |
 | Winner | Last active player | Highest points total |
 | Promotion | Far local rank | Player's eighth rank |
