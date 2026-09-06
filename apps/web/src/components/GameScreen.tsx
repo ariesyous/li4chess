@@ -10,7 +10,7 @@ function squareLabel(square: number): string {
 }
 
 export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart: () => void }) {
-  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim,exportReplay,importReplay,replayBusy,replayMessage } = useLocalGame(seats);
+  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuNotice } = useLocalGame(seats);
   const [rotateToMover, setRotateToMover] = useState(false);
 
   const lastMove = state.moveHistory[state.moveHistory.length - 1] ?? null;
@@ -37,6 +37,8 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
 
       <div style={{ minWidth: 240 }}>
         <h2>Status</h2>
+        <p role="status" data-testid="cpu-status">{cpuStatus}</p>
+        {cpuNotice && <p role="status">{cpuNotice}</p>}
         <ul style={{ listStyle: "none", padding: 0 }}>
           {ALL_COLORS.map((color) => (
             <li

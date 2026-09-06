@@ -37,8 +37,8 @@ It does not yet have a multiplayer server, durable player accounts, public
 queues, ratings, authoritative clocks, or server-side game persistence. Local replay export/import is implemented.
 
 The protocol package validates state-v2 and replay-v2, including canonical hashes
-and producer provenance. Server authority remains M3 work. CPU search still runs
-synchronously on the browser thread. M1 fixtures cover the accepted FFA contract.
+and producer provenance. Server authority remains M3 work. Browser CPU search
+runs in a bounded Worker; M2 validation is in progress. M1 fixtures cover the accepted FFA contract.
 
 See [README.md](README.md) for implemented capabilities and
 [project state](docs/project-state.md) for the current focus and evidence.
@@ -52,7 +52,7 @@ capabilities do not make a milestone complete.
 | ID | Milestone | Status | Depends on | Player outcome |
 | --- | --- | --- | --- | --- |
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
-| M2 | Responsive local and CPU play | Planned | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
+| M2 | Responsive local and CPU play | In progress | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
 | M3 | Reliable online game service | Planned | M1 | Four remote players can finish and recover a game. |
 | M4 | Public matchmaking and rated beta | Planned | M2, M3 | Players can find opponents and build a credible rating. |
 | M5 | Analysis and learning | Planned | M4; editor/replay work can begin earlier | Players can understand and improve their play. |
@@ -111,6 +111,10 @@ is insufficient. Preserve the existing specification as versioned history when
 implementing the replacement.
 
 ### M2 — Responsive local and CPU play
+
+**Status (2026-09-06):** authorized from merged M1 `7f2593c`. Bounded Worker
+implementation is the first slice. [Acceptance plan](docs/m2-acceptance.md)
+records inputs and thresholds before changes. Completion and calibration pending.
 
 **Capabilities**
 

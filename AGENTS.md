@@ -65,12 +65,13 @@ changes to the rules engine do not silently alter the experiment being measured.
 
 ## Bot and research work
 
-Production CPU turns currently call `chooseCpuMove` synchronously after a timer.
-A timer delays search but does not move computation off the UI thread. Bounded
-search in a Web Worker, with cancellation and stale-result handling, is the next
-documented M2 priority. Experimental
-`searchPosition` is separate from the production choice path; do not assume
-the UI already uses its budgets.
+Production browser CPU turns call `chooseBoundedCpuMove` in a dedicated Worker.
+Each request has game/state/seat identity, shared node/time limits, termination
+on cancellation and a hard watchdog. Recovery uses the current legal list.
+The synchronous `chooseCpuMove` remains a comparison API; the laboratory's
+`searchPosition` remains experimental. Do not mix its terminal-utility scale
+with raw production evaluation. M2 calibration and acceptance evidence are in
+`docs/m2-acceptance.md`.
 
 - Preserve `packages/bot/src/classic/` and archived evidence under `docs/engine/results/`.
 - Both classic and production bots use the current rules engine. The laboratory utility also uses production evaluation; account for these shared dependencies in comparisons.

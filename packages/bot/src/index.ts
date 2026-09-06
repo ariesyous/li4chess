@@ -4,6 +4,7 @@ import { evaluateFull } from "./evaluate.js";
 import { ScoredMove, SearchOptions, rankMoves, scoreMovesExactly } from "./search.js";
 
 export * from "./difficulty.js";
+export * from "./bounded.js";
 export * from "./evaluate.js";
 export * from "./search.js";
 export * from "./lab-search.js";

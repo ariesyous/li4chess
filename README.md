@@ -51,8 +51,15 @@ explicit checkpoint under the current build, retaining a source replay hash.
 The implemented ruleset is `li4chess-ffa-standard-v1`. M1 is complete; its
 validation and CI evidence is recorded in [project state](docs/project-state.md).
 
-CPU search currently runs on the browser's main thread, so higher difficulties
-can make the page unresponsive while thinking. Worker scheduling is M2 work;
+CPU search runs in a dedicated Web Worker using bounded iterative production
+search. Five resource policies retain production evaluation; only completed
+iterations drive evaluated choices. Cancellation terminates the Worker, replies
+must match the current game/state/seat, and failures recover from current legal
+moves. Budgets and acceptance thresholds are in [M2 acceptance](docs/m2-acceptance.md);
+calibration and complete M2 validation are pending. The former synchronous
+`chooseCpuMove` remains available to historical comparison consumers;
+the browser uses `chooseBoundedCpuMove`. This is not a playing-strength claim.
+Local persistence and the responsive accessible game frame are further M2 work;
 network authority, live clocks and disconnect tracking are M3 work.
 
 ## Monorepo layout

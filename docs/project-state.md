@@ -8,22 +8,60 @@ superseded handoffs.
 
 ## Current focus
 
+**M2 is in progress.** The current goal authorizes reviewed, validated successive
+slices through M2, commits and a draft PR; stop before M3. Acceptance inputs,
+expected outcomes and initial measurable thresholds are in
+[M2 acceptance](m2-acceptance.md). Slice 1 implements bounded production search
+and Worker lifecycle; persistence, interface and final evidence follow.
+
 **M1 is complete.** M1-01/M1-02/M1-03 are complete and
 all D/O requirements in the accepted contract have executable coverage. The
 implementation activates `li4chess-ffa-standard-v1` after independently
-reviewed rule and replay implementations. No M2+ work is authorized by this goal.
+reviewed rule and replay implementations. Preserve its accepted contract.
 
-Baseline was clean `802d2b4` on main. Work is on `codex/m1-completion`; the draft
-PR is [#10](https://github.com/ariesyous/li4chess/pull/10). The user authorizes
-successive reviewed/tested commits, branch pushes and draft PR updates through
-M1, with no merge, main push, deployment or provisioning.
+M2 began from clean fetched `origin/main`, merge `7f2593c96301853c6b3a9ebeaaaf6ea4683dc698`,
+on dedicated `codex/m2-completion`. GitHub verifies [M1 PR #10](https://github.com/ariesyous/li4chess/pull/10)
+merged with passing checks. Human Git identity is Aries Youssefian. Node 24.18.0
+and pinned pnpm 10.33.0 via temporary Corepack shims are verified. No merge,
+main push, publication, provisioning or M3 work is authorized.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
-still runs synchronously; Workers are M2. Live clocks, connection-bank tracking,
+now has an in-progress bounded Worker path; final evidence is pending. Live clocks, connection-bank tracking,
 networking, accounts, matchmaking and ratings are M3/M4. Local timeout and
 exhausted-disconnect facts are deterministic engine/replay inputs only.
 
-## M1 implementation and evidence
+## M2 slice 1: bounded Worker search
+
+Implemented from `7f2593c` on 2026-09-06. `chooseBoundedCpuMove` retains the
+production evaluator and exact contender semantics under one iterative node/time
+budget. Browser requests validate state-v2, hash/game/request/seat identities and
+move intentions. Cancellation terminates the Worker; initialization, crash,
+decode, malformed and watchdog failures use a current legal fallback. Request
+diagnostics separate search, startup and round-trip time and identify recovery.
+Reset/import/teardown invalidate asynchronous operations. Walking/Claim Win remain
+canonical M1 actions. No engine, frozen classic or archived evidence changed.
+
+Fresh independent reviews covered search suitability and the actual Worker diff.
+The laboratory terminal-scale mismatch was avoided; the diagnostics finding was
+resolved. Browser tests exposed redundant cleanup termination, now idempotent.
+Acceptance inputs and remaining calibration/UI/save gates:
+[M2 acceptance](m2-acceptance.md). Unit/browser test sources now type-check in lint;
+one existing bot test helper had its unnecessarily readonly return annotation fixed.
+
+Validation on Windows, Node 24.18.0, pnpm 10.33.0 against `7f2593c` plus this
+slice: fresh `pnpm lint --force`, `pnpm test --force` (**597 tests**: engine 471,
+bot 63, protocol 36, arena 11, web 16), and `pnpm build --force` passed.
+`pnpm --filter @li4chess/web test:e2e` passed **27 browser tests**, including real
+busy-Worker exit/import/terminal interruption and constructor/crash/hung-Worker
+recovery, without retries. Local Markdown file
+links: 201 resolved; `git diff --check` passed. These are correctness/lifecycle
+checks, not difficulty calibration or playing-strength measurements.
+
+Next: implement the validated synchronous local journal and explicit resume;
+then the accessible responsive game frame, production calibration and complete
+flows. M2 remains in progress. M3 is out of scope.
+
+## M1 implementation history
 
 - SETUP/CORE/EP, CASTLE and DEAD were verified at the baseline. Their full
   four-orientation coverage remains in [the fixture map](m1-03-fixtures.md).
@@ -99,8 +137,9 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-The authorized M1 goal is finished. M2-01 is the next local-play task when
-separately authorized; M3-01 is the first M3 task when that milestone becomes actionable.
+The authorized M2 goal covers Worker/difficulty, local persistence, responsive
+accessible game UI and complete-game evidence. Follow [M2 acceptance](m2-acceptance.md).
+M3-01 is outside this goal.
 
 | ID | Task | Done when |
 | --- | --- | --- |
