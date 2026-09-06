@@ -48,8 +48,8 @@ The local app exports and imports validated replay-v2 files, including unfinishe
 games and terminal results. State-v2 canonical SHA-256 hashes cover actions,
 individual awards, random provenance and results. Imported games resume from an
 explicit checkpoint under the current build, retaining a source replay hash.
-The implemented ruleset is `li4chess-ffa-standard-v1`; M1's final validation/CI
-gate is tracked in [project state](docs/project-state.md).
+The implemented ruleset is `li4chess-ffa-standard-v1`. M1 is complete; its
+validation and CI evidence is recorded in [project state](docs/project-state.md).
 
 CPU search currently runs on the browser's main thread, so higher difficulties
 can make the page unresponsive while thinking. Worker scheduling is M2 work;
@@ -146,8 +146,8 @@ matchmaking, learning tools, community events, and a sustainable open platform.
 
 [docs/project-state.md](docs/project-state.md) retains accepted decisions,
 current focus, the next actionable tasks, open questions, and dated validation
-between development sessions. The immediate focus is the M1 final validation/CI
-gate; see the [fixture coverage](docs/m1-03-fixtures.md).
+between development sessions. M1 is complete; see the
+[fixture coverage](docs/m1-03-fixtures.md).
 Worker integration is the next local-play milestone. Research continues
 alongside the product roadmap with versioned, reproducible evidence.
 

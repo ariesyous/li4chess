@@ -29,8 +29,8 @@ An assertion has exactly one of these evidence states:
 
 `standard` in an identifier means li4chess intends to match the documented and
 verified standard-FFA contract; it does not claim Chess.com ownership or imply
-that an unresolved item has been copied. The target ruleset remains **reserved**
-until M1-03 implements and tests the accepted contract.
+that an unresolved item has been copied. The target ruleset was reserved until
+M1-03 implemented and tested the accepted contract; that gate is now complete.
 
 ## Accepted identifiers
 
@@ -40,7 +40,7 @@ identifiers, not dates, display labels, or a Chess.com trademark.
 | Identifier | Status | Meaning and write policy |
 | --- | --- | --- |
 | `li4chess-house-ffa-v1` | M — historical | The frozen engine behavior in [the historical specification](rules-spec-house-ffa-v1.md): far-edge promotion, removed mate armies, frozen stalemates, elimination-first result, and immediate threefold draw. It is never rewritten to mean the target rules. |
-| `li4chess-ffa-standard-v1` | M — implemented; final M1 gate pending | The first ruleset which satisfies the documented/observed standard-FFA contract. Do not produce, advertise, or accept it as an implemented game before V items, implementation, and tests close. |
+| `li4chess-ffa-standard-v1` | M — implemented and validated | The first ruleset which satisfies the accepted documented/observed standard-FFA contract. M1's implementation, fixture and validation gates are complete. |
 | `li4chess-replay-v2` | M — accepted schema identifier | The append-only replay envelope below. Its numeric JSON field is `replaySchemaVersion: 2`; its string identifier prevents a bare number being mistaken for semantic rules. |
 | `li4chess-state-v2` | M — accepted canonical state identifier | The canonical snapshot/hash projection used by replay v2. It changes only when a state field's serialized meaning changes. |
 | `legacy-arena-v1` | M — historical format identifier | Existing `GameRecord.version === 1` arena data. It is not replay v2 and is not automatically any semantic ruleset. |
@@ -293,6 +293,6 @@ original event union without conflating immediate claims with walking resignatio
 
 Local app controls and arena version-2 writers/readers are aligned. Legacy
 archives remain unchanged and all v1 logs reject by default under the separate
-checksum/provenance manifest. Final fresh validation and final-revision CI remain
-before M1 is marked complete. [Coverage](m1-03-fixtures.md),
+checksum/provenance manifest. Fresh local validation and Node 24 CI passed on
+the final implementation; M1 is complete. [Coverage](m1-03-fixtures.md),
 [project state](project-state.md).

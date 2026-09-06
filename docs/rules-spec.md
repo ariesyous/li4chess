@@ -2,8 +2,8 @@
 
 > **Implemented contract as of 2026-09-06:** `li4chess-ffa-standard-v1`, with
 > state-v2/replay-v2. The accepted [migration contract](ruleset-versioning.md)
-> and [audit](rules-compatibility.md) define scope and evidence. Final M1
-> validation/CI status is recorded in [project state](project-state.md).
+> and [audit](rules-compatibility.md) define scope and evidence. M1 is complete;
+> validation/CI evidence is recorded in [project state](project-state.md).
 
 The pre-migration specification is preserved in
 [rules-spec-house-ffa-v1.md](rules-spec-house-ffa-v1.md), from commit

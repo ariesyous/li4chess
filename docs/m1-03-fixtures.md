@@ -15,7 +15,7 @@ current legal move and asserts that applying it leaves the input state unchanged
 
 The sections below retain the acceptance inputs written before each slice.
 Descriptions of a slice's then-pending work are historical boundaries; the final
-REPLAY section records the completed implementation and current validation gate.
+REPLAY section records the completed implementation and validation evidence.
 
 ## Executable coverage
 
@@ -269,5 +269,7 @@ king-endgame corpus adds a Pawn; frozen classic and archived evidence do not cha
 The complete-game tests assert explicit standings/awards, actual legal actions,
 continuous hashes and exact replay state, rather than relying on isolated fixture
 counts. Engine, protocol, local app, production bot and arena use the same points
-objective. Standard-v1 is implemented; final local validation and final-revision
-CI are tracked in [project state](project-state.md). M2/M3 remain outside scope.
+objective. M1 is complete: fresh local lint, 571 unit tests, build, strict test
+types and 21 browser tests passed, followed by Node 24 CI on the final
+implementation. [Project state](project-state.md) records the evidence.
+M2/M3 remain outside scope.

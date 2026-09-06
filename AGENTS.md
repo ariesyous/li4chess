@@ -52,9 +52,8 @@ dependencies. Preserve immutable state transitions and JSON-shaped game state.
 
 The behavior above describes `li4chess-ffa-standard-v1`; the historical house rules
 are preserved in `docs/rules-spec-house-ffa-v1.md`. The accepted product
-target is Chess.com's standard FFA rules, including its different scoring,
-promotion, and elimination behavior. M1 is the compatibility audit and migration;
-do not preserve the current house rules as a product requirement. Verify unclear
+target is Chess.com's standard FFA rules. M1's compatibility audit and migration
+are complete; do not restore historical house rules as a product requirement. Verify unclear
 reference behavior, version the replacement specification/replays, and preserve
 historical evidence rather than rewriting it to fit the new rules.
 
@@ -69,7 +68,7 @@ changes to the rules engine do not silently alter the experiment being measured.
 Production CPU turns currently call `chooseCpuMove` synchronously after a timer.
 A timer delays search but does not move computation off the UI thread. Bounded
 search in a Web Worker, with cancellation and stale-result handling, is the next
-documented M2 priority after M1 validation. Experimental
+documented M2 priority. Experimental
 `searchPosition` is separate from the production choice path; do not assume
 the UI already uses its budgets.
 

@@ -8,10 +8,9 @@ superseded handoffs.
 
 ## Current focus
 
-**M1 implementation and local validation are complete; final-revision CI is
-pending. Do not mark M1 complete until CI passes.** M1-01/M1-02 are complete and
+**M1 is complete.** M1-01/M1-02/M1-03 are complete and
 all D/O requirements in the accepted contract have executable coverage. The
-current working tree activates `li4chess-ffa-standard-v1` after independently
+implementation activates `li4chess-ffa-standard-v1` after independently
 reviewed rule and replay implementations. No M2+ work is authorized by this goal.
 
 Baseline was clean `802d2b4` on main. Work is on `codex/m1-completion`; the draft
@@ -33,7 +32,7 @@ exhausted-disconnect facts are deterministic engine/replay inputs only.
   walking Kings and opening aborts; `11bdfae` adds points/shared ranks, immediate
   claims and survivor awards; `9a5c8c5` adds automatic draws/counters/flat awards.
   Each slice was independently reviewed, validated and pushed.
-- The current REPLAY slice implements explicit state-v2/result-v2/replay-v2,
+- `e0adfd5` implements explicit state-v2/result-v2/replay-v2,
   canonical SHA-256, validated actions/effects, recorded random provenance,
   resumable pending transactions, complete Modern starts and content-addressed
   checkpoints, actual producer identities, and explicit legacy rejection.
@@ -52,7 +51,7 @@ exhausted-disconnect facts are deterministic engine/replay inputs only.
   No historical result was rerun/reaggregated under the new engine. Frozen classic
   and the historical house specification remain unchanged.
 
-## Current validation gate
+## Final M1 validation
 
 REPLAY core and consumer reviewers approved after fixes to checkpoint identity,
 producer attribution, EP validation, terminal/claim consistency, causal namespaces,
@@ -69,8 +68,14 @@ passed on Windows, Node 24.18.0 and pinned pnpm 10.33.0 (2026-09-06):
 
 The maintainer requested Node 24 for CI. Both validation and Pages build workflows
 now select Node 24, and the documented/package runtime floor is 24. This changes
-future build configuration only; no deployment was run. Commit/push and CI on the
-final pushed revision remain before M1 closeout.
+future build configuration only; no deployment was run.
+
+[CI run 34052398852](https://github.com/ariesyous/li4chess/actions/runs/34052398852)
+passed on final implementation commit `e0adfd5b79f5f16c1a8283355e946725bcb1461d`
+using Ubuntu/Node 24 and pinned pnpm: install, lint, unit tests, build and browser
+tests all succeeded. Local links (197 across 24 Markdown files), diff checks and
+frozen-path checks also passed. This closeout changes documentation only; CI on
+its pushed revision is checked again before ending the goal. No merge or deployment.
 
 ## Accepted decisions
 
@@ -94,14 +99,14 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-Continue M1-03 with executable fixtures before each behavior change; M3-01 is
-the first M3 task when that milestone becomes actionable.
+The authorized M1 goal is finished. M2-01 is the next local-play task when
+separately authorized; M3-01 is the first M3 task when that milestone becomes actionable.
 
 | ID | Task | Done when |
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **Final validation pending.** All rule groups, REPLAY, complete games and consumers are implemented and independently reviewed. [Coverage and next work](m1-03-fixtures.md). Complete only when all M1 exit criteria and fresh final-revision validation/CI pass. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **Complete 2026-09-06.** All rule groups, REPLAY, complete games and consumers are implemented and independently reviewed. [Coverage](m1-03-fixtures.md), fresh full local checks and final implementation CI satisfy the M1 exit criteria. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |
@@ -123,7 +128,7 @@ as measurements of the new ruleset.
 Q1 (anonymous rating eligibility) is resolved by D07. Q6 (remaining rule
 evidence), Q7 (authoritative-randomness replay fields), and the M1-02 contract
 gate are resolved by D10. M3 must supply server authority for those replay fields.
-No unresolved question blocks beginning M1-03. Only ask for decisions when the
+No unresolved question blocks M1 completion. Only ask for decisions when the
 current work depends on them; do not reopen already accepted requirements.
 
 ## Historical evidence and validation

@@ -11,8 +11,8 @@ open-source place to play, compete, learn, and build a community around
 four-player chess.
 
 - **First public release:** free-for-all with public matchmaking and ratings.
-- **Rules target:** match Chess.com's standard FFA rules. The current local house
-  rules are an implementation baseline, not the intended public ruleset.
+- **Rules target:** match Chess.com's standard FFA rules. M1 implements the
+  accepted contract; the former house rules remain versioned history.
 - **Access:** free access, no ads, anonymous casual matchmaking, and games
   against CPUs are launch requirements. Rated play and persistent leaderboards
   require an account.
@@ -36,9 +36,9 @@ a React board, production bot search, a separate research laboratory, and CI.
 It does not yet have a multiplayer server, durable player accounts, public
 queues, ratings, authoritative clocks, or server-side game persistence. Local replay export/import is implemented.
 
-The protocol package currently serializes JSON; it is not yet a validated
-network protocol. CPU search still runs synchronously on the browser thread.
-Existing tests establish a regression baseline, not Chess.com compatibility.
+The protocol package validates state-v2 and replay-v2, including canonical hashes
+and producer provenance. Server authority remains M3 work. CPU search still runs
+synchronously on the browser thread. M1 fixtures cover the accepted FFA contract.
 
 See [README.md](README.md) for implemented capabilities and
 [project state](docs/project-state.md) for the current focus and evidence.
@@ -51,7 +51,7 @@ capabilities do not make a milestone complete.
 
 | ID | Milestone | Status | Depends on | Player outcome |
 | --- | --- | --- | --- | --- |
-| M1 | Compatible, versioned FFA rules | In progress | Existing engine | The game behaves as a Chess.com FFA player expects. |
+| M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
 | M2 | Responsive local and CPU play | Planned | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
 | M3 | Reliable online game service | Planned | M1 | Four remote players can finish and recover a game. |
 | M4 | Public matchmaking and rated beta | Planned | M2, M3 | Players can find opponents and build a credible rating. |
@@ -65,9 +65,10 @@ capabilities do not make a milestone complete.
 are implemented and independently reviewed. `li4chess-ffa-standard-v1` is
 activated in the current implementation. Complete Modern games, rotated
 cross-feature awards, checkpoint recovery, browser controls, arena reports and
-legacy rejection have executable evidence. M1 remains in progress until fresh
-final validation and final-revision CI pass. See the [fixture map](docs/m1-03-fixtures.md),
-[format implementation](docs/state-replay-v2.md), and [current gate](docs/project-state.md).
+legacy rejection have executable evidence. Fresh local validation passed with
+571 unit tests and 21 browser tests; [Node 24 CI passed on the final implementation](https://github.com/ariesyous/li4chess/actions/runs/34052398852).
+M1 is complete. See the [fixture map](docs/m1-03-fixtures.md),
+[format implementation](docs/state-replay-v2.md), and [validation evidence](docs/project-state.md).
 
 **Capabilities**
 
@@ -85,8 +86,9 @@ final validation and final-revision CI pass. See the [fixture map](docs/m1-03-fi
 **Exit criteria:** each compatibility requirement has a test or documented
 verification method; unresolved release-affecting behavior is resolved; full
 validation passes; known king-capture and castling-ownership issues are audited
-against the target rules. Old evidence remains unchanged and replayable through
-its recorded revision or an explicit compatibility path.
+against the target rules. Old evidence remains unchanged: replay it only through
+a verified producing revision or explicit compatibility path; quarantine and
+reject records whose producing provenance cannot be established.
 
 **Historical initial research:** the audited house engine and the published FFA overview differed
 in these areas. This is a starting inventory, not a complete specification.
@@ -95,7 +97,7 @@ in these areas. This is a starting inventory, not a complete specification.
 | --- | --- | --- |
 | Winner | Last active player | Highest points total |
 | Promotion | Far local rank | Player's eighth rank |
-| Eliminated army | Passive mate/stalemate armies retained (DEAD slice) | Dead pieces remain; captures give no points |
+| Eliminated army | Mate armies removed; stalemated armies frozen | Dead pieces remain; captures give no points |
 | Scoring | Capture values; bishop worth 3 | Bishop worth 5; mate, stalemate, and multi-check awards |
 | Resignation/timeout | No complete game action | Dead army with a live king that moves randomly |
 | Draw ending | Repetition ties active players first | Draw awards affect final points |
