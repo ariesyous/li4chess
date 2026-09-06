@@ -175,8 +175,9 @@ current focus, the next actionable tasks, open questions, and dated validation
 between development sessions. M1 is complete; see the
 [fixture coverage](docs/m1-03-fixtures.md).
 M2 is complete; [acceptance evidence](docs/m2-evidence/README.md) records production
-budgets, complete games and inspected layouts. M3-01 is in progress as an isolated
-architecture spike; M3 remains incomplete. Research continues
+budgets, complete games and inspected layouts. M3-01 is complete: the isolated
+[architecture evidence](docs/m3-01-evidence/README.md) supports the ADR and its
+explicit hosted validation gates. M3 remains incomplete. Research continues
 alongside the product roadmap with versioned, reproducible evidence.
 
 See [AGENTS.md](AGENTS.md) for repository conventions, including validation,

@@ -153,9 +153,12 @@ direction, not Chess.com visual copying or a claim of implemented parity.
 
 ### M3 — Reliable online game service (internal alpha)
 
-**M3-01 in progress (2026-09-06):** the isolated local prototype and
-[ADR](docs/m3-01-adr.md) validate consistency/recovery boundaries. No online
-service is shipped or provisioned. M3-02 through M3-06 remain planned.
+**M3-01 complete (2026-09-06):** the isolated local prototype and
+[ADR](docs/m3-01-adr.md) validate consistency/recovery boundaries, with
+[reviewed evidence](docs/m3-01-evidence/README.md) and
+[passing CI](https://github.com/ariesyous/li4chess/actions/runs/34062822436).
+The accepted topology is retained subject to explicit hosted gates. No online
+service is shipped or provisioned. M3-02 through M3-06 remain planned; M3 is incomplete.
 
 **Capabilities**
 
@@ -195,7 +198,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 
 | ID | Work item | Outcome |
 | --- | --- | --- |
-| M3-01 | Cloudflare architecture spike and ADR | The intended topology, consistency model, recovery contract, limits, cost assumptions, local workflow, and fallback criteria are recorded and validated with focused prototypes. |
+| M3-01 | Cloudflare architecture spike and ADR | **Complete 2026-09-06.** Topology, consistency/recovery, limits, costs, workflow and fallback criteria have an ADR, independent review, real local runtime/restart evidence and passing Windows/Ubuntu checks. Hosted validation gates remain explicit. |
 | M3-02 | Workers deployment foundation | React/Vite is served with Workers Static Assets; the Worker has a minimal HTTP surface, repeatable Wrangler/Vite/workerd development, CI, and GitHub deployment configuration. |
 | M3-03 | D1 persistence model | Versioned migrations cover users, games, events, and replay data; write ordering, idempotency, retention, and recovery semantics are tested. |
 | M3-04 | Authoritative `GameRoom` Durable Object | One game owner validates moves and owns state, clocks, sequence numbers, randomness, and WebSockets, with persistence and recovery behavior defined. |
