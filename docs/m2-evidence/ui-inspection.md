@@ -32,5 +32,5 @@ These are browser emulation, actual rendered-image inspection and accessibility-
 observations. No physical-device, screen-reader or comprehensive WCAG audit was
 performed. Full histories are not live regions; concise turn/action/selection
 updates are polite. The stylesheet preserves visible focus and disables motion
-under reduced-motion preference. Complete-game result captures and production
-responsiveness measurements follow in slice 4.
+under reduced-motion preference. [Complete-game result captures and production
+responsiveness measurements](README.md) are recorded in the final evidence report.

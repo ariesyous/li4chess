@@ -123,5 +123,7 @@ Large JSON evidence is gzip-compressed; decode with Node's `gunzipSync` or a gzi
 reader. Source snapshots contain the tracked Git diff and base64 untracked files
 relative to the recorded revision. Do not replay this evidence under changed rules.
 
-Fresh final full checks and final-revision CI are recorded in
-[project state](../project-state.md) before M2 is marked complete.
+M2 is complete. Fresh lint, 602 unit tests, build and 46 browser tests passed;
+independent reviews are resolved. [CI on final implementation e02a0ad](https://github.com/ariesyous/li4chess/actions/runs/34058335008)
+passed. [Project state](../project-state.md) records the validation and the
+documentation-only closeout, whose pushed-revision checks are verified again.

@@ -38,7 +38,7 @@ queues, ratings, authoritative clocks, or server-side game persistence. Local re
 
 The protocol package validates state-v2 and replay-v2, including canonical hashes
 and producer provenance. Server authority remains M3 work. Browser CPU search
-runs in a bounded Worker; M2 validation is in progress. M1 fixtures cover the accepted FFA contract.
+runs in a bounded Worker; M2 validation is complete. M1 fixtures cover the accepted FFA contract.
 
 See [README.md](README.md) for implemented capabilities and
 [project state](docs/project-state.md) for the current focus and evidence.
@@ -52,7 +52,7 @@ capabilities do not make a milestone complete.
 | ID | Milestone | Status | Depends on | Player outcome |
 | --- | --- | --- | --- | --- |
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
-| M2 | Responsive local and CPU play | In progress | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
+| M2 | Responsive local and CPU play | Complete | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
 | M3 | Reliable online game service | Planned | M1 | Four remote players can finish and recover a game. |
 | M4 | Public matchmaking and rated beta | Planned | M2, M3 | Players can find opponents and build a credible rating. |
 | M5 | Analysis and learning | Planned | M4; editor/replay work can begin earlier | Players can understand and improve their play. |
@@ -112,14 +112,16 @@ implementing the replacement.
 
 ### M2 — Responsive local and CPU play
 
-**Status (2026-09-06):** authorized from merged M1 `7f2593c`. Bounded Worker
+**Complete (2026-09-06):** authorized from merged M1 `7f2593c`. Bounded Worker
 implementation is committed as `839aa46`. Validated local autosave/resume is the
 second slice (`a61031b`). The responsive frame and keyboard navigation are
 `386ca59`. [Acceptance plan](docs/m2-acceptance.md) records inputs and thresholds.
 [Production calibration, complete games and inspected captures](docs/m2-evidence/README.md)
-satisfy the local capability gates. Independent review and fresh full validation
-(602 unit tests, 46 browser tests, lint and build) passed; final-revision CI is
-required before changing this status to complete.
+satisfy the local capability gates in `e02a0ad`. Independent review and fresh full
+validation (602 unit tests, 46 browser tests, lint and build) passed, as did
+[CI on the final implementation](https://github.com/ariesyous/li4chess/actions/runs/34058335008).
+The documentation closeout is checked again on its pushed revision. M3 has not
+started; physical-device and screen-reader testing remain documented limitations.
 
 **Capabilities**
 
