@@ -56,12 +56,13 @@ export function createInitialState(seatConfig?: SeatConfig): GameState {
   }
 
   const initial: GameState = {
+    rulesetId: null,
     board,
     players,
     turn: PlayerColor.Red,
     turnNumber: 1,
     castlingRights,
-    enPassantTarget: null,
+    enPassantRights: [],
     moveHistory: [],
     result: null,
     positionCounts: {},

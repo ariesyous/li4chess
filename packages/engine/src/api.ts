@@ -1,4 +1,19 @@
-import { GameState } from "./types.js";
+import { GameState, Move } from "./types.js";
+import { applyMove } from "./rules/applyMove.js";
+import { legalMoves } from "./rules/legality.js";
+import { assertLocalMigrationState } from "./stateFormat.js";
+
+/** Resolve an external intention against the current turn; never trust supplied
+ * piece, capture, castle, check, or elimination metadata. Seat authorization is
+ * the responsibility of the caller (a future multiplayer server).
+ */
+export function applyMoveRequest(state: GameState, request: Pick<Move, "from" | "to" | "promotion">): GameState {
+  assertLocalMigrationState(state);
+  if (state.result !== null) throw new Error("Cannot move in a finished game");
+  const move = legalMoves(state).find(candidate => candidate.from === request.from && candidate.to === request.to && candidate.promotion === request.promotion);
+  if (!move) throw new Error("Request does not match a legal move for the current player");
+  return applyMove(state, move);
+}
 
 export type GamePhase = "active" | "finished";
 

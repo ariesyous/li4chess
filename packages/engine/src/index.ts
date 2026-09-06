@@ -11,3 +11,4 @@ export * from "./rules/elimination.js";
 export * from "./rules/repetition.js";
 export * from "./rules/applyMove.js";
 export * from "./api.js";
+export * from "./stateFormat.js";

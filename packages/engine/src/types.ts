@@ -80,16 +80,27 @@ export interface GameResult {
 }
 
 export interface GameState {
+  /** Partial M1 migration only. Neither historical house-v1 nor reserved standard-v1. */
+  readonly rulesetId: null;
   readonly board: readonly (Piece | null)[];
   readonly players: Readonly<Record<PlayerColor, PlayerState>>;
   readonly turn: PlayerColor;
   readonly turnNumber: number;
   readonly castlingRights: Readonly<Record<PlayerColor, CastlingRights>>;
-  readonly enPassantTarget: Square | null;
+  readonly enPassantRights: readonly EnPassantRight[];
   readonly moveHistory: readonly Move[];
   readonly result: GameResult | null;
   /** Counts how many times each position (see rules/repetition.ts) has occurred, for threefold-repetition draw detection. */
   readonly positionCounts: Readonly<Record<string, number>>;
+}
+
+/** One double push can grant several opponents one opportunity each. */
+export interface EnPassantRight {
+  readonly target: Square;
+  readonly pawnSquare: Square;
+  readonly pawnOwner: PlayerColor;
+  /** Fixed at the push, then consumed individually on each eligible player's turn. */
+  readonly eligiblePlayers: readonly PlayerColor[];
 }
 
 export interface SeatConfig {

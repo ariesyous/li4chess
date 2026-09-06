@@ -1,67 +1,154 @@
-# li4chess Rules Spec — 4-Player Free-For-All
+# li4chess rules specification — partial M1 migration
 
-> **Current implementation baseline, not the public-release target.** On
-> 2026-09-06, the maintainer chose compatibility with Chess.com's standard FFA
-> rules. The house rules below remain the existing engine's specification until
-> the versioned M1 migration. See [ROADMAP.md](../ROADMAP.md) and
-> [project state](project-state.md). Do not claim compatibility from this document;
-> preserve its historical version when replacing it.
+> **Implemented behavior as of 2026-09-06, not full standard FFA.** The first
+> M1-03 slice implements the accepted setup, core-legality, and en-passant
+> fixtures. The remaining house behavior is identified below. The complete
+> target is the accepted [migration contract](ruleset-versioning.md), supported
+> by [the audit](rules-compatibility.md). `li4chess-ffa-standard-v1` stays reserved.
 
-This is the authoritative ruleset the engine implements and tests are checked against. Where no universal standard exists across other 4-player chess implementations, a deliberate house ruling is made and flagged as such.
+The pre-migration specification is preserved in
+[rules-spec-house-ffa-v1.md](rules-spec-house-ffa-v1.md), from commit
+`bb6677439c159a9b53ce3a5029982f667c4a99d4`. Historical records must use their
+producing revision or an explicit compatibility reader, never this reducer.
+See [the executable fixture map](m1-03-fixtures.md) for coverage and boundaries.
 
-## Board
+## Board and setup
 
-- 14x14 grid, squares addressed by `(file, rank)`, both `0..13`.
-- Corner cutout: the four 3x3 blocks where `(file < 3 || file > 10) && (rank < 3 || rank > 10)` do not exist. 160 playable squares remain, forming a cross/plus shape.
-- Seating, clockwise turn order: **Red** (bottom, ranks 0-1, files 3-10) -> **Blue** (left, files 0-1, ranks 3-10) -> **Yellow** (top, ranks 12-13, files 3-10) -> **Green** (right, files 12-13, ranks 3-10). This matches Chess.com's FFA layout, the only widely-known reference implementation.
-- Each player's back rank uses standard chess order, queenside to kingside: Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook, with a full pawn rank in front. Each player's own local frame is used to place this (see Engine README / `board.ts`), so all 4 sides are consistent rotations of one another.
+- A 14×14 array uses `(file, rank)` in `0..13`, with flat index `rank * 14 + file`.
+- The four 3×3 corners are cut out: `(file < 3 || file > 10) && (rank < 3 || rank > 10)`. There are 160 playable squares.
+- Each seat has eight pawns in front of `R N B Q K B N R`, in its outward baseline frame. The Queen is left of the King. All 64 starting squares have independent coordinate assertions.
 
-## Turn order
+| Seat | Back rank, queenside to kingside (zero-based) | Pawn line | Queen / King |
+| --- | --- | --- | --- |
+| Red | `(3,0)` through `(10,0)` | rank 1, files 3–10 | `(6,0)` / `(7,0)` |
+| Blue | `(0,10)` through `(0,3)` | file 1, ranks 3–10 | `(0,7)` / `(0,6)` |
+| Yellow | `(10,13)` through `(3,13)` | rank 12, files 3–10 | `(7,13)` / `(6,13)` |
+| Green | `(13,3)` through `(13,10)` | file 12, ranks 3–10 | `(13,6)` / `(13,7)` |
 
-Fixed rotation Red -> Blue -> Yellow -> Green -> Red ..., skipping any player whose status is not `active`. If only one player remains active, the game ends immediately.
+Shared `localToBoard`, `boardToLocal`, and `localSquare` transforms express
+player-relative geometry. Pawns advance toward increasing rank (Red), increasing
+file (Blue), decreasing rank (Yellow), or decreasing file (Green).
 
-## Legality
+## Turn order and ordinary legality
 
-A move is illegal iff, after applying it, the **moving player's own** king is left in check. This is evaluated independently per mover.
+Red always starts. Rotation is Red → Blue → Yellow → Green → Red, skipping
+inactive seats. Inactive players generate no moves. The current game ends when
+only one player remains active; the target's point-based endings remain later work.
 
-Separately (detection, not a legality constraint): after a move is applied, each of the other (up to 3) players' kings is checked for check, and the move is annotated with which colors are newly in check (`Move.isCheck`, 0-3 entries). A single move can check multiple opponents at once (e.g. a discovered check plus a direct check along a different line).
+Moves obey ordinary piece geometry and occupancy. A pawn's two-square push
+requires `hasMoved: false`, its designated starting line, and two empty squares.
+A legal move must leave the mover's own king safe from every active opponent.
+Absolute pins and both orthogonal and diagonal king adjacency are enforced.
+An active king cannot be captured, even if removing it would appear to leave the
+mover safe. Inactive pieces occupy and block squares but do not constrain legal
+moves through attacks; they remain capturable for zero points.
 
-**Deferred checkmate consequence:** because turn order is a fixed rotation (not "whoever is in check moves next"), a move can check a player who isn't next in rotation (e.g. Green's move checks Red, but Red->Blue->Yellow->Green->Red means Blue or Yellow may move first). That player's checkmate/stalemate status is only evaluated once rotation actually reaches them, using the board as it stands at that moment (which may have changed in the meantime) — not eagerly resolved the instant the check occurs. This is a deliberate consequence of the legality rule above (only the mover's own king matters when validating a move), not a special case bolted on afterward.
+`legalMoves` and `hasLegalMove` share the legality filter. Low-level `applyMove`
+assumes its move is legal. External intentions use `applyMoveRequest`, which
+matches source, destination, and promotion against the current turn's legal
+moves, then applies the engine-generated move. Supplied piece/capture/special-
+move metadata is not trusted. Finished games reject requests. The local app uses
+this boundary; arena engine replies/replay moves also match generated legal moves.
+This is not network seat authorization or a complete network protocol.
 
-## Checkmate
+`Move.isCheck` reports **all** active opponents left in check after a move,
+including continuing checks. It does not mean newly delivered checks and must
+not be used directly as a future multi-check award ledger.
 
-A player with no legal move while their king is in check is **checkmated**: their king and all remaining pieces are immediately removed from the board (they vanish — not captured by, nor scored to, any opponent). Their status becomes `checkmated`, and the turn passes to the next active player in rotation. No other piece's pin/check calculation may reference the removed king afterward.
+## Deferred checkmate and stalemate
 
-## Stalemate — house ruling
+An opponent with no legal moves is resolved only when rotation reaches that
+opponent, using the board at that time. For example, Blue can check Red, then
+Yellow and Green move before Red is assessed. An intervening move can capture
+the checker or create an escape. Tests cover both mate and stalemate rescue.
+The mover only has to protect its own king; another player's pending check does
+not force an immediate response from an intervening player.
 
-**No universal standard exists** for stalemate in multiplayer FFA chess (single-source implementations vary, and there is no published authoritative rules document). li4chess's ruling:
-
-A player with no legal move whose king is **not** in check is **stalemated**: their status becomes `stalemated`, their remaining pieces stay frozen in place on the board (not removed — still capturable/usable as blockers by the other players), and they are skipped in every future turn rotation.
-
-This is chosen over "remove pieces like checkmate" (a disproportionate windfall for being merely stuck, not defeated) and over "just skip their turn and re-check every rotation" (functionally near-identical once truly stalemated, but this framing keeps their material meaningfully on the board for the remaining players to interact with, and gives a clear, distinct status for the UI to display). **This ruling should be spot-checked against real Chess.com behavior before being considered final** — it is a best-effort convention, not a verified fact.
-
-## Scoring
-
-Points are credited to the capturing player at the moment of capture: Pawn = 1, Knight = 3, Bishop = 3, Rook = 5, Queen = 9. No points for kings (kings are never "captured" — see Checkmate above). Score is used only to break placement ties among eliminated players; it is not itself a win condition in FFA v1.
-
-## Game end and placement
-
-The game ends when exactly one player remains `active`; that player is the winner. Among eliminated/stalemated players, placement ranks by later elimination turn = better placement. Ties (e.g. two players eliminated on the exact same move, via a simultaneous double-checkmate) are broken by score, then by fixed seat order (Red > Blue > Yellow > Green) as a last, deterministic resort.
-
-## Draws by threefold repetition
-
-If the same position — board occupants, whose turn it is, castling rights, the en passant target, and every player's status (active/checkmated/stalemated) — recurs 3 times over the course of the game, the game ends immediately in a **draw**: every currently-`active` player ties for 1st place, and already-eliminated players are ranked below them exactly as in a normal game end. This exists because weak CPU endgames (e.g. a lone king and knight with no way to force progress) can otherwise shuffle forever with no other end condition to stop them. `GameResult.reason` distinguishes `"elimination"` from `"repetition"` so the UI can label a draw as a draw rather than showing a false single winner.
+**Remaining house transition:** on its scheduled turn, a player with no legal
+moves while checked becomes `checkmated`; its king and all pieces are removed
+without a capture award. A player with no legal moves while not checked becomes
+`stalemated`; its pieces remain passive and capturable. Both are skipped.
+Standard FFA's retained dead mate armies and mate/stalemate awards are not yet
+implemented. `resigned` is a representable inactive status, but there is still
+no resignation, timeout, or walking-king action.
 
 ## En passant
 
-Standard rule, evaluated relative to each pawn's own player-local forward direction (Red moves toward increasing rank, Blue toward increasing file, Yellow toward decreasing rank, Green toward decreasing file). The en passant target square is set only immediately after a double pawn push and is cleared unconditionally after the very next move by any player, matching standard chess timing.
+Any active opponent whose pawn attacks the skipped square immediately after a
+double push becomes eligible. Each eligible owner has one opportunity on its
+next scheduled turn; making any other move consumes only that owner's right.
+Other players' moves do not globally expire it. Eligibility is geometric at the
+push, so a pinned pawn can confer eligibility but its eventual capture must
+still pass own-king safety. A later-arriving pawn cannot retroactively confer
+eligibility on an owner who was not eligible at the push.
 
-**Geometric consequence (not a house ruling — falls out of the board geometry):** only the player seated *directly opposite* the double-pushing player (Red<->Yellow, or Blue<->Green) can ever capture that pawn en passant. A pawn belonging to either adjacent player (e.g. Blue or Green reacting to a Red double push) can never land a diagonal capture on the passed-over square, since its forward/diagonal axis is rotated 90 degrees relative to the pusher's. This was verified directly against the move generator (see `test/pawns.test.ts`) rather than assumed.
+`GameState.enPassantRights` is an immutable array of pending double pushes. Each
+record contains `target`, `pawnSquare`, `pawnOwner`, and `eligiblePlayers`.
+Multiple pushes may coexist. Capture uses the stored victim square, not the
+capturer's forward axis: adjacent as well as opposite seats can capture.
+The destination must be empty. The simulation removes both the source pawn and
+the victim before checking the capturer's king, rejecting pins and discovered
+rook attacks. An en-passant or ordinary capture of the victim removes all its
+pending rights; moving the victim also invalidates them. Inactive eligible
+owners lose their rights and cannot exercise them.
 
-## Castling
+If an eligible opponent's target pawn remains on the board after its owner
+becomes inactive, it can still be captured en passant for **zero points**. The
+fixture supplies that explicit post-death state. It does not implement the later
+resignation/timeout or retained-mate-army transitions. The old opposite-seat-only
+claim and next-global-move expiry were implementation errors, now replaced.
 
-Each player's king and rooks start on their own back rank in their own local frame; castling geometry (king moves 2 squares toward the rook, rook jumps to the far side) is expressed once generically in local-frame terms and reused for all 4 orientations — it is not 4 separate implementations. Requirements: king and the chosen rook have not moved, all squares between them are empty, the king is not currently in check, and the king does not pass through or land on any square attacked by **any** other active player (evaluated against up to 3 possible attackers, not just one).
+## Castling — existing implementation, dedicated migration next
 
-## Promotion
+Both castles use shared local-frame geometry. The king moves two files toward
+the rook; the rook moves to the intervening square. The implementation requires
+unmoved home pieces, clear intervening squares, and a king that is neither in
+check nor crossing/landing on an active opponent's attack. Occupying inactive
+pieces block the path. Rights are currently recomputed from home-piece state.
+The known ownership/rights edge cases still require `FFA-CASTLE-01..16`; this
+slice does not claim complete standard castling coverage.
 
-A pawn promotes upon reaching the far rank in its own local forward direction (local rank 13 in its own frame). Promotes to Queen, Rook, Bishop, or Knight, player's choice (CPU/auto-resolve defaults to Queen).
+## Promotion — remaining house behavior
+
+A pawn promotes at local rank 13 (the far edge), with Queen, Rook, Bishop, or
+Knight choices in the engine. The app automatically selects Queen. Standard
+FFA's automatic eighth-rank one-point Queen and provenance are not implemented.
+
+## Scores and placements — remaining house behavior
+
+Active captures score Pawn 1, Knight 3, Bishop 3, Rook 5, Queen 9, King 0.
+All captures of inactive material, including en passant, score zero. There are
+no mate, stalemate, multi-check, survivor, or named-draw awards yet.
+
+The last active player wins. Other players rank by later elimination turn,
+then score, then Red/Blue/Yellow/Green seat order. Standard FFA's point-based
+placements/shared ties and Claim Win remain unimplemented.
+
+## Repetition — current behavior
+
+The third occurrence ends the game immediately: all active players tie for
+first, with inactive players ordered below them by the existing placement rule.
+There is no point award. `GameResult.reason` distinguishes `elimination` and
+`repetition`. Insufficient-material and 50-move endings are not implemented.
+
+The repetition key includes board type/owner, pawn first-move flags, current
+turn, castling rights, every pending en-passant target/victim/eligible owner,
+and player statuses. Pending-right/eligibility array order does not change this
+identity. The bot's search hash/signature also includes the new rights. These
+keys are not the accepted future canonical state-v2 replay hash.
+
+## Partial state and historical inputs
+
+Current local states explicitly carry `rulesetId: null`: this is a development
+migration shape with no certified ruleset ID, not a new semantic ruleset.
+`li4chess-house-ffa-v1` retains its original meaning; standard-v1 is reserved
+until the full contract is implemented and validated. No current state is
+labelled `li4chess-state-v2` or wrapped as `li4chess-replay-v2`.
+
+The reducer, protocol serialization, and arena input/replay/aggregation entry
+points reject old or labelled snapshots instead of treating them as this partial
+migration. This format fence checks the migration marker and presence of rights;
+it does not validate arbitrary network state. The protocol remains JSON helpers.
+The existing arena v1 harness is regression infrastructure, not a completed v2
+writer or a source of new versioned research evidence. Do not run or publish new
+bot comparisons before the replay/provenance migration supports them.

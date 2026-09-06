@@ -39,7 +39,7 @@ identifiers, not dates, display labels, or a Chess.com trademark.
 
 | Identifier | Status | Meaning and write policy |
 | --- | --- | --- |
-| `li4chess-house-ffa-v1` | M — historical | The current engine behavior in [rules-spec.md](rules-spec.md): far-edge promotion, removed mate armies, frozen stalemates, elimination-first result, and immediate threefold draw. It is never rewritten to mean the target rules. |
+| `li4chess-house-ffa-v1` | M — historical | The frozen engine behavior in [the historical specification](rules-spec-house-ffa-v1.md): far-edge promotion, removed mate armies, frozen stalemates, elimination-first result, and immediate threefold draw. It is never rewritten to mean the target rules. |
 | `li4chess-ffa-standard-v1` | M — reserved | The first ruleset which satisfies the documented/observed standard-FFA contract. Do not produce, advertise, or accept it as an implemented game before V items, implementation, and tests close. |
 | `li4chess-replay-v2` | M — accepted schema identifier | The append-only replay envelope below. Its numeric JSON field is `replaySchemaVersion: 2`; its string identifier prevents a bare number being mistaken for semantic rules. |
 | `li4chess-state-v2` | M — accepted canonical state identifier | The canonical snapshot/hash projection used by replay v2. It changes only when a state field's serialized meaning changes. |
@@ -274,6 +274,9 @@ evidence.
    artifacts and run a ruleset-specific replay reader/fixture suite before
    comparing measurements.
 
-**Exact next actionable task:** begin M1-03 by turning the D/O fixture
-inventory—starting with `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
-`FFA-EP-01..12`—into focused engine/replay tests before changing behavior.
+**M1-03 progress (2026-09-06):** `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
+`FFA-EP-01..12` now have [executable coverage](m1-03-fixtures.md) and their
+focused engine/state changes. The local state has no certified ruleset ID;
+standard-v1 remains reserved and replay-v2/state-v2 remain unimplemented.
+The exact next slice is fixture-first `FFA-CASTLE-01..16`, with the boundaries
+and remaining work recorded in [project state](project-state.md).

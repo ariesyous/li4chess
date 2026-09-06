@@ -1,4 +1,4 @@
-import { ALL_COLORS, GameState, Move, PlayerColor, applyMove, createInitialState, legalMoves, positionKey } from "@li4chess/engine";
+import { ALL_COLORS, GameState, Move, PlayerColor, applyMove, assertLocalMigrationState, createInitialState, legalMoves, positionKey } from "@li4chess/engine";
 
 export interface EngineReply { move: Move; stats?: Record<string, unknown> }
 export interface ArenaEngine {
@@ -33,6 +33,7 @@ export interface GameRecord {
 export async function runGame(seats: Seats, options: { seed: number; maxPlies: number; initial?: GameState }): Promise<GameRecord> {
   if (!Number.isInteger(options.maxPlies) || options.maxPlies < 0) throw new Error("Invalid maxPlies");
   const initial = structuredClone(options.initial ?? createInitialState());
+  assertLocalMigrationState(initial);
   let state = initial;
   const started = performance.now();
   const random = ALL_COLORS.map(c => seededRandom(options.seed + c * 1000003));
@@ -69,6 +70,7 @@ export async function runGame(seats: Seats, options: { seed: number; maxPlies: n
   };
 }
 export function replay(game: GameRecord): GameState {
+  assertLocalMigrationState(game.initial);
   let state = structuredClone(game.initial);
   for (const record of game.moves) {
     if (state.result || state.turn !== record.color) throw new Error("Replay turn mismatch");
@@ -112,6 +114,7 @@ export function clusterInterval(blocks: number[][]): {low:number;high:number} | 
   estimates.sort((a,b)=>a-b);return {low:estimates[24],high:estimates[974]};
 }
 export function aggregate(games: GameRecord[]) {
+  for (const game of games) assertLocalMigrationState(game.initial);
   const ids = [...new Set(games.flatMap(g => g.engines.map(e => e.id)))];
   const complete = games.filter(g => g.result !== null && g.termination !== "error");
   const engines = ids.map(id => {

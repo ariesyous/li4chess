@@ -32,7 +32,7 @@ describe("createInitialState", () => {
     expect(state.turn).toBe(PlayerColor.Red);
     expect(state.turnNumber).toBe(1);
     expect(state.result).toBeNull();
-    expect(state.enPassantTarget).toBeNull();
+    expect(state.enPassantRights).toEqual([]);
   });
 
   it("gives every player full castling rights", () => {

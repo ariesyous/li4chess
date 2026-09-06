@@ -1,10 +1,8 @@
-import { boardToLocal, fileOf, rankOf, squareOf } from "../board.js";
-import { forwardVector } from "../movegen/directions.js";
+import { assertLocalMigrationState } from "../stateFormat.js";
 import {
   ALL_COLORS,
   GameState,
   Move,
-  PieceType,
   PlayerColor,
   PlayerState,
   nextColor,
@@ -21,18 +19,7 @@ import {
 import { hasLegalMove } from "./legality.js";
 import { positionKey, REPETITION_DRAW_COUNT } from "./repetition.js";
 import { PIECE_VALUES } from "./scoring.js";
-
-function isDoublePawnPush(move: Move): boolean {
-  if (move.piece.type !== PieceType.Pawn || move.captured || move.enPassantCapture !== undefined) return false;
-  const [, fromLocalRank] = boardToLocal(move.piece.owner, fileOf(move.from), rankOf(move.from));
-  const [, toLocalRank] = boardToLocal(move.piece.owner, fileOf(move.to), rankOf(move.to));
-  return Math.abs(toLocalRank - fromLocalRank) === 2;
-}
-
-function enPassantTargetFor(move: Move): number {
-  const forward = forwardVector(move.piece.owner);
-  return squareOf(fileOf(move.from) + forward[0], rankOf(move.from) + forward[1]);
-}
+import { enPassantRightsAfterMove, remainingEnPassantRights } from "./enPassant.js";
 
 const MAX_ROTATION_STEPS = 4;
 
@@ -44,10 +31,11 @@ const MAX_ROTATION_STEPS = 4;
  * them in place) until an active player with a move is found or the game ends.
  */
 export function applyMove(state: GameState, move: Move): GameState {
-  let board = applyMoveToBoard(state.board, move);
+  assertLocalMigrationState(state);
+  const board = applyMoveToBoard(state.board, move);
 
   const players: Record<PlayerColor, PlayerState> = { ...state.players };
-  if (move.captured) {
+  if (move.captured && state.players[move.captured.owner].status === "active") {
     const mover = players[move.piece.owner];
     players[move.piece.owner] = { ...mover, score: mover.score + PIECE_VALUES[move.captured.type] };
   }
@@ -57,16 +45,17 @@ export function applyMove(state: GameState, move: Move): GameState {
     castlingRights[color] = recomputeCastlingRights(board, color);
   }
 
-  const enPassantTarget = isDoublePawnPush(move) ? enPassantTargetFor(move) : null;
+  const enPassantRights = enPassantRightsAfterMove(state, board, move);
   const turnNumber = state.turnNumber + 1;
 
   let working: GameState = {
+    rulesetId: null,
     board,
     players,
     turn: state.turn,
     turnNumber,
     castlingRights,
-    enPassantTarget,
+    enPassantRights,
     moveHistory: state.moveHistory,
     result: null,
     positionCounts: state.positionCounts,
@@ -96,6 +85,7 @@ export function applyMove(state: GameState, move: Move): GameState {
     if (inCheck) eliminated.push(candidate);
     const nextBoard = inCheck ? removeAllPiecesOf(working.board, candidate) : working.board;
     working = { ...working, board: nextBoard, players: nextPlayers };
+    working = { ...working, enPassantRights: remainingEnPassantRights(working) };
     candidate = nextColor(candidate);
   }
 
@@ -104,7 +94,7 @@ export function applyMove(state: GameState, move: Move): GameState {
   }
 
   // Threefold repetition: the same position (board + turn + castling rights +
-  // en passant target + player statuses) recurring 3 times draws the game,
+  // en passant rights + player statuses) recurring 3 times draws the game,
   // even if the elimination check above didn't already end it.
   const key = positionKey(working);
   const count = (working.positionCounts[key] ?? 0) + 1;

@@ -18,7 +18,7 @@ function pieceKey(square: number, piece: Piece | null): bigint {
   return value;
 }
 function metadata(s: GameState): string {
-  return JSON.stringify([s.turn,s.turnNumber,s.enPassantTarget,
+  return JSON.stringify([s.rulesetId,s.turn,s.turnNumber,s.enPassantRights,
     ALL_COLORS.map(c=>[s.players[c].status,s.players[c].score,s.players[c].eliminatedOnTurn ?? null,
       s.castlingRights[c].kingside,s.castlingRights[c].queenside]),s.result,
     Object.entries(s.positionCounts).sort(([a],[b])=>a < b ? -1 : a > b ? 1 : 0)]);

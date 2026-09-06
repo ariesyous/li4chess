@@ -1,4 +1,4 @@
-import { createInitialState, legalMoves } from "@li4chess/engine";
+import { GameState, PieceType, applyMoveRequest, createInitialState, legalMoves } from "@li4chess/engine";
 import { describe, expect, it } from "vitest";
 import { deserializeGameState, deserializeMove, serializeGameState, serializeMove } from "../src/index.js";
 
@@ -14,5 +14,27 @@ describe("serialization round-trip", () => {
     const move = legalMoves(state)[0];
     const restored = deserializeMove(serializeMove(move));
     expect(restored).toEqual(move);
+  });
+
+  it("retains pending EP eligibility across JSON and replays the canonical capture", () => {
+    const initial = createInitialState();
+    const board = initial.board.map(() => null) as GameState["board"][number][];
+    for (const square of [7,84,188,111]) board[square] = initial.board[square];
+    board[20] = initial.board[20];
+    board[47] = {type:PieceType.Pawn,owner:2,hasMoved:true};
+    let state = applyMoveRequest({...initial,board,positionCounts:{}},{from:20,to:48});
+    state = applyMoveRequest(state,{from:84,to:85});
+    const restored = deserializeGameState(serializeGameState(state));
+    expect(restored.enPassantRights).toEqual([{target:34,pawnSquare:48,pawnOwner:0,eligiblePlayers:[2]}]);
+    const request = {from:47,to:34};
+    expect(applyMoveRequest(restored,request)).toEqual(applyMoveRequest(state,request));
+  });
+
+  it("rejects historical and reserved standard snapshots without relabelling them", () => {
+    for (const rulesetId of [undefined,"li4chess-house-ffa-v1","li4chess-ffa-standard-v1"]) {
+      const snapshot = {...createInitialState(),rulesetId};
+      expect(() => deserializeGameState(JSON.stringify(snapshot))).toThrow(/migration/i);
+      expect(() => serializeGameState(snapshot as unknown as GameState)).toThrow(/migration/i);
+    }
   });
 });

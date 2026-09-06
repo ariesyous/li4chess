@@ -1,4 +1,4 @@
-import { ALL_COLORS, GameState, Move, Piece, PlayerColor } from "../types.js";
+import { ALL_COLORS, GameState, Move, Piece, PieceType, PlayerColor } from "../types.js";
 import { kingPathSquares } from "../movegen/castling.js";
 import { pseudoLegalMoves } from "../movegen/index.js";
 import { isSquareAttacked } from "./attacks.js";
@@ -6,10 +6,8 @@ import { applyMoveToBoard } from "./boardOps.js";
 import { activePlayersExcept, isInCheck } from "./check.js";
 
 /**
- * The legality test itself: castling's extra path restrictions, then the one
- * universal rule — a move is illegal iff it leaves the mover's own king in
- * check. Returns the board the move produces (so callers that need it don't
- * rebuild it), or null if the move is illegal.
+ * Castling path restrictions, own-king safety, and active-king non-capture.
+ * Returns the resulting board so callers don't rebuild it, or null if illegal.
  */
 function boardAfterIfLegal(
   state: GameState,
@@ -17,6 +15,8 @@ function boardAfterIfLegal(
   color: PlayerColor,
   opponents: readonly PlayerColor[]
 ): readonly (Piece | null)[] | null {
+  const target = state.board[move.to];
+  if (target?.type === PieceType.King && state.players[target.owner].status === "active") return null;
   if (move.castle !== undefined) {
     if (isInCheck(state.board, color, opponents)) return null;
     const path = kingPathSquares(color, move.castle);

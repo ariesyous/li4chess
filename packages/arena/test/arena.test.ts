@@ -32,4 +32,14 @@ describe("arena", () => {
     expect(game.termination).toBe("error"); expect(game.error).toContain("test crash");
     expect(game.errorSeat).toBe(0); expect(game.result).toBeNull();
   });
+  it("rejects historical snapshots before replay, aggregation or resuming a record", async () => {
+    const game = await runGame([randomEngine,randomEngine,randomEngine,randomEngine], {seed:1,maxPlies:0});
+    const legacy = JSON.parse(JSON.stringify(game));
+    delete legacy.initial.rulesetId;
+    delete legacy.initial.enPassantRights;
+    legacy.initial.enPassantTarget = null;
+    expect(() => replay(legacy)).toThrow(/migration/i);
+    expect(() => aggregate([legacy])).toThrow(/migration/i);
+    await expect(runGame([randomEngine,randomEngine,randomEngine,randomEngine], {seed:1,maxPlies:0,initial:legacy.initial})).rejects.toThrow(/migration/i);
+  });
 });

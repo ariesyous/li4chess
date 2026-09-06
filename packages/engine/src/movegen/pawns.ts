@@ -18,8 +18,9 @@ function baseMove(from: number, to: number, piece: Piece): Omit<Move, "promotion
 
 /** Pawn pushes, captures, en passant and promotion candidates. Ignores whether the mover's own king ends up in check. */
 export function pawnMoves(state: GameState, from: number, piece: Piece): Move[] {
-  const { board, enPassantTarget } = state;
+  const { board } = state;
   const color = piece.owner;
+  if (state.players[color].status !== "active") return [];
   const moves: Move[] = [];
   const forward = forwardVector(color);
   const side = sideVector(color);
@@ -52,7 +53,7 @@ export function pawnMoves(state: GameState, from: number, piece: Piece): Move[] 
     emitWithPromotion(from, oneStep);
 
     // Double push, only from the starting rank, only if both squares are empty
-    if (localRank === START_LOCAL_RANK) {
+    if (localRank === START_LOCAL_RANK && !piece.hasMoved) {
       const twoStep = pushDestination(2);
       if (twoStep !== null && board[twoStep] === null) {
         moves.push({ ...baseMove(from, twoStep, piece) });
@@ -70,15 +71,17 @@ export function pawnMoves(state: GameState, from: number, piece: Piece): Move[] 
     const occupant = board[to];
     if (occupant !== null && occupant.owner !== color) {
       emitWithPromotion(from, to, { captured: occupant });
-    } else if (occupant === null && enPassantTarget === to) {
-      // The captured pawn sits adjacent to us (same rank/file as our pawn), one step along `side` from `to`.
-      const capturedSquare = squareOf(fromFile + side[0] * sign, fromRank + side[1] * sign);
-      const capturedPawn = board[capturedSquare];
-      if (capturedPawn !== null && capturedPawn.owner !== color && capturedPawn.type === PieceType.Pawn) {
+    } else if (occupant === null) {
+      // The victim is located by its double push, not the capturer's axis:
+      // adjacent-seat pawns can also attack the skipped square.
+      for (const right of state.enPassantRights) {
+        if (right.target !== to || !right.eligiblePlayers.includes(color)) continue;
+        const capturedPawn = board[right.pawnSquare];
+        if (!capturedPawn || capturedPawn.owner !== right.pawnOwner || capturedPawn.owner === color || capturedPawn.type !== PieceType.Pawn) continue;
         moves.push({
           ...baseMove(from, to, piece),
           captured: capturedPawn,
-          enPassantCapture: capturedSquare,
+          enPassantCapture: right.pawnSquare,
         });
       }
     }

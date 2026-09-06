@@ -30,6 +30,7 @@ function movesTo(from: number, destinations: number[], piece: Piece, board: read
  * filtering happens in the legality module (task 4).
  */
 export function pseudoLegalMoves(state: GameState, color: PlayerColor = state.turn): Move[] {
+  if (state.players[color].status !== "active") return [];
   const { board } = state;
   const moves: Move[] = [];
 

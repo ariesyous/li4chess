@@ -5,7 +5,7 @@ import {
   PieceType,
   PlayerColor,
   SeatConfig,
-  applyMove,
+  applyMoveRequest,
   createInitialState,
   legalMoves,
 } from "@li4chess/engine";
@@ -42,7 +42,7 @@ export function useLocalGame(seats: SeatSetups) {
   const legal = useMemo(() => legalMoves(state, state.turn), [state]);
 
   const play = useCallback((move: Move) => {
-    setState((prev) => applyMove(prev, move));
+    setState((prev) => applyMoveRequest(prev, move));
     setSelectedSquare(null);
   }, []);
 

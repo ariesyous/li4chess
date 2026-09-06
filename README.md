@@ -21,11 +21,15 @@ Current features include:
 - Five CPU difficulty levels using paranoid alpha-beta search, which treats opponents as a coalition against the searching player.
 - Castling, en passant, promotion, deferred checkmate/stalemate resolution, placements, and threefold-repetition draws.
 
-The [rules specification](docs/rules-spec.md) describes the current house rules,
-which still need migration to the Chess.com-compatible target. In the current
-implementation, checkmated players' pieces are removed; stalemated
-players' pieces remain frozen and capturable. The last active player wins, with
-capture points used only to break placement ties among eliminated players.
+The [rules specification](docs/rules-spec.md) describes a partial migration to
+the Chess.com-compatible target. Setup, ordinary king safety, active-king
+non-capture, and per-player en-passant windows now have executable acceptance
+fixtures for all four orientations. In the current implementation, checkmated
+players' pieces are removed; stalemated players' pieces remain frozen and
+capturable for zero points. The last active player wins, with capture points
+used only to break placement ties among eliminated players.
+Full standard FFA, its scoring, promotion, dead-army transitions, and versioned
+replays remain M1-03 work. `li4chess-ffa-standard-v1` is still reserved.
 
 CPU search currently runs on the browser's main thread, so higher difficulties
 can make the page unresponsive while thinking. The UI automatically promotes
@@ -48,8 +52,9 @@ The TypeScript monorepo uses pnpm workspaces and Turborepo.
 
 The main application flow lives in
 [`useLocalGame`](apps/web/src/game/useLocalGame.ts): human input or CPU search
-selects a legal move, the engine's `applyMove` produces the next state, and React
-renders the updated board. Game state is plain JSON-shaped data.
+selects a move, `applyMoveRequest` matches it against current legal moves and
+applies the canonical move, and React renders the updated board. Game state is
+plain JSON-shaped data.
 
 ## Development
 
@@ -89,7 +94,10 @@ bounded iterative search with paranoid and Maxⁿ strategies, optional
 transposition tables and quiescence, and a tactical position corpus. Experimental
 search has not been promoted to the browser's production bot.
 
-Run a benchmark or a small production-versus-classic comparison from the root:
+The benchmark/comparison commands remain available from the root, but new
+research runs are paused during the partial rules migration until replay v2
+and build provenance are implemented. The current arena v1 harness is used for
+regression tests; it must not silently reinterpret archived records:
 
 ```sh
 pnpm --filter @li4chess/arena bench ../../arena-results/current-benchmark
@@ -120,8 +128,9 @@ matchmaking, learning tools, community events, and a sustainable open platform.
 
 [docs/project-state.md](docs/project-state.md) retains accepted decisions,
 current focus, the next actionable tasks, open questions, and dated validation
-between development sessions. The immediate focus is the FFA compatibility
-audit; Worker integration is the next local-play milestone. Research continues
+between development sessions. The immediate focus is fixture-first M1-03 rules
+implementation; see the [completed slice and next fixtures](docs/m1-03-fixtures.md).
+Worker integration is the next local-play milestone. Research continues
 alongside the product roadmap with versioned, reproducible evidence.
 
 See [AGENTS.md](AGENTS.md) for repository conventions, including validation,

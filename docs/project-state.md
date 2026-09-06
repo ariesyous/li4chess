@@ -14,19 +14,87 @@ does not change the local house rules. **M1-02 is complete:** the maintainer
 accepted the [ruleset/replay migration contract](ruleset-versioning.md), including
 the product-owned identifiers, v2 deterministic event/state requirements, legacy
 preservation, and evidence-status fixture inventory. All release-affecting game
-semantics have D/O target evidence. **M1-03 is next:** write executable fixtures
-before implementing the verified engine, protocol, UI, bot, and arena changes.
+semantics have D/O target evidence. **M1-03 is in progress:** the first
+setup/core/en-passant slice is implemented; the remaining accepted differences
+still need fixture-first engine, protocol, UI, bot, and arena changes.
 The first public release is M4, public FFA matchmaking with ratings, anonymous
 access, and CPU play.
 
-Repository baseline reviewed: `e987741f48ff0cbbe3cfe0496f59fcc14215a852` on `main`.
-The local game currently implements house rules. CPU search is synchronous;
+Repository baseline verified: `bb6677439c159a9b53ce3a5029982f667c4a99d4` on `main`,
+with a clean working tree before this slice. Current changes are uncommitted.
+The local game now implements a partial M1 migration. CPU search is synchronous;
 networking, application persistence, clocks, accounts, queues, and ratings are
 not implemented. See [README.md](../README.md) for the package map.
 
 The accepted M3 direction is now Cloudflare-native, with an architecture spike
 and ADR required before implementation. This planning decision does not start M3,
 provision infrastructure, or change the current M1 focus.
+
+## Completed M1-03 slice and remaining work
+
+The first slice implements `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
+`FFA-EP-01..12`. See [the fixture map](m1-03-fixtures.md) for individual
+assertions and source files. Four setup tests use independent absolute
+coordinates; core and EP each have 12 scenarios repeated for all four seats.
+The corrected pre-implementation run had 32 passing and 68 failing cases.
+
+Implemented differences: active kings are non-capturable; pawn double pushes
+require an unmoved pawn; inactive players generate no moves; en-passant rights
+record the victim and per-owner opportunities across overlapping pushes.
+Adjacent/opposite capturers, individual expiry, own-king safety, and the
+explicit dead-pawn zero-point capture are covered. Captures of all inactive
+material now score zero. Deferred mate/stalemate timing already worked and
+now has accepted-ID rescue/rotation coverage. External app requests select a
+canonical legal move; protocol round-trips and bot hashes include the new rights.
+
+Implementation decision: local states carry `rulesetId: null` and the new
+`enPassantRights` array. This is an explicitly uncertified partial migration,
+not a sixth ruleset ID or a claim of state-v2/replay-v2 implementation. Old or
+labelled snapshots are rejected by the reducer, protocol state helpers, and
+arena input/replay/aggregation. The
+[historical house specification](rules-spec-house-ffa-v1.md) is preserved from
+the starting commit. Frozen classic sources and archived research are unchanged;
+no new benchmark/tournament measurements or replay conversions were performed.
+The existing v1 arena harness remains regression infrastructure; new research
+output must wait for the accepted v2 provenance/replay migration.
+
+No accepted-contract conflict was found. The dead-pawn fixture uses an explicit
+inactive-owner snapshot; this slice does not add resignation/timeout or retained
+mate-army transitions. The existing owner status expresses that passive case,
+but a live walking king with a dead army will need finer state. Mate removal,
+far-edge promotion, award-free scoring, elimination-first placements, and the
+old draw ending remain partial-migration limitations, accurately described in
+[rules-spec.md](rules-spec.md). No M2/M3 work was started.
+
+**Exact next slice:** fixture-first `FFA-CASTLE-01..16`, covering both castles
+for all four seats, king/rook destinations, moved/captured/wrong-owner pieces,
+rights loss, check/transit/destination restrictions, and passive dead-path
+blocking/no attack. Then implement only required castling fixes and run all four
+checks. DEAD, PROMO, SCORE, WALK, END, DRAW, ABORT, replay-v2/state-v2, and their
+consumer alignment remain later M1-03 work. Standard-v1 remains reserved.
+
+**Fresh validation, 2026-09-06:** Windows, Node 24.18.0, pnpm **10.33.0** via
+temporary Corepack shims (including Turbo child processes), against
+`bb6677439c159a9b53ce3a5029982f667c4a99d4` plus this uncommitted slice:
+
+- `pnpm lint`: passed across all six packages.
+- `pnpm test`: **202 passed** (engine 147, bot 46, protocol 4, arena 5).
+- `pnpm build`: passed across all six packages, including the Vite app.
+- `pnpm --filter @li4chess/web test:e2e`: **2 passed**, human/CPU play and
+  four-CPU autoplay. Only non-failing npm environment/colour warnings.
+- Turbo caching was bypassed for fresh lint/test/build execution. The initial
+  baseline `pnpm test` was a cached 91-test run, not fresh baseline evidence.
+- A separate strict TypeScript check of the new fixture files found tuple
+  inference errors omitted by source-only lint. Those were corrected; the
+  fixture type-check and 52 affected setup/core cases then passed.
+- Sandbox attempts initially blocked esbuild's parent-directory reads and the
+  pinned package-manager download. Approved reruns outside the restriction
+  passed; the host wrapper's pnpm 11.19.0 was not used for final validation.
+- Final diff review found no unrelated implementation changes. All 144 local
+  links across 18 Markdown files resolved; tracked and new files passed
+  `git diff --check`. The frozen specification matches its producing revision
+  (apart from its provenance preface and line endings); classic sources and
+  archived research have no changes.
 
 ## Accepted decisions
 
@@ -49,15 +117,14 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-These are queued tasks, not claims of work already started. Begin M1-03 with
-executable fixtures before changing behavior; M3-01 is the first M3 task when
-that milestone becomes actionable.
+Continue M1-03 with executable fixtures before each behavior change; M3-01 is
+the first M3 task when that milestone becomes actionable.
 
 | ID | Task | Done when |
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **Next.** Start with executable `FFA-SETUP`, `FFA-CORE`, and `FFA-EP` fixtures before behavior changes. M1 exit criteria and repository validation pass; historical evidence remains intact. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP slice implemented; [coverage and exact next slice](m1-03-fixtures.md). Next: fixture-first `FFA-CASTLE-01..16`. Complete only when all M1 exit criteria and repository validation pass; historical evidence remains intact. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |

@@ -1,4 +1,5 @@
 import type { GameState, Move, SeatConfig } from "@li4chess/engine";
+import { assertLocalMigrationState } from "@li4chess/engine";
 
 /**
  * GameState (and Move/SeatConfig) are already plain JSON-shaped — arrays,
@@ -7,11 +8,14 @@ import type { GameState, Move, SeatConfig } from "@li4chess/engine";
  * the local UI already works with, with no adapter layer in between.
  */
 export function serializeGameState(state: GameState): string {
+  assertLocalMigrationState(state);
   return JSON.stringify(state);
 }
 
 export function deserializeGameState(json: string): GameState {
-  return JSON.parse(json) as GameState;
+  const state = JSON.parse(json) as GameState;
+  assertLocalMigrationState(state);
+  return state;
 }
 
 export function serializeMove(move: Move): string {

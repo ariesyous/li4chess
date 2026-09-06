@@ -68,7 +68,11 @@ including its product-owned identifiers, deterministic replay/state requirements
 legacy-preservation policy, evidence-status fixture inventory, and no-guess
 decision gates. M1 remains in progress because M1-03 must turn the inventory into
 executable fixtures, implement the verified behavior, and satisfy the milestone
-exit criteria.
+exit criteria. The first M1-03 slice now has executable `FFA-SETUP-01..04`,
+`FFA-CORE-01..12`, and `FFA-EP-01..12` coverage and the required setup/core/EP
+implementation; see the [coverage map](docs/m1-03-fixtures.md). Full standard-v1,
+scoring, promotion, dead-army transitions, and replay v2 remain incomplete.
+The next focused slice is `FFA-CASTLE-01..16`.
 
 **Capabilities**
 

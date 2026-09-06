@@ -15,7 +15,7 @@ it("delta hashes match full recomputation over legal paths and tactical transiti
 });
 it("separates histories, scores, moved flags, statuses and rejects collisions", () => {
   const state=createInitialState(); const hash=positionHash(state);
-  const changes=[{...state,turn:1 as const},{...state,positionCounts:{}},{...state,enPassantTarget:20},
+  const changes=[{...state,turn:1 as const},{...state,positionCounts:{}},{...state,enPassantRights:[{target:34,pawnSquare:48,pawnOwner:0 as const,eligiblePlayers:[2 as const]}]},
     {...state,players:{...state.players,0:{...state.players[0],score:1}}},
     {...state,board:state.board.map((p,i)=>i===3 && p ? {...p,hasMoved:true}:p)}];
   for (const changed of changes) expect(positionHash(changed)).not.toBe(hash);
@@ -35,7 +35,9 @@ it("hash deltas include castling, en passant removal, promotion and cascading el
   const castle={...base,board};
   const castleMove=legalMoves(castle).find(m=>m.castle==="kingside")!;
   expect(castleMove).toBeDefined();
-  const epStart=loadPosition({id:"ep",tags:[],inactive:[1,3],pieces:[[7,0,"K"],[188,2,"K"],[20,0,"P"],[47,2,"P"]]});
+  const epBase=loadPosition({id:"ep",tags:[],inactive:[1,3],pieces:[[7,0,"K"],[188,2,"K"],[20,0,"P"],[47,2,"P"]]});
+  const epBoard=epBase.board.slice(); epBoard[20]={...epBoard[20]!,hasMoved:false};
+  const epStart={...epBase,board:epBoard};
   const push=legalMoves(epStart).find(m=>m.from===20 && m.to===48)!;
   const epState=applyMove(epStart,push);
   const ep=legalMoves(epState).find(m=>m.enPassantCapture===48)!;expect(ep).toBeDefined();
@@ -44,5 +46,19 @@ it("hash deltas include castling, en passant removal, promotion and cascading el
   for (const [state,move] of [[castle,castleMove],[epState,ep],[promotion,legalMoves(promotion).find(m=>m.promotion)!],
     [mate,legalMoves(mate).find(m=>m.from===73 && m.to===3)!]] as const) {
     const child=applyMove(state,move);expect(updatePositionHash(positionHash(state),state,child)).toBe(positionHash(child));
+  }
+});
+
+it("hashes and signatures distinguish all en-passant rights and per-player eligibility", () => {
+  const state=createInitialState();
+  const right={target:34,pawnSquare:48,pawnOwner:0 as const,eligiblePlayers:[1 as const,2 as const]};
+  const before={...state,enPassantRights:[right]};
+  for (const enPassantRights of [[],[{...right,eligiblePlayers:[2 as const]}],
+    [{...right,pawnSquare:49}],[{...right,target:35}],[{...right,pawnOwner:3 as const}],
+    [right,{target:72,pawnSquare:73,pawnOwner:1 as const,eligiblePlayers:[0 as const]}]]) {
+    const after={...before,enPassantRights};
+    expect(positionHash(after)).not.toBe(positionHash(before));
+    expect(searchSignature(after)).not.toBe(searchSignature(before));
+    expect(updatePositionHash(positionHash(before),before,after)).toBe(positionHash(after));
   }
 });
