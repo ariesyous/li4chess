@@ -59,9 +59,12 @@ capabilities do not make a milestone complete.
 ### M1 — Compatible, versioned FFA rules
 
 **Status note (2026-09-06):** M1-01 produced the sourced
-[compatibility audit](docs/rules-compatibility.md). M1 remains in progress:
-the target specification/versioning decisions, unresolved live-product checks,
-implementation, and exit-criterion validation remain.
+[compatibility audit](docs/rules-compatibility.md), and M1-02 now records a
+[versioned migration contract](docs/ruleset-versioning.md) with proposed
+identifiers, replay requirements, evidence-status fixtures, and no-guess
+decision gates. M1 remains in progress: complete the remaining targeted V
+checks (next, en-passant king-safety/geometry) and maintainer acceptance before
+implementation and exit-criterion validation.
 
 **Capabilities**
 
@@ -125,6 +128,12 @@ behavior, including mixed human/CPU and four-CPU play.
 Worker infrastructure and UI improvements can start alongside M1, but final bot
 and game-result validation depends on the new rules. Expensive analysis and
 training infrastructure are not prerequisites for responsive CPU games.
+
+**UI/UX direction (2026-09-06):** Use the board-first, four-player information
+architecture in the [UI/UX reference](docs/ui-ux-reference.md): original
+li4chess components, stable edge player panels, concise game context, readable
+event/replay history, and mobile/accessibility parity. This is a product
+direction, not Chess.com visual copying or a claim of implemented parity.
 
 ### M3 — Reliable online game service (internal alpha)
 
