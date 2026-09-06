@@ -8,22 +8,89 @@ superseded handoffs.
 
 ## Current focus
 
+**M2 is complete.** The authorized goal stops before M3. Acceptance inputs,
+expected outcomes and measurable thresholds are in [M2 acceptance](m2-acceptance.md).
+Reviewed slices are `839aa46` (Workers), `a61031b` (save/resume), `386ca59`
+(frame/accessibility), and `e02a0ad` (calibration/complete games).
+[Acceptance evidence](m2-evidence/README.md) covers every M2 capability and exit
+criterion. Fresh full local checks and [final implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34058335008)
+passed; all substantive independent reviews are resolved. The documentation
+closeout is verified again on its pushed revision before ending the goal.
+[Draft PR #11](https://github.com/ariesyous/li4chess/pull/11) remains unmerged.
+M3 has not started, and no service was published or provisioned.
+
 **M1 is complete.** M1-01/M1-02/M1-03 are complete and
 all D/O requirements in the accepted contract have executable coverage. The
 implementation activates `li4chess-ffa-standard-v1` after independently
-reviewed rule and replay implementations. No M2+ work is authorized by this goal.
+reviewed rule and replay implementations. Preserve its accepted contract.
 
-Baseline was clean `802d2b4` on main. Work is on `codex/m1-completion`; the draft
-PR is [#10](https://github.com/ariesyous/li4chess/pull/10). The user authorizes
-successive reviewed/tested commits, branch pushes and draft PR updates through
-M1, with no merge, main push, deployment or provisioning.
+M2 began from clean fetched `origin/main`, merge `7f2593c96301853c6b3a9ebeaaaf6ea4683dc698`,
+on dedicated `codex/m2-completion`. GitHub verifies [M1 PR #10](https://github.com/ariesyous/li4chess/pull/10)
+merged with passing checks. Human Git identity is Aries Youssefian. Node 24.18.0
+and pinned pnpm 10.33.0 via temporary Corepack shims are verified. No merge,
+main push, publication, provisioning or M3 work is authorized.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
-still runs synchronously; Workers are M2. Live clocks, connection-bank tracking,
+uses the bounded Worker path with measured resource policies. Live clocks, connection-bank tracking,
 networking, accounts, matchmaking and ratings are M3/M4. Local timeout and
 exhausted-disconnect facts are deterministic engine/replay inputs only.
 
-## M1 implementation and evidence
+## M2 slice 1: bounded Worker search
+
+Implemented from `7f2593c` on 2026-09-06. `chooseBoundedCpuMove` retains the
+production evaluator and exact contender semantics under one iterative node/time
+budget. Browser requests validate state-v2, hash/game/request/seat identities and
+move intentions. Cancellation terminates the Worker; initialization, crash,
+decode, malformed and watchdog failures use a current legal fallback. Request
+diagnostics separate search, startup and round-trip time and identify recovery.
+Reset/import/teardown invalidate asynchronous operations. Walking/Claim Win remain
+canonical M1 actions. No engine, frozen classic or archived evidence changed.
+
+Fresh independent reviews covered search suitability and the actual Worker diff.
+The laboratory terminal-scale mismatch was avoided; the diagnostics finding was
+resolved. Browser tests exposed redundant cleanup termination, now idempotent.
+Acceptance inputs and remaining calibration/UI/save gates:
+[M2 acceptance](m2-acceptance.md). Unit/browser test sources now type-check in lint;
+one existing bot test helper had its unnecessarily readonly return annotation fixed.
+
+Validation on Windows, Node 24.18.0, pnpm 10.33.0 against `7f2593c` plus this
+slice: fresh `pnpm lint --force`, `pnpm test --force` (**597 tests**: engine 471,
+bot 63, protocol 36, arena 11, web 16), and `pnpm build --force` passed.
+`pnpm --filter @li4chess/web test:e2e` passed **27 browser tests**, including real
+busy-Worker exit/import/terminal interruption and constructor/crash/hung-Worker
+recovery, without retries. Local Markdown file
+links: 201 resolved; `git diff --check` passed. These are correctness/lifecycle
+checks, not difficulty calibration or playing-strength measurements.
+
+Subsequent slices below add persistence, the frame, production calibration and
+complete-game evidence. M3 remains outside this goal.
+
+## M2 slice 2: validated local save/resume
+
+Implemented from `839aa46` on 2026-09-06. One atomic synchronous local journal
+retains a state-v2 initial checkpoint, strict action intentions, producer and
+source replay hash. Resume rebuilds and validates through M1 replay-v2 before
+mounting the game; every accepted action autosaves, with an explicit retry control.
+Setup offers Resume saved game after refresh. Unavailable/corrupt/incompatible
+storage reports an error while play/setup/replay export remain usable. Human
+seat difficulty is retained as well as CPU difficulty.
+
+Fresh independent review found no blocking defect and requested added coverage
+for pending terminal recovery and obsolete resume completion. Both were added,
+alongside strict rejection of unknown journal action fields. The new cases
+verify interrupted award import → autosave → refresh → resume → export, exact
+awards/result/source lineage, and a latched old resume losing to Start game.
+Real active-search refresh preserves CPU L5 and applies exactly one resumed move.
+
+Fresh final checks on `839aa46` plus this slice, Windows/Node 24.18.0/pnpm 10.33.0:
+`pnpm lint --force`, `pnpm test --force` (**602 tests**), `pnpm build --force`,
+and `pnpm --filter @li4chess/web test:e2e` (**33 passed**, no retries) succeeded.
+All 202 local Markdown links resolved; diff formatting and preserved paths passed.
+An earlier browser run was stopped after concurrent source edits invalidated
+Vite fixture routes; the final full run used stable files. Later slices below
+record the frame, accessibility, calibration and complete-game evidence.
+
+## M1 implementation history
 
 - SETUP/CORE/EP, CASTLE and DEAD were verified at the baseline. Their full
   four-orientation coverage remains in [the fixture map](m1-03-fixtures.md).
@@ -99,22 +166,24 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-The authorized M1 goal is finished. M2-01 is the next local-play task when
-separately authorized; M3-01 is the first M3 task when that milestone becomes actionable.
+The authorized M2 work is complete. The draft PR is ready for maintainer review;
+merge/publication and M3-01 are outside this goal. The M3 task below records the
+next roadmap item only, without authorizing implementation.
 
 | ID | Task | Done when |
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
 | M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **Complete 2026-09-06.** All rule groups, REPLAY, complete games and consumers are implemented and independently reviewed. [Coverage](m1-03-fixtures.md), fresh full local checks and final implementation CI satisfy the M1 exit criteria. |
-| M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
-| M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
+| M2-01 | Implement the Worker contract and bounded production CPU scheduling. | **Complete 2026-09-06.** Real active-search replacement/failure tests and measured input responsiveness pass; all five policies have production evidence. |
+| M2-02 | Implement the original board-first frame and accessible controls. | **Complete 2026-09-06.** Desktop/tablet/phone emulation, keyboard/accessible-name checks and inspected captures pass. Physical-device and screen-reader testing were unavailable and are not claimed. |
+| M2-03 | Provide validated local save/resume and refresh recovery. | **Complete 2026-09-06.** Strict replay-backed journals preserve seats, scores, randomness, pending effects and lineage; active-search refresh and storage failures are covered. |
+| M2-04 | Calibrate resource policies and prove complete local games. | **Complete 2026-09-06.** [Evidence](m2-evidence/README.md) retains 214 searches, 360 active-search inputs, complete hotseat/mixed/four-CPU replays, independent review and full validation. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |
 
-Do not change game rules while merely collecting comparison evidence. M1-02
-must identify compatibility tests before M1-03 changes behavior. Do not treat
-the old recommendation's throughput figures or strongest configured bot level
-as measurements of the new ruleset.
+Do not change game rules while merely collecting comparison evidence. Preserve
+the accepted M1 contract and its coverage. Do not treat the old recommendation's
+throughput figures or strongest configured bot level as measurements of the new ruleset.
 
 ## Open decisions and verification needs
 
@@ -275,3 +344,64 @@ current work depends on them; do not reopen already accepted requirements.
    README's implemented features distinct from roadmap targets.
 5. Remove stale handoff notes as they are resolved. Keep a concise decision
    ledger; move substantial designs to dedicated docs and link them here.
+
+## M2 slice 3: responsive frame and accessibility
+
+Implemented from `a61031b`: original board-first frame, directional player cards,
+seat resource labels, contextual rules help, bounded scrollable histories, explicit
+results, native confirmation for consequential controls, and keyboard board
+navigation using shared transforms. Reset preserves the currently loaded seats.
+Text/initials/status and shape supplement hue; focus is visible and reduced motion
+is respected. [Actual captures and manual observations](m2-evidence/ui-inspection.md)
+cover 360/768/1280 widths, touch emulation, long histories and terminal layout.
+Independent review found missing score/non-current-check/elimination announcements;
+a concise action summary and active/walking King regression cases resolve them.
+No screen-reader or physical-device test is claimed. Fresh final validation on Windows/Node 24.18.0/pnpm 10.33.0 passed:
+`pnpm lint --force`, `pnpm test --force` (602 unit tests),
+`pnpm build --force`, and all 43 Playwright tests without retries.
+Changed tests type-check in lint; 211 local Markdown links and diff checks pass.
+No engine, frozen classic or archived research paths changed.
+Calibration and complete-game proof are now recorded in slice 4 below.
+
+
+## M2 slice 4: measured budgets and complete-game evidence
+
+[Evidence report](m2-evidence/README.md) records 214 legal production searches,
+360 active-search input frames across four positions and three viewports, and
+the unchanged five resource policies. Every declared timing gate passed; no
+recovery/fallback/watchdog event occurred. Exact code/tree/asset/environment
+provenance, inputs and raw observations are retained. Complete Modern hotseat
+(16 plies), mixed (13 ordinary +2 walking moves), and uninterrupted four-CPU
+(465 plies) games reached terminal results, replay-validated and resumed exactly.
+Actual result captures were inspected. These are correctness and responsiveness
+checks, not playing-strength evidence. Physical phones/screen readers were not tested.
+
+Independent review verified Worker/replay correspondence and the CI test fix.
+The first calibration fixture was rejected before measurement, then corrected
+to a valid elimination timestamp. The full frozen source snapshot was preserved
+before fixing its subtree-scoped collector. No runtime/rules change was needed.
+
+CI on frame commit `386ca59` failed the existing REPLAY-10 test at its five-second
+timeout ([run 34057195819](https://github.com/ariesyous/li4chess/actions/runs/34057195819)).
+The test now batch-records the same canonical complete game, preserving every
+assertion and adding full final-state equality after independent replay validation.
+This removes quadratic repeated prefix reads without extending the timeout.
+All 36 protocol tests passed; protocol test files now type-check in package lint.
+Independent review recomputed all 28 calibration groups and verified request/state
+identities, legal results, resource caps, full-game replay and source snapshots.
+An additional reviewed browser case injects failure during confirmed production
+search and verifies one legal recovery move with no late response.
+
+Fresh final checks on `386ca59` plus this slice, Windows/Node 24.18.0/pnpm 10.33.0,
+passed: `pnpm lint --force`, `pnpm test --force` (**602 unit tests**),
+`pnpm build --force`, and `pnpm --filter @li4chess/web test:e2e`
+(**46 browser tests**, no retries). All 234 local Markdown links and diff checks
+passed. The built Worker hash still matches the measured production asset.
+All substantive independent review findings are resolved, including a final
+cross-check against the full goal and roadmap. Slice 4 is committed as `e02a0ad`.
+[CI run 34058335008](https://github.com/ariesyous/li4chess/actions/runs/34058335008)
+passed on `e02a0adf6c95e812912eb8dbebdf5d38e0261198`: frozen install, lint, unit
+tests, build and browser tests on Ubuntu/Node 24/pnpm 10.33.0. Every M2 exit
+criterion has evidence; M2 is complete. This final closeout changes documentation
+only, with links/diff checks and pushed-revision CI verified again before ending
+the goal. M3 has not started; the PR remains a draft with no merge or deployment.

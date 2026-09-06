@@ -50,6 +50,7 @@ test("export, reload, resume and re-export retain state and producer lineage; ta
 
 test("terminal abort exports and imports without placements",async({page})=>{
   await start(page);
+  page.once("dialog", dialog => dialog.accept());
   await page.getByRole("button",{name:"Resign Red",exact:true}).click();
   const saved=await exportGame(page);
   expect(saved.events.map(event=>event.type)).toEqual(["resign","abort"]);
@@ -77,13 +78,22 @@ test("an interrupted terminal award transaction recovers the exact final result"
   await expect(page.getByTestId("game-result")).toContainText("50-move rule");
   await expect(page.getByTestId("award-ledger").locator("li")).toHaveCount(4);
   expect((await exportGame(page)).result).toEqual(complete.result);
+  await page.reload();
+  await page.getByRole("button", { name: "Resume saved game" }).click();
+  await expect(page.getByTestId("game-result")).toContainText("50-move rule");
+  await expect(page.getByTestId("award-ledger").locator("li")).toHaveCount(4);
+  const resumed = await exportGame(page);
+  expect(resumed.result).toEqual(complete.result);
+  const savedCheckpoint = await recordReplay((await import("@li4chess/protocol")).engineState((await readReplay(complete)).state), [],
+    resumed.engineBuild, await sha256(canonicalJson(interrupted)));
+  expect(resumed.game.sourceReplayHash).toBe(await sha256(canonicalJson(savedCheckpoint)));
 });
 
 test("imported CPU ownership and difficulty drive scheduling in a human-configured game",async({page})=>{
   const initial=createInitialState({isCPU:{0:true,1:false,2:false,3:false},cpuDifficulty:{0:1}});
   const saved=await recordReplay(initial,[],producer);
   await start(page);await importGame(page,saved);
-  await expect(page.getByText(/Red \(CPU L1\)/)).toBeVisible();
+  await expect(page.getByTestId("player-0")).toContainText("CPU L1");
   await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
   expect((await readReplay(await exportGame(page))).state.position.players[0]).toMatchObject({isCPU:true,cpuDifficulty:1});

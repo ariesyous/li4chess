@@ -17,7 +17,7 @@ function emptyState(): GameState {
   return { ...state, board };
 }
 
-function withKings(board: GameState["board"]): GameState["board"] {
+function withKings(board: GameState["board"]) {
   const b = board.slice();
   for (const color of [PlayerColor.Red, PlayerColor.Blue, PlayerColor.Yellow, PlayerColor.Green]) {
     if (!b.some((p) => p?.owner === color && p.type === PieceType.King)) {

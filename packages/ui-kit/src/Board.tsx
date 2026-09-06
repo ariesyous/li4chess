@@ -1,10 +1,13 @@
-import { BOARD_SIZE, Piece, PieceType, PlayerColor, isOnBoard, squareOf } from "@li4chess/engine";
+import { BOARD_SIZE, Piece, PieceType, PlayerColor, isOnBoard, squareOf, localToBoard, boardToLocal, localSquare } from "@li4chess/engine";
+import { useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
 import { PIECE_GLYPHS } from "./pieceGlyphs.js";
 import { PLAYER_COLOR_HEX } from "./theme.js";
 
 export interface BoardProps {
   readonly board: readonly (Piece | null)[];
   readonly onSquareClick?: (square: number) => void;
+  readonly onClearSelection?: () => void;
   readonly selectedSquare?: number | null;
   readonly legalTargets?: ReadonlySet<number>;
   readonly checkedColors?: ReadonlySet<PlayerColor>;
@@ -17,32 +20,16 @@ export interface BoardProps {
   readonly bottomColor?: PlayerColor;
 }
 
-const ROTATIONS: Record<PlayerColor, number> = {
-  [PlayerColor.Red]: 0,
-  [PlayerColor.Blue]: 1,
-  [PlayerColor.Yellow]: 2,
-  [PlayerColor.Green]: 3,
-};
-
-// Mirrors the engine's own board.ts rotateCW exactly, so display rotation stays
-// consistent with the seating geometry (Red -> Blue -> Yellow -> Green, clockwise).
-function rotateCW(file: number, rank: number): [number, number] {
-  return [rank, BOARD_SIZE - 1 - file];
-}
-
 /** Absolute (file, rank) for a given on-screen position, given which color's zone renders at the bottom. */
 function displayToAbsolute(displayFile: number, displayRank: number, bottomColor: PlayerColor): [number, number] {
-  let file = displayFile;
-  let rank = displayRank;
-  for (let i = 0; i < ROTATIONS[bottomColor]; i++) {
-    [file, rank] = rotateCW(file, rank);
-  }
-  return [file, rank];
+  return localToBoard(bottomColor, displayFile - 3, displayRank);
 }
+const PIECE_NAMES = { P: "Pawn", N: "Knight", B: "Bishop", R: "Rook", Q: "Queen", K: "King" };
 
 export function Board({
   board,
   onSquareClick,
+  onClearSelection,
   selectedSquare = null,
   legalTargets,
   checkedColors,
@@ -51,6 +38,27 @@ export function Board({
   lastMove,
   bottomColor = PlayerColor.Red,
 }: BoardProps) {
+  const [focused, setFocused] = useState(() => localSquare(bottomColor, 3, 1));
+  const boardRef = useRef<HTMLDivElement>(null);
+  const navigate = (event: KeyboardEvent<HTMLButtonElement>, square: number) => {
+    if (event.key === "Escape") { event.preventDefault(); onClearSelection?.(); return; }
+    const directions: Record<string, [number, number]> = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] };
+    if (!directions[event.key] && event.key !== "Home" && event.key !== "End") return;
+    event.preventDefault();
+    const [localFile, rank] = boardToLocal(bottomColor, square % 14, Math.floor(square / 14));
+    let file = localFile + 3, nextRank = rank;
+    const [df, dr] = directions[event.key] ?? [event.key === "Home" ? 1 : -1, 0];
+    if (event.key === "Home") file = -1;
+    if (event.key === "End") file = 14;
+    for (let i = 0; i < 14; i++) {
+      file += df; nextRank += dr;
+      if (file < 0 || file > 13 || nextRank < 0 || nextRank > 13) break;
+      const [f, r] = displayToAbsolute(file, nextRank, bottomColor);
+      if (!isOnBoard(f, r)) continue;
+      const next = squareOf(f, r);
+      setFocused(next); boardRef.current?.querySelector<HTMLButtonElement>(`[data-square="${next}"]`)?.focus(); break;
+    }
+  };
   const cells: JSX.Element[] = [];
 
   // Render rank 13 (top of screen) down to rank 0 (bottom), so the bottom color's back rank sits at the bottom.
@@ -77,7 +85,12 @@ export function Board({
           key={square}
           type="button"
           data-square={square}
-          aria-label={`${String.fromCharCode(97 + file)}${rank + 1}${piece ? ` ${isDead ? "dead " : ""}${PlayerColor[piece.owner]} ${piece.type}` : ""}`}
+          className="board-square"
+          tabIndex={focused === square ? 0 : -1}
+          aria-pressed={isSelected}
+          aria-label={`${String.fromCharCode(97 + file)}${rank + 1}${piece ? ` ${isDead ? "dead " : ""}${PlayerColor[piece.owner]} ${PIECE_NAMES[piece.type]}` : " empty"}${isLegalTarget ? ", legal destination" : ""}${isCheckedKingSquare ? ", in check" : ""}${isLastMove ? ", last move" : ""}`}
+          onFocus={() => setFocused(square)}
+          onKeyDown={event => navigate(event, square)}
           onClick={() => onSquareClick?.(square)}
           style={{
             width: "100%",
@@ -88,7 +101,7 @@ export function Board({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "min(3.5vw, 32px)",
+            fontSize: "clamp(20px, 4.6vw, 36px)",
             cursor: onSquareClick ? "pointer" : "default",
             background: isSelected
               ? "#f5d76e"
@@ -115,10 +128,11 @@ export function Board({
             />
           )}
           {piece && (
-            <span style={{ color: isDead ? "#777777" : PLAYER_COLOR_HEX[piece.owner], filter: "drop-shadow(0 0 1px black)" }}>
+            <span aria-hidden="true" style={{ color: isDead ? "#777777" : PLAYER_COLOR_HEX[piece.owner], filter: "drop-shadow(0 0 1px black)", WebkitTextStroke: "0.5px #202c28" }}>
               {PIECE_GLYPHS[piece.type]}
             </span>
           )}
+          {piece && <small aria-hidden="true" className="piece-owner">{PlayerColor[piece.owner][0]}{isDead ? "×" : ""}</small>}
         </button>
       );
     }
@@ -126,14 +140,19 @@ export function Board({
 
   return (
     <div
+      ref={boardRef}
+      role="group"
+      aria-label="Four-player chess board. Arrow keys navigate, Enter or Space selects, Escape clears."
+      className="chess-board"
+      data-bottom-color={bottomColor}
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
         gridTemplateRows: `repeat(${BOARD_SIZE}, 1fr)`,
-        width: "min(90vw, 700px)",
+        width: "100%",
         aspectRatio: "1",
         gap: "1px",
-        background: "#333",
+        background: "transparent",
       }}
     >
       {cells}

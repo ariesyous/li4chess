@@ -6,6 +6,8 @@ export type EvaluateFn = (state: GameState, botColor: PlayerColor) => number;
 export interface SearchOptions {
   readonly maxDepth: number;
   readonly evaluate?: EvaluateFn;
+  /** Shared across iterations/refinement; polling does not consume a node. */
+  readonly budget?: { check: () => void; visit: () => void };
 }
 
 export interface ScoredMove {
@@ -92,14 +94,17 @@ function alphaBeta(
   botColor: PlayerColor,
   evaluate: EvaluateFn,
   ply: number,
-  killers: KillerTable
+  killers: KillerTable,
+  budget?: SearchOptions["budget"]
 ): number {
+  budget?.visit();
   if (depth === 0 || gamePhase(state) === "finished") {
     return adjustForDistance(evaluate(state, botColor), ply);
   }
 
   if (state.players[state.turn].kingStatus === "walking") {
-    return alphaBeta(advanceWalkingKing(state), depth - 1, alpha, beta, botColor, evaluate, ply + 1, killers);
+    budget?.check();
+    return alphaBeta(advanceWalkingKing(state), depth - 1, alpha, beta, botColor, evaluate, ply + 1, killers, budget);
   }
   if (claimSecuresSoleWin(state,state.turn)) return adjustForDistance(evaluate(claimWin(state,state.turn),botColor),ply);
   const moves = orderMoves(legalMoves(state, state.turn), killers, ply);
@@ -107,8 +112,9 @@ function alphaBeta(
   let value = maximizing ? -Infinity : Infinity;
 
   for (const move of moves) {
+    budget?.check();
     const child = applyMove(state, move);
-    const childValue = alphaBeta(child, depth - 1, alpha, beta, botColor, evaluate, ply + 1, killers);
+    const childValue = alphaBeta(child, depth - 1, alpha, beta, botColor, evaluate, ply + 1, killers, budget);
     if (maximizing) {
       if (childValue > value) value = childValue;
       if (value > alpha) alpha = value;
@@ -132,9 +138,11 @@ function searchRootMove(
   alpha: number,
   botColor: PlayerColor,
   evaluate: EvaluateFn,
-  killers: KillerTable
+  killers: KillerTable,
+  budget?: SearchOptions["budget"]
 ): number {
-  return alphaBeta(applyMove(state, move), depth - 1, alpha, Infinity, botColor, evaluate, 1, killers);
+  budget?.check();
+  return alphaBeta(applyMove(state, move), depth - 1, alpha, Infinity, botColor, evaluate, 1, killers, budget);
 }
 
 /**
@@ -158,7 +166,7 @@ export function rankMoves(state: GameState, botColor: PlayerColor, options: Sear
   let alpha = -Infinity;
   const scored: ScoredMove[] = [];
   for (const move of moves) {
-    const value = searchRootMove(state, move, options.maxDepth, alpha, botColor, evaluate, killers);
+    const value = searchRootMove(state, move, options.maxDepth, alpha, botColor, evaluate, killers, options.budget);
     scored.push({ move, value });
     if (value > alpha) alpha = value;
   }
@@ -188,7 +196,7 @@ export function scoreMovesExactly(
   return moves
     .map((move) => ({
       move,
-      value: searchRootMove(state, move, options.maxDepth, -Infinity, botColor, evaluate, killers),
+      value: searchRootMove(state, move, options.maxDepth, -Infinity, botColor, evaluate, killers, options.budget),
     }))
     .sort((a, b) => b.value - a.value);
 }

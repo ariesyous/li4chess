@@ -1,0 +1,37 @@
+{
+  "browser": "141.0.7390.37",
+  "result": {
+    "reason": "fifty-move",
+    "placements": [
+      {
+        "color": 2,
+        "score": 126,
+        "place": 1,
+        "meanRank": 1
+      },
+      {
+        "color": 0,
+        "score": 51,
+        "place": 2,
+        "meanRank": 2
+      },
+      {
+        "color": 1,
+        "score": 41,
+        "place": 3,
+        "meanRank": 3
+      },
+      {
+        "color": 3,
+        "score": 37,
+        "place": 4,
+        "meanRank": 4
+      }
+    ],
+    "winner": 2
+  },
+  "plies": 465,
+  "errors": [],
+  "randomness": "Production Math.random; returned moves preserved; walking seed in replay",
+  "requests": 465
+}

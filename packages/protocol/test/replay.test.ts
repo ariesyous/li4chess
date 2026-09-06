@@ -2,7 +2,7 @@ import { ALL_COLORS, PieceType, PlayerColor, applyMoveRequest, claimWin, compute
 import type { GameState } from "@li4chess/engine";
 import { describe, expect, it, vi } from "vitest";
 import { appendReplay, canonicalJson, createReplay, deserializeGameState, engineState, projectState, readReplay,
-  serializeGameState, sha256, stateHash } from "../src/index.js";
+  serializeGameState, sha256, stateHash, recordReplay, resolveAction } from "../src/index.js";
 import type { ActionRequest, EngineBuildIdentityV1, ReplayEnvelopeV2 } from "../src/index.js";
 
 const build: EngineBuildIdentityV1 = { format: "li4chess-engine-build-v1", sourceRevision: "0".repeat(40),
@@ -151,15 +151,23 @@ describe("REPLAY-01..12 accepted v2 contract", () => {
   });
 
   it("REPLAY-10: complete Modern game, opening rotation, three forfeits and sole survivor +60", async () => {
-    let replay = await createReplay(createInitialState(),build);
+    const initial = createInitialState(), requests: ActionRequest[] = [];
+    let state = initial;
     for (let ply=0;ply<12;ply++) {
-      const state = engineState((await readReplay(replay)).state);
       const move = legalMoves(state).find(move=>move.piece.type === PieceType.Pawn && !move.captured)!;
-      replay = await appendReplay(replay,{ type:"move",actor:state.turn,move },build);
+      const request: ActionRequest = { type:"move",actor:state.turn,move };
+      requests.push(request); state = resolveAction(state,request).after;
     }
-    expect((await readReplay(replay)).state.position.completedMoves).toEqual(opening);
-    for (const actor of [1,2,3]) replay = await appendReplay(replay,{ type:"resign",actor },build);
+    expect(state.completedMoves).toEqual(opening);
+    for (const actor of [1,2,3] as const) {
+      const request: ActionRequest = { type:"resign",actor };
+      requests.push(request); state = resolveAction(state,request).after;
+    }
+    // Batch authoring avoids repeatedly reading every growing prefix under CI
+    // contention. The independent reader still verifies every event and effect.
+    const replay = await recordReplay(initial,requests,build);
     const checked = await readReplay(JSON.parse(JSON.stringify(replay)));
+    expect(engineState(checked.state)).toEqual(state);
     expect(replay.result?.result).toMatchObject({ reason:"elimination",winner:0 });
     expect(checked.state.position.players[0].score).toBe(60);
     expect(checked.state.position.awardLedger.map(a=>[a.rule,a.recipient,a.subject,a.delta])).toEqual([

@@ -22,12 +22,15 @@ test("eighth-rank promotion displays Queen and history, then capture scores one 
   const square = (index: number) => page.locator(`button[data-square="${index}"]`);
   await square(89).click();
   await square(103).click();
-  await expect(square(103)).toHaveAttribute("aria-label", "f8 Red Q");
+  await expect(square(103)).toHaveAttribute("aria-label", "f8 Red Queen, last move");
   await expect(page.getByTestId("move-history")).toContainText("Pf7-f8=Q");
   await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
   await square(130).click();
   await square(103).click();
-  await expect(square(103)).toHaveAttribute("aria-label", "f8 Blue N");
-  await expect(page.getByText("Blue (You) — active · 1 pts", { exact:true })).toBeVisible();
+  await expect(square(103)).toHaveAttribute("aria-label", "f8 Blue Knight, last move");
+  await expect(page.getByTestId("player-1")).toContainText("1 pts");
+  await expect(page.getByTestId("player-1")).toContainText("Human");
   await expect(page.getByTestId("award-ledger")).toContainText("Blue +1 capture — 1 pts");
+  await expect(page.getByTestId("action-announcement")).toContainText("Blue gained 1 points; total 1.");
+  await expect(page.locator('[aria-live="polite"]')).toContainText("Blue moved e10 to f8, capture.");
 });

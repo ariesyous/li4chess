@@ -28,7 +28,7 @@ for(const {lead,turn,cpu,deadScore} of [
     await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
     await expect(page.getByTestId("game-result")).toHaveCount(0);return;
   }
-  if(!cpu) await claim.click();
+  if(!cpu) { page.once("dialog", dialog => dialog.accept()); await claim.click(); }
   await expect(page.getByTestId("game-result")).toContainText("Red claimed the win. Blue received 20 points");
   await expect(page.getByTestId("winner-name")).toContainText("Red — 21 pts · place 1");
   await expect(page.getByTestId("game-result")).toContainText("Yellow — 0 pts · place 3 (shared)");
