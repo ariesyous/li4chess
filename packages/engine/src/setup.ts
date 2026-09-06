@@ -8,6 +8,7 @@ import {
   PlayerColor,
   PlayerState,
   SeatConfig,
+  RULESET_ID,
 } from "./types.js";
 
 /** Standard back-rank order, queenside -> kingside, local file 0..7. */
@@ -56,7 +57,14 @@ export function createInitialState(seatConfig?: SeatConfig): GameState {
   }
 
   const initial: GameState = {
-    rulesetId: null,
+    reversibleMoves: 0,
+    completedMoves: { 0:0,1:0,2:0,3:0 },
+    randomSeed: "00000001",
+    randomDrawIndex: 0,
+    randomActions: [],
+    eventSequence: 0,
+    awardLedger: [],
+    rulesetId: RULESET_ID,
     board,
     players,
     turn: PlayerColor.Red,

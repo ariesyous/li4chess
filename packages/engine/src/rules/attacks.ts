@@ -39,33 +39,41 @@ export function isSquareAttacked(
   for (const from of VALID_SQUARES) {
     const piece = board[from];
     if (piece === null || piece.owner !== byColor) continue;
+    if (pieceAttacksSquare(board, from, square)) return true;
+  }
+  return false;
+}
 
-    switch (piece.type) {
-      case PieceType.Pawn:
-        if (pawnAttackSquares(from, byColor).includes(square)) return true;
-        break;
-      case PieceType.Knight:
-        if (leaperDestinations(from, KNIGHT_DELTAS, board, byColor).includes(square)) return true;
-        break;
-      case PieceType.King:
-        if (leaperDestinations(from, KING_DELTAS, board, byColor).includes(square)) return true;
-        break;
-      case PieceType.Bishop:
-        for (const dir of BISHOP_DIRECTIONS) {
-          if (raySquares(from, dir, board, byColor).includes(square)) return true;
-        }
-        break;
-      case PieceType.Rook:
-        for (const dir of ROOK_DIRECTIONS) {
-          if (raySquares(from, dir, board, byColor).includes(square)) return true;
-        }
-        break;
-      case PieceType.Queen:
-        for (const dir of QUEEN_DIRECTIONS) {
-          if (raySquares(from, dir, board, byColor).includes(square)) return true;
-        }
-        break;
-    }
+/** Geometry for one specified piece, retaining every intervening blocker. */
+export function pieceAttacksSquare(board: readonly (Piece | null)[], from: number, square: number): boolean {
+  const piece = board[from];
+  if (!piece) return false;
+  const byColor = piece.owner;
+  switch (piece.type) {
+    case PieceType.Pawn:
+      if (pawnAttackSquares(from, byColor).includes(square)) return true;
+      break;
+    case PieceType.Knight:
+      if (leaperDestinations(from, KNIGHT_DELTAS, board, byColor).includes(square)) return true;
+      break;
+    case PieceType.King:
+      if (leaperDestinations(from, KING_DELTAS, board, byColor).includes(square)) return true;
+      break;
+    case PieceType.Bishop:
+      for (const dir of BISHOP_DIRECTIONS) {
+        if (raySquares(from, dir, board, byColor).includes(square)) return true;
+      }
+      break;
+    case PieceType.Rook:
+      for (const dir of ROOK_DIRECTIONS) {
+        if (raySquares(from, dir, board, byColor).includes(square)) return true;
+      }
+      break;
+    case PieceType.Queen:
+      for (const dir of QUEEN_DIRECTIONS) {
+        if (raySquares(from, dir, board, byColor).includes(square)) return true;
+      }
+      break;
   }
   return false;
 }
@@ -98,7 +106,8 @@ export function findKingSquare(
  */
 export function attackMap(
   board: readonly (Piece | null)[],
-  byColor: PlayerColor
+  byColor: PlayerColor,
+  include: (piece: Piece) => boolean = () => true
 ): Uint8Array {
   const map = new Uint8Array(board.length);
   const mark = (squares: readonly number[]): void => {
@@ -107,7 +116,7 @@ export function attackMap(
 
   for (const from of VALID_SQUARES) {
     const piece = board[from];
-    if (piece === null || piece.owner !== byColor) continue;
+    if (piece === null || piece.owner !== byColor || !include(piece)) continue;
 
     switch (piece.type) {
       case PieceType.Pawn:

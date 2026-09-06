@@ -43,7 +43,7 @@ for (const status of ["checkmated", "stalemated"] as const) {
     await square(3,13).click();
     await expect(square(3,13)).toHaveAttribute("aria-label", "d14 Blue R");
     await expect(page.getByRole("button", { name:/dead Red/ })).toHaveCount(1);
-    await expect(page.getByText("Blue (You) — active · 0 pts", { exact:true })).toBeVisible();
+    await expect(page.getByText(`Blue (You) — active · ${status === "checkmated" ? 20 : 10} pts`, { exact:true })).toBeVisible();
     expect(errors).toEqual([]);
   });
 }

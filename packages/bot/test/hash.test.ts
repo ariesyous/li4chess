@@ -1,8 +1,29 @@
 import { expect, it } from "vitest";
-import { applyMove, createInitialState, legalMoves } from "@li4chess/engine";
+import { PieceType, applyMove, createInitialState, legalMoves } from "@li4chess/engine";
 import { positionHash, searchSignature, TranspositionTable, updatePositionHash } from "../src/hash.js";
 import { loadPosition, positions } from "../src/positions.js";
 import { searchPosition } from "../src/lab-search.js";
+
+it("distinguishes native and pawn-Queens in full and incremental hashes", () => {
+  const before = createInitialState();
+  const board = before.board.slice();
+  board[6] = { ...board[6]!, promotedFrom:PieceType.Pawn };
+  const after = { ...before, board };
+  expect(positionHash(after)).not.toBe(positionHash(before));
+  expect(searchSignature(after)).not.toBe(searchSignature(before));
+  expect(updatePositionHash(positionHash(before), before, after)).toBe(positionHash(after));
+});
+
+it("retains award history and logical event sequence in search identity", () => {
+  const before = createInitialState();
+  for (const after of [{ ...before,eventSequence:1 }, { ...before,awardLedger:[
+    { sequence:2,causeSequence:1,rule:"capture" as const,recipient:0 as const,delta:1,total:1 },
+  ] }]) {
+    expect(positionHash(after)).not.toBe(positionHash(before));
+    expect(searchSignature(after)).not.toBe(searchSignature(before));
+    expect(updatePositionHash(positionHash(before),before,after)).toBe(positionHash(after));
+  }
+});
 
 it("delta hashes match full recomputation over legal paths and tactical transitions", () => {
   for (const spec of positions) {
@@ -47,6 +68,13 @@ it("hash deltas include castling, en passant removal, promotion and cascading el
     [mate,legalMoves(mate).find(m=>m.from===73 && m.to===3)!]] as const) {
     const child=applyMove(state,move);expect(updatePositionHash(positionHash(state),state,child)).toBe(positionHash(child));
   }
+});
+
+it("FFA-DRAW-09: draw counter changes search identity and incremental hash",()=>{
+  const before=createInitialState(),after={ ...before,reversibleMoves:199 };
+  expect(positionHash(before)).not.toBe(positionHash(after));
+  expect(searchSignature(before)).not.toBe(searchSignature(after));
+  expect(updatePositionHash(positionHash(before),before,after)).toBe(positionHash(after));
 });
 
 it("hashes and signatures distinguish all en-passant rights and per-player eligibility", () => {

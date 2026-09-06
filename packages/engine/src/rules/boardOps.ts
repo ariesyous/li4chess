@@ -1,5 +1,5 @@
 import { rookSquaresForCastle } from "../movegen/castling.js";
-import { Move, Piece } from "../types.js";
+import { Move, Piece, PieceType } from "../types.js";
 
 /** Pure board transform for a single move — no turn/castling-rights/elimination bookkeeping. */
 export function applyMoveToBoard(
@@ -11,6 +11,7 @@ export function applyMoveToBoard(
     ...move.piece,
     type: move.promotion ?? move.piece.type,
     hasMoved: true,
+    ...(move.promotion !== undefined ? { promotedFrom: PieceType.Pawn as const } : {}),
   };
 
   next[move.from] = null;

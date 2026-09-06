@@ -1,4 +1,4 @@
-# M1-03 setup, core, en-passant, castling, and passive dead-army fixtures
+# M1-03 executable fixture coverage
 
 Implemented 2026-09-06 from the accepted D/O inventory in
 [the migration contract](ruleset-versioning.md). The dated coordinate and
@@ -12,6 +12,10 @@ Yellow, and Green using the shared board transform. Setup has an independent
 absolute-coordinate oracle for all 64 initial pieces; it does not derive its
 expected board from the setup implementation. Every move sequence matches a
 current legal move and asserts that applying it leaves the input state unchanged.
+
+The sections below retain the acceptance inputs written before each slice.
+Descriptions of a slice's then-pending work are historical boundaries; the final
+REPLAY section records the completed implementation and validation evidence.
 
 ## Executable coverage
 
@@ -53,8 +57,8 @@ Source tests: [setup](../packages/engine/test/ffa-setup.test.ts),
 Additional [protocol](../packages/protocol/test/serialization.test.ts),
 [bot hash](../packages/bot/test/hash.test.ts), and
 [arena](../packages/arena/test/arena.test.ts) checks cover serialization,
-pending-right identity, and historical-input rejection. No REPLAY fixture ID is
-claimed: JSON move reproduction is not the accepted replay-v2 event/hash schema.
+pending-right identity, and historical-input rejection. REPLAY coverage is
+listed separately below; JSON move reproduction alone did not establish it.
 
 ## Castling fixture inputs and expected results
 
@@ -133,7 +137,7 @@ reachable opening history or introducing resignation/timeout actions. EP-01..12
 remain the evidence for eligibility creation/expiry from actual legal double
 pushes. Awards and walking kings are outside this slice.
 
-## Implementation boundaries
+## Historical boundaries of the first three slices
 
 - DEAD retains the board during deferred checkmate resolution. Existing passive
   move/attack filtering, zero-point captures, castling cleanup, and EP cleanup
@@ -175,13 +179,97 @@ pushes. Awards and walking kings are outside this slice.
   the accepted replay-v2 format and must not be published as new versioned
   research evidence before that migration is complete.
 
-## Exact next slice
+## Promotion fixture inputs and expected results
 
-Proposed next: write `FFA-PROMO-01..08` inputs and expected results first,
-covering eighth-rank coordinates for every seat, automatic Queen promotion,
-one-point capture provenance/value, Queen classification, and no spare king.
-Then implement only the promotion slice and necessary consumers. This is not
-work started here. Awards and walking kings remain separate SCORE/WALK work.
-Continue to reserve standard-v1 and preserve historical sources. SCORE, WALK,
-END, DRAW, ABORT, and replay-v2/state-v2 remain later M1-03 work; M2/M3 remain
-outside this work.
+Written before behavior changes on 2026-09-06; source:
+[FFA promotion](../packages/engine/test/ffa-promotion.test.ts). All cases rotate
+through four seats. Starting positions have the four home kings, moved pieces,
+empty remaining squares, revoked castles and empty EP/repetition records unless
+stated. Coordinates below use the Red frame. The independent absolute quiet
+promotion oracle is Red `(5,6)→(5,7)`, Blue `(6,8)→(7,8)`, Yellow
+`(8,7)→(8,6)`, Green `(7,5)→(6,5)`.
+
+| Fixture | Explicit input / expected result |
+| --- | --- |
+| FFA-PROMO-01 | Pawn `(5,6)→(5,7)` has one legal Queen outcome; exact absolute square, moved flag, pawn provenance, unchanged scores, and `=Q` move metadata. |
+| FFA-PROMO-02 | Same pawn captures a Blue Knight on either `(4,7)` or `(6,7)`; Queen/provenance, +3 capture. SCORE adds +1 double-check at `(6,7)` for total 4, with separate entries. |
+| FFA-PROMO-03 | Pawn advances from rank 5, 7, or historical rank 12; remains Pawn with no promotion. Post-eighth-rank pawns are explicit synthetic boundary inputs, not reachable Modern histories. |
+| FFA-PROMO-04 | Omitted promotion equals explicit Queen request; Pawn/Knight/Bishop/Rook/King requests reject without mutation; board still has exactly four Kings. |
+| FFA-PROMO-05 | Actual promotion followed by Blue Knight `(4,9)→(5,7)` gives +1 and captured provenance. Native Queen gives +9; explicit dead promoted Queen gives +0. |
+| FFA-PROMO-06 | Promote, legal intervening Kings `(0,6)→(0,5)`, `(6,13)→(6,12)`, `(13,7)→(12,8)`, Queen `(5,7)→(8,10)`; provenance survives, JSON replay agrees, native versus promoted repetition keys differ. |
+| FFA-PROMO-07 | Promoted Queen generates orthogonal/diagonal moves and checks with Queen type. SCORE-11 now supplies +1/+5 ledgers for saved pawn-Queens and an actual promotion delivering double-check. |
+| FFA-PROMO-08 | Pawn pinned to King `(5,0)` by Rook `(5,9)` cannot capture off-file to promote. Capture of a dead Knight promotes for zero capture points; SCORE adds a separate +1 double-check. Cross-feature extension: Blue Pawn `(1,7)→(3,7)`, intervening turns, Red Pawn `(3,6)→(2,7)` EP promotes; remove victim, clear rights, +1 live/+0 dead. |
+
+The initial 32-test baseline failed before promotion implementation (one invalid
+Knight capture and two intervening King destinations were corrected). Independent
+review identified EP's separate emission path; four new rotated regressions
+failed before routing EP through the same promotion emitter. There are now 36
+promotion tests. Protocol state/move round-trips, bot full/delta hash identity,
+and a browser promotion/capture scenario cover direct consumers. The current bot
+corpus promotion input moves to rank 6; historical artifacts are unchanged.
+
+## SCORE progress and next slices
+
+[SCORE acceptance](m1-score-acceptance.md) defines the explicit inputs and
+expected ledgers. [Executable SCORE tests](../packages/engine/test/ffa-scoring.test.ts)
+cover SCORE-01/02 and 07–16's capture/new-own-army-check subset with 52 rotated
+tests. PROMO-07's Queen-tier integration is now covered. The initial 48 cases
+failed before ledger implementation; fixture geometry was corrected to avoid
+accidental pre-existing checks, and a continuing-Queen regression was added.
+
+The maintainer's [causation addendum](m1-score-acceptance.md) closes SCORE-03..06,
+mate stacking in 15 and mixed-owner checks. The expanded scoring file has 60
+tests; [deferred resolution](../packages/engine/test/ffa-score-resolution.test.ts)
+adds 20. It covers equal two/three-owner splits, nonchecking interveners,
+self-block/rescue/re-block attribution and a checker resigning before resolution.
+
+[WALK/ABORT acceptance](m1-walk-abort-acceptance.md) maps WALK-01..08 to
+[41 tests](../packages/engine/test/ffa-walking.test.ts) and ABORT-01..06 to
+[21 tests](../packages/engine/test/ffa-abort.test.ts). Independent random words,
+candidate destinations and hashes cover all rotations. Local UI tests cover
+resign/timeout opening abort and post-opening automatic King action; bot tests
+inspect descendants against recorded engine actions. WALK-08 event tampering
+remains a REPLAY invariant, not claimed by JSON round-trip alone.
+
+END-01..08 now have [acceptance inputs](m1-end-acceptance.md) and
+[17 engine tests](../packages/engine/test/ffa-end.test.ts): points over chronology,
+shared places/mean ranks, all rotated claims, third forfeit, 0..3 walking-King
+awards, and mate/survivor/result ordering. Protocol, bot, arena and browser
+consumers have result/claim fixtures. Tests whose expectations encoded the old
+house objective were migrated to explicit points; historical sources stay frozen.
+
+[DRAW acceptance](m1-draw-acceptance.md) maps DRAW-01..09 to
+[33 engine cases](../packages/engine/test/ffa-draw.test.ts), plus END's third-
+elimination precedence at counter 200, protocol save/resume, bot hash, arena
+completion and browser cause/award tests. Continuing CORE/WALK/repetition fixtures
+now retain explicit active material to avoid the automatic bare-King draw;
+their original legality/cadence/random hash assertions remain. The current bot
+king-endgame corpus adds a Pawn; frozen classic and archived evidence do not change.
+
+## REPLAY and complete-game coverage
+
+[REPLAY-01..12 acceptance](m1-replay-acceptance.md) maps to
+[26 protocol replay cases](../packages/protocol/test/replay.test.ts), nine
+[state/move serialization cases](../packages/protocol/test/serialization.test.ts),
+[producer identity/drift](../packages/protocol/test/node.test.ts),
+[11 arena/legacy cases](../packages/arena/test/arena.test.ts),
+[archived-byte checks](../packages/arena/test/legacy.test.ts), and
+[five browser replay cases](../apps/web/e2e/replay.spec.ts).
+
+| IDs | Executable evidence |
+| --- | --- |
+| REPLAY-01/02 | Required identities/build fields, independent SHA-256 vectors, canonical scalar/object/array behavior, normalized EP checkpoint hashes, malformed inputs and actual clean/dirty/HMR/source-drift provenance. |
+| REPLAY-03/04 | Wrong actor/action/metadata/sequence/hash rejection; each individual award, capture/promotion, rotated capture + multi-check + scheduled mate, three-way fractional mate credit, omitted/reordered/edited effects. |
+| REPLAY-05/06 | Fixed recorded random action/cause/seed/cursor/candidate hash despite ambient RNG failure; local resign/timeout/disconnect facts, opening abort vector and liability, later walking transition. |
+| REPLAY-07/08 | Exact named terminal/abort results, shared placements, incomplete state, every partial draw-award prefix, transaction recovery and rejection of post-terminal moves. |
+| REPLAY-09 | All 29 historical artifact byte hashes and all 14 legacy replay logs reject before the new reducer or aggregation. No relabelling or historical remeasurement. |
+| REPLAY-10 | Complete canonical Modern games: 12 opening moves + three forfeits/survivor +60; 16 legal Knight moves to threefold repetition +10 each/shared first. App export/import/resume, walking cursor, pending terminal recovery, CPU ownership and source producer linkage. |
+| REPLAY-11/12 | Content-addressed checkpoints with separate local/global sequence causes, historical walking cause, all-four-orientation EP input checks, passive-turn rejection, terminal predicates and claim consistency. |
+
+The complete-game tests assert explicit standings/awards, actual legal actions,
+continuous hashes and exact replay state, rather than relying on isolated fixture
+counts. Engine, protocol, local app, production bot and arena use the same points
+objective. M1 is complete: fresh local lint, 571 unit tests, build, strict test
+types and 21 browser tests passed, followed by Node 24 CI on the final
+implementation. [Project state](project-state.md) records the evidence.
+M2/M3 remain outside scope.

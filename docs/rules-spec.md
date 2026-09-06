@@ -1,10 +1,9 @@
-# li4chess rules specification — partial M1 migration
+# li4chess rules specification — standard FFA v1
 
-> **Implemented behavior as of 2026-09-06, not full standard FFA.** The completed
-> M1-03 slices implement the accepted setup, core-legality, en-passant,
-> castling, and passive dead-army fixtures. Remaining house behavior is identified below. The complete
-> target is the accepted [migration contract](ruleset-versioning.md), supported
-> by [the audit](rules-compatibility.md). `li4chess-ffa-standard-v1` stays reserved.
+> **Implemented contract as of 2026-09-06:** `li4chess-ffa-standard-v1`, with
+> state-v2/replay-v2. The accepted [migration contract](ruleset-versioning.md)
+> and [audit](rules-compatibility.md) define scope and evidence. M1 is complete;
+> validation/CI evidence is recorded in [project state](project-state.md).
 
 The pre-migration specification is preserved in
 [rules-spec-house-ffa-v1.md](rules-spec-house-ffa-v1.md), from commit
@@ -32,8 +31,9 @@ file (Blue), decreasing rank (Yellow), or decreasing file (Green).
 ## Turn order and ordinary legality
 
 Red always starts. Rotation is Red → Blue → Yellow → Green → Red, skipping
-inactive seats. Inactive players generate no moves. The current game ends when
-only one player remains active; the target's point-based endings remain later work.
+passive seats. Resigned/timed-out seats with live walking Kings still receive
+scheduled automatic King moves. Third elimination ends play; final points
+determine placements regardless of which player remains active.
 
 Moves obey ordinary piece geometry and occupancy. A pawn's two-square push
 requires `hasMoved: false`, its designated starting line, and two empty squares.
@@ -78,9 +78,24 @@ center, and pawn-advancement evaluation excludes passive pieces while retaining
 their occupancy for movement and attack geometry. Low-level board-only attack
 helpers describe geometry; rules consumers filter to active opponents.
 
-Mate/stalemate awards remain unimplemented. `resigned` is a representable
-inactive status, but there is still no resignation, timeout, or walking-king
-action; a live walking king will need finer state than owner status alone.
+At scheduled mate resolution, active checking owners split +20 equally; an
+intervening nonchecking escape-blocker gets zero. The engine tracks the actor
+of the last transition from at least one legal move to zero. A self-caused
+stalemate gives the victim +20; an opponent-caused stalemate gives each remaining
+active player +10. A rescue clears causation, and a later re-block sets it anew.
+See [SCORE acceptance](m1-score-acceptance.md) for exact rotated fixtures.
+
+Resignation and explicit zero-clock timeout are local deterministic actions.
+If any seat has completed fewer than three moves, either action aborts with
+the actor, classification, exact count vector, liable seat, and timeout clock
+fact; no normal placements or awards are generated. Otherwise the army becomes
+passive, except its live King. Its original forfeit reason remains after its
+King later mates/stalemates. Only legal King moves are selected automatically
+on its regular turn by the versioned seeded random algorithm; manual requests
+reject. Walking owners earn no ordinary capture/multi-check points. A walking
+King's stalemate gives each remaining active player +10; mate uses the active
+checking-owner split. Walking Kings constrain king safety and cannot be captured.
+See [WALK/ABORT acceptance](m1-walk-abort-acceptance.md) for random provenance.
 
 ## En passant
 
@@ -106,7 +121,7 @@ If an eligible opponent's target pawn remains on the board after its owner
 becomes inactive, it can still be captured en passant for **zero points**. The
 EP fixture supplies an explicit post-death state; DEAD-08 additionally resolves
 mate/stalemate from a synthetic pending-right snapshot before the capture.
-Resignation/timeout transitions remain unimplemented. The old opposite-seat-only
+Resignation/timeout likewise preserve victim rights but remove capturer rights. The old opposite-seat-only
 claim and next-global-move expiry were implementation errors, now replaced.
 
 ## Castling
@@ -128,47 +143,109 @@ owners cannot castle; advancement clears their stored rights, including in the
 same transition that resolves mate/stalemate. `FFA-CASTLE-01..16` cover both
 sides and all four seats, with independent absolute destination assertions.
 
-## Promotion — remaining house behavior
+## Promotion
 
-A pawn promotes at local rank 13 (the far edge), with Queen, Rook, Bishop, or
-Knight choices in the engine. The app automatically selects Queen. Standard
-FFA's automatic eighth-rank one-point Queen and provenance are not implemented.
+A pawn arriving at local rank 7 (its eighth rank) automatically becomes a Queen,
+including ordinary and en-passant captures. Red promotes on absolute rank 7,
+Blue on file 7, Yellow on rank 6, Green on file 6 (zero-based). Other ranks do
+not promote. There is no underpromotion or spare king. An omitted external
+promotion choice selects the canonical Queen; explicit non-Queen choices reject.
 
-## Scores and placements — remaining house behavior
+The resulting piece has `type: Queen` and `promotedFrom: Pawn`. That provenance
+survives later movement, captured metadata, JSON, repetition identity, and bot
+hashes. Its active capture value is one; a native Queen remains nine and a dead
+Queen zero. Movement and checking classification remain Queen. Own-army
+Queen-tier multi-check awards now have executable ledgers, including an actual
+promotion that checks two kings. Bot material heuristics
+still value Queen movement strength; production utility also values earned points.
 
-Active captures score Pawn 1, Knight 3, Bishop 3, Rook 5, Queen 9, King 0.
-All captures of inactive material, including en passant, score zero. There are
-no mate, stalemate, multi-check, survivor, or named-draw awards yet.
+## Scores and placements
 
-The last active player wins. Other players rank by later elimination turn,
-then score, then Red/Blue/Yellow/Green seat order. Standard FFA's point-based
-placements/shared ties and Claim Win remain unimplemented.
+Active captures score Pawn/pawn-Queen 1, Knight 3, Bishop 5, Rook 5, native Queen 9.
+The King rule value is 20, while active kings remain non-capturable. All captures
+of inactive material, including en passant, score zero.
 
-## Repetition — current behavior
+Two/three kings newly checked by the mover's army award +1/+5 if any newly
+checking piece is a Queen, otherwise +5/+20. Own-army discovered checks count.
+Kings already in check before the action and passive kings do not count;
+continuing Queen checks do not downgrade new non-Queen checks. Captures and
+multi-checks stack with deferred mate awards. Other owners' pieces do not count
+or select the Queen tier, including shared checks on the same king. Deferred
+mate/stalemate attribution is specified above. Named draws award a flat +10 each
+to active players, without survivor/claim stacking.
 
-The third occurrence ends the game immediately: all active players tie for
-first, with inactive players ordered below them by the existing placement rule.
-There is no point award. `GameResult.reason` distinguishes `elimination` and
-`repetition`. Insufficient-material and 50-move endings are not implemented.
+Every nonzero award appends an immutable `awardLedger` entry:
+`sequence`, `causeSequence`, `rule`, `recipient`, `delta`, and resulting `total`.
+The action advances `eventSequence` once, then each award advances it once;
+capture precedes multi-check. This order is a li4chess recording convention.
+JSON and bot search identity preserve the ledger/sequence. The UI displays it.
+Replay-v2 records every nonzero award as its own validated, hashed event.
 
-The repetition key includes board type/owner, pawn first-move flags, current
+Final points rank all four players, including eliminated ones. Equal scores
+share the first occupied place (1/1/3/4 for a first-place tie). `meanRank` records
+the average occupied rank (1.5 for that tie); it does not calculate ratings.
+Seat order only displays equal entries. `winner` is the unique highest scorer,
+or null for shared first. The survivor earns a separate +20 entry for each
+still-live walking King, with the King owner recorded as award subject.
+
+With exactly two active players and a lead of at least 21 over the other active
+player, `claimWin` surrenders the leader's King, grants the trailer +20 and
+immediately freezes the points result. It does not award survivor extras or
+schedule another walking move. Claims may occur out of turn; the opening
+forfeit guard does not apply to this distinct action. All terminal actions reject
+repetition. The UI exposes human claims; automated play claims only when the
+projected result secures a sole first place. A higher-scoring eliminated player
+can otherwise still win the game. [END acceptance](m1-end-acceptance.md).
+
+## Automatic draws
+
+The third occurrence, insufficient material, or the 200th reversible individual
+move ends the game automatically, after scheduled elimination resolution. Each
+active player receives one flat +10; passive/walking owners receive zero.
+Final points still determine placements, including earlier eliminated players.
+When predicates coincide, only one draw ledger is emitted: repetition before
+insufficient material before `fifty-move`. Existing terminal results take
+precedence and never receive draw/survivor extras.
+
+`reversibleMoves` increments per completed move, including walking King moves,
+and resets to zero on every pawn move or capture (live, dead, or EP). Castling
+increments it. The threshold is 200 regardless of active-player count.
+Forfeits do not increment the counter or repetition occurrence, but can remove
+active material and trigger insufficient material.
+
+With three/four active players, only bare active Kings satisfy insufficient
+material. With two active players, the listed dead cases are K v K, K+B v K,
+K+N v K, and K+B v K+B with one Bishop per owner on the same colour. Passive
+armies do not count as material. A Pawn or other unlisted combination preserves
+play. [DRAW acceptance](m1-draw-acceptance.md) records rotated controls and exact
+threshold/reset/cross-feature cases.
+
+The repetition key includes board type/owner/promotion provenance, pawn first-move flags, current
 turn, castling rights, every pending en-passant target/victim/eligible owner,
 and player statuses. Pending-right/eligibility array order does not change this
 identity. The bot's search hash/signature also includes the new rights. These
-keys are not the accepted future canonical state-v2 replay hash.
+keys serve repetition/search; replay uses the full canonical state-v2 SHA-256.
 
-## Partial state and historical inputs
+## Versioned state, replay and historical inputs
 
-Current local states explicitly carry `rulesetId: null`: this is a development
-migration shape with no certified ruleset ID, not a new semantic ruleset.
-`li4chess-house-ffa-v1` retains its original meaning; standard-v1 is reserved
-until the full contract is implemented and validated. No current state is
-labelled `li4chess-state-v2` or wrapped as `li4chess-replay-v2`.
+The engine carries `li4chess-ffa-standard-v1` and rejects old house, partial-null
+and unknown identities. Protocol snapshot readers require state-v2 and validate
+all inputs; replay-v2 readers additionally recompute every legal action, award,
+random selection, hash chain and terminal result. Checkpoint setup IDs are
+content-addressed and do not claim prior reachability from the Modern board.
+Imported unfinished games preserve counters, rights, ledgers and random cursors.
+Interrupted award transactions retain a hashed pending queue and cannot accept
+another action before deterministic recovery.
 
-The reducer, protocol serialization, and arena input/replay/aggregation entry
-points reject old or labelled snapshots instead of treating them as this partial
-migration. This format fence checks the migration marker and presence of rights;
-it does not validate arbitrary network state. The protocol remains JSON helpers.
-The existing arena v1 harness is regression infrastructure, not a completed v2
-writer or a source of new versioned research evidence. Do not run or publish new
-bot comparisons before the replay/provenance migration supports them.
+Each replay identifies its producer revision/packages and clean/dirty/content
+provenance. App imports create a new checkpoint on export with the source replay
+hash; arena output includes environment, configurations, seeds and budgets and
+is validated before reporting. Legacy records are rejected by default, their
+bytes preserved and independently checksummed. Full format and event details:
+[state-v2/replay-v2](state-replay-v2.md).
+
+`disconnectForfeitPlayer` accepts an exhausted cumulative 60-second bank fact,
+using timeout/early-timeout semantics while preserving the distinct disconnect
+cause and elapsed-bank fact. It never invents a zero main clock. M1 exposes
+deterministic local rule inputs; live clocks, reconnect tracking, network seat
+authorization and server authority remain M3 responsibilities.

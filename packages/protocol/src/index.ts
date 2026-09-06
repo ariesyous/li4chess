@@ -1,29 +1,34 @@
 import type { GameState, Move, SeatConfig } from "@li4chess/engine";
 import { assertLocalMigrationState } from "@li4chess/engine";
+import { canonicalJson } from "./canonical.js";
+import { engineState, projectState } from "./replay.js";
+import { validateMove, validateState } from "./validation.js";
+export * from "./canonical.js";
+export * from "./types.js";
+export * from "./replay.js";
 
-/**
- * GameState (and Move/SeatConfig) are already plain JSON-shaped — arrays,
- * plain objects, numbers, and string literals only — by design, precisely so
- * a future networked server can serialize/broadcast the exact same shapes
- * the local UI already works with, with no adapter layer in between.
- */
+/** State-v2 validates imported checkpoints; replay-v2 additionally proves the
+ * recorded transitions. Network authority and live clock tracking belong to M3. */
 export function serializeGameState(state: GameState): string {
   assertLocalMigrationState(state);
-  return JSON.stringify(state);
+  return canonicalJson(projectState(state));
 }
 
 export function deserializeGameState(json: string): GameState {
-  const state = JSON.parse(json) as GameState;
-  assertLocalMigrationState(state);
-  return state;
+  const state: unknown = JSON.parse(json);
+  validateState(state);
+  return engineState(state);
 }
 
 export function serializeMove(move: Move): string {
-  return JSON.stringify(move);
+  validateMove(move);
+  return canonicalJson(move);
 }
 
 export function deserializeMove(json: string): Move {
-  return JSON.parse(json) as Move;
+  const move: unknown = JSON.parse(json);
+  validateMove(move);
+  return move;
 }
 
 /** DTO for requesting a new local game — the same shape a future server's "create game" call would take. */

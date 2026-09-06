@@ -2,188 +2,80 @@
 
 Last updated: 2026-09-06.
 
-Read this file with [ROADMAP.md](../ROADMAP.md) and [AGENTS.md](../AGENTS.md) at
-the start of repository work. This is a compact handoff, not a transcript.
-Git history preserves earlier snapshots; keep this file focused on current work.
+Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
+tree. This file retains current decisions and evidence; Git history preserves
+superseded handoffs.
 
 ## Current focus
 
-**M1 is in progress.** M1-01 completed the sourced
-[standard-FFA compatibility audit](rules-compatibility.md) on 2026-09-06; it
-does not change the local house rules. **M1-02 is complete:** the maintainer
-accepted the [ruleset/replay migration contract](ruleset-versioning.md), including
-the product-owned identifiers, v2 deterministic event/state requirements, legacy
-preservation, and evidence-status fixture inventory. All release-affecting game
-semantics have D/O target evidence. **M1-03 is in progress:** the
-setup/core/en-passant, castling, and passive dead-army slices are implemented;
-the remaining accepted differences still need fixture-first engine, protocol, UI, bot,
-and arena changes.
-The first public release is M4, public FFA matchmaking with ratings, anonymous
-access, and CPU play.
+**M1 is complete.** M1-01/M1-02/M1-03 are complete and
+all D/O requirements in the accepted contract have executable coverage. The
+implementation activates `li4chess-ffa-standard-v1` after independently
+reviewed rule and replay implementations. No M2+ work is authorized by this goal.
 
-Repository baseline verified: `432c0a8e6b35dc3602a4f46b5a43566c08531951` on
-`main`, with a clean working tree before the DEAD slice. SETUP/CORE/EP and
-CASTLE are committed. The DEAD slice follows that baseline; the maintainer
-authorized its commit and push on 2026-09-06 after validation. Use Git history
-and status to verify its revision and publication state on the next handoff.
-The local game now implements a partial M1 migration. CPU search is synchronous;
-networking, application persistence, clocks, accounts, queues, and ratings are
-not implemented. See [README.md](../README.md) for the package map.
+Baseline was clean `802d2b4` on main. Work is on `codex/m1-completion`; the draft
+PR is [#10](https://github.com/ariesyous/li4chess/pull/10). The user authorizes
+successive reviewed/tested commits, branch pushes and draft PR updates through
+M1, with no merge, main push, deployment or provisioning.
 
-The accepted M3 direction is now Cloudflare-native, with an architecture spike
-and ADR required before implementation. This planning decision does not start M3,
-provision infrastructure, or change the current M1 focus.
+Local hotseat/CPU play now follows standard FFA points and actions. CPU search
+still runs synchronously; Workers are M2. Live clocks, connection-bank tracking,
+networking, accounts, matchmaking and ratings are M3/M4. Local timeout and
+exhausted-disconnect facts are deterministic engine/replay inputs only.
 
-## Completed M1-03 slices and remaining work
+## M1 implementation and evidence
 
-The third slice implements `FFA-DEAD-01..08`: 32 tests across all four seats
-cover exact retained mate/stalemate boards, deferred resolution and permanent
-turn skipping, every dead piece's zero-point capture, slider/pawn blockers,
-knight jumping, active attack screens and EP self-check rejection, no attacks
-or moves, castling/EP eligibility cleanup, and eligible dead-pawn EP capture.
-CORE/EP/CASTLE regressions are reused. The pre-implementation baseline had
-20 passes and 12 removal-related failures after correcting a turn-count
-expectation; the later EP fixture correction leaves its target empty.
+- SETUP/CORE/EP, CASTLE and DEAD were verified at the baseline. Their full
+  four-orientation coverage remains in [the fixture map](m1-03-fixtures.md).
+- `4c331f2` implements eighth-rank automatic one-point Queens; `f3a0101` adds
+  capture/own-army multi-check ledgers; `5361be7` adds deferred SCORE attribution,
+  walking Kings and opening aborts; `11bdfae` adds points/shared ranks, immediate
+  claims and survivor awards; `9a5c8c5` adds automatic draws/counters/flat awards.
+  Each slice was independently reviewed, validated and pushed.
+- `e0adfd5` implements explicit state-v2/result-v2/replay-v2,
+  canonical SHA-256, validated actions/effects, recorded random provenance,
+  resumable pending transactions, complete Modern starts and content-addressed
+  checkpoints, actual producer identities, and explicit legacy rejection.
+  [Format details](state-replay-v2.md) and [acceptance](m1-replay-acceptance.md).
+- The app exports/imports and resumes verified games with imported CPU controls;
+  a new export records its producer and source replay hash. Arena version-2
+  writers and reports validate all games, metadata, environment and branching;
+  walking moves are excluded from engine search metrics. Runs detect source drift.
+- Two complete Modern games provide cross-feature evidence: 12 opening moves
+  followed by three forfeits and survivor +60; a 16-ply legal Knight cycle ending
+  in threefold repetition and four shared first places. Rotated replay fixtures
+  cover promotion capture, capture/check/mate stacking and three-way mate thirds.
+- [Legacy quarantine](legacy-replay-manifest.json) hashes 29 unchanged archived
+  artifacts and rejects all 14 replay logs by default. Their declared baseline
+  cannot prove an exact producing build, so classification remains unclassified.
+  No historical result was rerun/reaggregated under the new engine. Frozen classic
+  and the historical house specification remain unchanged.
 
-The reducer now retains the board during checkmate resolution; existing owner
-status already supports passive interactions and rights cleanup. Bot material,
-center, and pawn-advancement terms now exclude passive pieces. The UI shows
-grey armies, accurate zero-point/passive explanations, and current active-only
-check indicators. A bot regression and two deterministic browser scenarios
-cover these direct consumers. No search algorithm/weight or result objective
-changed; capture ordering remains a heuristic. See the
-[fixture map](m1-03-fixtures.md) for explicit inputs, outputs, and boundaries.
+## Final M1 validation
 
-The second slice implements `FFA-CASTLE-01..16`: 64 tests across all four
-seats, with both castles, independent absolute destinations, missing/moved/
-foreign pieces, king/rook move-return and rook-capture rights loss, saved revoked
-rights, occupancy, each opponent's origin/transit/destination attacks, allowed
-rook-only attacks, and passive dead blockers/screens/no attacks. Rights now
-require own home pieces, can only be lost, and are cleared for inactive owners
-and in the existing deferred-elimination transition. Path geometry and attack
-filtering already satisfied the fixtures and were not changed.
+REPLAY core and consumer reviewers approved after fixes to checkpoint identity,
+producer attribution, EP validation, terminal/claim consistency, causal namespaces,
+walking metrics and source drift. The final Node-only bootstrap also passed
+independent review. Fresh checks on `9a5c8c5` plus the final REPLAY implementation
+passed on Windows, Node 24.18.0 and pinned pnpm 10.33.0 (2026-09-06):
 
-Inputs and expected results were written before behavior changes. The baseline
-had 52 passing and 12 failing castling tests; a deferred-mate rights-cleanup
-assertion was also written before implementation. All 64 final cases pass.
-Passive death snapshots use existing owner statuses; this adds no new death,
-walking-king, scoring, promotion, or replay behavior. See the
-[fixture map](m1-03-fixtures.md) for the exact inputs/outputs and boundaries.
+- `pnpm lint --force` and `pnpm build --force` passed for all packages.
+- `pnpm test --force`: **571 unit tests** (471 engine, 53 bot, 36 protocol, 11 arena).
+- `pnpm --filter @li4chess/web test:e2e`: **21 browser tests**.
+- Strict standalone TypeScript checks passed for changed/new engine, protocol,
+  arena and browser tests; the JSDoc Node bootstrap is checked by package lint.
+- `pnpm install --frozen-lockfile` and a direct Node bootstrap import passed.
 
-The first slice implements `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
-`FFA-EP-01..12`. See [the fixture map](m1-03-fixtures.md) for individual
-assertions and source files. Four setup tests use independent absolute
-coordinates; core and EP each have 12 scenarios repeated for all four seats.
-The corrected pre-implementation run had 32 passing and 68 failing cases.
+The maintainer requested Node 24 for CI. Both validation and Pages build workflows
+now select Node 24, and the documented/package runtime floor is 24. This changes
+future build configuration only; no deployment was run.
 
-Implemented differences: active kings are non-capturable; pawn double pushes
-require an unmoved pawn; inactive players generate no moves; en-passant rights
-record the victim and per-owner opportunities across overlapping pushes.
-Adjacent/opposite capturers, individual expiry, own-king safety, and the
-explicit dead-pawn zero-point capture are covered. Captures of all inactive
-material now score zero. Deferred mate/stalemate timing already worked and
-now has accepted-ID rescue/rotation coverage. External app requests select a
-canonical legal move; protocol round-trips and bot hashes include the new rights.
-
-Implementation decision: local states carry `rulesetId: null` and the new
-`enPassantRights` array. This is an explicitly uncertified partial migration,
-not a sixth ruleset ID or a claim of state-v2/replay-v2 implementation. Old or
-labelled snapshots are rejected by the reducer, protocol state helpers, and
-arena input/replay/aggregation. The
-[historical house specification](rules-spec-house-ffa-v1.md) is preserved from
-the starting commit. Frozen classic sources and archived research are unchanged;
-no new benchmark/tournament measurements or replay conversions were performed.
-The existing v1 arena harness remains regression infrastructure; new research
-output must wait for the accepted v2 provenance/replay migration.
-
-No accepted-contract conflict was found. DEAD's EP transition fixture starts
-from an explicit pending-right snapshot rather than claiming a complete reachable
-opening history. Existing EP fixtures separately validate grants and expiry from
-legal double pushes. The existing owner status expresses passive armies,
-but a live walking king with a dead army will need finer state. Resign/timeout,
-far-edge promotion, award-free scoring, elimination-first placements, and the
-old draw ending remain partial-migration limitations, accurately described in
-[rules-spec.md](rules-spec.md). No M2/M3 work was started.
-
-**Exact next slice (proposed working plan):** fixture-first `FFA-PROMO-01..08`,
-covering eighth-rank coordinates for every seat, automatic Queen promotion,
-one-point capture provenance/value, Queen classification, and no spare king.
-Then implement only promotion and its necessary consumers. No PROMO work has
-started. Awards and walking kings remain separate SCORE/WALK work; END, DRAW,
-ABORT, replay-v2/state-v2, and remaining consumer alignment follow in M1-03.
-Standard-v1 remains reserved. M2/M3 remain untouched.
-
-**DEAD validation, 2026-09-06:** against
-`432c0a8e6b35dc3602a4f46b5a43566c08531951` plus the uncommitted DEAD slice,
-Windows, Node 24.18.0, pnpm **10.33.0** through temporary Corepack shims,
-including Turbo children:
-
-- `pnpm lint --force`: all six packages passed.
-- `pnpm test --force`: **299 passed** (engine 243, bot 47, protocol 4, arena 5).
-- `pnpm build --force`: all six packages passed, including Vite.
-- All three Turbo commands report **zero cache hits**.
-- `pnpm --filter @li4chess/web test:e2e`: **4 passed**, including the two new
-  mate/stalemate browser cases, human/CPU turns, and four-CPU autoplay.
-- New engine/bot/browser fixtures type-check with strict TypeScript options;
-  regular package lint includes source files only.
-- The sandbox blocked esbuild parent-directory reads and a direct compiler
-  invocation; approved checks outside those restrictions succeeded. Initial
-  browser fixture injection needed parentheses around its object expression;
-  the corrected full browser run passed. Remaining npm environment/colour
-  warnings were non-failing.
-- Complete diff review and `git diff --check` (including both new files) passed.
-  All 148 local Markdown links across 18 files resolved. Classic sources,
-  the historical house specification, and archived research are unchanged.
-  No measurements, replay conversions, deployment, commit, or push occurred
-  during validation. The maintainer subsequently authorized commit and push.
-
-**Castling validation, 2026-09-06 (historical):** Windows, Node 24.18.0, pnpm **10.33.0** via
-temporary Corepack shims on PATH, including Turbo child processes, against
-`0f01a2b8e23c3e14e293650e579f79e5b2d4a7f1` plus the castling slice (uncommitted
-at validation time):
-
-- `pnpm lint --force`: all six packages passed.
-- `pnpm test --force`: **266 passed** (engine 211, bot 46, protocol 4, arena 5).
-- `pnpm build --force`: all six packages passed, including the Vite app.
-- `pnpm --filter @li4chess/web test:e2e`: **2 passed**, human/CPU play and
-  four-CPU autoplay; only non-failing npm environment/colour warnings.
-- `--force` bypassed Turbo caches for fresh lint/test/build execution.
-- Separate strict TypeScript validation of the new fixture file passed;
-  source-only lint does not include test files.
-- The initial test attempt hit esbuild's sandbox parent-directory read
-  restriction; approved baseline and final test/build/browser runs outside it
-  passed. Corepack used its temporary cache; the host pnpm 11.19.0 wrapper was
-  not used for validation.
-- Complete diff review found only the three castling-related engine files,
-  the new fixture file, and six current documentation files changed. All 146
-  local links across 18 Markdown files resolved; tracked and new files passed
-  `git diff --check` with the repository's normal line-ending configuration.
-  Frozen classic sources, archived research, and the historical house spec
-  are unchanged. No research measurement or deployment occurred during validation.
-
-**Previous slice validation, 2026-09-06 (historical):** Windows, Node 24.18.0, pnpm **10.33.0** via
-temporary Corepack shims (including Turbo child processes), against
-`bb6677439c159a9b53ce3a5029982f667c4a99d4` plus the then-uncommitted setup/core/EP
-slice, subsequently committed as `0f01a2b8e23c3e14e293650e579f79e5b2d4a7f1`:
-
-- `pnpm lint`: passed across all six packages.
-- `pnpm test`: **202 passed** (engine 147, bot 46, protocol 4, arena 5).
-- `pnpm build`: passed across all six packages, including the Vite app.
-- `pnpm --filter @li4chess/web test:e2e`: **2 passed**, human/CPU play and
-  four-CPU autoplay. Only non-failing npm environment/colour warnings.
-- Turbo caching was bypassed for fresh lint/test/build execution. The initial
-  baseline `pnpm test` was a cached 91-test run, not fresh baseline evidence.
-- A separate strict TypeScript check of the new fixture files found tuple
-  inference errors omitted by source-only lint. Those were corrected; the
-  fixture type-check and 52 affected setup/core cases then passed.
-- Sandbox attempts initially blocked esbuild's parent-directory reads and the
-  pinned package-manager download. Approved reruns outside the restriction
-  passed; the host wrapper's pnpm 11.19.0 was not used for final validation.
-- Final diff review found no unrelated implementation changes. All 144 local
-  links across 18 Markdown files resolved; tracked and new files passed
-  `git diff --check`. The frozen specification matches its producing revision
-  (apart from its provenance preface and line endings); classic sources and
-  archived research have no changes.
+[CI run 34052398852](https://github.com/ariesyous/li4chess/actions/runs/34052398852)
+passed on final implementation commit `e0adfd5b79f5f16c1a8283355e946725bcb1461d`
+using Ubuntu/Node 24 and pinned pnpm: install, lint, unit tests, build and browser
+tests all succeeded. Local links (197 across 24 Markdown files), diff checks and
+frozen-path checks also passed. This closeout changes documentation only; CI on
+its pushed revision is checked again before ending the goal. No merge or deployment.
 
 ## Accepted decisions
 
@@ -199,6 +91,7 @@ slice, subsequently committed as `0f01a2b8e23c3e14e293650e579f79e5b2d4a7f1`:
 | D08 | 2026-09-06 | The game UI/UX should take a board-first, four-player-panel reference direction similar in interaction quality to the observed Chess.com FFA client, while using original li4chess design and accessible non-colour cues. |
 | D09 | 2026-09-06 | M3 will start with a Cloudflare-native architecture: React/Vite via Workers Static Assets, a TypeScript Worker API, one authoritative `GameRoom` Durable Object per active game with WebSockets, and D1 as the initial canonical SQL store. Local development uses Wrangler, Vite, and workerd on Windows; deployment targets Cloudflare's GitHub build integration. R2, Queues, Containers, PostgreSQL, or other infrastructure require demonstrated need. M3-01 must validate this direction in an architecture spike and ADR before implementation. |
 | D10 | 2026-09-06 | Accept the M1-02 standard-FFA migration contract as written: the five product identifiers, replay v2 invariants, canonical state/hash policy, and provenance-based legacy classification are authoritative for M1-03. Acceptance does not claim the target ruleset is implemented; `li4chess-ffa-standard-v1` remains reserved until its fixtures and implementation pass. |
+| D11 | 2026-09-06 | Clarify standard FFA SCORE attribution: active checking owners split +20 equally at scheduled mate, nonchecking escape-blockers get zero; the last actor changing legal moves from positive to zero determines self/opponent stalemate, rescue clears that cause; other-owner checking pieces never contribute to mover multi-check count or Queen tier. [Acceptance cases](m1-score-acceptance.md). |
 
 The seven-milestone sequence and architecture details in the roadmap are the
 working implementation plan. Revise them when evidence warrants it; distinguish
@@ -206,14 +99,14 @@ such revisions from changes to the maintainer's accepted product decisions.
 
 ## Next actionable tasks
 
-Continue M1-03 with executable fixtures before each behavior change; M3-01 is
-the first M3 task when that milestone becomes actionable.
+The authorized M1 goal is finished. M2-01 is the next local-play task when
+separately authorized; M3-01 is the first M3 task when that milestone becomes actionable.
 
 | ID | Task | Done when |
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, and passive DEAD slices implemented; [coverage and exact next slice](m1-03-fixtures.md). Proposed next: fixture-first `FFA-PROMO-01..08`. Complete only when all M1 exit criteria and repository validation pass; historical evidence remains intact. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **Complete 2026-09-06.** All rule groups, REPLAY, complete games and consumers are implemented and independently reviewed. [Coverage](m1-03-fixtures.md), fresh full local checks and final implementation CI satisfy the M1 exit criteria. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |
@@ -227,7 +120,7 @@ as measurements of the new ruleset.
 
 | ID | Question | Working proposal / next step | Needed by |
 | --- | --- | --- | --- |
-| Q2 | Which launch time controls and disconnect/abort details? | Start with few queues; verify Chess.com behavior before choosing compatible defaults. | M1 audit / M3 clocks |
+| Q2 | Which launch time controls? | Rule-level disconnect/abort facts are settled and implemented locally; choose online queue controls and authoritative clocks in M3. | M3 clocks |
 | Q3 | Must rating calculations exactly match Chess.com's? | Rules compatibility is accepted. Use its rating overview as a reference; document ties, parameters, and corrections before choosing an implementation. | M4 |
 | Q4 | Which Cloudflare plan, data location, budget ceiling, and load target meet the release needs? | M3-01 verifies current limits and pricing without purchasing or provisioning. Set the concrete budget/load gate when deployment becomes actionable; leave the D1-to-PostgreSQL fallback evidence-based. | M3 architecture / M4 release gate |
 | Q5 | How should mixed online human/CPU games work? | Local anonymous CPU play is required. Shared online CPUs are optional; propose explicit opt-in, labels, server ownership, and exclusion from human rating pools. | Before adding online CPU seats |
@@ -235,10 +128,10 @@ as measurements of the new ruleset.
 Q1 (anonymous rating eligibility) is resolved by D07. Q6 (remaining rule
 evidence), Q7 (authoritative-randomness replay fields), and the M1-02 contract
 gate are resolved by D10. M3 must supply server authority for those replay fields.
-No unresolved question blocks beginning M1-03. Only ask for decisions when the
+No unresolved question blocks M1 completion. Only ask for decisions when the
 current work depends on them; do not reopen already accepted requirements.
 
-## Evidence and validation
+## Historical evidence and validation
 
 - Baseline validation earlier in this conversation on 2026-09-06: `pnpm lint`,
   all **91 unit tests**, `pnpm build`, and **2 Playwright tests** passed against

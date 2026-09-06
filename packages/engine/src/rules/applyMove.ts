@@ -3,24 +3,20 @@ import {
   ALL_COLORS,
   GameState,
   Move,
+  PieceType,
   PlayerColor,
   PlayerState,
   nextColor,
 } from "../types.js";
 import { applyMoveToBoard } from "./boardOps.js";
-import { isPlayerInCheck } from "./check.js";
 import {
-  computeDrawResult,
-  computeGameResult,
-  countActive,
   recomputeCastlingRights,
 } from "./elimination.js";
-import { hasLegalMove } from "./legality.js";
-import { positionKey, REPETITION_DRAW_COUNT } from "./repetition.js";
-import { PIECE_VALUES } from "./scoring.js";
-import { enPassantRightsAfterMove, remainingEnPassantRights } from "./enPassant.js";
-
-const MAX_ROTATION_STEPS = 4;
+import { resolveDraws } from "./draw.js";
+import { awardPoints, captureValue, multiCheckPoints } from "./scoring.js";
+import { enPassantRightsAfterMove } from "./enPassant.js";
+import { resolveScheduledTurns } from "./turn.js";
+import { updateNoMoveCauses } from "./causation.js";
 
 /**
  * Applies a legal move to produce the next GameState: moves/captures/promotes/
@@ -31,13 +27,10 @@ const MAX_ROTATION_STEPS = 4;
  */
 export function applyMove(state: GameState, move: Move): GameState {
   assertLocalMigrationState(state);
+  if (state.result) throw new Error("Cannot move in a finished game");
   const board = applyMoveToBoard(state.board, move);
 
   const players: Record<PlayerColor, PlayerState> = { ...state.players };
-  if (move.captured && state.players[move.captured.owner].status === "active") {
-    const mover = players[move.piece.owner];
-    players[move.piece.owner] = { ...mover, score: mover.score + PIECE_VALUES[move.captured.type] };
-  }
 
   const castlingRights = { ...state.castlingRights };
   for (const color of ALL_COLORS) {
@@ -48,7 +41,11 @@ export function applyMove(state: GameState, move: Move): GameState {
   const turnNumber = state.turnNumber + 1;
 
   let working: GameState = {
-    rulesetId: null,
+    ...state,
+    reversibleMoves: move.piece.type===PieceType.Pawn || move.captured ? 0 : state.reversibleMoves+1,
+    completedMoves: { ...state.completedMoves,[move.piece.owner]:state.completedMoves[move.piece.owner]+1 },
+    eventSequence: state.eventSequence + 1,
+    awardLedger: state.awardLedger,
     board,
     players,
     turn: state.turn,
@@ -60,52 +57,19 @@ export function applyMove(state: GameState, move: Move): GameState {
     positionCounts: state.positionCounts,
   };
 
-  const eliminated: PlayerColor[] = [];
-  let candidate = nextColor(move.piece.owner);
-  for (let step = 0; step < MAX_ROTATION_STEPS; step++) {
-    if (countActive(working.players) <= 1) break;
-    if (working.players[candidate].status !== "active") {
-      candidate = nextColor(candidate);
-      continue;
-    }
-
-    if (hasLegalMove(working, candidate)) {
-      working = { ...working, turn: candidate };
-      break;
-    }
-
-    const inCheck = isPlayerInCheck(working, candidate);
-    const nextPlayers: Record<PlayerColor, PlayerState> = { ...working.players };
-    nextPlayers[candidate] = {
-      ...nextPlayers[candidate],
-      status: inCheck ? "checkmated" : "stalemated",
-      eliminatedOnTurn: turnNumber,
-    };
-    if (inCheck) eliminated.push(candidate);
-    working = {
-      ...working,
-      players: nextPlayers,
-      castlingRights: { ...working.castlingRights, [candidate]: { kingside: false, queenside: false } },
-    };
-    working = { ...working, enPassantRights: remainingEnPassantRights(working) };
-    candidate = nextColor(candidate);
+  const causeSequence = working.eventSequence;
+  working = updateNoMoveCauses(state,working,move.piece.owner,causeSequence);
+  if (state.players[move.piece.owner].status === "active" && move.captured && state.players[move.captured.owner].status === "active") {
+    working = awardPoints(working,"capture",move.piece.owner,captureValue(move.captured),causeSequence);
   }
+  if (state.players[move.piece.owner].status === "active") working = awardPoints(working,"multi-check",move.piece.owner,multiCheckPoints(state,working,move),causeSequence);
 
-  if (countActive(working.players) <= 1) {
-    working = { ...working, result: computeGameResult(working.players) };
-  }
+  const resolved = resolveScheduledTurns(working,nextColor(move.piece.owner),causeSequence);
+  working = resolved.state;
 
-  // Threefold repetition: the same position (board + turn + castling rights +
-  // en passant rights + player statuses) recurring 3 times draws the game,
-  // even if the elimination check above didn't already end it.
-  const key = positionKey(working);
-  const count = (working.positionCounts[key] ?? 0) + 1;
-  working = { ...working, positionCounts: { ...working.positionCounts, [key]: count } };
-  if (working.result === null && count >= REPETITION_DRAW_COUNT) {
-    working = { ...working, result: computeDrawResult(working.players) };
-  }
+  working=resolveDraws(working,causeSequence);
 
-  const recordedMove: Move = { ...move, eliminates: eliminated };
+  const recordedMove: Move = { ...move, eliminates: resolved.eliminated };
   working = { ...working, moveHistory: [...state.moveHistory, recordedMove] };
 
   return working;

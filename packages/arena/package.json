@@ -15,6 +15,7 @@
     "report": "vite-node src/report.ts"
   },
   "dependencies": {
+    "@li4chess/protocol": "workspace:*",
     "@li4chess/engine": "workspace:*",
     "@li4chess/bot": "workspace:*"
   },

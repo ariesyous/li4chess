@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ALL_COLORS, GameState, PlayerColor, legalMoves, positionKey, pseudoLegalMoves } from "../src/index.js";
-import { K, N, P, R, colorAt, kings, play, position, quiet, sq } from "./ffa-helpers.js";
+import { K, N, P, Q, R, colorAt, kings, play, position, quiet, sq } from "./ffa-helpers.js";
 
 for (const rotation of ALL_COLORS) describe(`FFA en passant: ${PlayerColor[rotation]}`, () => {
   const s = (f: number, r: number) => sq(rotation, f, r);
@@ -20,7 +20,10 @@ for (const rotation of ALL_COLORS) describe(`FFA en passant: ${PlayerColor[rotat
       expect(epMoves(state).map(m => [m.from,m.to,m.enPassantCapture])).toEqual([[s(f,r),s(6,2),s(6,3)]]);
       state = play(state, rotation, [f,r], [6,2]);
       expect(state.board[s(6,3)]).toBeNull();
-      expect(state.board[s(6,2)]).toEqual({ type:P, owner:c(owner), hasMoved:true });
+      // In this Red frame Green moves from file 7 to file 6: its eighth
+      // rank. Accepted PROMO now makes that EP capturer a one-point Queen.
+      expect(state.board[s(6,2)]).toEqual({ type:owner === 3 ? Q : P, owner:c(owner), hasMoved:true,
+        ...(owner === 3 ? { promotedFrom:P } : {}) });
       expect(state.players[c(owner)].score).toBe(1);
       expect(state.enPassantRights).toEqual([]);
     }

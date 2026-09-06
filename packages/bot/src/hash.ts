@@ -12,14 +12,15 @@ function token(key: string): bigint {
 const pieceKeys = new Map<string,bigint>();
 function pieceKey(square: number, piece: Piece | null): bigint {
   if (!piece) return 0n;
-  const key = `${square}:${piece.owner}:${piece.type}:${+piece.hasMoved}`;
+  const key = `${square}:${piece.owner}:${piece.type}:${+piece.hasMoved}:${piece.promotedFrom ?? ""}`;
   let value = pieceKeys.get(key);
   if (value === undefined) { value = token(key); pieceKeys.set(key,value); }
   return value;
 }
 function metadata(s: GameState): string {
-  return JSON.stringify([s.rulesetId,s.turn,s.turnNumber,s.enPassantRights,
-    ALL_COLORS.map(c=>[s.players[c].status,s.players[c].score,s.players[c].eliminatedOnTurn ?? null,
+  return JSON.stringify([s.rulesetId,s.turn,s.turnNumber,s.enPassantRights,s.eventSequence,s.awardLedger,
+    s.completedMoves,s.randomSeed,s.randomDrawIndex,s.randomActions,s.reversibleMoves,
+    ALL_COLORS.map(c=>[s.players[c].status,s.players[c].kingStatus,s.players[c].forfeit,s.players[c].noMoveCause,s.players[c].score,s.players[c].eliminatedOnTurn ?? null,
       s.castlingRights[c].kingside,s.castlingRights[c].queenside]),s.result,
     Object.entries(s.positionCounts).sort(([a],[b])=>a < b ? -1 : a > b ? 1 : 0)]);
 }

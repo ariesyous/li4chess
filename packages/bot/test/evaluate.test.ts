@@ -27,15 +27,15 @@ describe("evaluate", () => {
     }
   });
   it("evaluateMaterial is identical (and symmetric) for every color in the starting position", () => {
-    // Each side starts with the same total material (39), and the score is
+    // Each side starts with the same total material (43), and the score is
     // "mine minus the combined total of all 3 opponents" — so it's negative
-    // for everyone at the start (39 - 3*39 = -78), but identically so.
+    // for everyone at the start (43 - 3*43 = -86), but identically so.
     const state = createInitialState();
     const values = [PlayerColor.Red, PlayerColor.Blue, PlayerColor.Yellow, PlayerColor.Green].map((color) =>
       evaluateMaterial(state, color)
     );
     expect(values.every((v) => v === values[0])).toBe(true);
-    expect(values[0]).toBe(39 - 3 * 39);
+    expect(values[0]).toBe(43 - 3 * 43);
   });
 
   it("evaluateMaterial rewards having more material than the combined opponents", () => {

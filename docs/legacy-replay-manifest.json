@@ -1,0 +1,759 @@
+{
+  "format": "li4chess-legacy-manifest-v1",
+  "recordedOn": "2026-09-06",
+  "policy": "Read-only quarantine. These hashes preserve current archived bytes. No record was replayed or reaggregated under standard-v1.",
+  "artifacts": [
+    {
+      "path": "docs/engine/results/ablation-bench.json",
+      "sha256": "46d606d601751b7f9db236fb9cc00cd7cc45181b31d7a394b61176a38dcfaa40",
+      "bytes": 29465
+    },
+    {
+      "path": "docs/engine/results/baseline-smoke-games.jsonl.gz",
+      "sha256": "8209fed05dfe4d1ea2b898c991a2a66606c138556e5766e702e493e9a03b664e",
+      "bytes": 12482,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 4,
+      "seeds": [
+        1
+      ],
+      "engineConfigurations": [
+        {
+          "id": "classic-v1-level1",
+          "config": {
+            "level": 1,
+            "maxDepth": 1,
+            "randomness": 0.5,
+            "topK": 5,
+            "evalWeights": {
+              "material": 1,
+              "kingSafety": 0,
+              "centerControl": 0,
+              "mobility": 0,
+              "threatBalance": 0,
+              "survivalBias": 0,
+              "pawnAdvancement": 0
+            }
+          }
+        },
+        {
+          "id": "random-v1"
+        }
+      ],
+      "observedMaximumPlies": 80.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json"
+      ],
+      "environment": null,
+      "declaredBudget": null
+    },
+    {
+      "path": "docs/engine/results/benchmark.json",
+      "sha256": "e57ec6e5d6fe542f948218953cac0bc270b2d45bd2e6d8e4a3f8ab11acafca7c",
+      "bytes": 22666
+    },
+    {
+      "path": "docs/engine/results/classic-timeout.json",
+      "sha256": "68628a8f6ea93dd1c54bd1371921a15e134bc23c86ab0ac99a2e284e05676e5a",
+      "bytes": 118
+    },
+    {
+      "path": "docs/engine/results/classic-timings.jsonl",
+      "sha256": "c6ac1d883ef2af3b98c1fc31bfe103e67520895ef862b90ce1746c62b8959ae7",
+      "bytes": 1425
+    },
+    {
+      "path": "docs/engine/results/classic-watchdog.jsonl",
+      "sha256": "0bb6eedb6d14f77bd152481db225e56beddfb1071f9472064c30d8eda14f4046",
+      "bytes": 1612
+    },
+    {
+      "path": "docs/engine/results/earlier-benchmark.json",
+      "sha256": "a428e1c2c5037e49cb77d5262c2a0b60851fc69dd0ae75647e202a117305c8f1",
+      "bytes": 22653
+    },
+    {
+      "path": "docs/engine/results/game-summaries.json",
+      "sha256": "0cccd84e1b99fe85371b2fb6d2c0d6c1a08477f7cd309acd2d223ba545f0992e",
+      "bytes": 54875
+    },
+    {
+      "path": "docs/engine/results/manifest.json",
+      "sha256": "995a877a67e52d6a4de324e7b0a6b3511818643f9554eafa73e49242ad228b28",
+      "bytes": 4720
+    },
+    {
+      "path": "docs/engine/results/opening-v1-ablation-bench.json",
+      "sha256": "1b313069107a32dc52aec5ecc69497cc75b58c150b45f0fa133beadbe33d8c55",
+      "bytes": 29425
+    },
+    {
+      "path": "docs/engine/results/opening-v1-EXP-1.jsonl.gz",
+      "sha256": "8b62f469e07e0209fb3f68f405ba93688b999765808481c2d788cbeb2770ad70",
+      "bytes": 16512,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 4,
+      "seeds": [
+        1
+      ],
+      "engineConfigurations": [
+        {
+          "id": "classic-v1-level1",
+          "config": {
+            "level": 1,
+            "maxDepth": 1,
+            "randomness": 0.5,
+            "topK": 5,
+            "evalWeights": {
+              "material": 1,
+              "kingSafety": 0,
+              "centerControl": 0,
+              "mobility": 0,
+              "threatBalance": 0,
+              "survivalBias": 0,
+              "pawnAdvancement": 0
+            }
+          }
+        },
+        {
+          "id": "lab-id",
+          "config": {
+            "maxDepth": 2,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 80.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/opening-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 80,
+        "seedCount": 1
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/opening-v1-EXP-2.jsonl.gz",
+      "sha256": "4b8e4a97f879999da8da79c27e28c241917d8efe486e00dc3e12b3df53eb4ca6",
+      "bytes": 23034,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 4,
+      "seeds": [
+        1
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-fixed",
+          "config": {
+            "maxDepth": 2,
+            "iterative": false,
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-id",
+          "config": {
+            "maxDepth": 2,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 80.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/opening-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 80,
+        "seedCount": 1
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/opening-v1-EXP-3.jsonl.gz",
+      "sha256": "f01ae7908d58e8b438c657d2757b5665d276929307cc07ffc9f4081b4bc29de1",
+      "bytes": 22634,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 4,
+      "seeds": [
+        1
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-id",
+          "config": {
+            "maxDepth": 2,
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-tt",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 80.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/opening-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 80,
+        "seedCount": 1
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/opening-v1-EXP-4.jsonl.gz",
+      "sha256": "c864a1844cec7d466629e7969a454119df8ae3f919481089b712d8f5edfd245a",
+      "bytes": 22850,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 4,
+      "seeds": [
+        1
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-order",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "ordering": "enhanced",
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-tt",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 80.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/opening-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 80,
+        "seedCount": 1
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/opening-v1-EXP-5.jsonl.gz",
+      "sha256": "114cb458d5c9694efdf926bbf5163744f2775c81ccdf752917cdec0909a189b8",
+      "bytes": 23347,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 4,
+      "seeds": [
+        1
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-order",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "ordering": "enhanced",
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-q",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "ordering": "enhanced",
+            "quiescenceDepth": 2,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 80.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/opening-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 80,
+        "seedCount": 1
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/opening-v1-EXP-6.jsonl.gz",
+      "sha256": "66c77d9235aece28e375223af819e646144287593d99e318ed898232d3762a41",
+      "bytes": 23163,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 4,
+      "seeds": [
+        1
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-maxn",
+          "config": {
+            "maxDepth": 2,
+            "ordering": "enhanced",
+            "strategy": "maxn",
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-paranoid-order",
+          "config": {
+            "maxDepth": 2,
+            "ordering": "enhanced",
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 80.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/opening-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 80,
+        "seedCount": 1
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/opening-v1-manifest.json",
+      "sha256": "115168a891571341999461a92e99a2e74bbcd5b386af79978cc98a894f768974",
+      "bytes": 1023
+    },
+    {
+      "path": "docs/engine/results/profile-summary.json",
+      "sha256": "ee8629ca54c08eca8c361fe754041041eea6227ea73b934ba899bf243037021b",
+      "bytes": 4633
+    },
+    {
+      "path": "docs/engine/results/relative-v1-bench.json",
+      "sha256": "3c123315c2de27fc84365fdcae6038f5717883f603afc0f8d29ea3cfd970082d",
+      "bytes": 4760
+    },
+    {
+      "path": "docs/engine/results/relative-v1-games.jsonl.gz",
+      "sha256": "eee8851412925aff73a99184e2335f0e9e1624780b0484f390ce001bf9a49768",
+      "bytes": 113036,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 8,
+      "seeds": [
+        11,
+        12
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-id-128",
+          "config": {
+            "maxDepth": 3,
+            "nodeBudget": 128
+          }
+        },
+        {
+          "id": "lab-relative-128",
+          "config": {
+            "maxDepth": 3,
+            "nodeBudget": 128,
+            "evaluator": "relative-material-v1"
+          }
+        }
+      ],
+      "observedMaximumPlies": 240.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json"
+      ],
+      "environment": null,
+      "declaredBudget": null
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-ablation-bench.json",
+      "sha256": "199933ae1972062844144080f2e8237bd29e5e09753ac9b510ecaf2188627864",
+      "bytes": 29436
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-EXP-1.jsonl.gz",
+      "sha256": "8403341fa2cc57c1af4362d306a5383b32ae2f4d7b2ded9a92dd5d26b8ebe1a3",
+      "bytes": 43269,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 8,
+      "seeds": [
+        1,
+        2
+      ],
+      "engineConfigurations": [
+        {
+          "id": "classic-v1-level1",
+          "config": {
+            "level": 1,
+            "maxDepth": 1,
+            "randomness": 0.5,
+            "topK": 5,
+            "evalWeights": {
+              "material": 1,
+              "kingSafety": 0,
+              "centerControl": 0,
+              "mobility": 0,
+              "threatBalance": 0,
+              "survivalBias": 0,
+              "pawnAdvancement": 0
+            }
+          }
+        },
+        {
+          "id": "lab-id",
+          "config": {
+            "maxDepth": 2,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 160.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/sparse-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 160,
+        "seedCount": 2
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-EXP-2.jsonl.gz",
+      "sha256": "5d334f9d589ed407fc006391d136412cc604e484828b5e0ba486f338da7edc37",
+      "bytes": 46119,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 8,
+      "seeds": [
+        1,
+        2
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-fixed",
+          "config": {
+            "maxDepth": 2,
+            "iterative": false,
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-id",
+          "config": {
+            "maxDepth": 2,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 160.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/sparse-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 160,
+        "seedCount": 2
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-EXP-3.jsonl.gz",
+      "sha256": "2f59ad6825810bb1ee5117ff59af38b41765a954395131d980c51368eaa021a6",
+      "bytes": 55759,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 8,
+      "seeds": [
+        1,
+        2
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-id",
+          "config": {
+            "maxDepth": 2,
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-tt",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 160.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/sparse-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 160,
+        "seedCount": 2
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-EXP-4.jsonl.gz",
+      "sha256": "2f41ff4b66867bf20c650c0302e114035067dcd55c73392afa0aed821aa006cd",
+      "bytes": 56553,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 8,
+      "seeds": [
+        1,
+        2
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-order",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "ordering": "enhanced",
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-tt",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 160.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/sparse-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 160,
+        "seedCount": 2
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-EXP-5.jsonl.gz",
+      "sha256": "cb99a3d139d33370bb036c8dc068e6d9b56aa685cc44c327c41db061dfd3a8ca",
+      "bytes": 46325,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 8,
+      "seeds": [
+        1,
+        2
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-order",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "ordering": "enhanced",
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-q",
+          "config": {
+            "maxDepth": 2,
+            "ttCapacity": 2000,
+            "ordering": "enhanced",
+            "quiescenceDepth": 2,
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 160.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/sparse-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 160,
+        "seedCount": 2
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-EXP-6.jsonl.gz",
+      "sha256": "bce4f916ec2461bde738ff67053372020c5f2c34b3d7a8953b8642500ff87725",
+      "bytes": 56247,
+      "format": "legacy-arena-v1",
+      "classification": "unclassified",
+      "producingRevision": null,
+      "claimedBaseline": "867b4cb6e4599e9fd006cde1951309bb90b27718",
+      "provenanceReason": "Archive declares a baseline, not an immutable producing revision plus dirty-tree identity. Default replay and aggregation reject; use producing-revision evidence before reclassification.",
+      "games": 8,
+      "seeds": [
+        1,
+        2
+      ],
+      "engineConfigurations": [
+        {
+          "id": "lab-maxn",
+          "config": {
+            "maxDepth": 2,
+            "ordering": "enhanced",
+            "strategy": "maxn",
+            "nodeBudget": 64
+          }
+        },
+        {
+          "id": "lab-paranoid-order",
+          "config": {
+            "maxDepth": 2,
+            "ordering": "enhanced",
+            "nodeBudget": 64
+          }
+        }
+      ],
+      "observedMaximumPlies": 160.0,
+      "budgetProvenance": "Engine configurations above; suite cap/environment remain in the original suite manifest where present. Observed plies are not a claimed configured cap.",
+      "provenanceSources": [
+        "docs/engine/results/manifest.json",
+        "docs/engine/results/sparse-v1-manifest.json"
+      ],
+      "declaredBudget": {
+        "maxPlies": 160,
+        "seedCount": 2
+      },
+      "environment": {
+        "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+        "node": "v24.18.0",
+        "otherFacts": "Unavailable in this suite manifest"
+      }
+    },
+    {
+      "path": "docs/engine/results/sparse-v1-manifest.json",
+      "sha256": "f657f53ddf100dee698c3a53f47174d8a38274541c09eb08d721b391f259f19f",
+      "bytes": 1023
+    },
+    {
+      "path": "docs/engine/results/totals.json",
+      "sha256": "c62ac12850df17bc7af1c1db83a435def9ff444f84df38d183d412d51a67fbbd",
+      "bytes": 140
+    }
+  ]
+}

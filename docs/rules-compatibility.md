@@ -3,7 +3,10 @@
 **Task:** M1-01. **Retrieved:** 2026-09-06. **Implementation examined:**
 `5c089934d736bd19199875637a864e4bd395055b` plus the uncommitted planning
 documents present when this audit began. This is an audit of the current local
-house-rules engine; it does not change the ruleset.
+house-rules engine at that historical revision; it does not change the ruleset.
+Sections labelled **Current** below describe that audited baseline, not today's
+partial migration. Consult [the implemented rules](rules-spec.md) and
+[fixture coverage](m1-03-fixtures.md) for verified implementation progress.
 
 ## Scope and evidence
 
@@ -54,7 +57,7 @@ Evidence labels below mean:
   a custom variant, or an old community post for the result.
 
 The current behavior is documented by
-[the current house specification](rules-spec.md) and the linked source/tests.
+[the historical house specification](rules-spec-house-ffa-v1.md) and the linked source/tests.
 Tests demonstrate the implementation, not Chess.com compatibility. File links
 use the source tree's current paths and line ranges are intentionally avoided so
 this audit remains useful as the code changes.

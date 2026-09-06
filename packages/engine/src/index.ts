@@ -12,3 +12,8 @@ export * from "./rules/repetition.js";
 export * from "./rules/applyMove.js";
 export * from "./api.js";
 export * from "./stateFormat.js";
+export * from "./rules/live.js";
+export * from "./rules/forfeit.js";
+export * from "./rules/walking.js";
+export * from "./rules/finish.js";
+export * from "./rules/draw.js";

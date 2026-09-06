@@ -1,4 +1,4 @@
-import { GameState, Move, PlayerColor, PIECE_VALUES, applyMove, legalMoves, isPlayerInCheck } from "@li4chess/engine";
+import { GameState, Move, PlayerColor, PIECE_VALUES, advanceWalkingKing, applyMove, legalMoves, isPlayerInCheck,claimSecuresSoleWin,claimWin } from "@li4chess/engine";
 import { evaluateUtility, evaluateVector, terminalUtility, UtilityFn, UtilityVector } from "./utility.js";
 import { positionHash, searchSignature, TranspositionTable } from "./hash.js";
 
@@ -80,6 +80,11 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
     checkBudget(); stats.nodes++; stats.qNodes++;
     const stand=evaluate(s,root); stats.leaves++;
     if (!depth || s.result) return {value:stand,pv:[]};
+    if (claimSecuresSoleWin(s,s.turn)) return { value:evaluate(claimWin(s,s.turn),root),pv:[] };
+    if (s.players[s.turn].kingStatus === "walking") {
+      const after = advanceWalkingKing(s), child = quiescence(after,depth-1,alpha,beta);
+      return { value:child.value,pv:[after.randomActions.at(-1)!.move,...child.pv] };
+    }
     const inCheck=isPlayerInCheck(s,s.turn), max=s.turn===root;
     let value=inCheck ? (max ? -Infinity : Infinity) : stand;
     let pv:Move[]=[];
@@ -100,6 +105,11 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
     if (depth === 0 && options.quiescenceDepth && !s.result) return quiescence(s,options.quiescenceDepth,alpha,beta);
     checkBudget(); stats.nodes++;
     if (depth === 0 || s.result) { stats.leaves++; return { value: evaluate(s,root), pv: [] }; }
+    if (claimSecuresSoleWin(s,s.turn)) return { value:evaluate(claimWin(s,s.turn),root),pv:[] };
+    if (s.players[s.turn].kingStatus === "walking") {
+      const after = advanceWalkingKing(s), child = paranoid(after,depth-1,alpha,beta);
+      return { value:child.value,pv:[after.randomActions.at(-1)!.move,...child.pv] };
+    }
     const originalAlpha = alpha, originalBeta = beta;
     const hash = options.ttCapacity ? positionHash(s) : 0n;
     const signature = options.ttCapacity ? searchSignature(s) : "";
@@ -138,6 +148,11 @@ export function searchPosition(state: GameState, options: LabOptions): LabResult
   function maxn(s: GameState, depth: number): { vector: UtilityVector; pv: Move[] } {
     checkBudget(); stats.nodes++;
     if (depth === 0 || s.result) { stats.leaves++; return { vector: evaluateVector(s,evaluate), pv: [] }; }
+    if (claimSecuresSoleWin(s,s.turn)) return { vector:evaluateVector(claimWin(s,s.turn),evaluate),pv:[] };
+    if (s.players[s.turn].kingStatus === "walking") {
+      const after = advanceWalkingKing(s), child = maxn(after,depth-1);
+      return { vector:child.vector,pv:[after.randomActions.at(-1)!.move,...child.pv] };
+    }
     const moves = ordered(generate(s),s.turn,depth);
     if (!moves.length) throw new Error("Oracle supplied active turn without legal moves");
     let best: { vector: UtilityVector; pv: Move[] } | undefined;

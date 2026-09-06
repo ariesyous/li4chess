@@ -1,9 +1,9 @@
 import { ALL_COLORS, GameState, Move, Piece, PieceType, PlayerColor } from "../types.js";
 import { kingPathSquares } from "../movegen/castling.js";
 import { pseudoLegalMoves } from "../movegen/index.js";
-import { isSquareAttacked } from "./attacks.js";
 import { applyMoveToBoard } from "./boardOps.js";
-import { activePlayersExcept, isInCheck } from "./check.js";
+import { activePlayersExcept, isPlayerInCheck,isAttackedByLiveOpponent } from "./check.js";
+import { isLivePiece } from "./live.js";
 
 /**
  * Castling path restrictions, own-king safety, and active-king non-capture.
@@ -16,17 +16,17 @@ function boardAfterIfLegal(
   opponents: readonly PlayerColor[]
 ): readonly (Piece | null)[] | null {
   const target = state.board[move.to];
-  if (target?.type === PieceType.King && state.players[target.owner].status === "active") return null;
+  if (target?.type === PieceType.King && isLivePiece(state,target)) return null;
   if (move.castle !== undefined) {
-    if (isInCheck(state.board, color, opponents)) return null;
+    if (isPlayerInCheck(state,color)) return null;
     const path = kingPathSquares(color, move.castle);
-    if (path.some((square) => opponents.some((opp) => isSquareAttacked(state.board, square, opp)))) {
+    if (path.some((square) => isAttackedByLiveOpponent(state,square,color))) {
       return null;
     }
   }
 
   const resultingBoard = applyMoveToBoard(state.board, move);
-  return isInCheck(resultingBoard, color, opponents) ? null : resultingBoard;
+  return isPlayerInCheck({ ...state,board:resultingBoard },color) ? null : resultingBoard;
 }
 
 /**
@@ -48,7 +48,7 @@ export function legalMoves(state: GameState, color: PlayerColor = state.turn): M
     // specific move directly attacks) — with fixed turn rotation, a king can be
     // in check from an earlier discovered attack while a different player's
     // turn intervenes, and callers (UI, checkmate detection) need to see that.
-    const isCheck = opponents.filter((opp) => isInCheck(resultingBoard, opp, activePlayersExcept(state, opp)));
+    const isCheck = opponents.filter((opp) => isPlayerInCheck({ ...state,board:resultingBoard },opp));
     result.push({ ...move, isCheck });
   }
 

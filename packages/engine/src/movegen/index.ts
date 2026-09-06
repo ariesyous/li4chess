@@ -5,6 +5,7 @@ import { BISHOP_DIRECTIONS, KING_DELTAS, KNIGHT_DELTAS, QUEEN_DIRECTIONS, ROOK_D
 import { leaperDestinations } from "./leapers.js";
 import { pawnMoves } from "./pawns.js";
 import { slidingDestinations } from "./sliding.js";
+import { hasLiveKing,isLivePiece } from "../rules/live.js";
 
 export * from "./directions.js";
 export * from "./castling.js";
@@ -30,13 +31,13 @@ function movesTo(from: number, destinations: number[], piece: Piece, board: read
  * filtering happens in the legality module (task 4).
  */
 export function pseudoLegalMoves(state: GameState, color: PlayerColor = state.turn): Move[] {
-  if (state.players[color].status !== "active") return [];
+  if (!hasLiveKing(state,color)) return [];
   const { board } = state;
   const moves: Move[] = [];
 
   for (const from of VALID_SQUARES) {
     const piece = board[from];
-    if (piece === null || piece.owner !== color) continue;
+    if (piece === null || piece.owner !== color || !isLivePiece(state,piece)) continue;
 
     switch (piece.type) {
       case PieceType.Pawn:

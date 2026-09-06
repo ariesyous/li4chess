@@ -1,4 +1,4 @@
-import { ALL_COLORS, PlayerColor, isPlayerInCheck } from "@li4chess/engine";
+import { ALL_COLORS, PlayerColor, isPlayerInCheck, isLivePiece,hasLiveKing,canClaimWin } from "@li4chess/engine";
 import { Board, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
 import { useState } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
@@ -10,14 +10,14 @@ function squareLabel(square: number): string {
 }
 
 export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart: () => void }) {
-  const { state, selectedSquare, legalTargets, selectSquare } = useLocalGame(seats);
+  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim,exportReplay,importReplay,replayBusy,replayMessage } = useLocalGame(seats);
   const [rotateToMover, setRotateToMover] = useState(false);
 
   const lastMove = state.moveHistory[state.moveHistory.length - 1] ?? null;
-  const deadColors = new Set(ALL_COLORS.filter(color => state.players[color].status !== "active"));
-  const checkedColors = new Set(ALL_COLORS.filter(color => !deadColors.has(color) && isPlayerInCheck(state, color)));
+  const deadSquares = new Set(state.board.flatMap((piece,square)=>piece && !isLivePiece(state,piece) ? [square] : []));
+  const checkedColors = new Set(ALL_COLORS.filter(color => hasLiveKing(state,color) && isPlayerInCheck(state, color)));
   const justAffected = ALL_COLORS.filter(
-    (color) => state.players[color].eliminatedOnTurn === state.turnNumber
+    (color) => state.players[color].eliminatedOnTurn === state.turnNumber && ["checkmated","stalemated"].includes(state.players[color].status)
   );
 
   return (
@@ -30,7 +30,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
         selectedSquare={selectedSquare}
         legalTargets={legalTargets}
         checkedColors={checkedColors}
-        deadColors={deadColors}
+        deadSquares={deadSquares}
         lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
         bottomColor={rotateToMover ? state.turn : PlayerColor.Red}
       />
@@ -47,9 +47,10 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
               }}
             >
               {PLAYER_COLOR_NAME[color]}
-              {seats[color].isCPU ? ` (CPU L${seats[color].difficulty})` : " (You)"} — {state.players[color].status}
+              {state.players[color].isCPU ? ` (CPU L${state.players[color].cpuDifficulty ?? 3})` : " (You)"} — {state.players[color].status}
               {" · "}
               {state.players[color].score} pts
+              {state.players[color].kingStatus === "walking" ? " · King walks automatically" : ""}
             </li>
           ))}
         </ul>
@@ -75,11 +76,13 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
         {state.result ? (
           <div data-testid="game-result">
             <h3>
-              Game over
+              {state.result.reason === "abort" ? "Game aborted" : "Game over"}
               {state.result.reason === "repetition"
                 ? " — draw by threefold repetition"
-                : ""}
+                : state.result.reason === "insufficient-material" ? " — draw by insufficient material" : state.result.reason === "fifty-move" ? " — draw by 50-move rule" : ""}
             </h3>
+            {state.result.abort && <p>{PLAYER_COLOR_NAME[state.result.abort.actor]} {state.result.abort.classification === "early-resign" ? "resigned" : "timed out"} before every seat completed three moves. No placements are awarded.</p>}
+            {state.result.claim && <p>{PLAYER_COLOR_NAME[state.result.claim.actor]} claimed the win. {PLAYER_COLOR_NAME[state.result.claim.trailer]} received 20 points; play ends immediately.</p>}
             <ol style={{ paddingLeft: 20 }}>
               {state.result.placements.map((p) => (
                 <li
@@ -91,7 +94,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
                   }}
                 >
                   {p.place === 1 ? "🏆 " : ""}
-                  {PLAYER_COLOR_NAME[p.color]} — {p.score} pts
+                  {PLAYER_COLOR_NAME[p.color]} — {p.score} pts · place {p.place}{p.meanRank!==p.place ? " (shared)" : ""}
                 </li>
               ))}
             </ol>
@@ -110,8 +113,28 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
         <button type="button" onClick={onRestart} style={{ marginTop: 8 }}>
           New game
         </button>
+        <div style={{ marginTop:12 }}>
+          <button type="button" disabled={replayBusy} onClick={()=>void exportReplay()}>Export replay</button>
+          <label style={{ display:"block",marginTop:8 }}>Import replay
+            <input type="file" accept=".json,application/json" disabled={replayBusy} onChange={event=>{
+              const file=event.currentTarget.files?.[0];event.currentTarget.value="";
+              if (file) void importReplay(file);
+            }} />
+          </label>
+          {replayMessage && <p role="status" data-testid="replay-message">{replayMessage}</p>}
+        </div>
+        {!state.result && state.players[state.turn].status === "active" && <div style={{ marginTop:8 }}>
+          <button type="button" onClick={resign}>Resign {PLAYER_COLOR_NAME[state.turn]}</button>{" "}
+          <button type="button" onClick={timeout}>Simulate timeout</button>
+          <p style={{ fontSize:14 }}>A forfeit before every seat completes three moves aborts the game. Later, the army becomes dead and its King moves automatically. Timeout is a local action; this game has no running clock.</p>
+        </div>}
+        {ALL_COLORS.filter(color=>!state.players[color].isCPU && canClaimWin(state,color)).map(color=><div key={color}>
+          <button type="button" onClick={()=>claim(color)}>Claim Win for {PLAYER_COLOR_NAME[color]}</button>
+          <p>End now: the other active player receives 20 points. Final points determine placements.</p>
+        </div>)}
 
         <h3 style={{ marginTop: 24 }}>Move history</h3>
+        <p style={{ fontSize: 14 }}>Pawns automatically become Queens on their eighth rank. A promoted Queen is worth one capture point.</p>
         <ol
           data-testid="move-history"
           style={{ maxHeight: 300, overflowY: "auto", paddingLeft: 20, fontSize: 14, margin: 0 }}
@@ -126,6 +149,14 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
               {move.castle ? ` (${move.castle} castle)` : ""}
               {move.isCheck.length > 0 ? "+" : ""}
               {move.eliminates.length > 0 ? " ✝" : ""}
+            </li>
+          ))}
+        </ol>
+        <h3>Points</h3>
+        <ol data-testid="award-ledger" style={{ maxHeight: 160, overflowY: "auto", fontSize: 14 }}>
+          {state.awardLedger.map(award => (
+            <li key={award.sequence}>
+              {PLAYER_COLOR_NAME[award.recipient]} +{award.delta} {award.rule === "multi-check" ? "multiple kings checked" : award.rule} — {award.total} pts
             </li>
           ))}
         </ol>
