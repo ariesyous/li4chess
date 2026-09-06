@@ -15,6 +15,8 @@ import { canonicalJson, recordReplay, replayCheckpoint, resolveAction, serialize
 import type { ActionRequest } from "@li4chess/protocol";
 import { requestCpu } from "./cpuClient.js";
 import type { CpuFailure } from "./cpuClient.js";
+import { saveLocalGame } from "./localSave.js";
+import type { LocalJournal, ResumedGame } from "./localSave.js";
 
 export interface SeatSetup {
   readonly isCPU: boolean;
@@ -32,15 +34,15 @@ function toSeatConfig(seats: SeatSetups): SeatConfig {
   };
   const cpuDifficulty: Partial<Record<PlayerColor, number>> = {};
   for (const color of [PlayerColor.Red, PlayerColor.Blue, PlayerColor.Yellow, PlayerColor.Green]) {
-    if (seats[color].isCPU) cpuDifficulty[color] = seats[color].difficulty;
+    cpuDifficulty[color] = seats[color].difficulty;
   }
   return { isCPU, cpuDifficulty };
 }
 
 const CPU_MOVE_DELAY_MS = 400;
 
-export function useLocalGame(seats: SeatSetups) {
-  const [state, setState] = useState<GameState>(() => createInitialState(toSeatConfig(seats)));
+export function useLocalGame(seats: SeatSetups, resumed?: ResumedGame) {
+  const [state, setState] = useState<GameState>(() => resumed?.state ?? createInitialState(toSeatConfig(seats)));
   const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
   const [replayBusy,setReplayBusy] = useState(false);
   const [replayMessage,setReplayMessage] = useState("");
@@ -56,25 +58,36 @@ export function useLocalGame(seats: SeatSetups) {
   const mounted = useRef(true);
   const gameId = useRef(crypto.randomUUID());
   const currentState = useRef(state);
-  const journal = useRef<{ initial:GameState;requests:ActionRequest[];sourceReplayHash?:string }>({ initial:state,requests:[] });
+  const journal = useRef<LocalJournal>({ initial:state,requests:[], ...(resumed ? { sourceReplayHash: resumed.sourceReplayHash } : {}) });
+  const [saveMessage, setSaveMessage] = useState("");
+  const save = useCallback(() => {
+    try {
+      saveLocalGame(window.localStorage, journal.current, __ENGINE_BUILD__);
+      setSaveMessage("Saved on this browser. Resume from setup after refresh.");
+    } catch {
+      setSaveMessage("Could not save on this browser. Your latest moves may not survive refresh. Export a replay to keep them.");
+    }
+  }, []);
 
   const currentSeat = useMemo(()=>({ isCPU:state.players[state.turn].isCPU,difficulty:state.players[state.turn].cpuDifficulty ?? 3 }),[state]);
   const legal = useMemo(() => legalMoves(state, state.turn), [state]);
 
   useEffect(() => {
     mounted.current = true;
+    save();
     return () => { mounted.current = false; operation.current++; cancelCpu.current(); };
-  }, []);
+  }, [save]);
 
   const commit = useCallback((request:ActionRequest) => {
     if (!mounted.current || busy.current || currentState.current.result) return;
     const after = resolveAction(currentState.current,request).after;
     cancelCpu.current();
     journal.current.requests.push(request);
+    save();
     currentState.current=after;
     setState(after);
     setSelectedSquare(null);
-  }, []);
+  }, [save]);
   const play = useCallback((move:Move)=>commit({ type:"move",actor:currentState.current.turn,move }),[commit]);
 
   // Drive CPU turns automatically.
@@ -170,8 +183,9 @@ export function useLocalGame(seats: SeatSetups) {
     setCpuDiagnostics(null); setCpuNotice("");
     const initial=createInitialState(toSeatConfig(seats));
     currentState.current=initial;journal.current={ initial,requests:[] };setState(initial);
+    save();
     setSelectedSquare(null);
-  }, [seats]);
+  }, [seats,save]);
 
   const resign = useCallback(() => { if (!replayBusy) commit({ type:"resign",actor:currentState.current.turn }); },[commit,replayBusy]);
   const timeout = useCallback(() => { if (!replayBusy) commit({ type:"timeout",actor:currentState.current.turn,clock:{ remainingMs:0 } }); },[commit,replayBusy]);
@@ -204,11 +218,12 @@ export function useLocalGame(seats: SeatSetups) {
       setCpuDiagnostics(null); setCpuNotice("");
       currentState.current=recovered.state;
       journal.current={ initial:recovered.state,requests:[],sourceReplayHash:recovered.sourceReplayHash };
+      save();
       setState(recovered.state);setSelectedSquare(null);
       setReplayMessage(recovered.state.result ? "Finished replay loaded." : "Replay verified. Play can continue; exports retain a link to the imported replay.");
     } catch (error) { if (mounted.current && token === operation.current) setReplayMessage(error instanceof Error ? error.message : String(error)); }
     finally { if (mounted.current && token === operation.current) { busy.current = false; setReplayBusy(false); } }
-  },[]);
+  },[save]);
 
-  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuDiagnostics,cpuNotice };
+  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuDiagnostics,cpuNotice,save,saveMessage };
 }

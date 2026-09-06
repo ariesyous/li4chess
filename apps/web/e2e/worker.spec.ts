@@ -70,6 +70,18 @@ test("terminal action cancels an active real Worker", async ({ page }) => {
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
 });
 
+test("refresh during real active search resumes exactly one CPU turn with saved difficulty", async ({ page }) => {
+  await observeWorkers(page); await startRedCpu(page);
+  await page.reload();
+  await page.getByRole("button", { name: "Resume saved game" }).click();
+  await page.waitForFunction(() => window.cpuProbe.busy);
+  await expect(page.getByTestId("turn-status")).toContainText("Red to move");
+  await expect(page.getByTestId("turn-status")).toContainText("Blue to move", { timeout: 8000 });
+  await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
+  expect(await page.evaluate(() => window.cpuProbe.results)).toBe(1);
+  await expect(page.getByText("Red (CPU L5)", { exact: false })).toBeVisible();
+});
+
 for (const failure of ["constructor", "crash", "watchdog"] as const) {
   test(`${failure} recovery applies exactly one legal move`, async ({ page }) => {
     if (failure === "constructor") {

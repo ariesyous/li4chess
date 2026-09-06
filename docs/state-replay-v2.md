@@ -90,6 +90,33 @@ the deterministic remainder for a new producer's derived checkpoint. The local
 app pauses input/CPU scheduling during imports and rejects invalid files without
 replacing its current game.
 
+## Local browser save journal
+
+M2 stores one `li4chess-local-journal-v1` envelope at localStorage key
+`li4chess.local-game.v1`. It contains the initial **state-v2** checkpoint,
+strict `ActionRequest` intentions, the producing build and optional source replay hash.
+Stored move intentions contain only source, destination and optional Queen
+promotion; the engine regenerates derived piece/capture/check metadata. Unknown
+action fields and invalid local action/fact shapes reject before replay authoring.
+It is not a second rules-state format. Writes occur synchronously after each
+accepted action and atomically replace the key; manual Save game retries a failed
+write. A quota/security failure leaves play usable and reports that the latest
+moves might not survive refresh. The previous successfully written value remains.
+
+Resume saved game reads the envelope, validates the checkpoint through
+`deserializeGameState`, reconstructs actions/effects through `recordReplay` under
+the saved producer, then validates and recovers through `replayCheckpoint`.
+Only then is a new game component mounted. Its next export/save uses the current
+producer and a source hash of the recovered replay; saved producers are not
+relabelled. Seat settings, ordered awards, terminal/abort results and seeded
+random cursors remain in the validated state. Imported truncated transactions
+recover via the same M1 pending-effect boundary before becoming a local checkpoint.
+
+Refresh returns to setup; CPU computation resumes only after explicit Resume.
+Starting another game replaces the one local save. Browser data can be cleared
+by the user/browser; replay export remains the portable backup. This mechanism
+does not provide multi-device storage, network authority or account ownership.
+
 ## Local forfeit facts
 
 Timeout requires `clock: { remainingMs: 0 }`. Disconnect forfeit requires

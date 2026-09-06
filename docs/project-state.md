@@ -11,8 +11,8 @@ superseded handoffs.
 **M2 is in progress.** The current goal authorizes reviewed, validated successive
 slices through M2, commits and a draft PR; stop before M3. Acceptance inputs,
 expected outcomes and initial measurable thresholds are in
-[M2 acceptance](m2-acceptance.md). Slice 1 implements bounded production search
-and Worker lifecycle; persistence, interface and final evidence follow.
+[M2 acceptance](m2-acceptance.md). Slice 1 is committed as `839aa46`; slice 2
+implements validated local autosave/resume. Interface and final evidence follow.
 
 **M1 is complete.** M1-01/M1-02/M1-03 are complete and
 all D/O requirements in the accepted contract have executable coverage. The
@@ -57,9 +57,34 @@ recovery, without retries. Local Markdown file
 links: 201 resolved; `git diff --check` passed. These are correctness/lifecycle
 checks, not difficulty calibration or playing-strength measurements.
 
-Next: implement the validated synchronous local journal and explicit resume;
-then the accessible responsive game frame, production calibration and complete
+Next: validate/review/commit the synchronous local journal and explicit resume;
+then implement the accessible responsive game frame, production calibration and complete
 flows. M2 remains in progress. M3 is out of scope.
+
+## M2 slice 2: validated local save/resume
+
+Implemented from `839aa46` on 2026-09-06. One atomic synchronous local journal
+retains a state-v2 initial checkpoint, strict action intentions, producer and
+source replay hash. Resume rebuilds and validates through M1 replay-v2 before
+mounting the game; every accepted action autosaves, with an explicit retry control.
+Setup offers Resume saved game after refresh. Unavailable/corrupt/incompatible
+storage reports an error while play/setup/replay export remain usable. Human
+seat difficulty is retained as well as CPU difficulty.
+
+Fresh independent review found no blocking defect and requested added coverage
+for pending terminal recovery and obsolete resume completion. Both were added,
+alongside strict rejection of unknown journal action fields. The new cases
+verify interrupted award import → autosave → refresh → resume → export, exact
+awards/result/source lineage, and a latched old resume losing to Start game.
+Real active-search refresh preserves CPU L5 and applies exactly one resumed move.
+
+Fresh final checks on `839aa46` plus this slice, Windows/Node 24.18.0/pnpm 10.33.0:
+`pnpm lint --force`, `pnpm test --force` (**602 tests**), `pnpm build --force`,
+and `pnpm --filter @li4chess/web test:e2e` (**33 passed**, no retries) succeeded.
+All 202 local Markdown links resolved; diff formatting and preserved paths passed.
+An earlier browser run was stopped after concurrent source edits invalidated
+Vite fixture routes; the final full run used stable files. Next: game frame and
+accessibility, then calibration/complete-game evidence and final CI. M2 is incomplete.
 
 ## M1 implementation history
 

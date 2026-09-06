@@ -59,7 +59,12 @@ moves. Budgets and acceptance thresholds are in [M2 acceptance](docs/m2-acceptan
 calibration and complete M2 validation are pending. The former synchronous
 `chooseCpuMove` remains available to historical comparison consumers;
 the browser uses `chooseBoundedCpuMove`. This is not a playing-strength claim.
-Local persistence and the responsive accessible game frame are further M2 work;
+Games now save automatically on this browser after every accepted action. Use
+**Resume saved game** on setup after refreshing, or **Save game** to retry a failed
+save. Resume validates the state-v2 checkpoint and action journal through replay-v2,
+retaining seat difficulty, scores, randomness and producer lineage. Starting a new
+game replaces the one local save. Export a replay for a portable backup, especially
+if browser storage is unavailable. The responsive accessible game frame is further M2 work;
 network authority, live clocks and disconnect tracking are M3 work.
 
 ## Monorepo layout

@@ -10,13 +10,18 @@ const DEFAULT_SEATS: SeatSetups = {
   [PlayerColor.Green]: { isCPU: true, difficulty: 3 },
 };
 
-export function SeatSetupScreen({ onStart }: { onStart: (seats: SeatSetups) => void }) {
+export function SeatSetupScreen({ onStart, onResume, resumeBusy, resumeMessage }: {
+  onStart: (seats: SeatSetups) => void; onResume: () => void; resumeBusy: boolean; resumeMessage: string;
+}) {
   const [seats, setSeats] = useState<SeatSetups>(DEFAULT_SEATS);
 
   return (
     <div style={{ maxWidth: 480, margin: "0 auto", padding: 24, fontFamily: "system-ui, sans-serif" }}>
       <h1>li4chess</h1>
       <p>4-player free-for-all chess. Set up each seat, then start a local hotseat game.</p>
+      <button type="button" onClick={onResume} disabled={resumeBusy}>Resume saved game</button>
+      <p>Games save automatically on this browser. Starting a new game replaces the local save.</p>
+      {resumeMessage && <p role="status">{resumeMessage}</p>}
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {ALL_COLORS.map((color) => (
           <div

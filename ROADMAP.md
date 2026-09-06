@@ -113,8 +113,9 @@ implementing the replacement.
 ### M2 — Responsive local and CPU play
 
 **Status (2026-09-06):** authorized from merged M1 `7f2593c`. Bounded Worker
-implementation is the first slice. [Acceptance plan](docs/m2-acceptance.md)
-records inputs and thresholds before changes. Completion and calibration pending.
+implementation is committed as `839aa46`. Validated local autosave/resume is the
+second slice. [Acceptance plan](docs/m2-acceptance.md) records inputs and thresholds
+before changes. Interface work, full-game evidence and calibration remain pending.
 
 **Capabilities**
 

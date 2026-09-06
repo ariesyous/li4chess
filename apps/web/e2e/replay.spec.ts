@@ -77,6 +77,15 @@ test("an interrupted terminal award transaction recovers the exact final result"
   await expect(page.getByTestId("game-result")).toContainText("50-move rule");
   await expect(page.getByTestId("award-ledger").locator("li")).toHaveCount(4);
   expect((await exportGame(page)).result).toEqual(complete.result);
+  await page.reload();
+  await page.getByRole("button", { name: "Resume saved game" }).click();
+  await expect(page.getByTestId("game-result")).toContainText("50-move rule");
+  await expect(page.getByTestId("award-ledger").locator("li")).toHaveCount(4);
+  const resumed = await exportGame(page);
+  expect(resumed.result).toEqual(complete.result);
+  const savedCheckpoint = await recordReplay((await import("@li4chess/protocol")).engineState((await readReplay(complete)).state), [],
+    resumed.engineBuild, await sha256(canonicalJson(interrupted)));
+  expect(resumed.game.sourceReplayHash).toBe(await sha256(canonicalJson(savedCheckpoint)));
 });
 
 test("imported CPU ownership and difficulty drive scheduling in a human-configured game",async({page})=>{

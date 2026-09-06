@@ -2,6 +2,7 @@ import { ALL_COLORS, PlayerColor, isPlayerInCheck, isLivePiece,hasLiveKing,canCl
 import { Board, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
 import { useState } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
+import type { ResumedGame } from "../game/localSave.js";
 
 function squareLabel(square: number): string {
   const file = square % 14;
@@ -9,8 +10,8 @@ function squareLabel(square: number): string {
   return `${String.fromCharCode(97 + file)}${rank + 1}`;
 }
 
-export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart: () => void }) {
-  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuNotice } = useLocalGame(seats);
+export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; onRestart: () => void; resumed?: ResumedGame }) {
+  const { state, selectedSquare, legalTargets, selectSquare,resign,timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuNotice,save,saveMessage } = useLocalGame(seats,resumed);
   const [rotateToMover, setRotateToMover] = useState(false);
 
   const lastMove = state.moveHistory[state.moveHistory.length - 1] ?? null;
@@ -116,6 +117,8 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
           New game
         </button>
         <div style={{ marginTop:12 }}>
+          <button type="button" onClick={save}>Save game</button>
+          <p data-testid="save-message" role="status">{saveMessage}</p>
           <button type="button" disabled={replayBusy} onClick={()=>void exportReplay()}>Export replay</button>
           <label style={{ display:"block",marginTop:8 }}>Import replay
             <input type="file" accept=".json,application/json" disabled={replayBusy} onChange={event=>{
