@@ -56,7 +56,8 @@ search. Five resource policies retain production evaluation; only completed
 iterations drive evaluated choices. Cancellation terminates the Worker, replies
 must match the current game/state/seat, and failures recover from current legal
 moves. Budgets and acceptance thresholds are in [M2 acceptance](docs/m2-acceptance.md);
-calibration and complete M2 validation are pending. The former synchronous
+[fresh production calibration and complete-game evidence](docs/m2-evidence/README.md)
+cover all levels, four positions and desktop/tablet/phone browser sizes. The former synchronous
 `chooseCpuMove` remains available to historical comparison consumers;
 the browser uses `chooseBoundedCpuMove`. This is not a playing-strength claim.
 Games now save automatically on this browser after every accepted action. Use
@@ -163,7 +164,7 @@ matchmaking, learning tools, community events, and a sustainable open platform.
 current focus, the next actionable tasks, open questions, and dated validation
 between development sessions. M1 is complete; see the
 [fixture coverage](docs/m1-03-fixtures.md).
-Production budget calibration and complete-game validation remain in M2. Research continues
+M2 implementation and evidence are ready for final CI verification. Research continues
 alongside the product roadmap with versioned, reproducible evidence.
 
 See [AGENTS.md](AGENTS.md) for repository conventions, including validation,

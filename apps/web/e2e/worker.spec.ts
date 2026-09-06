@@ -5,7 +5,7 @@ import { recordReplay } from "@li4chess/protocol";
 import type { EngineBuildIdentityV1 } from "@li4chess/protocol";
 
 declare global {
-  interface Window { cpuProbe: { started: number; results: number; terminated: number; busy: boolean } }
+  interface Window { cpuProbe: { started: number; results: number; terminated: number; busy: boolean }; failActiveCpu: () => void }
 }
 async function observeWorkers(page: Page) {
   await page.addInitScript(() => {
@@ -14,6 +14,11 @@ async function observeWorkers(page: Page) {
     window.Worker = class extends Native {
       constructor(url: string | URL, options?: WorkerOptions) {
         super(url, options);
+        window.failActiveCpu = () => {
+          if (!window.cpuProbe.busy) throw new Error("Fault injection requires active production search");
+          this.terminate();
+          this.dispatchEvent(new ErrorEvent("error", { message:"Injected failure during active production search", cancelable:true }));
+        };
         this.addEventListener("message", event => {
           if (event.data?.type === "started") { window.cpuProbe.started++; window.cpuProbe.busy = true; }
           if (event.data?.type === "result") { window.cpuProbe.results++; window.cpuProbe.busy = false; }
@@ -81,6 +86,19 @@ test("confirmed reset terminates active search and only the new game can move", 
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
   expect(await page.evaluate(() => window.cpuProbe.results)).toBe(1);
   await expect(page.getByTestId("player-0")).toContainText("CPU L5");
+});
+
+test("failure during active production search recovers once and the terminated search cannot reply", async ({ page }) => {
+  await observeWorkers(page); await startRedCpu(page);
+  await page.evaluate(() => window.failActiveCpu());
+  await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
+  await expect(page.getByText("CPU recovery (crash): used a legal move. Play can continue.", { exact:true })).toBeVisible();
+  await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
+  await page.waitForTimeout(1300);
+  await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
+  expect(await page.evaluate(() => window.cpuProbe.started)).toBe(1);
+  expect(await page.evaluate(() => window.cpuProbe.results)).toBe(0);
+  expect(await page.evaluate(() => window.cpuProbe.terminated)).toBeGreaterThanOrEqual(1);
 });
 
 test("refresh during real active search resumes exactly one CPU turn with saved difficulty", async ({ page }) => {

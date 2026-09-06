@@ -1,0 +1,2531 @@
+{
+  "generatorSeed": 20260906,
+  "continuation": [
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 4,
+        "to": 31,
+        "piece": {
+          "type": "N",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 113,
+        "to": 114,
+        "piece": {
+          "type": "P",
+          "owner": 1,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 172,
+        "to": 144,
+        "piece": {
+          "type": "P",
+          "owner": 2,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 110,
+        "to": 109,
+        "piece": {
+          "type": "P",
+          "owner": 3,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 21,
+        "to": 35,
+        "piece": {
+          "type": "P",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 114,
+        "to": 115,
+        "piece": {
+          "type": "P",
+          "owner": 1,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 174,
+        "to": 146,
+        "piece": {
+          "type": "P",
+          "owner": 2,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 125,
+        "to": 65,
+        "piece": {
+          "type": "B",
+          "owner": 3,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 24,
+        "to": 52,
+        "piece": {
+          "type": "P",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 98,
+        "to": 143,
+        "piece": {
+          "type": "Q",
+          "owner": 1,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 146,
+        "to": 132,
+        "piece": {
+          "type": "P",
+          "owner": 2,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 97,
+        "to": 136,
+        "piece": {
+          "type": "Q",
+          "owner": 3,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 31,
+        "to": 47,
+        "piece": {
+          "type": "N",
+          "owner": 0,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 141,
+        "to": 142,
+        "piece": {
+          "type": "P",
+          "owner": 1,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 187,
+        "to": 109,
+        "piece": {
+          "type": "B",
+          "owner": 2,
+          "hasMoved": false
+        },
+        "captured": {
+          "type": "P",
+          "owner": 3,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 136,
+        "to": 110,
+        "piece": {
+          "type": "Q",
+          "owner": 3,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 9,
+        "to": 21,
+        "piece": {
+          "type": "N",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 43,
+        "to": 44,
+        "piece": {
+          "type": "P",
+          "owner": 1,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 109,
+        "to": 49,
+        "piece": {
+          "type": "B",
+          "owner": 2,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 65,
+        "to": 78,
+        "piece": {
+          "type": "B",
+          "owner": 3,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 20,
+        "to": 34,
+        "piece": {
+          "type": "P",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 84,
+        "to": 98,
+        "piece": {
+          "type": "K",
+          "owner": 1,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 144,
+        "to": 130,
+        "piece": {
+          "type": "P",
+          "owner": 2,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 78,
+        "to": 108,
+        "piece": {
+          "type": "B",
+          "owner": 3,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 18,
+        "to": 32,
+        "piece": {
+          "type": "P",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 143,
+        "to": 157,
+        "piece": {
+          "type": "Q",
+          "owner": 1,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 49,
+        "to": 124,
+        "piece": {
+          "type": "B",
+          "owner": 2,
+          "hasMoved": true
+        },
+        "captured": {
+          "type": "P",
+          "owner": 3,
+          "hasMoved": false
+        },
+        "isCheck": [
+          3
+        ],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 111,
+        "to": 97,
+        "piece": {
+          "type": "K",
+          "owner": 3,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 0,
+      "move": {
+        "from": 5,
+        "to": 20,
+        "piece": {
+          "type": "B",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 1,
+      "move": {
+        "from": 157,
+        "to": 172,
+        "piece": {
+          "type": "Q",
+          "owner": 1,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 2,
+      "move": {
+        "from": 188,
+        "to": 174,
+        "piece": {
+          "type": "K",
+          "owner": 2,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 110,
+        "to": 95,
+        "piece": {
+          "type": "Q",
+          "owner": 3,
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      }
+    }
+  ],
+  "positions": {
+    "opening": {
+      "pendingEffects": [],
+      "position": {
+        "awardLedger": [],
+        "board": [
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "R"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "K"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "R"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "R"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "R"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "K"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "K"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "R"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "R"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "R"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "K"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "R"
+          },
+          null,
+          null,
+          null
+        ],
+        "castlingRights": {
+          "0": {
+            "kingside": true,
+            "queenside": true
+          },
+          "1": {
+            "kingside": true,
+            "queenside": true
+          },
+          "2": {
+            "kingside": true,
+            "queenside": true
+          },
+          "3": {
+            "kingside": true,
+            "queenside": true
+          }
+        },
+        "completedMoves": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0
+        },
+        "enPassantRights": [],
+        "eventSequence": 0,
+        "moveHistory": [],
+        "players": {
+          "0": {
+            "color": 0,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "1": {
+            "color": 1,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "2": {
+            "color": 2,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "3": {
+            "color": 3,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          }
+        },
+        "positionCounts": {
+          "...0R0N0B0Q0K0B0N0R......0P00P00P00P00P00P00P00P0.................1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0..........3P03K1B1P0..........3P03B1N1P0..........3P03N1R1P0..........3P03R.................2P02P02P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1
+        },
+        "randomActions": [],
+        "randomDrawIndex": 0,
+        "randomSeed": "00000001",
+        "result": null,
+        "reversibleMoves": 0,
+        "turn": 0,
+        "turnNumber": 1
+      },
+      "rulesetId": "li4chess-ffa-standard-v1",
+      "sequence": 0,
+      "setupId": "li4chess-modern-ffa-setup-v1",
+      "stateSchemaId": "li4chess-state-v2"
+    },
+    "middlegame": {
+      "pendingEffects": [],
+      "position": {
+        "awardLedger": [
+          {
+            "causeSequence": 15,
+            "delta": 1,
+            "recipient": 2,
+            "rule": "capture",
+            "sequence": 16,
+            "total": 1
+          },
+          {
+            "causeSequence": 28,
+            "delta": 1,
+            "recipient": 2,
+            "rule": "capture",
+            "sequence": 29,
+            "total": 2
+          }
+        ],
+        "board": [
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "R"
+          },
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "K"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "B"
+          },
+          null,
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "R"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          null,
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "B"
+          },
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 0,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "P"
+          },
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "P"
+          },
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "R"
+          },
+          null,
+          {
+            "hasMoved": true,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "N"
+          },
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "P"
+          },
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "R"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "B"
+          },
+          null,
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 3,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": true,
+            "owner": 3,
+            "type": "K"
+          },
+          {
+            "hasMoved": true,
+            "owner": 1,
+            "type": "K"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 3,
+            "type": "B"
+          },
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "B"
+          },
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 2,
+            "type": "B"
+          },
+          null,
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 2,
+            "type": "P"
+          },
+          null,
+          {
+            "hasMoved": true,
+            "owner": 2,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 1,
+            "type": "R"
+          },
+          null,
+          {
+            "hasMoved": true,
+            "owner": 1,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 3,
+            "type": "R"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": true,
+            "owner": 1,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": true,
+            "owner": 2,
+            "type": "K"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "R"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "N"
+          },
+          null,
+          null,
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "Q"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "B"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "N"
+          },
+          {
+            "hasMoved": false,
+            "owner": 2,
+            "type": "R"
+          },
+          null,
+          null,
+          null
+        ],
+        "castlingRights": {
+          "0": {
+            "kingside": true,
+            "queenside": true
+          },
+          "1": {
+            "kingside": false,
+            "queenside": false
+          },
+          "2": {
+            "kingside": false,
+            "queenside": false
+          },
+          "3": {
+            "kingside": false,
+            "queenside": false
+          }
+        },
+        "completedMoves": {
+          "0": 8,
+          "1": 8,
+          "2": 8,
+          "3": 8
+        },
+        "enPassantRights": [],
+        "eventSequence": 34,
+        "moveHistory": [
+          {
+            "eliminates": [],
+            "from": 4,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 0,
+              "type": "N"
+            },
+            "to": 31
+          },
+          {
+            "eliminates": [],
+            "from": 113,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 1,
+              "type": "P"
+            },
+            "to": 114
+          },
+          {
+            "eliminates": [],
+            "from": 172,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 2,
+              "type": "P"
+            },
+            "to": 144
+          },
+          {
+            "eliminates": [],
+            "from": 110,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 3,
+              "type": "P"
+            },
+            "to": 109
+          },
+          {
+            "eliminates": [],
+            "from": 21,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 0,
+              "type": "P"
+            },
+            "to": 35
+          },
+          {
+            "eliminates": [],
+            "from": 114,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 1,
+              "type": "P"
+            },
+            "to": 115
+          },
+          {
+            "eliminates": [],
+            "from": 174,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 2,
+              "type": "P"
+            },
+            "to": 146
+          },
+          {
+            "eliminates": [],
+            "from": 125,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 3,
+              "type": "B"
+            },
+            "to": 65
+          },
+          {
+            "eliminates": [],
+            "from": 24,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 0,
+              "type": "P"
+            },
+            "to": 52
+          },
+          {
+            "eliminates": [],
+            "from": 98,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 1,
+              "type": "Q"
+            },
+            "to": 143
+          },
+          {
+            "eliminates": [],
+            "from": 146,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 2,
+              "type": "P"
+            },
+            "to": 132
+          },
+          {
+            "eliminates": [],
+            "from": 97,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 3,
+              "type": "Q"
+            },
+            "to": 136
+          },
+          {
+            "eliminates": [],
+            "from": 31,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 0,
+              "type": "N"
+            },
+            "to": 47
+          },
+          {
+            "eliminates": [],
+            "from": 141,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 1,
+              "type": "P"
+            },
+            "to": 142
+          },
+          {
+            "captured": {
+              "hasMoved": true,
+              "owner": 3,
+              "type": "P"
+            },
+            "eliminates": [],
+            "from": 187,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 2,
+              "type": "B"
+            },
+            "to": 109
+          },
+          {
+            "eliminates": [],
+            "from": 136,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 3,
+              "type": "Q"
+            },
+            "to": 110
+          },
+          {
+            "eliminates": [],
+            "from": 9,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 0,
+              "type": "N"
+            },
+            "to": 21
+          },
+          {
+            "eliminates": [],
+            "from": 43,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 1,
+              "type": "P"
+            },
+            "to": 44
+          },
+          {
+            "eliminates": [],
+            "from": 109,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 2,
+              "type": "B"
+            },
+            "to": 49
+          },
+          {
+            "eliminates": [],
+            "from": 65,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 3,
+              "type": "B"
+            },
+            "to": 78
+          },
+          {
+            "eliminates": [],
+            "from": 20,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 0,
+              "type": "P"
+            },
+            "to": 34
+          },
+          {
+            "eliminates": [],
+            "from": 84,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 1,
+              "type": "K"
+            },
+            "to": 98
+          },
+          {
+            "eliminates": [],
+            "from": 144,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 2,
+              "type": "P"
+            },
+            "to": 130
+          },
+          {
+            "eliminates": [],
+            "from": 78,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 3,
+              "type": "B"
+            },
+            "to": 108
+          },
+          {
+            "eliminates": [],
+            "from": 18,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 0,
+              "type": "P"
+            },
+            "to": 32
+          },
+          {
+            "eliminates": [],
+            "from": 143,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 1,
+              "type": "Q"
+            },
+            "to": 157
+          },
+          {
+            "captured": {
+              "hasMoved": false,
+              "owner": 3,
+              "type": "P"
+            },
+            "eliminates": [],
+            "from": 49,
+            "isCheck": [
+              3
+            ],
+            "piece": {
+              "hasMoved": true,
+              "owner": 2,
+              "type": "B"
+            },
+            "to": 124
+          },
+          {
+            "eliminates": [],
+            "from": 111,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 3,
+              "type": "K"
+            },
+            "to": 97
+          },
+          {
+            "eliminates": [],
+            "from": 5,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 0,
+              "type": "B"
+            },
+            "to": 20
+          },
+          {
+            "eliminates": [],
+            "from": 157,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 1,
+              "type": "Q"
+            },
+            "to": 172
+          },
+          {
+            "eliminates": [],
+            "from": 188,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": false,
+              "owner": 2,
+              "type": "K"
+            },
+            "to": 174
+          },
+          {
+            "eliminates": [],
+            "from": 110,
+            "isCheck": [],
+            "piece": {
+              "hasMoved": true,
+              "owner": 3,
+              "type": "Q"
+            },
+            "to": 95
+          }
+        ],
+        "players": {
+          "0": {
+            "color": 0,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "1": {
+            "color": 1,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "2": {
+            "color": 2,
+            "isCPU": false,
+            "score": 2,
+            "status": "active"
+          },
+          "3": {
+            "color": 3,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          }
+        },
+        "positionCounts": {
+          "...0R..0Q0K0B.0R......0P0.0P00B0N0P00P0........0P1.0P10P1......1R.1P1..0N....0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P03K1K1P0........3B.3Q.1B..1P1........2B.1N1P0..2P1.2P1.....3P03N1R.1P1.........3P03R.................2P01Q2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|2|11001100|[]|active:,active:,active:,active:": 1,
+          "...0R..0Q0K0B.0R......0P0.0P00B0N0P00P0........0P1.0P10P1......1R.1P1..0N....0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P03K1K1P0........3B.3Q.1B..1P1........2B.1N1P0..2P1.2P1.....3P03N1R.1P1.........3P03R.................2P01Q2P02K2P02P02P02P0......2R2N..2Q2B2N2R...|3|11000000|[]|active:,active:,active:,active:": 1,
+          "...0R..0Q0K0B.0R......0P0.0P00B0N0P00P0........0P1.0P10P1......1R.1P1..0N....0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P03K1K1P0........3B.3Q.1B..1P1........2B.1N1P0..2P1.2P1.....3P03N1R.1P1.........3P03R...1Q.............2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|1|11001100|[]|active:,active:,active:,active:": 1,
+          "...0R..0Q0K0B.0R......0P0.0P00B0N0P00P0........0P1.0P10P1......1R.1P1..0N....0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0.........3Q3P03K1K1P0........3B...1B..1P1........2B.1N1P0..2P1.2P1.....3P03N1R.1P1.........3P03R.................2P01Q2P02K2P02P02P02P0......2R2N..2Q2B2N2R...|0|11000000|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P0.0P0.0N0P00P0........0P1.0P10P1......1R.1P1..0N....0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P0.1K1P0........3B.3Q3K1B..1P1........2B.1N1P0..2P1.2P1.....3P03N1R.1P1.........3P03R...1Q.............2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|3|11001111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P0.0P0.0N0P00P0........0P1.0P10P1......1R.1P1..0N....0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P03K1K1P0........3B.3Q.1B..1P1........2B.1N1P0..2P1.2P1.....3P03N1R.1P1.........3P03R...1Q.............2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|0|11001100|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P0.0P0.0N0P00P0........0P1.0P10P1......1R.1P1..0N.2B..0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P0.1K1P0........3B.3Q3K1B..1P1........3P0.1N1P0..2P1.2P1.....3P03N1R.1P1.........3P03R...1Q.............2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|2|11001111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P0.0P0.0N0P00P0........0P1.0P10P1......1R.1P1..0N.2B..0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P0.1K1P0........3B.3Q3K1B..1P1........3P0.1N1P0..2P1.2P1.....3P03N1R.1P11Q........3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|1|11001111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P0.0N0P00P0..........0P10P1......1R.1P1..0N.2B..0P1.3P03R1N1P0..........3P03N1B1P0..........3P03B.1P0..........3P0.1K1P0........3B.3Q3K1B..1P1........3P0.1N1P0..2P1.2P1.....3P03N1R.1P11Q........3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|0|11001111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P0.0N0P00P0..........0P10P1......1R.1P1..0N.2B..0P1.3P03R1N1P0..........3P03N1B1P0......3B...3P03B.1P0..........3P0.1K1P0..........3Q3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|2|11001111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P0.0N0P00P0..........0P10P1......1R.1P1..0N.2B..0P1.3P03R1N1P0..........3P03N1B1P0......3B...3P03B.1P0..........3P0.1K1P0..........3Q3K1B..1P1........3P0.1N1P0..2P1.2P1.....3P03N1R.1P11Q........3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|3|11001111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P0.0N0P00P0..........0P10P1......1R.1P1..0N.2B..0P1.3P03R1N1P0..........3P03N1B1P0......3B...3P03B1K1P0..........3P0..1P0..........3Q3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|1|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P00P00N0P00P0...........0P1......1R.1P1..0N....0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0.........2B3Q3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|2|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P00P00N0P00P0...........0P1......1R.1P1..0N.2B..0P1.3P03R1N1P0..........3P03N1B1P0......3B...3P03B1K1P0..........3P0..1P0..........3Q3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P00P00N0P00P0...........0P1......1R.1P1..0N.2B..0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0..........3Q3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|3|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B.0R......0P00P00P00P00N0P00P0...........0P1......1R1P0...0N....0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0.........2B3Q3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|1|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0...........0P1......1R1P0...0N....0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0.........2B.3K1B..1P1........3P0.1N1P0....2P1...3Q.3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|3|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0...........0P1......1R1P0...0N....0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0.........2B3Q3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N.2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0...........0P1......1R1P0...0N....0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0.........3P1.3K1B..1P1........3P0.1N1P0....2P1...3Q.3P03N1R.1P11Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|2|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0...........0P1......1R1P0...0N....0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0.........3P1.3K1B..1P1........3P0.1N1P0....2P1...3Q.3P03N1R1P0.1Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|1|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0.......0N...0P1......1R1P0........0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P0..1P0.........3P1.3K1B..1P1........3P0.1N1P0....2P1...3Q.3P03N1R1P0.1Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0.......0N...0P1......1R1P0........0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P03Q.1P0.........3P1.3K1B..1P1........3P0.1N1P0..........3P03N1R1P0.1Q2P1.2P1.....3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|2|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0.......0N...0P1......1R1P0........0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P03Q.1P0.........3P1.3K1B..1P1........3P0.1N1P0....2P1.....3P03N1R1P0.1Q2P1.......3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|3|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P0.......0N...0P1......1R1P0........0P1.3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0.........3P1.3K1B..1P1........3P0.1N1P0..........3P03N1R1P0..2P1.2P1.....3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|1|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P00P0......0N...0P1......1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0.........3P1.3K1B..1P1........3P03B1N1P0..........3P03N1R1P0..2P1.......3P03R.................2P0.2P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|2|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P00P0......0N...0P1......1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0.........3P1.3K1B..1P1........3P03B1N1P0..........3P03N1R1P0..2P1.2P1.....3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|3|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P00P0......0N...0P1......1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0.........3P1.3K1B.1P1.........3P03B1N1P0..........3P03N1R1P0..2P1.......3P03R.................2P0.2P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|1|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P0.0P00P00P0......0N...0P1......1R1P0..........3P03R1N1P0.......3B..3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0.........3P1.3K1B..1P1........3P0.1N1P0..........3P03N1R1P0..2P1.2P1.....3P03R.................2P0.2P0.2P02P02P02P0......2R2N2B2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P00P00P00P00P0......0N..........1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0..........3P03K1B.1P1.........3P03B1N1P0..........3P03N1R1P0..........3P03R.................2P02P02P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|2|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P00P00P00P00P0......0N..........1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0..........3P03K1B.1P1.........3P03B1N1P0..........3P03N1R1P0..2P1.......3P03R.................2P0.2P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|3|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P00P00P00P00P0......0N..........1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0..........3P03K1B1P0..........3P03B1N1P0..........3P03N1R1P0..........3P03R.................2P02P02P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|1|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R.0B0Q0K0B0N0R......0P00P00P00P00P00P00P00P0......0N..........1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0.........3P1.3K1B.1P1.........3P03B1N1P0..........3P03N1R1P0..2P1.......3P03R.................2P0.2P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1,
+          "...0R0N0B0Q0K0B0N0R......0P00P00P00P00P00P00P00P0.................1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0..........3P03K1B1P0..........3P03B1N1P0..........3P03N1R1P0..........3P03R.................2P02P02P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1
+        },
+        "randomActions": [],
+        "randomDrawIndex": 0,
+        "randomSeed": "00000001",
+        "result": null,
+        "reversibleMoves": 5,
+        "turn": 0,
+        "turnNumber": 33
+      },
+      "rulesetId": "li4chess-ffa-standard-v1",
+      "sequence": 0,
+      "setupId": "li4chess-modern-ffa-setup-v1",
+      "stateSchemaId": "li4chess-state-v2"
+    },
+    "tactical": {
+      "pendingEffects": [],
+      "position": {
+        "awardLedger": [],
+        "board": [
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "K"
+          },
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "Q"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 1,
+            "type": "K"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 2,
+            "type": "K"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 3,
+            "type": "K"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "castlingRights": {
+          "0": {
+            "kingside": false,
+            "queenside": false
+          },
+          "1": {
+            "kingside": false,
+            "queenside": false
+          },
+          "2": {
+            "kingside": false,
+            "queenside": false
+          },
+          "3": {
+            "kingside": false,
+            "queenside": false
+          }
+        },
+        "completedMoves": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0
+        },
+        "enPassantRights": [],
+        "eventSequence": 0,
+        "moveHistory": [],
+        "players": {
+          "0": {
+            "color": 0,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "1": {
+            "color": 1,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "2": {
+            "color": 2,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "3": {
+            "color": 3,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          }
+        },
+        "positionCounts": {},
+        "randomActions": [],
+        "randomDrawIndex": 0,
+        "randomSeed": "00000001",
+        "result": null,
+        "reversibleMoves": 0,
+        "turn": 0,
+        "turnNumber": 1
+      },
+      "rulesetId": "li4chess-ffa-standard-v1",
+      "sequence": 0,
+      "setupId": "li4chess-modern-ffa-setup-v1",
+      "stateSchemaId": "li4chess-state-v2"
+    },
+    "endgame": {
+      "pendingEffects": [],
+      "position": {
+        "awardLedger": [],
+        "board": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "K"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 0,
+            "type": "P"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "hasMoved": true,
+            "owner": 1,
+            "type": "K"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "castlingRights": {
+          "0": {
+            "kingside": false,
+            "queenside": false
+          },
+          "1": {
+            "kingside": false,
+            "queenside": false
+          },
+          "2": {
+            "kingside": false,
+            "queenside": false
+          },
+          "3": {
+            "kingside": false,
+            "queenside": false
+          }
+        },
+        "completedMoves": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0
+        },
+        "enPassantRights": [],
+        "eventSequence": 0,
+        "moveHistory": [],
+        "players": {
+          "0": {
+            "color": 0,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "1": {
+            "color": 1,
+            "isCPU": false,
+            "score": 0,
+            "status": "active"
+          },
+          "2": {
+            "color": 2,
+            "eliminatedOnTurn": 1,
+            "isCPU": false,
+            "score": 0,
+            "status": "checkmated"
+          },
+          "3": {
+            "color": 3,
+            "eliminatedOnTurn": 1,
+            "isCPU": false,
+            "score": 0,
+            "status": "checkmated"
+          }
+        },
+        "positionCounts": {},
+        "randomActions": [],
+        "randomDrawIndex": 0,
+        "randomSeed": "00000001",
+        "result": null,
+        "reversibleMoves": 0,
+        "turn": 0,
+        "turnNumber": 1
+      },
+      "rulesetId": "li4chess-ffa-standard-v1",
+      "sequence": 0,
+      "setupId": "li4chess-modern-ffa-setup-v1",
+      "stateSchemaId": "li4chess-state-v2"
+    }
+  }
+}

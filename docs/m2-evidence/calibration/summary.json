@@ -1,0 +1,865 @@
+{
+  "browser": "141.0.7390.37",
+  "summary": [
+    {
+      "width": 1280,
+      "position": "opening",
+      "level": 1,
+      "samples": 5,
+      "budget": {
+        "label": "Beginner",
+        "maxDepth": 1,
+        "nodeBudget": 128,
+        "timeMs": 50
+      },
+      "searchP95": 22,
+      "searchMax": 22,
+      "startupP95": 9.300000011920929,
+      "overheadP95": 9.600000023841858,
+      "roundTripP95": 29.799999982118607,
+      "fallbackCount": 0,
+      "completedDepths": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "opening",
+      "level": 2,
+      "samples": 5,
+      "budget": {
+        "label": "Casual",
+        "maxDepth": 2,
+        "nodeBudget": 512,
+        "timeMs": 100
+      },
+      "searchP95": 100.19999998807907,
+      "searchMax": 100.19999998807907,
+      "startupP95": 9.800000011920929,
+      "overheadP95": 10,
+      "roundTripP95": 110,
+      "fallbackCount": 0,
+      "completedDepths": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "opening",
+      "level": 3,
+      "samples": 5,
+      "budget": {
+        "label": "Thoughtful",
+        "maxDepth": 3,
+        "nodeBudget": 2048,
+        "timeMs": 250
+      },
+      "searchP95": 250.09999999403954,
+      "searchMax": 250.09999999403954,
+      "startupP95": 9,
+      "overheadP95": 9.400000005960464,
+      "roundTripP95": 259.40000000596046,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "opening",
+      "level": 4,
+      "samples": 5,
+      "budget": {
+        "label": "Challenging",
+        "maxDepth": 4,
+        "nodeBudget": 8192,
+        "timeMs": 500
+      },
+      "searchP95": 500.10000002384186,
+      "searchMax": 500.10000002384186,
+      "startupP95": 8.199999988079071,
+      "overheadP95": 8.499999970197678,
+      "roundTripP95": 508.59999999403954,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "opening",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.0999999940395,
+      "searchMax": 1000.0999999940395,
+      "startupP95": 11.099999994039536,
+      "overheadP95": 11.299999982118607,
+      "roundTripP95": 1011.3999999761581,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 30,
+      "inputP95": 13.199999988079071,
+      "inputMax": 13.400000005960464
+    },
+    {
+      "width": 1280,
+      "position": "middlegame",
+      "level": 1,
+      "samples": 5,
+      "budget": {
+        "label": "Beginner",
+        "maxDepth": 1,
+        "nodeBudget": 128,
+        "timeMs": 50
+      },
+      "searchP95": 26,
+      "searchMax": 26,
+      "startupP95": 9.299999982118607,
+      "overheadP95": 9.400000005960464,
+      "roundTripP95": 34.20000001788139,
+      "fallbackCount": 0,
+      "completedDepths": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "middlegame",
+      "level": 2,
+      "samples": 5,
+      "budget": {
+        "label": "Casual",
+        "maxDepth": 2,
+        "nodeBudget": 512,
+        "timeMs": 100
+      },
+      "searchP95": 100.2000000178814,
+      "searchMax": 100.2000000178814,
+      "startupP95": 7.700000017881393,
+      "overheadP95": 7.9000000059604645,
+      "roundTripP95": 108,
+      "fallbackCount": 0,
+      "completedDepths": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "middlegame",
+      "level": 3,
+      "samples": 5,
+      "budget": {
+        "label": "Thoughtful",
+        "maxDepth": 3,
+        "nodeBudget": 2048,
+        "timeMs": 250
+      },
+      "searchP95": 250.19999998807907,
+      "searchMax": 250.19999998807907,
+      "startupP95": 9.599999994039536,
+      "overheadP95": 9.900000005960464,
+      "roundTripP95": 259.90000000596046,
+      "fallbackCount": 0,
+      "completedDepths": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "middlegame",
+      "level": 4,
+      "samples": 5,
+      "budget": {
+        "label": "Challenging",
+        "maxDepth": 4,
+        "nodeBudget": 8192,
+        "timeMs": 500
+      },
+      "searchP95": 500.7000000178814,
+      "searchMax": 500.7000000178814,
+      "startupP95": 11,
+      "overheadP95": 11.400000005960464,
+      "roundTripP95": 511.40000000596046,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "middlegame",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.1000000238419,
+      "searchMax": 1000.1000000238419,
+      "startupP95": 9.199999988079071,
+      "overheadP95": 9.399999976158142,
+      "roundTripP95": 1009.5,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 30,
+      "inputP95": 12.400000005960464,
+      "inputMax": 12.700000017881393
+    },
+    {
+      "width": 1280,
+      "position": "tactical",
+      "level": 1,
+      "samples": 5,
+      "budget": {
+        "label": "Beginner",
+        "maxDepth": 1,
+        "nodeBudget": 128,
+        "timeMs": 50
+      },
+      "searchP95": 10.699999988079071,
+      "searchMax": 10.699999988079071,
+      "startupP95": 7,
+      "overheadP95": 7,
+      "roundTripP95": 17.69999998807907,
+      "fallbackCount": 0,
+      "completedDepths": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "tactical",
+      "level": 2,
+      "samples": 5,
+      "budget": {
+        "label": "Casual",
+        "maxDepth": 2,
+        "nodeBudget": 512,
+        "timeMs": 100
+      },
+      "searchP95": 43.900000005960464,
+      "searchMax": 43.900000005960464,
+      "startupP95": 9.200000017881393,
+      "overheadP95": 9.300000011920929,
+      "roundTripP95": 53.20000001788139,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "tactical",
+      "level": 3,
+      "samples": 5,
+      "budget": {
+        "label": "Thoughtful",
+        "maxDepth": 3,
+        "nodeBudget": 2048,
+        "timeMs": 250
+      },
+      "searchP95": 107.7000000178814,
+      "searchMax": 107.7000000178814,
+      "startupP95": 6.5999999940395355,
+      "overheadP95": 6.700000017881393,
+      "roundTripP95": 114.40000000596046,
+      "fallbackCount": 0,
+      "completedDepths": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "tactical",
+      "level": 4,
+      "samples": 5,
+      "budget": {
+        "label": "Challenging",
+        "maxDepth": 4,
+        "nodeBudget": 8192,
+        "timeMs": 500
+      },
+      "searchP95": 315,
+      "searchMax": 315,
+      "startupP95": 6.9000000059604645,
+      "overheadP95": 7.0999999940395355,
+      "roundTripP95": 321.59999999403954,
+      "fallbackCount": 0,
+      "completedDepths": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "tactical",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.1999999880791,
+      "searchMax": 1000.1999999880791,
+      "startupP95": 7.5,
+      "overheadP95": 7.700000017881393,
+      "roundTripP95": 1007.7000000178814,
+      "fallbackCount": 0,
+      "completedDepths": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "inputSamples": 30,
+      "inputP95": 13.299999982118607,
+      "inputMax": 13.699999988079071
+    },
+    {
+      "width": 1280,
+      "position": "endgame",
+      "level": 1,
+      "samples": 5,
+      "budget": {
+        "label": "Beginner",
+        "maxDepth": 1,
+        "nodeBudget": 128,
+        "timeMs": 50
+      },
+      "searchP95": 4.700000017881393,
+      "searchMax": 4.700000017881393,
+      "startupP95": 9,
+      "overheadP95": 9.299999982118607,
+      "roundTripP95": 14,
+      "fallbackCount": 0,
+      "completedDepths": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "endgame",
+      "level": 2,
+      "samples": 5,
+      "budget": {
+        "label": "Casual",
+        "maxDepth": 2,
+        "nodeBudget": 512,
+        "timeMs": 100
+      },
+      "searchP95": 7.5,
+      "searchMax": 7.5,
+      "startupP95": 6.5999999940395355,
+      "overheadP95": 6.800000011920929,
+      "roundTripP95": 14.099999994039536,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "endgame",
+      "level": 3,
+      "samples": 5,
+      "budget": {
+        "label": "Thoughtful",
+        "maxDepth": 3,
+        "nodeBudget": 2048,
+        "timeMs": 250
+      },
+      "searchP95": 14.800000011920929,
+      "searchMax": 14.800000011920929,
+      "startupP95": 6.4000000059604645,
+      "overheadP95": 6.800000011920929,
+      "roundTripP95": 21.5,
+      "fallbackCount": 0,
+      "completedDepths": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "endgame",
+      "level": 4,
+      "samples": 5,
+      "budget": {
+        "label": "Challenging",
+        "maxDepth": 4,
+        "nodeBudget": 8192,
+        "timeMs": 500
+      },
+      "searchP95": 55.099999994039536,
+      "searchMax": 55.099999994039536,
+      "startupP95": 9.5,
+      "overheadP95": 9.700000017881393,
+      "roundTripP95": 64.80000001192093,
+      "fallbackCount": 0,
+      "completedDepths": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "inputSamples": 0,
+      "inputP95": null,
+      "inputMax": null
+    },
+    {
+      "width": 1280,
+      "position": "endgame",
+      "level": 5,
+      "samples": 29,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 74,
+      "searchMax": 77.80000001192093,
+      "startupP95": 6.799999982118607,
+      "overheadP95": 8,
+      "roundTripP95": 84.2999999821186,
+      "fallbackCount": 0,
+      "completedDepths": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "inputSamples": 30,
+      "inputP95": 13.099999994039536,
+      "inputMax": 13.199999988079071
+    },
+    {
+      "width": 768,
+      "position": "opening",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.2000000178814,
+      "searchMax": 1000.2000000178814,
+      "startupP95": 7.0999999940395355,
+      "overheadP95": 7.300000011920929,
+      "roundTripP95": 1007.4000000059605,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 30,
+      "inputP95": 12.300000011920929,
+      "inputMax": 12.400000005960464
+    },
+    {
+      "width": 768,
+      "position": "middlegame",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.5,
+      "searchMax": 1000.5,
+      "startupP95": 10.400000005960464,
+      "overheadP95": 9.400000005960464,
+      "roundTripP95": 1009.9000000059605,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 30,
+      "inputP95": 12.399999976158142,
+      "inputMax": 12.800000011920929
+    },
+    {
+      "width": 768,
+      "position": "tactical",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.0999999940395,
+      "searchMax": 1000.0999999940395,
+      "startupP95": 6.4000000059604645,
+      "overheadP95": 6.5999999940395355,
+      "roundTripP95": 1006.5999999940395,
+      "fallbackCount": 0,
+      "completedDepths": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "inputSamples": 30,
+      "inputP95": 12.800000011920929,
+      "inputMax": 13
+    },
+    {
+      "width": 768,
+      "position": "endgame",
+      "level": 5,
+      "samples": 30,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 74,
+      "searchMax": 77.5,
+      "startupP95": 7.300000011920929,
+      "overheadP95": 7.500000029802322,
+      "roundTripP95": 80.90000000596046,
+      "fallbackCount": 0,
+      "completedDepths": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "inputSamples": 30,
+      "inputP95": 13.199999988079071,
+      "inputMax": 13.600000023841858
+    },
+    {
+      "width": 360,
+      "position": "opening",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.0999999940395,
+      "searchMax": 1000.0999999940395,
+      "startupP95": 7.9000000059604645,
+      "overheadP95": 8.099999994039536,
+      "roundTripP95": 1008.1999999880791,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 30,
+      "inputP95": 12.699999988079071,
+      "inputMax": 14.700000017881393
+    },
+    {
+      "width": 360,
+      "position": "middlegame",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.1999999880791,
+      "searchMax": 1000.1999999880791,
+      "startupP95": 8.600000023841858,
+      "overheadP95": 8.800000011920929,
+      "roundTripP95": 1009,
+      "fallbackCount": 0,
+      "completedDepths": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "inputSamples": 30,
+      "inputP95": 12.599999994039536,
+      "inputMax": 12.699999988079071
+    },
+    {
+      "width": 360,
+      "position": "tactical",
+      "level": 5,
+      "samples": 5,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 1000.0999999940395,
+      "searchMax": 1000.0999999940395,
+      "startupP95": 7.5,
+      "overheadP95": 7.800000011920929,
+      "roundTripP95": 1007.9000000059605,
+      "fallbackCount": 0,
+      "completedDepths": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "inputSamples": 30,
+      "inputP95": 13.200000017881393,
+      "inputMax": 13.299999982118607
+    },
+    {
+      "width": 360,
+      "position": "endgame",
+      "level": 5,
+      "samples": 30,
+      "budget": {
+        "label": "Patient",
+        "maxDepth": 5,
+        "nodeBudget": 32768,
+        "timeMs": 1000
+      },
+      "searchP95": 73.40000000596046,
+      "searchMax": 76.80000001192093,
+      "startupP95": 6.5999999940395355,
+      "overheadP95": 6.9000000059604645,
+      "roundTripP95": 82,
+      "fallbackCount": 0,
+      "completedDepths": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "inputSamples": 30,
+      "inputP95": 13.299999982118607,
+      "inputMax": 13.699999988079071
+    }
+  ],
+  "errors": [],
+  "methodology": "Production app/Worker, fresh Worker per request; native input timestamp to next rAF during confirmed search. 400ms turn pacing excluded. Browser emulation, no CPU throttling; no physical input/display latency or strength claim."
+}

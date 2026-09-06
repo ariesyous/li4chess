@@ -114,9 +114,12 @@ implementing the replacement.
 
 **Status (2026-09-06):** authorized from merged M1 `7f2593c`. Bounded Worker
 implementation is committed as `839aa46`. Validated local autosave/resume is the
-second slice (`a61031b`). The responsive frame and keyboard navigation form slice 3.
-[Acceptance plan](docs/m2-acceptance.md) records inputs and thresholds before changes.
-Full-game evidence and production budget calibration remain pending.
+second slice (`a61031b`). The responsive frame and keyboard navigation are
+`386ca59`. [Acceptance plan](docs/m2-acceptance.md) records inputs and thresholds.
+[Production calibration, complete games and inspected captures](docs/m2-evidence/README.md)
+satisfy the local capability gates. Independent review and fresh full validation
+(602 unit tests, 46 browser tests, lint and build) passed; final-revision CI is
+required before changing this status to complete.
 
 **Capabilities**
 

@@ -12,8 +12,10 @@ superseded handoffs.
 slices through M2, commits and a draft PR; stop before M3. Acceptance inputs,
 expected outcomes and initial measurable thresholds are in
 [M2 acceptance](m2-acceptance.md). Slice 1 is committed as `839aa46`; slice 2
-is committed as `a61031b`. Slice 3 implements the responsive accessible frame;
-calibration and complete-game evidence follow. [Draft PR #11](https://github.com/ariesyous/li4chess/pull/11)
+is committed as `a61031b`; slice 3 is `386ca59`. Production calibration, complete
+games and inspected captures now have [acceptance evidence](m2-evidence/README.md).
+Independent data review and fresh full checks passed; verify final-revision CI
+before marking M2 complete. [Draft PR #11](https://github.com/ariesyous/li4chess/pull/11)
 tracks the dedicated branch.
 
 **M1 is complete.** M1-01/M1-02/M1-03 are complete and
@@ -28,7 +30,7 @@ and pinned pnpm 10.33.0 via temporary Corepack shims are verified. No merge,
 main push, publication, provisioning or M3 work is authorized.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
-now has an in-progress bounded Worker path; final evidence is pending. Live clocks, connection-bank tracking,
+uses the bounded Worker path with measured resource policies. Live clocks, connection-bank tracking,
 networking, accounts, matchmaking and ratings are M3/M4. Local timeout and
 exhausted-disconnect facts are deterministic engine/replay inputs only.
 
@@ -357,4 +359,41 @@ No screen-reader or physical-device test is claimed. Fresh final validation on W
 `pnpm build --force`, and all 43 Playwright tests without retries.
 Changed tests type-check in lint; 211 local Markdown links and diff checks pass.
 No engine, frozen classic or archived research paths changed.
-Calibration and complete-game proof remain.
+Calibration and complete-game proof are now recorded in slice 4 below.
+
+
+## M2 slice 4: measured budgets and complete-game evidence
+
+[Evidence report](m2-evidence/README.md) records 214 legal production searches,
+360 active-search input frames across four positions and three viewports, and
+the unchanged five resource policies. Every declared timing gate passed; no
+recovery/fallback/watchdog event occurred. Exact code/tree/asset/environment
+provenance, inputs and raw observations are retained. Complete Modern hotseat
+(16 plies), mixed (13 ordinary +2 walking moves), and uninterrupted four-CPU
+(465 plies) games reached terminal results, replay-validated and resumed exactly.
+Actual result captures were inspected. These are correctness and responsiveness
+checks, not playing-strength evidence. Physical phones/screen readers were not tested.
+
+Independent review verified Worker/replay correspondence and the CI test fix.
+The first calibration fixture was rejected before measurement, then corrected
+to a valid elimination timestamp. The full frozen source snapshot was preserved
+before fixing its subtree-scoped collector. No runtime/rules change was needed.
+
+CI on frame commit `386ca59` failed the existing REPLAY-10 test at its five-second
+timeout ([run 34057195819](https://github.com/ariesyous/li4chess/actions/runs/34057195819)).
+The test now batch-records the same canonical complete game, preserving every
+assertion and adding full final-state equality after independent replay validation.
+This removes quadratic repeated prefix reads without extending the timeout.
+All 36 protocol tests passed; protocol test files now type-check in package lint.
+Independent review recomputed all 28 calibration groups and verified request/state
+identities, legal results, resource caps, full-game replay and source snapshots.
+An additional reviewed browser case injects failure during confirmed production
+search and verifies one legal recovery move with no late response.
+
+Fresh final checks on `386ca59` plus this slice, Windows/Node 24.18.0/pnpm 10.33.0,
+passed: `pnpm lint --force`, `pnpm test --force` (**602 unit tests**),
+`pnpm build --force`, and `pnpm --filter @li4chess/web test:e2e`
+(**46 browser tests**, no retries). All 234 local Markdown links and diff checks
+passed. The built Worker hash still matches the measured production asset.
+All substantive independent review findings are resolved. Pushed CI remains the
+last completion gate; M3 has not started.
