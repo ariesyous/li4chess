@@ -1,4 +1,4 @@
-# M1-03 setup, core legality, and en-passant fixtures
+# M1-03 setup, core legality, en-passant, and castling fixtures
 
 Implemented 2026-09-06 from the accepted D/O inventory in
 [the migration contract](ruleset-versioning.md). The dated coordinate and
@@ -7,7 +7,7 @@ These are synthetic executable positions, not new Chess.com replay observations.
 The inventory defined ID ranges; the individual scenario assignments below make
 those ranges concrete without changing their accepted semantics.
 
-All geometry-sensitive core and en-passant scenarios rotate through Red, Blue,
+All geometry-sensitive core, en-passant, and castling scenarios rotate through Red, Blue,
 Yellow, and Green using the shared board transform. Setup has an independent
 absolute-coordinate oracle for all 64 initial pieces; it does not derive its
 expected board from the setup implementation. Every move sequence matches a
@@ -56,8 +56,59 @@ Additional [protocol](../packages/protocol/test/serialization.test.ts),
 pending-right identity, and historical-input rejection. No REPLAY fixture ID is
 claimed: JSON move reproduction is not the accepted replay-v2 event/hash schema.
 
+## Castling fixture inputs and expected results
+
+Written before castling behavior changes on 2026-09-06. Source:
+[FFA castling](../packages/engine/test/ffa-castling.test.ts). All 16 scenarios
+run for each seat (64 tests), with both sides and each other owner's active or
+passive status expanded where relevant. These are accepted-contract synthetic
+fixtures, not additional live-product observations.
+
+The default input has an unmoved own King at Red-frame `(7,0)`, unmoved own
+Rooks at `(3,0)` / `(10,0)`, both rights true, three other home kings, empty
+remaining squares, no EP rights, and no prior repetition counts. Inputs rotate
+using the shared transform; CASTLE-01/02 use independent absolute outputs:
+
+| Seat | King from | Kingside: rook from, king to, rook to | Queenside: rook from, king to, rook to |
+| --- | --- | --- | --- |
+| Red | `(7,0)` | `(10,0)`, `(9,0)`, `(8,0)` | `(3,0)`, `(5,0)`, `(6,0)` |
+| Blue | `(0,6)` | `(0,3)`, `(0,4)`, `(0,5)` | `(0,10)`, `(0,8)`, `(0,7)` |
+| Yellow | `(6,13)` | `(3,13)`, `(4,13)`, `(5,13)` | `(10,13)`, `(8,13)`, `(7,13)` |
+| Green | `(13,7)` | `(13,10)`, `(13,9)`, `(13,8)` | `(13,3)`, `(13,5)`, `(13,6)` |
+
+| Fixture | Explicit input / expected result |
+| --- | --- |
+| FFA-CASTLE-01 | Clear kingside: exact full resulting board above; King/Rook moved flags true, both rights false, next seat, unchanged players/scores and immutable input. |
+| FFA-CASTLE-02 | Same assertions for queenside. |
+| FFA-CASTLE-03 | Home King missing, moved, replaced by Bishop, or off-home: neither castle exists. |
+| FFA-CASTLE-04 | Each home Rook missing, moved, or replaced by Bishop: only that side is unavailable. |
+| FFA-CASTLE-05 | Each opponent's unmoved King/Rook on the actor's home square, active or inactive: no foreign-piece castle candidate/legal request. Own King elsewhere prevents missing-king safety from masking ownership. A quiet move cannot grant rights from a foreign dead Rook. |
+| FFA-CASTLE-06 | King `(7,0)→(7,1)`, three intervening turns, return: both rights stay false. |
+| FFA-CASTLE-07 | Each Rook advances one rank, three intervening turns, return: its right stays false; the other remains true. |
+| FFA-CASTLE-08 | Each opponent's Knight captures either home Rook from `(4,2)` or `(9,2)`: only the captured Rook's right is lost. |
+| FFA-CASTLE-09 | Explicit saved input with one/both revoked rights and unmoved replacement home pieces; quiet move and JSON round-trip: revoked bits stay false, moves agree, repetition identity differs from both-rights input. |
+| FFA-CASTLE-10 | Own/each opponent's Knight on every intervening square: reject that castle, including queenside `(4,0)`. |
+| FFA-CASTLE-11 | Each active opponent's Rook at `(7,4)` checks the home King: reject both castles. |
+| FFA-CASTLE-12 | Active Rook on rank 4 attacks only transit file 8/6: reject that side, with clear-board positive control. |
+| FFA-CASTLE-13 | Active Rook on rank 4 attacks destination file 9/5: reject that side, with clear-board positive control. |
+| FFA-CASTLE-14 | Attack only the home Rook file or queenside rook-only path file 4: castle remains legal and applies. |
+| FFA-CASTLE-15 | Each inactive owner's Knight on every path square blocks. An off-path dead Bishop on rank 2 screens an active Rook on rank 4 from origin/transit/destination: allow; remove screen: reject. |
+| FFA-CASTLE-16 | Rook attacks on origin/transit/destination reject when active, allow when inactive and leave that dead Rook unchanged. Inactive castle owners generate no castles and lose both stored rights on advancement. A pending mate with unmoved home pieces loses both rights in the same transition that eliminates the owner. |
+
+Passive cases explicitly supply `checkmated`, `stalemated`, or `resigned`
+snapshots. Only the existing deferred-mate action is used to check immediate
+rights cleanup; this does not implement retained mate armies, new death
+actions, or walking kings. Illegal castle requests are also checked through
+`applyMoveRequest`; legal sequences assert input immutability.
+
 ## Implementation boundaries
 
+- Castling fixtures first exposed 12 failures and 52 passes. The fixes require
+  own King/Rook ownership, preserve revoked rights across moves, and clear
+  inactive/eliminated owners' rights. Existing geometry and active-attack/path
+  filtering passed the fixtures and were left unchanged. A pending-mate
+  rights-cleanup assertion was added before implementation; all 64 final
+  castling tests pass. No other rules behavior changed in the castling slice.
 - The old single `enPassantTarget` could not represent overlapping pushes or
   per-owner expiry. `enPassantRights` now records target, victim square/owner,
   and eligible owners. Eligibility is geometric at the push; ordinary own-king
@@ -81,10 +132,11 @@ claimed: JSON move reproduction is not the accepted replay-v2 event/hash schema.
 
 ## Exact next slice
 
-Write `FFA-CASTLE-01..16` first: both castle sides for all four seats, exact
-king/rook destinations, moved/captured/wrong-owner pieces and lost rights,
-check/transit/destination restrictions, and passive dead-path blocking/no
-attack. Then implement only the required ownership/rights/path fixes. Continue
-to reserve standard-v1, preserve historical sources, and run all four required
-checks. DEAD, PROMO, SCORE, WALK, END, DRAW, ABORT, and replay-v2 follow as focused
-M1-03 slices; M2/M3 remain outside this work.
+Write `FFA-DEAD-01..08` first: explicit post-mate/stalemate boards, retained
+passive armies, zero-point captures, no attacks/moves/special rights, path
+blocking, and dead-pawn en passant. Then implement only required passive
+dead-army transitions/interactions, reusing EP/CASTLE regressions. This is the
+next proposed implementation slice, not work started here. Awards and walking
+kings remain separate SCORE/WALK work. Continue to reserve standard-v1 and
+preserve historical sources. PROMO, SCORE, WALK, END, DRAW, ABORT, and
+replay-v2/state-v2 follow as focused M1-03 slices; M2/M3 remain outside this work.

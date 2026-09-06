@@ -23,9 +23,11 @@ Current features include:
 
 The [rules specification](docs/rules-spec.md) describes a partial migration to
 the Chess.com-compatible target. Setup, ordinary king safety, active-king
-non-capture, and per-player en-passant windows now have executable acceptance
-fixtures for all four orientations. In the current implementation, checkmated
-players' pieces are removed; stalemated players' pieces remain frozen and
+non-capture, per-player en-passant windows, and castling now have executable
+acceptance fixtures for all four orientations. Castling enforces own home
+pieces, permanent rights loss, king-path safety, and passive dead-piece blocking.
+In the current implementation, checkmated players' pieces are removed;
+stalemated players' pieces remain frozen and
 capturable for zero points. The last active player wins, with capture points
 used only to break placement ties among eliminated players.
 Full standard FFA, its scoring, promotion, dead-army transitions, and versioned

@@ -22,10 +22,11 @@ const SPECS: readonly CastleSpec[] = [
  * (that's applied during legality filtering, since it needs attack detection).
  */
 export function castlingMoves(state: GameState, color: PlayerColor): Move[] {
+  if (state.players[color].status !== "active") return [];
   const rights = state.castlingRights[color];
   const kingFrom = localSquare(color, KING_LOCAL_FILE, 0);
   const king = state.board[kingFrom];
-  if (king === null || king.type !== PieceType.King || king.hasMoved) return [];
+  if (king === null || king.owner !== color || king.type !== PieceType.King || king.hasMoved) return [];
 
   const moves: Move[] = [];
   for (const spec of SPECS) {
@@ -34,7 +35,7 @@ export function castlingMoves(state: GameState, color: PlayerColor): Move[] {
 
     const rookFrom = localSquare(color, spec.rookFromLocalFile, 0);
     const rook = state.board[rookFrom];
-    if (rook === null || rook.type !== PieceType.Rook || rook.hasMoved) continue;
+    if (rook === null || rook.owner !== color || rook.type !== PieceType.Rook || rook.hasMoved) continue;
 
     const lo = Math.min(KING_LOCAL_FILE, spec.rookFromLocalFile);
     const hi = Math.max(KING_LOCAL_FILE, spec.rookFromLocalFile);

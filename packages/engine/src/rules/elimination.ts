@@ -9,18 +9,23 @@ export function removeAllPiecesOf(
   return board.map((piece) => (piece !== null && piece.owner === color ? null : piece));
 }
 
-/** Recomputes castling rights for `color` directly from board state (unmoved king/rooks on their home squares). */
+/** Retains only existing rights backed by active, unmoved own home pieces.
+ * Board occupancy can revoke rights, but must never restore a revoked right.
+ */
 export function recomputeCastlingRights(
   board: readonly (Piece | null)[],
-  color: PlayerColor
+  color: PlayerColor,
+  previous: CastlingRights,
+  status: PlayerState["status"]
 ): CastlingRights {
+  if (status !== "active") return { kingside: false, queenside: false };
   const king = board[localSquare(color, 4, 0)];
-  const kingReady = king !== null && king.type === PieceType.King && !king.hasMoved;
+  const kingReady = king !== null && king.owner === color && king.type === PieceType.King && !king.hasMoved;
   const queensideRook = board[localSquare(color, 0, 0)];
   const kingsideRook = board[localSquare(color, 7, 0)];
   return {
-    queenside: kingReady && queensideRook !== null && queensideRook.type === PieceType.Rook && !queensideRook.hasMoved,
-    kingside: kingReady && kingsideRook !== null && kingsideRook.type === PieceType.Rook && !kingsideRook.hasMoved,
+    queenside: previous.queenside && kingReady && queensideRook !== null && queensideRook.owner === color && queensideRook.type === PieceType.Rook && !queensideRook.hasMoved,
+    kingside: previous.kingside && kingReady && kingsideRook !== null && kingsideRook.owner === color && kingsideRook.type === PieceType.Rook && !kingsideRook.hasMoved,
   };
 }
 

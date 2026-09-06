@@ -42,7 +42,7 @@ export function applyMove(state: GameState, move: Move): GameState {
 
   const castlingRights = { ...state.castlingRights };
   for (const color of ALL_COLORS) {
-    castlingRights[color] = recomputeCastlingRights(board, color);
+    castlingRights[color] = recomputeCastlingRights(board, color, state.castlingRights[color], players[color].status);
   }
 
   const enPassantRights = enPassantRightsAfterMove(state, board, move);
@@ -84,7 +84,12 @@ export function applyMove(state: GameState, move: Move): GameState {
     };
     if (inCheck) eliminated.push(candidate);
     const nextBoard = inCheck ? removeAllPiecesOf(working.board, candidate) : working.board;
-    working = { ...working, board: nextBoard, players: nextPlayers };
+    working = {
+      ...working,
+      board: nextBoard,
+      players: nextPlayers,
+      castlingRights: { ...working.castlingRights, [candidate]: { kingside: false, queenside: false } },
+    };
     working = { ...working, enPassantRights: remainingEnPassantRights(working) };
     candidate = nextColor(candidate);
   }

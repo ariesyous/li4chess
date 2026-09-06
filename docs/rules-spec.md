@@ -1,8 +1,8 @@
 # li4chess rules specification — partial M1 migration
 
-> **Implemented behavior as of 2026-09-06, not full standard FFA.** The first
-> M1-03 slice implements the accepted setup, core-legality, and en-passant
-> fixtures. The remaining house behavior is identified below. The complete
+> **Implemented behavior as of 2026-09-06, not full standard FFA.** The completed
+> M1-03 slices implement the accepted setup, core-legality, en-passant, and
+> castling fixtures. The remaining house behavior is identified below. The complete
 > target is the accepted [migration contract](ruleset-versioning.md), supported
 > by [the audit](rules-compatibility.md). `li4chess-ffa-standard-v1` stays reserved.
 
@@ -98,15 +98,24 @@ fixture supplies that explicit post-death state. It does not implement the later
 resignation/timeout or retained-mate-army transitions. The old opposite-seat-only
 claim and next-global-move expiry were implementation errors, now replaced.
 
-## Castling — existing implementation, dedicated migration next
+## Castling
 
 Both castles use shared local-frame geometry. The king moves two files toward
 the rook; the rook moves to the intervening square. The implementation requires
-unmoved home pieces, clear intervening squares, and a king that is neither in
-check nor crossing/landing on an active opponent's attack. Occupying inactive
-pieces block the path. Rights are currently recomputed from home-piece state.
-The known ownership/rights edge cases still require `FFA-CASTLE-01..16`; this
-slice does not claim complete standard castling coverage.
+unmoved home King and Rook belonging to the active castling player, clear
+intervening squares, and a king that is neither in check nor crossing/landing
+on an active opponent's attack. Occupying inactive
+pieces block every required-clear square but do not attack. They can also
+screen an active attack from outside the castle path. Attacks on the Rook or
+the queenside square traversed only by the Rook do not forbid castling.
+
+Rights are retained from the previous state, never recreated from occupancy.
+Moving the King loses both rights; moving or capturing a home Rook loses that
+side only. Returning or replacing a piece cannot restore a revoked right.
+Wrong-owner home pieces cannot confer rights or generate a castle. Inactive
+owners cannot castle; advancement clears their stored rights, including in the
+same transition that resolves mate/stalemate. `FFA-CASTLE-01..16` cover both
+sides and all four seats, with independent absolute destination assertions.
 
 ## Promotion — remaining house behavior
 
