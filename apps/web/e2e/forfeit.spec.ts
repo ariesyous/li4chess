@@ -6,6 +6,7 @@ for(const action of ["Resign Red","Simulate timeout"]) {
     await page.goto("/");
     for(const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.getByRole("button",{name:"Start game"}).click();
+    page.once("dialog", dialog => dialog.accept());
     await page.getByRole("button",{name:action,exact:true}).click();
     await expect(page.getByTestId("game-result")).toContainText("Game aborted");
     await expect(page.getByTestId("game-result")).toContainText("No placements are awarded");
@@ -25,8 +26,9 @@ for(const action of ["Resign Red","Simulate timeout"]) {
     await page.goto("/");
     for(const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.getByRole("button",{name:"Start game"}).click();
+    page.once("dialog", dialog => dialog.accept());
     await page.getByRole("button",{name:action,exact:true}).click();
-    await expect(page.getByText(/Red \(You\).*King walks automatically/)).toBeVisible();
+    await expect(page.getByTestId("player-0")).toContainText("Walking King");
     await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
     await expect(page.getByRole("button",{name:/dead Red/})).toHaveCount(2);
     await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);

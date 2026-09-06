@@ -54,15 +54,15 @@ avatars, ratings, or opponent identities from reference games.
 
 ## Li4chess experience blueprint
 
-| Area | Desired li4chess experience | Current local baseline | Delivery / acceptance evidence |
+| Area | Desired li4chess experience | Implemented M2 frame (2026-09-06) | Delivery / acceptance evidence |
 | --- | --- | --- | --- |
-| Game frame | Original, low-distraction shell with a compact game header: ruleset label, mode, time control, and connection/game state. | No unified game header; local hotseat has setup then a game screen. | Desktop and 360 px-wide captures retain a legible header and full board. |
-| Player panels | Four stable edge panels with colour name/icon, human/CPU label, score, clock, status, and turn emphasis. Dead players remain visible with an explicit state. | A text `Status` list shows colour, CPU/You, status, and points. | At every game phase, each seat can be identified without relying on hue; active, checked, dead, and CPU states are announced. |
-| Board feedback | Maintain legal-target, last-move, check, selected-piece, and turn feedback; make score/event feedback close to the board without obstructing squares. | Legal move highlighting, last-move/check indicators, and optional board rotation are implemented. | Keyboard and touch tests verify a player can discover the mover, a legal destination, and a check without parsing move history. |
-| History and replay | Colour-labelled, compact move list with event tokens and Back/Next controls; later support shareable, versioned replay. | Move history is a plain in-page list; no replay navigation. | A completed replay renders the same state from a versioned event log; event text explains timeout/resign/award reasons. |
+| Game frame | Original, low-distraction shell with a compact game header: ruleset label, mode, time control, and connection/game state. | Original header states Standard FFA, Hotseat/Human + CPU/Four CPUs, Local, and No clock. | Desktop and 360 px-wide captures retain a legible header and full board. |
+| Player panels | Four stable edge panels with colour name/icon, human/CPU label, score, clock, status, and turn emphasis. Dead players remain visible with an explicit state. | Four directional cards follow rotation and show color name, human/CPU level, points, and To move/Check/Dead army/Walking King/Finished. | At every game phase, each seat can be identified without relying on hue; active, checked, dead, and CPU states are announced. |
+| Board feedback | Maintain legal-target, last-move, check, selected-piece, and turn feedback; make score/event feedback close to the board without obstructing squares. | Legal targets, last move/check, rotation, arrow-key navigation and Enter/Space selection have textual accessible names. | Keyboard and touch tests verify a player can discover the mover, a legal destination, and a check without parsing move history. |
+| History and replay | Colour-labelled, compact move list with event tokens and Back/Next controls; later support shareable, versioned replay. | Scrollable color-named move, action and ordered award lists; validated replay-v2 import/export and local resume. Navigation is later work. | A completed replay renders the same state from a versioned event log; event text explains timeout/resign/award reasons. |
 | Clocks and urgency | When M3 clocks exist, show each seat's authoritative remaining time and an accessible low-time warning. Never derive time locally for network play. | No game clocks. | Clock values follow authoritative server events; warning has text/icon and can be tested without colour. |
-| Result | First-class terminal panel: placement, final points, per-event awards, terminal reason, rating change when relevant, and next actions. | Local result is based on house-rule placement; no rating/award ledger. | Results reflect the accepted FFA ruleset/replay and make aborts distinct from completed games. |
-| Mobile | Board-led layout; edge panels may condense but remain readable, with history/chat/replay in a bottom sheet or below-board region. | Responsive behavior has not been specified or tested. | Tested at 360, 768, and desktop widths with no clipped board, inaccessible controls, or colour-only state. |
+| Result | First-class terminal panel: placement, final points, per-event awards, terminal reason, rating change when relevant, and next actions. | M1 standard FFA final points, shared placements, claims and distinct aborts; focused result heading and ordered awards. No ratings. | Results reflect the accepted FFA ruleset/replay and make aborts distinct from completed games. |
+| Mobile | Board-led layout; edge panels may condense but remain readable, with history/chat/replay in a bottom sheet or below-board region. | Board-first desktop/sidebar and tablet/phone stacking; 360/768/1280 browser captures and touch/keyboard acceptance tests. | Tested at 360, 768, and desktop widths with no clipped board, inaccessible controls, or colour-only state. |
 
 ## Interaction details worth preserving
 
@@ -86,11 +86,11 @@ avatars, ratings, or opponent identities from reference games.
 
 ## Phased work and guardrails
 
-1. **M1/M1-03:** define result states, score-ledger fields, dead-army display
-   semantics, and replay event labels alongside the verified rules; do not fake
-   target behavior in the UI before the engine establishes it.
+1. **M1/M1-03 complete:** standard FFA results, ordered awards, dead armies,
+   walking Kings and replay-v2 are implemented. Historical house rules are not
+   the current baseline.
 2. **M2:** redesign the local game frame and player panels using original
-   components. Add responsive, keyboard, and screen-reader acceptance coverage
+   components. Add responsive, keyboard, and accessibility-tree acceptance coverage
    while preserving local CPU/hotseat play.
 3. **M3:** add authoritative clocks, connection/reconnect states, resignation,
    timeout, and replay playback to the same game frame.
@@ -102,3 +102,15 @@ inventory and visual acceptance captures. Validate browser-visible changes with
 the repository's lint, unit, build, and Playwright checks, then add manual
 desktop/mobile/accessibility observations. Do not copy the reference client's
 trade dress or claim exact Chess.com UX parity.
+
+## M2 validation scope
+
+The original frame uses text and shape in addition to seat color, restrained
+turn/selection status regions, visible focus and a reduced-motion stylesheet.
+Native dialogs confirm reset, resign, timeout and Claim Win. The dense 14-square
+board stays full-width on phones and retains browser zoom; surrounding controls
+have at least 44 px height. Actual rendered captures and manual keyboard/AX
+observations are browser emulation, not physical-device or screen-reader tests.
+Clocks, connection/account/rating/chat states and full replay navigation remain
+outside M2. Calibration and complete-game evidence are tracked in
+[M2 acceptance](m2-acceptance.md).

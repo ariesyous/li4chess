@@ -50,6 +50,7 @@ test("export, reload, resume and re-export retain state and producer lineage; ta
 
 test("terminal abort exports and imports without placements",async({page})=>{
   await start(page);
+  page.once("dialog", dialog => dialog.accept());
   await page.getByRole("button",{name:"Resign Red",exact:true}).click();
   const saved=await exportGame(page);
   expect(saved.events.map(event=>event.type)).toEqual(["resign","abort"]);
@@ -92,7 +93,7 @@ test("imported CPU ownership and difficulty drive scheduling in a human-configur
   const initial=createInitialState({isCPU:{0:true,1:false,2:false,3:false},cpuDifficulty:{0:1}});
   const saved=await recordReplay(initial,[],producer);
   await start(page);await importGame(page,saved);
-  await expect(page.getByText(/Red \(CPU L1\)/)).toBeVisible();
+  await expect(page.getByTestId("player-0")).toContainText("CPU L1");
   await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
   expect((await readReplay(await exportGame(page))).state.position.players[0]).toMatchObject({isCPU:true,cpuDifficulty:1});

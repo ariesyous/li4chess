@@ -181,11 +181,15 @@ export function useLocalGame(seats: SeatSetups, resumed?: ResumedGame) {
     operation.current++; cancelCpu.current(); busy.current = false; setReplayBusy(false);
     gameId.current = crypto.randomUUID();
     setCpuDiagnostics(null); setCpuNotice("");
-    const initial=createInitialState(toSeatConfig(seats));
+    const players = currentState.current.players;
+    const resetSeats = Object.fromEntries([0, 1, 2, 3].map(color => [color, {
+      isCPU: players[color as PlayerColor].isCPU, difficulty: players[color as PlayerColor].cpuDifficulty ?? 3,
+    }])) as SeatSetups;
+    const initial=createInitialState(toSeatConfig(resetSeats));
     currentState.current=initial;journal.current={ initial,requests:[] };setState(initial);
     save();
     setSelectedSquare(null);
-  }, [seats,save]);
+  }, [save]);
 
   const resign = useCallback(() => { if (!replayBusy) commit({ type:"resign",actor:currentState.current.turn }); },[commit,replayBusy]);
   const timeout = useCallback(() => { if (!replayBusy) commit({ type:"timeout",actor:currentState.current.turn,clock:{ remainingMs:0 } }); },[commit,replayBusy]);
@@ -225,5 +229,6 @@ export function useLocalGame(seats: SeatSetups, resumed?: ResumedGame) {
     finally { if (mounted.current && token === operation.current) { busy.current = false; setReplayBusy(false); } }
   },[save]);
 
-  return { state, selectedSquare, legalTargets, selectSquare, reset, resign, timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuDiagnostics,cpuNotice,save,saveMessage };
+  const clearSelection = useCallback(() => setSelectedSquare(null), []);
+  return { state, selectedSquare, legalTargets, selectSquare, clearSelection, reset, resign, timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuDiagnostics,cpuNotice,save,saveMessage };
 }

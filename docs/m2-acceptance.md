@@ -60,6 +60,16 @@ Enter/Space selection, practical game-control targets and deliberate forfeits.
 Inspect actual captures and record keyboard observations; distinguish browser
 emulation and accessibility-tree inspection from physical devices/screen readers.
 
+Frame decision before implementation: keep a full-width board on phones, with
+top/bottom seat cards and compact left/right cards using the board's empty corner
+space. Derive directional identity from the same orientation used by the board.
+Use one board tab stop with arrow-key movement in displayed coordinates; Enter
+and Space activate squares, Escape clears selection. Controls use visible focus
+and at least 44 px height; the dense board retains browser zoom and full width.
+Native confirmation dialogs make resign/timeout/claim/reset deliberate and keep
+queued CPU replies from applying until the synchronous decision completes.
+Verify Cancel leaves the game untouched and confirmation cancels obsolete search.
+
 ## Slice 4: evidence and closeout
 
 Complete hotseat, mixed and four-CPU games, replay-validate results, verify refresh,
@@ -69,3 +79,28 @@ Do not count capped games as completed. Every slice receives fresh independent
 diff review and lint, unit, build, browser and changed-test type checks.
 Final pushed revision requires green CI. M2 stays in progress until every gate
 has linked evidence; no merge, publication or M3 implementation is authorized.
+
+### Evidence procedure fixed before slice 4
+
+Measure the built Vite preview, not HMR, with actual app-created production Workers.
+Observe request/start/result timestamps without replacing search or its responses.
+Use five fresh Workers per level/position on desktop; add level-5 responsiveness
+runs at 360 and 768 px. Opening is Modern setup; middlegame is a deterministic
+legal 32-ply continuation; tactical is a four-live-King double-check opportunity;
+endgame is a valid sparse two-active-player King/pawn position. Save exact inputs.
+Record the bundle hashes, build/tree fingerprint, Node/Chromium/OS/hardware,
+policies, sample counts, returned intentions and completed-depth diagnostics.
+Native checkbox input timestamp to animation-frame callback measures main-thread
+input/render opportunity (not physical input or display latency). Collect at least
+30 samples during confirmed active search per position/viewport and report p95/max.
+Search and Worker startup/round-trip are distinct from the app's deliberate 400 ms
+turn pacing. Search sampling randomness remains production Math.random; fixtures
+and walking-King seed are recorded, and returned moves are saved for replayability.
+
+Complete-game checks begin at Modern setup: hotseat knight repetition (16 plies),
+mixed human/CPU ordinary opening followed by deliberate post-opening forfeits,
+and uninterrupted four-CPU play until an engine terminal result. The first two
+are controlled rules/UI workflows, not playing-strength experiments. A four-CPU
+run that reaches the observation limit must be saved and labelled unfinished;
+it cannot satisfy the completion gate. Export and replay-validate every completed
+flow, including exact final awards/results and refresh/resume after termination.

@@ -19,7 +19,7 @@ test("hotseat moves autosave before immediate refresh and resume through keyboar
   await expect(page.getByTestId("save-message")).toContainText("Saved on this browser");
 });
 test("abort result survives refresh and a new game replaces its save", async ({ page }) => {
-  await hotseat(page); await page.getByRole("button", { name: "Resign Red", exact: true }).click();
+  await hotseat(page); page.once("dialog", dialog => dialog.accept()); await page.getByRole("button", { name: "Resign Red", exact: true }).click();
   await page.reload(); await page.getByRole("button", { name: "Resume saved game" }).click();
   await expect(page.getByTestId("game-result")).toContainText("Game aborted");
   await page.getByRole("button", { name: "New game", exact: true }).click();

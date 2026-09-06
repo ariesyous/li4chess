@@ -12,7 +12,9 @@ superseded handoffs.
 slices through M2, commits and a draft PR; stop before M3. Acceptance inputs,
 expected outcomes and initial measurable thresholds are in
 [M2 acceptance](m2-acceptance.md). Slice 1 is committed as `839aa46`; slice 2
-implements validated local autosave/resume. Interface and final evidence follow.
+is committed as `a61031b`. Slice 3 implements the responsive accessible frame;
+calibration and complete-game evidence follow. [Draft PR #11](https://github.com/ariesyous/li4chess/pull/11)
+tracks the dedicated branch.
 
 **M1 is complete.** M1-01/M1-02/M1-03 are complete and
 all D/O requirements in the accepted contract have executable coverage. The
@@ -57,9 +59,8 @@ recovery, without retries. Local Markdown file
 links: 201 resolved; `git diff --check` passed. These are correctness/lifecycle
 checks, not difficulty calibration or playing-strength measurements.
 
-Next: validate/review/commit the synchronous local journal and explicit resume;
-then implement the accessible responsive game frame, production calibration and complete
-flows. M2 remains in progress. M3 is out of scope.
+The Worker and persistence slices are committed. Production calibration and
+complete-game evidence remain; M2 is in progress and M3 is out of scope.
 
 ## M2 slice 2: validated local save/resume
 
@@ -339,3 +340,21 @@ current work depends on them; do not reopen already accepted requirements.
    README's implemented features distinct from roadmap targets.
 5. Remove stale handoff notes as they are resolved. Keep a concise decision
    ledger; move substantial designs to dedicated docs and link them here.
+
+## M2 slice 3: responsive frame and accessibility
+
+Implemented from `a61031b`: original board-first frame, directional player cards,
+seat resource labels, contextual rules help, bounded scrollable histories, explicit
+results, native confirmation for consequential controls, and keyboard board
+navigation using shared transforms. Reset preserves the currently loaded seats.
+Text/initials/status and shape supplement hue; focus is visible and reduced motion
+is respected. [Actual captures and manual observations](m2-evidence/ui-inspection.md)
+cover 360/768/1280 widths, touch emulation, long histories and terminal layout.
+Independent review found missing score/non-current-check/elimination announcements;
+a concise action summary and active/walking King regression cases resolve them.
+No screen-reader or physical-device test is claimed. Fresh final validation on Windows/Node 24.18.0/pnpm 10.33.0 passed:
+`pnpm lint --force`, `pnpm test --force` (602 unit tests),
+`pnpm build --force`, and all 43 Playwright tests without retries.
+Changed tests type-check in lint; 211 local Markdown links and diff checks pass.
+No engine, frozen classic or archived research paths changed.
+Calibration and complete-game proof remain.

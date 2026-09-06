@@ -64,7 +64,10 @@ Games now save automatically on this browser after every accepted action. Use
 save. Resume validates the state-v2 checkpoint and action journal through replay-v2,
 retaining seat difficulty, scores, randomness and producer lineage. Starting a new
 game replaces the one local save. Export a replay for a portable backup, especially
-if browser storage is unavailable. The responsive accessible game frame is further M2 work;
+if browser storage is unavailable. The responsive frame has four directional seat panels,
+readable move/points histories, rules help, and deliberate resign/reset/claim controls.
+Tab enters the board; arrows navigate displayed squares, Enter/Space select or move,
+and Escape clears selection. Color names and state labels supplement hue;
 network authority, live clocks and disconnect tracking are M3 work.
 
 ## Monorepo layout
@@ -160,7 +163,7 @@ matchmaking, learning tools, community events, and a sustainable open platform.
 current focus, the next actionable tasks, open questions, and dated validation
 between development sessions. M1 is complete; see the
 [fixture coverage](docs/m1-03-fixtures.md).
-Worker integration is the next local-play milestone. Research continues
+Production budget calibration and complete-game validation remain in M2. Research continues
 alongside the product roadmap with versioned, reproducible evidence.
 
 See [AGENTS.md](AGENTS.md) for repository conventions, including validation,

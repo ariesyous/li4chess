@@ -63,11 +63,24 @@ test("import during real active search terminates old Worker and preserves the i
 
 test("terminal action cancels an active real Worker", async ({ page }) => {
   await observeWorkers(page); await startRedCpu(page);
+  page.once("dialog", dialog => dialog.accept());
   await page.getByRole("button", { name: "Resign Red", exact: true }).click();
   await expect(page.getByTestId("game-result")).toContainText("Game aborted");
   expect(await page.evaluate(() => window.cpuProbe.terminated)).toBe(1);
   await page.waitForTimeout(1300);
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
+});
+
+test("confirmed reset terminates active search and only the new game can move", async ({ page }) => {
+  await observeWorkers(page); await startRedCpu(page);
+  page.once("dialog", dialog => dialog.accept());
+  await page.getByRole("button", { name: "Reset game", exact: true }).click();
+  await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
+  expect(await page.evaluate(() => window.cpuProbe.terminated)).toBe(1);
+  await expect(page.getByTestId("turn-status")).toContainText("Blue to move", { timeout: 8000 });
+  await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
+  expect(await page.evaluate(() => window.cpuProbe.results)).toBe(1);
+  await expect(page.getByTestId("player-0")).toContainText("CPU L5");
 });
 
 test("refresh during real active search resumes exactly one CPU turn with saved difficulty", async ({ page }) => {
@@ -79,7 +92,7 @@ test("refresh during real active search resumes exactly one CPU turn with saved 
   await expect(page.getByTestId("turn-status")).toContainText("Blue to move", { timeout: 8000 });
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
   expect(await page.evaluate(() => window.cpuProbe.results)).toBe(1);
-  await expect(page.getByText("Red (CPU L5)", { exact: false })).toBeVisible();
+  await expect(page.getByTestId("player-0")).toContainText("CPU L5");
 });
 
 for (const failure of ["constructor", "crash", "watchdog"] as const) {
