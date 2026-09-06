@@ -13,7 +13,7 @@ function emptyState(): GameState {
 }
 
 describe("applyMove: checkmate elimination", () => {
-  it("removes the checkmated player's king and remaining pieces, and play continues with the next active player", () => {
+  it("retains the checkmated player's passive king and army, and play continues with the next active player", () => {
     // Back-rank-style mate: Red king boxed in by its own pawns on rank1 (the
     // squares beside it on rank0 are covered by a rook's ray and a supporting
     // knight, rather than occupied), and Green (the player immediately before
@@ -40,8 +40,10 @@ describe("applyMove: checkmate elimination", () => {
 
     const after = applyMove(beforeGreenMove, mateMove!);
 
-    // Red is eliminated: no pieces of Red remain on the board.
-    expect(after.board.some((p) => p?.owner === PlayerColor.Red)).toBe(false);
+    // Red is eliminated, but every owned piece remains at its original square.
+    for (let square = 0; square < board.length; square++) {
+      if (board[square]?.owner === PlayerColor.Red) expect(after.board[square]).toEqual(board[square]);
+    }
     expect(after.players[PlayerColor.Red].status).toBe("checkmated");
     expect(after.players[PlayerColor.Red].eliminatedOnTurn).toBe(after.turnNumber);
 

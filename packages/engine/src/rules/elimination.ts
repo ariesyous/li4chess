@@ -1,14 +1,6 @@
 import { localSquare } from "../board.js";
 import { ALL_COLORS, CastlingRights, GameResult, PieceType, Piece, PlayerColor, PlayerState } from "../types.js";
 
-/** Removes all pieces owned by `color` from the board (checkmate: king and remaining pieces vanish). */
-export function removeAllPiecesOf(
-  board: readonly (Piece | null)[],
-  color: PlayerColor
-): (Piece | null)[] {
-  return board.map((piece) => (piece !== null && piece.owner === color ? null : piece));
-}
-
 /** Retains only existing rights backed by active, unmoved own home pieces.
  * Board occupancy can revoke rights, but must never restore a revoked right.
  */

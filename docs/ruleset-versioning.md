@@ -277,8 +277,10 @@ evidence.
 **M1-03 progress (2026-09-06):** `FFA-SETUP-01..04`, `FFA-CORE-01..12`, and
 `FFA-EP-01..12` now have [executable coverage](m1-03-fixtures.md) and their
 focused engine/state changes. `FFA-CASTLE-01..16` now also run for every seat,
-with ownership and permanent rights-loss/cleanup fixes. The local state has no
-certified ruleset ID; standard-v1 remains reserved and replay-v2/state-v2 remain
+with ownership and permanent rights-loss/cleanup fixes. `FFA-DEAD-01..08` now
+cover retained passive mate/stalemate armies and their interactions in all four
+orientations, with focused engine, bot evaluation, and UI updates. The local
+state has no certified ruleset ID; standard-v1 remains reserved and replay-v2/state-v2 remain
 unimplemented.
-The exact next slice is fixture-first `FFA-DEAD-01..08`, with the boundaries
+The next proposed slice is fixture-first `FFA-PROMO-01..08`, with the boundaries
 and remaining work recorded in [project state](project-state.md).

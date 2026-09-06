@@ -16,11 +16,11 @@ import {
   rankOf,
 } from "@li4chess/engine";
 
-/** v1 eval: material only, from `botColor`'s perspective. Kept for comparison/regression baselines. */
+/** Active material only, from `botColor`'s perspective. */
 export function evaluateMaterial(state: GameState, botColor: PlayerColor): number {
   let score = 0;
   for (const piece of state.board) {
-    if (piece === null) continue;
+    if (piece === null || state.players[piece.owner].status !== "active") continue;
     const value = PIECE_VALUES[piece.type];
     score += piece.owner === botColor ? value : -value;
   }
@@ -30,9 +30,9 @@ export function evaluateMaterial(state: GameState, botColor: PlayerColor): numbe
 /**
  * Magnitude of a decisive result. Far above any reachable material score, so
  * winning or being eliminated always dominates every positional term — without
- * this the bot happily walks into checkmate to win a queen, since a mated
- * player's own material simply vanishes from the board and the old
- * `survivalBias` charged only 3 pawns for losing the entire game.
+ * this the bot happily walks into checkmate to win a queen. Historically,
+ * mate removed its army and `survivalBias` charged only 3 pawns for losing.
+ * Retained passive material likewise has no live evaluation value.
  *
  * Scores at or beyond MATE_THRESHOLD are treated as "decisive" by the search,
  * which shifts them toward zero by the ply they were found at so that a faster
@@ -290,7 +290,7 @@ export function evaluateFull(
 
   for (let square = 0; square < state.board.length; square++) {
     const piece = state.board[square];
-    if (piece === null) continue;
+    if (piece === null || state.players[piece.owner].status !== "active") continue;
     const value = PIECE_VALUES[piece.type];
     const isBot = piece.owner === botColor;
     material += isBot ? value : -value;

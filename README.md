@@ -26,11 +26,12 @@ the Chess.com-compatible target. Setup, ordinary king safety, active-king
 non-capture, per-player en-passant windows, and castling now have executable
 acceptance fixtures for all four orientations. Castling enforces own home
 pieces, permanent rights loss, king-path safety, and passive dead-piece blocking.
-In the current implementation, checkmated players' pieces are removed;
-stalemated players' pieces remain frozen and
-capturable for zero points. The last active player wins, with capture points
-used only to break placement ties among eliminated players.
-Full standard FFA, its scoring, promotion, dead-army transitions, and versioned
+Checkmated and stalemated armies remain as grey passive pieces: they occupy and
+block squares, cannot move or attack, lose special rights, and are capturable
+for zero points (including eligible dead-pawn en passant). The last active
+player wins, with capture points used only to break placement ties among
+eliminated players.
+Full standard FFA, its scoring, promotion, walking kings, and versioned
 replays remain M1-03 work. `li4chess-ffa-standard-v1` is still reserved.
 
 CPU search currently runs on the browser's main thread, so higher difficulties
@@ -80,10 +81,10 @@ pnpm lint                             # TypeScript checks across all packages
 pnpm test                             # Unit tests, including rules, bots, and arena
 pnpm build                            # Build all packages and the web app
 pnpm --filter @li4chess/web exec playwright install chromium
-pnpm --filter @li4chess/web test:e2e    # Human/CPU turn flow and four-CPU autoplay
+pnpm --filter @li4chess/web test:e2e    # Human/CPU turns, autoplay, and dead armies
 ```
 
-CI runs lint, unit tests, the production build, and both browser tests on pull
+CI runs lint, unit tests, the production build, and browser tests on pull
 requests and pushes to `main`. Playwright starts its own local Vite server.
 The GitHub Pages workflow deploys `apps/web/dist` from `main`; Vite's base path
 is configured for `/li4chess/`.

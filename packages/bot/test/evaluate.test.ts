@@ -1,6 +1,6 @@
 import { GameState, PieceType, PlayerColor, createInitialState, localSquare, squareOf } from "@li4chess/engine";
 import { describe, expect, it } from "vitest";
-import { FULL_EVAL_WEIGHTS, evaluateFull, evaluateMaterial } from "../src/evaluate.js";
+import { FULL_EVAL_WEIGHTS, MATERIAL_ONLY_WEIGHTS, evaluateFull, evaluateMaterial } from "../src/evaluate.js";
 
 function emptyState(): GameState {
   const state = createInitialState();
@@ -10,6 +10,22 @@ function emptyState(): GameState {
 }
 
 describe("evaluate", () => {
+  it("passive armies have no material, center, or pawn-advancement value", () => {
+    for (const status of ["checkmated", "stalemated"] as const) {
+      const base = emptyState();
+      const state: GameState = { ...base, players: { ...base.players,
+        [PlayerColor.Blue]: { ...base.players[PlayerColor.Blue], status } } };
+      const board = state.board.slice();
+      board[squareOf(5,5)] = { type:PieceType.Queen, owner:PlayerColor.Blue, hasMoved:true };
+      board[squareOf(6,6)] = { type:PieceType.Pawn, owner:PlayerColor.Blue, hasMoved:true };
+      const occupied = { ...state, board };
+      expect(evaluateMaterial(occupied, PlayerColor.Red)).toBe(0);
+      for (const term of ["material", "centerControl", "pawnAdvancement"] as const) {
+        const weights = { ...MATERIAL_ONLY_WEIGHTS, material:0, [term]:1 };
+        expect(evaluateFull(occupied, PlayerColor.Red, weights)).toBe(evaluateFull(state, PlayerColor.Red, weights));
+      }
+    }
+  });
   it("evaluateMaterial is identical (and symmetric) for every color in the starting position", () => {
     // Each side starts with the same total material (39), and the score is
     // "mine minus the combined total of all 3 opponents" — so it's negative

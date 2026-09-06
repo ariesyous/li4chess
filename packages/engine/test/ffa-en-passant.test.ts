@@ -103,8 +103,8 @@ for (const rotation of ALL_COLORS) describe(`FFA en passant: ${PlayerColor[rotat
   it("FFA-EP-10: an eligible active pawn captures a dead double-pushed pawn for zero points", () => {
     for (const status of ["checkmated","stalemated","resigned"] as const) {
       let state = pushed();
-      // Explicit accepted post-death snapshot. Resign/timeout transitions and
-      // keeping mate armies on-board belong to later FFA-DEAD/WALK slices.
+      // Explicit accepted post-death snapshot. FFA-DEAD also covers retained
+      // mate/stalemate transitions; resign/timeout actions remain WALK work.
       state = {...state, players:{...state.players,[rotation]:{...state.players[rotation],status}}};
       expect(epMoves(state)).toHaveLength(1);
       state = play(state,rotation,[5,3],[6,2]);

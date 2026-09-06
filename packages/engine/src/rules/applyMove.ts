@@ -14,7 +14,6 @@ import {
   computeGameResult,
   countActive,
   recomputeCastlingRights,
-  removeAllPiecesOf,
 } from "./elimination.js";
 import { hasLegalMove } from "./legality.js";
 import { positionKey, REPETITION_DRAW_COUNT } from "./repetition.js";
@@ -27,8 +26,8 @@ const MAX_ROTATION_STEPS = 4;
  * Applies a legal move to produce the next GameState: moves/captures/promotes/
  * castles on the board, updates scoring/castling-rights/en-passant, then
  * advances the turn — cascading through any players who turn out to have no
- * legal moves (checkmate: eliminate and remove their pieces; stalemate: freeze
- * them in place) until an active player with a move is found or the game ends.
+ * legal moves (checkmate or stalemate: retain their whole army as passive
+ * obstacles) until an active player with a move is found or the game ends.
  */
 export function applyMove(state: GameState, move: Move): GameState {
   assertLocalMigrationState(state);
@@ -83,10 +82,8 @@ export function applyMove(state: GameState, move: Move): GameState {
       eliminatedOnTurn: turnNumber,
     };
     if (inCheck) eliminated.push(candidate);
-    const nextBoard = inCheck ? removeAllPiecesOf(working.board, candidate) : working.board;
     working = {
       ...working,
-      board: nextBoard,
       players: nextPlayers,
       castlingRights: { ...working.castlingRights, [candidate]: { kingside: false, queenside: false } },
     };

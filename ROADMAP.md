@@ -71,11 +71,13 @@ executable fixtures, implement the verified behavior, and satisfy the milestone
 exit criteria. The first M1-03 slice now has executable `FFA-SETUP-01..04`,
 `FFA-CORE-01..12`, and `FFA-EP-01..12` coverage and the required setup/core/EP
 implementation. The second slice adds `FFA-CASTLE-01..16` for all seats and
-fixes ownership and permanent rights loss/cleanup; see the
-[coverage map](docs/m1-03-fixtures.md). Full standard-v1,
-scoring, promotion, dead-army transitions, and replay v2 remain incomplete.
-The next focused slice is fixture-first `FFA-DEAD-01..08`, covering passive
-dead-army transitions/interactions; scoring and walking kings remain separate.
+fixes ownership and permanent rights loss/cleanup. The third slice adds
+`FFA-DEAD-01..08` in all four orientations: retained passive mate/stalemate
+armies, zero-point capture, occupancy/no attacks/no moves, rights cleanup, and
+dead-pawn EP. See the [coverage map](docs/m1-03-fixtures.md). Full standard-v1,
+scoring, promotion, walking kings, and replay v2 remain incomplete.
+The next proposed focused slice is fixture-first `FFA-PROMO-01..08`;
+scoring awards and walking kings remain separate.
 
 **Capabilities**
 
@@ -103,7 +105,7 @@ in these areas. This is a starting inventory, not a complete specification.
 | --- | --- | --- |
 | Winner | Last active player | Highest points total |
 | Promotion | Far local rank | Player's eighth rank |
-| Eliminated army | Checkmated pieces removed | Dead pieces remain; captures give no points |
+| Eliminated army | Passive mate/stalemate armies retained (DEAD slice) | Dead pieces remain; captures give no points |
 | Scoring | Capture values; bishop worth 3 | Bishop worth 5; mate, stalemate, and multi-check awards |
 | Resignation/timeout | No complete game action | Dead army with a live king that moves randomly |
 | Draw ending | Repetition ties active players first | Draw awards affect final points |

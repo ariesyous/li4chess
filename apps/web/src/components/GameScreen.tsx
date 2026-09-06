@@ -1,4 +1,4 @@
-import { ALL_COLORS, PlayerColor } from "@li4chess/engine";
+import { ALL_COLORS, PlayerColor, isPlayerInCheck } from "@li4chess/engine";
 import { Board, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
 import { useState } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
@@ -14,7 +14,8 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
   const [rotateToMover, setRotateToMover] = useState(false);
 
   const lastMove = state.moveHistory[state.moveHistory.length - 1] ?? null;
-  const checkedColors = new Set(lastMove?.isCheck ?? []);
+  const deadColors = new Set(ALL_COLORS.filter(color => state.players[color].status !== "active"));
+  const checkedColors = new Set(ALL_COLORS.filter(color => !deadColors.has(color) && isPlayerInCheck(state, color)));
   const justAffected = ALL_COLORS.filter(
     (color) => state.players[color].eliminatedOnTurn === state.turnNumber
   );
@@ -29,6 +30,7 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
         selectedSquare={selectedSquare}
         legalTargets={legalTargets}
         checkedColors={checkedColors}
+        deadColors={deadColors}
         lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null}
         bottomColor={rotateToMover ? state.turn : PlayerColor.Red}
       />
@@ -57,12 +59,13 @@ export function GameScreen({ seats, onRestart }: { seats: SeatSetups; onRestart:
             {justAffected.map((color) =>
               state.players[color].status === "checkmated" ? (
                 <p key={color} style={{ margin: 0, color: PLAYER_COLOR_HEX[color] }}>
-                  ♔ {PLAYER_COLOR_NAME[color]} is checkmated — eliminated, their pieces are removed from the board.
+                  ♔ {PLAYER_COLOR_NAME[color]} is checkmated — their army stays on the board as dead pieces.
+                  They block squares, cannot move or attack, and can be captured for zero points.
                 </p>
               ) : (
                 <p key={color} style={{ margin: 0, color: PLAYER_COLOR_HEX[color] }}>
                   {PLAYER_COLOR_NAME[color]} is stalemated — no legal moves, but not in check. Their pieces stay
-                  frozen on the board and they're skipped from now on.
+                  on the board as dead pieces that block squares, cannot move or attack, and can be captured for zero points.
                 </p>
               )
             )}

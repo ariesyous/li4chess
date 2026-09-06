@@ -1,8 +1,8 @@
 # li4chess rules specification — partial M1 migration
 
 > **Implemented behavior as of 2026-09-06, not full standard FFA.** The completed
-> M1-03 slices implement the accepted setup, core-legality, en-passant, and
-> castling fixtures. The remaining house behavior is identified below. The complete
+> M1-03 slices implement the accepted setup, core-legality, en-passant,
+> castling, and passive dead-army fixtures. Remaining house behavior is identified below. The complete
 > target is the accepted [migration contract](ruleset-versioning.md), supported
 > by [the audit](rules-compatibility.md). `li4chess-ffa-standard-v1` stays reserved.
 
@@ -64,13 +64,23 @@ the checker or create an escape. Tests cover both mate and stalemate rescue.
 The mover only has to protect its own king; another player's pending check does
 not force an immediate response from an intervening player.
 
-**Remaining house transition:** on its scheduled turn, a player with no legal
-moves while checked becomes `checkmated`; its king and all pieces are removed
-without a capture award. A player with no legal moves while not checked becomes
-`stalemated`; its pieces remain passive and capturable. Both are skipped.
-Standard FFA's retained dead mate armies and mate/stalemate awards are not yet
-implemented. `resigned` is a representable inactive status, but there is still
-no resignation, timeout, or walking-king action.
+On its scheduled turn, a player with no legal moves becomes `checkmated` while
+checked, or `stalemated` otherwise. In both cases its king and whole remaining
+army stay on their exact squares as passive obstacles. They cannot move or
+attack, lose castling and EP-capturer rights, and can be captured for zero points.
+They still block movement and active attack rays; removing a screen can expose
+the capturing player's king and make a capture illegal. The owner is skipped
+permanently even if an escape later opens. Piece owner/type/moved flags remain
+unchanged; player status determines passive interactions in this local shape.
+
+The UI greys these armies and excludes them from check indicators. Bot material,
+center, and pawn-advancement evaluation excludes passive pieces while retaining
+their occupancy for movement and attack geometry. Low-level board-only attack
+helpers describe geometry; rules consumers filter to active opponents.
+
+Mate/stalemate awards remain unimplemented. `resigned` is a representable
+inactive status, but there is still no resignation, timeout, or walking-king
+action; a live walking king will need finer state than owner status alone.
 
 ## En passant
 
@@ -94,8 +104,9 @@ owners lose their rights and cannot exercise them.
 
 If an eligible opponent's target pawn remains on the board after its owner
 becomes inactive, it can still be captured en passant for **zero points**. The
-fixture supplies that explicit post-death state. It does not implement the later
-resignation/timeout or retained-mate-army transitions. The old opposite-seat-only
+EP fixture supplies an explicit post-death state; DEAD-08 additionally resolves
+mate/stalemate from a synthetic pending-right snapshot before the capture.
+Resignation/timeout transitions remain unimplemented. The old opposite-seat-only
 claim and next-global-move expiry were implementation errors, now replaced.
 
 ## Castling

@@ -1,4 +1,4 @@
-# M1-03 setup, core legality, en-passant, and castling fixtures
+# M1-03 setup, core, en-passant, castling, and passive dead-army fixtures
 
 Implemented 2026-09-06 from the accepted D/O inventory in
 [the migration contract](ruleset-versioning.md). The dated coordinate and
@@ -97,12 +97,57 @@ using the shared transform; CASTLE-01/02 use independent absolute outputs:
 
 Passive cases explicitly supply `checkmated`, `stalemated`, or `resigned`
 snapshots. Only the existing deferred-mate action is used to check immediate
-rights cleanup; this does not implement retained mate armies, new death
-actions, or walking kings. Illegal castle requests are also checked through
+rights cleanup; the DEAD slice below adds retained mate armies. New death
+actions and walking kings remain future work. Illegal castle requests are also checked through
 `applyMoveRequest`; legal sequences assert input immutability.
+
+## Passive dead-army fixture inputs and expected results
+
+Written before behavior changes on 2026-09-06. Source:
+[FFA dead armies](../packages/engine/test/ffa-dead.test.ts). Eight scenarios run
+in each of the four orientations. Coordinates below are absolute Red-frame
+inputs rotated by the shared transform. These are synthetic accepted-contract
+fixtures, not new reference-product observations.
+
+DEAD-01/02 reuse CORE's king trap: own King `(3,0)`, Blue Knights `(5,0)`,
+`(6,1)`, `(6,2)`, and other Kings `(0,6)`, `(8,10)`, `(13,7)`. An immobile own
+army occupies the nine squares at files 3–5, ranks 11–13: Pawns at `(3,11)`,
+`(4,11)`, `(5,11)`, `(5,12)`, `(5,13)`, Queen `(3,12)`, Bishop `(4,12)`,
+Knight `(3,13)`, Rook `(4,13)`. Every piece is moved; rights/counts start empty.
+Mate adds a Blue Rook `(3,3)`; stalemate omits it. Every move is matched against
+legal moves and checked for input immutability.
+
+| Fixture | Explicit input / expected result |
+| --- | --- |
+| FFA-DEAD-01 | Mate trap, Blue to move; Kings `(0,6)→(0,7)`, `(8,10)→(9,10)`, `(13,7)→(12,7)`. Red remains active until its scheduled turn, then becomes checkmated. Exact board retains all ten Red pieces unchanged; turn skips to Blue. Later rotations never reactivate Red. |
+| FFA-DEAD-02 | Same sequence without the checking Rook: stalemated, same retained board and skipped turns, including after a trapping Knight moves away. |
+| FFA-DEAD-03 | Each dead status, opponent owner, and piece type P/N/B/R/Q/K at `(5,8)`; own Rook `(5,5)` captures it. Zero score delta, captured metadata retained, no new elimination. Also capture Pawn `(3,11)` from `(3,9)` after each actual deferred transition. |
+| FFA-DEAD-04 | Dead pawn on a Rook/Queen ray or Bishop diagonal blocks beyond itself but is capturable. Dead pawn at `(6,2)` or `(6,3)` prevents a starting pawn's double push; only the latter permits a single push. Knight `(5,1)→(7,2)` can jump. CASTLE-15 retains exhaustive castle-path coverage. |
+| FFA-DEAD-05 | Dead pawn `(7,2)` screens own King `(7,0)` from active Rook `(7,5)`. Removing it exposes check; a Knight capture that replaces the screen is safe. EP from `(7,2)` to `(8,3)` removing dead pawn `(7,3)` exposes that file and is illegal. |
+| FFA-DEAD-06 | Each piece geometry attacks own King `(6,5)` while active, then ceases to constrain its moves when passive. No pseudo/legal moves or castles; even an explicitly inactive-turn external request rejects. |
+| FFA-DEAD-07 | Pre-resolution trap with saved castling bits and pending EP against Yellow Pawn `(9,8)`, eligible Red/Blue. Green's quiet move resolves Red's death, clears both castle bits and Red's eligibility, preserves Blue's opportunity. CASTLE-16 additionally covers unmoved home pieces in the mate transition. |
+| FFA-DEAD-08 | Pre-resolution trap with trapping Knight moved from `(6,2)` to `(6,0)` to leave the target empty; own pushed Pawn `(6,3)` pinned by Blue Bishop `(9,6)`; Blue/Yellow Pawns `(5,3)`/`(7,3)` have an explicit pending right to `(6,2)`. After Green moves and Red dies, retain the pawn/right. Blue captures EP for zero; remove victim and all remaining eligibility. JSON round-trip gives the same result. |
+
+DEAD-07/08 deliberately supply pending-right snapshots, without claiming a
+reachable opening history or introducing resignation/timeout actions. EP-01..12
+remain the evidence for eligibility creation/expiry from actual legal double
+pushes. Awards and walking kings are outside this slice.
 
 ## Implementation boundaries
 
+- DEAD retains the board during deferred checkmate resolution. Existing passive
+  move/attack filtering, zero-point captures, castling cleanup, and EP cleanup
+  satisfy the interaction fixtures without additional rule changes. The suite
+  has 32 passing cases. The baseline exposed 12 removal-related failures and
+  20 passes after correcting the fixture turn counter; a later EP fixture
+  correction freed its accidentally occupied target square.
+- Direct consumers now show grey dead armies and accurate elimination text,
+  compute check indicators from active players on the resolved board, and omit
+  dead material/center/pawn-advancement values in production evaluation. Bot
+  evaluation has a focused regression; two browser fixtures exercise actual
+  deferred transitions, selection, grey/check rendering, and zero-point capture.
+  Search capture ordering remains a heuristic; no search algorithms, weights,
+  objectives, or frozen classic sources changed.
 - Castling fixtures first exposed 12 failures and 52 passes. The fixes require
   own King/Rook ownership, preserve revoked rights across moves, and clear
   inactive/eliminated owners' rights. Existing geometry and active-attack/path
@@ -116,10 +161,10 @@ actions, or walking kings. Illegal castle requests are also checked through
 - Inactive `PlayerState.status` is sufficient for the explicit passive dead-pawn
   input in this slice. It is not sufficient for a dead army with a live walking
   king. FFA-EP-10 deliberately does not assert a resignation/timeout action or a
-  changed mate-army transition; those remain FFA-DEAD/WALK work.
+  changed mate-army transition; DEAD now covers the latter and WALK remains later.
 - CORE mate/stalemate fixtures assert timing, status, rescue, and rotation.
-  Standard awards, dead-army transitions, and placements remain their separate
-  DEAD/SCORE/END fixtures. The local engine still removes mate armies.
+  DEAD now covers passive army transitions. Standard awards and placements
+  remain separate SCORE/END work.
 - `rulesetId: null` marks a local, partial migration state, not a sixth ruleset
   identifier. Standard-v1 remains reserved; state-v2 and replay-v2 remain future
   schemas. The current format fence rejects old/labelled snapshots; it is not
@@ -132,11 +177,11 @@ actions, or walking kings. Illegal castle requests are also checked through
 
 ## Exact next slice
 
-Write `FFA-DEAD-01..08` first: explicit post-mate/stalemate boards, retained
-passive armies, zero-point captures, no attacks/moves/special rights, path
-blocking, and dead-pawn en passant. Then implement only required passive
-dead-army transitions/interactions, reusing EP/CASTLE regressions. This is the
-next proposed implementation slice, not work started here. Awards and walking
-kings remain separate SCORE/WALK work. Continue to reserve standard-v1 and
-preserve historical sources. PROMO, SCORE, WALK, END, DRAW, ABORT, and
-replay-v2/state-v2 follow as focused M1-03 slices; M2/M3 remain outside this work.
+Proposed next: write `FFA-PROMO-01..08` inputs and expected results first,
+covering eighth-rank coordinates for every seat, automatic Queen promotion,
+one-point capture provenance/value, Queen classification, and no spare king.
+Then implement only the promotion slice and necessary consumers. This is not
+work started here. Awards and walking kings remain separate SCORE/WALK work.
+Continue to reserve standard-v1 and preserve historical sources. SCORE, WALK,
+END, DRAW, ABORT, and replay-v2/state-v2 remain later M1-03 work; M2/M3 remain
+outside this work.

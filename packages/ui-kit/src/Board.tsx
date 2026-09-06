@@ -8,6 +8,8 @@ export interface BoardProps {
   readonly selectedSquare?: number | null;
   readonly legalTargets?: ReadonlySet<number>;
   readonly checkedColors?: ReadonlySet<PlayerColor>;
+  /** Passive army owners supplied by the application; the board does not decide game status. */
+  readonly deadColors?: ReadonlySet<PlayerColor>;
   readonly lastMove?: { readonly from: number; readonly to: number } | null;
   /** Which color's side renders at the bottom of the screen. Defaults to Red (the board's "natural" orientation). */
   readonly bottomColor?: PlayerColor;
@@ -42,6 +44,7 @@ export function Board({
   selectedSquare = null,
   legalTargets,
   checkedColors,
+  deadColors,
   lastMove,
   bottomColor = PlayerColor.Red,
 }: BoardProps) {
@@ -58,17 +61,20 @@ export function Board({
 
       const square = squareOf(file, rank);
       const piece = board[square];
+      const isDead = piece !== null && deadColors?.has(piece.owner) === true;
       const isSelected = selectedSquare === square;
       const isLegalTarget = legalTargets?.has(square) ?? false;
       const isLastMove = lastMove?.from === square || lastMove?.to === square;
       const isDark = (file + rank) % 2 === 0;
       const isCheckedKingSquare =
-        piece?.type === PieceType.King && checkedColors?.has(piece.owner) === true;
+        !isDead && piece?.type === PieceType.King && checkedColors?.has(piece.owner) === true;
 
       cells.push(
         <button
           key={square}
           type="button"
+          data-square={square}
+          aria-label={`${String.fromCharCode(97 + file)}${rank + 1}${piece ? ` ${isDead ? "dead " : ""}${PlayerColor[piece.owner]} ${piece.type}` : ""}`}
           onClick={() => onSquareClick?.(square)}
           style={{
             width: "100%",
@@ -106,7 +112,7 @@ export function Board({
             />
           )}
           {piece && (
-            <span style={{ color: PLAYER_COLOR_HEX[piece.owner], filter: "drop-shadow(0 0 1px black)" }}>
+            <span style={{ color: isDead ? "#777777" : PLAYER_COLOR_HEX[piece.owner], filter: "drop-shadow(0 0 1px black)" }}>
               {PIECE_GLYPHS[piece.type]}
             </span>
           )}

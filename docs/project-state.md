@@ -15,17 +15,17 @@ accepted the [ruleset/replay migration contract](ruleset-versioning.md), includi
 the product-owned identifiers, v2 deterministic event/state requirements, legacy
 preservation, and evidence-status fixture inventory. All release-affecting game
 semantics have D/O target evidence. **M1-03 is in progress:** the
-setup/core/en-passant and castling slices are implemented; the remaining
-accepted differences still need fixture-first engine, protocol, UI, bot,
+setup/core/en-passant, castling, and passive dead-army slices are implemented;
+the remaining accepted differences still need fixture-first engine, protocol, UI, bot,
 and arena changes.
 The first public release is M4, public FFA matchmaking with ratings, anonymous
 access, and CPU play.
 
-Repository baseline verified: `0f01a2b8e23c3e14e293650e579f79e5b2d4a7f1` on `main`,
-with a clean working tree before the castling slice. The previous setup/core/EP
-slice is committed in that revision; its earlier handoff's "uncommitted" wording
-was stale. The castling slice described below follows that baseline; use Git
-history and status to verify its commit and publication state.
+Repository baseline verified: `432c0a8e6b35dc3602a4f46b5a43566c08531951` on
+`main`, with a clean working tree before the DEAD slice. SETUP/CORE/EP and
+CASTLE are committed. The DEAD slice follows that baseline; the maintainer
+authorized its commit and push on 2026-09-06 after validation. Use Git history
+and status to verify its revision and publication state on the next handoff.
 The local game now implements a partial M1 migration. CPU search is synchronous;
 networking, application persistence, clocks, accounts, queues, and ratings are
 not implemented. See [README.md](../README.md) for the package map.
@@ -35,6 +35,24 @@ and ADR required before implementation. This planning decision does not start M3
 provision infrastructure, or change the current M1 focus.
 
 ## Completed M1-03 slices and remaining work
+
+The third slice implements `FFA-DEAD-01..08`: 32 tests across all four seats
+cover exact retained mate/stalemate boards, deferred resolution and permanent
+turn skipping, every dead piece's zero-point capture, slider/pawn blockers,
+knight jumping, active attack screens and EP self-check rejection, no attacks
+or moves, castling/EP eligibility cleanup, and eligible dead-pawn EP capture.
+CORE/EP/CASTLE regressions are reused. The pre-implementation baseline had
+20 passes and 12 removal-related failures after correcting a turn-count
+expectation; the later EP fixture correction leaves its target empty.
+
+The reducer now retains the board during checkmate resolution; existing owner
+status already supports passive interactions and rights cleanup. Bot material,
+center, and pawn-advancement terms now exclude passive pieces. The UI shows
+grey armies, accurate zero-point/passive explanations, and current active-only
+check indicators. A bot regression and two deterministic browser scenarios
+cover these direct consumers. No search algorithm/weight or result objective
+changed; capture ordering remains a heuristic. See the
+[fixture map](m1-03-fixtures.md) for explicit inputs, outputs, and boundaries.
 
 The second slice implements `FFA-CASTLE-01..16`: 64 tests across all four
 seats, with both castles, independent absolute destinations, missing/moved/
@@ -78,23 +96,48 @@ no new benchmark/tournament measurements or replay conversions were performed.
 The existing v1 arena harness remains regression infrastructure; new research
 output must wait for the accepted v2 provenance/replay migration.
 
-No accepted-contract conflict was found. The dead-pawn fixture uses an explicit
-inactive-owner snapshot; this slice does not add resignation/timeout or retained
-mate-army transitions. The existing owner status expresses that passive case,
-but a live walking king with a dead army will need finer state. Mate removal,
+No accepted-contract conflict was found. DEAD's EP transition fixture starts
+from an explicit pending-right snapshot rather than claiming a complete reachable
+opening history. Existing EP fixtures separately validate grants and expiry from
+legal double pushes. The existing owner status expresses passive armies,
+but a live walking king with a dead army will need finer state. Resign/timeout,
 far-edge promotion, award-free scoring, elimination-first placements, and the
 old draw ending remain partial-migration limitations, accurately described in
 [rules-spec.md](rules-spec.md). No M2/M3 work was started.
 
-**Exact next slice (working plan):** fixture-first `FFA-DEAD-01..08`, covering
-retained passive mate/stalemate armies, zero-point captures, no attacks/moves/
-special rights, path blocking, and dead-pawn en passant. Then implement only
-required passive dead-army transitions/interactions. Awards and walking kings
-remain separate SCORE/WALK work; this slice has not started. PROMO, SCORE, WALK,
-END, DRAW, ABORT, replay-v2/state-v2, and consumer alignment remain later M1-03
-work. Standard-v1 remains reserved. M2/M3 remain untouched.
+**Exact next slice (proposed working plan):** fixture-first `FFA-PROMO-01..08`,
+covering eighth-rank coordinates for every seat, automatic Queen promotion,
+one-point capture provenance/value, Queen classification, and no spare king.
+Then implement only promotion and its necessary consumers. No PROMO work has
+started. Awards and walking kings remain separate SCORE/WALK work; END, DRAW,
+ABORT, replay-v2/state-v2, and remaining consumer alignment follow in M1-03.
+Standard-v1 remains reserved. M2/M3 remain untouched.
 
-**Castling validation, 2026-09-06:** Windows, Node 24.18.0, pnpm **10.33.0** via
+**DEAD validation, 2026-09-06:** against
+`432c0a8e6b35dc3602a4f46b5a43566c08531951` plus the uncommitted DEAD slice,
+Windows, Node 24.18.0, pnpm **10.33.0** through temporary Corepack shims,
+including Turbo children:
+
+- `pnpm lint --force`: all six packages passed.
+- `pnpm test --force`: **299 passed** (engine 243, bot 47, protocol 4, arena 5).
+- `pnpm build --force`: all six packages passed, including Vite.
+- All three Turbo commands report **zero cache hits**.
+- `pnpm --filter @li4chess/web test:e2e`: **4 passed**, including the two new
+  mate/stalemate browser cases, human/CPU turns, and four-CPU autoplay.
+- New engine/bot/browser fixtures type-check with strict TypeScript options;
+  regular package lint includes source files only.
+- The sandbox blocked esbuild parent-directory reads and a direct compiler
+  invocation; approved checks outside those restrictions succeeded. Initial
+  browser fixture injection needed parentheses around its object expression;
+  the corrected full browser run passed. Remaining npm environment/colour
+  warnings were non-failing.
+- Complete diff review and `git diff --check` (including both new files) passed.
+  All 148 local Markdown links across 18 files resolved. Classic sources,
+  the historical house specification, and archived research are unchanged.
+  No measurements, replay conversions, deployment, commit, or push occurred
+  during validation. The maintainer subsequently authorized commit and push.
+
+**Castling validation, 2026-09-06 (historical):** Windows, Node 24.18.0, pnpm **10.33.0** via
 temporary Corepack shims on PATH, including Turbo child processes, against
 `0f01a2b8e23c3e14e293650e579f79e5b2d4a7f1` plus the castling slice (uncommitted
 at validation time):
@@ -170,7 +213,7 @@ the first M3 task when that milestone becomes actionable.
 | --- | --- | --- |
 | M1-01 | Create `docs/rules-compatibility.md`: compare current code/spec against current official FFA documentation; record source dates and unresolved cases. | **Complete 2026-09-06.** [Audit](rules-compatibility.md) covers every requested category, current code/tests, official source dates, scoped variant distinctions, and reproducible open-case checks. |
 | M1-02 | Resolve compatibility questions and specify ruleset/replay versioning, including old artifacts and rule-driven randomness. | **Complete 2026-09-06.** The maintainer accepted the [migration contract](ruleset-versioning.md); every release-affecting rule has D/O evidence, and the identifiers, replay/state invariants, and legacy policy are fixed for M1-03. |
-| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP and CASTLE slices implemented; [coverage and exact next slice](m1-03-fixtures.md). Next: fixture-first `FFA-DEAD-01..08`. Complete only when all M1 exit criteria and repository validation pass; historical evidence remains intact. |
+| M1-03 | Implement the verified differences in focused changes, updating the engine, evaluation, result UI, and tests together where needed. | **In progress.** SETUP/CORE/EP, CASTLE, and passive DEAD slices implemented; [coverage and exact next slice](m1-03-fixtures.md). Proposed next: fixture-first `FFA-PROMO-01..08`. Complete only when all M1 exit criteria and repository validation pass; historical evidence remains intact. |
 | M2-01 | Define and implement the Worker request/result contract and bounded CPU scheduling. Can begin independently after agreeing its scope. | Reset/cancellation/failure/stale-result tests pass and UI input remains responsive during search. |
 | M2-02 | Design and implement the board-first local game frame and four-player panels from the [UI/UX reference](ui-ux-reference.md), using original accessible components. | Desktop/mobile/keyboard/screen-reader acceptance coverage shows all seat, turn, score, and status information without colour-only cues. |
 | M3-01 | Run the Cloudflare architecture spike and write an ADR before online-service implementation. Validate the Worker/Static Assets boundary, authoritative `GameRoom` Durable Object lifecycle and WebSockets, D1 event/replay persistence and recovery, protocol ownership, local Wrangler/Vite/workerd workflow, CI/deployment shape, platform limits, observability, and cost assumptions. | Focused prototypes and the ADR make consistency, failure/recovery, deployment/rollback, limits, fallback criteria, and deferred services explicit; no production infrastructure is provisioned merely to complete the design. |
