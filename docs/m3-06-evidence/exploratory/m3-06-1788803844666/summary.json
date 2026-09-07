@@ -1,0 +1,6 @@
+{
+  "passed": false,
+  "groups": 10,
+  "starts": 8,
+  "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(cookie)\n"
+}

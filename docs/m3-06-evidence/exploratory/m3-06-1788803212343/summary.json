@@ -1,0 +1,6 @@
+{
+  "passed": false,
+  "groups": 7,
+  "starts": 2,
+  "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(legalMoves({ ...test, players: { ...test.players, [seat]: { ...test.players[seat as PlayerColor], status: \"resigned\" } } }).some(m => m.piece.type === PieceType.King))\n"
+}

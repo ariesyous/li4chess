@@ -8,36 +8,49 @@ superseded handoffs.
 
 ## Current focus
 
-M3-06 local four-browser validation is in progress under the
-[pre-change acceptance inventory](m3-06-acceptance.md). The clean branch
-`codex/m3-06-four-browser-validation` starts at fetched origin/main `e8d5494`.
-PR #16 is verified merged at `e8d5494898bcd7b88491aa3ea2ccc19e01d13816`;
-its final head `c0a418a1388472f34d301d3d10ca97443993d574` passed CI 34136255021
-and merge Pages 34147880224 passed. Merge CI 34147880230 subsequently passed
-and was verified before behavior changes. Historical
-draft wording below is superseded by this verified merge. M3-06 is not complete.
-The campaign excludes hosted activation and M4, retains existing suites, and
-separates ordinary complete games from fixture-assisted endings and incidents.
+**M3-06 is complete within its local acceptance scope.** The
+[inventory](m3-06-acceptance.md) preceded changes, and
+[Windows/Linux evidence](m3-06-evidence/README.md) records 70 campaign observations,
+27 runtime starts and 13 terminal histories per platform. Six ordinary-setup
+completions include two injected-clock endings and one recovery game; five endings
+use source-linked checkpoints, two terminal histories are opening aborts, and six
+incident/credential-loss rooms remain deliberately unfinished. Normal Modern games
+complete through authenticated private-room UI creation/join/seats/readiness.
 
-The campaign exercises ordinary repetition and walking/survivor games through
-four authenticated UI contexts, exact D1 replay/command audits, all-seat lost
-responses/refresh/takeover, checkpoint-assisted endings, six runtime interruption
-boundaries, D1 rollback plus restart, and authoritative timeout/bank endings.
-Focused recovery/clocks/authentication validation passed all 40 observations.
-Earlier full attempts exposed driver errors: serialized instrumentation, King
-mobility preconditions, cookie collection after expiry, and a five-second socket
-wait shorter than the client's eight-second recovery backoff. The last now uses
-the existing twenty-second connection bound and records elapsed recovery time;
-production backoff and outcome assertions are unchanged. Final full validation,
-retained evidence and final-head CI remain open.
+Clean implementation `d44847e8f4b281fbd9e6d8576e1c08a2af8e2b3a` passed all sixteen
+required Windows invocations: 678 units, 46 local-play browser tests, all existing
+runtime suites and the new campaign. [CI 34151136700](https://github.com/ariesyous/li4chess/actions/runs/34151136700)
+passed on that head. Exact source maps, canonical/replay comparisons, four-client
+results, clock conservation, failed attempts and tool/configuration identity are
+retained. Fresh independent source and evidence reviewers resolved all substantive
+findings and independently verified both platforms' artifacts and histories.
+[Draft PR #17](https://github.com/ariesyous/li4chess/pull/17) remains unmerged;
+the documentation/evidence closeout receives its own exact final-head CI check,
+linked on the PR before this task ends.
 
-Browser fixes expose unresolved takeover IDs, require deliberate leave cleanup,
-and preserve intentions across failed storage writes. Fresh independent review
-also identified non-atomic pending-command cleanup; its atomic persistence fix
-and three reconnect regressions now pass. The fixture entry reuses maintained authority/transport through
-generic constructor ports; deployable entry checks forbid test identifiers.
-No rules, migrations, default hosting behavior, classic bot or archived evidence
-was changed.
+Browser fixes make unresolved takeover IDs visible and retain both takeover and
+game-command intentions across failed storage writes. Same-ID recovery survives
+refresh/reconnect; explicit abandonment remains deliberate. Six prepare/commit/
+finalize/activation boundaries and D1 rollback recover without outage debit,
+duplicate increments or rerolled actions. Missing/incompatible timing, divergent
+history and stale ownership stay unavailable/quarantined. Test adapters reuse the
+maintained authority; deployable bundle checks exclude fixtures/time/admin hooks.
+No rules, migrations, default hosting, classic bot or archived evidence changed.
+
+M3 remains in progress: authenticated saved-game replay retrieval/export and
+rematches are still product gaps; hosted TLS/origin/cookies, latency/load,
+eviction/hibernation, restore and rollout/rollback need separate authorization.
+The [next bounded handoff](m3-07-handoff.md) proposes completed-game replay export
+first and separates rematches and hosted gates. No launch clock or public policy
+is selected. Hosted activation and M4 were not started.
+
+Verified M3-05 baseline: PR #16 merged at
+`e8d5494898bcd7b88491aa3ea2ccc19e01d13816`; final head
+`c0a418a1388472f34d301d3d10ca97443993d574` passed CI 34136255021.
+Merge CI 34147880230 and Pages 34147880224 passed, verified before M3-06 behavior
+changes. The dedicated branch started from fetched origin/main without replacing
+existing work. Historical draft language is superseded by this verified merge.
+
 **M3-05 is complete within its acceptance scope.** The authenticated private-room
 service, strict public wire format and browser reconnect/resync flow are implemented
 against maintained GameRoom. See the [pre-change plan](m3-05-acceptance.md),

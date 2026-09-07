@@ -1,0 +1,6 @@
+{
+  "passed": false,
+  "groups": 0,
+  "starts": 1,
+  "failure": "Error: Invalid v2 migration data: missing version/type/snapshot"
+}

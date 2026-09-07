@@ -1,0 +1,56 @@
+[
+  {
+    "message": "Version 1 populated, additive v2 applied, reapply no-op, rows/receipts and identity foreign keys verified"
+  },
+  {
+    "message": "Command-v2 commits timing in exact receipts/checkpoint anchors; explicit v1 readers reject every v2 read/write path and retain v1 compatibility"
+  },
+  {
+    "message": "Late SQL failure rolls back command, effects, checkpoint, result and head; lost acknowledgement reconciles exact bytes"
+  },
+  {
+    "message": "Competing and stale writers, exact older receipts, conflicting IDs and owner generation fencing verified",
+    "details": [
+      {
+        "status": 409,
+        "body": {
+          "error": "Error: fenced: canonical head/owner changed"
+        }
+      },
+      {
+        "status": 200,
+        "body": {
+          "result": {
+            "id": "b",
+            "commandHash": "sha256:6aab2c5071a9acd2174afa5b61623fec3bca2f45b7ec292d9176607efd85c9af",
+            "sequence": 1,
+            "firstEvent": 1,
+            "lastEvent": 1,
+            "stateHash": "sha256:f98429416eaf8c5ae928c6dc6085abc581412786d9d0e9e5ba782eef5235244b",
+            "commitHash": "sha256:8cfd05b1d8a4a79286d475eecaf474caa70f621ffb9de3247bc50ba584aa063e"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "message": "Wrong namespace at same generation and nonexistent-game SQL insertion fence reject without rows"
+  },
+  {
+    "message": "Modern repetition has 16 commands/21 events, complete awards/result, genesis audit and immutable retention"
+  },
+  {
+    "message": "Recorded random prepare survives whole-runtime restarts before and after canonical commit; survivor result matches full replay"
+  },
+  {
+    "message": "Engine-generated long history, bounded reconstruction, paged full audit and checkpoint pruning measured",
+    "details": {
+      "commands": 256,
+      "events": 293,
+      "pages": 32
+    }
+  },
+  {
+    "message": "Unknown producer/schema, divergent restore quarantine, tampered checkpoint and missing interior terminal effect rejected"
+  }
+]

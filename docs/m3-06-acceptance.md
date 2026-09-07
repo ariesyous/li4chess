@@ -111,3 +111,12 @@ primary. Exact reconciliation remains application-owned.
 Alarms are at least once with limited automatic retries; existing explicit
 rearming is retained. Local injected time and manual fixture alarms do not prove
 hosted punctuality. [Alarms](https://developers.cloudflare.com/durable-objects/api/alarms/).
+
+## Observed acceptance
+
+The declared local matrix passed on Windows and Linux with independently reviewed
+[retained evidence](m3-06-evidence/README.md). The evidence maps complementary
+existing-suite checks explicitly; observation rows are not game counts.
+[Draft PR #17](https://github.com/ariesyous/li4chess/pull/17) records exact final-head
+CI after documentation closeout. M3 remains incomplete for the product and hosted
+gates in the [next handoff](m3-07-handoff.md).

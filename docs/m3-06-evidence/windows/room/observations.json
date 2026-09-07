@@ -1,0 +1,86 @@
+[
+  {
+    "message": "Fixture credentials precede caller mapping; wrong seat/control/server actions and illegal moves reject without clock change; historical duplicates preserve admission and conflicting IDs reject"
+  },
+  {
+    "message": "Room-owned transport close works across control takeover; late close of old instance preserves replacement connection"
+  },
+  {
+    "message": "Actual maintained GameRoom.attach WebSockets publish initial state; real closes after controller takeover remove presence and start cumulative bank debit"
+  },
+  {
+    "message": "Concurrent command/read/presence stay behind the Room queue during a real delayed D1 batch; no speculative publication or success"
+  },
+  {
+    "message": "Uncertain creation before/after real D1 transaction recovers identical game/header/seed; recreation cannot change identity"
+  },
+  {
+    "message": "Whole-runtime interruption before-prepare: exact canonical outcome/receipt, no repeat debit/increment on repeated recovery"
+  },
+  {
+    "message": "Whole-runtime interruption after-prepare: exact canonical outcome/receipt, no repeat debit/increment on repeated recovery"
+  },
+  {
+    "message": "Whole-runtime interruption after-d1: exact canonical outcome/receipt, no repeat debit/increment on repeated recovery"
+  },
+  {
+    "message": "Whole-runtime interruption after-finalize: exact canonical outcome/receipt, no repeat debit/increment on repeated recovery"
+  },
+  {
+    "message": "Whole-runtime interruption after-activation: exact canonical outcome/receipt, no repeat debit/increment on repeated recovery"
+  },
+  {
+    "message": "Whole-runtime interruption before-ack: exact canonical outcome/receipt, no repeat debit/increment on repeated recovery"
+  },
+  {
+    "message": "Restart without prepare conservatively resumes durably accounted balances without charging unavailable time"
+  },
+  {
+    "message": "Complete local record loss cannot recreate fresh balances over existing canonical game; another object cannot bind the same game ID"
+  },
+  {
+    "message": "Actual late D1 SQL failure rolls back full batch; delivered alarm reconciles retained prepare without player traffic",
+    "details": {
+      "alarms": 1
+    }
+  },
+  {
+    "message": "Seven actual rolled-back commits retain exact prepare and frozen clock/bank balances; durable fake-time alarms continue through capped backoff",
+    "details": {
+      "intervals": [
+        1000,
+        2000,
+        4000,
+        8000,
+        16000,
+        32000,
+        60000
+      ]
+    }
+  },
+  {
+    "message": "Deadline-minus-one move, exact deadline rejection, terminal duplicate receipt, repeated/stale alarms, backwards time and actual delivered timeout verified"
+  },
+  {
+    "message": "Multiple connections avoid double bank debit; reconnect preserves cumulative bank; exhaustion carries disconnect fact; main-clock wins deterministic tie"
+  },
+  {
+    "message": "Cache reconstructs from bounded canonical suffix; missing timing suspends; divergent marker quarantines; stale canonical owner cannot read or publish"
+  },
+  {
+    "message": "Restoring valid old pending/timing/marker after canonical head advances quarantines without rolling back or publishing stale state"
+  },
+  {
+    "message": "Seeded walking prepare and terminal awards survive runtime interruption; exact random outcome, receipt, final state and unique result retained"
+  },
+  {
+    "message": "Room queue saturation rejects excess arrivals during external await; oversized SQLite record and excess connections/command IDs reject"
+  },
+  {
+    "message": "Admission/connection bounds enforced; seeded engine-generated history replay-validated and reconstructed with measured SQLite sizes",
+    "details": {
+      "commands": 256,
+      "events": 293
+    }
+  }
+]
