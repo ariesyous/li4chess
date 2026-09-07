@@ -70,7 +70,8 @@ if browser storage is unavailable. The responsive frame has four directional sea
 readable move/points histories, rules help, and deliberate resign/reset/claim controls.
 Tab enters the board; arrows navigate displayed squares, Enter/Space select or move,
 and Escape clears selection. Color names and state labels supplement hue;
-public network play and its clock/disconnect UI remain M3 work.
+opt-in local private multiplayer has authoritative clock/disconnect UI. Hosted
+public play remains subject to the M3 gates.
 
 ## Monorepo layout
 
@@ -209,6 +210,13 @@ timings do not describe current performance, and the existing small comparisons
 do not establish general playing strength.
 
 ## Roadmap and project continuity
+
+The [M3-06 acceptance campaign](docs/m3-06-acceptance.md) tests ordinary complete
+games, separately labeled fixture endings, four-seat browser interruptions and
+whole-runtime recovery against local workerd/D1. After `build:multiplayer`, run
+`pnpm --filter @li4chess/worker test:campaign`. Pending takeover IDs now remain
+visible through recovery, and leaving asks before abandoning that intention.
+Local campaign success does not establish hosted readiness or select a launch clock.
 
 [ROADMAP.md](ROADMAP.md) defines capability milestones and completion criteria:
 compatible FFA rules, responsive CPU play, reliable online games, public rated

@@ -13,22 +13,38 @@ M3-06 local four-browser validation is in progress under the
 `codex/m3-06-four-browser-validation` starts at fetched origin/main `e8d5494`.
 PR #16 is verified merged at `e8d5494898bcd7b88491aa3ea2ccc19e01d13816`;
 its final head `c0a418a1388472f34d301d3d10ca97443993d574` passed CI 34136255021
-and merge Pages 34147880224 passed. Merge CI 34147880230 was still running
-at inventory declaration; behavior changes wait for verification. Historical
+and merge Pages 34147880224 passed. Merge CI 34147880230 subsequently passed
+and was verified before behavior changes. Historical
 draft wording below is superseded by this verified merge. M3-06 is not complete.
 The campaign excludes hosted activation and M4, retains existing suites, and
 separates ordinary complete games from fixture-assisted endings and incidents.
 
+The campaign exercises ordinary repetition and walking/survivor games through
+four authenticated UI contexts, exact D1 replay/command audits, all-seat lost
+responses/refresh/takeover, checkpoint-assisted endings, six runtime interruption
+boundaries, D1 rollback plus restart, and authoritative timeout/bank endings.
+Focused recovery/clocks/authentication validation passed all 40 observations.
+Earlier full attempts exposed driver errors: serialized instrumentation, King
+mobility preconditions, cookie collection after expiry, and a five-second socket
+wait shorter than the client's eight-second recovery backoff. The last now uses
+the existing twenty-second connection bound and records elapsed recovery time;
+production backoff and outcome assertions are unchanged. Final full validation,
+retained evidence and final-head CI remain open.
+
+Browser fixes expose unresolved takeover IDs, require deliberate leave cleanup,
+and preserve intentions across failed storage writes. Fresh independent review
+also identified non-atomic pending-command cleanup; its atomic persistence fix
+and three reconnect regressions now pass. The fixture entry reuses maintained authority/transport through
+generic constructor ports; deployable entry checks forbid test identifiers.
+No rules, migrations, default hosting behavior, classic bot or archived evidence
+was changed.
 **M3-05 is complete within its acceptance scope.** The authenticated private-room
 service, strict public wire format and browser reconnect/resync flow are implemented
 against maintained GameRoom. See the [pre-change plan](m3-05-acceptance.md),
 [wire contract](multiplayer-v1.md), [evidence](m3-05-evidence/README.md), and concrete
-[M3-06 handoff](m3-06-handoff.md). [Draft PR #16](https://github.com/ariesyous/li4chess/pull/16)
-targets main; reviewed `9efe6027bf2c2dde97927fad6128d5d6768262ea` passed
-[CI 34135203998](https://github.com/ariesyous/li4chess/actions/runs/34135203998).
-Final evidence/documentation-head CI is checked again before closeout and linked
-from the PR. M3-06 is not implemented; M3 remains incomplete.
-
+[M3-06 handoff](m3-06-handoff.md). [PR #16](https://github.com/ariesyous/li4chess/pull/16) is merged; verified final
+head and merge checks are recorded above. The following M3-05 implementation
+and validation history remains historical evidence. M3 remains incomplete.
 Verified M3-04 baseline: PR #15 merged at
 `1d12d4ba81330d65134b6b7d3afd2c76809fbc91`. Final PR-head CI 34087298251,
 post-merge Pages 34126884525 and post-merge CI 34126885407 all succeeded;

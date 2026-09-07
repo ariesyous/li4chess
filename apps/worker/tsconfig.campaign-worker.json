@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["test/campaign-worker.ts", "test/campaign-fixtures.ts", "src/build.d.ts"]
+}

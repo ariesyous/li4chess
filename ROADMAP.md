@@ -176,7 +176,8 @@ strict commands/receipts, takeover and browser reconnect/resync have
 [reviewed Windows/Linux evidence](docs/m3-05-evidence/README.md) and
 [passing CI](https://github.com/ariesyous/li4chess/actions/runs/34135203998).
 The [M3-06 handoff](docs/m3-06-handoff.md) scopes complete-game validation next.
-M3-06 remains planned. M3 is incomplete.
+M3-06 is in progress under its [pre-change acceptance inventory](docs/m3-06-acceptance.md).
+M3 is incomplete; local evidence does not discharge the hosted gates.
 
 **Capabilities**
 
@@ -221,7 +222,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 | M3-03 | D1 persistence model | **Complete 2026-09-07.** Versioned migrations, atomic owner/head fencing, stable receipts, ordered events/results, bounded recovery, retention and divergent-restore quarantine have independent review, Windows/Linux runtime evidence and passing implementation CI. No hosted activation. |
 | M3-04 | Authoritative `GameRoom` Durable Object | **Complete 2026-09-07.** Maintained SQLite owner serializes internal authority, clocks/disconnect banks, exact D1 commits, controller connections and durable alarm recovery; reviewed real Windows/Linux runtime evidence. No public multiplayer or hosted activation. |
 | M3-05 | Multiplayer protocol | **Complete 2026-09-07.** Authenticated guests, private membership/seats, strict wire schemas, exact retries, takeover and browser reconnect/resync; reviewed real Windows/Linux runtime evidence. Opt-in local configuration only. |
-| M3-06 | Four-browser multiplayer validation | Playwright proves complete games and the required refresh, reconnect, disconnect, restart, and recovery cases in CI. |
+| M3-06 | Four-browser multiplayer validation | **In progress 2026-09-07.** Ordinary complete games, labeled ending fixtures and four-browser recovery campaign are implemented; fresh full validation, independent review, retained evidence and final-head CI remain acceptance gates. |
 
 ### M4 — Public matchmaking and rated beta (first public release)
 

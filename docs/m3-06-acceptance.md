@@ -10,7 +10,7 @@ Fetched origin/main is M3-05 merge `e8d5494898bcd7b88491aa3ea2ccc19e01d13816`.
 PR #16 is merged, superseding its draft wording in historical handoff documents.
 Final head `c0a418a1388472f34d301d3d10ca97443993d574` passed CI 34136255021;
 Pages 34147880224 succeeded on the merge. Post-merge CI 34147880230 was still
-running at declaration and must pass before behavior changes. The clean tree
+running at declaration; it subsequently passed before behavior changes. The clean tree
 became `codex/m3-06-four-browser-validation` without replacing an existing branch.
 Node resolves to `C:/Program Files/nodejs/node.exe` 24.18.0; Corepack selects pinned
 pnpm 10.33.0. The host-global pnpm wrapper is not the validation executable.
@@ -98,3 +98,16 @@ matchmaking, ratings, CPU seats, hosting resources or activation is selected.
 Read with [roadmap](../ROADMAP.md), [M3-06 handoff](m3-06-handoff.md),
 [authority contract](m3-04-acceptance.md), [wire contract](multiplayer-v1.md),
 [rules](rules-spec.md) and [replay format](state-replay-v2.md).
+
+## Platform review
+
+Official documentation rechecked 2026-09-07: SQLite storage transactions and
+output gates do not provide an atomic transaction with D1; SQL cursors should be
+fully consumed before awaits. The maintained adapter retains its storage gates
+and queue. [SQLite storage](https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/).
+D1 batches roll back failed transactions; direct database binding calls use the
+primary. Exact reconciliation remains application-owned.
+[D1 database API](https://developers.cloudflare.com/d1/worker-api/d1-database/).
+Alarms are at least once with limited automatic retries; existing explicit
+rearming is retained. Local injected time and manual fixture alarms do not prove
+hosted punctuality. [Alarms](https://developers.cloudflare.com/durable-objects/api/alarms/).

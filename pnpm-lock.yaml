@@ -73,6 +73,12 @@ importers:
       '@cloudflare/workers-types':
         specifier: 5.20260906.1
         version: 5.20260906.1
+      '@li4chess/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      '@li4chess/persistence':
+        specifier: workspace:*
+        version: link:../../packages/persistence
       '@playwright/test':
         specifier: 1.56.1
         version: 1.56.1

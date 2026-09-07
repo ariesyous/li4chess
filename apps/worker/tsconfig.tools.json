@@ -1,5 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": { "types": ["node"], "noEmit": true },
-  "include": ["scripts/**/*.ts", "test/**/*.ts"]
+  "include": ["scripts/**/*.ts", "test/**/*.ts"],
+  "exclude": ["test/campaign-worker.ts"]
 }

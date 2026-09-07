@@ -156,3 +156,22 @@ jobs:
             arena-results/m3-05-ci/*.log
             arena-results/m3-05-ci/*.png
           retention-days: 14
+
+      - name: Validate four-browser complete games and runtime recovery
+        run: pnpm --filter @li4chess/worker test:campaign
+        env:
+          M3_06_OUTPUT: ${{ github.workspace }}/arena-results/m3-06-ci
+          WRANGLER_SEND_METRICS: "false"
+
+      - name: Retain four-browser acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m3-06-four-browser-evidence
+          # Only sanitized root artifacts; never recursive runtime/config storage.
+          path: |
+            arena-results/m3-06-ci/*.json
+            arena-results/m3-06-ci/*.json.gz
+            arena-results/m3-06-ci/*.log
+            arena-results/m3-06-ci/*.png
+          retention-days: 14

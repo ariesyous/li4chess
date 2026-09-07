@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
+  "exports": { ".": "./src/index.ts", "./model": "./src/model.ts" },
   "scripts": {
     "lint": "tsc --noEmit && tsc -p tsconfig.tests.json",
     "build": "tsc --noEmit",

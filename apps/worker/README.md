@@ -1,8 +1,10 @@
 # Application Worker foundation
 
 Maintained TypeScript entry point for the actual local React game, using Workers
-Static Assets. This package is separate from the M3-01 prototype. It has no
-database, Durable Object, credential, administrative endpoint or multiplayer.
+Static Assets. This package is separate from the M3-01 prototype. Its default
+entry has no database, Durable Object or multiplayer. The explicit local
+multiplayer entry below supplies authenticated private rooms; administrative
+and fault controls remain exclusively in isolated test entries.
 See [acceptance](../../docs/m3-02-acceptance.md) and the
 [operations handoff](../../docs/m3-02-operations.md).
 
@@ -149,3 +151,25 @@ See [acceptance](../../docs/m3-05-acceptance.md),
 [wire contract](../../docs/multiplayer-v1.md) and
 [M3-06 handoff](../../docs/m3-06-handoff.md). Hosted TLS, resources, quotas,
 geographic behavior and rollout remain separately authorized gates.
+
+## M3-06 four-browser campaign
+
+After the multiplayer build, `pnpm --filter @li4chess/worker test:campaign` runs
+ordinary complete Modern games through four independently authenticated Chromium
+contexts, all-seat interruption/takeover checks, labeled source-linked checkpoint
+endings, exact canonical/replay audits, whole-runtime restart boundaries, D1
+rollback, clock/disconnect deadlines and explicit unrecoverable incidents.
+`M3_06_OUTPUT` must name a fresh absolute directory. `M3_06_CASES` optionally
+selects comma-separated `ordinary,endings,recovery,clocks,incidents,auth` for
+focused debugging; selected groups are recorded and partial runs are not full
+acceptance. CI runs all groups, with zero assertion retries.
+
+Only root evidence files are eligible for retention. Nested runtime directories
+contain isolated SQLite databases and ephemeral fixture configurations and must
+never be archived or uploaded. The sanitized configuration, producer/source map,
+canonical commands, replays, observations and failure summary live at the root.
+`test/campaign-worker.ts` alone contains fixture credentials, time/fault controls
+and administration. Deployable bundle checks forbid those identifiers. Fixture
+class construction supplies generic authority ports; public requests cannot do so.
+Test clock configuration does not select launch policy. Local process restart
+does not establish hosted eviction, hibernation or coordinated restore behavior.

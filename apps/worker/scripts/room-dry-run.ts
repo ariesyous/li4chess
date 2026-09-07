@@ -14,6 +14,6 @@ await runNode(wrangler, ["deploy", "--dry-run", "--config", resolve(packageRoot,
 await writeFile(resolve(output, "validation.log"), log);
 const bundle = await readFile(resolve(output, "room-local.js"), "utf8");
 assert(bundle.includes("GameRoom"));
-for (const forbidden of ["TEST_KEY", "PLAYER_KEYS", "fixture-crash", "nonexistent_fault_table", "test/worker.ts"])
+for (const forbidden of ["TEST_KEY", "PLAYER_KEYS", "fixture-crash", "nonexistent_fault_table", "test/worker.ts", "M3_06_KEY", "/__m3-06", "campaign_fixture"])
   assert(!bundle.includes(forbidden), `Test-only code in local application bundle: ${forbidden}`);
 await verifyArtifact();
