@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-09-06. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-09-07. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -34,7 +34,8 @@ matchmaking-and-ratings goal.
 The repository has local hotseat and CPU games, a pure TypeScript rules engine,
 a React board, production bot search, a separate research laboratory, and CI.
 It does not yet have a multiplayer server, durable player accounts, public
-queues, ratings, authoritative clocks, or server-side game persistence. Local replay export/import is implemented.
+queues, ratings or authoritative clocks. An internal D1 persistence foundation is
+implemented; it has no application binding or hosted activation. Local replay export/import is implemented.
 
 The protocol package validates state-v2 and replay-v2, including canonical hashes
 and producer provenance. Server authority remains M3 work. Browser CPU search
@@ -162,8 +163,11 @@ service is shipped or provisioned. **M3-02 complete (2026-09-06):** the maintain
 application Worker, isolated builds, runtime/browser checks, environment dry runs
 and operational handoff have [reviewed evidence](docs/m3-02-evidence/README.md)
 and [passing implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34078142730).
-Hosted activation remains separate. M3-03 persistence is in progress under its
-[acceptance plan](docs/m3-03-acceptance.md); M3-04 through M3-06 remain planned.
+Hosted activation remains separate. **M3-03 complete (2026-09-07):** maintained
+D1 migrations, atomic fenced commits, stable receipts, bounded reconstruction,
+retention and restore quarantine have [reviewed local/CI evidence](docs/m3-03-evidence/README.md).
+The [M3-04 handoff](docs/m3-03-handoff.md) defines remaining GameRoom and clock
+authority. M3-04 through M3-06 remain planned.
 M3 is incomplete.
 
 **Capabilities**
@@ -206,7 +210,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 | --- | --- | --- |
 | M3-01 | Cloudflare architecture spike and ADR | **Complete 2026-09-06.** Topology, consistency/recovery, limits, costs, workflow and fallback criteria have an ADR, independent review, real local runtime/restart evidence and passing Windows/Ubuntu checks. Hosted validation gates remain explicit. |
 | M3-02 | Workers deployment foundation | **Complete 2026-09-06.** Actual React/Vite Static Assets, bounded HTTP identification, separate Pages/Workers builds, Windows/workerd/browser evidence, CI and exact later GitHub Builds setup. No hosted activation; M3 remains incomplete. |
-| M3-03 | D1 persistence model | **In progress.** Maintained migrations and canonical persistence implemented; independent review, final validation and CI acceptance pending. |
+| M3-03 | D1 persistence model | **Complete 2026-09-07.** Versioned migrations, atomic owner/head fencing, stable receipts, ordered events/results, bounded recovery, retention and divergent-restore quarantine have independent review, Windows/Linux runtime evidence and passing implementation CI. No hosted activation. |
 | M3-04 | Authoritative `GameRoom` Durable Object | One game owner validates moves and owns state, clocks, sequence numbers, randomness, and WebSockets, with persistence and recovery behavior defined. |
 | M3-05 | Multiplayer protocol | Runtime-validated commands/events cover authorization, versioning, duplicates, stale input, reconnect, resync, and terminal actions. |
 | M3-06 | Four-browser multiplayer validation | Playwright proves complete games and the required refresh, reconnect, disconnect, restart, and recovery cases in CI. |

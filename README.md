@@ -153,7 +153,8 @@ rollback, concurrency, restart and replay checks. It uses isolated test bindings
 the application has no online rooms or D1 binding. The
 [M3-03 acceptance plan](docs/m3-03-acceptance.md) and
 [GameRoom handoff](docs/m3-03-handoff.md) describe limits and remaining authority,
-clock/alarm and hosted gates. M3 networked play remains incomplete.
+clock/alarm and hosted gates. [Reviewed local and CI evidence](docs/m3-03-evidence/README.md)
+completes M3-03; M3 networked play remains incomplete.
 
 ## Bot research and benchmarks
 

@@ -1,6 +1,7 @@
 # M3-03 persistence model and M3-04 handoff
 
-Implementation and validation in progress on 2026-09-06. M3 remains incomplete.
+M3-03 complete on 2026-09-07 with [reviewed local/CI evidence](m3-03-evidence/README.md).
+M3 remains incomplete.
 The [acceptance plan](m3-03-acceptance.md) records the pre-change contract.
 
 ## Data and transaction contract
@@ -74,6 +75,11 @@ not a separately implemented chess oracle.
    persistence and local finalize. Recheck deadlines before moves and on alarms.
    Implement bounded retry/backoff/re-armed alarms and durable incident markers.
    Do not infer missing operational timing from D1 or punish infrastructure delays.
+
+Current canonical timing fields are `admittedAt` and the existing action's timeout/
+disconnect facts. New clock balances or activation metadata cannot be smuggled into
+strict v1 command records: define their versioned persistence/protocol compatibility
+before adding them in M3-04, while keeping operational clock storage in DO SQLite.
 
 Recommended M3-04 slice: build the authoritative GameRoom prepare/commit/finalize
 state machine with serialized authorized actions and recovery suspension first,

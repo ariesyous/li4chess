@@ -1,0 +1,23 @@
+{
+  "files": 342,
+  "fingerprint": "sha256:fb9fa0597d1861d254895805f8027e6f2469ce4613abcb975eef9d48030f3229",
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "098aaadbc1348eee4a340dcf9468e2526748e242",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:fb9fa0597d1861d254895805f8027e6f2469ce4613abcb975eef9d48030f3229",
+    "workingTree": {
+      "status": "clean"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Project state
 
-Last updated: 2026-09-06.
+Last updated: 2026-09-07.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
@@ -8,30 +8,49 @@ superseded handoffs.
 
 ## Current focus
 
-**M3-03 in progress** on `codex/m3-03-d1-persistence`, from fetched clean
-`origin/main` `6530c64aa9be910cff9c63e8d737ea6fc4b9d4ef`. GitHub verified
-PR #12/#13 merges and successful post-merge CI 34079300521 / Pages 34079300482.
-Node 24.18.0 and temporary Corepack pnpm 10.33.0 are selected; global pnpm
-11.19.0 remains untouched. [Acceptance](m3-03-acceptance.md) was declared before
-behavior edits and committed as `1511319`.
+**M3-03 is complete**, scoped to the [acceptance contract](m3-03-acceptance.md),
+with [reviewed evidence](m3-03-evidence/README.md) and a concrete
+[M3-04 GameRoom handoff](m3-03-handoff.md). Dedicated branch
+`codex/m3-03-d1-persistence` began at fetched clean `origin/main`
+`6530c64aa9be910cff9c63e8d737ea6fc4b9d4ef`. PR #12/#13 merges and post-merge
+CI 34079300521 / Pages 34079300482 were verified before work. The acceptance
+contract was committed as `1511319`; maintained persistence as `5018521`; the
+reviewed stable-request lookup and clean-CI setup fix as `098aaad`.
 
-Maintained `packages/persistence` now owns normalized migrations, SQL aborting
-owner/head fencing, stable command receipts, ordered effects, terminal results,
-checkpoint pruning and bounded recovery/audit. Protocol incremental helpers
-reuse M1 behavior; no engine rules or application binding changed. Fresh design
-and substantive reviews identified pinned-read, complete-successor and producer/
-format validation requirements; fixes and regressions are being validated.
-One exploratory local D1 run passed a 240-command/275-event unfinished history,
-migrations, rollback, concurrency, lost acknowledgements and four runtime starts.
-This is superseded by final acceptance still pending. The new suite also measures
-concurrent checkpoint pruning, source-linked terminal creation and reader policy.
+Final implementation `098aaadbc1348eee4a340dcf9468e2526748e242` passed
+[CI 34081508076](https://github.com/ariesyous/li4chess/actions/runs/34081508076).
+The clean Windows acceptance run used Node 24.18.0 / Corepack pnpm 10.33.0 and
+source fingerprint `sha256:fb9fa0597d1861d254895805f8027e6f2469ce4613abcb975eef9d48030f3229`.
+All 342 source files are retained and independently verified. Fresh checks passed:
+frozen install, lint, 608 units, build, eight maintained D1 groups/four runtime
+starts, 46 browser tests, 14 preserved architecture groups, Workers build, both
+environment dry-runs and four Worker HTTP/browser tests plus lifecycle checks.
+Linux CI ran the same suite. The initial CI failure was missing parent evidence
+directory creation, fixed without relaxing assertions or adding retries.
 
-Next: finish independent final review, full required local checks, package fresh
-evidence, commit/push a draft PR and verify CI on its final revision. Stop before
-M3-04. [Concrete GameRoom handoff](m3-03-handoff.md) defines APIs, durable prepare,
-canonical commit, reconciliation, owner transfer and remaining clock/alarm work.
-No hosting, provisioning, credentials, deployment, main push or merge is authorized.
+`packages/persistence` owns normalized migrations, aborting SQL owner/head fences,
+stable pre-admission receipt lookup, exact prepared reconciliation, ordered events,
+immutable terminal results, two retained checkpoints and bounded recovery/audit.
+Producer/source lineage and M1 rules/state-v2/replay-v2 are preserved. The measured
+256-command/293-event history is unfinished/censored, not strength or capacity
+proof. Fresh independent design, substantive, final-code and final-evidence reviews
+resolved all substantive findings, including complete successor validation and
+consistent producer/record-policy checks. Hosted failover, Time Travel, coordinated
+D1/DO restore, quotas, regional latency and deployment behavior remain unproved.
 
+[Draft PR #14](https://github.com/ariesyous/li4chess/pull/14) targets main. Final
+documentation/evidence-revision CI is checked again before closeout and linked
+from its PR description. No merge, main push, hosted connection, provisioning,
+secret, deployment or paid plan was performed. Application Worker and Pages
+configuration, frozen classic and archived evidence remain intact.
+
+**Next slice: M3-04 GameRoom.** Implement serialized authenticated authority and
+durable prepare → canonical commit → local finalize → acknowledgement first;
+then clock debit/activation, recovery suspension, disconnect banks and bounded
+idempotent alarm retries. Follow the handoff's persistence APIs, owner-generation
+CAS, stable request lookup and exact prepared reconciliation. New canonical clock
+metadata needs explicit version compatibility. Do not interpret this handoff as
+starting M3-04. M3 as a whole remains incomplete.
 ## Previous completed slice
 
 **M3-02 is complete**, scoped to the [Workers acceptance plan](m3-02-acceptance.md).
