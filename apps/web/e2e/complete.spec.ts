@@ -59,7 +59,7 @@ test("complete mixed game: real CPU opening, deliberate forfeits, walking Kings 
     // mobility from the actual legal position, including replies to check,
     // rather than assuming one fixed pawn corridor will remain unattacked.
     const candidates=legalMoves(state).map(move=>{const after=applyMove(state,move);return {move,
-      mobility:legalMoves(after,color).filter(next=>after.board[next.from]?.type===PieceType.King).length};});
+      mobility:legalMoves(after,color).filter(next=>after.board[next.from]?.type===PieceType.King&&!next.castle).length};});
     candidates.sort((a,b)=>b.mobility-a.mobility);
     const move=candidates[0]?.move;
     expect(move).toBeDefined();
