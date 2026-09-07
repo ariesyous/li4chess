@@ -95,6 +95,7 @@ export function Board({
           style={{
             width: "100%",
             height: "100%",
+            minWidth: 0,
             aspectRatio: "1",
             border: "none",
             padding: 0,
@@ -147,8 +148,8 @@ export function Board({
       data-bottom-color={bottomColor}
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
-        gridTemplateRows: `repeat(${BOARD_SIZE}, 1fr)`,
+        gridTemplateColumns: `repeat(${BOARD_SIZE}, minmax(0, 1fr))`,
+        gridTemplateRows: `repeat(${BOARD_SIZE}, minmax(0, 1fr))`,
         width: "100%",
         aspectRatio: "1",
         gap: "1px",

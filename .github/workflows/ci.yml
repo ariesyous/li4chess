@@ -64,3 +64,32 @@ jobs:
 
       - name: Run browser tests
         run: pnpm --filter @li4chess/web test:e2e
+
+      - name: Build isolated Workers application and validate deployment configuration locally
+        run: |
+          pnpm build:workers
+          pnpm check:workers
+        env:
+          WRANGLER_SEND_METRICS: "false"
+
+      - name: Validate application HTTP and browser behavior through local workerd
+        run: pnpm test:workers
+        env:
+          M3_02_OUTPUT: ${{ github.workspace }}/arena-results/m3-02-ci
+          WRANGLER_SEND_METRICS: "false"
+
+      - name: Retain Workers foundation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m3-02-workers-foundation-evidence
+          include-hidden-files: true
+          path: |
+            arena-results/m3-02-ci/*.json
+            arena-results/m3-02-ci/*.json.gz
+            arena-results/m3-02-ci/*.log
+            arena-results/m3-02-ci/*.png
+            arena-results/m3-02-ci/browser/
+            apps/worker/.generated/dry-run-staging/
+            apps/worker/.generated/dry-run-production/
+          retention-days: 14

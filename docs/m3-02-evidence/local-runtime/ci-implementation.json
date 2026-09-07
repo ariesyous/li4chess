@@ -1,0 +1,120 @@
+{
+  "headRevision": "5508cdb18a1d9166177d5ef4f2ed736a9a9870c9",
+  "dryRunFiles": [
+    {
+      "file": "index.js",
+      "environment": "staging",
+      "sha256": "f7052f2725cba170fdbb94db8648a4cf8573dc6ca02f03f54dd58bbe3ea0e80a"
+    },
+    {
+      "file": "index.js.map",
+      "environment": "staging",
+      "sha256": "09df40991203dedb26ac936ebc61fb8e0c298e69de7da5224d6167e701cae2d7"
+    },
+    {
+      "file": "README.md",
+      "environment": "staging",
+      "sha256": "f8184cc3b80c0669d29e3227c506b727ac51d7128213f243fab4d790763dd505"
+    },
+    {
+      "file": "validation.log",
+      "environment": "staging",
+      "sha256": "4ef639ef10e978414ea67b485cc802873dcb973fb1bf085b3bbd7522078abe81"
+    },
+    {
+      "file": "index.js",
+      "environment": "production",
+      "sha256": "f7052f2725cba170fdbb94db8648a4cf8573dc6ca02f03f54dd58bbe3ea0e80a"
+    },
+    {
+      "file": "index.js.map",
+      "environment": "production",
+      "sha256": "91b17ccadf4ffcd520d01f019698bfa3ca3b9af4b3898101e47b953af54640c3"
+    },
+    {
+      "file": "README.md",
+      "environment": "production",
+      "sha256": "0d76cecc26d48e6434ef760d5c1b3f20e34c81305bb5995b3d056de7aed75345"
+    },
+    {
+      "file": "validation.log",
+      "environment": "production",
+      "sha256": "ee457618f00075177d4cd14ee3a3ec49a6cda9862788d9f4317473fbf2d26f16"
+    }
+  ],
+  "conclusion": "success",
+  "manifest": {
+    "startedAt": "2026-09-07T03:04:11.181Z",
+    "environment": {
+      "node": "v24.20.0",
+      "platform": "linux",
+      "release": "6.17.0-1022-azure",
+      "architecture": "x64",
+      "cpu": "AMD EPYC 7763 64-Core Processor",
+      "logicalCpus": 4,
+      "totalMemoryBytes": 16766414848
+    },
+    "producer": {
+      "format": "li4chess-engine-build-v1",
+      "sourceRevision": "2d5e4bb3f9559a7a139df5b5c627f85667a6129a",
+      "packageVersions": {
+        "@li4chess/web": "0.0.0",
+        "@li4chess/worker": "0.0.0",
+        "@li4chess/architecture-spike": "0.0.0",
+        "@li4chess/arena": "0.0.0",
+        "@li4chess/bot": "0.0.0",
+        "@li4chess/engine": "0.0.0",
+        "@li4chess/protocol": "0.0.0",
+        "@li4chess/ui-kit": "0.0.0"
+      },
+      "buildFingerprint": "sha256:7fa6e29aae2dbcc228ac389026631c26adb13791f2d2438c59de9ae6fd71f3b3",
+      "workingTree": {
+        "status": "clean"
+      }
+    },
+    "port": 38149,
+    "pages": {
+      "assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+      "assets/index-BjnnqOyS.js": "sha256:d68da3700cd694cf9760cbb7ed6ded910fe27a602e8b13a26be5cf9b7f624832",
+      "assets/index-DOHVl5z-.css": "sha256:fe8de30a021c224c2dc4d68051ff0af8ec9ec0b2d53bd94f8cad75fd6cff8b58",
+      "index.html": "sha256:a4d62a2c4fe477ec145d0cdd2efc7dd53ed06a262ec3d15d6591a8c53ad44b19"
+    },
+    "pnpm": "10.33.0",
+    "wrangler": "4.129.0",
+    "workerd": "1.20260903.1",
+    "playwright": "1.56.1",
+    "command": "pnpm test:workers",
+    "hosted": false
+  },
+  "browserStats": {
+    "startTime": "2026-09-07T03:04:16.3Z",
+    "duration": 5880.135,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "summary": {
+    "passed": true,
+    "error": null,
+    "finishedAt": "2026-09-07T03:04:22.245Z",
+    "runtimeStopped": true
+  },
+  "run": "https://github.com/ariesyous/li4chess/actions/runs/34078142730",
+  "lifecycle": [
+    {
+      "boundary": "starting",
+      "port": 33005,
+      "exitCode": 130,
+      "portReleased": true,
+      "signal": "OS SIGTERM"
+    },
+    {
+      "boundary": "ready",
+      "port": 43811,
+      "exitCode": 130,
+      "portReleased": true,
+      "signal": "OS SIGTERM"
+    }
+  ]
+}

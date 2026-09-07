@@ -61,6 +61,28 @@ importers:
         specifier: ^2.1.4
         version: 2.1.9(@types/node@22.20.1)
 
+  apps/worker:
+    dependencies:
+      '@li4chess/protocol':
+        specifier: workspace:*
+        version: link:../../packages/protocol
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: 5.20260906.1
+        version: 5.20260906.1
+      '@playwright/test':
+        specifier: 1.56.1
+        version: 1.56.1
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      tsx:
+        specifier: ^4.20.0
+        version: 4.23.13
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
   packages/architecture-spike:
     dependencies:
       '@li4chess/engine':

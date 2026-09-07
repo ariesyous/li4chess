@@ -8,16 +8,55 @@ superseded handoffs.
 
 ## Current focus
 
+**M3-02 is complete**, scoped to the [Workers acceptance plan](m3-02-acceptance.md).
+Implementation commit is `5508cdb18a1d9166177d5ef4f2ed736a9a9870c9`; its
+[CI](https://github.com/ariesyous/li4chess/actions/runs/34078142730) passed.
+The maintainer subsequently authorized merging the completed work. PR #12 merged
+at `145001ae579a53bd3dc08a1a9ee3d070add92339` after its
+[final-head CI](https://github.com/ariesyous/li4chess/actions/runs/34063186380)
+passed. Dedicated `codex/m3-02-workers-foundation` began from its verified head
+`52dfe1b2ea02adb0e76ed17b40450d5a46d3e4b4`; [PR #13](https://github.com/ariesyous/li4chess/pull/13)
+now targets `main`. Its evidence commit `4859395` passed
+[final-revision CI](https://github.com/ariesyous/li4chess/actions/runs/34078555868).
+Merge authorization includes this final handoff update after passing checks.
+Before starting M3-03, fetch current `origin/main` and verify PR #13's actual
+merge commit, post-merge CI and existing Pages workflow status. The maintained
+application Worker serves a separate root-path build; Pages behavior is unchanged.
+Fresh substantive/final reviews resolved cancellation ownership, actual CPU
+search-result proof, and a pre-existing short-desktop grid clipping issue.
+[Accepted evidence](m3-02-evidence/README.md) records the clean implementation,
+302-file source snapshot, both build outputs, HTTP/browser checks and environment
+dry runs. Its source fingerprint is
+`sha256:763f3d2a07d7611fa55c15044aa04bedf90cd5f312d13d0ed7c21f41e3ee8604`.
+The fresh full run passed frozen install, lint, 606 units, build, all 46 existing
+browser tests, all 14 M3-01 integration groups and four new Worker tests plus two
+interruption checks. Final documentation/evidence revision CI is verified through
+PR #13 before task closeout; its final check link is retained in the PR description.
+M3 remains incomplete. M3-03 will start in a separate session. The implementation
+task performed no merge or hosted activation; the maintainer then authorized the
+PR merges. No Cloudflare activation, provisioning, purchase or direct main push
+is authorized. The existing Pages workflow continues to run on merges to main.
+
+**Next slice: M3-03 persistence model.** Follow the ADR's canonical D1 contract:
+normalized versioned migrations for games, commands/receipts, ordered events,
+checkpoints and minimal identity records; generation and expected-head fencing
+that aborts a whole batch; bounded incremental reconstruction, measured retention
+and parameter/page limits, and divergent-restore quarantine. Keep terminal results
+immutable and checkpoint producer lineage explicit. Do not promote the spike's
+quadratic replay table or fixture credentials. Room authority, clocks/alarms,
+guest lifecycle and multiplayer are M3-04/M3-05. The
+[operations handoff](m3-02-operations.md) lists exact later GitHub Builds settings,
+account-owned gaps and hosted build/deploy/rollback gates. None is activated.
+
 **M3-01 is complete**, scoped to isolated Cloudflare prototypes and the
 [architecture ADR](m3-01-adr.md), [acceptance plan](m3-01-acceptance.md) and
-[official-source research](m3-01-platform-research.md). The authorized goal ends
-before M3-02. [Acceptance evidence](m3-01-evidence/README.md), independent review,
+[official-source research](m3-01-platform-research.md). [Acceptance evidence](m3-01-evidence/README.md), independent review,
 fresh local checks and [implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34062822436)
 passed. Implementation/evidence commit is `c23746b3b3611b322132b637c3ee76be93e4b46e`;
-[PR #12](https://github.com/ariesyous/li4chess/pull/12) remains a draft.
-M3 as a whole is incomplete. Next recommended slice is M3-02 Workers foundation;
+[PR #12](https://github.com/ariesyous/li4chess/pull/12) has since merged, as recorded above.
+M3 as a whole is incomplete. M3-02 Workers foundation is complete;
 the ADR contains the concrete M3-02 through M3-06 handoff and hosted gates.
-No merge, main push, deployment, provisioning or purchase is authorized.
+Cloudflare deployment, provisioning and purchases remain unauthorized.
 
 **M2 is complete and merged.** [PR #11](https://github.com/ariesyous/li4chess/pull/11)
 merged at `d0249a3deffe0ed3e147b49b33e50ebc8b5c6f05`.
@@ -37,7 +76,7 @@ M2 began from clean fetched `origin/main`, merge `7f2593c96301853c6b3a9ebeaaaf6e
 on dedicated `codex/m2-completion`. GitHub verifies [M1 PR #10](https://github.com/ariesyous/li4chess/pull/10)
 merged with passing checks. Human Git identity is Aries Youssefian. Node 24.18.0
 and pinned pnpm 10.33.0 via temporary Corepack shims are verified. Current
-M3-01 scope is stated above.
+M3-02 scope is stated above.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
 uses the bounded Worker path with measured resource policies. Live clocks, connection-bank tracking,
@@ -455,5 +494,6 @@ protocol and guest/reconnect UX; M3-06 proves four-browser complete/recoverable
 games. Hosted latency, hibernation, failover, restoration, rollback and costs
 require separately authorized staging. Launch time controls, operating plan,
 region, load target and budget remain open; none blocks this local architecture
-conclusion. Stop here: M3 remains incomplete, PR #12 is a draft, and no merge,
-publication, provisioning, purchase or M3-02 implementation occurred.
+conclusion. That M3-01 task ended with M3 incomplete and PR #12 a draft; no merge,
+publication, provisioning, purchase or M3-02 implementation occurred in that task.
+The subsequent M3-02 completion and current handoff are recorded above.

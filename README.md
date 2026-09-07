@@ -78,6 +78,7 @@ The TypeScript monorepo uses pnpm workspaces and Turborepo.
 | Package | Responsibility |
 | --- | --- |
 | [`apps/web`](apps/web) | React/Vite app, seat setup, local game state, and CPU turn scheduling. |
+| [`apps/worker`](apps/worker) | Application Worker/Static Assets foundation, explicit HTTP routing and real local runtime/browser checks. |
 | [`packages/engine`](packages/engine) | Pure rules engine: board geometry, move generation, legality, scoring, elimination, and repetition. No UI or I/O dependencies. |
 | [`packages/bot`](packages/bot) | Production CPU search and evaluation, frozen classic bot, and experimental search. |
 | [`packages/arena`](packages/arena) | Seeded tournaments, replay validation, reports, and benchmarks. |
@@ -129,6 +130,20 @@ authorization, retries, persistence boundaries and whole-runtime restart.
 It stages the existing Vite assets locally and requires no Cloudflare account.
 The [ADR](docs/m3-01-adr.md) defines canonical persistence, recovery and hosted
 validation gates. Existing local play and Pages deployment remain as described above.
+
+The maintained [application Worker](apps/worker/README.md) serves the actual game
+through Workers Static Assets, independently of that prototype. Run `pnpm build`
+then `pnpm build:workers`, `pnpm check:workers`, and `pnpm test:workers` for both
+build outputs, environment dry runs and real workerd/browser acceptance. Use
+`pnpm dev:workers` for the compiled local runtime at `http://127.0.0.1:8787/`.
+Workers builds use `/` and `apps/web/dist-workers`; Pages keeps `/li4chess/` and
+`apps/web/dist`. Read-only `/api/health` and `/api/build` identify the service;
+unknown APIs and missing assets never return SPA HTML. No hosted environment or
+online play is activated. [Later GitHub Builds setup](docs/m3-02-operations.md)
+keeps account settings, deployment and rollback as separately authorized gates.
+[M3-02 acceptance evidence](docs/m3-02-evidence/README.md) records independent
+reviews and passing local/CI checks. The next slice is M3-03 persistence; M3
+networked play remains incomplete.
 
 ## Bot research and benchmarks
 
