@@ -3,3 +3,4 @@ docs/engine/results/** -text
 
 # Preserve the exact bytes covered by the published evidence checksums.
 docs/m3-01-evidence/local-runtime/* -text
+docs/m3-02-evidence/local-runtime/* -text

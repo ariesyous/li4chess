@@ -141,6 +141,9 @@ Workers builds use `/` and `apps/web/dist-workers`; Pages keeps `/li4chess/` and
 unknown APIs and missing assets never return SPA HTML. No hosted environment or
 online play is activated. [Later GitHub Builds setup](docs/m3-02-operations.md)
 keeps account settings, deployment and rollback as separately authorized gates.
+[M3-02 acceptance evidence](docs/m3-02-evidence/README.md) records independent
+reviews and passing local/CI checks. The next slice is M3-03 persistence; M3
+networked play remains incomplete.
 
 ## Bot research and benchmarks
 
