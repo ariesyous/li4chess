@@ -42,7 +42,10 @@ terminal checkpoints store full states in D1. `commit` inserts command, events,
 checkpoint/result and advances the head in one batch. SQL insert/head triggers
 raise errors on stale/missing authority or incomplete batches, forcing rollback.
 
-`receipt` requires identical canonical input, including already authenticated
+`lookupReceipt` accepts the stable authenticated request (ID, caller, action and
+expected command) before admission and returns the original canonical input/time
+and receipt, including after cache loss or checkpoint pruning. Changed stable
+fields reject before returning stored input. `receipt` requires identical canonical input, including already authenticated
 caller/control generation and the original admission facts. The future room must
 look up/reuse those facts for retries; a fresh arrival timestamp is not a new
 admission. `reconcile` compares exact prepared record/events/receipt/result and

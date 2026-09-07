@@ -24,6 +24,8 @@ export interface Owner { namespace: string; generation: number }
 export type Caller = { kind: "seat"; principal: string; seat: number; generation: number }
   | { kind: "server"; principal: string };
 export interface CommandInput { id: string; caller: Caller; action: ActionRequest; admittedAt: number; expectedCommand: number }
+/** Stable intention available before server admission or after room cache loss. */
+export type StableRequest = Omit<CommandInput, "admittedAt">;
 export interface Head { command: number; event: number; stateHash: string; chainHash: string }
 export interface GameHeader { format: "li4chess-d1-game-v1"; gameId: string; replay: ReplayEnvelopeV2 }
 export interface Boundary { header: GameHeader; headerHash: string; head: Head; state: RulesetStateV2 }

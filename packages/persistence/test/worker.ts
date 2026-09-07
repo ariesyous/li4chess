@@ -1,6 +1,6 @@
 // Test-only entry. Never referenced by application Wrangler configuration.
 import { D1Persistence, exactReader } from "../src/index.js";
-import type { Boundary, CommandInput, GameHeader, Head, Owner, Prepared } from "../src/index.js";
+import type { Boundary, CommandInput, GameHeader, Head, Owner, Prepared, StableRequest } from "../src/index.js";
 import type { EngineBuildIdentityV1 } from "@li4chess/protocol";
 interface Env { DB: D1Database; TEST_KEY: string; PRODUCER: EngineBuildIdentityV1 }
 export default { async fetch(request: Request, env: Env): Promise<Response> {
@@ -9,7 +9,7 @@ export default { async fetch(request: Request, env: Env): Promise<Response> {
   if (request.method === "GET") return Response.json({ fingerprint: env.PRODUCER.buildFingerprint });
   const body = await request.json() as { op: string; header: GameHeader; owner: Owner; prepared: Prepared;
     gameId: string; input: CommandInput; marker: Head; boundary: Boundary; through: number; from: Owner; to: Owner;
-    sql: string; values?: (string | number | null)[]; fault?: boolean; lostAck?: boolean; rejectProducer?: boolean };
+    sql: string; values?: (string | number | null)[]; fault?: boolean; lostAck?: boolean; rejectProducer?: boolean; request: StableRequest };
   let db = env.DB;
   // Append a real failing D1 statement after ALL commit writes, including prune.
   // This is not a mock database or fake rollback response.
@@ -25,6 +25,7 @@ export default { async fetch(request: Request, env: Env): Promise<Response> {
       case "create": result = await store.create(body.header, body.owner); break;
       case "commit": result = await store.commit(body.prepared); break;
       case "receipt": result = await store.receipt(body.gameId, body.input); break;
+      case "lookup": result = await store.lookupReceipt(body.gameId, body.request); break;
       case "reconcile": result = await store.reconcile(body.prepared); break;
       case "recover": result = await store.recover(body.gameId); break;
       case "page": result = await store.readPage(body.boundary, body.through); break;

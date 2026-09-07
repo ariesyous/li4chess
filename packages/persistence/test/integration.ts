@@ -3,7 +3,7 @@ import { Buffer } from "node:buffer";
 import { execFileSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { mkdir, readFile, writeFile, cp } from "node:fs/promises";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { gzipSync } from "node:zlib";
 import { createRequire } from "node:module";
 import { createInitialState, legalMoves, localSquare, PieceType } from "@li4chess/engine";
@@ -19,6 +19,7 @@ const same = (a: unknown, b: unknown) => assert.equal(canonicalJson(a), canonica
 assert(Number(process.versions.node.split(".")[0]) >= 24);
 const producer = readBuildIdentity(root);
 const output = process.env.M3_03_OUTPUT ?? resolve(root, `arena-results/m3-03-${Date.now()}`);
+await mkdir(dirname(output), { recursive: true });
 await mkdir(output); // Reject existing evidence, even if empty.
 const key = Buffer.from(randomBytes(32)).toString("hex");
 const generated = resolve(root, "packages/persistence/.generated", `run-${Date.now()}`);
@@ -64,6 +65,7 @@ async function sql(sql: string, values: (string | number | null)[] = []) {
   return rpc<{ results: Record<string, unknown>[]; meta: unknown }>({ op: "sql", sql, values });
 }
 const owner = { namespace: "test-room", generation: 1 };
+const stable = (p: Prepared) => { const { admittedAt: _admission, ...request } = p.record.input; return request; };
 async function create(id: string): Promise<Boundary> {
   const header: GameHeader = { format: "li4chess-d1-game-v1", gameId: id, replay: await createReplay(createInitialState(), producer) };
   const boundary = await creationBoundary(header, exactReader(producer));
@@ -92,6 +94,9 @@ try {
   runtime = await start(config, persistence, key, producer.buildFingerprint!, log); starts++;
   same(await rpc({ op: "recover", gameId: "migration" }), baseline);
   same(await rpc({ op: "receipt", gameId: "migration", input: first.prepared.record.input }), first.prepared.receipt);
+  same(await rpc({ op: "lookup", gameId: "migration", request: stable(first.prepared) }), { input: first.prepared.record.input, receipt: first.prepared.receipt });
+  assert.equal(await rpc({ op: "lookup", gameId: "migration", request: { ...stable(first.prepared), id: "absent" } }), null);
+  await rpc({ op: "lookup", gameId: "migration", request: { ...stable(first.prepared), admittedAt: 0 } }, 409);
   await sql("INSERT INTO users VALUES ('user-1', 1)"); await sql("INSERT INTO identities VALUES ('fixture','subject','user-1')");
   await rpc({ op: "sql", sql: "INSERT INTO identities VALUES ('fixture','other','missing')" }, 409);
   note("Version 1 populated, additive v2 applied, reapply no-op, rows/receipts and identity foreign keys verified");
@@ -105,6 +110,7 @@ try {
   assert.equal(await rpc({ op: "reconcile", prepared: terminal.prepared }), "committed");
   same(await rpc({ op: "commit", prepared: terminal.prepared }), terminal.prepared.receipt);
   same(await rpc({ op: "recover", gameId: "rollback" }), terminal.next);
+  same(await rpc({ op: "lookup", gameId: "rollback", request: stable(terminal.prepared) }), { input: terminal.prepared.record.input, receipt: terminal.prepared.receipt });
   note("Late SQL failure rolls back command, effects, checkpoint, result and head; lost acknowledgement reconciles exact bytes");
 
   const competing = await create("competing"); const a = await prepare(competing, undefined, "a"); const b = await prepare(competing, undefined, "b");
@@ -117,6 +123,11 @@ try {
   const current = await rpc<Boundary>({ op: "recover", gameId: "competing" });
   const next = await accept(current);
   const winner = winners[0].status === 200 ? a : b;
+  same(await rpc({ op: "lookup", gameId: "competing", request: stable(winner.prepared) }), { input: winner.prepared.record.input, receipt: winner.prepared.receipt });
+  for (const request of [{ ...stable(winner.prepared), expectedCommand: 1 },
+    { ...stable(winner.prepared), action: { type: "resign", actor: 0 } },
+    { ...stable(winner.prepared), caller: { kind: "server", principal: "different" } }])
+    await rpc({ op: "lookup", gameId: "competing", request }, 409);
   same(await rpc({ op: "receipt", gameId: "competing", input: winner.prepared.record.input }), winner.prepared.receipt);
   await rpc({ op: "receipt", gameId: "competing", input: { ...winner.prepared.record.input, admittedAt: 999 } }, 409);
   await rpc({ op: "receipt", gameId: "competing", input: { ...winner.prepared.record.input, expectedCommand: 1 } }, 409);
@@ -199,6 +210,7 @@ try {
   note("Recorded random prepare survives whole-runtime restarts before and after canonical commit; survivor result matches full replay");
 
   let long = await create("long"); const longInitial = long; const longEvents: ReplayEventV2[] = [];
+  let prunedPrepare: Prepared | undefined;
   let rng = 0x12345678; const sizes: { command: number; state: number; events: number; prepare: number; effects: number; batchStatements: number }[] = [];
   const batchStatements = (p: Prepared) => 2 + p.events.length + (p.checkpoint ? 2 : 0) + (p.result ? 1 : 0);
   const started = performance.now();
@@ -208,6 +220,7 @@ try {
     const move = moves[(rng >>> 0) % moves.length];
     const p = await prepare(long, { type: "move", actor: state.turn, move: { from: move.from, to: move.to } });
     await rpc({ op: "commit", prepared: p.prepared }); long = p.next; longEvents.push(...p.prepared.events);
+    if (long.head.command === 16) prunedPrepare = p.prepared;
     sizes.push({ command: long.head.command, state: Buffer.byteLength(canonicalJson(long.state)),
       events: Buffer.byteLength(canonicalJson(p.prepared.events)), prepare: Buffer.byteLength(canonicalJson(p.prepared)), effects: p.prepared.events.length,
       batchStatements: batchStatements(p.prepared) });
@@ -225,6 +238,8 @@ try {
   }
   const retainedCheckpoints = (await sql("SELECT command_seq FROM checkpoints WHERE game_id='long' ORDER BY command_seq")).results;
   same(retainedCheckpoints.map(p => p.command_seq), [0, Math.floor(long.head.command / 16) * 16]);
+  assert(prunedPrepare);
+  same(await rpc({ op: "lookup", gameId: "long", request: stable(prunedPrepare) }), { input: prunedPrepare.record.input, receipt: prunedPrepare.receipt });
   let longAudit = longInitial; let pages = 0;
   while (longAudit.head.command < long.head.command) { longAudit = await rpc({ op: "page", boundary: longAudit, through: long.head.command }); pages++; }
   same(longAudit, long);
@@ -243,6 +258,7 @@ try {
   await rpc({ op: "recover", gameId: "long", rejectProducer: true }, 409);
   await rpc({ op: "page", boundary: longInitial, through: long.head.command, rejectProducer: true }, 409);
   await rpc({ op: "receipt", gameId: "migration", input: first.prepared.record.input, rejectProducer: true }, 409);
+  await rpc({ op: "lookup", gameId: "migration", request: stable(first.prepared), rejectProducer: true }, 409);
   await rpc({ op: "restore", gameId: "long", marker: longInitial.head, rejectProducer: true }, 409);
   await sql("UPDATE persistence_schema SET version=999 WHERE id=1"); await rpc({ op: "recover", gameId: "long" }, 409);
   await sql("UPDATE persistence_schema SET version=2 WHERE id=1");

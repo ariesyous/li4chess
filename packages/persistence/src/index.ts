@@ -2,7 +2,7 @@ import { canonicalJson, equalCanonical, readReplayEvents, recordReplayAction, st
 import type { ReplayEventV2, RulesetStateV2, RulesetResultV2 } from "@li4chess/protocol";
 import { bounded, check, creationBoundary, digest, LIMITS, opaque, PersistenceError, receiptFor,
   validateInput, validateOwner, validateRecord, verifyPrepared } from "./model.js";
-import type { Boundary, CommandInput, CommandRecord, GameHeader, Head, Owner, Prepared, ReaderPolicy, Receipt } from "./model.js";
+import type { Boundary, CommandInput, CommandRecord, GameHeader, Head, Owner, Prepared, ReaderPolicy, Receipt, StableRequest } from "./model.js";
 export * from "./model.js";
 
 interface GameRow { id: string; header_json: string; header_hash: string; owner_namespace: string; owner_generation: number;
@@ -52,6 +52,20 @@ export class D1Persistence {
   }
   private async command(gameId: string, id: string): Promise<CommandRow | null> {
     return this.sql("SELECT * FROM commands WHERE game_id = ? AND id = ?", gameId, id).first<CommandRow>();
+  }
+  /** Duplicate lookup before admission. The authenticated caller knows only the
+   * stable intention; recover the original server time from canonical storage.
+   * Never reveal stored input for a mismatched caller/intention/control epoch. */
+  async lookupReceipt(gameId: string, request: StableRequest): Promise<{ input: CommandInput; receipt: Receipt } | null> {
+    await this.schema();
+    check(!Object.prototype.hasOwnProperty.call(request, "admittedAt"), "lookup accepts stable request only", "invalid");
+    validateInput({ ...request, admittedAt: 0 }); await this.game(gameId);
+    const row = await this.command(gameId, request.id); if (!row) return null;
+    const record = parse<CommandRecord>(row.record_json); validateRecord(record);
+    const { admittedAt: _admission, ...storedRequest } = record.input;
+    check(equalCanonical(storedRequest, request), "command ID reused", "conflict");
+    const stored = await this.readPrepared(gameId, row);
+    return { input: stored.record.input, receipt: stored.receipt };
   }
   /** Caller must authenticate first. Exact input includes caller/control generation
    * and admission facts. A new control generation cannot read an old receipt by ID. */

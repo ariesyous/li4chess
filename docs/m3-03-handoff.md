@@ -49,8 +49,11 @@ not a separately implemented chess oracle.
    the actual immutable producer. Persist owner namespace/generation. Handle an
    uncertain creation using that same header and inspection; do not mint a new
    seed/game silently. Creation retry automation is not implemented by this API.
-3. Serialize all room operations across awaits. Check ID/receipt before stale or
-   terminal rejection. Preserve original `admittedAt` and caller context on exact
+3. Serialize all room operations across awaits. Use `lookupReceipt(gameId,
+   stableRequest)` before admission, stale or terminal rejection. Stable request
+   contains ID, authenticated caller, action and expected command sequence; lookup
+   returns the original canonical input/receipt without requiring server time.
+   Preserve original `admittedAt` and caller context on exact
    retries; transport arrival is not a fresh canonical admission. Changed caller
    control generation needs explicit policy and cannot claim an old receipt.
 4. Reconcile pending DO prepare before accepting work. `reconcile(prepared)` is
