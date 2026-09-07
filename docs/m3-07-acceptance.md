@@ -36,7 +36,7 @@ proposed from inspection, subject to executable validation and independent revie
   reducer and replay-v2 validation. Return the exact creation checkpoint, ordered
   events, final result/hash, original producer, setup and source digest. Walking
   randomness is verified from recorded provenance, never regenerated with ambient
-  randomness. No rules, receipt, timing or result writer changes are authorized.
+  randomness. No rules, receipt or result changes are part of retrieval.
 - Use a separate read-only room path: verify immutable room identity, membership,
   owner, canonical header/head, operational marker/cache/timing and incident state.
   Do not call gameplay boot/recovery, attach, takeover or clock advancement merely
@@ -91,7 +91,36 @@ source fingerprint, executable versions/paths, configuration, commands and obser
 comparisons. Preserve artifact bytes through Git attributes and verify committed
 blobs. Never retain cookies, credentials, proofs or administrative secrets.
 
-## Platform review and exit
+## Implemented choices awaiting full acceptance
+
+Independent contract and implementation reviews selected one canonical command
+per continuation, at most 32 events per transport page, a 32,000,000-byte exact
+canonical artifact ceiling, four principal readers, a ten-minute audit lifetime,
+and the existing 2048-command maximum. A new download invalidates that principal's
+old cursor; repeating the last cursor returns the same page. Long games above the
+byte ceiling explicitly return `replayLimit`; they are not silently truncated.
+Synthetic trusted-port tests walk all 2048 continuations at exactly the byte cap
+and one byte above it. These test boundary accounting, not reachable game length
+or hosted performance. Maintained D1 and browser campaigns establish real replay
+semantics separately.
+
+Historical terminal builds use an authenticated `replayStatus` preflight before
+browser control attachment; creation history retains its producer. Fixture-only
+serving identity substitution tests this path and is not a second deployed build.
+The current writer's exact producer fence remains in force.
+
+Exploratory runtime testing exposed an existing terminal publication issue when
+session rotation closed a sibling channel: a delivery failure suspended the
+already committed terminal result. The scoped correction prunes closed channels
+and republishes corrected terminal presence, retaining canonical history, control,
+clock balances and disconnect banks. Active-game delivery failures retain existing
+recovery semantics. Focused unit and real runtime regression checks pass.
+
+Full-source and resource-test independent reviews found no remaining substantive
+source blocker. Fresh full Windows validation, Linux CI and final evidence review
+are still required before marking R01-R10 complete.
+
+## Platform documentation and completion gate
 
 Official documentation reviewed 2026-09-07:
 [DO limits](https://developers.cloudflare.com/durable-objects/platform/limits/),

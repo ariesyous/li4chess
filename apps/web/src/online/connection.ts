@@ -3,10 +3,10 @@ import type { Intention, OnlineRequest, OnlineResponse, OnlineSnapshot, OnlineCo
 export type Session = Extract<OnlineResponse,{type:"session"}>;
 export type ConnectionState = "connecting" | "connected" | "recovering" | "expired" | "revoked" | "terminal";
 type RequestBody = OnlineRequest extends infer R ? R extends OnlineRequest ? Omit<R,"version"> : never : never;
-export async function onlineRequest(body:RequestBody,proof?:string):Promise<OnlineResponse>{
+export async function onlineRequest(body:RequestBody,proof?:string,signal?:AbortSignal):Promise<OnlineResponse>{
   const input=parseOnlineRequest({version:ONLINE_VERSION,...body});
   const response=await fetch("/api/online",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,
-    ...(proof?{"X-Li4chess-Connection":proof}:{})},body:JSON.stringify(input),signal:AbortSignal.timeout(10000)});
+    ...(proof?{"X-Li4chess-Connection":proof}:{})},body:JSON.stringify(input),signal:signal?AbortSignal.any([signal,AbortSignal.timeout(10000)]):AbortSignal.timeout(10000)});
   const reader=response.body?.getReader();if(!reader)throw new Error("Missing response");let size=0;const chunks:Uint8Array[]=[];
   for(;;){const next=await reader.read();if(next.done)break;size+=next.value.length;if(size>ONLINE_LIMITS.snapshotBytes){void reader.cancel().catch(()=>undefined);throw new Error("Response too large");}chunks.push(next.value);}
   const bytes=new Uint8Array(size);let at=0;for(const chunk of chunks){bytes.set(chunk,at);at+=chunk.length;}
@@ -18,6 +18,7 @@ export interface OnlineView { phase:ConnectionState;snapshot:OnlineSnapshot|null
 /** Every callback is bound to an attempt, including asynchronous hash validation.
  * Receipts resolve intentions; only snapshots can replace displayed state. */
 export class OnlineConnection {
+  private historical=false;
   view:OnlineView={phase:"connecting",snapshot:null,suspension:null,receivedAt:0,control:null,pending:null,takeover:null,identityConflict:false,notice:"Connecting…"};
   private saved:Saved;private socket:WebSocket|null=null;private epoch=0;private timer:ReturnType<typeof setTimeout>|undefined;
   private stopped=false;private attempts=0;private sending=false;private clearing=false;private listeners=new Set<()=>void>();
@@ -53,7 +54,7 @@ export class OnlineConnection {
     if(this.stopped||epoch!==this.epoch)return;this.epoch++;const old=this.socket;this.socket=null;old?.close();this.sending=false;
     this.update({phase:"recovering",notice});clearTimeout(this.timer);this.timer=setTimeout(()=>void this.connect(),Math.min(500*2**Math.min(this.attempts++,4),8000));
   }
-  reconnect(){if(this.stopped||this.view.identityConflict)return;this.recover(this.epoch);}
+  reconnect(){if(this.historical){this.historical=false;this.start();return;}if(this.stopped||this.view.identityConflict)return;this.recover(this.epoch);}
   abandonPreviousIdentity(){if(!this.view.identityConflict)return;this.storage.removeItem(this.key);this.update({identityConflict:false,pending:null});this.start();}
   private async lockProof():Promise<boolean>{if(this.releaseLock)return true;
     const epoch=this.epoch,name=await sha256(this.saved.proof!);
@@ -70,6 +71,14 @@ export class OnlineConnection {
       if(auth.type==="error"&&auth.code==="unauthorized"){this.stop();this.update({phase:"expired",notice:"Guest cookie is no longer available. Pending intentions were retained."});return;}
       if(auth.type!=="session")throw new Error("Authentication service unavailable");
       if(auth.principal!==this.session.principal||auth.generation!==this.session.generation){this.stop();this.update({phase:"revoked",notice:"Guest identity changed. Leave this room before using the new session."});return;}
+      const mode=await onlineRequest({type:"replayStatus",room:this.room});if(!current()||this.authError(mode))return;
+      if(mode.type!=="replayStatus"||mode.principal!==this.session.principal||mode.generation!==this.session.generation)throw new Error("Completed room status unavailable");
+      if(mode.snapshot){
+        if(mode.snapshot.gameId!==this.room)throw new Error("Wrong completed room");
+        await this.applySnapshot(mode.snapshot,true,epoch);if(!current())return;
+        this.historical=true;this.stop();this.update({phase:"terminal",control:null,receivedAt:performance.now(),
+          notice:"Completed game from an earlier build. Replay-only member access; saved intentions remain unchanged."});return;
+      }
       if(this.saved.proof&&!await this.lockProof()){this.saved.proof=null;this.save();}
       if(!current())return;
       if(!this.saved.proof){const r=await onlineRequest({type:"connection",room:this.room});if(!current()||this.authError(r))return;
@@ -128,7 +137,7 @@ export class OnlineConnection {
       }else this.recover(epoch);
     }catch{this.recover(epoch);}finally{if(epoch===this.epoch)this.sending=false;}
   }
-  async clearPending(){if(this.sending||this.clearing){this.update({notice:"A command response is still in flight. Wait for its outcome or recovery before clearing."});return;}
+  async clearPending(){if(this.historical)return;if(this.sending||this.clearing){this.update({notice:"A command response is still in flight. Wait for its outcome or recovery before clearing."});return;}
     const epoch=this.epoch;this.clearing=true;try{await this.resync(epoch);if(epoch!==this.epoch||this.stopped)return;this.savePending(null);this.update({notice:"Saved intention cleared after resync. No new command was sent."});}
     catch{this.update({notice:"Resync or browser storage cleanup did not complete. The saved intention was retained."});}finally{this.clearing=false;}}
   async takeControl(){if(this.saved.pending){this.update({notice:"Resolve or deliberately clear the saved intention before takeover."});return;}
@@ -142,5 +151,5 @@ export class OnlineConnection {
       else if(!this.authError(r)){this.update({notice:"Takeover outcome needs recovery. Retry Take control with the same intention."});this.reconnect();}
     }catch{if(epoch===this.epoch)this.reconnect();}finally{if(this.takeoverAttempt===epoch)this.takeoverAttempt=null;}
   }
-  async leave(){this.stop();if(this.saved.proof)await onlineRequest({type:"retire",room:this.room},this.saved.proof).catch(()=>undefined);this.storage.removeItem(this.key);}
+  async leave(){this.stop();if(this.saved.proof&&!this.historical)await onlineRequest({type:"retire",room:this.room},this.saved.proof).catch(()=>undefined);this.storage.removeItem(this.key);}
 }

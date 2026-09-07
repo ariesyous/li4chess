@@ -12,7 +12,9 @@ interface CommandRow { record_json: string; receipt_json: string; commit_hash: s
   previous_chain: string; owner_namespace: string; owner_generation: number }
 interface CheckpointRow { command_seq: number; event_seq: number; state_json: string; state_hash: string; chain_hash: string }
 const headOf = (g: GameRow): Head => ({ command: g.command_seq, event: g.event_seq, stateHash: g.state_hash, chainHash: g.chain_hash });
-const parse = <T>(json: string): T => JSON.parse(json) as T;
+const parse = <T>(json: string): T => { try {
+  const value:unknown=JSON.parse(json);check(value!==null&&typeof value==="object"&&!Array.isArray(value),"persisted object");return value as T;
+} catch { throw new PersistenceError("corrupt","invalid persisted JSON object"); } };
 const same = (a: unknown, b: unknown, message: string) => check(equalCanonical(a, b), message);
 
 /** Maintained D1 binding adapter. No Sessions: every read, especially an uncertain
@@ -225,7 +227,7 @@ export class D1Persistence {
     const cp = rows[1].results[0] as unknown as CheckpointRow | undefined;
     check(cp && cp.command_seq <= g.command_seq && cp.command_seq >= g.command_seq - LIMITS.checkpointEvery, "checkpoint missing/too old");
     const state = parse<RulesetStateV2>(cp.state_json);
-    engineState(state); // strict complete checkpoint validation
+    try { engineState(state); } catch { throw new PersistenceError("corrupt","invalid checkpoint state"); }
     check(state.setupId === boundary.header.replay.game.setupId && !state.pendingEffects.length && state.sequence === cp.event_seq &&
       await stateHash(state) === cp.state_hash, "checkpoint state");
     if (cp.command_seq === 0) same(state, boundary.state, "creation checkpoint");
@@ -254,29 +256,42 @@ export class D1Persistence {
    * API: retain the verified Boundary in trusted caller storage and call again in
    * a new invocation. Never accept a client-supplied continuation state. */
   async readPage(boundary: Boundary, throughCommand: number): Promise<Boundary> {
+    return (await this.readAuditPage(boundary, throughCommand)).boundary;
+  }
+  /** Trusted genesis continuation plus exact stored events. A single-command
+   * page fits authenticated replay transport; callers never supply wire states. */
+  async readAuditPage(boundary: Boundary, throughCommand: number, count: number = LIMITS.commandPage): Promise<{boundary: Boundary; events: ReplayEventV2[]}> {
     await this.schema();
+    check(Number.isInteger(count) && count > 0 && count <= LIMITS.commandPage, "audit page size", "invalid");
     check(this.policy.accepts(boundary.header.replay.engineBuild), "producer reader unavailable", "unsupported");
     check(Number.isSafeInteger(throughCommand) && throughCommand <= LIMITS.commands && throughCommand >= boundary.head.command, "audit head bound", "invalid");
     const gameId = boundary.header.gameId;
     const commands = await this.sql("SELECT * FROM commands WHERE game_id=? AND seq>? AND seq<=? ORDER BY seq LIMIT ?",
-      gameId, boundary.head.command, throughCommand, LIMITS.commandPage).all<CommandRow>();
+      gameId, boundary.head.command, throughCommand, count).all<CommandRow>();
     check(commands.results.length > 0 || throughCommand === boundary.head.command, "command gap");
-    let current = boundary;
+    let current = boundary; const events: ReplayEventV2[] = [];
     for (const row of commands.results) {
       const p = await this.readPrepared(gameId, row); const r = p.record;
+      check(p.events.length > 0 && p.events.length <= LIMITS.effects, "audit effect count");
+      for (const event of p.events) bounded(event, LIMITS.eventBytes);
       validateRecord(r, this.policy);
       check(r.headerHash === boundary.headerHash && r.sequence === current.head.command + 1 &&
         equalCanonical(r.expected, current.head), "command prefix/lineage");
       validateInput(r.input);
       // Independent reducer execution binds request to the complete stored effects.
-      const authored = await recordReplayAction(current.state, r.input.action);
+      let authored: Awaited<ReturnType<typeof recordReplayAction>>;
+      try { authored = await recordReplayAction(current.state, r.input.action); }
+      catch { throw new PersistenceError("corrupt", "invalid recorded action"); }
       same(authored.events, p.events, "request/effect mismatch");
-      const state = await readReplayEvents(current.state, p.events);
+      let state: RulesetStateV2;
+      try { state = await readReplayEvents(current.state, p.events); }
+      catch { throw new PersistenceError("corrupt", "invalid recorded effects"); }
       check(!state.pendingEffects.length && state.sequence === r.lastEvent && await stateHash(state) === r.afterHash, "incomplete effects");
       check((authored.result === null) === (r.resultHash === null), "result commitment");
       if (authored.result) same(authored.result, p.result, "terminal canonical result");
       current = { ...current, state, head: { command: r.sequence, event: r.lastEvent, stateHash: r.afterHash, chainHash: p.receipt.commitHash } };
+      bounded(state, LIMITS.stateBytes); events.push(...p.events);
     }
-    return current;
+    return {boundary: current, events};
   }
 }

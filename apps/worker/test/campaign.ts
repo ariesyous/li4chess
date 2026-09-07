@@ -6,7 +6,7 @@ import { DatabaseSync } from "node:sqlite";
 import { dirname, resolve } from "node:path";
 import { chromium, expect, type BrowserContext, type Page } from "@playwright/test";
 import { legalMoves, localSquare, PieceType, resignPlayer, type PlayerColor } from "@li4chess/engine";
-import { ONLINE_VERSION, parseOnlineResponse, engineState, readReplay, equalCanonical } from "@li4chess/protocol";
+import { ONLINE_VERSION, parseOnlineResponse, engineState, readReplay, equalCanonical, canonicalJson } from "@li4chess/protocol";
 import type { OnlineResponse, OnlineSnapshot, ReplayEnvelopeV2, ReplayEventV2 } from "@li4chess/protocol";
 import { creationBoundary, digest, exactReader, prepareCommand } from "@li4chess/persistence/model";
 import type { GameHeader, CommandRecord, Receipt, Boundary, Prepared } from "@li4chess/persistence/model";
@@ -22,7 +22,7 @@ await captureSourceMap(root, output, artifact.producer);
 const port = await freePort(), origin = `http://127.0.0.1:${port}`;
 const key = randomBytes(32).toString("hex");
 const selected = (process.env.M3_06_CASES ?? "ordinary,endings,recovery,clocks,incidents,auth").split(",");
-assert(selected.every(s => ["ordinary","endings","recovery","clocks","incidents","auth"].includes(s)), "Unknown campaign group");
+assert(selected.every(s => ["ordinary","endings","recovery","clocks","incidents","auth","replay"].includes(s)), "Unknown campaign group");
 const browser = await chromium.launch();
 const observations: unknown[] = [];
 const secrets = new Set<string>([key]);
@@ -119,6 +119,21 @@ async function game(): Promise<Game> {
   return { pages, guests, room, invitation };
 }
 async function closeGame(g: Game) { for (const c of g.guests) { await c.close(); contexts.delete(c); } }
+async function apiReplay(guest:BrowserContext,room:string) {
+  let response=await request(guest,{type:"replay",room,cursor:null});assert(response.type==="replay"&&response.page.header,JSON.stringify(response));
+  const header=response.page.header,events:ReplayEventV2[]=[];let result=header.result;
+  const head=response.page.head,principal=response.page.principal,generation=response.page.generation;
+  while(response.page.next!==null){
+    const cursor=response.page.next;
+    const next=await request(guest,{type:"replay",room,cursor});assert(next.type==="replay");
+    // Repeating the same authenticated page must return the exact prior response.
+    same(await request(guest,{type:"replay",room,cursor}),next);
+    same(next.page.head,head);assert.equal(next.page.principal,principal);assert.equal(next.page.generation,generation);
+    events.push(...next.page.events);response=next;
+  }
+  const last=events.at(-1);if(last?.type==="terminal"||last?.type==="abort")result=last.result;
+  const replay={...header,events,result,finalStateHash:head.stateHash};await readReplay(replay);return replay;
+}
 async function takeovers(g: Game) {
   for (let seat = 0; seat < 4; seat++) {
     const original = g.pages[seat], c = g.guests[seat], oldProof = await proof(original);
@@ -231,6 +246,24 @@ async function audit(g: Game, name: string, classification: "ordinary-complete" 
     }
     await writeFile(resolve(output, `${name}.replay.json`), JSON.stringify(replay));
     await writeFile(resolve(output, `${name}.canonical.json`), JSON.stringify({ header, commands, final, clients: await Promise.all(g.pages.map(snapshot)) }));
+    for (let seat=0;seat<4;seat++) {
+      const page=g.pages[seat],control=await page.getByTestId("online-control").textContent();
+      const download=page.waitForEvent("download"); await page.getByRole("button",{name:"Download replay",exact:true}).click();
+      const file=await download;const path=resolve(output,`${name}.member-${seat}.replay.json`);await file.saveAs(path);
+      const exported=JSON.parse(await readFile(path,"utf8")) as ReplayEnvelopeV2;
+      same(exported,replay);same((await readReplay(exported)).state,final.state);
+      await expect(page.getByTestId("replay-download-status")).toContainText("Verified replay download started");
+      await expect(page.getByTestId("online-control")).toHaveText(control!);
+    }
+    record(`${name}: four authenticated result downloads equal canonical replay`,{room:g.room,producer:replay.engineBuild,sourceReplayHash:replay.game.sourceReplayHash??null});
+    const local=await g.guests[0].newPage();await local.goto(origin);await local.getByRole("button",{name:"Start game",exact:true}).click();
+    await local.getByLabel("Import replay",{exact:true}).setInputFiles({name:"private.replay.json",mimeType:"application/json",buffer:Buffer.from(canonicalJson(replay))});
+    await expect(local.getByTestId("game-result")).toBeVisible();
+    const localDownload=local.waitForEvent("download");await local.getByRole("button",{name:"Export replay",exact:true}).click();
+    const localFile=await localDownload;const localPath=resolve(output,`${name}.local-import.replay.json`);await localFile.saveAs(localPath);
+    const imported=JSON.parse(await readFile(localPath,"utf8")) as ReplayEnvelopeV2;
+    assert.equal(imported.game.sourceReplayHash,await digest(replay));same(imported.engineBuild,artifact.producer);
+    same((await readReplay(imported)).state.position,final.state.position);await local.close();
     for (let seat = 0; seat < 4; seat++) {
       const rejected = await request(g.guests[seat], { type: "command", room: g.room, id: `terminal-new-${seat}`, expectedCommand: final.command, action: { type: "resign" } }, await proof(g.pages[seat]));
       assert(rejected.type === "error" && rejected.code === "terminal" && !rejected.ambiguous);
@@ -525,10 +558,140 @@ try {
         await expect(retired.pages[seat].getByTestId("online-status")).toContainText(/expired|revoked/,{timeout:35000});
         const response=await retired.guests[seat].request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"session"}});
         const result=await parseOnlineResponse(await response.json()); assert(result.type === "error" && result.code === (mode === "expiry" ? "expired" : "revoked"));
+        const replayResponse=await retired.guests[seat].request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"replay",room:retired.room,cursor:null}});
+        const replayError=await parseOnlineResponse(await replayResponse.json());assert(replayError.type==="error"&&replayError.code===(mode==="expiry"?"expired":"revoked"));
       }
       const db=await database();const canonical=db.prepare("SELECT command_seq,event_seq,lifecycle FROM games WHERE id=?").get(retired.room);db.close();assert.equal(canonical?.command_seq,0);
       record(`B05 all-seat live ${mode} closes access and later requests reject`,{classification:"unfinished-credential-loss",canonical}); await closeGame(retired);
     }
+  }
+  if(selected.includes("replay")) {
+    await start("replay-members",true);const g=await game();
+    const error=async(guest:BrowserContext,body:object,code:string)=>{
+      const r=await request(guest,body);assert(r.type==="error"&&r.code===code&&!r.ambiguous,JSON.stringify(r));
+    };
+    await error(g.guests[0],{type:"replay",room:g.room,cursor:null},"replayIncomplete");
+    await action(g,0,{type:"resign"},"replay-opening-abort");
+    const complete=await audit(g,"replay-opening-abort","opening-abort");
+    const expected=await apiReplay(g.guests[0],g.room);
+    const outsider=await browser.newContext();contexts.add(outsider);
+    await error(outsider,{type:"replay",room:g.room,cursor:null},"unauthorized");
+    const issued=await request(outsider,{type:"issue"});assert(issued.type==="session");for(const c of await outsider.cookies())secrets.add(c.value);
+    await error(outsider,{type:"replay",room:g.room,cursor:null},"unauthorized");
+    for(const extra of [{principal:issued.principal},{seat:0},{invitation:g.invitation}])await error(g.guests[0],{type:"replay",room:g.room,cursor:null,...extra},"invalid");
+    const invalid=await outsider.request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:"li4chess-local-guest=bad"},data:{version:ONLINE_VERSION,type:"replay",room:g.room,cursor:null}});
+    assert.equal((await invalid.json() as {code:string}).code,"unauthorized");
+    record("R03 replay membership, missing/invalid credentials and forged fields reject");
+
+    const observer=await g.guests[0].newPage();await enter(observer);
+    await observer.getByRole("textbox",{name:"Invitation",exact:true}).fill(g.invitation);await observer.getByRole("button",{name:"Join private room",exact:true}).click();await connected(observer);
+    await expect(observer.getByTestId("online-control")).toContainText("Observer");
+    const downloadObserver=observer.waitForEvent("download");await observer.getByRole("button",{name:"Download replay",exact:true}).click();
+    const observerFile=await downloadObserver;await observerFile.saveAs(resolve(output,"replay-observer.replay.json"));
+    same(JSON.parse(await readFile(resolve(output,"replay-observer.replay.json"),"utf8")),expected);
+    await observer.getByRole("button",{name:"Take control",exact:true}).click();await expect(observer.getByTestId("online-control")).toContainText("Controller");
+    same(await apiReplay(g.guests[0],g.room),expected);
+    record("R02 observer download and explicit takeover preserve replay");
+
+    const page=g.pages[1];let downloads=0;page.on("download",()=>downloads++);
+    await page.route("**/api/online",async route=>{if((route.request().postDataJSON() as {type:string}).type==="replay")await route.abort("failed");else await route.continue();});
+    await page.getByRole("button",{name:"Download replay",exact:true}).click();await expect(page.getByTestId("replay-download-status")).not.toContainText("Verifying");
+    await page.unroute("**/api/online");assert.equal(downloads,0);
+    const retried=page.waitForEvent("download");await page.getByRole("button",{name:"Download replay",exact:true}).click();await retried;assert.equal(downloads,1);
+    let release!:()=>void;const gate=new Promise<void>(resolve=>{release=resolve;});let reached!:()=>void;const arrived=new Promise<void>(resolve=>{reached=resolve;});
+    await page.route("**/api/online",async route=>{
+      if((route.request().postDataJSON() as {type:string}).type!=="replay"){await route.continue();return;}
+      const response=await route.fetch();reached();await gate;await route.fulfill({response}).catch(()=>undefined);
+    });
+    await page.getByRole("button",{name:"Download replay",exact:true}).click();await arrived;
+    await expect(page.getByRole("button",{name:"Download replay",exact:true})).toBeDisabled();
+    await page.getByRole("button",{name:"Leave online room",exact:true}).click();release();
+    await expect(page.getByRole("button",{name:"Start game",exact:true})).toBeVisible();await page.unroute("**/api/online");assert.equal(downloads,1);
+    record("R05 lost response retries, duplicate-click guard and late callback after leaving do not export a partial/wrong file");
+
+    const rotatingPage=g.pages[2];let rotatedDownloads=0;rotatingPage.on("download",()=>rotatedDownloads++);
+    let releaseRotation!:()=>void,rotationArrived!:()=>void;
+    const rotationGate=new Promise<void>(resolve=>{releaseRotation=resolve;}),rotationPending=new Promise<void>(resolve=>{rotationArrived=resolve;});
+    await rotatingPage.route("**/api/online",async route=>{
+      const body=route.request().postDataJSON() as {type:string;cursor:string|null};
+      if(body.type!=="replay"||body.cursor===null){await route.continue();return;}
+      const response=await route.fetch();rotationArrived();await rotationGate;await route.fulfill({response}).catch(()=>undefined);
+    });
+    await rotatingPage.getByRole("button",{name:"Download replay",exact:true}).click();await rotationPending;
+    const rotatedDuringDownload=await request(g.guests[2],{type:"rotate"});assert(rotatedDuringDownload.type==="session");
+    for(const cookie of await g.guests[2].cookies())secrets.add(cookie.value);
+    await expect(rotatingPage.getByTestId("online-status")).toContainText(/revoked|expired/);releaseRotation();
+    await rotatingPage.unroute("**/api/online");await rotatingPage.reload();await rotatingPage.getByRole("button",{name:"Private multiplayer",exact:true}).click();await connected(rotatingPage);
+    assert.equal(rotatedDownloads,0);const rotationDownload=rotatingPage.waitForEvent("download");
+    await rotatingPage.getByRole("button",{name:"Download replay",exact:true}).click();await rotationDownload;assert.equal(rotatedDownloads,1);
+    record("R05 delayed final response after credential rotation cannot download; refreshed observer retries successfully");
+
+    const pending=await request(g.guests[0],{type:"replay",room:g.room,cursor:null});assert(pending.type==="replay"&&pending.page.next);
+    await restart();await error(g.guests[0],{type:"replay",room:g.room,cursor:pending.page.next},"replayRestart");
+    same(await apiReplay(g.guests[0],g.room),expected);
+    await admin({op:"replay-outage",room:g.room,value:true});
+    const unavailable=await request(g.guests[0],{type:"replay",room:g.room,cursor:null});assert(unavailable.type==="error"&&unavailable.code==="unavailable");
+    await admin({op:"replay-outage",room:g.room,value:false});same(await apiReplay(g.guests[0],g.room),expected);
+    record("R06 whole-runtime restart invalidates cursor and isolated replay binding outage recovers exact replay");
+
+    for(let seat=0;seat<4;seat++){
+      const guest=g.guests[seat],old=(await guest.cookies())[0];assert(old);secrets.add(old.value);
+      const original=await request(guest,{type:"session"}),rotated=await request(guest,{type:"rotate"});assert(original.type==="session"&&rotated.type==="session");
+      assert.equal(original.principal,rotated.principal);for(const c of await guest.cookies())secrets.add(c.value);
+      const rejected=await guest.request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${old.name}=${old.value}`},data:{version:ONLINE_VERSION,type:"replay",room:g.room,cursor:null}});
+      assert.equal((await rejected.json() as {code:string}).code,"revoked");same(await apiReplay(guest,g.room),expected);
+    }
+    record("R03 four same-principal rotations retain proof-free reads and retire old credentials");
+    // Close attached tabs before injected corruption so heartbeat recovery cannot
+    // mutate operational records while a read-only assertion is being measured.
+    for(const p of [...g.pages,observer])await p.close();
+    const inspect=()=>admin<Inspection>({op:"inspect",room:g.room});
+    const before=await inspect();
+    for(const [sql,restore,code] of [
+      ["UPDATE persistence_schema SET version=99 WHERE id=1","UPDATE persistence_schema SET version=2 WHERE id=1","replayIncompatible"],
+      ["UPDATE games SET quarantine='fixture-quarantine' WHERE id=?","UPDATE games SET quarantine=NULL WHERE id=?","replayIntegrity"],
+      ["ALTER TABLE commands RENAME TO commands_unavailable","ALTER TABLE commands_unavailable RENAME TO commands","unavailable"],
+    ]){
+      await admin({op:"sql",room:g.room,sql,values:sql.includes("?")?[g.room]:[]});
+      await error(g.guests[0],{type:"replay",room:g.room,cursor:null},code);
+      same((await inspect()).records,before.records);
+      await admin({op:"sql",room:g.room,sql:restore,values:restore.includes("?")?[g.room]:[]});
+    }
+    const marker=before.records.cache.head;
+    await admin({op:"mutate",room:g.room,key:"marker",value:{...marker,chainHash:`sha256:${"0".repeat(64)}`}});
+    await error(g.guests[0],{type:"replay",room:g.room,cursor:null},"replayIntegrity");
+    await admin({op:"mutate",room:g.room,key:"marker",value:marker});same(await apiReplay(g.guests[0],g.room),expected);
+    const sql=async(statement:string,values:(string|number|null)[]=[])=>admin<{results:Record<string,unknown>[]}>({op:"sql",room:g.room,sql:statement,values});
+    for(const scenario of ["header-version","event-corruption"]){
+      const trigger=scenario==="header-version"?"immutable_game":"immutable_events";
+      const definition=String((await sql("SELECT sql FROM sqlite_master WHERE name=?",[trigger])).results[0].sql);
+      const table=scenario==="header-version"?"games":"events",column=scenario==="header-version"?"header_json":"event_json";
+      const predicate=scenario==="header-version"?"id=?":"game_id=? AND seq=1";
+      const original=String((await sql(`SELECT ${column} AS value FROM ${table} WHERE ${predicate}`,[g.room])).results[0].value);
+      const altered=scenario==="header-version"?JSON.stringify({...JSON.parse(original),replay:{...JSON.parse(original).replay,replaySchemaVersion:99}}):"null";
+      await sql(`DROP TRIGGER ${trigger}`);await sql(`UPDATE ${table} SET ${column}=? WHERE ${predicate}`,[altered,g.room]);
+      await error(g.guests[0],{type:"replay",room:g.room,cursor:null},scenario==="header-version"?"replayIncompatible":"replayIntegrity");
+      same((await inspect()).records,before.records);
+      await sql(`UPDATE ${table} SET ${column}=? WHERE ${predicate}`,[original,g.room]);await sql(definition);
+    }
+    record("R04 incompatible schema, quarantine, read outage and divergent marker fail explicitly without writes");
+
+    // Simulated serving-identity change is fixture-only; original producer bytes
+    // remain the actual recorded build, and no historical event is rewritten.
+    const config=JSON.parse(await readFile(configPath,"utf8"));config.vars.M3_07_READER_BUILD="7".repeat(40);await writeFile(configPath,JSON.stringify(config));
+    await restart();const historicalBefore=await inspect();
+    const historical=await g.guests[0].newPage();await enter(historical);
+    await historical.getByRole("textbox",{name:"Invitation",exact:true}).fill(g.invitation);await historical.getByRole("button",{name:"Join private room",exact:true}).click();
+    await expect(historical.getByTestId("online-control")).toContainText("Replay-only observation",{timeout:20000});
+    const historicDownload=historical.waitForEvent("download");await historical.getByRole("button",{name:"Download replay",exact:true}).click();
+    const historicFile=await historicDownload;await historicFile.saveAs(resolve(output,"historical-producer.replay.json"));
+    same(JSON.parse(await readFile(resolve(output,"historical-producer.replay.json"),"utf8")),expected);
+    await historical.reload();await historical.getByRole("button",{name:"Private multiplayer",exact:true}).click();
+    await expect(historical.getByTestId("online-control")).toContainText("Replay-only observation");
+    await historical.getByRole("button",{name:"Leave online room",exact:true}).click();
+    same((await inspect()).records,historicalBefore.records);
+    record("R07 fixture-simulated newer serving identity opens, refreshes, exports and leaves original producer without operational mutation",{producer:expected.engineBuild,simulatedServingRevision:config.vars.M3_07_READER_BUILD,result:complete.final.state.position.result});
+    await closeGame(g);await outsider.close();contexts.delete(outsider);
   }
   await verifyArtifact(true);
 } catch (error) { failure = error; }
@@ -542,7 +705,7 @@ finally {
   await writeFile(resolve(output, "manifest.json"), JSON.stringify({ producer: artifact.producer, environment: runtimeEnvironment(), nodeExecutable: process.execPath,
     pnpm: execFileSync(process.execPath, [process.env.npm_execpath!, "--version"], { encoding: "utf8", windowsHide: true }).trim(),
     wrangler: require("wrangler/package.json").version, workerd: require(require.resolve("workerd/package.json", { paths: [resolve(root, "node_modules/wrangler")] })).version,
-    chromium: browser.version(), command: "pnpm --filter @li4chess/worker test:campaign", selected, starts, hosted: false }, null, 2));
+    chromium: browser.version(), command: selected.join(",")==="replay"?"pnpm --filter @li4chess/worker test:replay":"pnpm --filter @li4chess/worker test:campaign", selected, starts, hosted: false }, null, 2));
   await writeFile(resolve(output, "summary.json"), sanitize(JSON.stringify({ passed: !failure, groups: observations.length, selected, starts, failure: failure instanceof Error ? failure.stack : failure ? String(failure) : null }, null, 2)));
 }
 if (failure) throw failure;

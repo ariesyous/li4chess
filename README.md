@@ -8,6 +8,11 @@ Early development, with a playable local free-for-all game in a single browser
 tab. Each of the four seats can be a hotseat human or a CPU, including fully
 automatic four-CPU games. Authenticated private multiplayer is available through
 an explicit local Worker configuration; the default hosted app remains local play.
+Completed private games have authenticated member replay downloads, including
+opening aborts. Controller and observer tabs can export the same canonical
+replay-v2 artifact without taking control; original producer and source lineage
+are retained. See the [retrieval contract](docs/multiplayer-v1.md) for limits,
+authentication, retry behavior and historical-build compatibility.
 
 The goal is a free, ad-free four-player equivalent of Lichess. The first public
 release will offer Chess.com-compatible FFA, public matchmaking, anonymous

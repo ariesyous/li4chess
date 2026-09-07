@@ -1,15 +1,29 @@
 import { isSquareOnBoard } from "@li4chess/engine";
-import type { RulesetStateV2, EngineBuildIdentityV1 } from "./types.js";
+import type { RulesetStateV2, EngineBuildIdentityV1, ReplayEnvelopeV2, ReplayEventV2, RulesetResultV2 } from "./types.js";
+import { canonicalJson } from "./canonical.js";
 import { object, requireValue as check, validateBuild, validateHash, validateState } from "./validation.js";
-import { stateHash } from "./replay.js";
+import { stateHash, readReplay } from "./replay.js";
 
 export const ONLINE_VERSION = "li4chess-online-v1" as const;
 export const ONLINE_LIMITS = { requestBytes: 4096, snapshotBytes: 600_000, command: 2048, id: 128 } as const;
+export const REPLAY_LIMITS = { bytes: 32_000_000, eventsPerPage: 32, cursorMs: 600_000, readers: 4 } as const;
+export const replayJsonBytes = (value: unknown): number => new TextEncoder().encode(canonicalJson(value)).length;
+/** Exact canonical envelope size: empty event brackets already occur in base. */
+export function replayArtifactBytes(header: ReplayEnvelopeV2, result: RulesetResultV2, eventCount: number, eventBytes: number): number {
+  wireInteger(eventCount,ONLINE_LIMITS.command*REPLAY_LIMITS.eventsPerPage);wireInteger(eventBytes);
+  return replayJsonBytes({...header,events:[],result}) + eventBytes + Math.max(0,eventCount-1);
+}
+export interface OnlineReplayPage {
+  room: string; principal: string; generation: number;
+  head: { command: number; event: number; stateHash: string; chainHash: string };
+  command: number; header: ReplayEnvelopeV2 | null; events: ReplayEventV2[]; next: string | null;
+}
 export type Intention = { type: "move"; from: number; to: number } | { type: "resign" | "claimWin" };
 export type OnlineRequest = { version: typeof ONLINE_VERSION } & (
   { type: "session" | "issue" | "rotate" | "revoke" } |
   { type: "create"; id: string } | { type: "join"; invitation: string } |
-  { type: "lobby" | "connection" | "retire"; room: string } |
+  { type: "lobby" | "connection" | "retire" | "replayStatus"; room: string } |
+  { type: "replay"; room: string; cursor: string | null } |
   { type: "seat"; room: string; seat: number } | { type: "ready"; room: string; ready: boolean } |
   { type: "command"; room: string; id: string; expectedCommand: number; action: Intention } |
   { type: "takeControl"; room: string; id: string } | { type: "resync"; room: string; expectedCommand: number });
@@ -29,7 +43,8 @@ export interface OnlineControl { seat: number; generation: number; controller: b
 export interface OnlineSuspension { command:number; stateHash:string; timing:OnlineTiming }
 export interface OnlineLobby { room: string; phase: "waiting" | "creating" | "started"; revision: number;
   seats: ({ mine: boolean; ready: boolean } | null)[]; policy: OnlineTiming["policy"] }
-export const ONLINE_ERRORS = ["invalid", "unauthorized", "expired", "revoked", "conflict", "stale", "terminal", "unavailable", "capacity", "origin"] as const;
+export const ONLINE_ERRORS = ["invalid", "unauthorized", "expired", "revoked", "conflict", "stale", "terminal", "unavailable", "capacity", "origin",
+  "replayIncomplete", "replayMissing", "replayIncompatible", "replayIntegrity", "replayRestart", "replayLimit"] as const;
 export type OnlineErrorCode = typeof ONLINE_ERRORS[number];
 export type OnlineResponse = { version: typeof ONLINE_VERSION } & (
   { type: "session"; principal: string; generation: number; expiresAt: number } |
@@ -38,6 +53,8 @@ export type OnlineResponse = { version: typeof ONLINE_VERSION } & (
   { type: "connection"; proof: string; control: OnlineControl } |
   { type: "control"; control: OnlineControl } |
   { type: "snapshot"; snapshot: OnlineSnapshot } |
+  { type: "replay"; page: OnlineReplayPage } |
+  { type: "replayStatus"; principal: string; generation: number; snapshot: OnlineSnapshot | null; seat: number | null } |
   { type: "suspended"; suspension: OnlineSuspension } |
   { type: "receipt"; receipt: OnlineReceipt; admittedAt: number } |
   { type: "error"; code: OnlineErrorCode; ambiguous: boolean } |
@@ -58,7 +75,7 @@ export function parseOnlineRequest(value: unknown): OnlineRequest {
   check(r && typeof r === "object", "request");
   const keys: Record<OnlineRequest["type"], string[]> = { session: [], issue: [], rotate: [], revoke: [], create: ["id"], join: ["invitation"],
     lobby: ["room"], connection: ["room"], retire: ["room"], seat: ["room","seat"], ready: ["room","ready"], command: ["room","id","expectedCommand","action"],
-    takeControl: ["room","id"], resync: ["room","expectedCommand"] };
+    takeControl: ["room","id"], resync: ["room","expectedCommand"], replay: ["room","cursor"], replayStatus: ["room"] };
   check(Object.hasOwn(keys,r.type), "request type"); envelope(r,keys[r.type]);
   if ("room" in r) wireId(r.room);
   if ("id" in r) { wireId(r.id); check(!r.id.startsWith("server:"), "reserved id"); }
@@ -67,6 +84,7 @@ export function parseOnlineRequest(value: unknown): OnlineRequest {
   if (r.type === "ready") bool(r.ready);
   if ("expectedCommand" in r) wireInteger(r.expectedCommand, r.type === "command" ? 2047 : 2048);
   if (r.type === "command") validateIntention(r.action);
+  if (r.type === "replay" && r.cursor !== null) wireProof(r.cursor);
   return r;
 }
 export function validateOnlineTiming(v: unknown): asserts v is OnlineTiming {
@@ -95,6 +113,26 @@ function lobby(v: OnlineLobby) {
 export async function parseOnlineResponse(value: unknown): Promise<OnlineResponse> {
   bytes(value,ONLINE_LIMITS.snapshotBytes); const r=value as OnlineResponse; check(r&&typeof r==="object","response");
   switch(r.type){
+    case "replayStatus": {
+      envelope(r,["principal","generation","snapshot","seat"]);wireId(r.principal);wireInteger(r.generation);check(r.generation>0,"replay status session");
+      if(r.snapshot===null)check(r.seat===null,"current room mode");
+      else {wireInteger(r.seat,3);await parseOnlineResponse({version:ONLINE_VERSION,type:"snapshot",snapshot:r.snapshot});
+        check(r.snapshot.state.position.result!==null&&r.snapshot.timing.phase==="terminal","completed observation");}
+      break;
+    }
+    case "replay": {
+      envelope(r,["page"]); const p=r.page;
+      object(p,["room","principal","generation","head","command","header","events","next"]);
+      wireId(p.room); wireId(p.principal); wireInteger(p.generation); check(p.generation>0,"replay session");
+      object(p.head,["command","event","stateHash","chainHash"]); wireInteger(p.head.command,ONLINE_LIMITS.command);
+      wireInteger(p.head.event,ONLINE_LIMITS.command*REPLAY_LIMITS.eventsPerPage); validateHash(p.head.stateHash);validateHash(p.head.chainHash);
+      wireInteger(p.command,p.head.command); if(p.next!==null)wireProof(p.next);
+      check(Array.isArray(p.events)&&p.events.length<=REPLAY_LIMITS.eventsPerPage,"replay page events");
+      if(p.header!==null){await readReplay(p.header);check(p.command===0&&p.header.events.length===0&&p.events.length===0,"replay creation page");}
+      else check(p.command>0&&p.events.length>0,"replay event page");
+      check((p.next===null)===(p.command===p.head.command),"replay completion");
+      break;
+    }
     case "session": envelope(r,["principal","generation","expiresAt"]);wireId(r.principal);wireInteger(r.generation);check(r.generation>0,"session generation");wireInteger(r.expiresAt);break;
     case "revoked": case "resyncRequired": envelope(r,[]);break;
     case "created": envelope(r,["lobby","invitation"]);lobby(r.lobby);wireProof(r.invitation);break;

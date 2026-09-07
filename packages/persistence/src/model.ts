@@ -121,7 +121,12 @@ export async function verifyHeader(header: GameHeader, policy: ReaderPolicy): Pr
   check(equalCanonical(header, { format: header.format, gameId: header.gameId, replay: header.replay }), "header fields");
   check(policy.accepts(header.replay.engineBuild), "producer reader unavailable", "unsupported");
   check(header.replay.engineBuild.workingTree.status !== "unreproducible", "unreproducible producer", "unsupported");
-  const checked = await readReplay(header.replay);
+  check(header.replay.format === "li4chess-replay-v2" && header.replay.replaySchemaVersion === 2 &&
+    header.replay.rulesetId === "li4chess-ffa-standard-v1" && header.replay.stateSchemaId === "li4chess-state-v2",
+    "replay reader unavailable", "unsupported");
+  let checked: Awaited<ReturnType<typeof readReplay>>;
+  try { checked = await readReplay(header.replay); }
+  catch { throw new PersistenceError("corrupt", "invalid creation replay"); }
   check(!checked.replay.events.length && !checked.state.pendingEffects.length, "creation must be a complete checkpoint");
   bounded(header, LIMITS.stateBytes); return digest(header);
 }

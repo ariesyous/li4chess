@@ -11,7 +11,7 @@ export { GuestService };
 const producer=build.producer as EngineBuildIdentityV1;
 type Fault={stage:string;mode:"pause"|"throw";remaining?:number};
 export interface FixtureBody {op:string;room:string;now?:number|null;fault?:Fault;key?:string;value?:unknown;sql?:string;values?:(string|number|null)[]}
-type Environment=Parameters<typeof application.fetch>[1] & GameRoomEnvironment & {M3_06_KEY:string;M3_06_SCENARIO?:Scenario};
+type Environment=Parameters<typeof application.fetch>[1] & GameRoomEnvironment & {M3_06_KEY:string;M3_06_SCENARIO?:Scenario;M3_07_READER_BUILD?:string};
 export class GameRoom extends MaintainedGameRoom {
   private readonly base:SQLiteRoomStorage;
   private readonly readFixture:<T>(key:string)=>T|null;
@@ -43,8 +43,13 @@ export class GameRoom extends MaintainedGameRoom {
       };
       const value=Reflect.get(target,property);return typeof value==="function"?value.bind(target):value;
     }});
-    super(ctx,{...fixtureEnv,ROOM_PRODUCER:producer},{storage,canonical:new D1Persistence(database,exactReader(producer)),
-      objectId:ctx.id.toString(),namespace:fixtureEnv.ROOM_NAMESPACE,producer,
+    const replayDatabase=new Proxy(database,{get(target,property){
+      if(property==="prepare")return (sql:string)=>{if(read<boolean>("replay-outage"))throw new Error("isolated replay persistence outage");return target.prepare(sql);};
+      const value=Reflect.get(target,property);return typeof value==="function"?value.bind(target):value;
+    }});
+    const serving=fixtureEnv.M3_07_READER_BUILD?{...producer,sourceRevision:fixtureEnv.M3_07_READER_BUILD}:producer;
+    super(ctx,{...fixtureEnv,GAME_DB:replayDatabase,ROOM_PRODUCER:serving},{storage,canonical:new D1Persistence(database,exactReader(serving)),
+      objectId:ctx.id.toString(),namespace:fixtureEnv.ROOM_NAMESPACE,producer:serving,
       ownsGame:gameId=>fixtureEnv.GAME_ROOMS.idFromName(gameId).toString()===ctx.id.toString(),now:()=>read<number>("now")??Date.now()});
     this.base=base;this.readFixture=read;this.putFixture=put;
   }
@@ -60,6 +65,7 @@ export class GameRoom extends MaintainedGameRoom {
   }
   async fixture(body:FixtureBody) {
     switch(body.op) {
+      case "replay-outage":this.putFixture("replay-outage",body.value===true);break;
       case "time":this.putFixture("now",body.now??null);break;
       case "fault":this.putFixture("fault",body.fault??null);this.putFixture("hit",null);break;
       case "mutate":if(!body.key)throw new Error("missing key");await this.base.write({[body.key]:body.value??null},await this.ctx.storage.getAlarm());break;

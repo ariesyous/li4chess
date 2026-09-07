@@ -92,3 +92,12 @@ source content; they do not authenticate arbitrary database rewrites. Recovery
 from a checkpoint verifies its canonical receipt commitment, not reachability of
 the discarded prefix. Genesis audit verifies every retained action. Restore
 markers not on the canonical chain quarantine; no automatic unquarantine exists.
+
+M3-07 adds `readAuditPage(boundary, throughCommand, count)` alongside the unchanged
+`readPage` return contract. It returns the verified successor plus exact stored
+events, checks per-event/state byte bounds, and accepts one through eight commands.
+Completed private export uses one command per authenticated invocation, starting
+from creation rather than the latest checkpoint. Protocol/reducer corruption has
+an explicit persistence error; D1 I/O failures remain distinct. Read compatibility
+preserves historical producers and fully audits concrete histories; writer identity
+still uses `exactReader`. [Transport limits and compatibility](../../docs/multiplayer-v1.md#completed-private-replay-retrieval-m3-07).

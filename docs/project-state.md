@@ -12,7 +12,8 @@ superseded handoffs.
 completed-private-game replay retrieval and browser export, independent review,
 retained evidence and a draft PR with exact final-head CI. The
 [pre-change inventory](m3-07-acceptance.md) defines scope and proposed technical
-choices. No retrieval behavior is implemented yet. Rematches, hosted activation
+choices. Retrieval and browser export are implemented and independently reviewed;
+fresh full validation and retained Windows/Linux evidence are pending. Rematches, hosted activation
 and M4 remain excluded; M3 stays incomplete.
 
 Verified M3-06 merge: PR #17 merged at
@@ -40,9 +41,9 @@ passed on that head. Exact source maps, canonical/replay comparisons, four-clien
 results, clock conservation, failed attempts and tool/configuration identity are
 retained. Fresh independent source and evidence reviewers resolved all substantive
 findings and independently verified both platforms' artifacts and histories.
-[Draft PR #17](https://github.com/ariesyous/li4chess/pull/17) remains unmerged;
-the documentation/evidence closeout receives its own exact final-head CI check,
-linked on the PR before this task ends.
+[PR #17](https://github.com/ariesyous/li4chess/pull/17) is merged; its final head
+`270adfc6038332f09885c480a24ce5f249da9e3c` passed CI 34152475886. The merge and
+post-merge checks above supersede the historical draft handoff.
 
 Browser fixes make unresolved takeover IDs visible and retain both takeover and
 game-command intentions across failed storage writes. Same-ID recovery survives
@@ -53,8 +54,8 @@ history and stale ownership stay unavailable/quarantined. Test adapters reuse th
 maintained authority; deployable bundle checks exclude fixtures/time/admin hooks.
 No rules, migrations, default hosting, classic bot or archived evidence changed.
 
-M3 remains in progress: authenticated saved-game replay retrieval/export and
-rematches are still product gaps; hosted TLS/origin/cookies, latency/load,
+M3 remains in progress: replay retrieval/export is undergoing M3-07 acceptance;
+rematches remain a product gap; hosted TLS/origin/cookies, latency/load,
 eviction/hibernation, restore and rollout/rollback need separate authorization.
 The [next bounded handoff](m3-07-handoff.md) proposes completed-game replay export
 first and separates rematches and hosted gates. No launch clock or public policy

@@ -52,6 +52,14 @@ canonical source replay SHA-256 in `game.sourceReplayHash` and the current build
 on export. The original source remains unchanged. This is a content link, not
 authentication or proof of ownership. M3 supplies network seat/clock authority.
 
+M3-07 authenticated completed-private-game downloads preserve the original creation,
+events, final result/hash and producer exactly. Retrieval never creates an imported
+checkpoint or substitutes the serving build's producer. The browser assembles
+bounded audited pages and runs this replay-v2 reader before download. Importing that
+file into local play still creates the explicit checkpoint/source-link described
+above. The format is unchanged; the [private transport](multiplayer-v1.md#completed-private-replay-retrieval-m3-07)
+adds member authorization and an explicit 32,000,000-byte export ceiling.
+
 ## Events and interrupted transactions
 
 Events are `move`, `resign`, `timeout`, `disconnectForfeit`, `randomKingMove`,
