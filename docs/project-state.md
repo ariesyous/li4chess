@@ -16,6 +16,13 @@ choices. Retrieval and browser export are implemented and independently reviewed
 fresh full validation and retained Windows/Linux evidence are pending. Rematches, hosted activation
 and M4 remain excluded; M3 stays incomplete.
 
+The first clean implementation `c29885d` passed all 17 Windows invocations,
+including 695 units, 47 local browser tests and both real-runtime campaigns.
+Linux CI 34170371852 failed on a test-driver socket hang-up after successful
+ordinary replay exports. The reviewed correction isolates driver HTTP sockets,
+keeps retries at zero, and sanitizes thrown fixture errors. Browser/server product
+behavior is unchanged. Retain this failed run and rerun acceptance on the correction.
+
 Verified M3-06 merge: PR #17 merged at
 `eddbcad64d340ed7b4df4fe2baa277d4db5424f0`; post-merge CI 34166793615 and Pages
 34166793571 both succeeded. Historical draft/unmerged wording below and in M3-06

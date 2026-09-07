@@ -122,6 +122,25 @@ are still required before marking R01-R10 complete.
 
 ## Platform documentation and completion gate
 
+First clean Windows validation at `c29885d243a269ea1347380a64d3d3f70ef0923b`
+passed all 17 commands: 695 units, 47 local browser tests, 83 full-campaign
+observations/27 starts and 11 focused replay observations/3 starts. Linux
+[CI 34170371852](https://github.com/ariesyous/li4chess/actions/runs/34170371852)
+failed after both ordinary histories exported successfully: the test driver's next
+terminal-command POST encountered a socket hang-up. The healthy runtime log and
+browser-only interval are consistent with an idle pooled socket reset; this cause
+is inferred, not packet-proven. The scoped driver correction uses distinct HTTP
+connections and explicitly zero retries, leaving all browser transport and exact
+assertions intact. A local HTTP test proves distinct sockets and no reset retry.
+Thrown fixture errors now use the same credential redaction as retained artifacts;
+structured JSON sanitizes string values before encoding. Synthetic error tests
+cover known and unknown cookie/proof/header values and valid retained JSON. An
+intermediate sanitizer test failure was corrected before acceptance reruns.
+
+Additional official review on 2026-09-07:
+[Node 24 reused sockets](https://nodejs.org/download/release/latest-v24.x/docs/api/http.html#requestreusedsocket)
+and [Playwright request retries](https://playwright.dev/docs/api/class-apirequestcontext).
+
 Official documentation reviewed 2026-09-07:
 [DO limits](https://developers.cloudflare.com/durable-objects/platform/limits/),
 [D1 limits](https://developers.cloudflare.com/d1/platform/limits/) and

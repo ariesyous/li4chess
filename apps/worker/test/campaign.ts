@@ -13,6 +13,7 @@ import type { GameHeader, CommandRecord, Receipt, Boundary, Prepared } from "@li
 import { runtimeEnvironment } from "@li4chess/protocol/node";
 import { root, packageRoot, assets, require, verifyArtifact, freePort, runNode, startRuntime, stopRuntime, wrangler, localEnv, handleSignals } from "../scripts/shared.js";
 import { captureSourceMap } from "./campaign-source.js";
+import { campaignHttp, sanitizeCampaign, campaignJson } from "./campaign-http.js";
 
 handleSignals();
 const artifact = await verifyArtifact(true);
@@ -34,7 +35,7 @@ const names = ["Red", "Blue", "Yellow", "Green"];
 const record = (name: string, data: object = {}) => { observations.push({ name, ...data }); process.stdout.write(`PASS ${name}\n`); };
 const same = (a: unknown, b: unknown) => assert(equalCanonical(a, b), "Canonical equality");
 async function request(context: BrowserContext, body: object, proof?: string): Promise<OnlineResponse> {
-  const response = await context.request.post(`${origin}/api/online`, { headers: {
+  const response = await context.request.post(`${origin}/api/online`, { ...campaignHttp, headers: { ...campaignHttp.headers,
     Origin: origin, "Content-Type": "application/json", "X-Li4chess-Protocol": ONLINE_VERSION,
     ...(proof ? { "X-Li4chess-Connection": proof } : {}) }, data: { version: ONLINE_VERSION, ...body } });
   return parseOnlineResponse(await response.json());
@@ -539,7 +540,7 @@ try {
       const rotated = await request(guest,{type:"rotate"}); assert(rotated.type === "session" && originalSession.type === "session");
       assert.equal(rotated.principal,originalSession.principal); assert.equal(rotated.generation,originalSession.generation+1);
       await expect(page.getByTestId("online-status")).toContainText(/revoked|expired/);
-      const old = await guest.request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"session"}});
+      const old = await guest.request.post(`${origin}/api/online`,{...campaignHttp,headers:{...campaignHttp.headers,Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"session"}});
       const oldResult = await parseOnlineResponse(await old.json()); assert(oldResult.type === "error" && oldResult.code === "revoked");
       for (const c of await guest.cookies()) secrets.add(c.value);
       await page.reload(); await page.getByRole("button",{name:"Private multiplayer",exact:true}).click(); await connected(page);
@@ -556,9 +557,9 @@ try {
         const cookie=originalCookies[seat]; assert(cookie); secrets.add(cookie.value);
         if(mode === "revocation") assert.equal((await request(retired.guests[seat],{type:"revoke"})).type,"revoked");
         await expect(retired.pages[seat].getByTestId("online-status")).toContainText(/expired|revoked/,{timeout:35000});
-        const response=await retired.guests[seat].request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"session"}});
+        const response=await retired.guests[seat].request.post(`${origin}/api/online`,{...campaignHttp,headers:{...campaignHttp.headers,Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"session"}});
         const result=await parseOnlineResponse(await response.json()); assert(result.type === "error" && result.code === (mode === "expiry" ? "expired" : "revoked"));
-        const replayResponse=await retired.guests[seat].request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"replay",room:retired.room,cursor:null}});
+        const replayResponse=await retired.guests[seat].request.post(`${origin}/api/online`,{...campaignHttp,headers:{...campaignHttp.headers,Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${cookie.name}=${cookie.value}`},data:{version:ONLINE_VERSION,type:"replay",room:retired.room,cursor:null}});
         const replayError=await parseOnlineResponse(await replayResponse.json());assert(replayError.type==="error"&&replayError.code===(mode==="expiry"?"expired":"revoked"));
       }
       const db=await database();const canonical=db.prepare("SELECT command_seq,event_seq,lifecycle FROM games WHERE id=?").get(retired.room);db.close();assert.equal(canonical?.command_seq,0);
@@ -579,7 +580,7 @@ try {
     const issued=await request(outsider,{type:"issue"});assert(issued.type==="session");for(const c of await outsider.cookies())secrets.add(c.value);
     await error(outsider,{type:"replay",room:g.room,cursor:null},"unauthorized");
     for(const extra of [{principal:issued.principal},{seat:0},{invitation:g.invitation}])await error(g.guests[0],{type:"replay",room:g.room,cursor:null,...extra},"invalid");
-    const invalid=await outsider.request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:"li4chess-local-guest=bad"},data:{version:ONLINE_VERSION,type:"replay",room:g.room,cursor:null}});
+    const invalid=await outsider.request.post(`${origin}/api/online`,{...campaignHttp,headers:{...campaignHttp.headers,Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:"li4chess-local-guest=bad"},data:{version:ONLINE_VERSION,type:"replay",room:g.room,cursor:null}});
     assert.equal((await invalid.json() as {code:string}).code,"unauthorized");
     record("R03 replay membership, missing/invalid credentials and forged fields reject");
 
@@ -638,7 +639,7 @@ try {
       const guest=g.guests[seat],old=(await guest.cookies())[0];assert(old);secrets.add(old.value);
       const original=await request(guest,{type:"session"}),rotated=await request(guest,{type:"rotate"});assert(original.type==="session"&&rotated.type==="session");
       assert.equal(original.principal,rotated.principal);for(const c of await guest.cookies())secrets.add(c.value);
-      const rejected=await guest.request.post(`${origin}/api/online`,{headers:{Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${old.name}=${old.value}`},data:{version:ONLINE_VERSION,type:"replay",room:g.room,cursor:null}});
+      const rejected=await guest.request.post(`${origin}/api/online`,{...campaignHttp,headers:{...campaignHttp.headers,Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${old.name}=${old.value}`},data:{version:ONLINE_VERSION,type:"replay",room:g.room,cursor:null}});
       assert.equal((await rejected.json() as {code:string}).code,"revoked");same(await apiReplay(guest,g.room),expected);
     }
     record("R03 four same-principal rotations retain proof-free reads and retire old credentials");
@@ -699,13 +700,13 @@ finally {
   for (const c of contexts) await c.close().catch(() => undefined);
   const cleanup = await Promise.allSettled([browser.close(), ...(runtime ? [stopRuntime(runtime.child)] : [])]);
   for (const result of cleanup) if (result.status === "rejected") failure ??= result.reason;
-  const sanitize = (s: string) => { for (const secret of secrets) s = s.replaceAll(secret, "[credential omitted]").replaceAll(secret.slice(0,32),"[credential prefix omitted]"); return s.replace(/env\.M3_06_KEY[^\r\n]*/g,"env.M3_06_KEY [omitted]"); };
-  await writeFile(resolve(output, "observations.json"), sanitize(JSON.stringify(observations, null, 2)));
+  const sanitize = (s: string) => sanitizeCampaign(s, secrets);
+  await writeFile(resolve(output, "observations.json"), campaignJson(observations, secrets));
   await writeFile(resolve(output, "runtime.log"), sanitize(log));
   await writeFile(resolve(output, "manifest.json"), JSON.stringify({ producer: artifact.producer, environment: runtimeEnvironment(), nodeExecutable: process.execPath,
     pnpm: execFileSync(process.execPath, [process.env.npm_execpath!, "--version"], { encoding: "utf8", windowsHide: true }).trim(),
     wrangler: require("wrangler/package.json").version, workerd: require(require.resolve("workerd/package.json", { paths: [resolve(root, "node_modules/wrangler")] })).version,
     chromium: browser.version(), command: selected.join(",")==="replay"?"pnpm --filter @li4chess/worker test:replay":"pnpm --filter @li4chess/worker test:campaign", selected, starts, hosted: false }, null, 2));
-  await writeFile(resolve(output, "summary.json"), sanitize(JSON.stringify({ passed: !failure, groups: observations.length, selected, starts, failure: failure instanceof Error ? failure.stack : failure ? String(failure) : null }, null, 2)));
+  await writeFile(resolve(output, "summary.json"), campaignJson({ passed: !failure, groups: observations.length, selected, starts, failure: failure instanceof Error ? failure.stack : failure ? String(failure) : null }, secrets));
 }
-if (failure) throw failure;
+if (failure) throw new Error(sanitizeCampaign(failure instanceof Error ? failure.stack ?? failure.message : String(failure), secrets));
