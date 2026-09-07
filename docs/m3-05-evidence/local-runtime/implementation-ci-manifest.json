@@ -1,0 +1,41 @@
+{
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "ac1c49ab7d10e17bc689f1e6764dc71ea1298501",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:f3a76055cd87c7216a60f15d64c64f3bad658fd8d5344b2766c9df0527d88624",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "environment": {
+    "node": "v24.20.0",
+    "platform": "linux",
+    "release": "6.17.0-1022-azure",
+    "architecture": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "logicalCpus": 4,
+    "totalMemoryBytes": 16766414848
+  },
+  "nodeExecutable": "/opt/hostedtoolcache/node/24.20.0/x64/bin/node",
+  "pnpm": "10.33.0",
+  "wrangler": "4.129.0",
+  "workerd": "1.20260903.1",
+  "configuration": "wrangler.json",
+  "expiryTtlMs": 12000,
+  "command": "pnpm --filter @li4chess/worker test:multiplayer",
+  "origin": "http://127.0.0.1:40095",
+  "hosted": false,
+  "startedAt": "2026-09-07T14:58:28.850Z"
+}

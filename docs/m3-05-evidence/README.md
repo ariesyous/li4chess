@@ -6,8 +6,28 @@ Measured 2026-09-07 against the [pre-change plan](../m3-05-acceptance.md), commi
 passed every required local command on a clean tree, with Windows fingerprint
 `sha256:8397459b17078c188db89248f0afe9fcb09d4f7261396c9e5c070b22a88ff0b8`.
 Test-only correction `45bbcff` strengthens walking preconditions and standalone
-live revocation. Final CI remains pending on [draft PR #16](https://github.com/ariesyous/li4chess/pull/16).
-M3-05 is not yet marked complete; [M3-06](../m3-06-handoff.md) remains outside scope.
+live revocation. Reviewed revision `9efe6027bf2c2dde97927fad6128d5d6768262ea` passed
+fresh lint, 671 units, build, all 46 browser tests and all 14 multiplayer groups,
+including the strengthened revocation check. Its clean Windows fingerprint is
+`sha256:b295d0047cfae663e0fe9a5c00c48b1a265fcebfabce970b12b0db1ffc84b1b1`.
+See [checks](local-runtime/reviewed-checks.json), [direct output](local-runtime/reviewed-validation.log.gz),
+[browser report](local-runtime/reviewed-web-e2e.json.gz),
+[multiplayer manifest](local-runtime/reviewed-multiplayer-manifest.json),
+[observations](local-runtime/reviewed-multiplayer-observations.json.gz) and
+[494-file source map](local-runtime/reviewed-source-map.json.gz).
+**M3-05 is complete within this acceptance scope.**
+[CI 34135203998](https://github.com/ariesyous/li4chess/actions/runs/34135203998)
+passed every required check on PR head `9efe6027bf2c2dde97927fad6128d5d6768262ea`.
+[Run metadata](local-runtime/implementation-ci-run.json),
+[Linux manifest](local-runtime/implementation-ci-manifest.json),
+[summary](local-runtime/implementation-ci-summary.json) and
+[observations](local-runtime/implementation-ci-observations.json.gz) retain the evidence.
+GitHub checkout builds synthetic merge `ac1c49ab7d10e17bc689f1e6764dc71ea1298501`,
+fingerprint `sha256:f3a76055cd87c7216a60f15d64c64f3bad658fd8d5344b2766c9df0527d88624`,
+Node 24.20.0 / pnpm 10.33.0, same Wrangler/workerd versions. Linux and Windows
+identities are not conflated. The exact final evidence/documentation-head CI is
+checked again before closeout and linked from [draft PR #16](https://github.com/ariesyous/li4chess/pull/16).
+[M3-06](../m3-06-handoff.md) remains outside scope; M3 remains incomplete.
 
 ## Actual local checks
 
@@ -75,7 +95,8 @@ and [screenshot](local-runtime/online-terminal.png) establish:
 - Rotation closes old-session tabs; expiry closes an attached guest and rejects
   its cookie. The initial revoke check removed the replacement cookie; `45bbcff`
   additionally tests revocation of another connected guest and old-cookie rejection.
-  Its fresh runtime result remains pending.
+  [Fresh reviewed runtime](local-runtime/reviewed-multiplayer-summary.json) passed
+  both standalone live revocation and rejection of the revoked cookie.
 
 Focused units cover stale snapshots/receipts, immediate resyncRequired, late socket
 callbacks, identity mismatch preservation, in-flight cleanup, pending takeover/game
@@ -98,6 +119,10 @@ the original runtime archive. [Checksums](local-runtime/checksums.json) cover
 artifact bytes. Databases/cookies/proofs are excluded. Later evidence/docs are not
 retroactively part of that build.
 
+Independent follow-up evidence review also reconstructed all 494 files at `9efe602`
+and verified its fingerprint, all supplementary checksums, standalone live
+revocation, 671 units and 46 browser results. No substantive review findings remain.
+
 Independent substantive and final security/browser reviews resolved expiry
 ordering, stale detach callbacks, attachment deadlines, ambiguous post-commit
 fences, suspension delivery, peer failures, artifact mode, copied proofs, identity
@@ -112,7 +137,9 @@ classification. All were corrected without weakening assertions.
 
 [CI 34133514555](https://github.com/ariesyous/li4chess/actions/runs/34133514555)
 failed the retained mixed local-game scenario: 13 ordinary moves but zero walking
-actions. A legal CPU counterexample reproduces the unsafe single-corridor assumption;
+actions. A [legal CPU counterexample](local-runtime/counterexample.mjs.txt), with
+[raw engine observations](local-runtime/counterexample-observations.jsonl),
+reproduces the unsafe single-corridor assumption;
 the unavailable failed replay is not claimed identical to it. An initial three-pawn
 replacement also exposed check and failed locally. The revised driver prepares
 mobility from actual legal positions and checks walking preconditions. Exact

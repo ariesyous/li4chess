@@ -8,12 +8,15 @@ superseded handoffs.
 
 ## Current focus
 
-**M3-05 implementation is under final acceptance.** The authenticated private-room
+**M3-05 is complete within its acceptance scope.** The authenticated private-room
 service, strict public wire format and browser reconnect/resync flow are implemented
 against maintained GameRoom. See the [pre-change plan](m3-05-acceptance.md),
 [wire contract](multiplayer-v1.md), [evidence](m3-05-evidence/README.md), and concrete
-[M3-06 handoff](m3-06-handoff.md). Final source-stable validation, commits, draft PR
-and exact final-head CI remain completion gates. M3-06 is not implemented.
+[M3-06 handoff](m3-06-handoff.md). [Draft PR #16](https://github.com/ariesyous/li4chess/pull/16)
+targets main; reviewed `9efe6027bf2c2dde97927fad6128d5d6768262ea` passed
+[CI 34135203998](https://github.com/ariesyous/li4chess/actions/runs/34135203998).
+Final evidence/documentation-head CI is checked again before closeout and linked
+from the PR. M3-06 is not implemented; M3 remains incomplete.
 
 Verified M3-04 baseline: PR #15 merged at
 `1d12d4ba81330d65134b6b7d3afd2c76809fbc91`. Final PR-head CI 34087298251,
@@ -33,8 +36,22 @@ locks, reconnect epochs and deliberate old-identity cleanup preserve browser int
 Independent substantive and final reviewers resolved expiry ordering, late socket
 cleanup, ambiguous post-commit fences, suspension delivery, artifact mode isolation,
 peer notification failures and browser identity/takeover/lobby response races.
-Exploratory actual local runtime/browser runs pass fourteen groups. Final required
-regression evidence is still pending; no earlier run is presented as fresh final proof.
+Clean implementation `c0d8457` passed all 15 required local command invocations:
+671 units, 46 browser tests, 14 architecture groups, nine persistence groups,
+22 room groups/25 starts, default Workers build/dry-runs/runtime/lifecycle, and
+14 authenticated multiplayer groups. Source fingerprint
+`sha256:8397459b17078c188db89248f0afe9fcb09d4f7261396c9e5c070b22a88ff0b8`
+and exact 448-file Git source map were independently verified.
+
+CI 34133514555 exposed a retained mixed-game test's unsafe single-pawn corridor:
+a legal CPU response could immobilize walking Kings. Test-only correction `45bbcff`
+and reviewed `9efe602` preserve all exact ending assertions, prepare actual legal
+King mobility and verify preconditions. No rules/gameplay change or test retries.
+Standalone live revocation coverage was also strengthened. Fresh reviewed lint,
+671 units, build, 46 browser tests and all 14 multiplayer groups passed on Windows;
+all required suites then passed Linux CI. The independently reconstructed reviewed
+494-file fingerprint is `sha256:b295d0047cfae663e0fe9a5c00c48b1a265fcebfabce970b12b0db1ffc84b1b1`.
+Failed exploratory/CI evidence and the causal counterexample are retained separately.
 
 Only explicit local configuration enables multiplayer. Default Pages and Worker
 deployment are unchanged. No account, resource, live secret, deployment, paid plan
