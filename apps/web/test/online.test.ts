@@ -58,6 +58,29 @@ describe("online browser ordering and recovery",()=>{
     resolve(Response.json({version:ONLINE_VERSION,type:"receipt",admittedAt:1010,receipt:{id,sequence:1,firstEvent:1,lastEvent:1,commandHash:hash,stateHash:f.states[1].stateHash,commitHash:hash}}));
     await pending;expect(f.client.view.pending).toBeNull();
   });
+  it.each(["receipt","rejection","explicit cleanup"] as const)("retains the original command when %s cannot be persisted and resends the same ID after reconnect",async outcome=>{
+    const f=await fixture();await attach(f.client,f.states[0]);let resolve!:(r:Response)=>void;
+    f.fetcher.mockImplementationOnce(()=>new Promise<Response>(done=>{resolve=done;}));
+    const command=f.client.command({type:"move",from:17,to:31}),pending=f.client.view.pending!,id=pending.request.id;
+    const bytes=f.storage.getItem("li4chess.online.connection.v1");
+    const save=vi.spyOn(f.storage,"setItem").mockImplementation(()=>{throw new Error("quota");});
+    const response:OnlineResponse=outcome==="receipt"?{version:ONLINE_VERSION,type:"receipt",admittedAt:1010,receipt:{id,sequence:1,firstEvent:1,lastEvent:1,commandHash:hash,stateHash:f.states[1].stateHash,commitHash:hash}}:
+      {version:ONLINE_VERSION,type:"error",code:outcome==="rejection"?"stale":"unavailable",ambiguous:outcome!=="rejection"};
+    resolve(Response.json(response));await command;
+    if(outcome==="explicit cleanup"){await f.client.clearPending();expect(f.client.view.notice).toContain("storage cleanup did not complete");}
+    expect(f.client.view.pending).toBe(pending);expect(f.storage.getItem("li4chess.online.connection.v1")).toBe(bytes);
+    const sent=f.fetcher.mock.calls.length;await f.client.command({type:"resign"});expect(f.fetcher.mock.calls.length).toBe(sent);
+    save.mockRestore();const fetcher=f.fetcher.getMockImplementation()!;
+    f.fetcher.mockImplementation(async(url,options)=>{
+      const request=JSON.parse(options.body as string) as {type:string;id?:string};
+      if(request.type==="command"){expect(request).toEqual(pending.request);return Response.json({version:ONLINE_VERSION,type:"error",code:"stale",ambiguous:false});}
+      return fetcher(url,options);
+    });
+    await vi.waitFor(()=>expect(Socket.all).toHaveLength(2),{timeout:2000});await attach(f.client,f.states[0]);
+    await vi.waitFor(()=>expect(f.client.view.pending).toBeNull());expect(JSON.parse(f.storage.getItem("li4chess.online.connection.v1")!).pending).toBeNull();
+    const commands=f.fetcher.mock.calls.map(([,options])=>JSON.parse(options.body as string) as {type:string;id?:string}).filter(r=>r.type==="command");
+    expect(commands.map(r=>r.id)).toEqual([id,id]);
+  });
   it("blocks a game intention until the pending takeover response is resolved",async()=>{
     const f=await fixture();await attach(f.client,f.states[0]);let resolve!:(r:Response)=>void;
     f.fetcher.mockImplementationOnce(()=>new Promise<Response>(done=>{resolve=done;}));const takeover=f.client.takeControl();
