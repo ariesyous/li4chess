@@ -99,6 +99,14 @@ jobs:
       - name: Run browser tests
         run: pnpm --filter @li4chess/web test:e2e
 
+      - name: Retain failed local-play browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-play-browser-failure
+          path: apps/web/test-results/
+          retention-days: 14
+
       - name: Build isolated Workers application and validate deployment configuration locally
         run: |
           pnpm build:workers

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import type { Page, TestInfo } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { legalMoves, localSquare } from "@li4chess/engine";
+import { applyMove, legalMoves, localSquare, PieceType, resignPlayer } from "@li4chess/engine";
 import { readReplay } from "@li4chess/protocol";
 import type { ReplayEnvelopeV2 } from "@li4chess/protocol";
 import { resumeLocalGame } from "../src/game/localSave.js";
@@ -55,14 +55,27 @@ test("complete mixed game: real CPU opening, deliberate forfeits, walking Kings 
     await expect(page.getByTestId("turn-status")).toContainText(`Turn ${ply + 1} — ${["Red", "Blue", "Yellow", "Green"][color]} to move`, { timeout: 10_000 });
     const saved = await page.evaluate(() => localStorage.getItem("li4chess.local-game.v1"));
     const { state } = await resumeLocalGame({ getItem: () => saved, setItem: () => {} });
-    // Open a square next to each human King so the later forfeits can walk.
-    const move = legalMoves(state).find(move => move.from === localSquare(color, 3, Math.floor(ply / 4) + 1) && move.to === localSquare(color, 3, Math.floor(ply / 4) + 2))!;
+    // The real CPU's choices vary with its bounded search. Prepare walking
+    // mobility from the actual legal position, including replies to check,
+    // rather than assuming one fixed pawn corridor will remain unattacked.
+    const candidates=legalMoves(state).map(move=>{const after=applyMove(state,move);return {move,
+      mobility:legalMoves(after,color).filter(next=>after.board[next.from]?.type===PieceType.King).length};});
+    candidates.sort((a,b)=>b.mobility-a.mobility);
+    const move=candidates[0]?.move;
     expect(move).toBeDefined();
     await page.locator(`[data-square="${move.from}"]`).click(); await page.locator(`[data-square="${move.to}"]`).click();
   }
   await expect(page.getByTestId("turn-status")).toContainText("Turn 13 — Red to move", { timeout: 10_000 });
   for (const color of ["Red", "Yellow", "Green"]) {
     await expect(page.getByTestId("turn-status")).toContainText(`${color} to move`);
+    const saved = await page.evaluate(() => localStorage.getItem("li4chess.local-game.v1"));
+    const { state } = await resumeLocalGame({ getItem: () => saved, setItem: () => {} });
+    const forfeited = resignPlayer(state,state.turn);
+    if(color!=="Green") {
+      expect(forfeited.players[state.turn].kingStatus).toBe("walking");
+      expect(forfeited.turn).toBe(state.turn);
+      expect(legalMoves(forfeited).length).toBeGreaterThan(0);
+    }
     page.once("dialog", dialog => dialog.accept());
     await page.getByRole("button", { name: `Resign ${color}`, exact: true }).click();
   }

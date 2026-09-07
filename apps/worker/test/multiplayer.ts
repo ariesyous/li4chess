@@ -185,6 +185,11 @@ try{
   const rotation=await request(redContext,{type:"rotate"});assert.equal(rotation.type,"session");assert.notEqual((await redContext.cookies())[0].value,beforeCookie);
   await expect(observer.getByTestId("online-status")).toContainText(/revoked|expired/);
   const revoked=await request(redContext,{type:"revoke"});assert.equal(revoked.type,"revoked");assert.equal((await redContext.cookies()).length,0);
+  const liveGuest=contexts[order[1]],livePage=pages[order[1]],liveToken=(await liveGuest.cookies())[0].value;
+  assert.equal((await request(liveGuest,{type:"revoke"})).type,"revoked");
+  await expect(livePage.getByTestId("online-status")).toContainText(/revoked|expired/);
+  const retiredCookie=await request(liveGuest,{type:"session"},undefined,{Cookie:`li4chess-local-guest=${liveToken}`});
+  assert(retiredCookie.type==="error"&&retiredCookie.code==="revoked");
   record("credential rotation and revocation affect existing connections");
   await observer.screenshot({path:resolve(output,"online-terminal.png"),fullPage:true});
   // Fresh local databases, same maintained entry, short absolute TTL configuration.
