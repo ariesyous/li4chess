@@ -5,6 +5,8 @@ import { packageRoot, generated, verifyArtifact, runNode, wrangler, localEnv, ha
 
 handleSignals();
 await verifyArtifact();
+// Check both clean-checkout ambient typing and the generated JSON module case.
+await runNode(resolve(packageRoot, "node_modules/typescript/bin/tsc"), ["-p", "tsconfig.json"], packageRoot);
 const output = resolve(generated, "dry-run-room-local");
 await mkdir(output, { recursive: true }); let log = "";
 await runNode(wrangler, ["deploy", "--dry-run", "--config", resolve(packageRoot, "wrangler.room.local.jsonc"),
