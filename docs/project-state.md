@@ -8,32 +8,48 @@ superseded handoffs.
 
 ## Current focus
 
-**M3-04 is in progress** under the [pre-change acceptance plan](m3-04-acceptance.md).
-Fetched `origin/main` is PR #14 merge `898be37cc7889e5bea9fefe5e5b819e1b7351784`;
-GitHub CI 34083211956 and Pages 34083211924 both succeeded on that revision.
-The clean baseline became `codex/m3-04-authoritative-gameroom`. Work is scoped to
-maintained internal room authority, timing/alarms and real local recovery proof;
-M3-05 public credentials/protocol/UI and hosted activation remain excluded.
+**M3-04 is complete**, scoped to the [pre-change acceptance plan](m3-04-acceptance.md),
+with [independently reviewed evidence](m3-04-evidence/README.md) and a concrete
+[M3-05 handoff](m3-05-handoff.md). The dedicated branch began at verified PR #14
+merge `898be37cc7889e5bea9fefe5e5b819e1b7351784`; CI 34083211956 and Pages
+34083211924 passed on that baseline. Acceptance plan `a7aa45f` preceded behavior
+changes; `bec21c8` implemented the reviewed room, and final implementation
+`c86e7e75c381f02d1dcd7a400a5b047b9c6ca1ee` passed
+[CI 34086306609](https://github.com/ariesyous/li4chess/actions/runs/34086306609).
 
-Implementation now supplies a maintained room package, strict command-v2 timing
-metadata preserving v1/released migrations, and explicit local-only Worker
-registration. Fresh substantive and final reviewers resolved all reported findings:
-authority/control/receipt fences, deterministic admission, capacity/retry handling,
-socket close after takeover, valid old-pending restore quarantine and exhausted-bank
-reconnect ordering. The [M3-05 handoff](m3-05-handoff.md) defines the next integration.
+The maintained SQLite room serializes authenticated internal authority, complete
+prepare, exact canonical D1 commit/reconciliation, atomic local finalize and delayed
+publication. Persisted clocks, cumulative disconnect banks, control generations,
+seeded walking turns and bounded durable alarm recovery preserve engine facts and
+terminal results. Strict command-v2 admission timing keeps v1 compatibility and
+released migrations/state-v2/replay-v2 intact. Only explicit local Worker room
+configuration was added; no public protocol/credentials/UI or hosted activation.
 
-A source-stable Windows run against `a7aa45f` plus implementation fingerprint
-`sha256:0f5aac16c90fb8633beafbfdf9359a391ceedfbc9b6c37179b28ffcc71961623`
-passed every required command: frozen install, lint, 638 units, build, 22 real room
+A clean Windows acceptance run used Node 24.18.0 / pnpm 10.33.0 and fingerprint
+`sha256:56dd58f7e342cc8a8e3fd2f8933b3769703870dd0d118485ad92c6ac5f5a2cd3`.
+All required commands passed: frozen install, lint, 642 units, build, 22 real room
 groups/25 runtime starts, nine D1 groups, 46 browser tests, 14 architecture groups,
 Workers build, existing environment and new local-room dry-runs, and four Worker
-browser groups plus lifecycle checks. Node 24.18.0/Corepack pnpm 10.33.0. All
-356 local Markdown links resolved. Final review then added two small error/capacity
-fixes and four regressions; all 33 room/timing tests and changed-source type checks
-pass. The final committed implementation will receive another complete acceptance
-run before evidence packaging, push/draft PR and final-revision CI. M3-04 and M3
-remain incomplete until those closeout gates pass. Failed exploratory fixtures and
-source-drift runs remain preserved, explicitly separate from acceptance evidence.
+browser groups plus lifecycle checks. All 357 implementation-revision local links
+resolved. Linux CI passed the same suites. Fresh independent code and evidence
+reviews resolved all findings and verified all 393 source files, artifact hashes
+and earlier snapshot reconstruction. The 256-command/293-event history remains
+unfinished/censored. Failed exploratory/source-drift and generated-JSON typing
+attempts are retained separately; no assertions were weakened or retried to pass.
+
+[Draft PR #15](https://github.com/ariesyous/li4chess/pull/15) targets main. Final
+pushed evidence/documentation-revision CI is checked again before closeout and
+linked from its PR description. No merge, main push, account connection, resource,
+secret, deployment or paid plan was performed. Default Worker/Pages behavior,
+frozen classic code and archived evidence remain intact.
+
+**Next slice: M3-05 authenticated caller and public command/receipt/resync protocol.**
+Follow the handoff for membership/authentication, stable retry IDs, controller
+changes, timing visibility and ambiguous outcomes before room/lobby UI. M3 remains
+incomplete. Hosted clock availability, alarm delays, aggregate query/CPU/load
+budgets, failover and coordinated restore remain separate gates; no launch time
+control is selected. Cold recovery conservatively freezes unknown infrastructure
+time, and same-prefix clock rollback needs independently newer operational markers.
 
 ## M3-03 completed baseline
 
@@ -73,13 +89,8 @@ from its PR description. No merge, main push, hosted connection, provisioning,
 secret, deployment or paid plan was performed. Application Worker and Pages
 configuration, frozen classic and archived evidence remain intact.
 
-**Next slice: M3-04 GameRoom.** Implement serialized authenticated authority and
-durable prepare → canonical commit → local finalize → acknowledgement first;
-then clock debit/activation, recovery suspension, disconnect banks and bounded
-idempotent alarm retries. Follow the handoff's persistence APIs, owner-generation
-CAS, stable request lookup and exact prepared reconciliation. New canonical clock
-metadata needs explicit version compatibility. Do not interpret this handoff as
-starting M3-04. M3 as a whole remains incomplete.
+The M3-03 handoff is now implemented by the completed M3-04 slice above.
+
 ## Previous completed slice
 
 **M3-02 is complete**, scoped to the [Workers acceptance plan](m3-02-acceptance.md).
@@ -119,12 +130,13 @@ reviewed rule and replay implementations. Preserve its accepted contract.
 M2 began from clean fetched `origin/main`, merge `7f2593c96301853c6b3a9ebeaaaf6ea4683dc698`,
 on dedicated `codex/m2-completion`. GitHub verifies [M1 PR #10](https://github.com/ariesyous/li4chess/pull/10)
 merged with passing checks. Human Git identity is Aries Youssefian. Node 24.18.0
-and pinned pnpm 10.33.0 via temporary Corepack shims are verified. Current M3-03 scope is stated above.
+and pinned pnpm 10.33.0 via temporary Corepack shims are verified. Current M3-04 completion and M3-05 handoff are stated above.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
-uses the bounded Worker path with measured resource policies. Live clocks, connection-bank tracking,
-networking, accounts, matchmaking and ratings are M3/M4. Local timeout and
-exhausted-disconnect facts are deterministic engine/replay inputs only.
+uses the bounded Worker path with measured resource policies. Internal server clocks
+and disconnect-bank tracking are implemented in M3-04. Public multiplayer, accounts,
+matchmaking and ratings remain M3/M4 work. The local UI retains simulated timeout;
+the shared engine/replay also consumes server-authoritative timeout/disconnect facts.
 
 ## M2 slice 1: bounded Worker search
 

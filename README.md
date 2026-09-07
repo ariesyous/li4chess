@@ -69,7 +69,7 @@ if browser storage is unavailable. The responsive frame has four directional sea
 readable move/points histories, rules help, and deliberate resign/reset/claim controls.
 Tab enters the board; arrows navigate displayed squares, Enter/Space select or move,
 and Escape clears selection. Color names and state labels supplement hue;
-network authority, live clocks and disconnect tracking are M3 work.
+public network play and its clock/disconnect UI remain M3 work.
 
 ## Monorepo layout
 
@@ -151,11 +151,21 @@ migrations, atomic fenced command/effect commits, stable receipts, immutable
 results and bounded checkpoint recovery. Run
 `pnpm --filter @li4chess/persistence test:integration` for actual local D1 migration,
 rollback, concurrency, restart and replay checks. It uses isolated test bindings;
-the application has no online rooms or D1 binding. The
+the default application configuration has no online rooms or D1 binding. The
 [M3-03 acceptance plan](docs/m3-03-acceptance.md) and
-[GameRoom handoff](docs/m3-03-handoff.md) describe limits and remaining authority,
-clock/alarm and hosted gates. [Reviewed local and CI evidence](docs/m3-03-evidence/README.md)
+[GameRoom handoff](docs/m3-03-handoff.md) describe the persistence boundary and
+hosted gates. [Reviewed local and CI evidence](docs/m3-03-evidence/README.md)
 completes M3-03; M3 networked play remains incomplete.
+
+The maintained [GameRoom](packages/game-room/README.md) now provides internal
+serialized authority, persisted clocks and cumulative disconnect banks, durable
+prepare/D1 commit/finalize, seeded walking turns and alarm recovery. Strict
+command-v2 admission timing preserves command-v1 compatibility and existing replay
+formats. [M3-04 evidence](docs/m3-04-evidence/README.md) records actual Windows and
+Linux workerd/D1 checks. An explicit local Worker configuration registers the room;
+the shipped app remains local play. The [M3-05 handoff](docs/m3-05-handoff.md) starts
+authenticated caller integration and the public command/receipt/resync protocol.
+Launch time controls and hosted activation remain separate decisions.
 
 ## Bot research and benchmarks
 
