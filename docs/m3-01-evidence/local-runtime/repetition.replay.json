@@ -1,0 +1,1009 @@
+{
+  "engineBuild": {
+    "buildFingerprint": "sha256:f2df1ffc9634697115e700338d9ee6436650d8a77ffb380ef20049527ea9b1f3",
+    "format": "li4chess-engine-build-v1",
+    "packageVersions": {
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0",
+      "@li4chess/web": "0.0.0"
+    },
+    "sourceRevision": "d0249a3deffe0ed3e147b49b33e50ebc8b5c6f05",
+    "workingTree": {
+      "contentHash": "sha256:f2df1ffc9634697115e700338d9ee6436650d8a77ffb380ef20049527ea9b1f3",
+      "status": "dirty"
+    }
+  },
+  "events": [
+    {
+      "actor": 0,
+      "move": {
+        "eliminates": [],
+        "from": 4,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "N"
+        },
+        "to": 33
+      },
+      "positionSequence": 1,
+      "sequence": 1,
+      "stateHashAfter": "sha256:f98429416eaf8c5ae928c6dc6085abc581412786d9d0e9e5ba782eef5235244b",
+      "stateHashBefore": "sha256:65ad689e0b6dcbff26ef3a771d8289f5985a9d75e7a643149847a3b6a7959141",
+      "type": "move"
+    },
+    {
+      "actor": 1,
+      "move": {
+        "eliminates": [],
+        "from": 56,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "N"
+        },
+        "to": 72
+      },
+      "positionSequence": 2,
+      "sequence": 2,
+      "stateHashAfter": "sha256:40514a7c31e6dea6c7472f81f7c5c829e4266023d44f0a3a89b0dc7178d300f2",
+      "stateHashBefore": "sha256:f98429416eaf8c5ae928c6dc6085abc581412786d9d0e9e5ba782eef5235244b",
+      "type": "move"
+    },
+    {
+      "actor": 2,
+      "move": {
+        "eliminates": [],
+        "from": 186,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "N"
+        },
+        "to": 159
+      },
+      "positionSequence": 3,
+      "sequence": 3,
+      "stateHashAfter": "sha256:46e1841fb7a3c8e107f868af262566870788aa0a8674421720e574fd2330e242",
+      "stateHashBefore": "sha256:40514a7c31e6dea6c7472f81f7c5c829e4266023d44f0a3a89b0dc7178d300f2",
+      "type": "move"
+    },
+    {
+      "actor": 3,
+      "move": {
+        "eliminates": [],
+        "from": 69,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "N"
+        },
+        "to": 53
+      },
+      "positionSequence": 4,
+      "sequence": 4,
+      "stateHashAfter": "sha256:93ecaf049fd320bdedb33fc51d7222073025a15995db8e9e8cbbe50d57a59abf",
+      "stateHashBefore": "sha256:46e1841fb7a3c8e107f868af262566870788aa0a8674421720e574fd2330e242",
+      "type": "move"
+    },
+    {
+      "actor": 0,
+      "move": {
+        "eliminates": [],
+        "from": 33,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 0,
+          "type": "N"
+        },
+        "to": 4
+      },
+      "positionSequence": 5,
+      "sequence": 5,
+      "stateHashAfter": "sha256:9e78622a19bb183d021c7ae26c53dbe1889e4ce45acdf82ce5181e215bb7479a",
+      "stateHashBefore": "sha256:93ecaf049fd320bdedb33fc51d7222073025a15995db8e9e8cbbe50d57a59abf",
+      "type": "move"
+    },
+    {
+      "actor": 1,
+      "move": {
+        "eliminates": [],
+        "from": 72,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 1,
+          "type": "N"
+        },
+        "to": 56
+      },
+      "positionSequence": 6,
+      "sequence": 6,
+      "stateHashAfter": "sha256:34b25d9f23e42aa4526c7d0da97d95d6b8f9384eb8a38794384a1a8a610a3050",
+      "stateHashBefore": "sha256:9e78622a19bb183d021c7ae26c53dbe1889e4ce45acdf82ce5181e215bb7479a",
+      "type": "move"
+    },
+    {
+      "actor": 2,
+      "move": {
+        "eliminates": [],
+        "from": 159,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 2,
+          "type": "N"
+        },
+        "to": 186
+      },
+      "positionSequence": 7,
+      "sequence": 7,
+      "stateHashAfter": "sha256:266663806718d495b46b8f0224d29d9717beb72a0561e6d36d5559086fbb39cb",
+      "stateHashBefore": "sha256:34b25d9f23e42aa4526c7d0da97d95d6b8f9384eb8a38794384a1a8a610a3050",
+      "type": "move"
+    },
+    {
+      "actor": 3,
+      "move": {
+        "eliminates": [],
+        "from": 53,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 3,
+          "type": "N"
+        },
+        "to": 69
+      },
+      "positionSequence": 8,
+      "sequence": 8,
+      "stateHashAfter": "sha256:738741a76ff13d18590b8510bad099ab04bd6f28a7f7797d716d730edc24cda4",
+      "stateHashBefore": "sha256:266663806718d495b46b8f0224d29d9717beb72a0561e6d36d5559086fbb39cb",
+      "type": "move"
+    },
+    {
+      "actor": 0,
+      "move": {
+        "eliminates": [],
+        "from": 4,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 0,
+          "type": "N"
+        },
+        "to": 33
+      },
+      "positionSequence": 9,
+      "sequence": 9,
+      "stateHashAfter": "sha256:f890a325ca33db0d2ba4c858e1c9d6ce7d657272c0c32bc285477a08a045111e",
+      "stateHashBefore": "sha256:738741a76ff13d18590b8510bad099ab04bd6f28a7f7797d716d730edc24cda4",
+      "type": "move"
+    },
+    {
+      "actor": 1,
+      "move": {
+        "eliminates": [],
+        "from": 56,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 1,
+          "type": "N"
+        },
+        "to": 72
+      },
+      "positionSequence": 10,
+      "sequence": 10,
+      "stateHashAfter": "sha256:8585911ebe2f7af5ddd4ae368d58a8a8c27408e176fbb21246317a3334d62789",
+      "stateHashBefore": "sha256:f890a325ca33db0d2ba4c858e1c9d6ce7d657272c0c32bc285477a08a045111e",
+      "type": "move"
+    },
+    {
+      "actor": 2,
+      "move": {
+        "eliminates": [],
+        "from": 186,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 2,
+          "type": "N"
+        },
+        "to": 159
+      },
+      "positionSequence": 11,
+      "sequence": 11,
+      "stateHashAfter": "sha256:cb8187bc27cf107c2b8bc4fe2752548bd25e59731d824d59f75282b73ece3196",
+      "stateHashBefore": "sha256:8585911ebe2f7af5ddd4ae368d58a8a8c27408e176fbb21246317a3334d62789",
+      "type": "move"
+    },
+    {
+      "actor": 3,
+      "move": {
+        "eliminates": [],
+        "from": 69,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 3,
+          "type": "N"
+        },
+        "to": 53
+      },
+      "positionSequence": 12,
+      "sequence": 12,
+      "stateHashAfter": "sha256:58a85fb61fc03036adcccecec2fa90256c59633d9338f025a0c953a7e58c25fe",
+      "stateHashBefore": "sha256:cb8187bc27cf107c2b8bc4fe2752548bd25e59731d824d59f75282b73ece3196",
+      "type": "move"
+    },
+    {
+      "actor": 0,
+      "move": {
+        "eliminates": [],
+        "from": 33,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 0,
+          "type": "N"
+        },
+        "to": 4
+      },
+      "positionSequence": 13,
+      "sequence": 13,
+      "stateHashAfter": "sha256:5a99540ebc715000a136cb54b7fc506fd1b7d3fd4a8d0c1f58baf100e5ecca3c",
+      "stateHashBefore": "sha256:58a85fb61fc03036adcccecec2fa90256c59633d9338f025a0c953a7e58c25fe",
+      "type": "move"
+    },
+    {
+      "actor": 1,
+      "move": {
+        "eliminates": [],
+        "from": 72,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 1,
+          "type": "N"
+        },
+        "to": 56
+      },
+      "positionSequence": 14,
+      "sequence": 14,
+      "stateHashAfter": "sha256:d651d83d2b0c1e627363dc10a655fef510ff6327c47d9de9be142be68da8ab95",
+      "stateHashBefore": "sha256:5a99540ebc715000a136cb54b7fc506fd1b7d3fd4a8d0c1f58baf100e5ecca3c",
+      "type": "move"
+    },
+    {
+      "actor": 2,
+      "move": {
+        "eliminates": [],
+        "from": 159,
+        "isCheck": [],
+        "piece": {
+          "hasMoved": true,
+          "owner": 2,
+          "type": "N"
+        },
+        "to": 186
+      },
+      "positionSequence": 15,
+      "sequence": 15,
+      "stateHashAfter": "sha256:f367f2cfb069123bcf40e9d638557384b5b6203c07a5fdb42ada25f7cd9cbea2",
+      "stateHashBefore": "sha256:d651d83d2b0c1e627363dc10a655fef510ff6327c47d9de9be142be68da8ab95",
+      "type": "move"
+    },
+    {
+      "type": "move",
+      "actor": 3,
+      "move": {
+        "from": 53,
+        "to": 69,
+        "piece": {
+          "hasMoved": true,
+          "owner": 3,
+          "type": "N"
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "sequence": 16,
+      "positionSequence": 16,
+      "stateHashBefore": "sha256:f367f2cfb069123bcf40e9d638557384b5b6203c07a5fdb42ada25f7cd9cbea2",
+      "stateHashAfter": "sha256:6e14623e625030ffec225c676d8cbb0de8935327cfba34725d3abfeb3e534bc4"
+    },
+    {
+      "type": "scoreAward",
+      "causeSequence": 16,
+      "award": {
+        "sequence": 17,
+        "causeSequence": 16,
+        "rule": "repetition",
+        "recipient": 0,
+        "delta": 10,
+        "total": 10
+      },
+      "sequence": 17,
+      "positionSequence": 17,
+      "stateHashBefore": "sha256:6e14623e625030ffec225c676d8cbb0de8935327cfba34725d3abfeb3e534bc4",
+      "stateHashAfter": "sha256:daf93962a1016bb09a4ca4118213966df35703f7501e568ab084fba7d8f973cf"
+    },
+    {
+      "type": "scoreAward",
+      "causeSequence": 16,
+      "award": {
+        "sequence": 18,
+        "causeSequence": 16,
+        "rule": "repetition",
+        "recipient": 1,
+        "delta": 10,
+        "total": 10
+      },
+      "sequence": 18,
+      "positionSequence": 18,
+      "stateHashBefore": "sha256:daf93962a1016bb09a4ca4118213966df35703f7501e568ab084fba7d8f973cf",
+      "stateHashAfter": "sha256:8d8d6f62b8c889258176d880e95d33221be124b9f4e4e4ca435d52234997646d"
+    },
+    {
+      "type": "scoreAward",
+      "causeSequence": 16,
+      "award": {
+        "sequence": 19,
+        "causeSequence": 16,
+        "rule": "repetition",
+        "recipient": 2,
+        "delta": 10,
+        "total": 10
+      },
+      "sequence": 19,
+      "positionSequence": 19,
+      "stateHashBefore": "sha256:8d8d6f62b8c889258176d880e95d33221be124b9f4e4e4ca435d52234997646d",
+      "stateHashAfter": "sha256:ba4eecab875a96e21bf1a122e27fcdecc826f7b1542dcbff009fe9180f88bb47"
+    },
+    {
+      "type": "scoreAward",
+      "causeSequence": 16,
+      "award": {
+        "sequence": 20,
+        "causeSequence": 16,
+        "rule": "repetition",
+        "recipient": 3,
+        "delta": 10,
+        "total": 10
+      },
+      "sequence": 20,
+      "positionSequence": 20,
+      "stateHashBefore": "sha256:ba4eecab875a96e21bf1a122e27fcdecc826f7b1542dcbff009fe9180f88bb47",
+      "stateHashAfter": "sha256:258f57d1e269e6063a77a4f04c49fdbabc0fa495595390739a81e020020b5ca7"
+    },
+    {
+      "type": "terminal",
+      "causeSequence": 16,
+      "result": {
+        "stateSchemaId": "li4chess-state-v2",
+        "rulesetId": "li4chess-ffa-standard-v1",
+        "result": {
+          "reason": "repetition",
+          "placements": [
+            {
+              "color": 0,
+              "score": 10,
+              "place": 1,
+              "meanRank": 2.5
+            },
+            {
+              "color": 1,
+              "score": 10,
+              "place": 1,
+              "meanRank": 2.5
+            },
+            {
+              "color": 2,
+              "score": 10,
+              "place": 1,
+              "meanRank": 2.5
+            },
+            {
+              "color": 3,
+              "score": 10,
+              "place": 1,
+              "meanRank": 2.5
+            }
+          ],
+          "winner": null
+        }
+      },
+      "sequence": 21,
+      "positionSequence": 21,
+      "stateHashBefore": "sha256:258f57d1e269e6063a77a4f04c49fdbabc0fa495595390739a81e020020b5ca7",
+      "stateHashAfter": "sha256:e7216e4190f70579891b6dc546123e5ce2b22721ad25bc82897d38e518cb40d9"
+    }
+  ],
+  "finalStateHash": "sha256:e7216e4190f70579891b6dc546123e5ce2b22721ad25bc82897d38e518cb40d9",
+  "format": "li4chess-replay-v2",
+  "game": {
+    "mode": "ffa",
+    "seatOrder": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "setupId": "li4chess-modern-ffa-setup-v1"
+  },
+  "initialState": {
+    "pendingEffects": [],
+    "position": {
+      "awardLedger": [],
+      "board": [
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "R"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "Q"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "K"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "R"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 0,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "R"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "R"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "K"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "Q"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "Q"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "K"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "R"
+        },
+        {
+          "hasMoved": false,
+          "owner": 1,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 3,
+          "type": "R"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "P"
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "R"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "K"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "Q"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "B"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "N"
+        },
+        {
+          "hasMoved": false,
+          "owner": 2,
+          "type": "R"
+        },
+        null,
+        null,
+        null
+      ],
+      "castlingRights": {
+        "0": {
+          "kingside": true,
+          "queenside": true
+        },
+        "1": {
+          "kingside": true,
+          "queenside": true
+        },
+        "2": {
+          "kingside": true,
+          "queenside": true
+        },
+        "3": {
+          "kingside": true,
+          "queenside": true
+        }
+      },
+      "completedMoves": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0
+      },
+      "enPassantRights": [],
+      "eventSequence": 0,
+      "moveHistory": [],
+      "players": {
+        "0": {
+          "color": 0,
+          "isCPU": false,
+          "score": 0,
+          "status": "active"
+        },
+        "1": {
+          "color": 1,
+          "isCPU": false,
+          "score": 0,
+          "status": "active"
+        },
+        "2": {
+          "color": 2,
+          "isCPU": false,
+          "score": 0,
+          "status": "active"
+        },
+        "3": {
+          "color": 3,
+          "isCPU": false,
+          "score": 0,
+          "status": "active"
+        }
+      },
+      "positionCounts": {
+        "...0R0N0B0Q0K0B0N0R......0P00P00P00P00P00P00P00P0.................1R1P0..........3P03R1N1P0..........3P03N1B1P0..........3P03B1K1P0..........3P03Q1Q1P0..........3P03K1B1P0..........3P03B1N1P0..........3P03N1R1P0..........3P03R.................2P02P02P02P02P02P02P02P0......2R2N2B2K2Q2B2N2R...|0|11111111|[]|active:,active:,active:,active:": 1
+      },
+      "randomActions": [],
+      "randomDrawIndex": 0,
+      "randomSeed": "00000001",
+      "result": null,
+      "reversibleMoves": 0,
+      "turn": 0,
+      "turnNumber": 1
+    },
+    "rulesetId": "li4chess-ffa-standard-v1",
+    "sequence": 0,
+    "setupId": "li4chess-modern-ffa-setup-v1",
+    "stateSchemaId": "li4chess-state-v2"
+  },
+  "initialStateHash": "sha256:65ad689e0b6dcbff26ef3a771d8289f5985a9d75e7a643149847a3b6a7959141",
+  "replaySchemaVersion": 2,
+  "result": {
+    "stateSchemaId": "li4chess-state-v2",
+    "rulesetId": "li4chess-ffa-standard-v1",
+    "result": {
+      "reason": "repetition",
+      "placements": [
+        {
+          "color": 0,
+          "score": 10,
+          "place": 1,
+          "meanRank": 2.5
+        },
+        {
+          "color": 1,
+          "score": 10,
+          "place": 1,
+          "meanRank": 2.5
+        },
+        {
+          "color": 2,
+          "score": 10,
+          "place": 1,
+          "meanRank": 2.5
+        },
+        {
+          "color": 3,
+          "score": 10,
+          "place": 1,
+          "meanRank": 2.5
+        }
+      ],
+      "winner": null
+    }
+  },
+  "rulesetId": "li4chess-ffa-standard-v1",
+  "stateSchemaId": "li4chess-state-v2"
+}

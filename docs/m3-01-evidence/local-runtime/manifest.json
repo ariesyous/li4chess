@@ -1,0 +1,50 @@
+{
+  "createdAt": "2026-09-06T21:58:41.024Z",
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "d0249a3deffe0ed3e147b49b33e50ebc8b5c6f05",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:f2df1ffc9634697115e700338d9ee6436650d8a77ffb380ef20049527ea9b1f3",
+    "workingTree": {
+      "status": "dirty",
+      "contentHash": "sha256:f2df1ffc9634697115e700338d9ee6436650d8a77ffb380ef20049527ea9b1f3"
+    }
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 34269650944
+  },
+  "versions": {
+    "wrangler": "4.129.0",
+    "pnpm": "10.33.0",
+    "workerd": [
+      "workerd@1.20260903.1"
+    ]
+  },
+  "command": "pnpm --filter @li4chess/architecture-spike test:integration",
+  "scope": "Actual local Wrangler/workerd, SQLite Durable Objects and D1 emulation; explicitly injected application failures; no hosted guarantees",
+  "sourceSnapshot": "source/",
+  "assetHashes": {
+    "index.html": "sha256:f00bd410e5db363f1eed4e8e40a854cb11f51ad622da414d459fbfa414dd18d0",
+    "li4chess/assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+    "li4chess/assets/index-DOHVl5z-.css": "sha256:fe8de30a021c224c2dc4d68051ff0af8ec9ec0b2d53bd94f8cad75fd6cff8b58",
+    "li4chess/assets/index-mQkx6KKC.js": "sha256:fa45e6a986ce62fa3a1f70cd4f965fcbde4745feca9f1ded4f77853c75d82176",
+    "li4chess/index.html": "sha256:827e0d421ab72a8c9861e9805f769f60ab30a736243fb4a052c570248b7e75a8"
+  },
+  "seed": "00000001",
+  "port": 8799,
+  "persistentRuntimeDirectory": "runtime/"
+}

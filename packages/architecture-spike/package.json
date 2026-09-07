@@ -1,0 +1,25 @@
+{
+  "name": "@li4chess/architecture-spike",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "tsc --noEmit && tsc -p tsconfig.tests.json",
+    "test": "vitest run",
+    "build": "tsc --noEmit",
+    "test:integration": "tsx test/integration.ts"
+  },
+  "dependencies": {
+    "@li4chess/engine": "workspace:*",
+    "@li4chess/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260906.1",
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4",
+    "ws": "^8.18.0"
+  }
+}

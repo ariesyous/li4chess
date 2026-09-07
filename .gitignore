@@ -8,4 +8,6 @@ playwright-report/
 test-results/
 arena-results/
 *.cpuprofile
+.wrangler/
+.generated/
 .pnpm-store/
