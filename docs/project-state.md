@@ -8,6 +8,28 @@ superseded handoffs.
 
 ## Current focus
 
+**M3-04 is in progress** under the [pre-change acceptance plan](m3-04-acceptance.md).
+Fetched `origin/main` is PR #14 merge `898be37cc7889e5bea9fefe5e5b819e1b7351784`;
+GitHub CI 34083211956 and Pages 34083211924 both succeeded on that revision.
+The clean baseline became `codex/m3-04-authoritative-gameroom`. Work is scoped to
+maintained internal room authority, timing/alarms and real local recovery proof;
+M3-05 public credentials/protocol/UI and hosted activation remain excluded.
+
+The initial implementation adds a separate room package, strict command-v2 timing
+metadata while preserving v1 and existing migrations, and explicit local-only
+Worker registration. Independent substantive review identified initial
+server-ID collision, admission-time race, controller, receipt fencing, alarm capacity
+and retained-incident gaps; fixes are under validation. Full runtime evidence and
+final review are still pending; M3-04 and M3 remain incomplete. Fresh 2026-09-07
+Windows checks so far: frozen install with Node 24.18.0/Corepack pnpm 10.33.0,
+room/Worker type checks, 12 timing units and persistence package checks. An exploratory
+D1 run passed behavioral assertions but failed source-drift verification during
+concurrent development; it is not acceptance evidence. Next: complete isolated runtime
+tests, resolve findings, run all required source-stable checks, document evidence and
+M3-05 handoff, commit, push draft PR and verify final-revision CI.
+
+## M3-03 completed baseline
+
 **M3-03 is complete**, scoped to the [acceptance contract](m3-03-acceptance.md),
 with [reviewed evidence](m3-03-evidence/README.md) and a concrete
 [M3-04 GameRoom handoff](m3-03-handoff.md). Dedicated branch

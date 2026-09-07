@@ -167,7 +167,8 @@ Hosted activation remains separate. **M3-03 complete (2026-09-07):** maintained
 D1 migrations, atomic fenced commits, stable receipts, bounded reconstruction,
 retention and restore quarantine have [reviewed local/CI evidence](docs/m3-03-evidence/README.md).
 The [M3-04 handoff](docs/m3-03-handoff.md) defines remaining GameRoom and clock
-authority. M3-04 through M3-06 remain planned.
+authority. M3-04 is in progress under its [acceptance plan](docs/m3-04-acceptance.md);
+M3-05 and M3-06 remain planned. M3 is incomplete.
 M3 is incomplete.
 
 **Capabilities**
