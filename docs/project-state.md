@@ -8,6 +8,17 @@ superseded handoffs.
 
 ## Current focus
 
+M3-06 local four-browser validation is in progress under the
+[pre-change acceptance inventory](m3-06-acceptance.md). The clean branch
+`codex/m3-06-four-browser-validation` starts at fetched origin/main `e8d5494`.
+PR #16 is verified merged at `e8d5494898bcd7b88491aa3ea2ccc19e01d13816`;
+its final head `c0a418a1388472f34d301d3d10ca97443993d574` passed CI 34136255021
+and merge Pages 34147880224 passed. Merge CI 34147880230 was still running
+at inventory declaration; behavior changes wait for verification. Historical
+draft wording below is superseded by this verified merge. M3-06 is not complete.
+The campaign excludes hosted activation and M4, retains existing suites, and
+separates ordinary complete games from fixture-assisted endings and incidents.
+
 **M3-05 is complete within its acceptance scope.** The authenticated private-room
 service, strict public wire format and browser reconnect/resync flow are implemented
 against maintained GameRoom. See the [pre-change plan](m3-05-acceptance.md),
