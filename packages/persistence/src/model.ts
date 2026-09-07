@@ -29,20 +29,62 @@ export type StableRequest = Omit<CommandInput, "admittedAt">;
 export interface Head { command: number; event: number; stateHash: string; chainHash: string }
 export interface GameHeader { format: "li4chess-d1-game-v1"; gameId: string; replay: ReplayEnvelopeV2 }
 export interface Boundary { header: GameHeader; headerHash: string; head: Head; state: RulesetStateV2 }
-export interface CommandRecord {
-  format: "li4chess-d1-command-v1"; gameId: string; headerHash: string; owner: Owner;
+export interface AdmissionTiming {
+  format: "li4chess-room-admission-v1";
+  revision: number; accountedAt: number; activeSeat: number | null;
+  activatedAt: number | null; deadline: number | null;
+  remainingMs: [number, number, number, number];
+  disconnectRemainingMs: [number, number, number, number];
+  connected: [boolean, boolean, boolean, boolean];
+  policy: { initialMs: number; incrementMs: number; increment: "after-move" };
+  previousResume: { revision: number; at: number; reason: "creation" | "commit" | "recovery" } | null;
+  suspendedAt: number; backwards: boolean;
+}
+export type CommandFormat = "li4chess-d1-command-v1" | "li4chess-d1-command-v2";
+interface CommandRecordFields {
+  gameId: string; headerHash: string; owner: Owner;
   input: CommandInput; commandHash: string; expected: Head; sequence: number;
   firstEvent: number; lastEvent: number; afterHash: string;
   checkpointHash: string | null; resultHash: string | null;
 }
+export type CommandRecord = CommandRecordFields & (
+  { format: "li4chess-d1-command-v1" } | { format: "li4chess-d1-command-v2"; timing: AdmissionTiming });
 export interface Receipt { id: string; commandHash: string; sequence: number; firstEvent: number;
   lastEvent: number; stateHash: string; commitHash: string }
 /** Durable prepare DTO. Only trusted room code may author it; never accept from a
  * network caller. Persist this entire object before commit; do not recreate it. */
 export interface Prepared { record: CommandRecord; events: readonly ReplayEventV2[]; receipt: Receipt; finalState: RulesetStateV2;
   checkpoint: RulesetStateV2 | null; result: RulesetResultV2 | null }
-export interface ReaderPolicy { accepts(producer: EngineBuildIdentityV1): boolean }
+export interface ReaderPolicy { accepts(producer: EngineBuildIdentityV1): boolean; commandFormats?: readonly CommandFormat[] }
 export const exactReader = (producer: EngineBuildIdentityV1): ReaderPolicy => ({ accepts: candidate => equalCanonical(candidate, producer) });
+
+function exactKeys(value: unknown, keys: readonly string[], label: string): asserts value is Record<string, unknown> {
+  check(value !== null && typeof value === "object" && !Array.isArray(value) &&
+    equalCanonical(Object.keys(value).sort(), [...keys].sort()), `${label} fields`, "invalid");
+}
+/** JSON-safe integer limits apply to timestamps, revisions and durations; no
+ * coercion, additional keys or variable-length per-seat arrays are accepted. */
+export function validateAdmissionTiming(t: AdmissionTiming): void {
+  exactKeys(t, ["format", "revision", "accountedAt", "activeSeat", "activatedAt", "deadline", "remainingMs",
+    "disconnectRemainingMs", "connected", "policy", "previousResume", "suspendedAt", "backwards"], "admission timing");
+  check(t.format === "li4chess-room-admission-v1", "admission timing format", "unsupported");
+  const integer = (n: unknown) => typeof n === "number" && Number.isSafeInteger(n) && n >= 0;
+  for (const n of [t.revision, t.accountedAt, t.suspendedAt]) check(integer(n), "timing integer", "invalid");
+  for (const n of [t.activatedAt, t.deadline]) check(n === null || integer(n), "nullable timing integer", "invalid");
+  check(t.activeSeat === null || integer(t.activeSeat) && t.activeSeat <= 3, "timing active seat", "invalid");
+  check(typeof t.backwards === "boolean", "timing backwards", "invalid");
+  for (const values of [t.remainingMs, t.disconnectRemainingMs])
+    check(Array.isArray(values) && values.length === 4 && Array.from(values).every(integer), "timing balance tuple", "invalid");
+  check(Array.isArray(t.connected) && t.connected.length === 4 && Array.from(t.connected).every(v => typeof v === "boolean"), "timing presence tuple", "invalid");
+  exactKeys(t.policy, ["initialMs", "incrementMs", "increment"], "timing policy");
+  check(integer(t.policy.initialMs) && integer(t.policy.incrementMs) && t.policy.increment === "after-move", "timing policy", "invalid");
+  if (t.previousResume !== null) {
+    exactKeys(t.previousResume, ["revision", "at", "reason"], "timing resume");
+    check(integer(t.previousResume.revision) && integer(t.previousResume.at) &&
+      ["creation", "commit", "recovery"].includes(t.previousResume.reason), "timing resume", "invalid");
+  }
+  bounded(t, LIMITS.requestBytes);
+}
 
 export function validateInput(input: CommandInput): void {
   opaque(input.id); opaque(input.caller.principal);
@@ -84,8 +126,9 @@ export async function verifyHeader(header: GameHeader, policy: ReaderPolicy): Pr
   bounded(header, LIMITS.stateBytes); return digest(header);
 }
 export async function prepareCommand(boundary: Boundary, owner: Owner, input: CommandInput,
-  producer: EngineBuildIdentityV1): Promise<{ prepared: Prepared; next: Boundary }> {
+  producer: EngineBuildIdentityV1, timing?: AdmissionTiming): Promise<{ prepared: Prepared; next: Boundary }> {
   validateOwner(owner); validateInput(input);
+  if (timing !== undefined) validateAdmissionTiming(timing);
   check(equalCanonical(producer, boundary.header.replay.engineBuild), "changed writer producer", "unsupported");
   check(boundary.head.command < LIMITS.commands, "game command limit", "invalid");
   check(input.expectedCommand === boundary.head.command, "expected command head", "fenced");
@@ -96,7 +139,8 @@ export async function prepareCommand(boundary: Boundary, owner: Owner, input: Co
   const checkpoint = sequence % LIMITS.checkpointEvery === 0 || transition.result ? transition.state : null;
   // State growth is bounded even on non-checkpoint commands.
   bounded(transition.state, LIMITS.stateBytes);
-  const record: CommandRecord = { format: "li4chess-d1-command-v1", gameId: boundary.header.gameId,
+  const record: CommandRecord = { ...(timing === undefined ? { format: "li4chess-d1-command-v1" as const } :
+    { format: "li4chess-d1-command-v2" as const, timing }), gameId: boundary.header.gameId,
     headerHash: boundary.headerHash, owner, input, commandHash: await digest(input), expected: boundary.head,
     sequence, firstEvent: boundary.head.event + 1, lastEvent: transition.state.sequence, afterHash,
     checkpointHash: checkpoint ? afterHash : null, resultHash: transition.result ? await digest(transition.result) : null };
@@ -111,13 +155,20 @@ export async function receiptFor(record: CommandRecord, events: readonly ReplayE
     firstEvent: record.firstEvent, lastEvent: record.lastEvent, stateHash: record.afterHash,
     commitHash: await digest({ record, events }) };
 }
-export function validateRecord(r: CommandRecord): void {
-  check(r.format === "li4chess-d1-command-v1", "command format", "unsupported");
+export function validateRecord(r: CommandRecord, policy?: Pick<ReaderPolicy, "commandFormats">): void {
+  check(["li4chess-d1-command-v1", "li4chess-d1-command-v2"].includes(r.format) &&
+    (!policy?.commandFormats || policy.commandFormats.includes(r.format)), "command format", "unsupported");
+  if (r.format === "li4chess-d1-command-v2") {
+    validateAdmissionTiming(r.timing);
+    check(r.timing.accountedAt === r.input.admittedAt && r.timing.suspendedAt === r.input.admittedAt,
+      "canonical admission timing boundary");
+  }
   validateOwner(r.owner); validateInput(r.input); opaque(r.gameId);
   check(equalCanonical(r, { format: r.format, gameId: r.gameId, headerHash: r.headerHash, owner: r.owner,
     input: r.input, commandHash: r.commandHash, expected: r.expected, sequence: r.sequence,
     firstEvent: r.firstEvent, lastEvent: r.lastEvent, afterHash: r.afterHash,
-    checkpointHash: r.checkpointHash, resultHash: r.resultHash }), "command record fields");
+    checkpointHash: r.checkpointHash, resultHash: r.resultHash,
+    ...(r.format === "li4chess-d1-command-v2" ? { timing: r.timing } : {}) }), "command record fields");
   check(equalCanonical(r.expected, { command: r.expected.command, event: r.expected.event,
     stateHash: r.expected.stateHash, chainHash: r.expected.chainHash }), "head fields");
   for (const seq of [r.expected.command, r.expected.event, r.sequence, r.firstEvent, r.lastEvent])
@@ -131,9 +182,8 @@ export function validateRecord(r: CommandRecord): void {
 }
 /** Integrity verification only, deliberately no engine execution during uncertain
  * write reconciliation. Legality comes from prepareCommand and reconstruction. */
-export async function verifyPrepared(p: Prepared): Promise<void> {
-  const r = p.record; validateRecord(r);
-  check(r.format === "li4chess-d1-command-v1", "command format", "unsupported"); opaque(r.gameId);
+export async function verifyPrepared(p: Prepared, policy?: Pick<ReaderPolicy, "commandFormats">): Promise<void> {
+  const r = p.record; validateRecord(r, policy); opaque(r.gameId);
   check(r.sequence === r.expected.command + 1 && r.sequence <= LIMITS.commands && r.firstEvent === r.expected.event + 1 &&
     p.events.length > 0 && p.events.length <= LIMITS.effects && r.lastEvent === r.firstEvent + p.events.length - 1, "command boundary");
   check(await digest(r.input) === r.commandHash && equalCanonical(p.receipt, await receiptFor(r, p.events)), "prepared digest/receipt");

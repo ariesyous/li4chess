@@ -27,6 +27,22 @@ export class D1Persistence {
     const row = await this.db.prepare("SELECT version FROM persistence_schema WHERE id = 1").first<{ version: number }>();
     check(row && [1, 2].includes(row.version), "schema version", "unsupported");
   }
+  /** Primary identity/ownership fence without replay reconstruction. Absence is
+   * distinct from quarantined or unsupported data, which must never be exposed. */
+  async inspect(gameId: string): Promise<{ headerHash: string; owner: Owner; head: Head } | null> {
+    await this.schema(); opaque(gameId);
+    const g = await this.sql("SELECT * FROM games WHERE id = ?", gameId).first<GameRow>();
+    if (!g) return null;
+    check(g.quarantine === null, "game requires operator recovery", "quarantined");
+    const boundary = await creationBoundary(parse<GameHeader>(g.header_json), this.policy);
+    check(boundary.header.gameId === gameId && boundary.headerHash === g.header_hash, "canonical header");
+    const owner = { namespace: g.owner_namespace, generation: g.owner_generation }; validateOwner(owner);
+    const head = headOf(g);
+    check(Number.isSafeInteger(head.command) && head.command >= 0 && head.command <= LIMITS.commands &&
+      Number.isSafeInteger(head.event) && head.event >= head.command && head.event <= LIMITS.commands * LIMITS.effects &&
+      [head.stateHash, head.chainHash].every(h => typeof h === "string" && /^sha256:[a-f0-9]{64}$/.test(h)), "canonical head");
+    return { headerHash: boundary.headerHash, owner, head };
+  }
   async create(header: GameHeader, owner: Owner): Promise<Boundary> {
     await this.schema(); validateOwner(owner);
     const boundary = await creationBoundary(header, this.policy);
@@ -61,7 +77,7 @@ export class D1Persistence {
     check(!Object.prototype.hasOwnProperty.call(request, "admittedAt"), "lookup accepts stable request only", "invalid");
     validateInput({ ...request, admittedAt: 0 }); await this.game(gameId);
     const row = await this.command(gameId, request.id); if (!row) return null;
-    const record = parse<CommandRecord>(row.record_json); validateRecord(record);
+    const record = parse<CommandRecord>(row.record_json); validateRecord(record, this.policy);
     const { admittedAt: _admission, ...storedRequest } = record.input;
     check(equalCanonical(storedRequest, request), "command ID reused", "conflict");
     const stored = await this.readPrepared(gameId, row);
@@ -73,14 +89,14 @@ export class D1Persistence {
     await this.schema(); validateInput(input); await this.game(gameId);
     const row = await this.command(gameId, input.id); if (!row) return null;
     const record = parse<CommandRecord>(row.record_json);
-    validateRecord(record);
+    validateRecord(record, this.policy);
     check(equalCanonical(record.input, input) && row.command_hash === await digest(input), "command ID reused", "conflict");
     const stored = await this.readPrepared(gameId, row);
     return stored.receipt;
   }
   private async readPrepared(gameId: string, row: CommandRow): Promise<Omit<Prepared, "finalState">> {
     const record = parse<CommandRecord>(row.record_json);
-    validateRecord(record);
+    validateRecord(record, this.policy);
     const receipt = parse<Receipt>(row.receipt_json);
     check(row.seq === record.sequence && row.id === record.input.id && row.first_event === record.firstEvent &&
       row.last_event === record.lastEvent && row.before_hash === record.expected.stateHash && row.after_hash === record.afterHash &&
@@ -108,7 +124,7 @@ export class D1Persistence {
    * absent at the exact predecessor permits retrying the same prepare. A divergent
    * record/head quarantines. A generation handoff fences an absent old prepare. */
   async reconcile(p: Prepared): Promise<"committed" | "absent"> {
-    await this.schema(); await verifyPrepared(p);
+    await this.schema(); await verifyPrepared(p, this.policy);
     const g = await this.game(p.record.gameId);
     check(g.header_hash === p.record.headerHash && this.policy.accepts(parse<GameHeader>(g.header_json).replay.engineBuild), "prepare producer/header", "unsupported");
     const row = await this.command(g.id, p.record.input.id);
@@ -130,7 +146,7 @@ export class D1Persistence {
     return "absent";
   }
   async commit(p: Prepared): Promise<Receipt> {
-    await this.schema(); await verifyPrepared(p);
+    await this.schema(); await verifyPrepared(p, this.policy);
     const r = p.record;
     const game = await this.game(r.gameId);
     check(game.header_hash === r.headerHash && this.policy.accepts(parse<GameHeader>(game.header_json).replay.engineBuild), "prepare producer/header", "unsupported");
@@ -248,7 +264,7 @@ export class D1Persistence {
     let current = boundary;
     for (const row of commands.results) {
       const p = await this.readPrepared(gameId, row); const r = p.record;
-      check(r.format === "li4chess-d1-command-v1", "unknown command format", "unsupported");
+      validateRecord(r, this.policy);
       check(r.headerHash === boundary.headerHash && r.sequence === current.head.command + 1 &&
         equalCanonical(r.expected, current.head), "command prefix/lineage");
       validateInput(r.input);

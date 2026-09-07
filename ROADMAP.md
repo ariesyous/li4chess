@@ -33,12 +33,13 @@ matchmaking-and-ratings goal.
 
 The repository has local hotseat and CPU games, a pure TypeScript rules engine,
 a React board, production bot search, a separate research laboratory, and CI.
-It does not yet have a multiplayer server, durable player accounts, public
-queues, ratings or authoritative clocks. An internal D1 persistence foundation is
-implemented; it has no application binding or hosted activation. Local replay export/import is implemented.
+An internal authoritative GameRoom implements clocks, disconnect banks and D1
+persistence through an explicit local Worker binding. Public multiplayer, durable
+player accounts, queues, ratings and hosted activation remain unimplemented.
+Local replay export/import is implemented.
 
 The protocol package validates state-v2 and replay-v2, including canonical hashes
-and producer provenance. Server authority remains M3 work. Browser CPU search
+and producer provenance. Public protocol integration remains M3 work. Browser CPU search
 runs in a bounded Worker; M2 validation is complete. M1 fixtures cover the accepted FFA contract.
 
 See [README.md](README.md) for implemented capabilities and
@@ -166,9 +167,12 @@ and [passing implementation CI](https://github.com/ariesyous/li4chess/actions/ru
 Hosted activation remains separate. **M3-03 complete (2026-09-07):** maintained
 D1 migrations, atomic fenced commits, stable receipts, bounded reconstruction,
 retention and restore quarantine have [reviewed local/CI evidence](docs/m3-03-evidence/README.md).
-The [M3-04 handoff](docs/m3-03-handoff.md) defines remaining GameRoom and clock
-authority. M3-04 through M3-06 remain planned.
-M3 is incomplete.
+**M3-04 complete (2026-09-07):** maintained SQLite GameRoom authority, persisted
+clocks/disconnect banks, exact D1 commit/recovery and room-owned connections have
+[reviewed Windows/Linux evidence](docs/m3-04-evidence/README.md) and
+[passing implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34086306609).
+The [M3-05 handoff](docs/m3-05-handoff.md) defines authenticated caller and public
+protocol integration. M3-05 and M3-06 remain planned. M3 is incomplete.
 
 **Capabilities**
 
@@ -211,7 +215,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 | M3-01 | Cloudflare architecture spike and ADR | **Complete 2026-09-06.** Topology, consistency/recovery, limits, costs, workflow and fallback criteria have an ADR, independent review, real local runtime/restart evidence and passing Windows/Ubuntu checks. Hosted validation gates remain explicit. |
 | M3-02 | Workers deployment foundation | **Complete 2026-09-06.** Actual React/Vite Static Assets, bounded HTTP identification, separate Pages/Workers builds, Windows/workerd/browser evidence, CI and exact later GitHub Builds setup. No hosted activation; M3 remains incomplete. |
 | M3-03 | D1 persistence model | **Complete 2026-09-07.** Versioned migrations, atomic owner/head fencing, stable receipts, ordered events/results, bounded recovery, retention and divergent-restore quarantine have independent review, Windows/Linux runtime evidence and passing implementation CI. No hosted activation. |
-| M3-04 | Authoritative `GameRoom` Durable Object | One game owner validates moves and owns state, clocks, sequence numbers, randomness, and WebSockets, with persistence and recovery behavior defined. |
+| M3-04 | Authoritative `GameRoom` Durable Object | **Complete 2026-09-07.** Maintained SQLite owner serializes internal authority, clocks/disconnect banks, exact D1 commits, controller connections and durable alarm recovery; reviewed real Windows/Linux runtime evidence. No public multiplayer or hosted activation. |
 | M3-05 | Multiplayer protocol | Runtime-validated commands/events cover authorization, versioning, duplicates, stale input, reconnect, resync, and terminal actions. |
 | M3-06 | Four-browser multiplayer validation | Playwright proves complete games and the required refresh, reconnect, disconnect, restart, and recovery cases in CI. |
 

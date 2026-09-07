@@ -85,4 +85,20 @@ only waits for lifecycle readiness; failed acceptance assertions have zero retri
 
 Hosted builds, routing, cache behavior, environment availability, deploy/rollback,
 account settings and future storage isolation require separately authorized
-verification. M3-03 persistence is the next slice.
+verification.
+
+## Explicit local GameRoom integration
+
+The separate `wrangler.room.local.jsonc` registers the maintained
+[`@li4chess/game-room`](../../packages/game-room/README.md) SQLite class with
+placeholder local D1 bindings. Its `src/room-local.ts` supplies the same immutable
+build producer as the application. Default `wrangler.jsonc`, staging/production
+entry points, public fetch routes and Pages deployment are unchanged. No room
+creation/gameplay endpoint is exposed by either application entry.
+
+After `pnpm build:workers`, run `pnpm --filter @li4chess/worker check:room` for the
+local bundle dry-run and fixture-isolation check. Real room behavior is exercised
+by `pnpm --filter @li4chess/game-room test:integration`, using a separate test
+entry/configuration. Future M3-05 authenticated service integration must precede
+any public transport; hosted activation needs separately authorized bindings,
+environment isolation, producer compatibility and migration/restore validation.
