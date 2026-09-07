@@ -8,46 +8,42 @@ superseded handoffs.
 
 ## Current focus
 
+**M3-03 in progress** on `codex/m3-03-d1-persistence`, from fetched clean
+`origin/main` `6530c64aa9be910cff9c63e8d737ea6fc4b9d4ef`. GitHub verified
+PR #12/#13 merges and successful post-merge CI 34079300521 / Pages 34079300482.
+Node 24.18.0 and temporary Corepack pnpm 10.33.0 are selected; global pnpm
+11.19.0 remains untouched. [Acceptance](m3-03-acceptance.md) was declared before
+behavior edits and committed as `1511319`.
+
+Maintained `packages/persistence` now owns normalized migrations, SQL aborting
+owner/head fencing, stable command receipts, ordered effects, terminal results,
+checkpoint pruning and bounded recovery/audit. Protocol incremental helpers
+reuse M1 behavior; no engine rules or application binding changed. Fresh design
+and substantive reviews identified pinned-read, complete-successor and producer/
+format validation requirements; fixes and regressions are being validated.
+One exploratory local D1 run passed a 240-command/275-event unfinished history,
+migrations, rollback, concurrency, lost acknowledgements and four runtime starts.
+This is superseded by final acceptance still pending. The new suite also measures
+concurrent checkpoint pruning, source-linked terminal creation and reader policy.
+
+Next: finish independent final review, full required local checks, package fresh
+evidence, commit/push a draft PR and verify CI on its final revision. Stop before
+M3-04. [Concrete GameRoom handoff](m3-03-handoff.md) defines APIs, durable prepare,
+canonical commit, reconciliation, owner transfer and remaining clock/alarm work.
+No hosting, provisioning, credentials, deployment, main push or merge is authorized.
+
+## Previous completed slice
+
 **M3-02 is complete**, scoped to the [Workers acceptance plan](m3-02-acceptance.md).
-Implementation commit is `5508cdb18a1d9166177d5ef4f2ed736a9a9870c9`; its
-[CI](https://github.com/ariesyous/li4chess/actions/runs/34078142730) passed.
-The maintainer subsequently authorized merging the completed work. PR #12 merged
-at `145001ae579a53bd3dc08a1a9ee3d070add92339` after its
-[final-head CI](https://github.com/ariesyous/li4chess/actions/runs/34063186380)
-passed. Dedicated `codex/m3-02-workers-foundation` began from its verified head
-`52dfe1b2ea02adb0e76ed17b40450d5a46d3e4b4`; [PR #13](https://github.com/ariesyous/li4chess/pull/13)
-now targets `main`. Its evidence commit `4859395` passed
-[final-revision CI](https://github.com/ariesyous/li4chess/actions/runs/34078555868).
-Merge authorization includes this final handoff update after passing checks.
-Before starting M3-03, fetch current `origin/main` and verify PR #13's actual
-merge commit, post-merge CI and existing Pages workflow status. The maintained
-application Worker serves a separate root-path build; Pages behavior is unchanged.
-Fresh substantive/final reviews resolved cancellation ownership, actual CPU
-search-result proof, and a pre-existing short-desktop grid clipping issue.
-[Accepted evidence](m3-02-evidence/README.md) records the clean implementation,
-302-file source snapshot, both build outputs, HTTP/browser checks and environment
-dry runs. Its source fingerprint is
-`sha256:763f3d2a07d7611fa55c15044aa04bedf90cd5f312d13d0ed7c21f41e3ee8604`.
-The fresh full run passed frozen install, lint, 606 units, build, all 46 existing
-browser tests, all 14 M3-01 integration groups and four new Worker tests plus two
-interruption checks. Final documentation/evidence revision CI is verified through
-PR #13 before task closeout; its final check link is retained in the PR description.
-M3 remains incomplete. M3-03 will start in a separate session. The implementation
-task performed no merge or hosted activation; the maintainer then authorized the
-PR merges. No Cloudflare activation, provisioning, purchase or direct main push
-is authorized. The existing Pages workflow continues to run on merges to main.
-
-**Next slice: M3-03 persistence model.** Follow the ADR's canonical D1 contract:
-normalized versioned migrations for games, commands/receipts, ordered events,
-checkpoints and minimal identity records; generation and expected-head fencing
-that aborts a whole batch; bounded incremental reconstruction, measured retention
-and parameter/page limits, and divergent-restore quarantine. Keep terminal results
-immutable and checkpoint producer lineage explicit. Do not promote the spike's
-quadratic replay table or fixture credentials. Room authority, clocks/alarms,
-guest lifecycle and multiplayer are M3-04/M3-05. The
-[operations handoff](m3-02-operations.md) lists exact later GitHub Builds settings,
-account-owned gaps and hosted build/deploy/rollback gates. None is activated.
-
+Implementation `5508cdb18a1d9166177d5ef4f2ed736a9a9870c9` and final evidence
+`4859395` passed CI. The maintainer later authorized merges: PR #12 merged at
+`145001ae579a53bd3dc08a1a9ee3d070add92339`; PR #13 merged at
+`6530c64aa9be910cff9c63e8d737ea6fc4b9d4ef`, verified with post-merge CI and Pages
+above. [Accepted evidence](m3-02-evidence/README.md) retains the clean 302-file
+source snapshot, both output builds, HTTP/browser tests, environment dry runs,
+and reviewed lifecycle/CPU/layout fixes. The [operations handoff](m3-02-operations.md)
+still defines separately authorized account/hosting/build/deployment gates.
+Application Worker root-path assets and Pages deployment remain unchanged.
 **M3-01 is complete**, scoped to isolated Cloudflare prototypes and the
 [architecture ADR](m3-01-adr.md), [acceptance plan](m3-01-acceptance.md) and
 [official-source research](m3-01-platform-research.md). [Acceptance evidence](m3-01-evidence/README.md), independent review,
@@ -75,8 +71,7 @@ reviewed rule and replay implementations. Preserve its accepted contract.
 M2 began from clean fetched `origin/main`, merge `7f2593c96301853c6b3a9ebeaaaf6ea4683dc698`,
 on dedicated `codex/m2-completion`. GitHub verifies [M1 PR #10](https://github.com/ariesyous/li4chess/pull/10)
 merged with passing checks. Human Git identity is Aries Youssefian. Node 24.18.0
-and pinned pnpm 10.33.0 via temporary Corepack shims are verified. Current
-M3-02 scope is stated above.
+and pinned pnpm 10.33.0 via temporary Corepack shims are verified. Current M3-03 scope is stated above.
 
 Local hotseat/CPU play now follows standard FFA points and actions. CPU search
 uses the bounded Worker path with measured resource policies. Live clocks, connection-bank tracking,

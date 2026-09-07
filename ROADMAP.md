@@ -162,7 +162,8 @@ service is shipped or provisioned. **M3-02 complete (2026-09-06):** the maintain
 application Worker, isolated builds, runtime/browser checks, environment dry runs
 and operational handoff have [reviewed evidence](docs/m3-02-evidence/README.md)
 and [passing implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34078142730).
-Hosted activation remains separate. M3-03 through M3-06 remain planned.
+Hosted activation remains separate. M3-03 persistence is in progress under its
+[acceptance plan](docs/m3-03-acceptance.md); M3-04 through M3-06 remain planned.
 M3 is incomplete.
 
 **Capabilities**
@@ -205,7 +206,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 | --- | --- | --- |
 | M3-01 | Cloudflare architecture spike and ADR | **Complete 2026-09-06.** Topology, consistency/recovery, limits, costs, workflow and fallback criteria have an ADR, independent review, real local runtime/restart evidence and passing Windows/Ubuntu checks. Hosted validation gates remain explicit. |
 | M3-02 | Workers deployment foundation | **Complete 2026-09-06.** Actual React/Vite Static Assets, bounded HTTP identification, separate Pages/Workers builds, Windows/workerd/browser evidence, CI and exact later GitHub Builds setup. No hosted activation; M3 remains incomplete. |
-| M3-03 | D1 persistence model | Versioned migrations cover users, games, events, and replay data; write ordering, idempotency, retention, and recovery semantics are tested. |
+| M3-03 | D1 persistence model | **In progress.** Maintained migrations and canonical persistence implemented; independent review, final validation and CI acceptance pending. |
 | M3-04 | Authoritative `GameRoom` Durable Object | One game owner validates moves and owns state, clocks, sequence numbers, randomness, and WebSockets, with persistence and recovery behavior defined. |
 | M3-05 | Multiplayer protocol | Runtime-validated commands/events cover authorization, versioning, duplicates, stale input, reconnect, resync, and terminal actions. |
 | M3-06 | Four-browser multiplayer validation | Playwright proves complete games and the required refresh, reconnect, disconnect, restart, and recovery cases in CI. |

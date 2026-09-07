@@ -83,6 +83,7 @@ The TypeScript monorepo uses pnpm workspaces and Turborepo.
 | [`packages/bot`](packages/bot) | Production CPU search and evaluation, frozen classic bot, and experimental search. |
 | [`packages/arena`](packages/arena) | Seeded tournaments, replay validation, reports, and benchmarks. |
 | [`packages/protocol`](packages/protocol) | Validated state-v2/replay-v2, canonical hashes and producer provenance. |
+| [`packages/persistence`](packages/persistence) | Maintained D1 migrations, canonical command/event receipts, checkpoints and recovery; internal server library, no online play. |
 | [`packages/ui-kit`](packages/ui-kit) | Presentational board, piece glyphs, and player colors. |
 | [`packages/architecture-spike`](packages/architecture-spike) | Isolated M3-01 local Cloudflare consistency/recovery prototype; no shipped online play. |
 
@@ -142,8 +143,17 @@ unknown APIs and missing assets never return SPA HTML. No hosted environment or
 online play is activated. [Later GitHub Builds setup](docs/m3-02-operations.md)
 keeps account settings, deployment and rollback as separately authorized gates.
 [M3-02 acceptance evidence](docs/m3-02-evidence/README.md) records independent
-reviews and passing local/CI checks. The next slice is M3-03 persistence; M3
-networked play remains incomplete.
+reviews and passing local/CI checks.
+
+The [D1 persistence package](packages/persistence/README.md) provides versioned
+migrations, atomic fenced command/effect commits, stable receipts, immutable
+results and bounded checkpoint recovery. Run
+`pnpm --filter @li4chess/persistence test:integration` for actual local D1 migration,
+rollback, concurrency, restart and replay checks. It uses isolated test bindings;
+the application has no online rooms or D1 binding. The
+[M3-03 acceptance plan](docs/m3-03-acceptance.md) and
+[GameRoom handoff](docs/m3-03-handoff.md) describe limits and remaining authority,
+clock/alarm and hosted gates. M3 networked play remains incomplete.
 
 ## Bot research and benchmarks
 
