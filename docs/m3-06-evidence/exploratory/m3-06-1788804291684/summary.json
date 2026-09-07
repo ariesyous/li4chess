@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "groups": 24,
+  "selected": [
+    "ordinary",
+    "endings",
+    "recovery",
+    "clocks",
+    "incidents",
+    "auth"
+  ],
+  "starts": 15,
+  "failure": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 8\nReceived:   8\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at pollMatcher (C:\\Users\\sith\\Code\\li4chess\\node_modules\\.pnpm\\playwright@1.56.1\\node_modules\\playwright\\lib\\matchers\\expect.js:299:11)\n    at async freshReconnect (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:167:5)\n    at async <anonymous> (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:408:7)"
+}

@@ -14,11 +14,11 @@ export async function onlineRequest(body:RequestBody,proof?:string):Promise<Onli
 }
 export interface Pending { request:Extract<OnlineRequest,{type:"command"}>; generation:number }
 interface Saved { principal:string;session:number;room:string;proof:string|null;pending:Pending|null;takeover:string|null }
-export interface OnlineView { phase:ConnectionState;snapshot:OnlineSnapshot|null;suspension:OnlineSuspension|null;receivedAt:number;control:OnlineControl|null;pending:Pending|null;identityConflict:boolean;notice:string }
+export interface OnlineView { phase:ConnectionState;snapshot:OnlineSnapshot|null;suspension:OnlineSuspension|null;receivedAt:number;control:OnlineControl|null;pending:Pending|null;takeover:string|null;identityConflict:boolean;notice:string }
 /** Every callback is bound to an attempt, including asynchronous hash validation.
  * Receipts resolve intentions; only snapshots can replace displayed state. */
 export class OnlineConnection {
-  view:OnlineView={phase:"connecting",snapshot:null,suspension:null,receivedAt:0,control:null,pending:null,identityConflict:false,notice:"Connecting…"};
+  view:OnlineView={phase:"connecting",snapshot:null,suspension:null,receivedAt:0,control:null,pending:null,takeover:null,identityConflict:false,notice:"Connecting…"};
   private saved:Saved;private socket:WebSocket|null=null;private epoch=0;private timer:ReturnType<typeof setTimeout>|undefined;
   private stopped=false;private attempts=0;private sending=false;private clearing=false;private listeners=new Set<()=>void>();
   private releaseLock:(()=>void)|null=null;
@@ -32,7 +32,8 @@ export class OnlineConnection {
       if(value.principal===session.principal&&value.session===session.generation&&value.room===room){
         if(value.proof!==null&&!/^[0-9a-f]{64}$/.test(value.proof))throw new Error("Invalid saved connection");
         if(value.pending){const p=parseOnlineRequest(value.pending.request);if(p.type!=="command"||p.room!==room||!Number.isSafeInteger(value.pending.generation))throw new Error("Invalid saved intention");}
-        this.saved=value;this.view.pending=value.pending;
+        if(value.takeover!==null){parseOnlineRequest({version:ONLINE_VERSION,type:"takeControl",room,id:value.takeover});if(value.pending)throw new Error("Conflicting saved intentions");}
+        this.saved=value;this.view.pending=value.pending;this.view.takeover=value.takeover;
       }else if(value.pending||value.takeover){this.view={...this.view,phase:"revoked",identityConflict:true,notice:"An unresolved intention belongs to a previous identity, session or room. It was retained. Deliberately abandon it before connecting with this identity."};}
       else storage.removeItem(this.key);}}
     catch{this.view={...this.view,phase:"revoked",identityConflict:true,notice:"Saved connection could not be read. Its bytes were retained; deliberately abandon it before creating a new connection."};}
@@ -40,6 +41,8 @@ export class OnlineConnection {
   subscribe=(listener:()=>void)=>{this.listeners.add(listener);return()=>{this.listeners.delete(listener);};};
   private update(value:Partial<OnlineView>){this.view={...this.view,...value};for(const f of this.listeners)f();}
   private save(){this.storage.setItem(this.key,JSON.stringify(this.saved));}
+  private savePending(pending:Pending|null){const saved={...this.saved,pending};this.storage.setItem(this.key,JSON.stringify(saved));this.saved=saved;this.update({pending});}
+  private saveTakeover(takeover:string|null){const saved={...this.saved,takeover};this.storage.setItem(this.key,JSON.stringify(saved));this.saved=saved;this.update({takeover});}
   start(){if(this.view.identityConflict)return;this.stopped=false;window.addEventListener("offline",this.networkChanged);window.addEventListener("online",this.networkChanged);
     this.heartbeat=setInterval(()=>{if(this.view.phase!=="connected")return;const epoch=this.epoch;void this.resync(epoch).catch(()=>this.recover(epoch));},15000);void this.connect();}
   stop(){this.stopped=true;this.epoch++;clearTimeout(this.timer);clearInterval(this.heartbeat);window.removeEventListener("offline",this.networkChanged);window.removeEventListener("online",this.networkChanged);
@@ -109,7 +112,7 @@ export class OnlineConnection {
   async command(action:Intention){if(this.saved.pending||this.clearing||!this.view.control?.controller||this.view.phase!=="connected"||this.view.snapshot?.state.position.result)return;
     if(this.saved.takeover||this.takeoverAttempt!==null){this.update({notice:"Resolve the takeover response before sending a game command."});return;}
     const pending:Pending={generation:this.view.control.generation,request:{version:ONLINE_VERSION,type:"command",room:this.room,id:crypto.randomUUID(),expectedCommand:this.view.snapshot!.command,action}};
-    this.saved.pending=pending;try{this.save();}catch{this.saved.pending=null;this.update({notice:"Browser storage unavailable. Command was not sent; enable session storage to retain retry intentions."});return;}
+    try{this.savePending(pending);}catch{this.update({notice:"Browser storage unavailable. Command was not sent; enable session storage to retain retry intentions."});return;}
     this.update({pending,notice:"Waiting for authoritative receipt…"});await this.retryPending();
   }
   async retryPending(){const pending=this.saved.pending,epoch=this.epoch;if(!pending||this.sending||this.clearing||this.stopped||!["connected","terminal"].includes(this.view.phase)||!this.view.snapshot||!this.view.control)return;
@@ -117,23 +120,25 @@ export class OnlineConnection {
     this.sending=true;try{
       const r=await onlineRequest(pending.request,this.saved.proof??undefined);if(epoch!==this.epoch||this.stopped||this.saved.pending!==pending)return;
       if(r.type==="receipt"){
-        if(r.receipt.id!==pending.request.id)throw new Error("Wrong receipt");this.saved.pending=null;this.save();this.update({pending:null,notice:`Command ${r.receipt.sequence} confirmed`});await this.resync(epoch);
+        if(r.receipt.id!==pending.request.id)throw new Error("Wrong receipt");this.savePending(null);this.update({notice:`Command ${r.receipt.sequence} confirmed`});await this.resync(epoch);
       }else if(r.type==="error"&&!r.ambiguous){
         if(this.authError(r))return;
         if(r.code==="unauthorized"||r.code==="conflict"){this.update({notice:`Command ownership or ID conflict (${r.code}). Intention retained for deliberate resync and cleanup.`});await this.resync(epoch);return;}
-        this.saved.pending=null;this.save();this.update({pending:null,notice:`Command rejected: ${r.code}`});await this.resync(epoch);
+        this.savePending(null);this.update({notice:`Command rejected: ${r.code}`});await this.resync(epoch);
       }else this.recover(epoch);
     }catch{this.recover(epoch);}finally{if(epoch===this.epoch)this.sending=false;}
   }
   async clearPending(){if(this.sending||this.clearing){this.update({notice:"A command response is still in flight. Wait for its outcome or recovery before clearing."});return;}
-    const epoch=this.epoch;this.clearing=true;try{await this.resync(epoch);if(epoch!==this.epoch||this.stopped)return;this.saved.pending=null;this.save();this.update({pending:null,notice:"Saved intention cleared after resync. No new command was sent."});}
-    catch{this.update({notice:"Resync did not complete. The saved intention was retained."});}finally{this.clearing=false;}}
+    const epoch=this.epoch;this.clearing=true;try{await this.resync(epoch);if(epoch!==this.epoch||this.stopped)return;this.savePending(null);this.update({notice:"Saved intention cleared after resync. No new command was sent."});}
+    catch{this.update({notice:"Resync or browser storage cleanup did not complete. The saved intention was retained."});}finally{this.clearing=false;}}
   async takeControl(){if(this.saved.pending){this.update({notice:"Resolve or deliberately clear the saved intention before takeover."});return;}
     if(this.stopped||this.view.identityConflict||!["connected","terminal"].includes(this.view.phase))return;
-    const epoch=this.epoch;if(this.takeoverAttempt===epoch)return;this.takeoverAttempt=epoch;this.saved.takeover??=crypto.randomUUID();this.save();
-    try{const r=await onlineRequest({type:"takeControl",room:this.room,id:this.saved.takeover},this.saved.proof??undefined);if(epoch!==this.epoch)return;
-      if(r.type==="control"){this.saved.takeover=null;this.save();this.applyControl(r.control);this.update({notice:"Control updated"});await this.resync(epoch);}
-      else if(r.type==="error"&&r.code==="conflict"&&!r.ambiguous){this.saved.takeover=null;this.save();this.update({notice:"The earlier takeover was superseded. Choose Take control again to make a new request."});await this.resync(epoch);}
+    const epoch=this.epoch;if(this.takeoverAttempt===epoch)return;
+    if(!this.saved.takeover){try{this.saveTakeover(crypto.randomUUID());}catch{this.update({notice:"Browser storage unavailable. Takeover was not sent; enable session storage to retain retry intentions."});return;}}
+    this.takeoverAttempt=epoch;
+    try{const r=await onlineRequest({type:"takeControl",room:this.room,id:this.saved.takeover!},this.saved.proof??undefined);if(epoch!==this.epoch)return;
+      if(r.type==="control"){this.saveTakeover(null);this.applyControl(r.control);this.update({notice:"Control updated"});await this.resync(epoch);}
+      else if(r.type==="error"&&r.code==="conflict"&&!r.ambiguous){this.saveTakeover(null);this.update({notice:"The earlier takeover was superseded. Choose Take control again to make a new request."});await this.resync(epoch);}
       else if(!this.authError(r)){this.update({notice:"Takeover outcome needs recovery. Retry Take control with the same intention."});this.reconnect();}
     }catch{if(epoch===this.epoch)this.reconnect();}finally{if(this.takeoverAttempt===epoch)this.takeoverAttempt=null;}
   }

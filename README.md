@@ -70,7 +70,8 @@ if browser storage is unavailable. The responsive frame has four directional sea
 readable move/points histories, rules help, and deliberate resign/reset/claim controls.
 Tab enters the board; arrows navigate displayed squares, Enter/Space select or move,
 and Escape clears selection. Color names and state labels supplement hue;
-public network play and its clock/disconnect UI remain M3 work.
+opt-in local private multiplayer has authoritative clock/disconnect UI. Hosted
+public play remains subject to the M3 gates.
 
 ## Monorepo layout
 
@@ -171,8 +172,10 @@ See [local multiplayer setup](apps/worker/README.md#explicit-local-authenticated
 [evidence](docs/m3-05-evidence/README.md).
 Launch time controls and hosted activation remain separate decisions.
 M3-05 has [reviewed local and CI acceptance evidence](docs/m3-05-evidence/README.md).
-The next slice is [M3-06 complete-game browser validation](docs/m3-06-handoff.md);
+M3-06 has [reviewed local complete-game/recovery evidence](docs/m3-06-evidence/README.md);
 M3 remains incomplete.
+
+The [next bounded M3 handoff](docs/m3-07-handoff.md) proposes authenticated completed-game replay export. Multiplayer rematches and separately authorized hosted validation remain open; M3 is not complete.
 
 ## Bot research and benchmarks
 
@@ -209,6 +212,13 @@ timings do not describe current performance, and the existing small comparisons
 do not establish general playing strength.
 
 ## Roadmap and project continuity
+
+The [M3-06 acceptance campaign](docs/m3-06-acceptance.md), with [passing Windows/Linux evidence](docs/m3-06-evidence/README.md), tests ordinary complete
+games, separately labeled fixture endings, four-seat browser interruptions and
+whole-runtime recovery against local workerd/D1. After `build:multiplayer`, run
+`pnpm --filter @li4chess/worker test:campaign`. Pending takeover IDs now remain
+visible through recovery, and leaving asks before abandoning that intention.
+Local campaign success does not establish hosted readiness or select a launch clock.
 
 [ROADMAP.md](ROADMAP.md) defines capability milestones and completion criteria:
 compatible FFA rules, responsive CPU play, reliable online games, public rated

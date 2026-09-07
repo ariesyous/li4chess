@@ -49,6 +49,11 @@ hash, command/event ranges, state/commit hash and original admittedAt. Receipts
 never replace the displayed board. State-v2/replay-v2 and command-v1/v2 remain
 unchanged; no released D1 migration was rewritten.
 
+The browser also displays the stable unresolved takeover ID, retries that same
+intention after refresh, and asks before leaving abandons its recovery. Storage
+failure prevents sending an unsaved takeover; failed acknowledgement cleanup
+retains the original ID. These are browser recovery fixes, not a wire revision.
+
 Errors contain only code and ambiguous. Codes are invalid, unauthorized, expired,
 revoked, conflict, stale, terminal, unavailable, capacity and origin. An unavailable
 or lost transport outcome may conceal a committed command; retain the exact ID.

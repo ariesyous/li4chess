@@ -1,0 +1,30 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "li4chess-local",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "../web/dist-workers",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "vars": { "APP_ENV": "local" },
+  "env": {
+    "staging": {
+      "name": "li4chess-staging",
+      "workers_dev": false,
+      "preview_urls": false,
+      "vars": { "APP_ENV": "staging" }
+    },
+    "production": {
+      "name": "li4chess-production",
+      "workers_dev": false,
+      "preview_urls": false,
+      "vars": { "APP_ENV": "production" }
+    }
+  }
+}

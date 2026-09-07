@@ -24,14 +24,19 @@ describes the implemented standard FFA contract and local replay boundaries.
 ## Project structure
 
 li4chess is a TypeScript monorepo using pnpm workspaces and Turborepo. The current
-product is local four-player free-for-all chess in one browser tab, with human
-and CPU seats. Networked multiplayer is not implemented.
+product includes local four-player free-for-all chess in one browser tab, with
+human and CPU seats, and opt-in local authenticated private multiplayer through
+the maintained Worker, GuestService, GameRoom and D1. Hosted multiplayer is not
+activated; accounts, matchmaking and ratings remain outside the implemented scope.
 
 - `apps/web`: React/Vite application. `src/game/useLocalGame.ts` owns local game state, input handling, and CPU turn scheduling.
 - `packages/engine`: pure rules engine. Keep React, browser APIs, network calls, and filesystem I/O out of this package.
 - `packages/bot`: production search/evaluation, experimental search, and the frozen `src/classic/` snapshot.
 - `packages/arena`: seeded tournaments, replay validation, benchmarks, and result reporting.
-- `packages/protocol`: validated state-v2/replay-v2, canonical SHA-256 and producer provenance; network authority remains M3.
+- `packages/protocol`: validated state-v2/replay-v2, canonical SHA-256, producer provenance and strict private multiplayer wire schemas.
+- `apps/worker`: default local-game Static Assets entry and explicitly configured local multiplayer routing; test-only campaign entries never deploy.
+- `packages/game-room`: authenticated guest/lobby service and binding-only SQLite room authority, clocks, disconnect banks and recovery.
+- `packages/persistence`: canonical D1 command/event/result history, exact receipts, fencing and replay reconstruction.
 - `packages/ui-kit`: presentational board, piece glyphs, and theme. Keep game decisions in the engine or application.
 
 Follow existing strict TypeScript and ESM conventions, including `.js` extensions

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json",
+    "lint": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json && tsc -p tsconfig.campaign-worker.json",
     "build": "tsc -p tsconfig.json",
     "build:assets": "tsx scripts/build.ts",
     "dev:local": "tsx scripts/dev.ts",
@@ -13,10 +13,13 @@
     "test:runtime": "tsx test/run.ts",
     "build:multiplayer": "tsx scripts/multiplayer-build.ts",
     "check:multiplayer": "tsx scripts/multiplayer-dry-run.ts",
-    "test:multiplayer": "tsx test/multiplayer.ts"
+    "test:multiplayer": "tsx test/multiplayer.ts",
+    "test:campaign": "tsx test/campaign-fixtures-check.ts && tsx test/campaign.ts"
   },
   "dependencies": { "@li4chess/protocol": "workspace:*", "@li4chess/game-room": "workspace:*" },
   "devDependencies": {
+    "@li4chess/engine": "workspace:*",
+    "@li4chess/persistence": "workspace:*",
     "@cloudflare/workers-types": "5.20260906.1",
     "@playwright/test": "1.56.1",
     "@types/node": "^22.10.0",

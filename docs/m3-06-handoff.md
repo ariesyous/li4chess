@@ -4,12 +4,14 @@ Prepared 2026-09-07. M3-05 implements private authenticated multiplayer; accepta
 status is in [project state](project-state.md) and [evidence](m3-05-evidence/README.md).
 M3 remains incomplete. This handoff does not authorize deployment or all of M3.
 
-M3-05 is tracked in [draft PR #16](https://github.com/ariesyous/li4chess/pull/16).
-Reviewed revision `9efe6027bf2c2dde97927fad6128d5d6768262ea` passed
-[CI 34135203998](https://github.com/ariesyous/li4chess/actions/runs/34135203998).
-Verify the final PR-head CI and any eventual merge/main CI before starting M3-06;
-do not treat this draft PR as merged. No M3-06 behavior was implemented here.
-
+M3-05 merged in [PR #16](https://github.com/ariesyous/li4chess/pull/16) at
+`e8d5494898bcd7b88491aa3ea2ccc19e01d13816`. Verified 2026-09-07: final head
+`c0a418a1388472f34d301d3d10ca97443993d574` passed
+[CI 34136255021](https://github.com/ariesyous/li4chess/actions/runs/34136255021),
+and the merge passed [CI 34147880230](https://github.com/ariesyous/li4chess/actions/runs/34147880230)
+and [Pages 34147880224](https://github.com/ariesyous/li4chess/actions/runs/34147880224).
+These verified outcomes supersede the original draft handoff status. The
+[M3-06 inventory](m3-06-acceptance.md) records the subsequent local campaign.
 ## Implemented boundary
 
 Four independent guests can issue HttpOnly credentials, create/join a private

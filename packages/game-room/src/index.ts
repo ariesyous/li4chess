@@ -2,7 +2,7 @@ import { DurableObject } from "cloudflare:workers";
 import { D1Persistence, exactReader } from "@li4chess/persistence";
 import type { EngineBuildIdentityV1 } from "@li4chess/protocol";
 import { Room, commandFailure } from "./room.js";
-import type { ConnectionContext, Creation } from "./room.js";
+import type { ConnectionContext, Creation, RoomDependencies } from "./room.js";
 import { SQLiteRoomStorage } from "./storage.js";
 
 export interface GameRoomEnvironment { GAME_DB: D1Database; GAME_ROOMS: DurableObjectNamespace; ROOM_NAMESPACE: string; ROOM_PRODUCER: EngineBuildIdentityV1 }
@@ -11,9 +11,9 @@ export interface GameRoomEnvironment { GAME_DB: D1Database; GAME_ROOMS: DurableO
  * Application fetch routes do not expose this class in M3-04. */
 export class GameRoom extends DurableObject<GameRoomEnvironment> {
   private readonly room: Room;
-  constructor(ctx: DurableObjectState, env: GameRoomEnvironment) {
+  constructor(ctx: DurableObjectState, env: GameRoomEnvironment, dependencies?: RoomDependencies) {
     super(ctx, env);
-    this.room = new Room({ storage: new SQLiteRoomStorage(ctx.storage), canonical: new D1Persistence(env.GAME_DB, exactReader(env.ROOM_PRODUCER)),
+    this.room = new Room(dependencies ?? { storage: new SQLiteRoomStorage(ctx.storage), canonical: new D1Persistence(env.GAME_DB, exactReader(env.ROOM_PRODUCER)),
       objectId: ctx.id.toString(), namespace: env.ROOM_NAMESPACE, producer: env.ROOM_PRODUCER,
       ownsGame: gameId => env.GAME_ROOMS.idFromName(gameId).toString() === ctx.id.toString(), now: () => Date.now() });
   }

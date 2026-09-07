@@ -1,0 +1,40 @@
+{
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "06b6900b3d462a7983ab3dd3ccc4cc5ebe846f01",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:a44dae11201ea9f234b12585da200eddc49a6d42c4cedd5b1444325ad13ed8a3",
+    "workingTree": {
+      "status": "dirty",
+      "contentHash": "sha256:a44dae11201ea9f234b12585da200eddc49a6d42c4cedd5b1444325ad13ed8a3"
+    }
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 34269650944
+  },
+  "nodeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+  "pnpm": "10.33.0",
+  "wrangler": "4.129.0",
+  "workerd": "1.20260903.1",
+  "chromium": "141.0.7390.37",
+  "command": "pnpm --filter @li4chess/worker test:campaign",
+  "starts": 19,
+  "hosted": false
+}

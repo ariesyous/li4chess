@@ -1,0 +1,69 @@
+[
+  {
+    "run": "m3-06-1788803159056",
+    "passed": false,
+    "groups": 0,
+    "starts": 1,
+    "failure": "Error: Invalid v2 migration data: missing version/type/snapshot"
+  },
+  {
+    "run": "m3-06-1788803212343",
+    "passed": false,
+    "groups": 7,
+    "starts": 2,
+    "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(legalMoves({ ...test, players: { ...test.players, [seat]: { ...test.players[seat as PlayerColor], status: \"resigned\" } } }).some(m => m.piece.type === PieceType.King))\n"
+  },
+  {
+    "run": "m3-06-1788803482339",
+    "passed": true,
+    "groups": 33,
+    "starts": 19,
+    "failure": null
+  },
+  {
+    "run": "m3-06-1788803844666",
+    "passed": false,
+    "groups": 10,
+    "starts": 8,
+    "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(cookie)\n"
+  },
+  {
+    "run": "m3-06-1788804291684",
+    "passed": false,
+    "groups": 24,
+    "selected": [
+      "ordinary",
+      "endings",
+      "recovery",
+      "clocks",
+      "incidents",
+      "auth"
+    ],
+    "starts": 15,
+    "failure": "Error: expect(received).toBeGreaterThan(expected)\n\nExpected: > 8\nReceived:   8\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate\n    at pollMatcher (C:\\Users\\sith\\Code\\li4chess\\node_modules\\.pnpm\\playwright@1.56.1\\node_modules\\playwright\\lib\\matchers\\expect.js:299:11)\n    at async freshReconnect (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:167:5)\n    at async <anonymous> (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:408:7)"
+  },
+  {
+    "run": "m3-06-1788804595972",
+    "passed": false,
+    "groups": 6,
+    "selected": [
+      "recovery",
+      "clocks",
+      "auth"
+    ],
+    "starts": 8,
+    "failure": "Error: Replacement socket did not open: recovering · Connection unavailable — recovering and resyncing…\n    at freshReconnect (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:168:26)\n    at async <anonymous> (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:412:7)"
+  },
+  {
+    "run": "m3-06-1788804717086",
+    "passed": true,
+    "groups": 40,
+    "selected": [
+      "recovery",
+      "clocks",
+      "auth"
+    ],
+    "starts": 15,
+    "failure": null
+  }
+]

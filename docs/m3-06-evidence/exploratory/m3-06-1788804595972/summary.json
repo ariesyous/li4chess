@@ -1,0 +1,11 @@
+{
+  "passed": false,
+  "groups": 6,
+  "selected": [
+    "recovery",
+    "clocks",
+    "auth"
+  ],
+  "starts": 8,
+  "failure": "Error: Replacement socket did not open: recovering · Connection unavailable — recovering and resyncing…\n    at freshReconnect (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:168:26)\n    at async <anonymous> (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:412:7)"
+}
