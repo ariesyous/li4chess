@@ -8,6 +8,22 @@ superseded handoffs.
 
 ## Current focus
 
+**M3-07 is in progress (2026-09-07).** The maintainer authorized authenticated
+completed-private-game replay retrieval and browser export, independent review,
+retained evidence and a draft PR with exact final-head CI. The
+[pre-change inventory](m3-07-acceptance.md) defines scope and proposed technical
+choices. No retrieval behavior is implemented yet. Rematches, hosted activation
+and M4 remain excluded; M3 stays incomplete.
+
+Verified M3-06 merge: PR #17 merged at
+`eddbcad64d340ed7b4df4fe2baa277d4db5424f0`; post-merge CI 34166793615 and Pages
+34166793571 both succeeded. Historical draft/unmerged wording below and in M3-06
+evidence is superseded. The clean dedicated M3-07 branch starts from fetched
+origin/main. Node 24.18.0 and Corepack pnpm 10.33.0 were verified; the global
+pnpm 11 wrapper is not used. Initial independent contract review requires
+proof-free member reads, post-await credential checks, bounded genesis audit and
+a separate read-only path that cannot invoke gameplay recovery or producer relabeling.
+
 **M3-06 is complete within its local acceptance scope.** The
 [inventory](m3-06-acceptance.md) preceded changes, and
 [Windows/Linux evidence](m3-06-evidence/README.md) records 70 campaign observations,
