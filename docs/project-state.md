@@ -8,14 +8,29 @@ superseded handoffs.
 
 ## Current focus
 
+**M3-02 is in progress**, scoped to the [Workers acceptance plan](m3-02-acceptance.md).
+Fetched PR #12 remains open at `52dfe1b2ea02adb0e76ed17b40450d5a46d3e4b4`;
+[final-head CI](https://github.com/ariesyous/li4chess/actions/runs/34063186380)
+passed. Dedicated `codex/m3-02-workers-foundation` branches from that remote head
+and will target `codex/m3-01-architecture` as a stacked draft PR. The maintained
+application Worker serves a separate root-path build; Pages behavior is unchanged.
+Substantive review identified cancellation cleanup, now addressed with pre-spawn
+signal handling and startup/ready interruption checks. Full validation, evidence,
+final review, commits and final-head CI remain the completion gates.
+The first full run passed all 606 units, 46 existing browser tests, M3-01
+integration and the four new Worker tests. Screenshot review then exposed an
+existing 1280×720 grid min-content overflow clipping the right army. Explicit
+shrinkable grid tracks and square bounds checks correct that preservation issue;
+the final implementation requires a fresh full run after this small UI fix.
+Stop before M3-03. No merge, main push, hosted activation, provisioning or purchase.
+
 **M3-01 is complete**, scoped to isolated Cloudflare prototypes and the
 [architecture ADR](m3-01-adr.md), [acceptance plan](m3-01-acceptance.md) and
-[official-source research](m3-01-platform-research.md). The authorized goal ends
-before M3-02. [Acceptance evidence](m3-01-evidence/README.md), independent review,
+[official-source research](m3-01-platform-research.md). [Acceptance evidence](m3-01-evidence/README.md), independent review,
 fresh local checks and [implementation CI](https://github.com/ariesyous/li4chess/actions/runs/34062822436)
 passed. Implementation/evidence commit is `c23746b3b3611b322132b637c3ee76be93e4b46e`;
 [PR #12](https://github.com/ariesyous/li4chess/pull/12) remains a draft.
-M3 as a whole is incomplete. Next recommended slice is M3-02 Workers foundation;
+M3 as a whole is incomplete. Current work is M3-02 Workers foundation;
 the ADR contains the concrete M3-02 through M3-06 handoff and hosted gates.
 No merge, main push, deployment, provisioning or purchase is authorized.
 

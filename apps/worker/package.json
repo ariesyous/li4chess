@@ -1,0 +1,22 @@
+{
+  "name": "@li4chess/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json",
+    "build": "tsc -p tsconfig.json",
+    "build:assets": "tsx scripts/build.ts",
+    "dev:local": "tsx scripts/dev.ts",
+    "check:deploy": "tsx scripts/dry-run.ts",
+    "test:runtime": "tsx test/run.ts"
+  },
+  "dependencies": { "@li4chess/protocol": "workspace:*" },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20260906.1",
+    "@playwright/test": "1.56.1",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.6.3"
+  }
+}

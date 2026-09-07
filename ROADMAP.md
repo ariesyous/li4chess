@@ -158,7 +158,9 @@ direction, not Chess.com visual copying or a claim of implemented parity.
 [reviewed evidence](docs/m3-01-evidence/README.md) and
 [passing CI](https://github.com/ariesyous/li4chess/actions/runs/34062822436).
 The accepted topology is retained subject to explicit hosted gates. No online
-service is shipped or provisioned. M3-02 through M3-06 remain planned; M3 is incomplete.
+service is shipped or provisioned. M3-02 is in progress under its
+[acceptance plan](docs/m3-02-acceptance.md); M3-03 through M3-06 remain planned.
+M3 is incomplete.
 
 **Capabilities**
 
@@ -199,7 +201,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 | ID | Work item | Outcome |
 | --- | --- | --- |
 | M3-01 | Cloudflare architecture spike and ADR | **Complete 2026-09-06.** Topology, consistency/recovery, limits, costs, workflow and fallback criteria have an ADR, independent review, real local runtime/restart evidence and passing Windows/Ubuntu checks. Hosted validation gates remain explicit. |
-| M3-02 | Workers deployment foundation | React/Vite is served with Workers Static Assets; the Worker has a minimal HTTP surface, repeatable Wrangler/Vite/workerd development, CI, and GitHub deployment configuration. |
+| M3-02 | Workers deployment foundation | **In progress.** Actual React/Vite Static Assets, bounded HTTP identification, separate Pages/Workers builds, local runtime/browser checks and proposed GitHub Builds setup. Completion awaits reviewed evidence and final-revision CI. |
 | M3-03 | D1 persistence model | Versioned migrations cover users, games, events, and replay data; write ordering, idempotency, retention, and recovery semantics are tested. |
 | M3-04 | Authoritative `GameRoom` Durable Object | One game owner validates moves and owns state, clocks, sequence numbers, randomness, and WebSockets, with persistence and recovery behavior defined. |
 | M3-05 | Multiplayer protocol | Runtime-validated commands/events cover authorization, versioning, duplicates, stale input, reconnect, resync, and terminal actions. |
