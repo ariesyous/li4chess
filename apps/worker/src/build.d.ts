@@ -4,6 +4,7 @@ declare module "*build.json" {
     producer: import("@li4chess/protocol").EngineBuildIdentityV1;
     target: "workers";
     basePath: "/";
+    multiplayer: boolean;
   };
   export default build;
 }

@@ -5,8 +5,10 @@ import { SeatSetups } from "./game/useLocalGame.js";
 import { resumeLocalGame } from "./game/localSave.js";
 import type { ResumedGame } from "./game/localSave.js";
 import { ALL_COLORS } from "@li4chess/engine";
+import { OnlineGame } from "./online/OnlineGame.js";
 
 export function App() {
+  const [online,setOnline] = useState(false);
   const [seats, setSeats] = useState<SeatSetups | null>(null);
   const [resumed, setResumed] = useState<ResumedGame>();
   const [resumeMessage, setResumeMessage] = useState("");
@@ -28,8 +30,9 @@ export function App() {
     } finally { if (token === operation.current) setResumeBusy(false); }
   };
 
+  if (online) return <OnlineGame onLeave={()=>setOnline(false)}/>;
   if (seats === null) {
-    return <SeatSetupScreen onStart={start} onResume={() => void resume()} resumeBusy={resumeBusy} resumeMessage={resumeMessage} />;
+    return <>{__MULTIPLAYER__ && <nav className="online-entry"><button onClick={()=>setOnline(true)}>Private multiplayer</button></nav>}<SeatSetupScreen onStart={start} onResume={() => void resume()} resumeBusy={resumeBusy} resumeMessage={resumeMessage} /></>;
   }
   return <GameScreen key={JSON.stringify(seats)} seats={seats} resumed={resumed} onRestart={() => { operation.current++; setSeats(null); setResumed(undefined); }} />;
 }

@@ -10,7 +10,10 @@
     "dev:local": "tsx scripts/dev.ts",
     "check:deploy": "tsx scripts/dry-run.ts",
     "check:room": "tsx scripts/room-dry-run.ts",
-    "test:runtime": "tsx test/run.ts"
+    "test:runtime": "tsx test/run.ts",
+    "build:multiplayer": "tsx scripts/multiplayer-build.ts",
+    "check:multiplayer": "tsx scripts/multiplayer-dry-run.ts",
+    "test:multiplayer": "tsx test/multiplayer.ts"
   },
   "dependencies": { "@li4chess/protocol": "workspace:*", "@li4chess/game-room": "workspace:*" },
   "devDependencies": {

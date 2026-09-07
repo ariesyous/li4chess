@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts", "./room": "./src/room.ts" },
+  "exports": { ".": "./src/index.ts", "./room": "./src/room.ts", "./guest-service": "./src/guest-service.ts" },
   "scripts": {
     "lint": "tsc --noEmit && tsc -p tsconfig.tests.json",
     "build": "tsc --noEmit",

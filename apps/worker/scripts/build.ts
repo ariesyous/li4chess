@@ -12,7 +12,8 @@ const beforePages = await fileMap(pages).catch(error => {
   if (error.code === "ENOENT") return null; throw error;
 });
 await mkdir(generated, { recursive: true });
-const build = JSON.stringify({ target: "workers", basePath: "/", producer }, null, 2) + "\n";
+const multiplayer = process.env.LI4CHESS_MULTIPLAYER === "local";
+const build = JSON.stringify({ target: "workers", basePath: "/", multiplayer, producer }, null, 2) + "\n";
 await writeFile(resolve(generated, "build.json"), build);
 const webRequire = createRequire(resolve(root, "apps/web/package.json"));
 await runNode(resolve(dirname(webRequire.resolve("vite/package.json")), "bin/vite.js"), ["build", "--mode", "workers"], resolve(root, "apps/web"));
@@ -22,6 +23,6 @@ const html = await readFile(resolve(assets, "index.html"), "utf8");
 assert.match(html, /src="\/assets\//); assert(!html.includes("/li4chess/"));
 const hashes = await fileMap(assets);
 assert(Object.keys(hashes).some(name => /^assets\/cpu\.worker-.*\.js$/.test(name)), "Bundled CPU Worker required");
-await writeFile(resolve(generated, "artifact.json"), JSON.stringify({ producer, target: "workers", basePath: "/",
+await writeFile(resolve(generated, "artifact.json"), JSON.stringify({ producer, target: "workers", basePath: "/", multiplayer,
   buildModuleHash: sha(build), assets: hashes, pagesPreserved: beforePages }, null, 2) + "\n");
 process.stdout.write(`Workers artifact ${producer.buildFingerprint}\n`);

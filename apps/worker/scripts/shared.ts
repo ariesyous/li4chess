@@ -51,11 +51,12 @@ export async function fileMap(directory: string): Promise<Record<string, string>
   await walk(directory); return result;
 }
 
-export async function verifyArtifact() {
+export async function verifyArtifact(multiplayer = false) {
   const artifact = JSON.parse(await readFile(resolve(generated, "artifact.json"), "utf8")) as {
-    producer: EngineBuildIdentityV1; assets: Record<string, string>; buildModuleHash: string;
+    producer: EngineBuildIdentityV1; assets: Record<string, string>; buildModuleHash: string; multiplayer: boolean;
   };
   assertBuildUnchanged(artifact.producer, root);
+  assert.equal(artifact.multiplayer, multiplayer, "Workers artifact mode does not match requested entry point");
   assert.deepEqual(await fileMap(assets), artifact.assets, "Workers assets changed after build");
   assert.equal(sha(await readFile(resolve(generated, "build.json"))), artifact.buildModuleHash);
   return artifact;
@@ -83,11 +84,11 @@ export async function freePort(preferred = 0): Promise<number> {
   return address.port;
 }
 
-export async function startRuntime(port: number, output: string, fingerprint: string, log: (data: string) => void) {
+export async function startRuntime(port: number, output: string, fingerprint: string, log: (data: string) => void, config = resolve(packageRoot, "wrangler.jsonc")) {
   // Check before spawn; readiness also verifies the artifact to reject wrong servers.
   await freePort(port);
   const inspectorPort = await freePort();
-  const child = spawn(process.execPath, [wrangler, "dev", "--local", "--config", resolve(packageRoot, "wrangler.jsonc"),
+  const child = spawn(process.execPath, [wrangler, "dev", "--local", "--config", config,
     "--ip", "127.0.0.1", "--port", String(port), "--inspector-port", String(inspectorPort),
     "--persist-to", resolve(output, "runtime")], { cwd: packageRoot, env: localEnv, windowsHide: true,
     detached: process.platform !== "win32", stdio: ["ignore", "pipe", "pipe"] });

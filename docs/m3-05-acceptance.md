@@ -6,7 +6,8 @@ before M3-06's complete-game campaign. Branch `codex/m3-05-multiplayer-protocol`
 starts at fetched `origin/main`, PR #15 merge
 `1d12d4ba81330d65134b6b7d3afd2c76809fbc91`. Final M3-04 PR CI 34087298251 and
 post-merge Pages 34126884525 are verified successful. Post-merge CI 34126885407
-is still running at plan declaration; verify its conclusion before implementation.
+was still running at plan declaration; it completed successfully and was verified
+before implementation. The original declaration remains in commit `630bc6f`.
 Node is `C:/Program Files/nodejs/node.exe`, 24.18.0. Repository-local ignored
 Corepack shims select pnpm 10.33.0; the host's default 11.19.0 is unsuitable.
 
@@ -178,3 +179,43 @@ not claim hosted hibernation behavior.
 One at-least-once alarm per object requires combined scheduling and persisted
 deadlines; application rearming handles extended recovery.
 [Cloudflare alarms](https://developers.cloudflare.com/durable-objects/api/alarms/).
+
+## Implemented decisions and review outcomes
+
+The local service implements the above contract. Exact public shapes and examples
+are in [multiplayer-v1](multiplayer-v1.md); local commands are in the
+[Worker README](../apps/worker/README.md). No launch policy was selected.
+The browser uses Web Locks with a digest-derived name to prevent a duplicated
+sessionStorage proof from controlling two documents. A copied tab obtains a new
+observer proof. Reviewed 2026-09-07:
+[MDN Web Locks](https://developer.mozilla.org/en-US/docs/Web/API/Web_Locks_API).
+
+Real workerd rejected a WebSocket inside an RPC return with DataCloneError.
+The service therefore uses the supported binding-only DO fetch upgrade, constructing
+its internal context after cookie/membership/proof validation. Public routing never
+forwards arbitrary requests to that binding. Reviewed 2026-09-07:
+[Cloudflare WebSockets](https://developers.cloudflare.com/workers/runtime-apis/websockets/),
+[RPC error handling](https://developers.cloudflare.com/workers/runtime-apis/rpc/error-handling/).
+Typed command outcomes preserve ambiguity across exception serialization and a
+post-commit owner fence. A peer's notification/expiry failure does not become
+the initiating guest's authentication result after takeover.
+
+Suspension notifications carry operational timing anchored to the last finalized
+command/hash, before resyncRequired. Pending increments and successor state are
+withheld. Upstream message/close delivery is serialized. On refresh, an unresolved
+intention belonging to an earlier identity/room is retained behind explicit
+abandonment; it is never silently re-authored or deleted. Takeovers reconcile their
+saved exact ID on attachment, blocking new game intentions until resolved.
+
+The service is intentionally bounded: 256 lifetime credential records, 64 lobbies,
+four lifetime members per room, eight live-session tab records per room, 64 takeover
+IDs per tab, 32 queued operations, 16 body readers and eight pending handshakes.
+These are local implementation bounds, not public retention/rate/load policies.
+Clearing an isolated local development database resets these caps; doing so loses
+guest access and canonical room state and is not an online recovery procedure.
+
+Multiplayer opt-in is recorded in both immutable build metadata and the asset
+manifest. Default Worker checks reject multiplayer artifacts; rebuild the default
+target before its usual dev/check commands. Default Pages and deployment config
+remain unchanged. Final evidence and remaining gates are recorded separately;
+M3-06 remains the next authorized slice, not part of this implementation.

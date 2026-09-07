@@ -2,13 +2,13 @@
 
 Maintained internal SQLite Durable Object state machine, separate from the
 architecture spike. D1 remains canonical through `@li4chess/persistence`.
-See the [acceptance contract](../../docs/m3-04-acceptance.md). Public multiplayer,
-guest credentials and browser reconnect/UI remain M3-05; this package has no public
-HTTP gameplay route, account-owned binding or automatic deployment activation.
+See the [acceptance contract](../../docs/m3-04-acceptance.md). The maintained GuestService adds authenticated private transport under an explicit
+local Worker entry; see the [wire contract](../../docs/multiplayer-v1.md). GameRoom
+remains binding-only. No account-owned binding or automatic deployment activation.
 
 ## Internal service contract
 
-`GameRoom` exports binding-only methods. A future service holding that binding
+`GameRoom` exports binding-only methods. The GuestService holding that binding
 must authenticate credentials and authorize game membership before calling them.
 Principal/seat/generation bytes are records of that authentication, never proof.
 The room additionally checks immutable game/object/namespace identity, persisted

@@ -99,6 +99,53 @@ creation/gameplay endpoint is exposed by either application entry.
 After `pnpm build:workers`, run `pnpm --filter @li4chess/worker check:room` for the
 local bundle dry-run and fixture-isolation check. Real room behavior is exercised
 by `pnpm --filter @li4chess/game-room test:integration`, using a separate test
-entry/configuration. Future M3-05 authenticated service integration must precede
-any public transport; hosted activation needs separately authorized bindings,
+entry/configuration. The separate M3-05 entry supplies authenticated private transport; hosted activation
+needs separately authorized bindings,
 environment isolation, producer compatibility and migration/restore validation.
+
+## Explicit local authenticated multiplayer
+
+`src/multiplayer-local.ts` and `wrangler.multiplayer.local.jsonc` are the opt-in
+entry and isolated local bindings. Default Pages, staging/production and the
+ordinary application entry still have no public online route. The build records
+the multiplayer choice; default Worker checks reject opt-in assets. Rebuild the
+ordinary target before returning to `dev:workers`, `check:workers` or deployment
+preparation. No hosted activation is implied by these commands.
+
+From the repository root, with Node 24+ and pinned pnpm 10.33.0:
+
+```sh
+pnpm --filter @li4chess/worker build:multiplayer
+pnpm --filter @li4chess/worker check:multiplayer
+pnpm --filter @li4chess/worker exec wrangler d1 migrations apply GAME_DB --local --config wrangler.multiplayer.local.jsonc --persist-to ../../arena-results/multiplayer-dev
+pnpm --filter @li4chess/worker exec wrangler dev --local --config wrangler.multiplayer.local.jsonc --ip 127.0.0.1 --port 8790 --persist-to ../../arena-results/multiplayer-dev
+```
+
+Open `http://127.0.0.1:8790/` in four independent browser profiles/contexts. Choose
+Private multiplayer, issue one guest per context, create a room and copy its
+invitation into the other contexts. Each guest chooses a seat and Ready. Same
+profile tabs share guest identity and observe until explicit takeover. Guest
+rotation/revocation are maintained API operations; lobby UI offers revocation.
+Local hotseat and CPU play remain available. Stop the foreground local process
+with Ctrl+C. Rebuild after source edits; producer drift is intentionally fenced.
+
+`ONLINE_ORIGIN` must equal the exact browser origin. The supplied one-hour guest
+TTL and ten-minute/no-increment development clock are local configuration only,
+not selected launch controls. Credentials are HttpOnly cookies; secondary tab
+proofs live in sessionStorage. Expiry loses guest access permanently; rotation
+preserves principal while advancing session and retiring old connections.
+Cookie/proof bytes must never be placed in URLs or copied into evidence.
+
+`pnpm --filter @li4chess/worker test:multiplayer` runs real workerd SQLite/D1 and
+independent Chromium contexts. Set `M3_05_OUTPUT` to a fresh absolute directory;
+existing directories reject. It records versions, source/asset identity, local
+configuration and observations. It includes genuine lost HTTP responses, copied
+tabs, takeover, expiry, refresh during a real D1 rollback and server alarm recovery.
+The rollback trigger is test-owned SQL outside deployable entry points. Runtime
+databases and credential cookies are never uploaded by CI. Owned process cleanup
+uses the existing tested Worker lifecycle helper and awaits port release.
+
+See [acceptance](../../docs/m3-05-acceptance.md),
+[wire contract](../../docs/multiplayer-v1.md) and
+[M3-06 handoff](../../docs/m3-06-handoff.md). Hosted TLS, resources, quotas,
+geographic behavior and rollout remain separately authorized gates.

@@ -6,7 +6,7 @@ An open-source four-player chess site, inspired by [lichess](https://lichess.org
 
 Early development, with a playable local free-for-all game in a single browser
 tab. Each of the four seats can be a hotseat human or a CPU, including fully
-automatic four-CPU games. Networked multiplayer is not implemented yet.
+automatic four-CPU games. Authenticated private multiplayer is available through an explicit local Worker configuration; the default hosted app remains local play.
 
 The goal is a free, ad-free four-player equivalent of Lichess. The first public
 release will offer Chess.com-compatible FFA, public matchmaking, anonymous
@@ -163,8 +163,11 @@ prepare/D1 commit/finalize, seeded walking turns and alarm recovery. Strict
 command-v2 admission timing preserves command-v1 compatibility and existing replay
 formats. [M3-04 evidence](docs/m3-04-evidence/README.md) records actual Windows and
 Linux workerd/D1 checks. An explicit local Worker configuration registers the room;
-the shipped app remains local play. The [M3-05 handoff](docs/m3-05-handoff.md) starts
-authenticated caller integration and the public command/receipt/resync protocol.
+the shipped app remains local play. M3-05 adds real guest credentials, private room
+membership/seats/readiness, strict commands/receipts and browser reconnect/resync.
+See [local multiplayer setup](apps/worker/README.md#explicit-local-authenticated-multiplayer),
+[wire contract](docs/multiplayer-v1.md), [acceptance](docs/m3-05-acceptance.md) and
+[evidence](docs/m3-05-evidence/README.md).
 Launch time controls and hosted activation remain separate decisions.
 
 ## Bot research and benchmarks

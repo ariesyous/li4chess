@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { readFileSync } from "node:fs";
 
 export default defineConfig(({ command, mode }) => ({
-  define: { __ENGINE_BUILD__: JSON.stringify(mode === "workers"
+  define: { __MULTIPLAYER__: JSON.stringify(mode === "workers" && JSON.parse(readFileSync(new URL("../worker/.generated/build.json", import.meta.url), "utf8")).multiplayer === true), __ENGINE_BUILD__: JSON.stringify(mode === "workers"
     ? JSON.parse(readFileSync(new URL("../worker/.generated/build.json", import.meta.url), "utf8")).producer
     : readBuildIdentity(fileURLToPath(new URL("../..",import.meta.url)),command === "serve")) },
   plugins: [react()],
