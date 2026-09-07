@@ -61,9 +61,45 @@ describe("online browser ordering and recovery",()=>{
   it("blocks a game intention until the pending takeover response is resolved",async()=>{
     const f=await fixture();await attach(f.client,f.states[0]);let resolve!:(r:Response)=>void;
     f.fetcher.mockImplementationOnce(()=>new Promise<Response>(done=>{resolve=done;}));const takeover=f.client.takeControl();
+    expect(f.client.view.takeover).toBe(JSON.parse(f.storage.getItem("li4chess.online.connection.v1")!).takeover);
     await f.client.command({type:"move",from:17,to:31});expect(f.client.view.pending).toBeNull();expect(f.client.view.notice).toContain("takeover response");
     resolve(Response.json({version:ONLINE_VERSION,type:"control",control:{seat:0,generation:2,controller:true}}));await takeover;
     expect(JSON.parse(f.storage.getItem("li4chess.online.connection.v1")!).takeover).toBeNull();
+    expect(f.client.view.takeover).toBeNull();
+  });
+  it("does not send or retain an unsaved takeover and allows retry after storage recovers",async()=>{
+    const f=await fixture();await attach(f.client,f.states[0]);const before=f.storage.getItem("li4chess.online.connection.v1"),calls=f.fetcher.mock.calls.length;
+    const save=vi.spyOn(f.storage,"setItem").mockImplementationOnce(()=>{throw new Error("quota");});
+    await expect(f.client.takeControl()).resolves.toBeUndefined();expect(f.fetcher.mock.calls.length).toBe(calls);
+    expect(f.client.view.takeover).toBeNull();expect(f.storage.getItem("li4chess.online.connection.v1")).toBe(before);expect(f.client.view.notice).toContain("Takeover was not sent");
+    save.mockRestore();f.fetcher.mockResolvedValueOnce(Response.json({version:ONLINE_VERSION,type:"control",control:{seat:0,generation:2,controller:true}}));
+    await f.client.takeControl();expect(f.client.view.control?.generation).toBe(2);expect(f.client.view.takeover).toBeNull();
+  });
+  it("retains a visible takeover after lost response and resends its original ID after refresh",async()=>{
+    const f=await fixture();await attach(f.client,f.states[0]);f.fetcher.mockRejectedValueOnce(new Error("lost response"));await f.client.takeControl();
+    const id=f.client.view.takeover;expect(id).toBeTruthy();f.client.stop();
+    const replacement=new OnlineConnection("room",session,f.storage);clients.push(replacement);expect(replacement.view.takeover).toBe(id);
+    const fetcher=f.fetcher.getMockImplementation()!;f.fetcher.mockImplementation(async(url,options)=>{
+      const request=JSON.parse(options.body as string) as {type:string;id?:string};
+      if(request.type==="takeControl"){expect(request.id).toBe(id);return Response.json({version:ONLINE_VERSION,type:"control",control:{seat:0,generation:2,controller:true}});}
+      return fetcher(url,options);
+    });replacement.start();await vi.waitFor(()=>expect(Socket.all).toHaveLength(2));await attach(replacement,f.states[0]);
+    await vi.waitFor(()=>expect(replacement.view.takeover).toBeNull());expect(replacement.view.control?.generation).toBe(2);
+    const sent=f.fetcher.mock.calls.map(([,options])=>JSON.parse(options.body as string) as {type:string;id?:string}).filter(r=>r.type==="takeControl");
+    expect(sent).toHaveLength(2);expect(sent.map(r=>r.id)).toEqual([id,id]);
+  });
+  it("retains the same takeover when storing its acknowledged outcome fails",async()=>{
+    const f=await fixture();await attach(f.client,f.states[0]);let resolve!:(r:Response)=>void;
+    f.fetcher.mockImplementationOnce(()=>new Promise<Response>(done=>{resolve=done;}));const takeover=f.client.takeControl(),id=f.client.view.takeover;
+    const save=vi.spyOn(f.storage,"setItem").mockImplementationOnce(()=>{throw new Error("quota");});
+    resolve(Response.json({version:ONLINE_VERSION,type:"control",control:{seat:0,generation:2,controller:true}}));await takeover;
+    expect(f.client.view.takeover).toBe(id);expect(JSON.parse(f.storage.getItem("li4chess.online.connection.v1")!).takeover).toBe(id);expect(f.client.view.phase).toBe("recovering");save.mockRestore();
+  });
+  it("quarantines malformed saved takeover IDs without rewriting the retained bytes",async()=>{
+    const f=await fixture();await attach(f.client,f.states[0]);f.client.stop();
+    const saved=JSON.parse(f.storage.getItem("li4chess.online.connection.v1")!);saved.takeover={id:"malformed"};const bytes=JSON.stringify(saved);f.storage.setItem("li4chess.online.connection.v1",bytes);
+    const replacement=new OnlineConnection("room",session,f.storage);clients.push(replacement);const calls=f.fetcher.mock.calls.length;replacement.start();
+    expect(replacement.view.identityConflict).toBe(true);expect(f.fetcher.mock.calls.length).toBe(calls);expect(f.storage.getItem("li4chess.online.connection.v1")).toBe(bytes);
   });
   it("reacts to resyncRequired immediately and ignores old socket close callbacks",async()=>{const f=await fixture();const old=await attach(f.client,f.states[0]);
     old.receive({version:ONLINE_VERSION,type:"resyncRequired"});await vi.waitFor(()=>expect(f.client.view.phase).toBe("recovering"));expect(old.close).toHaveBeenCalled();
