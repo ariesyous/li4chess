@@ -1,0 +1,92 @@
+[
+  {
+    "command": "pnpm install --frozen-lockfile",
+    "finishedAt": "2026-09-07T10:31:11.3290866-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:31:10.7481010-04:00"
+  },
+  {
+    "command": "pnpm lint --force",
+    "finishedAt": "2026-09-07T10:31:18.8621736-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:31:11.3430038-04:00"
+  },
+  {
+    "command": "pnpm test --force",
+    "finishedAt": "2026-09-07T10:31:38.7447463-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:31:18.8655720-04:00"
+  },
+  {
+    "command": "pnpm build --force",
+    "finishedAt": "2026-09-07T10:31:45.7561581-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:31:38.7465719-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/web test:e2e",
+    "finishedAt": "2026-09-07T10:33:30.2152470-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:31:45.7580208-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/architecture-spike test:integration",
+    "finishedAt": "2026-09-07T10:33:55.2269444-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:33:30.2169302-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/persistence test:integration",
+    "finishedAt": "2026-09-07T10:34:26.1218235-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:33:55.2289657-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/game-room test:integration",
+    "finishedAt": "2026-09-07T10:36:29.5685641-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:34:26.1234125-04:00"
+  },
+  {
+    "command": "pnpm build:workers",
+    "finishedAt": "2026-09-07T10:36:32.0960665-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:36:29.5703215-04:00"
+  },
+  {
+    "command": "pnpm check:workers",
+    "finishedAt": "2026-09-07T10:36:35.1527049-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:36:32.0976770-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/worker check:room",
+    "finishedAt": "2026-09-07T10:36:38.3840056-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:36:35.1542981-04:00"
+  },
+  {
+    "command": "pnpm test:workers",
+    "finishedAt": "2026-09-07T10:36:51.7351767-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:36:38.3860797-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/worker build:multiplayer",
+    "finishedAt": "2026-09-07T10:36:54.0431771-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:36:51.7368206-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/worker check:multiplayer",
+    "finishedAt": "2026-09-07T10:36:57.5066003-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:36:54.0446545-04:00"
+  },
+  {
+    "command": "pnpm --filter @li4chess/worker test:multiplayer",
+    "finishedAt": "2026-09-07T10:37:40.9199498-04:00",
+    "exitCode": 0,
+    "startedAt": "2026-09-07T10:36:57.5082813-04:00"
+  }
+]

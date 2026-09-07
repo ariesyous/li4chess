@@ -1,0 +1,12 @@
+import assert from "node:assert/strict";
+import { mkdir,readFile,writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { packageRoot,generated,verifyArtifact,runNode,wrangler,localEnv,handleSignals } from "./shared.js";
+handleSignals();await verifyArtifact(true);
+await assert.rejects(()=>verifyArtifact(),/artifact mode/,"Default Workers checks must reject opt-in multiplayer assets");
+await runNode(resolve(packageRoot,"node_modules/typescript/bin/tsc"),["-p","tsconfig.json"],packageRoot);
+const output=resolve(generated,"dry-run-multiplayer-local");await mkdir(output,{recursive:true});let log="";
+await runNode(wrangler,["deploy","--dry-run","--config",resolve(packageRoot,"wrangler.multiplayer.local.jsonc"),"--outdir",output],packageRoot,localEnv,data=>{log+=data;process.stdout.write(data);});
+const bundle=await readFile(resolve(output,"multiplayer-local.js"),"utf8");assert(bundle.includes("GuestService")&&bundle.includes("GameRoom"));
+for(const forbidden of ["TEST_KEY","PLAYER_KEYS","fixture-crash","m3_05_interruption","nonexistent_fault_table","test/worker.ts"])assert(!bundle.includes(forbidden),`Test-only hook in bundle: ${forbidden}`);
+await writeFile(resolve(output,"validation.log"),log);await verifyArtifact(true);

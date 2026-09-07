@@ -6,6 +6,7 @@ import { validateMove, validateState } from "./validation.js";
 export * from "./canonical.js";
 export * from "./types.js";
 export * from "./replay.js";
+export * from "./multiplayer.js";
 
 /** State-v2 validates imported checkpoints; replay-v2 additionally proves the
  * recorded transitions. Network authority and live clock tracking belong to M3. */

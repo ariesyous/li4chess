@@ -124,3 +124,11 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid #
   .resume-card p { margin-top: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+/* Explicit local multiplayer entry; the default build excludes its navigation. */
+.online-entry { padding: 1rem; text-align: center; }
+.online-setup { max-width: 52rem; margin: 2rem auto; padding: 1rem; }
+.online-setup button, .online-setup label { margin: .5rem; }
+.online-setup input { max-width: 100%; width: 30rem; }
+.online-seats { display: flex; flex-wrap: wrap; gap: 1rem; }
+.online-seats section { flex: 1 1 12rem; }
+.online-board { width: min(100%, 52rem); margin: 1rem auto; }

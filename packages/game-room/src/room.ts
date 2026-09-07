@@ -1,7 +1,7 @@
 import { ALL_COLORS } from "@li4chess/engine";
 import type { PlayerColor } from "@li4chess/engine";
 import { equalCanonical, engineState, resolveAction, stateHash } from "@li4chess/protocol";
-import type { ActionRequest, EngineBuildIdentityV1 } from "@li4chess/protocol";
+import type { ActionRequest, EngineBuildIdentityV1, OnlineSuspension } from "@li4chess/protocol";
 import { creationBoundary, digest, exactReader, LIMITS, opaque, PersistenceError, prepareCommand, validateInput, validateOwner } from "@li4chess/persistence";
 import type { Boundary, D1Persistence, GameHeader, Head, Owner, Prepared, Receipt, StableRequest } from "@li4chess/persistence";
 import { activate, admissionTiming, earliestDeadline, increment, initialTiming, suspend, validateTiming } from "./timing.js";
@@ -12,17 +12,25 @@ export const ROOM_LIMITS = { queued: 16, connections: 8, recordBytes: 1_100_000,
 export class RoomError extends Error {
   constructor(readonly code: "unauthorized" | "invalid" | "stale" | "terminal" | "unavailable" | "capacity", message = code as string) { super(message); }
 }
+class RoomFenceError extends RoomError {}
+/** Binding serialization must preserve uncertainty even if an owner fence fails
+ * after canonical commit. A fence failure is never proof of rejection. */
+export function commandFailure(error:unknown) {
+  const code = error instanceof RoomFenceError ? "unavailable" : error instanceof RoomError ? error.code :
+    error instanceof PersistenceError && ["invalid","conflict"].includes(error.code) ? error.code as "invalid" | "conflict" : "unavailable";
+  return { ok:false as const, code, ambiguous:code === "unavailable" };
+}
 function requireRoom(value: unknown, code: RoomError["code"], message?: string): asserts value {
   if (!value) throw new RoomError(code, message);
 }
 export interface SeatGrant { principal: string; generation: number }
 /** Supplied by a trusted credential-verifying service, never by a public body. */
-export interface ConnectionContext { gameId: string; principal: string; seat: PlayerColor; connectionId: string; generation: number }
+export interface ConnectionContext { gameId: string; principal: string; seat: PlayerColor; connectionId: string; generation: number; expiresAt?: number }
 export interface Creation { header: GameHeader; owner: Owner; seats: [SeatGrant, SeatGrant, SeatGrant, SeatGrant]; policy: TimingPolicy }
 interface Identity extends Creation { format: "li4chess-room-v1"; objectId: string }
 interface ClockRecord { value: Timing; hash: string }
 export interface Snapshot { boundary: Boundary; timing: Timing }
-export type Publication = { type: "committed"; snapshot: Snapshot; receipt: Receipt | null } | { type: "resyncRequired" };
+export type Publication = { type: "committed"; snapshot: Snapshot; receipt: Receipt | null } | { type: "resyncRequired"; suspension?:OnlineSuspension };
 /** Room owns connection membership and publication order. Adapter delivery failure
  * is ambiguous, never permission to undo canonical state or invent a new ID. */
 export interface Connection { send(message: Publication): void; close(): void }
@@ -36,6 +44,7 @@ export class Room {
   private tail: Promise<unknown> = Promise.resolve();
   private queued = 0;
   private booted = false;
+  private expiring = false;
   private alarmTask: Promise<void> | null = null;
   private connections = new Map<string, { context: ConnectionContext; channel: Connection }>();
   constructor(private readonly deps: RoomDependencies) {}
@@ -53,8 +62,10 @@ export class Room {
   }
   private async save(values: Record<string, unknown | null>, timing: Timing, alarm?: number | null) {
     validateTiming(timing);
-    const scheduled = alarm === undefined ? timing.incident?.retryAt ?? (timing.phase === "running"
+    let scheduled = alarm === undefined ? timing.incident?.retryAt ?? (timing.phase === "running"
       ? earliestDeadline(timing, this.cache().state.position)?.at ?? null : null) : alarm;
+    for (const { context } of this.connections.values()) if (context.expiresAt !== undefined)
+      scheduled = Math.min(scheduled ?? Infinity, context.expiresAt);
     await this.storage.write({ ...values, timing: { value: timing, hash: await digest(timing) } }, scheduled);
   }
   private enqueue<T>(operation: () => Promise<T>, reservedAlarm = false): Promise<T> {
@@ -65,30 +76,58 @@ export class Room {
   }
   private async fence(checkHead = false): Promise<void> {
     const id = this.identity();
-    requireRoom(id.format === "li4chess-room-v1" && id.objectId === this.deps.objectId && id.owner.namespace === this.deps.namespace,
-      "unauthorized", "room namespace/object fence");
-    requireRoom(this.deps.ownsGame(id.header.gameId), "unauthorized", "game/object identity fence");
+    if (!(id.format === "li4chess-room-v1" && id.objectId === this.deps.objectId && id.owner.namespace === this.deps.namespace))
+      throw new RoomFenceError("unauthorized", "room namespace/object fence");
+    if (!this.deps.ownsGame(id.header.gameId)) throw new RoomFenceError("unauthorized", "game/object identity fence");
     requireRoom(equalCanonical(id.header.replay.engineBuild, this.deps.producer), "unavailable", "producer requires explicit source-linked continuation");
     const current = await this.db.inspect(id.header.gameId);
-    requireRoom(current && equalCanonical(current.owner, id.owner) && current.headerHash === await digest(id.header), "unauthorized", "canonical owner fence");
+    if (!(current && equalCanonical(current.owner, id.owner) && current.headerHash === await digest(id.header))) throw new RoomFenceError("unauthorized", "canonical owner fence");
     if (checkHead && !equalCanonical(current.head, this.storage.read<Head>("marker"))) {
       await this.db.quarantine(id.header.gameId, "room-head-divergence");
       throw new PersistenceError("quarantined", "local head is not current canonical head");
     }
   }
-  private authorize(context: ConnectionContext, control: boolean, requireConnection = true): void {
+  private authorize(context: ConnectionContext, control: boolean, requireConnection = true, allowExpired = false): void {
     const id = this.identity();
     requireRoom(context && context.gameId === id.header.gameId && ALL_COLORS.includes(context.seat), "unauthorized");
     const grant = id.seats[context.seat];
     requireRoom(grant.principal === context.principal && Number.isSafeInteger(context.generation) && context.generation > 0 &&
       (!control || context.generation === grant.generation), "unauthorized");
     opaque(context.connectionId);
+    requireRoom(context.expiresAt === undefined || Number.isSafeInteger(context.expiresAt) && context.expiresAt >= 0 &&
+      (allowExpired || context.expiresAt > this.time()), "unauthorized", "connection lease expired");
     if (requireConnection) {
       const connection = this.connections.get(context.connectionId);
       requireRoom(connection && equalCanonical(connection.context, context), "unauthorized", "connection not current");
     }
     if (control && requireConnection) requireRoom(this.storage.read<(string | null)[]>("controls")?.[context.seat] === context.connectionId,
       "unauthorized", "connection is observing");
+  }
+  /** Account credential presence at exact expiry, even for late alarms. */
+  private async expireConnections(): Promise<void> {
+    if (this.expiring) return;
+    this.expiring = true;
+    try {
+    const now = this.time();
+    const expired = [...this.connections.values()].filter(x => x.context.expiresAt !== undefined && x.context.expiresAt <= now)
+      .sort((a,b) => a.context.expiresAt! - b.context.expiresAt!);
+    for (const item of expired) {
+      const deadline = earliestDeadline(this.clock(), this.cache().state.position);
+      if (deadline && deadline.at <= item.context.expiresAt!) {
+        await this.due(item.context.expiresAt!); return;
+      }
+      this.connections.delete(item.context.connectionId);
+      try { item.channel.send({ type: "resyncRequired" }); item.channel.close(); } catch { /* best effort */ }
+      const boundary = this.cache(); let timing = this.clock();
+      const at = Math.max(timing.accountedAt, item.context.expiresAt!);
+      const running = timing.phase === "running";
+      if (running) timing = suspend(timing, boundary.state.position, at);
+      else timing = { ...timing, revision: timing.revision + 1 };
+      timing.connected[item.context.seat] = [...this.connections.values()].some(x => x.context.seat === item.context.seat);
+      if (running) timing = activate(timing, boundary.state.position, at, boundary.head.command, "commit");
+      await this.save({}, timing);
+    }
+    } finally { this.expiring = false; }
   }
   private async incident(error: unknown): Promise<void> {
     if (this.storage.read("incident")) { this.invalidateConnections(); return; }
@@ -113,7 +152,21 @@ export class Room {
     this.invalidateConnections();
   }
   private invalidateConnections() {
-    for (const { channel } of this.connections.values()) { try { channel.send({ type: "resyncRequired" }); channel.close(); } catch { /* delivery is best effort */ } }
+    let suspension:OnlineSuspension|undefined;
+    try {
+      const timing=this.clock(),marker=this.storage.read<Head>("marker"),pending=this.storage.read<Prepared>("pending");
+      if(marker && timing.command===marker.command && ["suspended","incident"].includes(timing.phase)) {
+        // Pending increment belongs to an unfinalized command. Expose its persisted
+        // pre-increment admission balances, never its speculative successor state.
+        const admission=pending?.record.format==="li4chess-d1-command-v2"?pending.record.timing:null;
+        const safe=admission?{...timing,remainingMs:[...admission.remainingMs] as Timing["remainingMs"]}:timing;
+        validateTiming(safe);suspension={command:marker.command,stateHash:marker.stateHash,timing:safe};
+      }
+    } catch { /* Invalid/missing operational records reveal no invented timing. */ }
+    for (const { channel,context } of this.connections.values()) { try {
+      // Legacy internal connections retain their original control envelope.
+      channel.send({ type: "resyncRequired",...(context.expiresAt!==undefined&&suspension?{suspension}: {}) }); channel.close();
+    } catch { /* delivery is best effort */ } }
     this.connections.clear();
   }
   private async boot(): Promise<void> {
@@ -191,6 +244,7 @@ export class Room {
     }
     requireRoom(this.clock().phase !== "incident", "unavailable", "operator recovery required");
     await this.fence();
+    await this.expireConnections();
   }
   private async resume(reason: "creation" | "commit" | "recovery") {
     const cache = this.cache();
@@ -259,9 +313,11 @@ export class Room {
     return true;
   }
   private async publish(receipt: Receipt | null) {
+    await this.expireConnections();
     await this.fence(true);
     const snapshot = this.snapshot();
     for (const [id, item] of this.connections) {
+      if (item.context.expiresAt !== undefined && item.context.expiresAt <= this.time()) continue;
       try { item.channel.send({ type: "committed", snapshot: structuredClone(snapshot), receipt }); }
       catch { this.connections.delete(id); try { item.channel.close(); } catch { /* best effort */ }
         throw new RoomError("unavailable", "publication failed; resync required"); }
@@ -315,7 +371,9 @@ export class Room {
           requireRoom(!pendingDeadline || pendingDeadline.at > Math.max(admittedAt, this.clock().accountedAt), "stale", "recovery has due work; reconnect after alarm");
         } else if (await this.due(admittedAt)) throw new RoomError("stale", "deadline advanced game; reconnect");
         const boundary = this.cache(); let timing = this.clock();
+        this.authorize(context, true, false);
         if (timing.phase !== "terminal") timing = suspend(timing, boundary.state.position, admittedAt);
+        else timing = { ...timing, revision: timing.revision + 1 };
         this.connections.set(context.connectionId, { context: structuredClone(context), channel });
         const controls = this.storage.read<(string | null)[]>("controls");
         requireRoom(controls?.length === 4, "unavailable", "control storage missing");
@@ -325,9 +383,9 @@ export class Room {
         await this.save({ controls }, timing);
         await this.fence(true);
         const snapshot = this.snapshot();
-        channel.send({ type: "committed", snapshot: structuredClone(snapshot), receipt: null });
+        await this.publish(null);
         return snapshot;
-      } catch (error) { if (!(error instanceof RoomError && ["stale", "capacity", "invalid", "unauthorized"].includes(error.code))) await this.incident(error); throw error; }
+      } catch (error) { if (!(error instanceof RoomError && !(error instanceof RoomFenceError) && ["stale", "capacity", "invalid", "unauthorized"].includes(error.code))) await this.incident(error); throw error; }
     });
   }
   disconnect(context: ConnectionContext, channel?: Connection): Promise<void> {
@@ -338,18 +396,20 @@ export class Room {
       // changes. A late close from an older transport cannot remove its replacement.
       if (channel) {
         if (connection.channel !== channel) return;
-        this.authorize(connection.context, false);
-      } else this.authorize(context, false);
+        this.authorize(connection.context, false, true, true);
+      } else this.authorize(context, false, true, true);
       try {
         const priorCommand = this.storage.read<Head>("marker")?.command;
         await this.ready(); const admittedAt = this.time();
         if (priorCommand === this.cache().head.command) await this.due(admittedAt);
         let timing = this.clock(); const boundary = this.cache();
         if (timing.phase !== "terminal") timing = suspend(timing, boundary.state.position, admittedAt);
+        else timing = { ...timing, revision: timing.revision + 1 };
         this.connections.delete(context.connectionId);
         timing.connected[context.seat] = [...this.connections.values()].some(item => item.context.seat === context.seat);
         if (timing.phase !== "terminal") timing = activate(timing, boundary.state.position, this.time(), boundary.head.command, "commit");
         await this.save({}, timing);
+        await this.publish(null);
       } catch (error) { await this.incident(error); throw error; }
     });
   }
@@ -358,14 +418,27 @@ export class Room {
   takeControl(context: ConnectionContext, nextGeneration: number): Promise<void> {
     context = structuredClone(context);
     return this.enqueue(async () => {
-      this.authorize(context, false); requireRoom(nextGeneration === this.identity().seats[context.seat].generation + 1, "invalid");
+      this.authorize(context, false);
+      if (nextGeneration === this.identity().seats[context.seat].generation &&
+        this.storage.read<(string | null)[]>("controls")?.[context.seat] === context.connectionId) return;
+      requireRoom(nextGeneration === this.identity().seats[context.seat].generation + 1, "invalid");
       try {
-        await this.ready(); const identity = this.identity(); identity.seats[context.seat].generation = nextGeneration;
+        await this.ready(); this.authorize(context, false); const identity = this.identity(); identity.seats[context.seat].generation = nextGeneration;
         const controls = this.storage.read<(string | null)[]>("controls"); requireRoom(controls?.length === 4, "unavailable");
         controls[context.seat] = context.connectionId;
         await this.save({ identity, controls }, this.clock());
         this.connections.get(context.connectionId)!.context = { ...context, generation: nextGeneration };
-      } catch (error) { await this.incident(error); throw error; }
+      } catch (error) { if (!(error instanceof RoomError && !(error instanceof RoomFenceError) && error.code === "unauthorized")) await this.incident(error); throw error; }
+    });
+  }
+  /** Privileged service reconciliation after an uncertain takeover response. */
+  controlStatus(context: ConnectionContext): Promise<{ generation: number; connectionGeneration: number; controller: boolean }> {
+    context = structuredClone(context);
+    return this.enqueue(async () => {
+      this.authorize(context, false, false); await this.ready(); this.authorize(context, false, false);
+      return { generation: this.identity().seats[context.seat].generation,
+        connectionGeneration: this.connections.get(context.connectionId)?.context.generation ?? this.identity().seats[context.seat].generation,
+        controller: this.storage.read<(string | null)[]>("controls")?.[context.seat] === context.connectionId };
     });
   }
   command(context: ConnectionContext, request: Omit<StableRequest, "caller">): Promise<{ receipt: Receipt; admittedAt: number }> {
@@ -380,6 +453,7 @@ export class Room {
         const priorCommand = this.storage.read<Head>("marker")?.command;
         await this.ready();
         const prior = await this.db.lookupReceipt(caller.gameId, stable);
+        this.authorize(caller, true);
         if (prior) { await this.fence(true); return { receipt: prior.receipt, admittedAt: prior.input.admittedAt }; }
         requireRoom(priorCommand === this.cache().head.command, "stale", "recovery advanced canonical state; resync");
         if (await this.due()) throw new RoomError("stale", "deadline advanced canonical state");
@@ -391,6 +465,7 @@ export class Room {
         // server time again after validation and never admits a deadline-edge move.
         const admittedAt = this.time();
         if (await this.due(admittedAt)) throw new RoomError("stale", "deadline reached during validation");
+        this.authorize(caller, true);
         requireRoom(boundary.head.command < LIMITS.commands, "capacity");
         const receipt = await this.accept(stable, admittedAt);
         const committed = await this.db.lookupReceipt(caller.gameId, stable);
@@ -400,7 +475,7 @@ export class Room {
           await this.incident(error);
           throw new RoomError("unavailable", "prepared command requires reconciliation; retain the same ID");
         }
-        if (!(error instanceof RoomError && ["stale", "terminal", "invalid", "capacity"].includes(error.code)) &&
+        if (!(error instanceof RoomError && !(error instanceof RoomFenceError) && ["stale", "terminal", "invalid", "capacity", "unauthorized"].includes(error.code)) &&
           !(error instanceof PersistenceError && ["invalid", "conflict"].includes(error.code))) await this.incident(error);
         throw error;
       }
@@ -410,8 +485,8 @@ export class Room {
     context = structuredClone(context);
     return this.enqueue(async () => {
       this.authorize(context, false);
-      try { await this.ready(); requireRoom(Number.isSafeInteger(expectedCommand) && expectedCommand <= this.cache().head.command && expectedCommand >= 0, "stale"); await this.fence(true); return this.snapshot(); }
-      catch (error) { if (!(error instanceof RoomError && error.code === "stale")) await this.incident(error); throw error; }
+      try { await this.ready(); requireRoom(Number.isSafeInteger(expectedCommand) && expectedCommand <= this.cache().head.command && expectedCommand >= 0, "stale"); await this.fence(true); this.authorize(context, false); return this.snapshot(); }
+      catch (error) { if (!(error instanceof RoomError && !(error instanceof RoomFenceError) && ["stale", "unauthorized"].includes(error.code))) await this.incident(error); throw error; }
     });
   }
   alarm(): Promise<void> {
@@ -422,6 +497,7 @@ export class Room {
         await this.boot(); if (!this.storage.read("identity")) return;
         if (this.storage.read("incident")) return;
         const timing = this.clock(); if (timing.phase === "incident") return;
+        await this.expireConnections();
         if (timing.phase === "suspended" && timing.incident?.retryAt && this.time() < timing.incident.retryAt) {
           await this.save({}, timing, timing.incident.retryAt); return;
         }

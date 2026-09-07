@@ -8,48 +8,64 @@ superseded handoffs.
 
 ## Current focus
 
-**M3-04 is complete**, scoped to the [pre-change acceptance plan](m3-04-acceptance.md),
-with [independently reviewed evidence](m3-04-evidence/README.md) and a concrete
-[M3-05 handoff](m3-05-handoff.md). The dedicated branch began at verified PR #14
-merge `898be37cc7889e5bea9fefe5e5b819e1b7351784`; CI 34083211956 and Pages
-34083211924 passed on that baseline. Acceptance plan `a7aa45f` preceded behavior
-changes; `bec21c8` implemented the reviewed room, and final implementation
-`c86e7e75c381f02d1dcd7a400a5b047b9c6ca1ee` passed
-[CI 34086306609](https://github.com/ariesyous/li4chess/actions/runs/34086306609).
+**M3-05 is complete within its acceptance scope.** The authenticated private-room
+service, strict public wire format and browser reconnect/resync flow are implemented
+against maintained GameRoom. See the [pre-change plan](m3-05-acceptance.md),
+[wire contract](multiplayer-v1.md), [evidence](m3-05-evidence/README.md), and concrete
+[M3-06 handoff](m3-06-handoff.md). [Draft PR #16](https://github.com/ariesyous/li4chess/pull/16)
+targets main; reviewed `9efe6027bf2c2dde97927fad6128d5d6768262ea` passed
+[CI 34135203998](https://github.com/ariesyous/li4chess/actions/runs/34135203998).
+Final evidence/documentation-head CI is checked again before closeout and linked
+from the PR. M3-06 is not implemented; M3 remains incomplete.
 
-The maintained SQLite room serializes authenticated internal authority, complete
-prepare, exact canonical D1 commit/reconciliation, atomic local finalize and delayed
-publication. Persisted clocks, cumulative disconnect banks, control generations,
-seeded walking turns and bounded durable alarm recovery preserve engine facts and
-terminal results. Strict command-v2 admission timing keeps v1 compatibility and
-released migrations/state-v2/replay-v2 intact. Only explicit local Worker room
-configuration was added; no public protocol/credentials/UI or hosted activation.
+Verified M3-04 baseline: PR #15 merged at
+`1d12d4ba81330d65134b6b7d3afd2c76809fbc91`. Final PR-head CI 34087298251,
+post-merge Pages 34126884525 and post-merge CI 34126885407 all succeeded;
+the last was verified before M3-05 behavior changes. Branch
+`codex/m3-05-multiplayer-protocol` was created from fetched origin/main, preserving
+unrelated work. Acceptance plan `630bc6f` preceded implementation.
 
-A clean Windows acceptance run used Node 24.18.0 / pnpm 10.33.0 and fingerprint
-`sha256:56dd58f7e342cc8a8e3fd2f8933b3769703870dd0d118485ad92c6ac5f5a2cd3`.
-All required commands passed: frozen install, lint, 642 units, build, 22 real room
-groups/25 runtime starts, nine D1 groups, 46 browser tests, 14 architecture groups,
-Workers build, existing environment and new local-room dry-runs, and four Worker
-browser groups plus lifecycle checks. All 357 implementation-revision local links
-resolved. Linux CI passed the same suites. Fresh independent code and evidence
-reviews resolved all findings and verified all 393 source files, artifact hashes
-and earlier snapshot reconstruction. The 256-command/293-event history remains
-unfinished/censored. Failed exploratory/source-drift and generated-JSON typing
-attempts are retained separately; no assertions were weakened or retried to pass.
+Guest credentials are server-issued, digest-stored, absolutely expiring and
+revocable, with session rotation. Private invitation membership and atomic seats
+freeze four immutable grants. Public bodies cannot supply identity/control facts.
+Cookie + exact origin + bounded first-frame tab proof protects transport. Strict
+snapshots, receipts, controls and errors preserve canonical IDs, admission facts,
+clock suspension and producer lineage. Observer tabs, explicit takeover, copied-tab
+locks, reconnect epochs and deliberate old-identity cleanup preserve browser intent.
 
-[Draft PR #15](https://github.com/ariesyous/li4chess/pull/15) targets main. Final
-pushed evidence/documentation-revision CI is checked again before closeout and
-linked from its PR description. No merge, main push, account connection, resource,
-secret, deployment or paid plan was performed. Default Worker/Pages behavior,
-frozen classic code and archived evidence remain intact.
+Independent substantive and final reviewers resolved expiry ordering, late socket
+cleanup, ambiguous post-commit fences, suspension delivery, artifact mode isolation,
+peer notification failures and browser identity/takeover/lobby response races.
+Clean implementation `c0d8457` passed all 15 required local command invocations:
+671 units, 46 browser tests, 14 architecture groups, nine persistence groups,
+22 room groups/25 starts, default Workers build/dry-runs/runtime/lifecycle, and
+14 authenticated multiplayer groups. Source fingerprint
+`sha256:8397459b17078c188db89248f0afe9fcb09d4f7261396c9e5c070b22a88ff0b8`
+and exact 448-file Git source map were independently verified.
 
-**Next slice: M3-05 authenticated caller and public command/receipt/resync protocol.**
-Follow the handoff for membership/authentication, stable retry IDs, controller
-changes, timing visibility and ambiguous outcomes before room/lobby UI. M3 remains
-incomplete. Hosted clock availability, alarm delays, aggregate query/CPU/load
-budgets, failover and coordinated restore remain separate gates; no launch time
-control is selected. Cold recovery conservatively freezes unknown infrastructure
-time, and same-prefix clock rollback needs independently newer operational markers.
+CI 34133514555 exposed a retained mixed-game test's unsafe single-pawn corridor:
+a legal CPU response could immobilize walking Kings. Test-only correction `45bbcff`
+and reviewed `9efe602` preserve all exact ending assertions, prepare actual legal
+King mobility and verify preconditions. No rules/gameplay change or test retries.
+Standalone live revocation coverage was also strengthened. Fresh reviewed lint,
+671 units, build, 46 browser tests and all 14 multiplayer groups passed on Windows;
+all required suites then passed Linux CI. The independently reconstructed reviewed
+494-file fingerprint is `sha256:b295d0047cfae663e0fe9a5c00c48b1a265fcebfabce970b12b0db1ffc84b1b1`.
+Failed exploratory/CI evidence and the causal counterexample are retained separately.
+
+Only explicit local configuration enables multiplayer. Default Pages and Worker
+deployment are unchanged. No account, resource, live secret, deployment, paid plan
+or launch time control was selected. Hosted TLS/cookie/lifecycle, load, rollout and
+coordinated restore remain separate gates. M3 remains incomplete.
+
+## M3-04 completed baseline
+
+M3-04 authority/timing/persistence evidence remains in
+[m3-04-evidence](m3-04-evidence/README.md). Its maintained SQLite room serializes
+prepare, exact D1 commit, finalize, activation and publication with immutable
+terminal results, persisted clocks/disconnect banks and seeded walking turns.
+M3-05 preserves M1 rules, state-v2/replay-v2, command-v1/v2, source lineage and
+released migrations. Historical measurements remain labeled with their own revision.
 
 ## M3-03 completed baseline
 

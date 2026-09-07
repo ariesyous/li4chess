@@ -1,0 +1,228 @@
+{
+  "conclusion": "success",
+  "databaseId": 34135203998,
+  "headSha": "9efe6027bf2c2dde97927fad6128d5d6768262ea",
+  "jobs": [
+    {
+      "completedAt": "2026-09-07T14:59:15Z",
+      "conclusion": "success",
+      "databaseId": 101784423040,
+      "name": "check",
+      "startedAt": "2026-09-07T14:51:13Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-07T14:51:16Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-07T14:51:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:51:18Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-07T14:51:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:51:19Z",
+          "conclusion": "success",
+          "name": "Run pnpm/action-setup@v4",
+          "number": 3,
+          "startedAt": "2026-09-07T14:51:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:51:22Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 4,
+          "startedAt": "2026-09-07T14:51:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:51:27Z",
+          "conclusion": "success",
+          "name": "Run pnpm install --frozen-lockfile",
+          "number": 5,
+          "startedAt": "2026-09-07T14:51:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:51:47Z",
+          "conclusion": "success",
+          "name": "Run pnpm lint",
+          "number": 6,
+          "startedAt": "2026-09-07T14:51:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:52:25Z",
+          "conclusion": "success",
+          "name": "Run pnpm test",
+          "number": 7,
+          "startedAt": "2026-09-07T14:51:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:52:31Z",
+          "conclusion": "success",
+          "name": "Run pnpm build",
+          "number": 8,
+          "startedAt": "2026-09-07T14:52:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:53:03Z",
+          "conclusion": "success",
+          "name": "Validate maintained D1 migrations and canonical persistence",
+          "number": 9,
+          "startedAt": "2026-09-07T14:52:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:53:06Z",
+          "conclusion": "success",
+          "name": "Retain D1 persistence evidence",
+          "number": 10,
+          "startedAt": "2026-09-07T14:53:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:53:31Z",
+          "conclusion": "success",
+          "name": "Validate local Cloudflare architecture and crash recovery",
+          "number": 11,
+          "startedAt": "2026-09-07T14:53:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:55:35Z",
+          "conclusion": "success",
+          "name": "Validate authoritative GameRoom timing, alarms and recovery",
+          "number": 12,
+          "startedAt": "2026-09-07T14:53:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:55:37Z",
+          "conclusion": "success",
+          "name": "Retain GameRoom evidence",
+          "number": 13,
+          "startedAt": "2026-09-07T14:55:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:55:38Z",
+          "conclusion": "success",
+          "name": "Retain architecture integration evidence",
+          "number": 14,
+          "startedAt": "2026-09-07T14:55:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:55:59Z",
+          "conclusion": "success",
+          "name": "Install Chromium for browser tests",
+          "number": 15,
+          "startedAt": "2026-09-07T14:55:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:57:57Z",
+          "conclusion": "success",
+          "name": "Run browser tests",
+          "number": 16,
+          "startedAt": "2026-09-07T14:55:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:57:57Z",
+          "conclusion": "skipped",
+          "name": "Retain failed local-play browser diagnostics",
+          "number": 17,
+          "startedAt": "2026-09-07T14:57:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:58:05Z",
+          "conclusion": "success",
+          "name": "Build isolated Workers application and validate deployment configuration locally",
+          "number": 18,
+          "startedAt": "2026-09-07T14:57:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:58:19Z",
+          "conclusion": "success",
+          "name": "Validate application HTTP and browser behavior through local workerd",
+          "number": 19,
+          "startedAt": "2026-09-07T14:58:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:58:22Z",
+          "conclusion": "success",
+          "name": "Retain Workers foundation evidence",
+          "number": 20,
+          "startedAt": "2026-09-07T14:58:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:59:11Z",
+          "conclusion": "success",
+          "name": "Build and validate opt-in authenticated multiplayer locally",
+          "number": 21,
+          "startedAt": "2026-09-07T14:58:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:59:12Z",
+          "conclusion": "success",
+          "name": "Retain authenticated multiplayer evidence",
+          "number": 22,
+          "startedAt": "2026-09-07T14:59:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:59:12Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 42,
+          "startedAt": "2026-09-07T14:59:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:59:12Z",
+          "conclusion": "success",
+          "name": "Post Run pnpm/action-setup@v4",
+          "number": 43,
+          "startedAt": "2026-09-07T14:59:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:59:13Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 44,
+          "startedAt": "2026-09-07T14:59:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-07T14:59:13Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 45,
+          "startedAt": "2026-09-07T14:59:13Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/ariesyous/li4chess/actions/runs/34135203998/job/101784423040"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/ariesyous/li4chess/actions/runs/34135203998"
+}

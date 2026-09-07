@@ -99,6 +99,14 @@ jobs:
       - name: Run browser tests
         run: pnpm --filter @li4chess/web test:e2e
 
+      - name: Retain failed local-play browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-play-browser-failure
+          path: apps/web/test-results/
+          retention-days: 14
+
       - name: Build isolated Workers application and validate deployment configuration locally
         run: |
           pnpm build:workers
@@ -127,4 +135,24 @@ jobs:
             arena-results/m3-02-ci/browser/
             apps/worker/.generated/dry-run-staging/
             apps/worker/.generated/dry-run-production/
+          retention-days: 14
+
+      - name: Build and validate opt-in authenticated multiplayer locally
+        run: |
+          pnpm --filter @li4chess/worker build:multiplayer
+          pnpm --filter @li4chess/worker check:multiplayer
+          pnpm --filter @li4chess/worker test:multiplayer
+        env:
+          M3_05_OUTPUT: ${{ github.workspace }}/arena-results/m3-05-ci
+          WRANGLER_SEND_METRICS: "false"
+
+      - name: Retain authenticated multiplayer evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m3-05-multiplayer-evidence
+          path: |
+            arena-results/m3-05-ci/*.json
+            arena-results/m3-05-ci/*.log
+            arena-results/m3-05-ci/*.png
           retention-days: 14

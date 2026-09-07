@@ -1,0 +1,23 @@
+// Pure-engine counterexample for the former fixed single-exit human opening.
+// Run from repository root: node arena-results/m3-05-final-c0d8457/ci-counterexample/reproduce.mjs
+// This is a feasible cause of the observed CI count, not the unavailable CI replay.
+import {createInitialState,localSquare,legalMoves,applyMove,resignPlayer} from '../../../packages/engine/dist/index.js';
+const square=text=>(Number(text.slice(1))-1)*14+text.charCodeAt(0)-97;
+let state=createInitialState();
+const blue=[['b4','c4'],['a4','b4'],['b7','c7'],['a8','b7']];
+for(let ply=0;ply<12;ply++) {
+  const color=ply%4, round=Math.floor(ply/4);
+  const [from,to]=color===1 ? blue[round].map(square) : [localSquare(color,3,round+1),localSquare(color,3,round+2)];
+  const move=legalMoves(state).find(candidate=>candidate.from===from&&candidate.to===to);
+  if(!move) throw Error(`Illegal opening ply ${ply+1}: ${from}-${to}`);
+  state=applyMove(state,move);
+}
+state=resignPlayer(state,0);
+console.log(JSON.stringify({afterRed:state.players[0].kingStatus,turn:state.turn}));
+const fourth=legalMoves(state).find(move=>move.from===square('a8')&&move.to===square('b7'));
+if(!fourth) throw Error('Illegal fourth Blue move');
+state=applyMove(state,fourth);
+state=resignPlayer(state,2);
+console.log(JSON.stringify({afterYellow:state.players[2].kingStatus,turn:state.turn}));
+state=resignPlayer(state,3);
+console.log(JSON.stringify({ordinaryMoves:state.moveHistory.length,walkingMoves:state.randomActions.length,awardLedger:state.awardLedger,result:state.result}));

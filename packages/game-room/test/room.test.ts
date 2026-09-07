@@ -3,7 +3,7 @@ import { createInitialState, legalMoves, localSquare, type PlayerColor } from "@
 import { createReplay, engineState, equalCanonical, type EngineBuildIdentityV1 } from "@li4chess/protocol";
 import { bounded, creationBoundary, digest, exactReader, LIMITS, PersistenceError, verifyPrepared,
   type Boundary, type GameHeader, type Head, type Owner, type Prepared, type StableRequest } from "@li4chess/persistence";
-import { Room, ROOM_LIMITS, type ConnectionContext, type Creation, type Publication, type RoomDependencies } from "../src/room.js";
+import { Room, ROOM_LIMITS, commandFailure, type ConnectionContext, type Creation, type Publication, type RoomDependencies } from "../src/room.js";
 import type { RoomStorage } from "../src/storage.js";
 import type { Timing } from "../src/timing.js";
 
@@ -113,6 +113,23 @@ async function fixture(initialMs = 10000) {
 }
 
 describe("Room state machine with mocked storage and canonical I/O", () => {
+  it("expires leases at their exact presence boundary without moving earlier chess deadlines",async()=>{
+    const f=await fixture(10000);await f.room.connect({...f.context(),expiresAt:20000},f.channel());
+    f.clock.now=30000;await f.room.alarm();const prepared=[...f.canonical.records.values()][0];
+    expect(prepared.record.input.action.type).toBe("timeout");expect(prepared.record.input.admittedAt).toBe(11000);
+    await f.room.alarm();expect(f.storage.timing().connected[0]).toBe(false);expect(f.storage.timing().phase).toBe("terminal");
+  });
+  it("accounts a late credential expiry once and rejects an expired controller without an infrastructure incident",async()=>{
+    const f=await fixture(100000);const context={...f.context(),expiresAt:3000};await f.room.connect(context,f.channel());
+    f.clock.now=5000;await f.room.alarm();expect(f.storage.timing().connected[0]).toBe(false);expect(f.storage.timing().accountedAt).toBe(3000);
+    expect(f.storage.alarmAt).toBe(61000);const before=f.storage.timing();await expect(f.room.command(context,f.request())).rejects.toMatchObject({code:"unauthorized"});expect(f.storage.timing()).toEqual(before);
+  });
+  it("does not mutate control if a lease expires during canonical validation",async()=>{
+    const f=await fixture();const context={...f.context(),expiresAt:2000};await f.room.connect(context,f.channel());
+    f.canonical.inspectHook=async()=>{f.clock.now=2001;};await expect(f.room.takeControl(context,2)).rejects.toMatchObject({code:"unauthorized"});
+    expect(f.storage.read<Creation>("identity")!.seats[0].generation).toBe(1);
+    expect(f.storage.timing().phase).toBe("running");
+  });
   it("requires explicit observer takeover and does not promote on controller disconnect", async () => {
     const f = await fixture(); const controller = f.context(); const observer = f.context(0, "observer");
     await f.room.connect(controller, f.channel()); await f.room.connect(observer, f.channel("observer"));
@@ -213,6 +230,14 @@ describe("Room state machine with mocked storage and canonical I/O", () => {
     f.canonical.owner = { namespace: "new-owner", generation: 2 }; const lookups = f.canonical.lookupCalls;
     await expect(f.room.command(context, request)).rejects.toMatchObject({ code: "unauthorized" });
     expect(f.canonical.lookupCalls).toBe(lookups); expect(f.storage.timing().phase).toBe("incident");
+  });
+
+  it("reports a post-commit owner fence as ambiguous without undoing canonical work", async () => {
+    const f=await fixture();const context=f.context();await f.room.connect(context,f.channel());
+    f.canonical.inspectHook=async()=>{if(f.canonical.records.size)f.canonical.owner={namespace:"replacement",generation:2};};
+    const result=await f.room.command(context,{id:"committed-fence",expectedCommand:0,action:{type:"resign",actor:0}}).catch(commandFailure);
+    expect(result).toEqual({ok:false,code:"unavailable",ambiguous:true});
+    expect(f.canonical.records.has("committed-fence")).toBe(true);expect(f.canonical.boundary!.head.command).toBe(1);
   });
 
   it("reserves and coalesces an alarm when all 16 ordinary queue slots are occupied", async () => {

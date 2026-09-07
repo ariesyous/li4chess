@@ -1,7 +1,7 @@
 import { DurableObject } from "cloudflare:workers";
 import { D1Persistence, exactReader } from "@li4chess/persistence";
 import type { EngineBuildIdentityV1 } from "@li4chess/protocol";
-import { Room } from "./room.js";
+import { Room, commandFailure } from "./room.js";
 import type { ConnectionContext, Creation } from "./room.js";
 import { SQLiteRoomStorage } from "./storage.js";
 
@@ -19,8 +19,23 @@ export class GameRoom extends DurableObject<GameRoomEnvironment> {
   }
   create(creation: Creation) { return this.room.create(creation); }
   command(context: ConnectionContext, request: Parameters<Room["command"]>[1]) { return this.room.command(context, request); }
+  async commandOutcome(context: ConnectionContext, request: Parameters<Room["command"]>[1]) {
+    try { return { ok: true as const, ...await this.room.command(context,request) }; }
+    catch(error) { return commandFailure(error); }
+  }
   read(context: ConnectionContext, expectedCommand = 0) { return this.room.read(context, expectedCommand); }
   takeControl(context: ConnectionContext, nextGeneration: number) { return this.room.takeControl(context, nextGeneration); }
+  controlStatus(context: ConnectionContext) { return this.room.controlStatus(context); }
+  detach(context: ConnectionContext) { return this.room.disconnect(context); }
+  /** Binding-only upgrade transport. Public routers must never forward arbitrary
+   * requests here: GuestService authenticates then constructs this context. Unlike
+   * RPC return serialization, DO fetch supports a WebSocket response. */
+  async fetch(request:Request):Promise<Response> {
+    if(request.url!=="https://room.internal/attach"||request.method!=="GET"||request.headers.get("Upgrade")!=="websocket")return new Response(null,{status:404});
+    const encoded=request.headers.get("X-Li4chess-Internal-Context");
+    if(!encoded||encoded.length>1024)return new Response(null,{status:400});
+    try{return await this.attach(JSON.parse(encoded) as ConnectionContext);}catch{return new Response(null,{status:503});}
+  }
   /** Authenticated service hands over a socket; gameplay frames are output only.
    * Public ticket/cookie/subprotocol choices remain M3-05. */
   async attach(context: ConnectionContext): Promise<Response> {

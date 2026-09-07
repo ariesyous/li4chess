@@ -1,0 +1,44 @@
+[
+  {
+    "startedAt": "2026-09-07T10:51:34.1302898-04:00",
+    "finishedAt": "2026-09-07T10:51:41.6510228-04:00",
+    "command": "pnpm lint --force",
+    "exitCode": 0
+  },
+  {
+    "startedAt": "2026-09-07T10:51:41.6637965-04:00",
+    "finishedAt": "2026-09-07T10:52:01.8484932-04:00",
+    "command": "pnpm test --force",
+    "exitCode": 0
+  },
+  {
+    "startedAt": "2026-09-07T10:52:01.8505458-04:00",
+    "finishedAt": "2026-09-07T10:52:08.8653465-04:00",
+    "command": "pnpm build --force",
+    "exitCode": 0
+  },
+  {
+    "startedAt": "2026-09-07T10:52:08.8665926-04:00",
+    "finishedAt": "2026-09-07T10:53:53.7863074-04:00",
+    "command": "pnpm --filter @li4chess/web test:e2e --reporter=json",
+    "exitCode": 0
+  },
+  {
+    "startedAt": "2026-09-07T10:53:53.7878632-04:00",
+    "finishedAt": "2026-09-07T10:53:56.0438209-04:00",
+    "command": "pnpm --filter @li4chess/worker build:multiplayer",
+    "exitCode": 0
+  },
+  {
+    "startedAt": "2026-09-07T10:53:56.0449590-04:00",
+    "finishedAt": "2026-09-07T10:53:59.4273926-04:00",
+    "command": "pnpm --filter @li4chess/worker check:multiplayer",
+    "exitCode": 0
+  },
+  {
+    "startedAt": "2026-09-07T10:53:59.4286938-04:00",
+    "finishedAt": "2026-09-07T10:54:42.9040366-04:00",
+    "command": "pnpm --filter @li4chess/worker test:multiplayer",
+    "exitCode": 0
+  }
+]
