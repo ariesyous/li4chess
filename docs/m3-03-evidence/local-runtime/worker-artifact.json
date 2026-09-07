@@ -1,0 +1,36 @@
+{
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "098aaadbc1348eee4a340dcf9468e2526748e242",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:fb9fa0597d1861d254895805f8027e6f2469ce4613abcb975eef9d48030f3229",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "target": "workers",
+  "basePath": "/",
+  "buildModuleHash": "sha256:3cc1ce70c8c8f09a31bd7f8af66403e5270b1ec6f1f2728e5ebca3b96dcebf70",
+  "assets": {
+    "assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+    "assets/index-DOHVl5z-.css": "sha256:fe8de30a021c224c2dc4d68051ff0af8ec9ec0b2d53bd94f8cad75fd6cff8b58",
+    "assets/index-or8rbB9G.js": "sha256:b688a5ab15993e065a89ef68c996ec59d0652389561ca2a2d964ccb4189fef5a",
+    "index.html": "sha256:a4bcbae6304fb220fa06086cf914fdee97bea5d419d9e70bc2f6150c1e8092d2"
+  },
+  "pagesPreserved": {
+    "assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+    "assets/index-D53C1bO_.js": "sha256:0f6bb1df4f34b451f09eb2ccce8f1ba78c23121950995609770daf872eaa5f0b",
+    "assets/index-DOHVl5z-.css": "sha256:fe8de30a021c224c2dc4d68051ff0af8ec9ec0b2d53bd94f8cad75fd6cff8b58",
+    "index.html": "sha256:2aba87896fc2d3436a8dabf6d1578199dee7e2d67c1602d3bde3a2c4f3aa2c6f"
+  }
+}

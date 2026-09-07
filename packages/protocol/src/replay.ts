@@ -107,6 +107,42 @@ async function eventFor(before: RulesetStateV2, next: ReturnType<typeof startAct
     stateHashBefore: await stateHash(before), stateHashAfter: await stateHash(next.state) };
 }
 
+/** Incremental reader from a previously verified complete boundary. The caller
+ * owns checkpoint provenance/reachability. Pages may end in pending effects;
+ * pass that returned state only to the next page, never import its queue. */
+export async function readReplayEvents(state: RulesetStateV2, events: readonly ReplayEventV2[]): Promise<RulesetStateV2> {
+  let current = structuredClone(state);
+  for (const raw of events) {
+    requireValue(raw && typeof raw === "object", "event object");
+    const { sequence, positionSequence, stateHashBefore, stateHashAfter, ...payload } = raw;
+    requireValue(sequence === current.sequence + 1 && positionSequence === current.position.eventSequence + 1 &&
+      stateHashBefore === await stateHash(current), "event sequence/before hash");
+    const next = current.pendingEffects.length ? consumeEffect(current) : startAction(current, payload as ActionRequest);
+    requireValue(equalCanonical(payload, next.payload), "canonical event payload/action/effect mismatch");
+    requireValue(stateHashAfter === await stateHash(next.state), "event after hash");
+    current = next.state;
+  }
+  if (!current.pendingEffects.length) validateState(current);
+  return current;
+}
+
+/** Author one complete action at a verified boundary without copying the log.
+ * Persistence callers must separately enforce immutable producer lineage. */
+export async function recordReplayAction(state: RulesetStateV2, request: ActionRequest): Promise<{
+  state: RulesetStateV2; events: ReplayEventV2[]; result: RulesetResultV2 | null;
+}> {
+  validateState(state);
+  let next = startAction(state, request);
+  const events = [await eventFor(state, next)];
+  let current = next.state;
+  while (current.pendingEffects.length) {
+    const effect = consumeEffect(current);
+    events.push(await eventFor(current, effect)); current = effect.state;
+  }
+  validateState(current);
+  return { state: current, events, result: resultProjection(current) };
+}
+
 function isModernStart(position: RulesetStateV2["position"]): boolean {
   const initial = projectState(createInitialState()).position;
   const normalize = (p: typeof position) => ({ ...p, randomSeed: "00000001",
@@ -146,16 +182,7 @@ export async function readReplay(value: unknown): Promise<{ replay: ReplayEnvelo
   validateHash(envelope.initialStateHash); validateHash(envelope.finalStateHash);
   requireValue(await stateHash(envelope.initialState) === envelope.initialStateHash, "initial hash");
   requireValue(Array.isArray(envelope.events), "events array");
-  let state = structuredClone(envelope.initialState);
-  for (const raw of envelope.events) {
-    requireValue(raw && typeof raw === "object", "event object");
-    const { sequence, positionSequence, stateHashBefore, stateHashAfter, ...payload } = raw as ReplayEventV2;
-    requireValue(sequence === state.sequence + 1 && positionSequence === state.position.eventSequence + 1 && stateHashBefore === await stateHash(state), "event sequence/before hash");
-    const next = state.pendingEffects.length ? consumeEffect(state) : startAction(state, payload as ActionRequest);
-    requireValue(equalCanonical(payload, next.payload), "canonical event payload/action/effect mismatch");
-    requireValue(stateHashAfter === await stateHash(next.state), "event after hash");
-    state = next.state;
-  }
+  const state = await readReplayEvents(envelope.initialState, envelope.events);
   requireValue(await stateHash(state) === envelope.finalStateHash && equalCanonical(resultProjection(state), envelope.result), "final hash/result");
   if (!state.pendingEffects.length) validateState(state);
   return { replay: structuredClone(value) as ReplayEnvelopeV2, state };
