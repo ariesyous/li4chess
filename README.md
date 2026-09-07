@@ -84,6 +84,7 @@ The TypeScript monorepo uses pnpm workspaces and Turborepo.
 | [`packages/arena`](packages/arena) | Seeded tournaments, replay validation, reports, and benchmarks. |
 | [`packages/protocol`](packages/protocol) | Validated state-v2/replay-v2, canonical hashes and producer provenance. |
 | [`packages/persistence`](packages/persistence) | Maintained D1 migrations, canonical command/event receipts, checkpoints and recovery; internal server library, no online play. |
+| [`packages/game-room`](packages/game-room) | Internal authoritative SQLite GameRoom, persisted clocks/disconnect banks, prepared D1 commits and alarm recovery; no public gameplay routes. |
 | [`packages/ui-kit`](packages/ui-kit) | Presentational board, piece glyphs, and player colors. |
 | [`packages/architecture-spike`](packages/architecture-spike) | Isolated M3-01 local Cloudflare consistency/recovery prototype; no shipped online play. |
 

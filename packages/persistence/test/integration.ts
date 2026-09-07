@@ -11,7 +11,7 @@ import { canonicalJson, createReplay, engineState, readReplay, stateHash } from 
 import type { ActionRequest, ReplayEventV2 } from "@li4chess/protocol";
 import { assertBuildUnchanged, readBuildIdentity, runtimeEnvironment } from "@li4chess/protocol/node";
 import { creationBoundary, digest, exactReader, prepareCommand, LIMITS } from "../src/index.js";
-import type { Boundary, GameHeader, Prepared, Receipt } from "../src/index.js";
+import type { AdmissionTiming, Boundary, GameHeader, Prepared, Receipt } from "../src/index.js";
 import { root, run, signals, start } from "./runtime.js";
 
 signals();
@@ -48,7 +48,11 @@ const observations: unknown[] = []; const note = (message: string, details?: unk
 };
 const migrationArgs = ["d1", "migrations", "apply", "DB", "--local", "--config", config, "--persist-to", persistence];
 await run(migrationArgs, log);
-let runtime = await start(config, persistence, key, producer.buildFingerprint!, log);
+let runtime = await start(config, persistence, key, producer.buildFingerprint!, log).catch(async error => {
+  await writeFile(resolve(output, "runtime.log"), logs);
+  await writeFile(resolve(output, "summary.json"), JSON.stringify({ passed: false, starts: 0, groups: 0, error: String(error) }, null, 2));
+  throw error;
+});
 let starts = 1;
 const rpcSamples: { operation: string; elapsedMs: number; requestBytes: number; responseBytes: number; status: number }[] = [];
 async function rpc<T = unknown>(body: unknown, status = 200): Promise<T> {
@@ -101,6 +105,35 @@ try {
   await rpc({ op: "sql", sql: "INSERT INTO identities VALUES ('fixture','other','missing')" }, 409);
   note("Version 1 populated, additive v2 applied, reapply no-op, rows/receipts and identity foreign keys verified");
 
+  // Command JSON v2 is independent of the unchanged additive SQL schema ledger.
+  const timingBase = await create("timing-v2");
+  const timing: AdmissionTiming = { format: "li4chess-room-admission-v1", revision: 1, accountedAt: 10,
+    activeSeat: 0, activatedAt: 0, deadline: 100, remainingMs: [90, 100, 100, 100],
+    disconnectRemainingMs: [60000, 59990, 59990, 59990], connected: [true, false, false, false],
+    policy: { initialMs: 100, incrementMs: 1, increment: "after-move" },
+    previousResume: { revision: 0, at: 0, reason: "creation" }, suspendedAt: 10, backwards: false };
+  const timingPrepare = await prepareCommand(timingBase, owner, {
+    ...(await prepare(timingBase, { type: "resign", actor: 0 })).prepared.record.input, admittedAt: 10 }, producer, timing);
+  assert.equal(await rpc({ op: "inspect", gameId: "absent" }), null);
+  same(await rpc({ op: "inspect", gameId: "timing-v2" }), { headerHash: timingBase.headerHash, owner, head: timingBase.head });
+  same(await rpc({ op: "commit", prepared: timingPrepare.prepared }), timingPrepare.prepared.receipt);
+  same(await rpc({ op: "recover", gameId: "timing-v2" }), timingPrepare.next);
+  same(await rpc({ op: "page", boundary: timingBase, through: 1 }), timingPrepare.next);
+  same(await rpc({ op: "lookup", gameId: "timing-v2", request: stable(timingPrepare.prepared) }),
+    { input: timingPrepare.prepared.record.input, receipt: timingPrepare.prepared.receipt });
+  for (const operation of [
+    { op: "commit", prepared: timingPrepare.prepared }, { op: "reconcile", prepared: timingPrepare.prepared },
+    { op: "recover", gameId: "timing-v2" }, { op: "page", boundary: timingBase, through: 1 },
+    { op: "restore", gameId: "timing-v2", marker: timingPrepare.next.head },
+    { op: "receipt", gameId: "timing-v2", input: timingPrepare.prepared.record.input },
+    { op: "lookup", gameId: "timing-v2", request: stable(timingPrepare.prepared) },
+  ]) assert.match(await rpc<string>({ ...operation, v1Only: true }, 409), /unsupported: command format/);
+  // A reader opting into v1 still reads unrelated v1 data after v2 was created.
+  same(await rpc({ op: "recover", gameId: "migration", v1Only: true }), baseline);
+  same(await rpc({ op: "receipt", gameId: "migration", input: first.prepared.record.input, v1Only: true }), first.prepared.receipt);
+  await rpc({ op: "inspect", gameId: "migration", rejectProducer: true }, 409);
+  note("Command-v2 commits timing in exact receipts/checkpoint anchors; explicit v1 readers reject every v2 read/write path and retain v1 compatibility");
+
   const terminalBase = await create("rollback"); const terminal = await prepare(terminalBase, { type: "resign", actor: 0 });
   const before = await counts("rollback");
   await rpc({ op: "commit", prepared: terminal.prepared, fault: true }, 409);
@@ -151,6 +184,7 @@ try {
   await rpc({ op: "commit", prepared: committedBranch.prepared });
   await rpc({ op: "restore", gameId: "divergent", marker: restoredBranch.next.head }, 409);
   await rpc({ op: "recover", gameId: "divergent" }, 409);
+  await rpc({ op: "inspect", gameId: "divergent" }, 409);
 
   // Legal Modern repetition includes four ordered awards plus terminal (six events).
   let repetition = await create("repetition"); const initial = repetition; const events: ReplayEventV2[] = [];
@@ -261,6 +295,7 @@ try {
   await rpc({ op: "lookup", gameId: "migration", request: stable(first.prepared), rejectProducer: true }, 409);
   await rpc({ op: "restore", gameId: "long", marker: longInitial.head, rejectProducer: true }, 409);
   await sql("UPDATE persistence_schema SET version=999 WHERE id=1"); await rpc({ op: "recover", gameId: "long" }, 409);
+  await rpc({ op: "inspect", gameId: "migration" }, 409);
   await sql("UPDATE persistence_schema SET version=2 WHERE id=1");
   await rpc({ op: "restore", gameId: "long", marker: longInitial.head });
   await rpc({ op: "restore", gameId: "long", marker: { ...long.head, chainHash: `sha256:${"0".repeat(64)}` } }, 409);
@@ -269,7 +304,9 @@ try {
   await sql("DROP TRIGGER immutable_checkpoints"); await sql("UPDATE checkpoints SET state_hash='tampered' WHERE game_id='walking' AND command_seq>0");
   await rpc({ op: "recover", gameId: "walking" }, 409);
   await sql("DROP TRIGGER immutable_commands");
-  await sql("UPDATE commands SET record_json=json_set(record_json,'$.format','li4chess-d1-command-v2') WHERE game_id='rollback'");
+  await sql("UPDATE commands SET record_json=json_set(record_json,'$.timing.remainingMs[0]',0) WHERE game_id='timing-v2'");
+  assert.match(await rpc<string>({ op: "recover", gameId: "timing-v2" }, 409), /receipt integrity/);
+  await sql("UPDATE commands SET record_json=json_set(record_json,'$.format','li4chess-d1-command-v99') WHERE game_id='rollback'");
   await rpc({ op: "recover", gameId: "rollback" }, 409);
   await sql("DROP TRIGGER retain_events"); await sql("DELETE FROM events WHERE game_id='repetition' AND seq=18");
   await rpc({ op: "page", boundary: audit.head.command === 16 ? initial : audit, through: 16 });

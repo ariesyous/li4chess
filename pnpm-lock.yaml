@@ -63,6 +63,9 @@ importers:
 
   apps/worker:
     dependencies:
+      '@li4chess/game-room':
+        specifier: workspace:*
+        version: link:../../packages/game-room
       '@li4chess/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
@@ -160,6 +163,40 @@ importers:
       vitest:
         specifier: ^2.1.4
         version: 2.1.9(@types/node@22.20.1)
+
+  packages/game-room:
+    dependencies:
+      '@li4chess/engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@li4chess/persistence':
+        specifier: workspace:*
+        version: link:../persistence
+      '@li4chess/protocol':
+        specifier: workspace:*
+        version: link:../protocol
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: 5.20260906.1
+        version: 5.20260906.1
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.1
+      '@types/ws':
+        specifier: ^8.5.13
+        version: 8.18.1
+      tsx:
+        specifier: ^4.20.0
+        version: 4.23.13
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.9(@types/node@22.20.1)
+      ws:
+        specifier: ^8.18.0
+        version: 8.21.0
 
   packages/persistence:
     dependencies:

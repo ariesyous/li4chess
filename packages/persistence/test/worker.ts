@@ -9,7 +9,7 @@ export default { async fetch(request: Request, env: Env): Promise<Response> {
   if (request.method === "GET") return Response.json({ fingerprint: env.PRODUCER.buildFingerprint });
   const body = await request.json() as { op: string; header: GameHeader; owner: Owner; prepared: Prepared;
     gameId: string; input: CommandInput; marker: Head; boundary: Boundary; through: number; from: Owner; to: Owner;
-    sql: string; values?: (string | number | null)[]; fault?: boolean; lostAck?: boolean; rejectProducer?: boolean; request: StableRequest };
+    sql: string; values?: (string | number | null)[]; fault?: boolean; lostAck?: boolean; rejectProducer?: boolean; v1Only?: boolean; request: StableRequest };
   let db = env.DB;
   // Append a real failing D1 statement after ALL commit writes, including prune.
   // This is not a mock database or fake rollback response.
@@ -18,11 +18,13 @@ export default { async fetch(request: Request, env: Env): Promise<Response> {
       ...statements, target.prepare("INSERT INTO nonexistent_fault_table VALUES (1)")]);
     const value = Reflect.get(target, property); return typeof value === "function" ? value.bind(target) : value;
   } });
-  const store = new D1Persistence(db, body.rejectProducer ? { accepts: () => false } : exactReader(env.PRODUCER));
+  const store = new D1Persistence(db, { ...(body.rejectProducer ? { accepts: () => false } : exactReader(env.PRODUCER)),
+    ...(body.v1Only ? { commandFormats: ["li4chess-d1-command-v1"] as const } : {}) });
   try {
     let result: unknown;
     switch (body.op) {
       case "create": result = await store.create(body.header, body.owner); break;
+      case "inspect": result = await store.inspect(body.gameId); break;
       case "commit": result = await store.commit(body.prepared); break;
       case "receipt": result = await store.receipt(body.gameId, body.input); break;
       case "lookup": result = await store.lookupReceipt(body.gameId, body.request); break;

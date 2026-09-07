@@ -15,18 +15,25 @@ The clean baseline became `codex/m3-04-authoritative-gameroom`. Work is scoped t
 maintained internal room authority, timing/alarms and real local recovery proof;
 M3-05 public credentials/protocol/UI and hosted activation remain excluded.
 
-The initial implementation adds a separate room package, strict command-v2 timing
-metadata while preserving v1 and existing migrations, and explicit local-only
-Worker registration. Independent substantive review identified initial
-server-ID collision, admission-time race, controller, receipt fencing, alarm capacity
-and retained-incident gaps; fixes are under validation. Full runtime evidence and
-final review are still pending; M3-04 and M3 remain incomplete. Fresh 2026-09-07
-Windows checks so far: frozen install with Node 24.18.0/Corepack pnpm 10.33.0,
-room/Worker type checks, 12 timing units and persistence package checks. An exploratory
-D1 run passed behavioral assertions but failed source-drift verification during
-concurrent development; it is not acceptance evidence. Next: complete isolated runtime
-tests, resolve findings, run all required source-stable checks, document evidence and
-M3-05 handoff, commit, push draft PR and verify final-revision CI.
+Implementation now supplies a maintained room package, strict command-v2 timing
+metadata preserving v1/released migrations, and explicit local-only Worker
+registration. Fresh substantive and final reviewers resolved all reported findings:
+authority/control/receipt fences, deterministic admission, capacity/retry handling,
+socket close after takeover, valid old-pending restore quarantine and exhausted-bank
+reconnect ordering. The [M3-05 handoff](m3-05-handoff.md) defines the next integration.
+
+A source-stable Windows run against `a7aa45f` plus implementation fingerprint
+`sha256:0f5aac16c90fb8633beafbfdf9359a391ceedfbc9b6c37179b28ffcc71961623`
+passed every required command: frozen install, lint, 638 units, build, 22 real room
+groups/25 runtime starts, nine D1 groups, 46 browser tests, 14 architecture groups,
+Workers build, existing environment and new local-room dry-runs, and four Worker
+browser groups plus lifecycle checks. Node 24.18.0/Corepack pnpm 10.33.0. All
+356 local Markdown links resolved. Final review then added two small error/capacity
+fixes and four regressions; all 33 room/timing tests and changed-source type checks
+pass. The final committed implementation will receive another complete acceptance
+run before evidence packaging, push/draft PR and final-revision CI. M3-04 and M3
+remain incomplete until those closeout gates pass. Failed exploratory fixtures and
+source-drift runs remain preserved, explicitly separate from acceptance evidence.
 
 ## M3-03 completed baseline
 

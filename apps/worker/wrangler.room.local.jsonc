@@ -1,0 +1,24 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "li4chess-room-local",
+  "main": "src/room-local.ts",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "../web/dist-workers",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "vars": { "APP_ENV": "local", "ROOM_NAMESPACE": "li4chess-room-local-v1" },
+  "durable_objects": { "bindings": [{ "name": "GAME_ROOMS", "class_name": "GameRoom" }] },
+  "migrations": [{ "tag": "room-v1", "new_sqlite_classes": ["GameRoom"] }],
+  "d1_databases": [{
+    "binding": "GAME_DB",
+    "database_name": "li4chess-room-local",
+    "database_id": "00000000-0000-0000-0000-000000000004",
+    "migrations_dir": "../../packages/persistence/migrations"
+  }]
+}

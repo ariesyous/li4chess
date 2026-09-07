@@ -9,9 +9,10 @@
     "build:assets": "tsx scripts/build.ts",
     "dev:local": "tsx scripts/dev.ts",
     "check:deploy": "tsx scripts/dry-run.ts",
+    "check:room": "tsx scripts/room-dry-run.ts",
     "test:runtime": "tsx test/run.ts"
   },
-  "dependencies": { "@li4chess/protocol": "workspace:*" },
+  "dependencies": { "@li4chess/protocol": "workspace:*", "@li4chess/game-room": "workspace:*" },
   "devDependencies": {
     "@cloudflare/workers-types": "5.20260906.1",
     "@playwright/test": "1.56.1",

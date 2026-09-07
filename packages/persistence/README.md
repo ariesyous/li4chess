@@ -33,6 +33,24 @@ application Worker retains only its existing ASSETS/APP_ENV bindings. Actual
 staging/production D1 IDs, namespace generations, migration rollout and backups
 require separately authorized hosting work.
 
+Command record formats are independent of database schema versions. The optional
+fifth `prepareCommand` argument is a strictly validated `AdmissionTiming` snapshot
+with format `li4chess-room-admission-v1`. Supplying it authors
+`li4chess-d1-command-v2`; omitting it preserves command-v1's exact fields and byte
+format. Both retain the same stable request and admitted input shapes. Timing is
+committed by the receipt hash, including when recovery starts at a checkpoint;
+v1 has no timing and readers must not invent clock metadata for it. Snapshot
+times, durations and revisions are nonnegative safe integers (at most
+`Number.MAX_SAFE_INTEGER`), and all seat arrays have exactly four values. The
+room imposes its narrower operating policy and performs clock arithmetic.
+
+`ReaderPolicy.commandFormats` defaults to v1 and v2. An explicit
+`["li4chess-d1-command-v1"]` reader rejects v2 records as unsupported in prepare
+verification, commits, receipt lookups, reconciliation, checkpoint recovery and
+audit pages; unrelated v1 games remain readable. Unknown record and timing
+versions reject. Existing JSON columns and receipt commitments already support
+this additive record format, so released SQL migrations remain unchanged.
+
 `create` retains a zero-event replay-v2 header and validated state-v2 checkpoint,
 including setup, seed, producer and optional source replay hash. Terminal imported
 checkpoints are supported without claiming Modern reachability. `prepareCommand`
@@ -41,6 +59,10 @@ the complete successor state and exact durable prepare bytes; only periodic or
 terminal checkpoints store full states in D1. `commit` inserts command, events,
 checkpoint/result and advances the head in one batch. SQL insert/head triggers
 raise errors on stale/missing authority or incomplete batches, forcing rollback.
+`inspect` provides a bounded primary identity/owner/head read, returning `null`
+only for absence. It validates schema, producer and canonical header and rejects
+quarantined games before disclosing their owner or head. The caller must fence
+ownership and authenticate before publishing recovered state or old receipts.
 
 `lookupReceipt` accepts the stable authenticated request (ID, caller, action and
 expected command) before admission and returns the original canonical input/time
