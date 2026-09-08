@@ -8,6 +8,15 @@ superseded handoffs.
 
 ## Current focus
 
+**UI1 publication authorized (2026-09-08):** the maintainer requested commit,
+merge and deployment of the completed refresh and owner-letter toggle.
+[PR #20](https://github.com/ariesyous/li4chess/pull/20) targets `main`, whose
+existing Pages workflow publishes the
+[local/CPU site](https://ariesyous.github.io/li4chess/). Earlier no-merge/deploy
+statements below describe the original implementation task. L1 release tagging,
+release notes and the remaining checkpoint evidence are still separate work;
+this publication does not mark L1 complete or activate hosted multiplayer.
+
 **UI1 display follow-up (2026-09-08):** the local game's **Your game → Board
 display → Show piece-owner letters** checkbox can hide corner initials and
 remembers the choice in browser storage. It defaults on, preserves passive-dead
