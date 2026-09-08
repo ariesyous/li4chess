@@ -4,7 +4,7 @@ import { randomBytes } from "node:crypto";
 import { mkdir, readFile, writeFile, readdir } from "node:fs/promises";
 import { DatabaseSync } from "node:sqlite";
 import { dirname, resolve } from "node:path";
-import { chromium, expect, type BrowserContext, type Page } from "@playwright/test";
+import { chromium, expect, type BrowserContext, type Page, type Response as BrowserResponse, type Request as BrowserRequest, type ConsoleMessage } from "@playwright/test";
 import { legalMoves, localSquare, PieceType, resignPlayer, type PlayerColor } from "@li4chess/engine";
 import { ONLINE_VERSION, parseOnlineResponse, engineState, readReplay, equalCanonical, canonicalJson } from "@li4chess/protocol";
 import type { OnlineResponse, OnlineSnapshot, ReplayEnvelopeV2, ReplayEventV2 } from "@li4chess/protocol";
@@ -90,7 +90,28 @@ async function proof(page: Page): Promise<string> {
   const value = await page.evaluate(() => JSON.parse(sessionStorage.getItem("li4chess.online.connection.v1")!).proof as string);
   secrets.add(value); return value;
 }
-async function enter(page: Page) { await page.goto(origin); await page.getByRole("button", { name: "Private multiplayer", exact: true }).click(); }
+let entryFailure=0;
+async function enter(page: Page) {
+  const events:unknown[]=[];const remember=(value:unknown)=>{if(events.length<40)events.push(value);};
+  const pathname=(url:string)=>{try{return new URL(url).pathname;}catch{return "[invalid URL]";}};
+  const pageError=(error:Error)=>remember({type:"pageerror",message:error.message.slice(0,2000)});
+  const consoleError=(message:ConsoleMessage)=>{if(message.type()==="error")remember({type:"console",message:message.text().slice(0,2000)});};
+  const crash=()=>remember({type:"crash"});
+  const failed=(request:BrowserRequest)=>remember({type:"requestfailed",path:pathname(request.url()),failure:request.failure()?.errorText});
+  const response=(r:BrowserResponse)=>{if(["document","script","stylesheet"].includes(r.request().resourceType()))remember({type:"response",path:pathname(r.url()),status:r.status(),contentType:r.headers()["content-type"]??null});};
+  page.on("pageerror",pageError);page.on("console",consoleError);page.on("crash",crash);page.on("requestfailed",failed);page.on("response",response);
+  try{await page.goto(origin);await page.getByRole("button",{name:"Private multiplayer",exact:true}).click();}
+  catch(error){
+    const name=`browser-entry-failure-${entryFailure++}`;
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    const document=await Promise.race([page.evaluate(()=>({rootChildren:window.document.getElementById("root")?.childElementCount??null,readyState:window.document.readyState,
+      buttons:Array.from(window.document.querySelectorAll("button")).slice(0,30).map(button=>(button.textContent??"").slice(0,100))})).catch(()=>null),
+      new Promise<{timedOut:true}>(resolve=>{timer=setTimeout(()=>resolve({timedOut:true}),3000);})]);clearTimeout(timer);
+    await writeFile(resolve(output,`${name}.json`),campaignJson({events,document,path:pathname(page.url()),runtimeExitCode:runtime?.child.exitCode,runtimeSignal:runtime?.child.signalCode},secrets)).catch(()=>undefined);
+    await page.screenshot({path:resolve(output,`${name}.png`),mask:[page.locator("input"),page.locator("code")],animations:"disabled",timeout:5000}).catch(()=>undefined);
+    throw error;
+  }finally{page.off("pageerror",pageError);page.off("console",consoleError);page.off("crash",crash);page.off("requestfailed",failed);page.off("response",response);}
+}
 type Game = { pages: Page[]; guests: BrowserContext[]; room: string; invitation: string };
 type Inspection = {records:{pending?:Prepared;cache:Boundary;timing:{value:OnlineSnapshot["timing"]};incident?:unknown};hit:{stage:string}|null};
 async function game(): Promise<Game> {
