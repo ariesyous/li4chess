@@ -76,6 +76,8 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
 .rules-help { font-size: 13px; line-height: 1.5; }
 .rules-help summary { min-height: 44px; padding: 10px 0; font-weight: 500; }
 .rules-help p { margin: 10px 0; }
+.board-display { font-size: 13px; border-top: 1px solid var(--line); margin-top: 12px; padding-top: 4px; }
+.board-display summary { min-height: 44px; padding: 10px 0; }
 .notice { border-left: 4px solid #a07c24; background: #fff5db; padding: 12px; font-size: 13px; overflow-wrap: anywhere; }
 .result-card { border-top: 3px solid #62933f; margin: 12px 0; }
 .result-card h2 { font-size: 23px; line-height: 1.3; }

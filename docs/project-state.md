@@ -8,6 +8,19 @@ superseded handoffs.
 
 ## Current focus
 
+**UI1 display follow-up (2026-09-08):** the local game's **Your game → Board
+display → Show piece-owner letters** checkbox can hide corner initials and
+remembers the choice in browser storage. It defaults on, preserves passive-dead
+× markers and accessible ownership names, and leaves the shared online board's
+default intact. On base `9f09457` plus this follow-up, fresh Windows/Node
+24.18.0/Corepack pnpm 10.33.0 lint, **731 unit tests**, build and **52 Playwright
+tests** passed. Unit packages ran serially after the concurrent run hit the
+existing FFA-END-08 5000 ms timeout; no timeout or gameplay assertion changed.
+Production-preview Chromium inspection covered desktop and an emulated 360 px
+phone viewport with letters hidden and the menu open. Earlier UI1 captures and
+source hashes below remain evidence for their original revision. L1 remains next;
+this follow-up does not deploy or tag.
+
 **UI1 complete (2026-09-08); L1 is next.** The bounded visual refresh retains
 li4chess identity and the existing renderer, with warm board colors, outlined
 four-army Cburnett SVGs, compact controls, directional seat panels and consistent

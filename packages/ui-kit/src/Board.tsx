@@ -5,6 +5,8 @@ import { Piece as PieceImage } from "./Piece.js";
 import { PLAYER_COLOR_HEX } from "./theme.js";
 
 export interface BoardProps {
+  /** Optional visual owner initials; accessible square names always retain ownership. */
+  readonly showOwnerLetters?: boolean;
   readonly board: readonly (Piece | null)[];
   readonly onSquareClick?: (square: number) => void;
   readonly onClearSelection?: () => void;
@@ -27,6 +29,7 @@ function displayToAbsolute(displayFile: number, displayRank: number, bottomColor
 const PIECE_NAMES = { P: "Pawn", N: "Knight", B: "Bishop", R: "Rook", Q: "Queen", K: "King" };
 
 export function Board({
+  showOwnerLetters = true,
   board,
   onSquareClick,
   onClearSelection,
@@ -132,7 +135,7 @@ export function Board({
           {piece && (
             <PieceImage type={piece.type} color={PLAYER_COLOR_HEX[piece.owner]} dead={isDead} />
           )}
-          {piece && <small aria-hidden="true" className="piece-owner">{PlayerColor[piece.owner][0]}{isDead ? "×" : ""}</small>}
+          {piece && (showOwnerLetters || isDead) && <small aria-hidden="true" className="piece-owner">{showOwnerLetters ? PlayerColor[piece.owner][0] : ""}{isDead ? "×" : ""}</small>}
         </button>
       );
     }

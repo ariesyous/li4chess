@@ -41,6 +41,10 @@ for (const status of ["checkmated", "stalemated"] as const) for (const walking o
     await expect(square(3,0)).toHaveCSS("outline-style", "none");
     await expect(square(3,0).locator(".chess-piece")).toHaveCSS("color", "rgb(170, 166, 159)");
     await expect(square(3,0)).toHaveCSS("box-shadow", "none");
+    await page.getByText("Board display", { exact: true }).click();
+    await page.getByLabel("Show piece-owner letters", { exact: true }).uncheck();
+    await expect(square(3,0).locator(".piece-owner")).toHaveText("×");
+    await expect(square(3,0)).toHaveAccessibleName(/dead Red King/);
     await square(3,0).click();
     await expect(square(3,0)).toHaveAttribute("aria-pressed", "false");
     await square(3,9).click();

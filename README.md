@@ -41,6 +41,7 @@ Current features include:
 
 - A cross-shaped board with 160 playable squares and Red → Blue → Yellow → Green turn order.
 - Legal-move highlighting, last-move and check indicators, move history, and optional board rotation to the current player.
+- **Board display → Show piece-owner letters** toggles the corner initials and remembers the choice in this browser; passive pieces retain their × marker.
 - Five CPU difficulty levels using paranoid alpha-beta search, which treats opponents as a coalition against the searching player.
 - Castling, en passant, promotion, deferred checkmate/stalemate resolution, placements, and threefold-repetition draws.
 

@@ -13,12 +13,22 @@ import { Icon } from "./Icon.js";
 const squareLabel = (square: number) => `${String.fromCharCode(97 + square % 14)}${Math.floor(square / 14) + 1}`;
 const directions = ["bottom", "left", "top", "right"] as const;
 const points = (value: number) => Number.isInteger(value) ? String(value) : value.toFixed(2);
+const OWNER_LETTERS_KEY = "li4chess.show-owner-letters";
 
 export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; onRestart: () => void; resumed?: ResumedGame }) {
   const game = useLocalGame(seats, resumed);
   const { state, selectedSquare, legalTargets, selectSquare, clearSelection, reset, resign, timeout, claim,
     exportReplay, importReplay, replayBusy, replayMessage, cpuStatus, cpuNotice, save, saveMessage } = game;
   const [rotateToMover, setRotateToMover] = useState(false);
+  const [showOwnerLetters, setShowOwnerLetters] = useState(() => {
+    try { return localStorage.getItem(OWNER_LETTERS_KEY) !== "false"; }
+    catch { return true; }
+  });
+  const changeOwnerLetters = (show: boolean) => {
+    setShowOwnerLetters(show);
+    try { localStorage.setItem(OWNER_LETTERS_KEY, String(show)); }
+    catch { /* The display choice still works for this game without browser storage. */ }
+  };
   const resultHeading = useRef<HTMLHeadingElement>(null);
   useEffect(() => { if (state.result) resultHeading.current?.focus(); }, [state.result]);
   const bottomColor = rotateToMover ? state.turn : PlayerColor.Red;
@@ -88,6 +98,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
             </section>;
           })}
           <div className="board-slot"><Board board={state.board} onSquareClick={selectSquare} onClearSelection={clearSelection}
+            showOwnerLetters={showOwnerLetters}
             selectedSquare={selectedSquare} legalTargets={legalTargets} checkedColors={checkedColors} deadSquares={deadSquares}
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null} bottomColor={bottomColor} /></div>
         </div>
@@ -131,6 +142,10 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
             <button type="button" disabled={replayBusy} onClick={() => confirmAction(`Claim Win for ${PLAYER_COLOR_NAME[color]}? The other active player receives 20 points. Play ends immediately and final points decide placements.`, () => claim(color))}>Claim Win for {PLAYER_COLOR_NAME[color]}</button>
             <p>End now: the other active player receives 20 points. Final points determine placements.</p>
           </div>)}
+          <details className="board-display"><summary>Board display</summary>
+          <label><input type="checkbox" checked={showOwnerLetters} onChange={event => changeOwnerLetters(event.target.checked)} />Show piece-owner letters</label>
+          <p className="subtle">Letters identify each army. Dead pieces keep their × marker when letters are hidden.</p>
+          </details>
         </section>
         <section className="card history-card"><h2>Move history</h2>
           <ol data-testid="move-history" className="move-list" tabIndex={0} aria-label="Move history, scroll to inspect earlier moves">{state.moveHistory.map((move, index) => <li key={index}>
