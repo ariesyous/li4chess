@@ -1,0 +1,9 @@
+{
+  "passed": false,
+  "groups": 8,
+  "selected": [
+    "replay"
+  ],
+  "starts": 2,
+  "failure": "AssertionError [ERR_ASSERTION]: {\"version\":\"li4chess-online-v1\",\"type\":\"error\",\"code\":\"unavailable\",\"ambiguous\":false}\n    at apiReplay (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:123:70)\n    at async <anonymous> (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:642:82)"
+}

@@ -173,3 +173,22 @@ and administration. Deployable bundle checks forbid those identifiers. Fixture
 class construction supplies generic authority ports; public requests cannot do so.
 Test clock configuration does not select launch policy. Local process restart
 does not establish hosted eviction, hibernation or coordinated restore behavior.
+
+## M3-07 completed replay retrieval/export
+
+The opt-in multiplayer result screen offers **Download replay**. Current member
+cookies authorize paged canonical retrieval without a controller proof or takeover.
+Ordinary terminal games and opening aborts export replay-v2 with original producer,
+source lineage, exact result and recorded randomness. Local import uses the existing
+validated reader. Incomplete/incompatible/divergent/unavailable histories return
+explicit failures. See the [wire contract](../../docs/multiplayer-v1.md#completed-private-replay-retrieval-m3-07)
+for the 32 MB artifact ceiling, ten-minute disposable continuations and retry rules.
+
+After `build:multiplayer`, `pnpm --filter @li4chess/worker test:replay` exercises
+member/observer/rotation reads, interrupted downloads, restart, persistence-read
+faults, corrupt records and fixture-simulated serving-producer changes. Set
+`M3_07_OUTPUT` to a fresh absolute output directory. Existing `test:campaign` now
+also verifies all four downloads and local import for every audited terminal history,
+including ordinary and walking games and labeled source-linked endings. CI retains
+only sanitized root artifacts, never runtime databases. New fault/identity controls
+remain in the isolated campaign entry and are excluded by deployable bundle checks.

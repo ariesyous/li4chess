@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "groups": 16,
+  "selected": [
+    "ordinary",
+    "endings",
+    "recovery",
+    "clocks",
+    "incidents",
+    "auth"
+  ],
+  "starts": 2,
+  "failure": "apiRequestContext.post: socket hang up\nCall log:\n  - → POST http://127.0.0.1:37383/api/online\n    - user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36\n    - accept: */*\n    - accept-encoding: gzip,deflate,br\n    - Origin: http://127.0.0.1:37383\n    - Content-Type: application/json\n    - X-Li4chess-Protocol: li4chess-online-v1\n    - X-Li4chess-Connection: [credential omitted]\n    - content-length: 166\n    - cookie: li4chess-local-guest=[credential omitted]\n\n    at request (/home/runner/work/li4chess/li4chess/apps/worker/test/campaign.ts:37:42)\n    at audit (/home/runner/work/li4chess/li4chess/apps/worker/test/campaign.ts:268:30)\n    at async <anonymous> (/home/runner/work/li4chess/li4chess/apps/worker/test/campaign.ts:361:25)"
+}

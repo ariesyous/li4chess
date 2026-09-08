@@ -1,0 +1,67 @@
+{
+  "source": "arena-results/m3-07-linux-ci-34171318234/raw/m3-03-d1-persistence-evidence",
+  "files": [
+    {
+      "path": "configuration.json",
+      "bytes": 1255,
+      "sha256": "aafd59e52f5be31281a95f5ae9477dbc1379b752fb8ae2b33ba3728a7c87204b"
+    },
+    {
+      "path": "long.replay.json",
+      "bytes": 110184,
+      "sha256": "4fe985f17ef63dcf4247e8e0ff7c991cee9e3a9aec3980d501f137fa4a4df94e"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 1329,
+      "sha256": "da53b77c5458444d7b355b62d4139a19d0cb4deff9c8094ebd4c774f335f550d"
+    },
+    {
+      "path": "measurements.json",
+      "bytes": 38880,
+      "sha256": "de8aaaa7ff6fcc61c90bd4ef5e06d8198992e1ba57940a7609fc753b447e6524"
+    },
+    {
+      "path": "observations.json.gz",
+      "bytes": 966,
+      "sha256": "975086b065806e20cd1852d82f5320f4457056abc31db37d6fd546593c24d43a",
+      "decodedBytes": 2018,
+      "decodedSha256": "74f1a764b695c7a283079494dbcb43f0bd7331861f62396edc6f8edd3ccd9a04"
+    },
+    {
+      "path": "prepared-random.json",
+      "bytes": 12263,
+      "sha256": "c767846c21bc5917fe21ce975f2e3f2b0ae260acfead7c3d555dfa4a995afa66"
+    },
+    {
+      "path": "repetition.replay.json",
+      "bytes": 13312,
+      "sha256": "55c09d6d2773c08aa0b8a201756b9413484111a6844d5088d7b9ca9846ace756"
+    },
+    {
+      "path": "rpc-samples.json",
+      "bytes": 61089,
+      "sha256": "1a70afecacb5007c71770c8ab27417e1bb57ab8450957e6c8c56ede24a7fc2cf"
+    },
+    {
+      "path": "runtime.log.gz",
+      "bytes": 1483,
+      "sha256": "367fceda3755337d5d71689911b7fa43b0bcb46731b60c4018ceb5c92407f63b",
+      "decodedBytes": 22044,
+      "decodedSha256": "81116f627f266298918ed99f59de52d9366447f2cb03f3e444c8b188ac0a1afc"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 67,
+      "sha256": "52a2866a2ad6311d0a100dde7089046c0926b8f55dbe9c242d99fb878d3f4d54"
+    },
+    {
+      "path": "walking.replay.json",
+      "bytes": 12839,
+      "sha256": "6d9c2f63bb15f6f417a5ad622a3d956b49364a739d41a33bf65f345cfbc63dbb"
+    }
+  ],
+  "omittedDuplicateSourceArchives": [
+    "source.json.gz"
+  ]
+}

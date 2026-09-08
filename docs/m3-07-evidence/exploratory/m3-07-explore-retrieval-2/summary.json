@@ -1,0 +1,9 @@
+{
+  "passed": false,
+  "groups": 7,
+  "selected": [
+    "replay"
+  ],
+  "starts": 2,
+  "failure": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(response.type===\"replay\"&&response.page.header)\n\n    at apiReplay (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:123:70)\n    at async <anonymous> (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:625:82)"
+}

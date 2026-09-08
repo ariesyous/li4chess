@@ -1,0 +1,46 @@
+{
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "d229397566feacaaf8b6980beccab39c79bff690",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:e11e4222c669d468957720567bc51fcc54838253c7197d5746e58220dc447421",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "environment": {
+    "node": "v24.20.0",
+    "platform": "linux",
+    "release": "6.17.0-1022-azure",
+    "architecture": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "logicalCpus": 4,
+    "totalMemoryBytes": 16766410752
+  },
+  "limits": {
+    "commands": 2048,
+    "effects": 32,
+    "checkpointEvery": 16,
+    "commandPage": 8,
+    "eventPage": 32,
+    "stateBytes": 512000,
+    "eventBytes": 16000,
+    "requestBytes": 4096,
+    "batchBytes": 1000000
+  },
+  "command": "pnpm --filter @li4chess/persistence test:integration",
+  "pnpm": "pnpm/10.33.0 npm/? node/v24.20.0 linux x64",
+  "wrangler": "4.129.0",
+  "workerd": "1.20260903.1"
+}

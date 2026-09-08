@@ -151,6 +151,23 @@ export class GuestService extends DurableObject<GuestEnvironment> {
     }
     if(!("room" in input))throw new ServiceError("invalid");
     const l=this.member(input.room,c.principal);
+    if(input.type==="replayStatus"){
+      requireService(l.phase==="started","replayIncomplete");
+      const completed=await this.stub(l).completedStatus({gameId:l.room,principal:c.principal,generation:c.generation,expiresAt:c.expiresAt});
+      if(!completed.ok)throw new ServiceError(completed.code);
+      const snapshot=completed.snapshot?this.snapshot(completed.snapshot as unknown as Snapshot):null;
+      const response=await this.json(version({type:"replayStatus",principal:c.principal,generation:c.generation,
+        snapshot:snapshot?.type==="snapshot"?snapshot.snapshot:null,seat:completed.snapshot?l.seats.indexOf(c.principal):null}));
+      this.valid(auth.digest);this.member(l.room,c.principal);return response;
+    }
+    if(input.type==="replay"){
+      requireService(l.phase==="started","replayIncomplete");
+      const result=await this.stub(l).completedReplay({gameId:l.room,principal:c.principal,generation:c.generation,expiresAt:c.expiresAt},input.cursor);
+      this.valid(auth.digest);this.member(l.room,c.principal);
+      if(!result.ok)throw new ServiceError(result.code);
+      const response=await this.json(version({type:"replay",page:result.page}));
+      this.valid(auth.digest);return response;
+    }
     if(input.type==="seat"){
       requireService(l.phase==="waiting","conflict");requireService(l.seats[input.seat]===null||l.seats[input.seat]===c.principal,"conflict");
       const old=l.seats.indexOf(c.principal);if(old!==input.seat){if(old>=0){l.seats[old]=null;l.ready[old]=false;}l.seats[input.seat]=c.principal;l.ready[input.seat]=false;l.revision++;await this.put({[`lobby:${l.room}`]:l});}

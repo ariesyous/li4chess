@@ -20,6 +20,8 @@ No query strings or CORS credential sharing are accepted.
 | takeControl | room, id | attached tab with explicit stable takeover intention |
 | resync | room, expectedCommand | attached member tab, including observer |
 | retire | room | authenticated tab proof; deliberate connection cleanup |
+| replay | room, cursor (null or 64 lowercase hex characters) | current guest and existing room member; no tab proof or seat control |
+| replayStatus | room | same member authority; read-only producer preflight before socket attachment |
 
 Command action is `{type:"move",from:17,to:31}`, `{type:"resign"}` or
 `{type:"claimWin"}`. Actor, principal, connection ID and generation are derived
@@ -67,3 +69,86 @@ balances without exposing a prepared successor or increment. Countdown uses
 monotonic browser elapsed time from server timing only as an estimate. It cannot
 admit commands or establish timeout. See the [acceptance contract](m3-05-acceptance.md)
 for lifecycle, origin/security choices and bounded deployment scope.
+
+## Completed private replay retrieval (M3-07)
+
+`replay` starts with `cursor:null`. The response is `{version,type:"replay",page}`;
+page has exactly `room,principal,generation,head,command,header,events,next`.
+`head` is the immutable terminal command/event/stateHash/chainHash. The first
+page contains the exact zero-event creation replay-v2 in `header`, no events,
+and command zero. Subsequent pages have null header and the exact complete stored
+events of one command. Null `next` means the final command has been audited and
+the reconstructed state/head matches canonical D1 and the room's terminal state.
+Opening aborts are valid terminal artifacts; unfinished games are not exportable.
+
+Each page authenticates the HttpOnly credential and existing lobby membership;
+GameRoom repeats immutable seat membership, object/namespace, owner/header/head,
+cache/marker/timing integrity and incident checks. These are reads only. No
+connection, invitation or controller proof is required. The guest service rechecks
+credential validity after awaited work and response validation. Rotation retains
+the principal but invalidates old credentials and cursors. The new valid session
+can start again without attaching or taking control. Expiry/revocation cannot be
+undone by issuing a new principal. There is no public replay URL or history list.
+
+`replayStatus` returns principal/generation plus `snapshot:null,seat:null` for the
+current producer. Existing socket behavior follows unchanged. For an older
+producer it returns a validated terminal snapshot and member seat through the
+read-only compatibility path. The browser checks this before even reusing a saved
+proof, renders replay-only observation, and preserves unresolved intentions until
+deliberate Leave. It does not attach, retire, take over or invoke writer recovery.
+Older active/incompatible/divergent rooms remain explicitly unavailable. Writer
+producer guards reject before modifying operational storage under a different
+producer; this does not authorize old-producer writes or active-game migration.
+
+### Bounds and retries
+
+- Existing 4,096-byte requests and 600,000-byte responses remain unchanged. Creation
+  headers/states are at most 512,000 bytes; one command has at most 32 events of
+  at most 16,000 bytes each. Genesis audit uses one command per HTTP invocation.
+- Existing admission supports at most 2,048 commands. A download therefore uses
+  at most 2,049 replay requests, plus a final credential check in the browser.
+- The canonical replay artifact is limited to **32,000,000 UTF-8 bytes**, including
+  the terminal result and exact comma overhead. Shared server/browser accounting
+  enforces this bound. This is an explicit export ceiling, narrower than the
+  theoretical product of persistence's independent limits (over 1 GB of events).
+  Larger histories remain stored but return `replayLimit`; they never truncate or
+  silently export a final checkpoint instead. This is not a long-game capacity claim.
+- A room retains at most four disposable audit continuations, one per principal,
+  each for ten minutes from start. Each holds verified current/terminal boundaries
+  and only the last response, never a complete artifact. A new start for the same
+  principal replaces its earlier continuation, including one in another tab.
+  Existing guest/room queue limits still apply. No durable export history is added.
+- Repeating the last cursor returns the identical page while both stores and the
+  credential remain valid. Restart, expiry, a new same-principal start or changed
+  session can require `replayRestart`. Retry the download from the beginning.
+  No partial file is offered, and every callback is fenced by room/session and
+  component lifetime. Leaving cancels before network cleanup is awaited.
+
+### Typed failures and compatibility
+
+`replayIncomplete` means no terminal game; `replayMissing` means a required room or
+game record is absent; `replayIncompatible` means unsupported database/replay schema
+or reader producer; `replayIntegrity` means corrupt/divergent/quarantined history
+(including missing committed effects/result anchors); `replayRestart` means an
+unavailable continuation; `replayLimit` means the aggregate artifact ceiling.
+`unavailable` means transient persistence failure or unresolved operational
+suspension/incident. Existing authentication, origin, invalid and capacity errors
+remain. Reads never mutate or clear incidents. Failed retrieval is safely retryable
+and is not an ambiguous game command.
+
+The historical reader accepts reproducible build identities only for the maintained
+standard-v1/state-v2/replay-v2 contract, validates the exact creation and every
+recorded action/effect through the current reducer, and preserves the original
+producer. Incompatible concrete history fails; accepting a build-shaped object
+alone is not proof of compatible history. Source replay digest, initial checkpoint,
+random algorithm/seed/cursor/draw/candidate facts and terminal placements survive.
+Command-v1/v2, replay-v2, state-v2 and released SQL migrations are unchanged. The
+online-v1 additions do not alter old request meanings; paired client/server builds
+are required for the new operations.
+
+The browser validates the final artifact through the existing replay-v2 reader,
+compares it with the displayed terminal state/hash/producer/source identity, then
+checks its current credential again before downloading. Local import retains its
+existing semantics: a new checkpoint under the local producing build links to the
+downloaded replay's canonical digest. The original downloaded producer is not
+rewritten. [Acceptance and evidence inventory](m3-07-acceptance.md).

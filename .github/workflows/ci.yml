@@ -175,3 +175,21 @@ jobs:
             arena-results/m3-06-ci/*.log
             arena-results/m3-06-ci/*.png
           retention-days: 14
+
+      - name: Validate completed private replay retrieval and browser export
+        run: pnpm --filter @li4chess/worker test:replay
+        env:
+          M3_07_OUTPUT: ${{ github.workspace }}/arena-results/m3-07-ci
+          WRANGLER_SEND_METRICS: "false"
+
+      - name: Retain completed replay acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m3-07-replay-evidence
+          path: |
+            arena-results/m3-07-ci/*.json
+            arena-results/m3-07-ci/*.json.gz
+            arena-results/m3-07-ci/*.log
+            arena-results/m3-07-ci/*.png
+          retention-days: 14

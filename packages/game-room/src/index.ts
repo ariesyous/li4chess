@@ -4,6 +4,8 @@ import type { EngineBuildIdentityV1 } from "@li4chess/protocol";
 import { Room, commandFailure } from "./room.js";
 import type { ConnectionContext, Creation, RoomDependencies } from "./room.js";
 import { SQLiteRoomStorage } from "./storage.js";
+import { completedReplayReader } from "./completed-replay.js";
+import type { ReplayMember } from "./completed-replay.js";
 
 export interface GameRoomEnvironment { GAME_DB: D1Database; GAME_ROOMS: DurableObjectNamespace; ROOM_NAMESPACE: string; ROOM_PRODUCER: EngineBuildIdentityV1 }
 /** Binding-only internal API. The binding holder must verify credentials before
@@ -24,6 +26,12 @@ export class GameRoom extends DurableObject<GameRoomEnvironment> {
     catch(error) { return commandFailure(error); }
   }
   read(context: ConnectionContext, expectedCommand = 0) { return this.room.read(context, expectedCommand); }
+  completedReplay(member: ReplayMember, cursor: string | null) {
+    return this.room.completedReplay(member,cursor,new D1Persistence(this.env.GAME_DB,completedReplayReader));
+  }
+  completedStatus(member: ReplayMember) {
+    return this.room.completedStatus(member,new D1Persistence(this.env.GAME_DB,completedReplayReader));
+  }
   takeControl(context: ConnectionContext, nextGeneration: number) { return this.room.takeControl(context, nextGeneration); }
   controlStatus(context: ConnectionContext) { return this.room.controlStatus(context); }
   detach(context: ConnectionContext) { return this.room.disconnect(context); }

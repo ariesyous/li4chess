@@ -1,0 +1,14 @@
+{
+  "revision": "d229397566feacaaf8b6980beccab39c79bff690",
+  "head": "f9c54928d7faece4b18e0b39f1cb317a258b2777",
+  "tree": "01047b8d7747b4349eb097b8bf719fea495e6eb0",
+  "parents": [
+    "eddbcad64d340ed7b4df4fe2baa277d4db5424f0",
+    "f9c54928d7faece4b18e0b39f1cb317a258b2777"
+  ],
+  "rawCommit": "ci-merge.commit",
+  "bytes": 1203,
+  "sha256": "70b94f172918a839f29ca9ef23585422d135b709e62b2c48373c0ca86e0c0b48",
+  "restore": "git hash-object -t commit -w ci-merge.commit",
+  "note": "Reconstructs only the original merge commit object. Tree/blobs remain in permanent PR head history; no producer identity substitution."
+}

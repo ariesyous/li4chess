@@ -7,6 +7,8 @@ import type { Boundary, D1Persistence, GameHeader, Head, Owner, Prepared, Receip
 import { activate, admissionTiming, earliestDeadline, increment, initialTiming, suspend, validateTiming } from "./timing.js";
 import type { Timing, TimingPolicy } from "./timing.js";
 import type { RoomStorage } from "./storage.js";
+import { CompletedReplay } from "./completed-replay.js";
+import type { ReplayMember } from "./completed-replay.js";
 
 export const ROOM_LIMITS = { queued: 16, connections: 8, recordBytes: 1_100_000, retryMinMs: 1000, retryMaxMs: 60000 } as const;
 export class RoomError extends Error {
@@ -47,7 +49,16 @@ export class Room {
   private expiring = false;
   private alarmTask: Promise<void> | null = null;
   private connections = new Map<string, { context: ConnectionContext; channel: Connection }>();
-  constructor(private readonly deps: RoomDependencies) {}
+  private readonly replay: CompletedReplay;
+  constructor(private readonly deps: RoomDependencies) {
+    this.replay = new CompletedReplay(deps.storage,deps.namespace,deps.objectId,deps.ownsGame,deps.now);
+  }
+  completedReplay(member: ReplayMember, cursor: string | null, canonical: D1Persistence) {
+    return this.enqueue(() => this.replay.page(member,cursor,canonical));
+  }
+  completedStatus(member: ReplayMember, canonical: D1Persistence) {
+    return this.enqueue(() => this.replay.status(member,canonical,this.deps.producer));
+  }
   private get storage() { return this.deps.storage; }
   private get db() { return this.deps.canonical; }
   private identity(): Identity { const value = this.storage.read<Identity>("identity"); requireRoom(value, "unavailable", "room not created"); return value; }
@@ -130,6 +141,8 @@ export class Room {
     } finally { this.expiring = false; }
   }
   private async incident(error: unknown): Promise<void> {
+    const identity=this.storage.read<Identity>("identity");
+    if(identity&&!equalCanonical(identity.header.replay.engineBuild,this.deps.producer)){this.invalidateConnections();return;}
     if (this.storage.read("incident")) { this.invalidateConnections(); return; }
     const record = this.storage.read<ClockRecord>("timing");
     if (!record) { await this.storage.write({ incident: { reason: "missing-timing", at: this.time() } }, null); return; }
@@ -171,6 +184,8 @@ export class Room {
   }
   private async boot(): Promise<void> {
     if (this.booted) return;
+    const existing=this.storage.read<Identity>("identity");
+    requireRoom(!existing||equalCanonical(existing.header.replay.engineBuild,this.deps.producer),"unavailable","writer producer unavailable");
     this.booted = true;
     const id = this.storage.read<Identity>("identity"); if (!id || this.storage.read("incident")) return;
     const record = this.storage.read<ClockRecord>("timing");
@@ -315,13 +330,26 @@ export class Room {
   private async publish(receipt: Receipt | null) {
     await this.expireConnections();
     await this.fence(true);
-    const snapshot = this.snapshot();
+    let snapshot = this.snapshot();
+    // Each failed terminal round removes a connection, so at most eight pruning
+    // rounds plus one corrected publication are possible. No gameplay retry.
+    for(let round=0;round<=ROOM_LIMITS.connections;round++){
+    let terminalDeliveryLost = false;
     for (const [id, item] of this.connections) {
       if (item.context.expiresAt !== undefined && item.context.expiresAt <= this.time()) continue;
       try { item.channel.send({ type: "committed", snapshot: structuredClone(snapshot), receipt }); }
       catch { this.connections.delete(id); try { item.channel.close(); } catch { /* best effort */ }
+        if(snapshot.boundary.state.position.result!==null){terminalDeliveryLost=true;continue;}
         throw new RoomError("unavailable", "publication failed; resync required"); }
     }
+    if(terminalDeliveryLost){
+      const timing=this.clock();
+      await this.save({}, {...timing,revision:timing.revision+1,
+        connected:ALL_COLORS.map(seat=>[...this.connections.values()].some(item=>item.context.seat===seat)) as Timing["connected"]});
+      snapshot=this.snapshot();
+    }else return;
+    }
+    throw new RoomError("unavailable","terminal publication bound");
   }
   private snapshot(): Snapshot {
     const timing = this.clock(); requireRoom(["running", "terminal"].includes(timing.phase), "unavailable");

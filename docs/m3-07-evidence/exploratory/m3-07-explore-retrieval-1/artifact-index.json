@@ -1,0 +1,35 @@
+{
+  "source": "arena-results/m3-07-explore-retrieval-1",
+  "files": [
+    {
+      "path": "manifest.json",
+      "bytes": 1315,
+      "sha256": "42e581305645fcb0aef9f452731ff9866ee41f99d2fbd3acb9374f1a155b452a"
+    },
+    {
+      "path": "observations.json.gz",
+      "bytes": 849,
+      "sha256": "2417de67545259548314beb1fe4b5e0322c76be5358f2ca9a895b7da8b3aaf74",
+      "decodedBytes": 2067,
+      "decodedSha256": "4bf5b8c65b821d5eb357c372bdaf5af258b101e097428c4eb3e8da39595aece7"
+    },
+    {
+      "path": "runtime.log.gz",
+      "bytes": 1815,
+      "sha256": "d2b92474beee2a1910ea809c8f605f5fcbcac01506520eed16b7fcd57a7aea54",
+      "decodedBytes": 12443,
+      "decodedSha256": "372c40cf7b41d14eed750fcaa49086cabe159851e2c83517cecf29bf8fa29ea2"
+    },
+    {
+      "path": "source-map.json.gz",
+      "bytes": 275866,
+      "sha256": "8d9a4cedc5d51557094c06d2e0816a185e1189a1074c47e74a9b00e270513d68"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 738,
+      "sha256": "f1dac523b513393afd300c1380116dac3c396ea48ea39b5e690d8f2a2e35c5d6"
+    }
+  ],
+  "omittedDuplicateSourceArchives": []
+}

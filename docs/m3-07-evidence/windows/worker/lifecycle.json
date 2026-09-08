@@ -1,0 +1,16 @@
+[
+  {
+    "boundary": "starting",
+    "port": 59808,
+    "exitCode": 130,
+    "portReleased": true,
+    "signal": "IPC invokes registered SIGTERM handler"
+  },
+  {
+    "boundary": "ready",
+    "port": 59817,
+    "exitCode": 130,
+    "portReleased": true,
+    "signal": "IPC invokes registered SIGTERM handler"
+  }
+]

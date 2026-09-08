@@ -1,0 +1,52 @@
+{
+  "createdAt": "2026-09-07T23:51:39.709Z",
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "d229397566feacaaf8b6980beccab39c79bff690",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:e11e4222c669d468957720567bc51fcc54838253c7197d5746e58220dc447421",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "environment": {
+    "node": "v24.20.0",
+    "platform": "linux",
+    "release": "6.17.0-1022-azure",
+    "architecture": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "logicalCpus": 4,
+    "totalMemoryBytes": 16766410752
+  },
+  "versions": {
+    "wrangler": "4.129.0",
+    "pnpm": "10.33.0",
+    "workerd": [
+      "workerd@1.20260903.1"
+    ]
+  },
+  "command": "pnpm --filter @li4chess/architecture-spike test:integration",
+  "scope": "Actual local Wrangler/workerd, SQLite Durable Objects and D1 emulation; explicitly injected application failures; no hosted guarantees",
+  "sourceSnapshot": "source/",
+  "assetHashes": {
+    "index.html": "sha256:f00bd410e5db363f1eed4e8e40a854cb11f51ad622da414d459fbfa414dd18d0",
+    "li4chess/assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+    "li4chess/assets/index-CXSlFM5P.js": "sha256:a0088ae2d2e265ca73cb65125ddd8c052f398e151769c2bc8471a1fc3dbc22b2",
+    "li4chess/assets/index-VTGqtwO1.css": "sha256:e2bd5a3f638f96a4d60798f0c69f79a2e91e60ae5df2ea7dda94538f7ae0955f",
+    "li4chess/index.html": "sha256:8e201d8b6e28409c74bd4f9e87aa668c2187e851cb3ec6a4738d3fa3085a3704"
+  },
+  "seed": "00000001",
+  "port": 8799,
+  "persistentRuntimeDirectory": "runtime/"
+}

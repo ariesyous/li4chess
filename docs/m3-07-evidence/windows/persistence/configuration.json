@@ -1,0 +1,38 @@
+{
+  "name": "li4chess-persistence-test",
+  "main": "C:\\Users\\sith\\Code\\li4chess\\packages\\persistence\\test\\worker.ts",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "m3-03-test",
+      "database_id": "00000000-0000-0000-0000-000000000003",
+      "migrations_dir": "C:\\Users\\sith\\Code\\li4chess\\packages\\persistence\\.generated\\run-1788825156465\\migrations"
+    }
+  ],
+  "vars": {
+    "TEST_KEY": "[redacted]",
+    "PRODUCER": {
+      "format": "li4chess-engine-build-v1",
+      "sourceRevision": "f9c54928d7faece4b18e0b39f1cb317a258b2777",
+      "packageVersions": {
+        "@li4chess/web": "0.0.0",
+        "@li4chess/worker": "0.0.0",
+        "@li4chess/architecture-spike": "0.0.0",
+        "@li4chess/arena": "0.0.0",
+        "@li4chess/bot": "0.0.0",
+        "@li4chess/engine": "0.0.0",
+        "@li4chess/game-room": "0.0.0",
+        "@li4chess/persistence": "0.0.0",
+        "@li4chess/protocol": "0.0.0",
+        "@li4chess/ui-kit": "0.0.0"
+      },
+      "buildFingerprint": "sha256:cb976a67aedcd34385700af2a7e509e57a1bf948b481aeeaf19f109e32f00709",
+      "workingTree": {
+        "status": "clean"
+      }
+    }
+  }
+}

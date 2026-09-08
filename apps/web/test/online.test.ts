@@ -23,7 +23,7 @@ async function fixture(handler?:Handler){Socket.all=[];const storage=new MemoryS
   vi.stubGlobal("navigator",{locks:{request:async(_name:string,_options:unknown,callback:(lock:object)=>Promise<void>)=>callback({})}});
   const states=await snapshots();
   const fetcher=vi.fn(async(_url:string,options:RequestInit)=>{const body=JSON.parse(options.body as string) as {type:string};
-    const response=handler?await handler(body):body.type==="session"?session:body.type==="connection"?{version:ONLINE_VERSION,type:"connection" as const,proof:"a".repeat(64),control:{seat:0,generation:1,controller:true}}:
+    const response=body.type==="replayStatus"?{version:ONLINE_VERSION,type:"replayStatus" as const,principal:session.principal,generation:session.generation,snapshot:null,seat:null}:handler?await handler(body):body.type==="session"?session:body.type==="connection"?{version:ONLINE_VERSION,type:"connection" as const,proof:"a".repeat(64),control:{seat:0,generation:1,controller:true}}:
       {version:ONLINE_VERSION,type:"snapshot" as const,snapshot:states[0]};return Response.json(response);});vi.stubGlobal("fetch",fetcher);
   const client=new OnlineConnection("room",session,storage);clients.push(client);client.start();return {client,states,fetcher,storage};
 }
@@ -32,6 +32,22 @@ async function attach(client:OnlineConnection,snapshot:OnlineSnapshot){await vi.
   await vi.waitFor(()=>expect(client.view.phase).toBe("connected"));return socket;}
 afterEach(()=>{for(const c of clients)c.stop();clients.length=0;vi.unstubAllGlobals();});
 describe("online browser ordering and recovery",()=>{
+  it("checks historical completed mode before retained proof/pending handling and never attaches or retires",async()=>{
+    const f=await fixture();await attach(f.client,f.states[0]);f.fetcher.mockRejectedValue(new Error("lost"));
+    await f.client.command({type:"move",from:17,to:31});f.client.stop();
+    const saved=f.storage.getItem("li4chess.online.connection.v1"),calls:string[]=[];Socket.all=[];
+    f.fetcher.mockImplementation(async(_url,options)=>{
+      const type=(JSON.parse(options.body as string) as {type:string}).type;calls.push(type);
+      return Response.json(type==="session"?session:{version:ONLINE_VERSION,type:"replayStatus",principal:session.principal,generation:session.generation,snapshot:f.states[3],seat:0});
+    });
+    const historical=new OnlineConnection("room",session,f.storage);clients.push(historical);historical.start();
+    await vi.waitFor(()=>expect(historical.view.phase).toBe("terminal"));
+    expect(Socket.all).toHaveLength(0);expect(calls).toEqual(["session","replayStatus"]);expect(historical.view.control).toBeNull();
+    expect(f.storage.getItem("li4chess.online.connection.v1")).toBe(saved);expect(historical.view.pending).not.toBeNull();
+    await historical.retryPending();await historical.takeControl();await historical.clearPending();
+    expect(calls).toEqual(["session","replayStatus"]);expect(f.storage.getItem("li4chess.online.connection.v1")).toBe(saved);
+    await historical.leave();expect(calls).toEqual(["session","replayStatus"]);expect(f.storage.getItem("li4chess.online.connection.v1")).toBeNull();
+  });
   it("keeps transient authentication outages recoverable",async()=>{const f=await fixture(async()=>({version:ONLINE_VERSION,type:"error",code:"unavailable",ambiguous:true}));
     await vi.waitFor(()=>expect(f.client.view.phase).toBe("recovering"));expect(f.client.view.notice).not.toContain("identity changed");});
   it("preserves unresolved storage across refreshed session changes until deliberate abandonment",async()=>{

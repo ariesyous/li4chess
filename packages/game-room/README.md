@@ -91,6 +91,20 @@ failures send `resyncRequired` and require reauthentication/resync with the same
 
 ## Local validation and future activation
 
+Completed-private replay reads use a separate binding-only `completedReplay`
+operation and `completedStatus` preflight. They authenticate server-derived member
+identity and verify both stores without boot/recovery, control acquisition, clock
+accounting, writes or incident clearance. Disposable per-principal continuations
+hold one audited page; [wire limits](../../docs/multiplayer-v1.md#completed-private-replay-retrieval-m3-07)
+define expiry, restarts and the explicit 32 MB artifact ceiling. Historical completed
+games can render/export under a compatible reader without relabeling their producer.
+
+Terminal publication now prunes closed channels and republishes corrected presence
+in a loop bounded by the eight-connection ceiling. A closed sibling tab during
+rotation cannot suspend an immutable completed game. Canonical history, result,
+controls, accounted time and clock/bank balances remain unchanged; active-game
+ambiguous publication recovery and persistence errors retain their existing behavior.
+
 From the root with Node 24 and pnpm 10.33.0:
 
 ```sh

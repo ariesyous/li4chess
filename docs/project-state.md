@@ -8,6 +8,45 @@ superseded handoffs.
 
 ## Current focus
 
+**M3-07 is complete within its local acceptance scope (2026-09-07).**
+Authenticated room members can download completed private replay-v2 artifacts
+without taking control, preserving initial state, events, results, random facts,
+original producer and source lineage. Browser export guards room/session races
+and supports safe retry and existing local import. The
+[pre-change inventory](m3-07-acceptance.md), [contracts](multiplayer-v1.md) and
+[Windows/Linux evidence](m3-07-evidence/README.md) define the precise boundary.
+Rematches, hosted activation and M4 remain excluded; M3 stays incomplete.
+
+Reviewed implementation `c29885d` and test-driver correction
+`f9c54928d7faece4b18e0b39f1cb317a258b2777` passed all 17 fresh Windows commands:
+695 units, 47 local browser tests, all earlier integrations and both campaigns.
+Each platform passed 83 full-campaign observations/27 starts and 11 focused replay
+observations/3 starts. [CI 34171318234](https://github.com/ariesyous/li4chess/actions/runs/34171318234)
+passed on exact head `f9c5492`; original CI merge tree and bytes are retained.
+Independent source/evidence reviews resolved substantive findings and verified
+source maps, canonical/download/import agreement, lineage and credential redaction.
+[PR #18](https://github.com/ariesyous/li4chess/pull/18) remains draft/unmerged;
+its final documentation/evidence commit receives a separate exact-head CI check.
+The [next bounded handoff](m3-08-handoff.md) proposes private rematch consent and
+new-game creation without authorizing that work or any hosted activation.
+
+The first clean implementation `c29885d` passed all 17 Windows invocations,
+including 695 units, 47 local browser tests and both real-runtime campaigns.
+Linux CI 34170371852 failed on a test-driver socket hang-up after successful
+ordinary replay exports. The reviewed correction isolates driver HTTP sockets,
+keeps retries at zero, and sanitizes thrown fixture errors. Browser/server product
+behavior is unchanged. The failed run and redacted log are retained separately;
+corrected acceptance passed as recorded above.
+
+Verified M3-06 merge: PR #17 merged at
+`eddbcad64d340ed7b4df4fe2baa277d4db5424f0`; post-merge CI 34166793615 and Pages
+34166793571 both succeeded. Historical draft/unmerged wording below and in M3-06
+evidence is superseded. The clean dedicated M3-07 branch starts from fetched
+origin/main. Node 24.18.0 and Corepack pnpm 10.33.0 were verified; the global
+pnpm 11 wrapper is not used. Initial independent contract review requires
+proof-free member reads, post-await credential checks, bounded genesis audit and
+a separate read-only path that cannot invoke gameplay recovery or producer relabeling.
+
 **M3-06 is complete within its local acceptance scope.** The
 [inventory](m3-06-acceptance.md) preceded changes, and
 [Windows/Linux evidence](m3-06-evidence/README.md) records 70 campaign observations,
@@ -24,9 +63,9 @@ passed on that head. Exact source maps, canonical/replay comparisons, four-clien
 results, clock conservation, failed attempts and tool/configuration identity are
 retained. Fresh independent source and evidence reviewers resolved all substantive
 findings and independently verified both platforms' artifacts and histories.
-[Draft PR #17](https://github.com/ariesyous/li4chess/pull/17) remains unmerged;
-the documentation/evidence closeout receives its own exact final-head CI check,
-linked on the PR before this task ends.
+[PR #17](https://github.com/ariesyous/li4chess/pull/17) is merged; its final head
+`270adfc6038332f09885c480a24ce5f249da9e3c` passed CI 34152475886. The merge and
+post-merge checks above supersede the historical draft handoff.
 
 Browser fixes make unresolved takeover IDs visible and retain both takeover and
 game-command intentions across failed storage writes. Same-ID recovery survives
@@ -37,8 +76,8 @@ history and stale ownership stay unavailable/quarantined. Test adapters reuse th
 maintained authority; deployable bundle checks exclude fixtures/time/admin hooks.
 No rules, migrations, default hosting, classic bot or archived evidence changed.
 
-M3 remains in progress: authenticated saved-game replay retrieval/export and
-rematches are still product gaps; hosted TLS/origin/cookies, latency/load,
+M3 remains in progress: replay retrieval/export has completed M3-07 acceptance;
+rematches remain a product gap; hosted TLS/origin/cookies, latency/load,
 eviction/hibernation, restore and rollout/rollback need separate authorization.
 The [next bounded handoff](m3-07-handoff.md) proposes completed-game replay export
 first and separates rematches and hosted gates. No launch clock or public policy

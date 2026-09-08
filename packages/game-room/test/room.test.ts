@@ -113,6 +113,23 @@ async function fixture(initialMs = 10000) {
 }
 
 describe("Room state machine with mocked storage and canonical I/O", () => {
+  it("keeps completed history readable when a sibling tab has already closed during disconnect publication",async()=>{
+    const f=await fixture();let fail=false;
+    const controller=f.context(),observer=f.context(0,"closed-observer");
+    await f.room.connect(controller,f.channel());await f.room.connect(observer,{send:()=>{if(fail)throw new Error("closed transport");},close:()=>undefined});
+    await f.room.command(controller,{id:"abort",expectedCommand:0,action:{type:"resign",actor:0}});
+    const canonical=structuredClone(f.canonical.boundary),before=f.storage.timing(),controls=f.storage.read("controls");fail=true;
+    await f.room.disconnect(controller);
+    expect(f.canonical.boundary).toEqual(canonical);expect(f.storage.timing()).toMatchObject({phase:"terminal",incident:null,remainingMs:before.remainingMs,disconnectRemainingMs:before.disconnectRemainingMs,connected:[false,false,false,false]});
+    expect(f.storage.read("controls")).toEqual(controls);expect(f.storage.read("incident")).toBeNull();
+    await f.room.connect(f.context(1),f.channel());expect((await f.room.read(f.context(1))).boundary).toEqual(canonical);
+  });
+  it("retains active-game ambiguous publication recovery",async()=>{
+    const f=await fixture();let fail=false;const context=f.context();
+    await f.room.connect(context,{send:()=>{if(fail)throw new Error("closed transport");},close:()=>undefined});fail=true;
+    await expect(f.room.command(context,f.request())).rejects.toMatchObject({code:"unavailable"});
+    expect(f.storage.timing().phase).toBe("suspended");expect(f.canonical.boundary?.head.command).toBe(1);
+  });
   it("expires leases at their exact presence boundary without moving earlier chess deadlines",async()=>{
     const f=await fixture(10000);await f.room.connect({...f.context(),expiresAt:20000},f.channel());
     f.clock.now=30000;await f.room.alarm();const prepared=[...f.canonical.records.values()][0];
