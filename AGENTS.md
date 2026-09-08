@@ -13,7 +13,7 @@ describes the implemented standard FFA contract and local replay boundaries.
 - Track milestone status in `ROADMAP.md`. Mark a milestone complete only when its exit criteria have evidence. Keep proposed choices distinct from maintainer-confirmed decisions.
 - Update README when implemented capabilities change, and update the rules specification alongside intentional behavior changes. Planned behavior must not be presented as implemented.
 - Retain the user's scope for the current task. The roadmap provides context and sequencing; it does not authorize implementing every milestone or provisioning/deploying services in one session.
-- The accepted 2026-09-08 direction is minimal ongoing maintainer time: UI1 adds a bounded Lichess-style visual refresh with licensed asset reuse, then L1 publishes local/CPU play on li4chess.org using GitHub Pages and Cloudflare DNS. Hosted friend-invite play follows only if pursued; preserve completed local multiplayer. Matchmaking/ratings are deferred and broader roadmap ideas are uncommitted. Handle routine engineering within scope without assigning the maintainer a comprehensive planning exercise. Use the current roadmap and task queue over historical handoffs.
+- The accepted 2026-09-08 direction is a polished local/CPU GitHub Pages checkpoint with minimal ongoing maintainer time: UI1 adds a bounded Lichess-style visual refresh with licensed asset reuse, then L1 validates and tags a release at the existing /li4chess/ project site. Cloudflare, the li4chess.org launch and hosted multiplayer are shelved, with no automatic next phase. Preserve completed local multiplayer and its evidence. Matchmaking/ratings are deferred and broader roadmap ideas are uncommitted. Keep further bot research outside this release unless needed to fix a serious defect. Handle routine engineering within scope without assigning the maintainer a comprehensive planning exercise. Use the current roadmap and task queue over historical handoffs.
 
 ## Repository conventions
 
@@ -21,6 +21,7 @@ describes the implemented standard FFA contract and local replay boundaries.
 - Do not add AI co-author trailers, generated-by footers, or agent session links to commits or pull request descriptions.
 - Keep the frozen classic bot and historical experiment artifacts intact. Label new measurements with their code version and environment; do not present historical timings as current performance.
 - Validate code changes with `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm --filter @li4chess/web test:e2e` when browser behavior is affected. CI runs all four.
+- Default CI covers the local/CPU Pages product. D1, Worker and multiplayer integration campaigns remain in the manually triggered `.github/workflows/validate-multiplayer.yml`; run that workflow when changing the deferred backend or intentionally validating its shared dependencies. Those campaigns are not a default Pages merge gate.
 
 ## Project structure
 

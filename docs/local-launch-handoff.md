@@ -1,39 +1,56 @@
-# L1: local/CPU launch on li4chess.org after UI1
+# L1: polished local/CPU GitHub Pages checkpoint after UI1
 
-Accepted direction: 2026-09-08. This is L1 in the [roadmap](../ROADMAP.md).
-The [Lichess-style UI sprint](ui-sprint-lichess.md) precedes this launch.
-The maintainer reports owning the domain in their Cloudflare account. Account
-configuration and hosted application state have not been inspected in this task.
+Accepted direction: 2026-09-08, D14 in [project state](project-state.md).
+This is L1 in the [roadmap](../ROADMAP.md), following the bounded
+[Lichess-style UI sprint](ui-sprint-lichess.md). It replaces the custom-domain
+launch plan. Cloudflare, li4chess.org launch and hosted multiplayer are shelved.
 
-Publish the existing local/CPU browser game with minimal ongoing maintenance.
-Keep this a small delivery task; private multiplayer already exists locally and
-does not need to be activated to launch. No account system, matchmaking, ratings,
-D1 or Durable Object provisioning is required for L1.
+Deliver a polished standalone browser game at the existing
+[GitHub Pages project site](https://ariesyous.github.io/li4chess/), with human
+players sharing one device and optional CPU seats. Preserve completed local
+multiplayer and all rules/bot/replay evidence. There is no scheduled hosted follow-up.
 
-1. Pull/check the current main revision and its CI before implementation. The
-   documentation reset started from PR #19 merge 9a49a80. Preserve the completed
-   rules, CPU, replay and multiplayer evidence; do not treat historical checks
-   as validation of a new release.
-2. Keep the [GitHub Pages workflow](../.github/workflows/deploy-pages.yml).
-   Configure the custom domain and HTTPS in GitHub Pages and DNS in Cloudflare;
-   adapt the current Vite /li4chess/ asset base to / for the custom-domain build.
-   Keep private multiplayer disabled. Workers hosting remains an optional later
-   choice, not a launch dependency.
-3. Prepare concrete deployment settings and inspect necessary GitHub/domain
-   configuration. Reuse the existing accounts and Pages workflow. Resolve
-   access or spending decisions only when needed; prepare reviewable changes
-   before requesting any outstanding deployment authorization.
-4. Check the actual HTTPS domain on desktop and phone: start and finish games,
-   CPU responsiveness, refresh/resume, replay export/import, asset paths and clear
-   local/CPU-only descriptions. Explain that browser saves are local; a save on
-   the old Pages origin does not automatically appear on the new domain. Replay
-   export/import provides a portable transfer path.
-5. Record the deployed revision, actual checks, operating limits and a concise
-   update/rollback procedure. Verify Pages works through the new domain.
-   Mark L1 complete only with hosted evidence. Ongoing work should focus on bugs
-   and occasional feedback, with no promised feature schedule.
+## Release work and completion evidence
 
-Run repository-required checks for any code or browser changes and the applicable
-hosting checks. Worker checks apply if Worker behavior changes. This documentation task does not deploy anything.
-The separate [hosted multiplayer handoff](m3-hosted-handoff.md) is deferred until
-after L1, if friend-invite play is pursued.
+UI1 is complete with [local validation and captures](ui1-evidence/README.md).
+Its implementation is on `codex/ui1-lichess-refresh`; it was not merged, deployed
+or tagged by the UI1 task. Carry forward [piece attribution](../THIRD_PARTY_NOTICES.md).
+L1 still needs the release-revision CI and actual Pages HTTPS checks below.
+The maintainer subsequently authorized publishing UI1 and its owner-letter toggle
+through [PR #20](https://github.com/ariesyous/li4chess/pull/20). Carry its merge,
+CI and Pages workflow results into L1; publication alone does not finish the
+release-tagging checkpoint.
+
+1. Verify the current main revision, working tree and CI before implementation.
+   Preserve existing work; historical acceptance does not validate a new release.
+   Confirm UI1's visual, accessibility and asset-provenance criteria are complete.
+2. Review setup, ordinary play, CPU turns, saving/resuming, replay import/export
+   and results on desktop and mobile layouts. Include hotseat, mixed human/CPU
+   and four-CPU play, cancellation/reset, checked and eliminated armies, and
+   walking kings. Fix concrete usability/reliability defects found in this review.
+   Further bot research stays outside scope unless a serious defect requires it;
+   document remaining limitations, including endgame shuffling, honestly.
+3. Keep the [Pages workflow](../.github/workflows/deploy-pages.yml),
+   apps/web/dist output and Vite /li4chess/ base. Keep private multiplayer disabled
+   in this build. No custom domain, DNS migration, Workers deployment or storage
+   provisioning is required. Describe actual local/CPU capabilities in the app
+   and README, including browser-local saves and portable replay backups.
+4. Run pnpm lint, pnpm test, pnpm build and
+   pnpm --filter @li4chess/web test:e2e on the release candidate. Inspect visual
+   results and record the revision, environment, actual checks and limitations.
+   Run affected Worker/multiplayer checks if shared behavior changes.
+5. Verify the candidate's CI and actual Pages HTTPS deployment at /li4chess/.
+   Check asset and CPU Worker loading, complete games, responsive controls,
+   refresh/resume and replay export/import on desktop/mobile. Distinguish local
+   browser evidence, hosted checks, emulation and physical-device testing.
+6. Record the deployed commit, Pages workflow run, release tag and release notes
+   with known limitations. Document repeatable update and rollback steps against
+   the actual workflow: it deploys on main pushes or manual dispatch. Explain how
+   to restore a known-good revision and verify its resulting deployment; do not
+   imply that creating a tag deploys it. Mark L1 complete only with this evidence.
+
+This documentation task does not deploy or tag anything. L1 is a bounded release
+checkpoint, not a claim that the game can never improve. Afterwards, focus on bug
+fixes and occasional feedback without a promised feature schedule. The preserved
+[hosted multiplayer handoff](m3-hosted-handoff.md) requires a new maintainer scope
+decision before resuming.

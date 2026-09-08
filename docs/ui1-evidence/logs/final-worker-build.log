@@ -1,0 +1,16 @@
+
+> li4chess@0.0.0 build:workers C:\Users\sith\Code\li4chess
+> pnpm --filter @li4chess/worker build:assets
+
+$ tsx scripts/build.ts
+vite v5.4.21 building for workers...
+transforming...
+✓ 100 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-workers/index.html                       0.41 kB │ gzip:  0.27 kB
+dist-workers/assets/cpu.worker-CObQFQzj.js   34.95 kB
+dist-workers/assets/index-Dy7xw29b.css       10.38 kB │ gzip:  3.01 kB
+dist-workers/assets/index-_FelCrNo.js       259.90 kB │ gzip: 82.94 kB
+✓ built in 891ms
+Workers artifact sha256:be2319a93b4fd11f0258ca66a1d6622a56b790f054950da475b0b5918ab2d050

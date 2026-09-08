@@ -19,22 +19,29 @@ all four original guests consent, then deliberately enter and ready in a new roo
 The original result and replay remain intact. Hosted activation remains outside
 the implemented scope.
 
-The immediate goal is a free, ad-free local/CPU game on **li4chess.org** that
-requires little ongoing maintainer time. A bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
-comes first, covering interface, board, pieces and licensed icon reuse. The domain
-is owned in the maintainer's Cloudflare account; the launch can use GitHub Pages
-with Cloudflare DNS. Neither the visual refresh nor domain launch is implemented yet.
-Hosted casual friend-invite play can follow, using private multiplayer already
-validated locally. Public matchmaking, accounts and ratings are deferred until
-demand and maintenance capacity justify them.
+The immediate goal is a polished, free, ad-free local/CPU release on the existing
+[GitHub Pages site](https://ariesyous.github.io/li4chess/) that requires little
+ongoing maintainer time. The bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
+prepares the interface, board and pieces for a complete local-play review,
+deployment verification and a tagged release.
+The visual refresh is complete, with [before/after captures and validation](docs/ui1-evidence/README.md).
+It uses a warm continuous board, four-color Cburnett SVG pieces, compact controls,
+directional seat panels and consistent setup/history/result surfaces. Exact sources,
+licenses and recoloring are recorded in [third-party notices](THIRD_PARTY_NOTICES.md),
+also linked from the app. The L1 release checkpoint remains planned.
+Human players share one device; CPU opponents run in the browser. Cloudflare,
+the li4chess.org launch and hosted multiplayer are shelved. Completed local
+private multiplayer and its evidence remain available for development, with no
+scheduled hosted follow-up. Public matchmaking, accounts and ratings are deferred.
 See [ROADMAP.md](ROADMAP.md), the [launch handoff](docs/local-launch-handoff.md)
 and [project state](docs/project-state.md). This direction was accepted on
-2026-09-08; it does not claim that the domain launch has happened.
+2026-09-08 and replaces the earlier custom-domain launch plan.
 
 Current features include:
 
 - A cross-shaped board with 160 playable squares and Red → Blue → Yellow → Green turn order.
 - Legal-move highlighting, last-move and check indicators, move history, and optional board rotation to the current player.
+- **Board display → Show piece-owner letters** toggles the corner initials and remembers the choice in this browser; passive pieces retain their × marker.
 - Five CPU difficulty levels using paranoid alpha-beta search, which treats opponents as a coalition against the searching player.
 - Castling, en passant, promotion, deferred checkmate/stalemate resolution, placements, and threefold-repetition draws.
 
@@ -139,6 +146,10 @@ pnpm --filter @li4chess/web test:e2e    # Human/CPU turns, autoplay, and dead ar
 
 CI runs lint, unit tests, the production build, and browser tests on pull
 requests and pushes to `main`. Playwright starts its own local Vite server.
+The longer D1, Worker and multiplayer campaigns are preserved in the manually
+triggered [Extended local multiplayer validation](.github/workflows/validate-multiplayer.yml)
+workflow. Run it from GitHub Actions when working on that deferred backend;
+it is outside the default local/CPU Pages release checks and does not deploy.
 The GitHub Pages workflow deploys `apps/web/dist` from `main`; Vite's base path
 is configured for `/li4chess/`.
 
@@ -195,7 +206,7 @@ M3-07 has [reviewed completed-game replay evidence](docs/m3-07-evidence/README.m
 M3-08 has [reviewed private rematch evidence](docs/m3-08-evidence/README.md).
 The [deferred multiplayer handoff](docs/m3-hosted-handoff.md) retains hosted
 acceptance needs; M3 is paused and incomplete. The
-[local/CPU domain launch](docs/local-launch-handoff.md) comes first.
+[local/CPU Pages checkpoint](docs/local-launch-handoff.md) is the active release goal.
 
 ## Bot research and benchmarks
 
@@ -245,9 +256,11 @@ whole-runtime recovery against local workerd/D1. After `build:multiplayer`, run
 visible through recovery, and leaving asks before abandoning that intention.
 Local campaign success does not establish hosted readiness or select a launch clock.
 
-[ROADMAP.md](ROADMAP.md) prioritizes the local/CPU domain launch, then optional
-hosted friend-invite games. Matchmaking, ratings and broader community features
-are deferred or uncommitted; completed milestone evidence is retained.
+[ROADMAP.md](ROADMAP.md) prioritizes a polished local/CPU GitHub Pages checkpoint,
+then bug fixes and occasional feedback with no promised feature schedule.
+Cloudflare/domain launch and hosted friend-invite games are shelved. Matchmaking,
+ratings and broader community features are deferred or uncommitted; completed
+milestone evidence is retained.
 
 [docs/project-state.md](docs/project-state.md) retains accepted decisions,
 current focus, the next actionable tasks, open questions, and dated validation

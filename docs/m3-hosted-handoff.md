@@ -1,11 +1,12 @@
 # Deferred M3 handoff: hosted friend-invite acceptance
 
 Prepared 2026-09-08 after [M3-08 local acceptance](m3-08-evidence/README.md).
-Updated 2026-09-08: the accepted minimal-time direction makes the
-[local/CPU domain launch](local-launch-handoff.md) the next task. This handoff is
-deferred until after L1, if hosted friend-invite play is pursued. Preserve the
-implemented multiplayer and the acceptance needs below. This document does not
-authorize provisioning or deployment.
+Updated 2026-09-08 (D14): Cloudflare/domain launch and hosted friend-invite play
+are shelved. The active sequence is UI1, then the
+[local/CPU GitHub Pages checkpoint](local-launch-handoff.md). This handoff has no
+scheduled place after L1; resumption requires a new maintainer scope decision.
+Preserve the implemented local multiplayer and the acceptance needs below.
+This document does not authorize provisioning or deployment.
 
 PR #19 merged at 9a49a80, verified by the 2026-09-08 pull. Verify the current
 main revision and its checks when resuming; no fresh post-merge CI verification

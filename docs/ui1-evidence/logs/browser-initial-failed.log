@@ -1,0 +1,229 @@
+
+> @li4chess/web@0.0.0 test:e2e C:\Users\sith\Code\li4chess\apps\web
+> playwright test
+
+[WebServer] npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "recursive". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] (node:10032) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:31140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 51 tests using 1 worker
+
+(node:38448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:38448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\accessibility.spec.ts:4:1 › a check against a non-current player is announced alongside its score (613ms)
+  ok  2 e2e\accessibility.spec.ts:71:1 › keyboard-only setup, board selection, clearing, move and game controls (580ms)
+  ok  3 e2e\accessibility.spec.ts:123:1 › arrow navigation follows every rotation and player panels follow the same directions (855ms)
+  ok  4 e2e\accessibility.spec.ts:153:3 › 360px layout › full board, readable panels, touch controls and deliberate terminal result (895ms)
+  ok  5 e2e\accessibility.spec.ts:153:3 › 768px layout › full board, readable panels, touch controls and deliberate terminal result (966ms)
+  ok  6 e2e\accessibility.spec.ts:153:3 › 1280px layout › full board, readable panels, touch controls and deliberate terminal result (915ms)
+  ok  7 e2e\accessibility.spec.ts:210:1 › long histories stay scrollable without expanding the board frame (1.3s)
+  ok  8 e2e\claim.spec.ts:33:5 › Claim: lead 20, turn 0, CPU false, eliminated score 0 (428ms)
+  ok  9 e2e\claim.spec.ts:33:5 › Claim: lead 21, turn 0, CPU false, eliminated score 0 (498ms)
+  ok 10 e2e\claim.spec.ts:33:5 › Claim: lead 21, turn 1, CPU false, eliminated score 0 (515ms)
+  ok 11 e2e\claim.spec.ts:33:5 › Claim: lead 21, turn 0, CPU true, eliminated score 0 (1.4s)
+  ok 12 e2e\claim.spec.ts:33:5 › Claim: lead 21, turn 0, CPU true, eliminated score 50 (1.4s)
+  ok 13 e2e\complete.spec.ts:40:1 › complete phone hotseat game: Modern opening to repetition, export and terminal resume (2.2s)
+  ok 14 e2e\complete.spec.ts:68:1 › complete mixed game: real CPU opening, deliberate forfeits, walking Kings and final awards (7.2s)
+  x  15 e2e\dead-armies.spec.ts:5:3 › active King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable (5.6s)
+(node:11132) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11132) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  16 e2e\dead-armies.spec.ts:5:3 › walking King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable (5.8s)
+(node:31620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  17 e2e\dead-armies.spec.ts:5:3 › active King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable (5.7s)
+(node:38024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:38024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  18 e2e\dead-armies.spec.ts:5:3 › walking King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable (5.8s)
+(node:30604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 19 e2e\draw.spec.ts:3:62 › automatic insufficient-material draw explains the result and flat awards (676ms)
+  ok 20 e2e\draw.spec.ts:3:62 › automatic fifty-move draw explains the result and flat awards (588ms)
+  ok 21 e2e\forfeit.spec.ts:4:3 › Resign Red: opening action aborts without placements (508ms)
+  ok 22 e2e\forfeit.spec.ts:22:3 › Resign Red: post-opening dead army retains a live automatically moving King (1.4s)
+  ok 23 e2e\forfeit.spec.ts:4:3 › Simulate timeout: opening action aborts without placements (510ms)
+  ok 24 e2e\forfeit.spec.ts:22:3 › Simulate timeout: post-opening dead army retains a live automatically moving King (1.4s)
+  ok 25 e2e\game.spec.ts:3:1 › human (Red) + 3 CPU: a real move plays, then all three CPU seats auto-play their turns (2.4s)
+  ok 26 e2e\game.spec.ts:26:1 › 4-CPU autoplay: the whole game drives itself turn after turn with no errors or desync (41.0s)
+  ok 27 e2e\promotion.spec.ts:3:1 › eighth-rank promotion displays Queen and history, then capture scores one point (685ms)
+  ok 28 e2e\replay-download.spec.ts:15:1 › StrictMode download survives identity rerender, ignores delayed obsolete response and retries (457ms)
+  ok 29 e2e\replay.spec.ts:42:1 › export, reload, resume and re-export retain state and producer lineage; tampering rejects (1.3s)
+  ok 30 e2e\replay.spec.ts:75:1 › terminal abort exports and imports without placements (905ms)
+  ok 31 e2e\replay.spec.ts:92:1 › imported walking King resumes its cursor and exports the recorded automatic move (1.4s)
+  ok 32 e2e\replay.spec.ts:122:1 › an interrupted terminal award transaction recovers the exact final result (836ms)
+  ok 33 e2e\replay.spec.ts:158:1 › imported CPU ownership and difficulty drive scheduling in a human-configured game (1.4s)
+  ok 34 e2e\save.spec.ts:9:1 › hotseat moves autosave before immediate refresh and resume through keyboard controls (825ms)
+  ok 35 e2e\save.spec.ts:28:1 › abort result survives refresh and a new game replaces its save (786ms)
+  ok 36 e2e\save.spec.ts:52:1 › missing and corrupted saves leave setup usable (395ms)
+  ok 37 e2e\save.spec.ts:70:1 › unavailable storage reports the limitation while legal moves remain usable (577ms)
+  ok 38 e2e\save.spec.ts:88:1 › an older asynchronous resume cannot replace a newly started game (830ms)
+  ok 39 e2e\ui1.spec.ts:29:5 › desktop › UI1 setup, play, states and results fit the viewport (1.3s)
+  ok 40 e2e\ui1.spec.ts:29:5 › short-desktop › UI1 setup, play, states and results fit the viewport (1.2s)
+  ok 41 e2e\ui1.spec.ts:29:5 › tablet › UI1 setup, play, states and results fit the viewport (1.3s)
+  ok 42 e2e\ui1.spec.ts:29:5 › phone › UI1 setup, play, states and results fit the viewport (1.1s)
+  ok 43 e2e\worker.spec.ts:54:1 › real level-5 Worker keeps input usable; leaving terminates active search (2.5s)
+  ok 44 e2e\worker.spec.ts:78:1 › import during real active search terminates old Worker and preserves the imported turn (2.3s)
+  ok 45 e2e\worker.spec.ts:108:1 › terminal action cancels an active real Worker (2.3s)
+  ok 46 e2e\worker.spec.ts:123:1 › confirmed reset terminates active search and only the new game can move (2.9s)
+  ok 47 e2e\worker.spec.ts:142:1 › failure during active production search recovers once and the terminated search cannot reply (2.3s)
+  ok 48 e2e\worker.spec.ts:159:1 › refresh during real active search resumes exactly one CPU turn with saved difficulty (3.4s)
+  ok 49 e2e\worker.spec.ts:178:3 › constructor recovery applies exactly one legal move (1.6s)
+  ok 50 e2e\worker.spec.ts:178:3 › crash recovery applies exactly one legal move (2.1s)
+  ok 51 e2e\worker.spec.ts:178:3 › watchdog recovery applies exactly one legal move (4.1s)
+
+
+  1) e2e\dead-armies.spec.ts:5:3 › active King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCSS[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('button[data-square="3"]').locator('span')
+    Expected: [32m"rgb(119, 119, 119)"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toHaveCSS" with timeout 5000ms[22m
+    [2m  - waiting for locator('button[data-square="3"]').locator('span')[22m
+
+
+      40 |     await expect(page.getByRole("button", { name:/dead Red/ })).toHaveCount(2);
+      41 |     await expect(square(3,0)).toHaveCSS("outline-style", "none");
+    > 42 |     await expect(square(3,0).locator("span")).toHaveCSS("color", "rgb(119, 119, 119)");
+         |                                               ^
+      43 |     await square(3,0).click();
+      44 |     await expect(square(3,0)).not.toHaveCSS("background-color", "rgb(245, 215, 110)");
+      45 |     await square(3,9).click();
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\dead-armies.spec.ts:42:47
+
+    Error Context: test-results\dead-armies-active-King-ch-e4c95-d-and-zero-point-capturable\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\dead-armies-active-King-ch-e4c95-d-and-zero-point-capturable\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\dead-armies-active-King-ch-e4c95-d-and-zero-point-capturable\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\dead-armies.spec.ts:5:3 › walking King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCSS[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('button[data-square="3"]').locator('span')
+    Expected: [32m"rgb(119, 119, 119)"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toHaveCSS" with timeout 5000ms[22m
+    [2m  - waiting for locator('button[data-square="3"]').locator('span')[22m
+
+
+      40 |     await expect(page.getByRole("button", { name:/dead Red/ })).toHaveCount(2);
+      41 |     await expect(square(3,0)).toHaveCSS("outline-style", "none");
+    > 42 |     await expect(square(3,0).locator("span")).toHaveCSS("color", "rgb(119, 119, 119)");
+         |                                               ^
+      43 |     await square(3,0).click();
+      44 |     await expect(square(3,0)).not.toHaveCSS("background-color", "rgb(245, 215, 110)");
+      45 |     await square(3,9).click();
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\dead-armies.spec.ts:42:47
+
+    Error Context: test-results\dead-armies-walking-King-c-aaf68-d-and-zero-point-capturable\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\dead-armies-walking-King-c-aaf68-d-and-zero-point-capturable\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\dead-armies-walking-King-c-aaf68-d-and-zero-point-capturable\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e\dead-armies.spec.ts:5:3 › active King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCSS[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('button[data-square="3"]').locator('span')
+    Expected: [32m"rgb(119, 119, 119)"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toHaveCSS" with timeout 5000ms[22m
+    [2m  - waiting for locator('button[data-square="3"]').locator('span')[22m
+
+
+      40 |     await expect(page.getByRole("button", { name:/dead Red/ })).toHaveCount(2);
+      41 |     await expect(square(3,0)).toHaveCSS("outline-style", "none");
+    > 42 |     await expect(square(3,0).locator("span")).toHaveCSS("color", "rgb(119, 119, 119)");
+         |                                               ^
+      43 |     await square(3,0).click();
+      44 |     await expect(square(3,0)).not.toHaveCSS("background-color", "rgb(245, 215, 110)");
+      45 |     await square(3,9).click();
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\dead-armies.spec.ts:42:47
+
+    Error Context: test-results\dead-armies-active-King-st-5cef2-d-and-zero-point-capturable\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\dead-armies-active-King-st-5cef2-d-and-zero-point-capturable\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\dead-armies-active-King-st-5cef2-d-and-zero-point-capturable\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) e2e\dead-armies.spec.ts:5:3 › walking King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCSS[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('button[data-square="3"]').locator('span')
+    Expected: [32m"rgb(119, 119, 119)"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toHaveCSS" with timeout 5000ms[22m
+    [2m  - waiting for locator('button[data-square="3"]').locator('span')[22m
+
+
+      40 |     await expect(page.getByRole("button", { name:/dead Red/ })).toHaveCount(2);
+      41 |     await expect(square(3,0)).toHaveCSS("outline-style", "none");
+    > 42 |     await expect(square(3,0).locator("span")).toHaveCSS("color", "rgb(119, 119, 119)");
+         |                                               ^
+      43 |     await square(3,0).click();
+      44 |     await expect(square(3,0)).not.toHaveCSS("background-color", "rgb(245, 215, 110)");
+      45 |     await square(3,9).click();
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\dead-armies.spec.ts:42:47
+
+    Error Context: test-results\dead-armies-walking-King-s-a6407-d-and-zero-point-capturable\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\dead-armies-walking-King-s-a6407-d-and-zero-point-capturable\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\dead-armies-walking-King-s-a6407-d-and-zero-point-capturable\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    e2e\dead-armies.spec.ts:5:3 › active King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable 
+    e2e\dead-armies.spec.ts:5:3 › walking King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable 
+    e2e\dead-armies.spec.ts:5:3 › active King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable 
+    e2e\dead-armies.spec.ts:5:3 › walking King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable 
+  47 passed (2.3m)
+C:\Users\sith\Code\li4chess\apps\web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @li4chess/web@0.0.0 test:e2e: `playwright test`
+Exit status 1

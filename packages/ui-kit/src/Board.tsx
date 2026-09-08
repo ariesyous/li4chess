@@ -1,10 +1,12 @@
 import { BOARD_SIZE, Piece, PieceType, PlayerColor, isOnBoard, squareOf, localToBoard, boardToLocal, localSquare } from "@li4chess/engine";
 import { useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
-import { PIECE_GLYPHS } from "./pieceGlyphs.js";
+import { Piece as PieceImage } from "./Piece.js";
 import { PLAYER_COLOR_HEX } from "./theme.js";
 
 export interface BoardProps {
+  /** Optional visual owner initials; accessible square names always retain ownership. */
+  readonly showOwnerLetters?: boolean;
   readonly board: readonly (Piece | null)[];
   readonly onSquareClick?: (square: number) => void;
   readonly onClearSelection?: () => void;
@@ -27,6 +29,7 @@ function displayToAbsolute(displayFile: number, displayRank: number, bottomColor
 const PIECE_NAMES = { P: "Pawn", N: "Knight", B: "Bishop", R: "Rook", Q: "Queen", K: "King" };
 
 export function Board({
+  showOwnerLetters = true,
   board,
   onSquareClick,
   onClearSelection,
@@ -105,13 +108,14 @@ export function Board({
             fontSize: "clamp(20px, 4.6vw, 36px)",
             cursor: onSquareClick ? "pointer" : "default",
             background: isSelected
-              ? "#f5d76e"
+              ? "#b7c66c"
               : isLastMove
-                ? "#e8e0b0"
+                ? "#cdd18a"
                 : isDark
-                  ? "#7a8c6e"
-                  : "#e9e6d6",
-            outline: isCheckedKingSquare ? "3px solid #ff2d2d" : "none",
+                  ? "#b58863"
+                  : "#f0d9b5",
+            boxShadow: isCheckedKingSquare ? "inset 0 0 0 3px #b82020, inset 0 0 18px 5px #e54040" : undefined,
+            outline: "none",
             outlineOffset: "-3px",
             position: "relative",
           }}
@@ -129,11 +133,9 @@ export function Board({
             />
           )}
           {piece && (
-            <span aria-hidden="true" style={{ color: isDead ? "#777777" : PLAYER_COLOR_HEX[piece.owner], filter: "drop-shadow(0 0 1px black)", WebkitTextStroke: "0.5px #202c28" }}>
-              {PIECE_GLYPHS[piece.type]}
-            </span>
+            <PieceImage type={piece.type} color={PLAYER_COLOR_HEX[piece.owner]} dead={isDead} />
           )}
-          {piece && <small aria-hidden="true" className="piece-owner">{PlayerColor[piece.owner][0]}{isDead ? "×" : ""}</small>}
+          {piece && (showOwnerLetters || isDead) && <small aria-hidden="true" className="piece-owner">{showOwnerLetters ? PlayerColor[piece.owner][0] : ""}{isDead ? "×" : ""}</small>}
         </button>
       );
     }
@@ -152,7 +154,7 @@ export function Board({
         gridTemplateRows: `repeat(${BOARD_SIZE}, minmax(0, 1fr))`,
         width: "100%",
         aspectRatio: "1",
-        gap: "1px",
+        gap: 0,
         background: "transparent",
       }}
     >
