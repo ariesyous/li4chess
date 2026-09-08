@@ -71,6 +71,11 @@ try{
   assert.equal(creations.length,2);assert.equal(new Set(creations).size,1);await pages[0].unroute("**/api/online");
   const createdAgain=await request(contexts[0],{type:"create",id:createId});assert(createdAgain.type==="created");assert.equal(createdAgain.lobby.room,room);assert.equal(createdAgain.invitation,invitation);
   for(let i=1;i<4;i++){await pages[i].getByRole("textbox",{name:"Invitation",exact:true}).fill(invitation);await pages[i].getByRole("button",{name:"Join private room",exact:true}).click();await expect(pages[i].getByTestId("online-room")).toHaveText(room);}
+  // Shared UI styles must also contain the real local invitation/lobby on phones.
+  await pages[0].setViewportSize({width:360,height:800});
+  assert(await pages[0].evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await pages[0].screenshot({path:resolve(output,"online-lobby-phone.png"),fullPage:true});
+  await pages[0].setViewportSize({width:1280,height:720});
   const noSeat=await request(contexts[1],{type:"ready",room,ready:true});assert(noSeat.type==="error"&&noSeat.code==="unauthorized");
   const outsider=await request(contexts[4],{type:"issue"});assert.equal(outsider.type,"session");
   const wrongRoom=await request(contexts[4],{type:"lobby",room});assert(wrongRoom.type==="error"&&wrongRoom.code==="unauthorized");
@@ -91,6 +96,10 @@ try{
   for(let seat=1;seat<4;seat++)assert.equal((await request(contexts[order[seat]],{type:"seat",room,seat})).type,"lobby");
   const readies=await Promise.all(order.map(i=>request(contexts[i],{type:"ready",room,ready:true})));assert(readies.every(r=>r.type==="lobby"));
   for(const page of pages)await connected(page);
+  await pages[0].setViewportSize({width:360,height:800});
+  assert(await pages[0].evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await pages[0].screenshot({path:resolve(output,"online-play-phone.png"),fullPage:true});
+  await pages[0].setViewportSize({width:1280,height:720});
   record("invitation membership, concurrent seats/readiness and immutable game creation",{room,seats:order});
   const red=pages[order[0]],redContext=contexts[order[0]],redProof=await proof(red);
   const invalids=[{type:"command",room,id:"server:1",expectedCommand:0,action:{type:"resign"}},{type:"command",room,id:"x",expectedCommand:-1,action:{type:"resign"}},

@@ -1,0 +1,19 @@
+
+> @li4chess/worker@0.0.0 test:multiplayer C:\Users\sith\Code\li4chess\apps\worker
+> tsx test/multiplayer.ts
+
+PASS four independently issued HttpOnly guest sessions
+PASS late successful lobby response after leave cannot restore cleared room state
+PASS invitation membership, concurrent seats/readiness and immutable game creation
+PASS strict origin/version/field/action/size/sequence and proof authorization rejection
+PASS WebSocket origin/protocol rejection and bounded unauthenticated first-frame deadline without room data
+PASS lost response exact retry, conflict rejection and four-client canonical consistency
+PASS refresh reauthentication, observer tabs, explicit takeover and stale controller rejection
+PASS opener-copied session storage receives an independent observer proof
+PASS browser network interruption reconnects and resyncs
+PASS real D1 rollback suspends publication; browser refresh retains exact intention through alarm recovery
+PASS out-of-turn resignation, terminal receipt retry and immutable result
+PASS credential rotation and revocation affect existing connections
+PASS absolute credential expiry closes existing authenticated socket and rejects the expired cookie
+PASS actual SQLite guest store retains digests and lifecycle records without raw guest credentials
+Multiplayer evidence: C:\Users\sith\Code\li4chess\arena-results\ui1-multiplayer-fixed

@@ -1,0 +1,19 @@
+
+> li4chess@0.0.0 test:workers C:\Users\sith\Code\li4chess
+> pnpm --filter @li4chess/worker test:runtime
+
+$ tsx test/run.ts
+
+Running 4 tests using 1 worker
+
+(node:23776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 test\acceptance.spec.ts:30:1 › HTTP contract rejects unknown APIs, upgrades, methods and internal paths without SPA fallback (436ms)
+  ok 2 test\acceptance.spec.ts:70:1 › Static Assets returns exact built bytes and MIME types, navigation and HEAD preserve the shell (213ms)
+  ok 3 test\acceptance.spec.ts:98:1 › bundled CPU Worker makes real turns; refresh, save and replay import retain producer lineage (3.1s)
+  ok 4 test\acceptance.spec.ts:158:1 › phone viewport preserves keyboard board controls through Worker navigation and refresh (631ms)
+
+  4 passed (5.3s)
+Worker acceptance evidence: C:\Users\sith\Code\li4chess\arena-results\ui1-worker-final

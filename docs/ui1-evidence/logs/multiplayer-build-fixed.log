@@ -1,0 +1,15 @@
+
+> @li4chess/worker@0.0.0 build:multiplayer C:\Users\sith\Code\li4chess\apps\worker
+> tsx scripts/multiplayer-build.ts
+
+vite v5.4.21 building for workers...
+transforming...
+✓ 100 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-workers/index.html                       0.41 kB │ gzip:  0.27 kB
+dist-workers/assets/cpu.worker-CObQFQzj.js   34.95 kB
+dist-workers/assets/index-Dy7xw29b.css       10.38 kB │ gzip:  3.01 kB
+dist-workers/assets/index-B0vUXocW.js       260.01 kB │ gzip: 82.95 kB
+✓ built in 907ms
+Workers artifact sha256:be2319a93b4fd11f0258ca66a1d6622a56b790f054950da475b0b5918ab2d050

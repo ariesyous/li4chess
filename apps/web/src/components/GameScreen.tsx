@@ -7,6 +7,8 @@ import type { CSSProperties } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
 import type { ResumedGame } from "../game/localSave.js";
 import { RulesHelp } from "./RulesHelp.js";
+import { Credits } from "./Credits.js";
+import { Icon } from "./Icon.js";
 
 const squareLabel = (square: number) => `${String.fromCharCode(97 + square % 14)}${Math.floor(square / 14) + 1}`;
 const directions = ["bottom", "left", "top", "right"] as const;
@@ -102,24 +104,24 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
             {state.result.reason === "repetition" ? " — draw by threefold repetition" : state.result.reason === "insufficient-material" ? " — draw by insufficient material" : state.result.reason === "fifty-move" ? " — draw by 50-move rule" : ""}</h2>
           {state.result.abort && <p>{PLAYER_COLOR_NAME[state.result.abort.actor]} {state.result.abort.classification === "early-resign" ? "resigned" : "timed out"} before every seat completed three moves. No placements are awarded.</p>}
           {state.result.claim && <p>{PLAYER_COLOR_NAME[state.result.claim.actor]} claimed the win. {PLAYER_COLOR_NAME[state.result.claim.trailer]} received 20 points; play ends immediately.</p>}
-          <ol className="placements">{state.result.placements.map(p => <li key={p.color} data-testid={p.place === 1 && state.result!.winner !== null ? "winner-name" : undefined}>
+          <ol className="placements">{state.result.placements.map(p => <li key={p.color} style={{ "--seat-color": PLAYER_COLOR_HEX[p.color] } as CSSProperties} data-testid={p.place === 1 && state.result!.winner !== null ? "winner-name" : undefined}>
             <strong>{PLAYER_COLOR_NAME[p.color]} — {points(p.score)} pts · place {p.place}{p.meanRank !== p.place ? " (shared)" : ""}</strong>
           </li>)}</ol>
           {state.result.reason !== "abort" && <p>Final points determine every placement, including eliminated players.</p>}
-          <button type="button" onClick={onRestart}>Play again</button>
+          <button className="primary-button" type="button" onClick={onRestart}><Icon name="play" />Play again</button>
         </section>}
       </section>
       <aside className="game-sidebar" aria-label="Game controls and history">
         <section className="card controls"><h2>Your game</h2>
           <p>{mode}. {state.players[state.turn].isCPU && !state.result ? `CPU level ${state.players[state.turn].cpuDifficulty ?? 3}: ${CPU_POLICIES[(state.players[state.turn].cpuDifficulty ?? 3) as CpuLevel].label}.` : "Play locally, save here, or export a replay."}</p>
-          <div className="button-row"><button type="button" onClick={save}>Save game</button><button type="button" disabled={replayBusy} onClick={() => void exportReplay()}>Export replay</button></div>
+          <div className="button-row"><button type="button" onClick={save}><Icon name="save" />Save game</button><button type="button" disabled={replayBusy} onClick={() => void exportReplay()}><Icon name="download" />Export replay</button></div>
           <p className="subtle" data-testid="save-message" role="status">{saveMessage}</p>
           <label className="import-control">Import replay<input type="file" accept=".json,application/json" disabled={replayBusy} onChange={event => {
             const file = event.currentTarget.files?.[0]; event.currentTarget.value = ""; if (file) void importReplay(file);
           }} /></label>
           {replayMessage && <p role="status" data-testid="replay-message">{replayMessage}</p>}
           <div className="button-row game-actions">
-            <button type="button" onClick={() => confirmAction("Reset this game with the current seats? This replaces the local save. Export a replay first to keep this game.", reset)}>Reset game</button>
+            <button type="button" onClick={() => confirmAction("Reset this game with the current seats? This replaces the local save. Export a replay first to keep this game.", reset)}><Icon name="reset" />Reset game</button>
             {!state.result && state.players[state.turn].status === "active" && <>
               <button type="button" disabled={replayBusy} onClick={() => confirmAction(opening ? `Resign ${PLAYER_COLOR_NAME[state.turn]}? This aborts the game because not everyone has completed three moves.` : `Resign ${PLAYER_COLOR_NAME[state.turn]}? Your army becomes dead and your King walks automatically.`, resign)}>Resign {PLAYER_COLOR_NAME[state.turn]}</button>
               <button type="button" disabled={replayBusy} onClick={() => confirmAction(opening ? "Record a simulated timeout? This aborts the opening game." : "Record a simulated timeout? This forfeits the current seat and its King walks automatically.", timeout)}>Simulate timeout</button>
@@ -132,7 +134,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
         </section>
         <section className="card history-card"><h2>Move history</h2>
           <ol data-testid="move-history" className="move-list" tabIndex={0} aria-label="Move history, scroll to inspect earlier moves">{state.moveHistory.map((move, index) => <li key={index}>
-            <span className="history-owner">{PLAYER_COLOR_NAME[move.piece.owner]}</span> {move.piece.type}{squareLabel(move.from)}{move.captured ? "x" : "-"}{squareLabel(move.to)}{move.promotion ? `=${move.promotion}` : ""}{move.castle ? ` (${move.castle} castle)` : ""}{move.isCheck.length ? "+" : ""}{move.eliminates.length ? " · elimination" : ""}
+            <span className="history-owner" style={{ "--seat-color": PLAYER_COLOR_HEX[move.piece.owner] } as CSSProperties}>{PLAYER_COLOR_NAME[move.piece.owner]}</span> {move.piece.type}{squareLabel(move.from)}{move.captured ? "x" : "-"}{squareLabel(move.to)}{move.promotion ? `=${move.promotion}` : ""}{move.castle ? ` (${move.castle} castle)` : ""}{move.isCheck.length ? "+" : ""}{move.eliminates.length ? " · elimination" : ""}
           </li>)}</ol>
           {!state.moveHistory.length && <p className="subtle">The first move starts the story.</p>}
           <h3>Points</h3><ol data-testid="award-ledger" className="event-list" tabIndex={0} aria-label="Points history">{state.awardLedger.map(award => <li key={award.sequence}>
@@ -144,5 +146,6 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
         <section className="card"><RulesHelp /></section>
       </aside>
     </div>
+    <Credits />
   </main>;
 }

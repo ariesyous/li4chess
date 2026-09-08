@@ -1,10 +1,11 @@
 # UI1: Lichess-style UI sprint
 
-Status: planned, 2026-09-08. The maintainer requested a close match to the style
-of lichess.org, especially its interface, chessboard and icons, with open-source
-reuse. Schedule one bounded sprint before L1; no UI implementation or asset import
-is claimed by this planning update. This updates D08's visual direction while
-preserving the existing four-player information architecture.
+Status: complete, 2026-09-08. [Implementation, captures and checks](ui1-evidence/README.md)
+meet the completion criteria below. The application now uses adapted Cburnett
+SVG pieces, a warm board and cohesive setup, controls, histories and results.
+[Third-party notices](../THIRD_PARTY_NOTICES.md) retain exact provenance and licenses.
+The existing four-player renderer and gameplay are preserved. The original brief
+below records the bounded scope; L1 release verification/tagging is still separate.
 The later D14 scope decision retains UI1 and makes L1 a local/CPU GitHub Pages
 checkpoint. Cloudflare/domain launch and hosted multiplayer are shelved.
 

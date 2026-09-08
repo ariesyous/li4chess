@@ -1,0 +1,27 @@
+
+> @li4chess/worker@0.0.0 test:multiplayer C:\Users\sith\Code\li4chess\apps\worker
+> tsx test/multiplayer.ts
+
+PASS four independently issued HttpOnly guest sessions
+PASS late successful lobby response after leave cannot restore cleared room state
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(await pages[0].evaluate(()=>document.documentElement.scrollWidth<=innerWidth))
+
+    at <anonymous> (C:\Users\sith\Code\li4chess\apps\worker\test\multiplayer.ts:100:3) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.18.0
+C:\Users\sith\Code\li4chess\apps\worker:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @li4chess/worker@0.0.0 test:multiplayer: `tsx test/multiplayer.ts`
+Exit status 1

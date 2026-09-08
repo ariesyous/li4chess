@@ -96,7 +96,7 @@ function ConnectedGame({room,session,previousRoom,onEnter,onLeave}:{room:string;
     finally{if(lifetime.current){departure.current=false;setLeaving(false);}}
   };
   const seconds=(n:number)=>Math.max(0,n/1000).toFixed(1);
-  return <main className="game-shell"><header className="app-header"><h1>Private multiplayer</h1><button disabled={leaving||transitioning} onClick={()=>void leave()}>Leave online room</button></header>
+  return <main className="game-shell online-game"><header className="app-header"><h1>Private multiplayer</h1><button disabled={leaving||transitioning} onClick={()=>void leave()}>Leave online room</button></header>
     <p role="status">{transitionMessage}</p>
     {previousRoom&&<PreviousResult room={previousRoom} session={session}/>}
     <p role="status" data-testid="online-status">{view.phase} · {view.notice}</p>

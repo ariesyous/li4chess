@@ -1,0 +1,49 @@
+
+> li4chess@0.0.0 build C:\Users\sith\Code\li4chess
+> turbo run build "--force"
+
+• turbo 2.10.12
+
+   • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+   • Running build in 10 packages
+   • Remote caching disabled
+
+@li4chess/engine:build: cache bypass, force executing f421bf825c7fc214
+@li4chess/engine:build: $ tsc -p tsconfig.json
+@li4chess/protocol:build: cache bypass, force executing b7530ea68b237b3e
+@li4chess/bot:build: cache bypass, force executing 67d425afb1e46d27
+@li4chess/ui-kit:build: cache bypass, force executing 029abcf09c31b429
+@li4chess/protocol:build: $ tsc -p tsconfig.json
+@li4chess/bot:build: $ tsc -p tsconfig.json
+@li4chess/ui-kit:build: $ tsc -p tsconfig.json
+@li4chess/persistence:build: cache bypass, force executing d1ff41cd629d8837
+@li4chess/arena:build: cache bypass, force executing 3d83f8242d44e2dd
+@li4chess/web:build: cache bypass, force executing 92c122d9830a6dc7
+@li4chess/architecture-spike:build: cache bypass, force executing ca03eea53dfca9fc
+@li4chess/persistence:build: $ tsc --noEmit
+@li4chess/arena:build: $ tsc -p tsconfig.json
+@li4chess/web:build: $ tsc -p tsconfig.json --noEmit && vite build
+@li4chess/architecture-spike:build: $ tsc --noEmit
+@li4chess/game-room:build: cache bypass, force executing e0ff91dc73b00a00
+@li4chess/game-room:build: $ tsc --noEmit
+@li4chess/worker:build: cache bypass, force executing 899f688296b21e41
+@li4chess/worker:build: $ tsc -p tsconfig.json
+@li4chess/web:build: vite v5.4.21 building for production...
+@li4chess/web:build: transforming...
+@li4chess/web:build: ✓ 100 modules transformed.
+@li4chess/web:build: rendering chunks...
+@li4chess/web:build: computing gzip size...
+@li4chess/web:build: dist/index.html                       0.42 kB │ gzip:  0.28 kB
+@li4chess/web:build: dist/assets/cpu.worker-CObQFQzj.js   34.95 kB
+@li4chess/web:build: dist/assets/index-Dy7xw29b.css       10.38 kB │ gzip:  3.01 kB
+@li4chess/web:build: dist/assets/index-BpIEINmm.js       259.91 kB │ gzip: 82.94 kB
+@li4chess/web:build: ✓ built in 1.08s
+
+ Tasks:    10 successful, 10 total
+Cached:    0 cached, 10 total
+  Time:    8.431s 
+
+ WARNING  no output files found for task @li4chess/architecture-spike#build. Please check your `outputs` key in `turbo.json`
+ WARNING  no output files found for task @li4chess/game-room#build. Please check your `outputs` key in `turbo.json`
+ WARNING  no output files found for task @li4chess/persistence#build. Please check your `outputs` key in `turbo.json`
+ WARNING  no output files found for task @li4chess/worker#build. Please check your `outputs` key in `turbo.json`

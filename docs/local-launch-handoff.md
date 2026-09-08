@@ -12,6 +12,11 @@ multiplayer and all rules/bot/replay evidence. There is no scheduled hosted foll
 
 ## Release work and completion evidence
 
+UI1 is complete with [local validation and captures](ui1-evidence/README.md).
+Its implementation is on `codex/ui1-lichess-refresh`; it was not merged, deployed
+or tagged by the UI1 task. Carry forward [piece attribution](../THIRD_PARTY_NOTICES.md).
+L1 still needs the release-revision CI and actual Pages HTTPS checks below.
+
 1. Verify the current main revision, working tree and CI before implementation.
    Preserve existing work; historical acceptance does not validate a new release.
    Confirm UI1's visual, accessibility and asset-provenance criteria are complete.

@@ -1,0 +1,46 @@
+{
+  "startedAt": "2026-09-08T19:41:13.030Z",
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 34269650944
+  },
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "6ef04256db56dee9d9fbc013be91e34d46fecb4b",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:be2319a93b4fd11f0258ca66a1d6622a56b790f054950da475b0b5918ab2d050",
+    "workingTree": {
+      "status": "dirty",
+      "contentHash": "sha256:be2319a93b4fd11f0258ca66a1d6622a56b790f054950da475b0b5918ab2d050"
+    }
+  },
+  "port": 60492,
+  "pages": {
+    "assets/cpu.worker-CObQFQzj.js": "sha256:ee7488c16bb05c33bfb7b84e5147f3e58822f04f6006addf3e04da01d35e643f",
+    "assets/index-BpIEINmm.js": "sha256:1af365ae9c03003e95ed006bfbe3c07aaa5b64ee5f653c4d921e16c9e64c6476",
+    "assets/index-Dy7xw29b.css": "sha256:28083659d83ba783125bc6042438ad06ce0e2be4fb5699175a259623749bd04f",
+    "index.html": "sha256:336b50575abab34aaa9871be5e21269c555331c96e2398005e427e21b24b286f"
+  },
+  "pnpm": "11.19.0",
+  "wrangler": "4.129.0",
+  "workerd": "1.20260903.1",
+  "playwright": "1.56.1",
+  "command": "pnpm test:workers",
+  "hosted": false
+}

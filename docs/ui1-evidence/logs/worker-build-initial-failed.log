@@ -1,0 +1,29 @@
+
+> li4chess@0.0.0 build:workers C:\Users\sith\Code\li4chess
+> pnpm --filter @li4chess/worker build:assets
+
+$ tsx scripts/build.ts
+vite v5.4.21 building for workers...
+transforming...
+✓ 100 modules transformed.
+rendering chunks...
+computing gzip size...
+dist-workers/index.html                       0.41 kB │ gzip:  0.27 kB
+dist-workers/assets/cpu.worker-CObQFQzj.js   34.95 kB
+dist-workers/assets/index-D1Ndlx5W.css       10.04 kB │ gzip:  2.95 kB
+dist-workers/assets/index-tqLr9fK1.js       259.89 kB │ gzip: 82.93 kB
+✓ built in 1.08s
+file:///C:/Users/sith/Code/li4chess/packages/protocol/src/node.js:52
+  if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new Error("Source/build identity changed during this run; restart before producing evidence");
+                                                                  ^
+
+Error: Source/build identity changed during this run; restart before producing evidence
+    at assertBuildUnchanged (file:///C:/Users/sith/Code/li4chess/packages/protocol/src/node.js:52:67)
+    at <anonymous> (C:\Users\sith\Code\li4chess\apps\worker\scripts\build.ts:20:1)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.18.0
+C:\Users\sith\Code\li4chess\apps\worker:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] @li4chess/worker@0.0.0 build:assets: `tsx scripts/build.ts`
+Exit status 1
+ ELIFECYCLE  Command failed with exit code 1.

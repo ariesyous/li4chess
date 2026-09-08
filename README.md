@@ -21,10 +21,14 @@ the implemented scope.
 
 The immediate goal is a polished, free, ad-free local/CPU release on the existing
 [GitHub Pages site](https://ariesyous.github.io/li4chess/) that requires little
-ongoing maintainer time. A bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
-comes first, covering interface, board, pieces and licensed icon reuse, followed
-by a complete local-play review, deployment verification and a tagged release.
-The visual refresh and release checkpoint are planned, not complete.
+ongoing maintainer time. The bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
+prepares the interface, board and pieces for a complete local-play review,
+deployment verification and a tagged release.
+The visual refresh is complete, with [before/after captures and validation](docs/ui1-evidence/README.md).
+It uses a warm continuous board, four-color Cburnett SVG pieces, compact controls,
+directional seat panels and consistent setup/history/result surfaces. Exact sources,
+licenses and recoloring are recorded in [third-party notices](THIRD_PARTY_NOTICES.md),
+also linked from the app. The L1 release checkpoint remains planned.
 Human players share one device; CPU opponents run in the browser. Cloudflare,
 the li4chess.org launch and hosted multiplayer are shelved. Completed local
 private multiplayer and its evidence remain available for development, with no

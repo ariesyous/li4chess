@@ -8,6 +8,43 @@ superseded handoffs.
 
 ## Current focus
 
+**UI1 complete (2026-09-08); L1 is next.** The bounded visual refresh retains
+li4chess identity and the existing renderer, with warm board colors, outlined
+four-army Cburnett SVGs, compact controls, directional seat panels and consistent
+setup/history/result surfaces. Source/credits links and the
+[asset notices](../THIRD_PARTY_NOTICES.md) record upstream revision, author,
+licenses, retained SVG sources and reproducible recoloring.
+
+[UI1 evidence](ui1-evidence/README.md) records before/after inspection at desktop,
+short-desktop, tablet and phone sizes, checked/passive/walking states, shared
+placements, keyboard/touch controls and bounded histories. The actual local
+multiplayer test found and fixed phone overflow from state hashes and invitation
+labels. The final local multiplayer run passed 14 groups; default Worker acceptance
+passed four browser checks and preserved the Pages build. Local production preview
+at /li4chess/ loaded the pieces and completed a human/three-CPU rotation.
+
+Final Windows/Node 24.18.0/Corepack pnpm 10.33.0 checks on base `6ef0425` plus
+the UI1 implementation passed uncached lint, **731 unit tests**, build and
+**51 Playwright tests**, with no retries. The evidence manifest records the exact
+tested dirty-tree fingerprint and source hashes. Earlier provenance-guard failures,
+a concurrent arena timeout and obsolete glyph assertions are explicitly recorded;
+no timeout, rule, CPU policy or gameplay assertion was weakened. No physical-device,
+screen-reader, remote CI or live Pages deployment validation is claimed.
+Closeout review verified all 53 recorded source hashes, byte-identical piece
+regeneration, 200 local documentation links and diff-format checks. Raw tool
+logs retain their original whitespace under the evidence attributes.
+
+The pre-existing seven-file D14 documentation update was preserved in its own
+commit `6ef0425` on `codex/ui1-lichess-refresh`, based on `c5e74f4`. This UI1 task
+does not merge, deploy or tag. The bounded [L1 handoff](local-launch-handoff.md)
+owns release-candidate review, exact-revision CI, actual /li4chess/ Pages verification,
+release notes/tag and update/rollback instructions. Cloudflare/domain launch,
+hosted multiplayer and further bot research remain shelved under D14.
+
+## Earlier 2026-09-08 checkpoint context
+
+The following records predate UI1 implementation and retain their original scope.
+
 **Bounded bot endgame follow-up complete (2026-09-08):** the
 [implementation and evidence](engine/endgame-evidence-20260908/README.md) preserve
 the original replay and independently reconstruct all 240 moves, including the
@@ -472,12 +509,12 @@ engineering contracts retain their evidence; deferred features are not commitmen
 
 ## Next actionable tasks
 
-1. **UI1: Lichess-style UI sprint.** Follow the [bounded brief](ui-sprint-lichess.md); adapt licensed assets, preserve four-player usability and validate visual results.
-2. **L1: polished local/CPU GitHub Pages checkpoint.** Follow the
+1. **L1: polished local/CPU GitHub Pages checkpoint.** UI1 is complete with
+   [evidence](ui1-evidence/README.md). Follow the
    [bounded release handoff](local-launch-handoff.md): review the full local
    experience, fix concrete defects, run required checks, verify the existing
    /li4chess/ deployment and record a release tag, limitations and rollback.
-3. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
+2. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
    no promised feature schedule. Cloudflare/domain launch and hosted multiplayer
    are shelved. The [preserved hosted handoff](m3-hosted-handoff.md) needs a new
    scope decision. Matchmaking/ratings and other ideas have no active task queue.

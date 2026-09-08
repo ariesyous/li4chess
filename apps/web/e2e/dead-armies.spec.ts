@@ -39,9 +39,10 @@ for (const status of ["checkmated", "stalemated"] as const) for (const walking o
     if (!walking) await expect(page.getByText(`Red is ${status}`, { exact:false })).toContainText("zero points");
     await expect(page.getByRole("button", { name:/dead Red/ })).toHaveCount(2);
     await expect(square(3,0)).toHaveCSS("outline-style", "none");
-    await expect(square(3,0).locator("span")).toHaveCSS("color", "rgb(119, 119, 119)");
+    await expect(square(3,0).locator(".chess-piece")).toHaveCSS("color", "rgb(170, 166, 159)");
+    await expect(square(3,0)).toHaveCSS("box-shadow", "none");
     await square(3,0).click();
-    await expect(square(3,0)).not.toHaveCSS("background-color", "rgb(245, 215, 110)");
+    await expect(square(3,0)).toHaveAttribute("aria-pressed", "false");
     await square(3,9).click();
     await square(3,13).click();
     await expect(square(3,13)).toHaveAttribute("aria-label", "d14 Blue Rook, last move");

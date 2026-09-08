@@ -1,6 +1,12 @@
 # Preserve measurement bytes so results/manifest.json hashes survive every checkout.
 docs/engine/results/** -text
 
+# UI1 original SVG sources and recorded evidence retain downloaded/captured bytes.
+packages/ui-kit/src/assets/cburnett/** -text
+docs/ui1-evidence/** -text whitespace=cr-at-eol
+# Tool output includes trailing spaces; retain the original log bytes.
+docs/ui1-evidence/**/*.log -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+
 # Preserve the exact bytes covered by the published evidence checksums.
 docs/m3-01-evidence/local-runtime/* -text
 docs/m3-02-evidence/local-runtime/* -text

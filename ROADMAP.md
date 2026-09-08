@@ -75,7 +75,7 @@ capabilities do not make a milestone complete.
 | --- | --- | --- | --- | --- |
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
 | M2 | Responsive local and CPU play | Complete | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
-| UI1 | Lichess-style interface, board and icons | Planned — next | M2 | A familiar, cohesive four-player interface. |
+| UI1 | Lichess-style interface, board and icons | Complete | M2 | A familiar, cohesive four-player interface. |
 | L1 | Polished local/CPU GitHub Pages checkpoint | Planned — after UI1 | M1, M2, UI1 | Visitors can play a verified release without an account or remote opponents. |
 | M3 | Reliable friend-invite online game service | Paused — hosted plans shelved | M1; new scope decision required | Four friends could finish and recover a hosted casual game if resumed. |
 | M4 | Public matchmaking and rated beta | Deferred | Demand and operating capacity after M3 | Players can find opponents and build a credible rating. |
@@ -85,7 +85,13 @@ capabilities do not make a milestone complete.
 
 ### UI1 — Lichess-style UI sprint
 
-**Planned; next task.** The maintainer requested a close Lichess visual reference
+**Complete (2026-09-08).** [Captures and validation](docs/ui1-evidence/README.md)
+cover four viewport sizes, preserved local controls, SVG asset provenance and
+the opt-in multiplayer phone overflow fix. All 731 units, 51 local browser tests,
+four Worker browser checks and 14 multiplayer groups passed, alongside lint/build.
+The existing renderer, rules and CPU policies are retained. L1 is the next slice.
+
+The maintainer requested a close Lichess visual reference
 on 2026-09-08, including board, pieces and icons, with licensed reuse encouraged.
 The [bounded sprint](docs/ui-sprint-lichess.md) covers the existing setup/game
 screens, four-seat presentation, responsive layouts and asset provenance.
