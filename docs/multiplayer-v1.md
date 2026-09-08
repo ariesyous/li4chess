@@ -152,3 +152,42 @@ checks its current credential again before downloading. Local import retains its
 existing semantics: a new checkpoint under the local producing build links to the
 downloaded replay's canonical digest. The original downloaded producer is not
 rewritten. [Acceptance and evidence inventory](m3-07-acceptance.md).
+
+
+## Private rematches (M3-08; acceptance in progress)
+
+A completed private game, including an opening abort, permits a proposal by any
+currently authenticated original member. The server always verifies canonical
+terminal integrity and immutable membership. A proposal supplies no consent;
+each of the four original principals explicitly consents. Observer and controller
+tabs share one principal vote. Requests contain only room, stable ID, expected
+revision and proposal epoch; no client principal or seat grants authority.
+
+One pending proposal lasts ten minutes. Decline or withdrawal by any member closes
+it, as does missing valid participant access before unanimity. Rotation atomically
+replaces the same principal's credential and retains consent. Retired credentials
+cannot recover access. Eight proposal epochs and 128 accepted receipts are retained
+per source, with normal admission capped at 120 to reserve cancellation capacity.
+Exact accepted request retries return their original receipt and current state;
+altered reuse conflicts. No receipt eviction or automatic deadline extension occurs.
+
+Fourth consent atomically stores its receipt and one successor waiting lobby in
+GuestService SQLite. The successor fixes the same four seats, original clock
+policy, distinct identity and distinct reserved seed, with readiness false.
+Allocation does not attach, acquire control or start play. Each player enters and
+readies separately. Frozen creation uses the maintained GameRoom/D1 protocol;
+a persisted alarm reconciles the exact intent after interruption even if guest
+credentials subsequently expire. This is not a cross-store atomic transaction.
+
+The browser saves mutation IDs before sending, retains uncertain outcomes through
+all error replies, and clears them only for a verified receipt or deliberate
+abandonment. Explicit departure reconciles current proposal status and withdraws
+pending participation; unavailable status requires an uncertainty decision.
+Closing a tab alone does not withdraw principal consent. Entry retires the old
+connection; a failed entry can obtain a fresh proof for the source room. Previous
+result/replay access remains separate from the successor connection.
+
+Rematch metadata never modifies the source canonical history or replay format.
+No invitation admits replacement participants to a rematch. The existing 64-lobby
+bound still applies. These are bounded local implementation defaults, not launch
+policy. See [M3-08 acceptance](m3-08-acceptance.md) for evidence still required.

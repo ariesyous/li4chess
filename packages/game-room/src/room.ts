@@ -59,6 +59,9 @@ export class Room {
   completedStatus(member: ReplayMember, canonical: D1Persistence) {
     return this.enqueue(() => this.replay.status(member,canonical,this.deps.producer));
   }
+  completedEligibility(member: ReplayMember, canonical: D1Persistence) {
+    return this.enqueue(() => this.replay.eligibility(member,canonical));
+  }
   private get storage() { return this.deps.storage; }
   private get db() { return this.deps.canonical; }
   private identity(): Identity { const value = this.storage.read<Identity>("identity"); requireRoom(value, "unavailable", "room not created"); return value; }

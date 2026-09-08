@@ -4,10 +4,16 @@ import { SQLiteRoomStorage, type RoomStorage } from "@li4chess/game-room/storage
 import type { Creation } from "@li4chess/game-room/room";
 import { D1Persistence, digest, exactReader } from "@li4chess/persistence";
 import type { EngineBuildIdentityV1 } from "@li4chess/protocol";
-import application, { GuestService } from "../src/multiplayer-local.js";
+import application, { GuestService as MaintainedGuestService } from "../src/multiplayer-local.js";
 import build from "../.generated/build.json";
 import { fixtureReplay, type Scenario } from "./campaign-fixtures.js";
-export { GuestService };
+export class GuestService extends MaintainedGuestService {
+  async fixture(body:FixtureBody){
+    if(body.op==="guest-sql")return this.ctx.storage.sql.exec(body.sql!,...(body.values??[])).toArray();
+    if(body.op==="guest-alarm"){await super.alarm();return null;}
+    throw new Error("unknown guest fixture operation");
+  }
+}
 const producer=build.producer as EngineBuildIdentityV1;
 type Fault={stage:string;mode:"pause"|"throw";remaining?:number};
 export interface FixtureBody {op:string;room:string;now?:number|null;fault?:Fault;key?:string;value?:unknown;sql?:string;values?:(string|number|null)[]}
@@ -24,6 +30,7 @@ export class GameRoom extends MaintainedGameRoom {
     };
     const put=(key:string,value:unknown)=>{ctx.storage.sql.exec("INSERT INTO campaign_fixture VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",key,JSON.stringify(value));};
     const hit=async(stage:string)=>{
+      if(read<boolean>("hold-recovery")&&read("hit"))throw new Error("isolated recovery barrier");
       const fault=read<Fault>("fault"); if(fault?.stage!==stage)return;
       put("fault",(fault.remaining??1)>1?{...fault,remaining:fault.remaining!-1}:null);put("hit",{stage});await ctx.storage.sync();
       if(fault.mode === "pause")await new Promise(resolve=>setTimeout(resolve,120000));
@@ -63,8 +70,18 @@ export class GameRoom extends MaintainedGameRoom {
     }
     return super.create(creation);
   }
+  override async completedEligibility(member:Parameters<MaintainedGameRoom["completedEligibility"]>[0]):ReturnType<MaintainedGameRoom["completedEligibility"]>{
+    const result=await super.completedEligibility(member);
+    const delay=this.readFixture<number>("eligibility-delay");if(delay)await new Promise(resolve=>setTimeout(resolve,delay));return result;
+  }
+  override async detach(context:Parameters<MaintainedGameRoom["detach"]>[0]):ReturnType<MaintainedGameRoom["detach"]>{
+    if(this.readFixture<boolean>("detach-outage"))throw new Error("isolated detach outage");return super.detach(context);
+  }
   async fixture(body:FixtureBody) {
     switch(body.op) {
+      case "eligibility-delay":this.putFixture("eligibility-delay",body.now??null);break;
+      case "detach-outage":this.putFixture("detach-outage",body.value===true);break;
+      case "hold-recovery":this.putFixture("hold-recovery",body.value===true);break;
       case "replay-outage":this.putFixture("replay-outage",body.value===true);break;
       case "time":this.putFixture("now",body.now??null);break;
       case "fault":this.putFixture("fault",body.fault??null);this.putFixture("hit",null);break;
@@ -83,7 +100,8 @@ export default {async fetch(request:Request,env:Environment):Promise<Response>{
     return new Response(null,{status:403});
   const body=await request.json() as FixtureBody;
   try {
-    const result=body.op==="canonical"?await new D1Persistence(env.GAME_DB,exactReader(producer)).recover(body.room):
+    const result=body.op.startsWith("guest-")?await (env.GUESTS.get(env.GUESTS.idFromName("private-service-v1")) as unknown as {fixture(body:FixtureBody):Promise<unknown>}).fixture(body):
+      body.op==="canonical"?await new D1Persistence(env.GAME_DB,exactReader(producer)).recover(body.room):
       body.op==="sql"?await env.GAME_DB.prepare(body.sql!).bind(...(body.values??[])).all():
         await (env.GAME_ROOMS.get(env.GAME_ROOMS.idFromName(body.room)) as unknown as {fixture(body:FixtureBody):Promise<unknown>}).fixture(body);
     return Response.json({result});

@@ -15,7 +15,8 @@
     "check:multiplayer": "tsx scripts/multiplayer-dry-run.ts",
     "test:multiplayer": "tsx test/multiplayer.ts",
     "test:campaign": "tsx test/campaign-tools-check.ts && tsx test/campaign-fixtures-check.ts && tsx test/campaign.ts",
-    "test:replay": "tsx test/replay-campaign.ts"
+    "test:replay": "tsx test/replay-campaign.ts",
+    "test:rematch": "tsx test/campaign-tools-check.ts && tsx test/rematch-campaign.ts"
   },
   "dependencies": { "@li4chess/protocol": "workspace:*", "@li4chess/game-room": "workspace:*" },
   "devDependencies": {

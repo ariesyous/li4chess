@@ -15,7 +15,7 @@ Two fresh reviewers found no substantive merge blockers. Evidence review checked
 28 groups of byte-identical four-member downloads. Parent review checked browser
 reconstruction and every successful step of exact-head CI 34172770041.
 PR #18 merged at `229e325c7f4ee4ebae7abe53f025047f070aa5f9`.
-Post-merge CI 34180878295 must pass before implementation; Pages 34180878310 passed.
+Post-merge CI 34180878295 and Pages 34180878310 passed on the exact merge revision before implementation.
 No Cloudflare activation was performed. The unchanged Pages workflow ran on merge.
 
 Node is `C:/Program Files/nodejs/node.exe`, 24.18.0. Pinned pnpm 10.33.0 runs via

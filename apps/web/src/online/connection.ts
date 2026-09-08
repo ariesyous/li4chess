@@ -151,5 +151,7 @@ export class OnlineConnection {
       else if(!this.authError(r)){this.update({notice:"Takeover outcome needs recovery. Retry Take control with the same intention."});this.reconnect();}
     }catch{if(epoch===this.epoch)this.reconnect();}finally{if(this.takeoverAttempt===epoch)this.takeoverAttempt=null;}
   }
-  async leave(){this.stop();if(this.saved.proof&&!this.historical)await onlineRequest({type:"retire",room:this.room},this.saved.proof).catch(()=>undefined);this.storage.removeItem(this.key);}
+  async leave(){this.stop();const proof=this.saved.proof;this.saved={...this.saved,proof:null,pending:null,takeover:null};
+    if(proof&&!this.historical)await onlineRequest({type:"retire",room:this.room},proof).catch(()=>undefined);
+    this.storage.removeItem(this.key);this.update({control:null,pending:null,takeover:null});}
 }

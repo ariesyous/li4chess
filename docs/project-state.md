@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**M3-08 acceptance planning (2026-09-07; merge observed 2026-09-08 UTC).**
+**M3-08 implementation and acceptance in progress (2026-09-07; UTC 2026-09-08).**
 The maintainer authorized review and conditional merge of PR #18, then authenticated
 private rematches. Two fresh independent reviews found no merge blocker; the
 evidence reviewer verified 514 indexed files, 112 decoded checksums, four source
@@ -16,7 +16,7 @@ maps and 28 groups of identical four-member downloads. Exact-head CI 34172770041
 passed. PR #18 merged at `229e325c7f4ee4ebae7abe53f025047f070aa5f9`; Pages
 [34180878310](https://github.com/ariesyous/li4chess/actions/runs/34180878310) passed.
 Post-merge [CI 34180878295](https://github.com/ariesyous/li4chess/actions/runs/34180878295)
-is running; product implementation waits for its success. The new dedicated
+passed all steps on the exact merge revision before implementation. The new dedicated
 `codex/m3-08-private-rematches` branch starts from fetched `origin/main` at that
 merge, preserving the older local main and other branches.
 
@@ -26,8 +26,17 @@ design review requires always-fenced terminal eligibility, stored original polic
 and seed, rotation/revocation distinction, cancellation capacity, exact receipts,
 atomic successor lobby allocation, deliberate room entry and preserved departure
 uncertainty. Previous-result access must not replace an active successor connection.
-No rematch behavior is implemented yet. Node 24.18.0/Corepack pnpm 10.33.0 and a
-frozen baseline install passed; these are setup checks, not M3-08 acceptance.
+The maintained rematch reducer, authenticated terminal fence, atomic successor
+lobby allocation, frozen creation recovery, saved browser intentions and explicit
+entry are implemented on the dedicated branch. Independent server, browser and
+protocol reviews resolved rotation atomicity, persisted creation alarms, retry
+retention, departure reconciliation and retired-connection recovery findings.
+Exploratory ordinary four-browser rematches, all-seat rotation, lost consent,
+restart, failed entry and abort/departure cases passed; expanded storage-fault
+acceptance is still in progress. Browser checks passed 47 units; protocol passed
+58 units. These focused runs are not final Windows/Linux acceptance.
+Next: complete fault/auth/resource coverage, full frozen-source validation, retain
+sanitized Windows/Linux evidence, independent final review and exact-head draft PR.
 M3 remains incomplete; hosted gates and M4 remain outside this task.
 
 **M3-07 is complete within its local acceptance scope (2026-09-07).**

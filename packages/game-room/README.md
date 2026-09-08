@@ -128,3 +128,9 @@ activation needs separately authorized real namespace/database/environment choic
 migrations, compatible active-game producer handling and deployment/restore drills.
 Local restart/alarms do not prove hosted latency, capacity, hibernation/eviction,
 regional failover, alarm punctuality or availability of a selected launch clock.
+
+Private rematch metadata lives in GuestService, using an always-fenced completed
+room read. Fourth consent and a successor waiting lobby commit in one local
+transaction. A frozen creation intent and persisted alarm recover the same
+GameRoom/D1 identity independently of later credential loss. Canonical source
+history is unchanged. See [contract](../../docs/multiplayer-v1.md).

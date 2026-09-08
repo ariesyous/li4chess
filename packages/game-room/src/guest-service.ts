@@ -4,12 +4,16 @@ import { createReplay, equalCanonical, sha256, ONLINE_VERSION, ONLINE_ERRORS, ON
 import type { EngineBuildIdentityV1, OnlineRequest, OnlineResponse, OnlineControl, OnlineLobby, OnlineErrorCode } from "@li4chess/protocol";
 import type { GameRoom } from "./index.js";
 import type { ConnectionContext, Creation, Publication, Snapshot } from "./room.js";
+import { emptyRematch, settleRematch, rematchView, rematchReceipt, mutateRematch, RematchError } from "./rematch.js";
+import type { RematchRecord } from "./rematch.js";
+import type { RematchMutation, RematchReceipt } from "@li4chess/protocol";
 
 export interface GuestEnvironment { GAME_ROOMS: DurableObjectNamespace<GameRoom>; ROOM_NAMESPACE: string; ROOM_PRODUCER: EngineBuildIdentityV1;
   ONLINE_ORIGIN: string; GUEST_TTL_MS: string; ONLINE_INITIAL_MS: string; ONLINE_INCREMENT_MS: string }
 interface Credential { principal: string; generation: number; credentialGeneration: number; expiresAt: number; revoked: boolean }
 interface Lobby { room: string; owner: string; invitationDigest: string; members: string[]; seats: (string | null)[];
-  ready: boolean[]; revision: number; phase: OnlineLobby["phase"]; creation: Creation | null }
+  ready: boolean[]; revision: number; phase: OnlineLobby["phase"]; creation: Creation | null;
+  rematchOf?: string; fixedPolicy?: Creation["policy"]; seed?: string; retryAt?: number; retryAttempts?: number }
 interface Tab { digest: string; principal: string; session: number; room: string; context: ConnectionContext;
   takeovers: { id: string; generation: number }[]; detach: boolean; credentialDigest: string }
 interface Bridge { tab: Tab; credentialDigest: string; socket: WebSocket; upstream: WebSocket | null }
@@ -53,8 +57,13 @@ export class GuestService extends DurableObject<GuestEnvironment> {
     ctx.storage.sql.exec("CREATE TABLE IF NOT EXISTS guest_records (key TEXT PRIMARY KEY, value TEXT NOT NULL)");}
   private get<T>(key:string):T|null {const rows=this.ctx.storage.sql.exec<{value:string}>("SELECT value FROM guest_records WHERE key=?",key).toArray();return rows[0]?JSON.parse(rows[0].value) as T:null;}
   private list<T>(prefix:string):T[]{return this.ctx.storage.sql.exec<{value:string}>("SELECT value FROM guest_records WHERE key LIKE ? ORDER BY key",`${prefix}%`).toArray().map(x=>JSON.parse(x.value) as T);}
-  private async put(values:Record<string,unknown|null>){this.ctx.storage.transactionSync(()=>{for(const [key,v] of Object.entries(values)){
-    if(v===null)this.ctx.storage.sql.exec("DELETE FROM guest_records WHERE key=?",key);else{const json=JSON.stringify(v);requireService(json.length<=600000,"capacity");this.ctx.storage.sql.exec("INSERT INTO guest_records VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",key,json);}}});await this.ctx.storage.sync();}
+  private async put(values:Record<string,unknown|null>,alarmAt?:number){
+    const write=()=>{for(const [key,v] of Object.entries(values)){
+      if(v===null)this.ctx.storage.sql.exec("DELETE FROM guest_records WHERE key=?",key);else{const json=JSON.stringify(v);requireService(json.length<=600000,"capacity");this.ctx.storage.sql.exec("INSERT INTO guest_records VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",key,json);}}};
+    if(alarmAt===undefined)this.ctx.storage.transactionSync(write);
+    else await this.ctx.storage.transaction(async()=>{write();await this.ctx.storage.setAlarm(alarmAt);});
+    await this.ctx.storage.sync();
+  }
   private enqueue<T>(fn:()=>Promise<T>):Promise<T>{if(this.queued>=32)return Promise.reject(new ServiceError("capacity"));this.queued++;
     const task=this.tail.then(fn);this.tail=task.catch(()=>undefined).finally(()=>{this.queued--;});return task;}
   private cookieName(){return new URL(this.env.ONLINE_ORIGIN).protocol==="https:"?"__Host-li4chess-guest":"li4chess-local-guest";}
@@ -72,19 +81,76 @@ export class GuestService extends DurableObject<GuestEnvironment> {
     return {initialMs,incrementMs,increment:"after-move" as const};}
   private member(room:string,principal:string):Lobby {const lobby=this.get<Lobby>(`lobby:${room}`);requireService(lobby?.members.includes(principal));return lobby!;}
   private stub(lobby:Lobby){return this.env.GAME_ROOMS.get(this.env.GAME_ROOMS.idFromName(lobby.room));}
-  private view(l:Lobby,p:string):OnlineLobby{return {room:l.room,phase:l.phase,revision:l.revision,seats:l.seats.map((s,i)=>s?{mine:s===p,ready:l.ready[i]}:null),policy:this.policy()};}
+  private view(l:Lobby,p:string):OnlineLobby{return {room:l.room,phase:l.phase,revision:l.revision,seats:l.seats.map((s,i)=>s?{mine:s===p,ready:l.ready[i]}:null),policy:l.fixedPolicy??this.policy(),...(l.rematchOf?{rematchOf:l.rematchOf}:{})};}
+  private lobbyRecord(room:string,owner:string,invitationDigest:string):Lobby {
+    requireService(this.list("lobby:").length<64,"capacity");
+    return {room,owner,invitationDigest,members:[owner],seats:[null,null,null,null],ready:[false,false,false,false],revision:0,phase:"waiting",creation:null};
+  }
+  private present(principals:readonly (string|null)[]):boolean {
+    const live=this.list<Credential>("credential:").filter(c=>!c.revoked&&c.expiresAt>Date.now());
+    return principals.length===4&&principals.every(p=>p!==null&&live.some(c=>c.principal===p));
+  }
+  private async settle(l:Lobby):Promise<RematchRecord> {
+    const key=`rematch:${l.room}`,old=this.get<RematchRecord>(key)??emptyRematch();
+    requireService(old.proposals.length<=8&&old.receipts.length<=128,"unavailable");
+    const next=settleRematch(old,Date.now(),this.present(l.seats));
+    if(!equalCanonical(old,next))await this.put({[key]:next});return next;
+  }
+  private async rematchResponse(l:Lobby,auth:{digest:string;value:Credential},record:RematchRecord,receipt:RematchReceipt|null) {
+    const c=auth.value;
+    const response=await this.json(version({type:"rematch",principal:c.principal,generation:c.generation,
+      rematch:rematchView(record,l.room,l.seats.indexOf(c.principal)),receipt}));
+    try{this.valid(auth.digest);}catch(error){if(error instanceof ServiceError)throw new ServiceError(error.code,receipt!==null);throw error;}
+    return response;
+  }
+  private async rematch(l:Lobby,auth:{digest:string;value:Credential},input:RematchMutation|{type:"rematch";room:string}) {
+    requireService(l.phase==="started","replayIncomplete");
+    const c=auth.value;
+    // Never use completedStatus's same-producer fast path to establish eligibility.
+    const eligible=await this.stub(l).completedEligibility({gameId:l.room,principal:c.principal,generation:c.generation,expiresAt:c.expiresAt});
+    this.valid(auth.digest);if(!eligible.ok)throw new ServiceError(eligible.code);
+    requireService(equalCanonical(eligible.principals,l.seats),"replayIntegrity");
+    let record=await this.settle(l);this.valid(auth.digest);
+    if(input.type==="rematch")return this.rematchResponse(l,auth,record,null);
+    try {
+      const previous=rematchReceipt(record,c.principal,input);
+      if(previous)return this.rematchResponse(l,auth,record,previous);
+      // All random and capacity work is bounded and synchronous before admission.
+      const successor=`room:${random().slice(0,32)}`;
+      let seed=random().slice(0,8);
+      if(seed===eligible.seed)seed=((Number.parseInt(seed,16)+1)>>>0).toString(16).padStart(8,"0");
+      this.valid(auth.digest);
+      record=settleRematch(record,Date.now(),this.present(l.seats));
+      if(!this.present(l.seats)){
+        await this.put({[`rematch:${l.room}`]:record});throw new ServiceError("conflict");
+      }
+      const result=mutateRematch(record,c.principal,l.seats.indexOf(c.principal),input,Date.now(),successor);
+      const values:Record<string,unknown>={[`rematch:${l.room}`]:result.record};
+      if(result.allocated){
+        const next=this.lobbyRecord(successor,c.principal,"");
+        Object.assign(next,{members:[...eligible.principals],seats:[...eligible.principals],rematchOf:l.room,fixedPolicy:eligible.policy,seed});
+        values[`lobby:${successor}`]=next;
+      }
+      // put begins a synchronous SQLite transaction: consent/receipt and lobby
+      // allocation commit together. No cross-object/D1 operation occurs here.
+      await this.put(values);await this.schedule();
+      return this.rematchResponse(l,auth,result.record,result.receipt);
+    }catch(error){if(error instanceof RematchError)throw new ServiceError(error.code);throw error;}
+  }
   private async invitation(room:string):Promise<string>{let secret=this.get<string>("invitation-key");if(!secret){secret=random();await this.put({"invitation-key":secret});}
     const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(secret),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
     return [...new Uint8Array(await crypto.subtle.sign("HMAC",key,new TextEncoder().encode(room)))].map(n=>n.toString(16).padStart(2,"0")).join("");}
   private async start(l:Lobby){if(l.phase==="started")return;
     if(!l.creation){requireService(l.seats.every(Boolean)&&l.ready.every(Boolean),"invalid");
+      if(l.rematchOf)requireService(this.present(l.seats),"conflict");
       const initial=createInitialState();
-      const state={...initial,randomSeed:random().slice(0,8)};
+      const state={...initial,randomSeed:l.seed??random().slice(0,8)};
       const replay=await createReplay(state,this.env.ROOM_PRODUCER);
+      if(l.rematchOf)requireService(this.present(l.seats),"conflict");
       l.creation={header:{format:"li4chess-d1-game-v1",gameId:l.room,replay},owner:{namespace:this.env.ROOM_NAMESPACE,generation:1},
-        seats:l.seats.map(principal=>({principal:principal!,generation:1})) as Creation["seats"],policy:this.policy()};
-      l.phase="creating";l.revision++;await this.put({[`lobby:${l.room}`]:l});}
-    await this.stub(l).create(l.creation);l.phase="started";l.revision++;await this.put({[`lobby:${l.room}`]:l});
+        seats:l.seats.map(principal=>({principal:principal!,generation:1})) as Creation["seats"],policy:l.fixedPolicy??this.policy()};
+      l.phase="creating";l.revision++;l.retryAt=Date.now()+1000;await this.put({[`lobby:${l.room}`]:l},l.retryAt);}
+    await this.stub(l).create(l.creation);l.phase="started";l.revision++;delete l.retryAt;delete l.retryAttempts;await this.put({[`lobby:${l.room}`]:l});
   }
   private async tab(proof:string|null,c:Credential,room:string):Promise<Tab>{try{wireProof(proof);}catch{throw new ServiceError("unauthorized");}
     const tab=this.get<Tab>(`tab:${await sha256(proof!)}`);requireService(tab&&tab.principal===c.principal&&tab.session===c.generation&&tab.room===room&&!tab.detach);
@@ -103,24 +169,40 @@ export class GuestService extends DurableObject<GuestEnvironment> {
     try{b.socket.close(1000,"connection ended");}catch{/*closed*/}try{b.upstream?.close(1000,"connection ended");}catch{/*closed*/}}
   private async detach(tab:Tab){const l=this.get<Lobby>(`lobby:${tab.room}`);if(l?.phase==="started")await this.stub(l).detach(tab.context);
     tab.detach=false;await this.put({[`tab:${tab.digest}`]:tab});}
-  private async invalidate(digest:string,c:Credential){c.revoked=true;await this.put({[`credential:${digest}`]:c});
+  private async invalidate(digest:string,c:Credential,replacement:Record<string,Credential>={}){
     const tabs=this.list<Tab>("tab:").filter(t=>t.principal===c.principal&&t.session===c.generation);
-    for(const t of tabs){t.detach=true;await this.put({[`tab:${t.digest}`]:t});const b=this.bridges.get(t.digest);if(b){try{b.socket.send(JSON.stringify(version({type:"error",code:"revoked",ambiguous:false})));}catch{/*best effort*/}this.close(b);}}
-    await this.ctx.storage.setAlarm(Date.now()+1000);for(const t of tabs)await this.detach(t);
+    const values:Record<string,unknown>={...replacement,[`credential:${digest}`]:{...c,revoked:true}};
+    for(const t of tabs){t.detach=true;values[`tab:${t.digest}`]=t;}
+    // Rotation retirement/replacement and cleanup intent are one local commit.
+    // A lost cookie response still follows the existing no-guest-recovery policy.
+    await this.put(values,Date.now()+1000);
+    for(const t of tabs){const b=this.bridges.get(t.digest);if(b){try{b.socket.send(JSON.stringify(version({type:"error",code:"revoked",ambiguous:false})));}catch{/*best effort*/}this.close(b);}
+      try{await this.detach(t);}catch{/* durable cleanup continues on alarm */}}
   }
   private async issue(previous?:{digest:string;value:Credential}):Promise<Response>{
     const ttl=Number(this.env.GUEST_TTL_MS);requireService(Number.isSafeInteger(ttl)&&ttl>=1000&&ttl<=86400000,"unavailable");
     requireService(this.list("credential:").length<256,"capacity");const token=random(),digest=await sha256(token);
     const c:Credential={principal:previous?.value.principal??`guest:${random().slice(0,32)}`,generation:(previous?.value.generation??0)+1,
       credentialGeneration:(previous?.value.credentialGeneration??0)+1,expiresAt:Date.now()+ttl,revoked:false};
-    if(previous)await this.invalidate(previous.digest,previous.value);
-    await this.put({[`credential:${digest}`]:c});await this.schedule();
+    if(previous){this.valid(previous.digest);await this.invalidate(previous.digest,previous.value,{[`credential:${digest}`]:c});}
+    else await this.put({[`credential:${digest}`]:c});await this.schedule();
     return this.json(version({type:"session",principal:c.principal,generation:c.generation,expiresAt:c.expiresAt}),{"Set-Cookie":this.cookie(token,Math.ceil(ttl/1000))});
   }
   private async json(value:OnlineResponse,headers:Record<string,string>={}){await parseOnlineResponse(value);return Response.json(value,{headers:{"Cache-Control":"no-store","X-Content-Type-Options":"nosniff",...headers}});}
   private async schedule(){const times=this.list<Credential>("credential:").filter(c=>!c.revoked&&c.expiresAt>Date.now()).map(c=>c.expiresAt);
+    for(const r of this.list<RematchRecord>("rematch:")){const p=r.proposals.at(-1);if(p?.phase==="pending")times.push(Math.max(Date.now()+1,p.expiresAt));}
+    for(const l of this.list<Lobby>("lobby:"))if(l.phase==="creating")times.push(Math.max(Date.now()+1,l.retryAt??Date.now()+1000));
     if(this.list<Tab>("tab:").some(t=>t.detach))times.push(Date.now()+1000);if(times.length)await this.ctx.storage.setAlarm(Math.min(...times));else await this.ctx.storage.deleteAlarm();}
   async alarm(){await this.enqueue(async()=>{for(const [_,b] of this.bridges){try{this.valid(b.credentialDigest);}catch{this.close(b);}}
+    for(const l of this.list<Lobby>("lobby:"))if(this.get(`rematch:${l.room}`))await this.settle(l);
+    // At most one cross-object creation attempt per alarm. Frozen intent remains
+    // recoverable even if every participant credential has since expired.
+    const creating=this.list<Lobby>("lobby:").filter(l=>l.phase==="creating"&&(l.retryAt??0)<=Date.now()).sort((a,b)=>(a.retryAt??0)-(b.retryAt??0))[0];
+    if(creating)try{await this.start(creating);}catch{
+      creating.retryAttempts=(creating.retryAttempts??0)+1;
+      creating.retryAt=Date.now()+Math.min(60000,1000*2**Math.min(creating.retryAttempts,6));
+      await this.put({[`lobby:${creating.room}`]:creating},creating.retryAt);
+    }
     for(const t of this.list<Tab>("tab:").filter(t=>t.detach)){try{await this.detach(t);}catch{/*durable retry*/}}await this.schedule();});}
   async fetch(request:Request):Promise<Response>{try{checkOnlineOrigin(request,this.env.ONLINE_ORIGIN);
     if(request.headers.get("Upgrade")?.toLowerCase()==="websocket")return await this.upgrade(request);
@@ -140,7 +222,7 @@ export class GuestService extends DurableObject<GuestEnvironment> {
     if(input.type==="create"){
       const key=`create:${await sha256(`${c.principal}:${input.id}`)}`;let room=this.get<string>(key);
       if(!room){requireService(this.list("lobby:").length<64,"capacity");room=`room:${random().slice(0,32)}`;const invite=await this.invitation(room);
-        const l:Lobby={room,owner:c.principal,invitationDigest:await sha256(invite),members:[c.principal],seats:[null,null,null,null],ready:[false,false,false,false],revision:0,phase:"waiting",creation:null};
+        const l=this.lobbyRecord(room,c.principal,await sha256(invite));
         await this.put({[key]:room,[`lobby:${room}`]:l});}
       const l=this.member(room,c.principal);return this.json(version({type:"created",lobby:this.view(l,c.principal),invitation:await this.invitation(room)}));
     }
@@ -151,6 +233,16 @@ export class GuestService extends DurableObject<GuestEnvironment> {
     }
     if(!("room" in input))throw new ServiceError("invalid");
     const l=this.member(input.room,c.principal);
+    if(input.type==="rematch"||input.type==="rematchPropose"||input.type==="rematchConsent"||input.type==="rematchDecline")return this.rematch(l,auth,input);
+    if(input.type==="completedView"){
+      requireService(l.phase==="started","replayIncomplete");
+      const completed=await this.stub(l).completedEligibility({gameId:l.room,principal:c.principal,generation:c.generation,expiresAt:c.expiresAt});
+      this.valid(auth.digest);if(!completed.ok)throw new ServiceError(completed.code);
+      const snapshot=this.snapshot(completed.snapshot as unknown as Snapshot);requireService(snapshot.type==="snapshot","unavailable");
+      const response=await this.json(version({type:"replayStatus",principal:c.principal,generation:c.generation,
+        snapshot:snapshot.type==="snapshot"?snapshot.snapshot:null,seat:l.seats.indexOf(c.principal)}));
+      this.valid(auth.digest);return response;
+    }
     if(input.type==="replayStatus"){
       requireService(l.phase==="started","replayIncomplete");
       const completed=await this.stub(l).completedStatus({gameId:l.room,principal:c.principal,generation:c.generation,expiresAt:c.expiresAt});
@@ -169,6 +261,7 @@ export class GuestService extends DurableObject<GuestEnvironment> {
       this.valid(auth.digest);return response;
     }
     if(input.type==="seat"){
+      requireService(!l.rematchOf||l.seats[input.seat]===c.principal,"conflict");
       requireService(l.phase==="waiting","conflict");requireService(l.seats[input.seat]===null||l.seats[input.seat]===c.principal,"conflict");
       const old=l.seats.indexOf(c.principal);if(old!==input.seat){if(old>=0){l.seats[old]=null;l.ready[old]=false;}l.seats[input.seat]=c.principal;l.ready[input.seat]=false;l.revision++;await this.put({[`lobby:${l.room}`]:l});}
       return this.json(version({type:"lobby",lobby:this.view(l,c.principal)}));

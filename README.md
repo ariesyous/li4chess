@@ -14,7 +14,10 @@ replay-v2 artifact without taking control; original producer and source lineage
 are retained. See the [retrieval contract](docs/multiplayer-v1.md) for limits,
 authentication, retry behavior and historical-build compatibility.
 M3-07 has [reviewed Windows/Linux evidence](docs/m3-07-evidence/README.md).
-Rematches and hosted activation remain outside the implemented scope.
+Private rematches are implemented on the M3-08 branch and undergoing acceptance:
+all four original guests consent, then deliberately enter and ready in a new room.
+The original result and replay remain intact. Hosted activation remains outside
+the implemented scope.
 
 The goal is a free, ad-free four-player equivalent of Lichess. The first public
 release will offer Chess.com-compatible FFA, public matchmaking, anonymous

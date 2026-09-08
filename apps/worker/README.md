@@ -192,3 +192,8 @@ also verifies all four downloads and local import for every audited terminal his
 including ordinary and walking games and labeled source-linked endings. CI retains
 only sanitized root artifacts, never runtime databases. New fault/identity controls
 remain in the isolated campaign entry and are excluded by deployable bundle checks.
+
+M3-08 adds `pnpm --filter @li4chess/worker test:rematch` (fresh output via
+`M3_08_OUTPUT`) for authenticated rematches and creation recovery. Its isolated
+campaign administration is excluded by `check:multiplayer`; no hosted activation
+is implied. See [acceptance](../../docs/m3-08-acceptance.md).
