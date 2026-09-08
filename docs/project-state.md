@@ -35,27 +35,38 @@ new validation positions/seeds; UI1/L1 remains the next accepted sequence.
 Final diff/whitespace checks and 154 local links passed. Paired initial states,
 reversed assignments, artifact checksums and archived source hashes were verified.
 
-**Current sequence (2026-09-08): UI1 visual sprint, then L1 GitHub Pages launch.**
-The maintainer expects minimal ongoing time commitment. Publish the existing
-browser game after a bounded Lichess-style UI sprint; hosted casual friend-invite play can follow. Matchmaking
-and then accounts/ratings require demonstrated demand and maintenance capacity.
-Learning/community expansion is uncommitted. D12 supersedes the earlier launch
-requirements; D13 adds the UI sprint and clarifies Pages hosting.
+**Current sequence (2026-09-08): UI1 visual sprint, then L1 polished local/CPU
+GitHub Pages checkpoint.** D14 records the maintainer's accepted stopping point:
+keep the existing /li4chess/ project site, review the complete local experience,
+fix concrete release defects, verify checks and deployment, then tag a release
+with known limitations and update/rollback instructions. Human players share one
+device; CPUs run in the browser. Further bot research is outside this release
+unless a serious defect needs fixing. Afterwards, focus on bugs and occasional
+feedback, with no promised feature schedule.
 
-Before editing documentation, fast-forwarded main from 6530c64 to fetched
-origin/main at 9a49a80 (PR #19 merge), with a clean working tree. The newer tree
-already includes M3-03 through M3-08; do not restart that implementation.
-Inspected the default Worker configuration and browser multiplayer feature gate:
-default hosting remains local/CPU, with multiplayer explicitly opt-in.
-Post-merge CI and live Cloudflare/account state were not checked in this task.
+Cloudflare, the li4chess.org launch and hosted multiplayer are shelved; no hosted
+phase automatically follows L1. Preserve local multiplayer and its evidence.
+Matchmaking/ratings remain deferred; learning/community expansion is uncommitted.
+D14 supersedes D12/D13's domain and hosted follow-up plans while retaining their
+minimal-maintenance direction and bounded UI sprint.
 
-The maintainer reports that li4chess.org is owned in their Cloudflare account.
-Keep Cloudflare and the completed multiplayer implementation/evidence. M3 is
-paused and incomplete because hosted acceptance remains pending. The
-[UI sprint](ui-sprint-lichess.md) is next, followed by the [local launch](local-launch-handoff.md);
-the [multiplayer hosted handoff](m3-hosted-handoff.md) is deferred.
-That scope-reset task updated documentation only; deployment and purchases were
-not undertaken.
+The maintainer previously reported owning li4chess.org in Cloudflare. This
+scope change does not change account/domain settings or remove infrastructure
+code. M3 remains paused and incomplete. The [UI sprint](ui-sprint-lichess.md)
+is next, followed by the [Pages checkpoint](local-launch-handoff.md); the
+[preserved hosted handoff](m3-hosted-handoff.md) requires a new scope decision.
+This task updates documentation only; no implementation, deployment, tag,
+purchase or account change is part of this update. The working tree was clean
+at the start. Inspected the actual Pages workflow and Vite configuration:
+Pages publishes apps/web/dist, uses /li4chess/, and disables multiplayer.
+Live deployment and remote CI were not checked in this documentation task.
+
+D14 documentation validation (2026-09-08): all 153 local file links across seven
+changed Markdown files resolved. Release commands match the root/web package
+scripts; the Pages workflow and Vite base/feature gate match the handoff.
+Reviewed the documentation diff and passed git diff --check. No code, rules,
+configuration or evidence artifacts changed; unit/build/browser suites were not
+rerun. UI1 and L1 remain planned; M3 remains paused and incomplete.
 
 UI1 planning validation (2026-09-08): reviewed upstream Lila COPYING and
 Chessground licensing, checked 151 local file links across eight changed
@@ -73,7 +84,7 @@ Unit, browser and build suites were not rerun for this documentation-only task.
 ## Completed implementation and historical handoffs
 
 The records below retain their original validation scope. Historical next-task
-and authorization statements do not override D12/D13 or the current task queue.
+and authorization statements do not override D14 or the current task queue.
 
 **M3-08 is complete within its local acceptance scope (2026-09-08).**
 Four original authenticated principals independently consent before one fresh
@@ -452,24 +463,24 @@ its pushed revision is checked again before ending the goal. No merge or deploym
 | D09 | 2026-09-06 | M3 will start with a Cloudflare-native architecture: React/Vite via Workers Static Assets, a TypeScript Worker API, one authoritative `GameRoom` Durable Object per active game with WebSockets, and D1 as the initial canonical SQL store. Local development uses Wrangler, Vite, and workerd on Windows; deployment targets Cloudflare's GitHub build integration. R2, Queues, Containers, PostgreSQL, or other infrastructure require demonstrated need. M3-01 must validate this direction in an architecture spike and ADR before implementation. |
 | D10 | 2026-09-06 | Accept the M1-02 standard-FFA migration contract as written: the five product identifiers, replay v2 invariants, canonical state/hash policy, and provenance-based legacy classification are authoritative for M1-03. Acceptance does not claim the target ruleset is implemented; `li4chess-ffa-standard-v1` remains reserved until its fixtures and implementation pass. |
 | D11 | 2026-09-06 | Clarify standard FFA SCORE attribution: active checking owners split +20 equally at scheduled mate, nonchecking escape-blockers get zero; the last actor changing legal moves from positive to zero determines self/opponent stalemate, rescue clears that cause; other-owner checking pieces never contribute to mover multi-check count or Queen tier. [Acceptance cases](m1-score-acceptance.md). |
-| D12 | 2026-09-08 | Maintainer accepts minimal-time scope: launch existing local/CPU play at li4chess.org first, retain Cloudflare, then optionally host casual friend-invite games using completed local multiplayer. Matchmaking, then accounts/ratings, depend on demand and operating capacity; M5-M7 are uncommitted ideas. Supersedes D01's comprehensive commitment, D02 and D07's launch timing, and the old task sequence. Preserve rules, evidence, licensing and conditional account eligibility. Agents own routine engineering within scope; ask for maintainer involvement only when necessary for access, spending or material decisions. Domain ownership in Cloudflare is maintainer-reported; no deployment is implied. |
-| D13 | 2026-09-08 | Add UI1 before L1: closely follow Lichess interface/board/icon style with verified licensed reuse, adapting four armies and retaining li4chess identity. Updates D08 visual direction without changing rules. Use existing GitHub Pages for L1 with Cloudflare DNS; Workers frontend migration is optional later. Asset choice and implementation remain sprint work. |
+| D12 | 2026-09-08 | Domain and hosted follow-up plans superseded by D14. Maintainer accepts minimal-time scope: launch existing local/CPU play at li4chess.org first, retain Cloudflare, then optionally host casual friend-invite games using completed local multiplayer. Matchmaking, then accounts/ratings, depend on demand and operating capacity; M5-M7 are uncommitted ideas. Supersedes D01's comprehensive commitment, D02 and D07's launch timing, and the old task sequence. Preserve rules, evidence, licensing and conditional account eligibility. Agents own routine engineering within scope; ask for maintainer involvement only when necessary for access, spending or material decisions. Domain ownership in Cloudflare is maintainer-reported; no deployment is implied. |
+| D13 | 2026-09-08 | Domain hosting plan superseded by D14; UI1 retained. Add UI1 before L1: closely follow Lichess interface/board/icon style with verified licensed reuse, adapting four armies and retaining li4chess identity. Updates D08 visual direction without changing rules. Use existing GitHub Pages for L1 with Cloudflare DNS; Workers frontend migration is optional later. Asset choice and implementation remain sprint work. |
+| D14 | 2026-09-08 | Maintainer accepts a polished local/CPU GitHub Pages checkpoint at the existing /li4chess/ site. Retain UI1, then bound L1 to full local-play review, concrete defect fixes, required checks, actual Pages verification, a release tag, known limitations and update/rollback instructions. Cloudflare, li4chess.org launch and hosted multiplayer are shelved with no automatic next phase; preserve local multiplayer and evidence. Further bot research is outside this release unless needed for a serious defect. Afterwards focus on bugs and occasional feedback without a feature schedule. Supersedes D12/D13's domain and hosted follow-up plans; D09 remains the preserved local M3 architecture, not active deployment work. |
 
-The roadmap's UI1 then L1 sequence is current. Completed milestones and historical
+The roadmap's UI1 then L1 sequence under D14 is current. Completed milestones and historical
 engineering contracts retain their evidence; deferred features are not commitments.
 
 ## Next actionable tasks
 
 1. **UI1: Lichess-style UI sprint.** Follow the [bounded brief](ui-sprint-lichess.md); adapt licensed assets, preserve four-player usability and validate visual results.
-2. **L1: publish the local/CPU game on li4chess.org through GitHub Pages.** Follow the
-   [bounded launch handoff](local-launch-handoff.md): verify the latest merge and
-   checks, prepare the existing root-path build, inspect account/routing needs,
-   then validate the authorized domain deployment and rollback.
-3. **After L1, if pursued: hosted casual friend-invite play.** Resume the
-   [deferred hosted handoff](m3-hosted-handoff.md); reuse M3-03 through M3-08.
-   Preserve clocks, reconnect, recovery and replay guarantees.
-4. **Only with usage and maintenance capacity:** reconsider public matchmaking,
-   then accounts/ratings. Other roadmap ideas have no active task queue.
+2. **L1: polished local/CPU GitHub Pages checkpoint.** Follow the
+   [bounded release handoff](local-launch-handoff.md): review the full local
+   experience, fix concrete defects, run required checks, verify the existing
+   /li4chess/ deployment and record a release tag, limitations and rollback.
+3. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
+   no promised feature schedule. Cloudflare/domain launch and hosted multiplayer
+   are shelved. The [preserved hosted handoff](m3-hosted-handoff.md) needs a new
+   scope decision. Matchmaking/ratings and other ideas have no active task queue.
 
 Do not change game rules while merely collecting comparison evidence. Preserve
 the accepted M1 contract and its coverage. Do not treat the old recommendation's
@@ -481,7 +492,7 @@ throughput figures or strongest configured bot level as measurements of the new 
 | --- | --- | --- | --- |
 | Q2 | Which launch time controls? | Rule-level disconnect/abort facts are settled and implemented locally; authoritative clocks are implemented locally; select a small hosted friend-invite policy when M3 resumes. | Deferred hosted M3 |
 | Q3 | Must rating calculations exactly match Chess.com's? | Rules compatibility is accepted. Use its rating overview as a reference; document ties, parameters, and corrections before choosing an implementation. | Deferred M4, only if pursued |
-| Q4 | Which Cloudflare plan, data location, budget ceiling, and load target meet the release needs? | For L1, verify current routing, request limits and any required spending. Defer multiplayer load/data-location choices until hosted M3 resumes; no paid plan is selected here. | L1 hosting; multiplayer choices deferred |
+| Q4 | Which Cloudflare plan, data location, budget ceiling, and load target meet the release needs? | Shelved under D14; revisit only if hosted M3 is explicitly resumed. No Cloudflare choice blocks the existing Pages checkpoint. | Shelved hosted M3 |
 | Q5 | How should mixed online human/CPU games work? | Local anonymous CPU play is required. Shared online CPUs are optional; propose explicit opt-in, labels, server ownership, and exclusion from human rating pools. | Before adding online CPU seats |
 
 Q1 (anonymous rating eligibility) is resolved by D07. Q6 (remaining rule

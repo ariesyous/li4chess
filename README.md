@@ -19,17 +19,19 @@ all four original guests consent, then deliberately enter and ready in a new roo
 The original result and replay remain intact. Hosted activation remains outside
 the implemented scope.
 
-The immediate goal is a free, ad-free local/CPU game on **li4chess.org** that
-requires little ongoing maintainer time. A bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
-comes first, covering interface, board, pieces and licensed icon reuse. The domain
-is owned in the maintainer's Cloudflare account; the launch can use GitHub Pages
-with Cloudflare DNS. Neither the visual refresh nor domain launch is implemented yet.
-Hosted casual friend-invite play can follow, using private multiplayer already
-validated locally. Public matchmaking, accounts and ratings are deferred until
-demand and maintenance capacity justify them.
+The immediate goal is a polished, free, ad-free local/CPU release on the existing
+[GitHub Pages site](https://ariesyous.github.io/li4chess/) that requires little
+ongoing maintainer time. A bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
+comes first, covering interface, board, pieces and licensed icon reuse, followed
+by a complete local-play review, deployment verification and a tagged release.
+The visual refresh and release checkpoint are planned, not complete.
+Human players share one device; CPU opponents run in the browser. Cloudflare,
+the li4chess.org launch and hosted multiplayer are shelved. Completed local
+private multiplayer and its evidence remain available for development, with no
+scheduled hosted follow-up. Public matchmaking, accounts and ratings are deferred.
 See [ROADMAP.md](ROADMAP.md), the [launch handoff](docs/local-launch-handoff.md)
 and [project state](docs/project-state.md). This direction was accepted on
-2026-09-08; it does not claim that the domain launch has happened.
+2026-09-08 and replaces the earlier custom-domain launch plan.
 
 Current features include:
 
@@ -195,7 +197,7 @@ M3-07 has [reviewed completed-game replay evidence](docs/m3-07-evidence/README.m
 M3-08 has [reviewed private rematch evidence](docs/m3-08-evidence/README.md).
 The [deferred multiplayer handoff](docs/m3-hosted-handoff.md) retains hosted
 acceptance needs; M3 is paused and incomplete. The
-[local/CPU domain launch](docs/local-launch-handoff.md) comes first.
+[local/CPU Pages checkpoint](docs/local-launch-handoff.md) is the active release goal.
 
 ## Bot research and benchmarks
 
@@ -245,9 +247,11 @@ whole-runtime recovery against local workerd/D1. After `build:multiplayer`, run
 visible through recovery, and leaving asks before abandoning that intention.
 Local campaign success does not establish hosted readiness or select a launch clock.
 
-[ROADMAP.md](ROADMAP.md) prioritizes the local/CPU domain launch, then optional
-hosted friend-invite games. Matchmaking, ratings and broader community features
-are deferred or uncommitted; completed milestone evidence is retained.
+[ROADMAP.md](ROADMAP.md) prioritizes a polished local/CPU GitHub Pages checkpoint,
+then bug fixes and occasional feedback with no promised feature schedule.
+Cloudflare/domain launch and hosted friend-invite games are shelved. Matchmaking,
+ratings and broader community features are deferred or uncommitted; completed
+milestone evidence is retained.
 
 [docs/project-state.md](docs/project-state.md) retains accepted decisions,
 current focus, the next actionable tasks, open questions, and dated validation

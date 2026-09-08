@@ -11,13 +11,16 @@ practical to maintain with minimal ongoing maintainer time. A popular community
 remains an aspiration, not a release requirement. The maintainer accepted this
 smaller direction on 2026-09-08; it supersedes the earlier launch scope.
 
-- **First release on li4chess.org:** publish the existing anonymous local/CPU
-  game. Hosted multiplayer, matchmaking, accounts and ratings are not prerequisites.
+- **Release checkpoint on GitHub Pages:** polish and validate anonymous local/CPU
+  play at the existing /li4chess/ project site, then tag a release. Human players
+  share one device; the browser runs CPU opponents.
 - **UI sprint before launch:** bring the interface, board and icons close to
   Lichess's visual style, reusing suitably licensed assets and adapting them to
   four players. See [UI1](docs/ui-sprint-lichess.md). Retain li4chess branding.
-- **After launch:** casual friend-invite multiplayer, if pursued. Reuse the
-  implemented local private rooms, guests, clocks, reconnects, replays and rematches.
+- **After the checkpoint:** bug fixes and occasional feedback, with no promised
+  feature schedule. Cloudflare, the li4chess.org launch and hosted friend-invite
+  multiplayer are shelved. Preserve implemented local private rooms, guests,
+  clocks, reconnects, replays and rematches; resumption needs a new scope decision.
 - **Only with demand and capacity:** public matchmaking, then accounts and
   ratings. Broader community and learning features are uncommitted ideas.
 - **Rules target:** match Chess.com's standard FFA rules. M1 implements the
@@ -26,22 +29,19 @@ smaller direction on 2026-09-08; it supersedes the earlier launch scope.
   If rated play and persistent leaderboards are pursued later, they require accounts.
 - **Keep:** competitive fairness, accessibility and AGPL-3.0-only licensing.
 - **Constraints:** no target date; lean operating costs; keep the system simple.
-  Start the online service on Cloudflare's application platform: Workers and
-  Static Assets, Durable Objects for active games, and D1 for canonical SQL
-  persistence. Add R2, Queues, Containers, or another data store only when a
-  demonstrated requirement justifies them. The maintainer reports owning
-  li4chess.org in their Cloudflare account; application deployment there is pending.
-  Keep GitHub Pages for the local/CPU launch, with Cloudflare DNS for the custom
-  domain. Moving the frontend to Workers is optional later; no multiplayer D1
-  or Durable Objects are needed for this launch.
+  Keep GitHub Pages and the existing /li4chess/ asset base. Domain/DNS changes,
+  Workers hosting and service provisioning are outside this release. Preserve
+  the local Cloudflare implementation and architecture as deferred work.
+  Further bot research is outside the checkpoint unless a serious defect needs
+  fixing; "best possible" means a bounded polished release, not open-ended tuning.
 - **Working relationship:** agents handle routine engineering decisions,
   validation and concise documentation within the authorized scope. Maintainer
   involvement focuses on occasional playtesting, necessary account access,
   spending and meaningful product decisions. No comprehensive planning assignment
   or community-operations commitment is expected of the maintainer.
 
-Teams/2v2 and other variants remain ideas. A casual friend-invite release is a
-useful standalone outcome; no automatic progression to matchmaking is required.
+Teams/2v2 and other variants remain ideas. The local/CPU Pages release is a
+standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
@@ -76,8 +76,8 @@ capabilities do not make a milestone complete.
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
 | M2 | Responsive local and CPU play | Complete | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
 | UI1 | Lichess-style interface, board and icons | Planned — next | M2 | A familiar, cohesive four-player interface. |
-| L1 | Local/CPU launch on li4chess.org | Planned — after UI1 | M1, M2, UI1 | Visitors can play immediately without an account or opponents. |
-| M3 | Reliable friend-invite online game service | Paused after local implementation | M1; hosted release after L1 | Four friends can finish and recover a casual game. |
+| L1 | Polished local/CPU GitHub Pages checkpoint | Planned — after UI1 | M1, M2, UI1 | Visitors can play a verified release without an account or remote opponents. |
+| M3 | Reliable friend-invite online game service | Paused — hosted plans shelved | M1; new scope decision required | Four friends could finish and recover a hosted casual game if resumed. |
 | M4 | Public matchmaking and rated beta | Deferred | Demand and operating capacity after M3 | Players can find opponents and build a credible rating. |
 | M5 | Analysis and learning | Deferred — uncommitted ideas | Player interest | Players can understand and improve their play. |
 | M6 | Community and organized competition | Deferred — uncommitted ideas | Demand and willing operators | Communities can organize and follow events. |
@@ -97,20 +97,24 @@ records; repository-required checks pass. No rules, networking or new product
 features are required. Retain the existing renderer unless a bounded technical
 assessment establishes a clear reason to replace it.
 
-### L1 — Local/CPU launch on li4chess.org
+### L1 — Polished local/CPU GitHub Pages checkpoint
 
-**Planned; after UI1.** Use the existing GitHub Pages workflow, with the custom
-domain and root-path assets configured. See the [launch handoff](docs/local-launch-handoff.md).
+**Planned; after UI1.** Use the existing GitHub Pages workflow and /li4chess/
+project path. See the [release handoff](docs/local-launch-handoff.md).
 
-**Exit criteria:** the domain serves the verified root-path build over HTTPS;
-desktop and phone checks demonstrate complete games, responsive CPU turns,
-refresh/resume and replay export/import; the site describes its actual
-capabilities; deployment and rollback are repeatable; routing and operating
-limits are understood. Record hosted checks separately from local evidence.
+**Exit criteria:** review setup, play, CPU turns, saving/resuming and results;
+resolve concrete release-blocking usability/reliability defects. Required lint,
+unit, build and browser checks pass. The actual Pages HTTPS deployment loads
+assets under /li4chess/ and desktop/mobile checks demonstrate complete games,
+responsive CPU turns, refresh/resume and replay export/import. Record the
+deployed revision and hosted checks separately from local evidence. The site
+clearly describes local/CPU play; a release tag, known limitations and repeatable
+deployment/rollback instructions establish the checkpoint.
 
-Keep this bounded. Do not activate multiplayer or provision its storage to meet
-L1. Keep GitHub Pages hosting for this release. This planning update
-does not itself authorize deployment, account changes or purchases.
+Keep this bounded: no domain migration, Cloudflare provisioning, hosted
+multiplayer or open-ended bot tuning. This documentation update does not deploy
+or tag a release; those are later delivery steps. After L1, stop feature expansion
+and focus on bugs and occasional feedback unless the maintainer selects new work.
 
 ### M1 — Compatible, versioned FFA rules
 
@@ -206,8 +210,9 @@ direction, not Chess.com visual copying or a claim of implemented parity.
 
 ### M3 — Reliable online game service (internal alpha)
 
-**Paused (2026-09-08).** Local implementation is retained; hosted friend-invite
-play can follow L1. M3 remains incomplete and is not a prerequisite for L1.
+**Paused (2026-09-08); hosted plans shelved.** Local implementation is retained;
+resumption requires a new maintainer scope decision, with no scheduled phase
+after L1. M3 remains incomplete and is not a prerequisite for L1.
 The completed slices below retain their original evidence and acceptance scope.
 
 **M3-01 complete (2026-09-06):** the isolated local prototype and
@@ -319,9 +324,9 @@ operating instructions remain part of maintaining what is actually shipped.
 
 ## Architecture direction and scope control
 
-L1 uses the existing browser game and GitHub Pages, with Cloudflare DNS.
-The retained multiplayer architecture below applies to later hosted friend-invite
-play:
+L1 uses the existing browser game and GitHub Pages at /li4chess/, with no domain
+or DNS migration. The retained multiplayer architecture below is shelved for
+hosted use and applies only if the maintainer explicitly resumes that work:
 
 | Responsibility | Initial direction |
 | --- | --- |

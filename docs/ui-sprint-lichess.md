@@ -5,6 +5,8 @@ of lichess.org, especially its interface, chessboard and icons, with open-source
 reuse. Schedule one bounded sprint before L1; no UI implementation or asset import
 is claimed by this planning update. This updates D08's visual direction while
 preserving the existing four-player information architecture.
+The later D14 scope decision retains UI1 and makes L1 a local/CPU GitHub Pages
+checkpoint. Cloudflare/domain launch and hosted multiplayer are shelved.
 
 ## Deliverable
 
@@ -48,8 +50,9 @@ permission to reuse suitable material, not a requirement to recreate everything.
   ordinary play and terminal results, plus checked, dead and walking-king states.
 - Verify readable armies, score/turn feedback, focus, keyboard navigation,
   touch controls and unclipped layout. Preserve existing local save and replay UX.
-- Verify asset loading under both the current Pages subpath and the planned domain
-  root. Keep opt-in multiplayer screens usable where shared styles affect them.
+- Verify asset loading under the existing Pages /li4chess/ subpath. No domain-root
+  migration is planned. Keep opt-in local multiplayer screens usable where shared
+  styles affect them; preserve the separate Workers build configuration.
 - Run pnpm lint, pnpm test, pnpm build and
   pnpm --filter @li4chess/web test:e2e; run affected Worker/multiplayer checks if
   shared behavior changes. Record actual visual and test evidence, then update
