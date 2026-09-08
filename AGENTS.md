@@ -21,6 +21,7 @@ describes the implemented standard FFA contract and local replay boundaries.
 - Do not add AI co-author trailers, generated-by footers, or agent session links to commits or pull request descriptions.
 - Keep the frozen classic bot and historical experiment artifacts intact. Label new measurements with their code version and environment; do not present historical timings as current performance.
 - Validate code changes with `pnpm lint`, `pnpm test`, `pnpm build`, and `pnpm --filter @li4chess/web test:e2e` when browser behavior is affected. CI runs all four.
+- Default CI covers the local/CPU Pages product. D1, Worker and multiplayer integration campaigns remain in the manually triggered `.github/workflows/validate-multiplayer.yml`; run that workflow when changing the deferred backend or intentionally validating its shared dependencies. Those campaigns are not a default Pages merge gate.
 
 ## Project structure
 

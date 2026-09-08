@@ -146,6 +146,10 @@ pnpm --filter @li4chess/web test:e2e    # Human/CPU turns, autoplay, and dead ar
 
 CI runs lint, unit tests, the production build, and browser tests on pull
 requests and pushes to `main`. Playwright starts its own local Vite server.
+The longer D1, Worker and multiplayer campaigns are preserved in the manually
+triggered [Extended local multiplayer validation](.github/workflows/validate-multiplayer.yml)
+workflow. Run it from GitHub Actions when working on that deferred backend;
+it is outside the default local/CPU Pages release checks and does not deploy.
 The GitHub Pages workflow deploys `apps/web/dist` from `main`; Vite's base path
 is configured for `/li4chess/`.
 

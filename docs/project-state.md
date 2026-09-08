@@ -8,6 +8,16 @@ superseded handoffs.
 
 ## Current focus
 
+**CI scope aligned with local/CPU release (2026-09-08):** after the maintainer
+questioned the hosted-backend checks blocking this publication, default PR/main
+CI retains lint, all unit tests, build and local-game Playwright tests. The
+unchanged full D1/Worker/multiplayer validation sequence and artifact retention
+are preserved in the manual
+[extended workflow](../.github/workflows/validate-multiplayer.yml). Invoke it for
+deferred-backend changes or intentional shared-dependency validation. This keeps
+the accepted local multiplayer implementation and evidence without making its
+long campaigns a routine Pages merge gate.
+
 **UI1 publication authorized (2026-09-08):** the maintainer requested commit,
 merge and deployment of the completed refresh and owner-letter toggle.
 [PR #20](https://github.com/ariesyous/li4chess/pull/20) targets `main`, whose
