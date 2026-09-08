@@ -179,6 +179,10 @@ strict commands/receipts, takeover and browser reconnect/resync have
 [reviewed evidence](docs/m3-06-evidence/README.md) and
 [next bounded handoff](docs/m3-07-handoff.md) distinguish ordinary games, assisted
 endings, recoverable outages and unfinished incidents.
+**M3-07 locally complete (2026-09-07):** authenticated completed private replay
+retrieval and browser export preserve canonical history and original producer,
+with [reviewed Windows/Linux evidence](docs/m3-07-evidence/README.md). The
+[next bounded handoff](docs/m3-08-handoff.md) proposes private rematches separately.
 M3 is incomplete; local evidence does not discharge the hosted gates.
 
 **Capabilities**
@@ -202,7 +206,8 @@ M3 is incomplete; local evidence does not discharge the hosted gates.
   recovery. D1 is the initial canonical SQL store; moving to PostgreSQL or another
   database requires demonstrated limitations. Persist rule-driven random actions
   so replay is deterministic.
-- Saved-game replay and rematches. Client-side CPU games remain available
+- Authenticated completed-private-game replay retrieval/export is implemented.
+  Rematches remain planned. Client-side CPU games remain available
   independently; any shared online CPU seats need a separate server-owned design.
 - R2 is reserved for blobs, Queues for asynchronous work, and Containers for
   compute that cannot remain in the browser or Worker; none is an initial M3
@@ -225,7 +230,7 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 | M3-04 | Authoritative `GameRoom` Durable Object | **Complete 2026-09-07.** Maintained SQLite owner serializes internal authority, clocks/disconnect banks, exact D1 commits, controller connections and durable alarm recovery; reviewed real Windows/Linux runtime evidence. No public multiplayer or hosted activation. |
 | M3-05 | Multiplayer protocol | **Complete 2026-09-07.** Authenticated guests, private membership/seats, strict wire schemas, exact retries, takeover and browser reconnect/resync; reviewed real Windows/Linux runtime evidence. Opt-in local configuration only. |
 | M3-06 | Four-browser multiplayer validation | **Locally complete 2026-09-07.** Windows/Linux each passed 70 observations, 27 starts and 13 terminal histories; independent canonical/replay/source review and all existing suites passed. See [evidence](docs/m3-06-evidence/README.md). PR #17 merged at `eddbcad`; merge CI and Pages passed. Hosted gates and remaining M3 product work are separate. |
-| M3-07 | Completed private replay retrieval/export | **In acceptance 2026-09-07.** Authenticated proof-free member retrieval and browser download implemented; independent source review and focused runtime checks passed. Full Windows/Linux validation and retained evidence remain pending. See [inventory](docs/m3-07-acceptance.md). Rematches and hosted activation are excluded. |
+| M3-07 | Completed private replay retrieval/export | **Locally complete 2026-09-07.** Reviewed authenticated proof-free member downloads preserve canonical replay/producer/lineage. All 17 Windows commands and Linux CI 34171318234 passed; each platform passed 83/27 full and 11/3 focused campaign observations/starts. See [evidence](docs/m3-07-evidence/README.md), draft PR #18 and [next handoff](docs/m3-08-handoff.md). Rematches and hosted activation remain separate. |
 
 ### M4 — Public matchmaking and rated beta (first public release)
 

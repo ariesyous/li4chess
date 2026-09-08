@@ -1,0 +1,45 @@
+{
+  "source": "arena-results/m3-07-linux-ci-34171318234/raw/m3-01-local-runtime-evidence",
+  "files": [
+    {
+      "path": "configuration.json",
+      "bytes": 1587,
+      "sha256": "5acc278737339ea3adb3099c5236f4af801f2b0b84512922289500d0dd9fd44a"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 1993,
+      "sha256": "5a603a925a14c9f7c20970bb3951c8c5ad4cea8a2cb0fe291489788187ba575e"
+    },
+    {
+      "path": "observations.json.gz",
+      "bytes": 33505,
+      "sha256": "a9da6e47c835faace4ce48b35d587805be5225652777ef22d79bcb972a41aadf",
+      "decodedBytes": 1681757,
+      "decodedSha256": "0c0fa50a6ffafb80a3fd4149d849c38f8cac3bc4864d2060e976897e959eafa1"
+    },
+    {
+      "path": "repetition.replay.json",
+      "bytes": 22946,
+      "sha256": "487e246d4e459f377b173c42ff3f3d70f77211f7413ba95da7ea42863406ff32"
+    },
+    {
+      "path": "runtime.log.gz",
+      "bytes": 1946,
+      "sha256": "7d1c72261ca9678ee95f4921ac6adef928615ff592f06dfbaf3bac494c315b9c",
+      "decodedBytes": 24537,
+      "decodedSha256": "53474003645b955dc03f12970cfcd3c3890ac74075d20c12e2303a5f7fa18cb7"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 1460,
+      "sha256": "3cddbe8e596ba51da38905df40239f872561b06ec35313829efc04ba5499ff44"
+    },
+    {
+      "path": "walking.replay.json",
+      "bytes": 22117,
+      "sha256": "3c20d1faa78a0294ebd9f5f4f6924a8a44e14877ec9491095efb3f806a7af323"
+    }
+  ],
+  "omittedDuplicateSourceArchives": []
+}

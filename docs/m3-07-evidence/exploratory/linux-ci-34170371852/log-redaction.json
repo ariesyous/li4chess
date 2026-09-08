@@ -1,0 +1,10 @@
+{
+  "run": 34170371852,
+  "head": "c29885d243a269ea1347380a64d3d3f70ef0923b",
+  "status": "failure",
+  "rawGitHubLogRemoved": true,
+  "reason": "The raw thrown Playwright error printed disposable fixture cookie/proof headers. User requires no credential retention.",
+  "retained": ["ci.log.gz (credential-redacted complete console log)", "ci.json (full run/step metadata)", "sanitized failed campaign artifacts", "original source map and CI merge object"],
+  "scope": "Only raw logs were removed. Failed run status and uploaded sanitized artifacts remain; the failure is not reclassified or concealed.",
+  "verification": "DELETE logs succeeded; subsequent GitHub run read still reports completed/failure on the original head"
+}

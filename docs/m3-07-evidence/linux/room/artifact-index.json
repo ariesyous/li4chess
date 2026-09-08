@@ -1,0 +1,57 @@
+{
+  "source": "arena-results/m3-07-linux-ci-34171318234/raw/m3-04-game-room-evidence",
+  "files": [
+    {
+      "path": "configuration.json",
+      "bytes": 1633,
+      "sha256": "1300bd21da296b6711ef9e02543239d1bd514dcc5e8b48acb73e0937795bfce4"
+    },
+    {
+      "path": "long.replay.json",
+      "bytes": 110184,
+      "sha256": "5deb35ce4575a1e5273eeabe3eb73b40cbb48c3b2a3068d164693c94cd05e52f"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 1657,
+      "sha256": "7ec6bbcf39462aee4a20e04874ea30ad87e1fbac8b2c2bf2634f0450ca626382"
+    },
+    {
+      "path": "measurements.json",
+      "bytes": 23199,
+      "sha256": "8dac375e5eb87e91f8258a690905811310112f7f45e7a5f320659d8be2db4b04"
+    },
+    {
+      "path": "observations.json.gz",
+      "bytes": 1319,
+      "sha256": "a3226802c65b106a9f5af390bd83e4a993b966299be03dc15b73c5dc559a0451",
+      "decodedBytes": 3782,
+      "decodedSha256": "f7b8b04e3b1921ea4fafb73a066d56a4ab38bb66c5118e27fcd5e04d93b633ff"
+    },
+    {
+      "path": "rpc-samples.json",
+      "bytes": 202849,
+      "sha256": "276e8d59baec7cf1089702c742553d9dde015afd04895fff451c94d26211c7ab"
+    },
+    {
+      "path": "runtime.log.gz",
+      "bytes": 3891,
+      "sha256": "454674ddb1ce825cfcf7ed65782336c22e45fc4a30eb641c8af7c4c0dc331872",
+      "decodedBytes": 84621,
+      "decodedSha256": "9903de42285415c301212a3ac3c0d09d65bc727359aa023d4e6caf354a085655"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 69,
+      "sha256": "a8977821785dacb4d0747902a7e46605147f5b7108cf6ba832b9786bec6e927d"
+    },
+    {
+      "path": "walking.replay.json",
+      "bytes": 13365,
+      "sha256": "f3af1ce4e2287d14665c0b38cfba5db437813f757963b479306d7bc5edc10423"
+    }
+  ],
+  "omittedDuplicateSourceArchives": [
+    "source.json.gz"
+  ]
+}

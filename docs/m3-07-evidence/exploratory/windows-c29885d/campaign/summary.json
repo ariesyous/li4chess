@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "groups": 83,
+  "selected": [
+    "ordinary",
+    "endings",
+    "recovery",
+    "clocks",
+    "incidents",
+    "auth"
+  ],
+  "starts": 27,
+  "failure": null
+}

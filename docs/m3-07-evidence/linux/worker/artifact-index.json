@@ -1,0 +1,82 @@
+{
+  "source": "arena-results/m3-07-linux-ci-34171318234/raw/m3-02-workers-foundation-evidence/arena-results/m3-02-ci",
+  "files": [
+    {
+      "path": "artifact.json",
+      "bytes": 1724,
+      "sha256": "998c0fc8297c979c279804896509311c2494ee036903a8e695d14e2e202a0f2f"
+    },
+    {
+      "path": "assets.json.gz",
+      "bytes": 138424,
+      "sha256": "1907ee1917d2228aa18b14abe33070ee386af179461cf6389bdda3f641b153dc"
+    },
+    {
+      "path": "browser-observations.json",
+      "bytes": 3392,
+      "sha256": "c55e94c4eba3aa9b3dc44d57c3feffbbfce3ec3c9647cdf63fb2a7955459c209"
+    },
+    {
+      "path": "browser-results.json",
+      "bytes": 213775,
+      "sha256": "9a570e6e3b56f6550b7db754a52923aff987cfd47f46a48cc98a362645730abd"
+    },
+    {
+      "path": "configuration.json",
+      "bytes": 749,
+      "sha256": "56010fbe604b3e9095d1ef6e54abfd221e98d8510ce1b091d3ae32d88f8d19ec"
+    },
+    {
+      "path": "http-observations.json",
+      "bytes": 3808,
+      "sha256": "1e8390bcf305e73d6f4f0b9a73e555cc863916c839cbeb92d4cf639dbab66a4c"
+    },
+    {
+      "path": "lifecycle.json",
+      "bytes": 259,
+      "sha256": "3bb04ed4a5e78444e339187d529560bf0427e1b4ba5308b1bbd0ba5123704482"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 1568,
+      "sha256": "d42a475f813e4986a6ee6d2c45243e841a36665aee90510c2bff48725a2707ea"
+    },
+    {
+      "path": "runtime.log.gz",
+      "bytes": 852,
+      "sha256": "0e7dcbbf8fa45bf9a0a29c8da3d491e4ba0dca5edb9402f1680f98af0dc9a113",
+      "decodedBytes": 5553,
+      "decodedSha256": "82fb57ad1f563d04cfda1473168fbd7c7b0d5d3021844b0cd5deeaed96655741"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 107,
+      "sha256": "78fd183d49970626923b2136fac77b3a276fb200b967ff2ed9a8971463163be5"
+    },
+    {
+      "path": "tests.log.gz",
+      "bytes": 382,
+      "sha256": "be7cf592d201cbc021566e4a6cfc1a18ff196bf7638de9d511d27d768dae0a92",
+      "decodedBytes": 621,
+      "decodedSha256": "f67f643f75d611a9fc53c317313921143356d85f21073b1b1d5989ad8cc0ca5d"
+    },
+    {
+      "path": "worker-game.png",
+      "bytes": 176897,
+      "sha256": "a62fd87236c52f38ddf04194b68bd5106eee2ccf3e1aaf1b0edaf23c29406c16"
+    },
+    {
+      "path": "worker-game.replay.json",
+      "bytes": 13147,
+      "sha256": "f8cfd53312a188eeeddd95ad8fd349256da30d6539dbd54aa14ac9d8af1cf2a0"
+    },
+    {
+      "path": "worker-phone.png",
+      "bytes": 113571,
+      "sha256": "0441c6b883f4639ae84391d31e8a1f6abc3e29ec3bedf765f43c95215e191aa0"
+    }
+  ],
+  "omittedDuplicateSourceArchives": [
+    "source.json.gz"
+  ]
+}

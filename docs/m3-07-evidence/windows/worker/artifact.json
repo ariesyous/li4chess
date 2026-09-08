@@ -1,0 +1,38 @@
+{
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "f9c54928d7faece4b18e0b39f1cb317a258b2777",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:cb976a67aedcd34385700af2a7e509e57a1bf948b481aeeaf19f109e32f00709",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "target": "workers",
+  "basePath": "/",
+  "multiplayer": false,
+  "buildModuleHash": "sha256:d9fa4490362fa4f4930cc53ad48366c81e6be5aac5345f0303ecacfc7e4a01e4",
+  "assets": {
+    "assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+    "assets/index-DdeFxu0S.js": "sha256:ef7aedb45c1a3a07adfc043e8f7d0dacd68f290bb7c7b254135c8072da7e4fa3",
+    "assets/index-VTGqtwO1.css": "sha256:e2bd5a3f638f96a4d60798f0c69f79a2e91e60ae5df2ea7dda94538f7ae0955f",
+    "index.html": "sha256:de33cbba29f1bedc9c919fceac0e26551b0b63bea3f869bde696b6830cea5119"
+  },
+  "pagesPreserved": {
+    "assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+    "assets/index-DTSjYIvP.js": "sha256:518a925b73943dbf3385ec992bdb841ddc63785b9f48c96274d94644c387f0ee",
+    "assets/index-VTGqtwO1.css": "sha256:e2bd5a3f638f96a4d60798f0c69f79a2e91e60ae5df2ea7dda94538f7ae0955f",
+    "index.html": "sha256:5e21f3a77aeff5a173cb0bfa118e9867451cd4d07d9652c89f8a967472498f25"
+  }
+}

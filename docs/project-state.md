@@ -8,20 +8,35 @@ superseded handoffs.
 
 ## Current focus
 
-**M3-07 is in progress (2026-09-07).** The maintainer authorized authenticated
-completed-private-game replay retrieval and browser export, independent review,
-retained evidence and a draft PR with exact final-head CI. The
-[pre-change inventory](m3-07-acceptance.md) defines scope and proposed technical
-choices. Retrieval and browser export are implemented and independently reviewed;
-fresh full validation and retained Windows/Linux evidence are pending. Rematches, hosted activation
-and M4 remain excluded; M3 stays incomplete.
+**M3-07 is complete within its local acceptance scope (2026-09-07).**
+Authenticated room members can download completed private replay-v2 artifacts
+without taking control, preserving initial state, events, results, random facts,
+original producer and source lineage. Browser export guards room/session races
+and supports safe retry and existing local import. The
+[pre-change inventory](m3-07-acceptance.md), [contracts](multiplayer-v1.md) and
+[Windows/Linux evidence](m3-07-evidence/README.md) define the precise boundary.
+Rematches, hosted activation and M4 remain excluded; M3 stays incomplete.
+
+Reviewed implementation `c29885d` and test-driver correction
+`f9c54928d7faece4b18e0b39f1cb317a258b2777` passed all 17 fresh Windows commands:
+695 units, 47 local browser tests, all earlier integrations and both campaigns.
+Each platform passed 83 full-campaign observations/27 starts and 11 focused replay
+observations/3 starts. [CI 34171318234](https://github.com/ariesyous/li4chess/actions/runs/34171318234)
+passed on exact head `f9c5492`; original CI merge tree and bytes are retained.
+Independent source/evidence reviews resolved substantive findings and verified
+source maps, canonical/download/import agreement, lineage and credential redaction.
+[PR #18](https://github.com/ariesyous/li4chess/pull/18) remains draft/unmerged;
+its final documentation/evidence commit receives a separate exact-head CI check.
+The [next bounded handoff](m3-08-handoff.md) proposes private rematch consent and
+new-game creation without authorizing that work or any hosted activation.
 
 The first clean implementation `c29885d` passed all 17 Windows invocations,
 including 695 units, 47 local browser tests and both real-runtime campaigns.
 Linux CI 34170371852 failed on a test-driver socket hang-up after successful
 ordinary replay exports. The reviewed correction isolates driver HTTP sockets,
 keeps retries at zero, and sanitizes thrown fixture errors. Browser/server product
-behavior is unchanged. Retain this failed run and rerun acceptance on the correction.
+behavior is unchanged. The failed run and redacted log are retained separately;
+corrected acceptance passed as recorded above.
 
 Verified M3-06 merge: PR #17 merged at
 `eddbcad64d340ed7b4df4fe2baa277d4db5424f0`; post-merge CI 34166793615 and Pages
@@ -61,7 +76,7 @@ history and stale ownership stay unavailable/quarantined. Test adapters reuse th
 maintained authority; deployable bundle checks exclude fixtures/time/admin hooks.
 No rules, migrations, default hosting, classic bot or archived evidence changed.
 
-M3 remains in progress: replay retrieval/export is undergoing M3-07 acceptance;
+M3 remains in progress: replay retrieval/export has completed M3-07 acceptance;
 rematches remain a product gap; hosted TLS/origin/cookies, latency/load,
 eviction/hibernation, restore and rollout/rollback need separate authorization.
 The [next bounded handoff](m3-07-handoff.md) proposes completed-game replay export

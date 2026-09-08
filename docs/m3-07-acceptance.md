@@ -91,7 +91,7 @@ source fingerprint, executable versions/paths, configuration, commands and obser
 comparisons. Preserve artifact bytes through Git attributes and verify committed
 blobs. Never retain cookies, credentials, proofs or administrative secrets.
 
-## Implemented choices awaiting full acceptance
+## Implemented and validated choices
 
 Independent contract and implementation reviews selected one canonical command
 per continuation, at most 32 events per transport page, a 32,000,000-byte exact
@@ -117,8 +117,12 @@ clock balances and disconnect banks. Active-game delivery failures retain existi
 recovery semantics. Focused unit and real runtime regression checks pass.
 
 Full-source and resource-test independent reviews found no remaining substantive
-source blocker. Fresh full Windows validation, Linux CI and final evidence review
-are still required before marking R01-R10 complete.
+source blocker. Corrected clean `f9c54928d7faece4b18e0b39f1cb317a258b2777` passed
+all 17 Windows invocations and Linux CI 34171318234. The
+[evidence index](m3-07-evidence/README.md) maps R01-R10 to actual checks and
+distinguishes ordinary games, assisted fixtures and synthetic resource tests.
+Independent evidence review verifies exact source/artifact/replay bytes; final
+documentation-revision CI is verified on draft PR #18 before task completion.
 
 ## Platform documentation and completion gate
 

@@ -1,0 +1,45 @@
+{
+  "source": "arena-results/m3-07-linux-ci-34171318234/raw/m3-05-multiplayer-evidence",
+  "files": [
+    {
+      "path": "artifact.json",
+      "bytes": 1722,
+      "sha256": "4789cc75fe0dd6516f8e243323cb69a224441a4b05d3e83e4bee52ae77bf32ae"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 1286,
+      "sha256": "3468364569d6927aee42ee4991c400c13cae2a3e1d3a53a6db48ca51677d9c64"
+    },
+    {
+      "path": "observations.json.gz",
+      "bytes": 3361,
+      "sha256": "21624239e447d55d03b351ed305290680eae2ef9fdb20db5b99df4c8c10a4bfb",
+      "decodedBytes": 48719,
+      "decodedSha256": "0e65ca80f095c9283f658b0c589bbec7c045e60aab586bcb4347c4aa8c3a3d44"
+    },
+    {
+      "path": "online-terminal.png",
+      "bytes": 170490,
+      "sha256": "a549c90af2fbdca2465cbcafd29259ff64416d4476e1fc350f5181723371b6d8"
+    },
+    {
+      "path": "runtime.log.gz",
+      "bytes": 1884,
+      "sha256": "a0efa63c5ad7c16006d70de46c209dc4fa95597fe586c7096ea0e908429f2bd8",
+      "decodedBytes": 22818,
+      "decodedSha256": "b9fbba3621a394a1c8b712c481b4f21a4878974247317719b2989d08726554a7"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 97,
+      "sha256": "cb84e9f0f4a7ad549dda2917df3bbfe91f30b1e903c114530e61b13c4d146527"
+    },
+    {
+      "path": "wrangler.json",
+      "bytes": 1431,
+      "sha256": "5c314e470a06ce701f5ca38f1528c14a169bcfc8cc764b19b8e2b69c751fdb06"
+    }
+  ],
+  "omittedDuplicateSourceArchives": []
+}

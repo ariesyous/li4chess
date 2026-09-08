@@ -1,0 +1,131 @@
+{
+  "revision": "c29885d243a269ea1347380a64d3d3f70ef0923b",
+  "status": "",
+  "node": "v24.18.0",
+  "nodeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+  "pnpm": "10.33.0",
+  "pnpmEntry": "C:/Program Files/nodejs/node_modules/corepack/dist/pnpm.js",
+  "pathPrefix": "C:\\Users\\sith\\Code\\li4chess\\arena-results\\toolchain",
+  "started": "2026-09-07T23:31:30.519Z",
+  "checks": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "started": "2026-09-07T23:31:30.519Z",
+      "finished": "2026-09-07T23:31:31.171Z",
+      "exitCode": 0,
+      "log": "01.log"
+    },
+    {
+      "command": "pnpm lint --force",
+      "started": "2026-09-07T23:31:31.172Z",
+      "finished": "2026-09-07T23:31:38.839Z",
+      "exitCode": 0,
+      "log": "02.log"
+    },
+    {
+      "command": "pnpm test --force",
+      "started": "2026-09-07T23:31:38.839Z",
+      "finished": "2026-09-07T23:32:05.941Z",
+      "exitCode": 0,
+      "log": "03.log"
+    },
+    {
+      "command": "pnpm build --force",
+      "started": "2026-09-07T23:32:05.941Z",
+      "finished": "2026-09-07T23:32:13.298Z",
+      "exitCode": 0,
+      "log": "04.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/web test:e2e",
+      "started": "2026-09-07T23:32:13.299Z",
+      "finished": "2026-09-07T23:33:58.428Z",
+      "exitCode": 0,
+      "log": "05.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/architecture-spike test:integration",
+      "started": "2026-09-07T23:33:58.429Z",
+      "finished": "2026-09-07T23:34:23.990Z",
+      "exitCode": 0,
+      "log": "06.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/persistence test:integration",
+      "started": "2026-09-07T23:34:23.991Z",
+      "finished": "2026-09-07T23:34:55.526Z",
+      "exitCode": 0,
+      "log": "07.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/game-room test:integration",
+      "started": "2026-09-07T23:34:55.527Z",
+      "finished": "2026-09-07T23:36:57.258Z",
+      "exitCode": 0,
+      "log": "08.log"
+    },
+    {
+      "command": "pnpm build:workers",
+      "started": "2026-09-07T23:36:57.258Z",
+      "finished": "2026-09-07T23:37:00.038Z",
+      "exitCode": 0,
+      "log": "09.log"
+    },
+    {
+      "command": "pnpm check:workers",
+      "started": "2026-09-07T23:37:00.039Z",
+      "finished": "2026-09-07T23:37:03.334Z",
+      "exitCode": 0,
+      "log": "10.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker check:room",
+      "started": "2026-09-07T23:37:03.335Z",
+      "finished": "2026-09-07T23:37:06.529Z",
+      "exitCode": 0,
+      "log": "11.log"
+    },
+    {
+      "command": "pnpm test:workers",
+      "started": "2026-09-07T23:37:06.530Z",
+      "finished": "2026-09-07T23:37:19.256Z",
+      "exitCode": 0,
+      "log": "12.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker build:multiplayer",
+      "started": "2026-09-07T23:37:19.257Z",
+      "finished": "2026-09-07T23:37:21.741Z",
+      "exitCode": 0,
+      "log": "13.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker check:multiplayer",
+      "started": "2026-09-07T23:37:21.741Z",
+      "finished": "2026-09-07T23:37:25.358Z",
+      "exitCode": 0,
+      "log": "14.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker test:multiplayer",
+      "started": "2026-09-07T23:37:25.359Z",
+      "finished": "2026-09-07T23:38:07.492Z",
+      "exitCode": 0,
+      "log": "15.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker test:campaign",
+      "started": "2026-09-07T23:38:07.493Z",
+      "finished": "2026-09-07T23:44:43.115Z",
+      "exitCode": 0,
+      "log": "16.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker test:replay",
+      "started": "2026-09-07T23:44:43.116Z",
+      "finished": "2026-09-07T23:45:06.794Z",
+      "exitCode": 0,
+      "log": "17.log"
+    }
+  ]
+}

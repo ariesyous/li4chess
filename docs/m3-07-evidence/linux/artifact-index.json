@@ -1,0 +1,26 @@
+{
+  "source": "arena-results/m3-07-linux-ci-34171318234",
+  "files": [
+    {
+      "path": "ci-merge.commit",
+      "bytes": 1203,
+      "sha256": "70b94f172918a839f29ca9ef23585422d135b709e62b2c48373c0ca86e0c0b48"
+    },
+    {
+      "path": "ci-source.json",
+      "bytes": 623,
+      "sha256": "92d1607d292935c51feeb35b1a0409105cde99801b127870e0c58da5b3828cbc"
+    },
+    {
+      "path": "ci.json",
+      "bytes": 5847,
+      "sha256": "d279fb74c353ca1015bdc2e2ce5b6e8ec9ccde88a030da42fdaef92f066e2f36"
+    },
+    {
+      "path": "ci.log.gz",
+      "bytes": 33930,
+      "sha256": "ec59ca76a2149466995c441e684b4aadd6fdf4376853b081ca10a7ce2fc1ac4c"
+    }
+  ],
+  "omittedDuplicateSourceArchives": []
+}

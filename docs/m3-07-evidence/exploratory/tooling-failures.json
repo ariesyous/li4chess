@@ -1,0 +1,8 @@
+{
+  "scope": "Incidental local tooling failures; not acceptance measurements",
+  "failures": [
+    {"phase":"Before Windows validation 1","sourceRevision":"c29885d243a269ea1347380a64d3d3f70ef0923b","tool":"ignored validate-m3-07.mjs","failure":"Windows environment object used Path rather than PATH; runner failed before starting commands","correction":"Read PATH or Path; full validation started afterwards"},
+    {"phase":"Driver correction before f9c5492","sourceRevision":"c29885d243a269ea1347380a64d3d3f70ef0923b plus uncommitted campaign sanitizer changes","failure":"Synthetic diagnostic test found raw JSON regex redaction consumed an escaped newline/closing quote and produced invalid JSON","correction":"Sanitize individual string values with JSON.stringify replacer; valid JSON and no secret values asserted before commit","limitation":"No runtime campaign or producer measurement used this intermediate sanitizer"},
+    {"phase":"Evidence verification","sourceRevision":"f9c54928d7faece4b18e0b39f1cb317a258b2777","tool":"ignored verify-m3-07.ts","failure":"tsx interpreted root .ts script as CommonJS and rejected top-level await before verification","correction":"Explicit .mts extension; complete verification subsequently passed"}
+  ]
+}
