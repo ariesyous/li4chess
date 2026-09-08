@@ -1,5 +1,10 @@
 # Four-player game UI/UX reference
 
+**Current direction (2026-09-08):** [UI1](ui-sprint-lichess.md) uses Lichess as
+the visual reference and permits verified licensed code/asset reuse. The older
+Chess.com observations below remain useful for four-seat information layout;
+their original-design wording does not prohibit the newly requested reuse.
+
 **Status:** product reference, 2026-09-06. This records the maintainer's
 preference for a board-first, information-dense four-player experience informed
 by live Chess.com FFA use. It is a design direction for li4chess, not a request

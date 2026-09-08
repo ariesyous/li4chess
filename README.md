@@ -19,11 +19,17 @@ all four original guests consent, then deliberately enter and ready in a new roo
 The original result and replay remain intact. Hosted activation remains outside
 the implemented scope.
 
-The goal is a free, ad-free four-player equivalent of Lichess. The first public
-release will offer Chess.com-compatible FFA, public matchmaking, anonymous
-casual and CPU play, and account-based rated play. See [ROADMAP.md](ROADMAP.md)
-for milestones and [project state](docs/project-state.md) for current decisions
-and next tasks.
+The immediate goal is a free, ad-free local/CPU game on **li4chess.org** that
+requires little ongoing maintainer time. A bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
+comes first, covering interface, board, pieces and licensed icon reuse. The domain
+is owned in the maintainer's Cloudflare account; the launch can use GitHub Pages
+with Cloudflare DNS. Neither the visual refresh nor domain launch is implemented yet.
+Hosted casual friend-invite play can follow, using private multiplayer already
+validated locally. Public matchmaking, accounts and ratings are deferred until
+demand and maintenance capacity justify them.
+See [ROADMAP.md](ROADMAP.md), the [launch handoff](docs/local-launch-handoff.md)
+and [project state](docs/project-state.md). This direction was accepted on
+2026-09-08; it does not claim that the domain launch has happened.
 
 Current features include:
 
@@ -187,8 +193,9 @@ M3 remains incomplete.
 
 M3-07 has [reviewed completed-game replay evidence](docs/m3-07-evidence/README.md).
 M3-08 has [reviewed private rematch evidence](docs/m3-08-evidence/README.md).
-The [next bounded handoff](docs/m3-hosted-handoff.md) proposes separately authorized
-hosted acceptance planning; M3 is not complete.
+The [deferred multiplayer handoff](docs/m3-hosted-handoff.md) retains hosted
+acceptance needs; M3 is paused and incomplete. The
+[local/CPU domain launch](docs/local-launch-handoff.md) comes first.
 
 ## Bot research and benchmarks
 
@@ -238,9 +245,9 @@ whole-runtime recovery against local workerd/D1. After `build:multiplayer`, run
 visible through recovery, and leaving asks before abandoning that intention.
 Local campaign success does not establish hosted readiness or select a launch clock.
 
-[ROADMAP.md](ROADMAP.md) defines capability milestones and completion criteria:
-compatible FFA rules, responsive CPU play, reliable online games, public rated
-matchmaking, learning tools, community events, and a sustainable open platform.
+[ROADMAP.md](ROADMAP.md) prioritizes the local/CPU domain launch, then optional
+hosted friend-invite games. Matchmaking, ratings and broader community features
+are deferred or uncommitted; completed milestone evidence is retained.
 
 [docs/project-state.md](docs/project-state.md) retains accepted decisions,
 current focus, the next actionable tasks, open questions, and dated validation

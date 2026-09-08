@@ -1,33 +1,47 @@
 # li4chess roadmap
 
-Last reviewed: 2026-09-07. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-09-08. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
 ## Vision and product decisions
 
-Build a four-player equivalent of Lichess: a welcoming, free, ad-free,
-open-source place to play, compete, learn, and build a community around
-four-player chess.
+Build an enjoyable, free, ad-free, open-source four-player chess game that is
+practical to maintain with minimal ongoing maintainer time. A popular community
+remains an aspiration, not a release requirement. The maintainer accepted this
+smaller direction on 2026-09-08; it supersedes the earlier launch scope.
 
-- **First public release:** free-for-all with public matchmaking and ratings.
+- **First release on li4chess.org:** publish the existing anonymous local/CPU
+  game. Hosted multiplayer, matchmaking, accounts and ratings are not prerequisites.
+- **UI sprint before launch:** bring the interface, board and icons close to
+  Lichess's visual style, reusing suitably licensed assets and adapting them to
+  four players. See [UI1](docs/ui-sprint-lichess.md). Retain li4chess branding.
+- **After launch:** casual friend-invite multiplayer, if pursued. Reuse the
+  implemented local private rooms, guests, clocks, reconnects, replays and rematches.
+- **Only with demand and capacity:** public matchmaking, then accounts and
+  ratings. Broader community and learning features are uncommitted ideas.
 - **Rules target:** match Chess.com's standard FFA rules. M1 implements the
   accepted contract; the former house rules remain versioned history.
-- **Access:** free access, no ads, anonymous casual matchmaking, and games
-  against CPUs are launch requirements. Rated play and persistent leaderboards
-  require an account.
-- **Long-term principles:** competitive fairness and community participation in
-  governance, alongside the existing AGPL-3.0-only licensing.
+- **Access:** free access, no ads, anonymous local play and CPU opponents.
+  If rated play and persistent leaderboards are pursued later, they require accounts.
+- **Keep:** competitive fairness, accessibility and AGPL-3.0-only licensing.
 - **Constraints:** no target date; lean operating costs; keep the system simple.
   Start the online service on Cloudflare's application platform: Workers and
   Static Assets, Durable Objects for active games, and D1 for canonical SQL
   persistence. Add R2, Queues, Containers, or another data store only when a
-  demonstrated requirement justifies them. No paid plan has been selected or
-  infrastructure provisioned.
+  demonstrated requirement justifies them. The maintainer reports owning
+  li4chess.org in their Cloudflare account; application deployment there is pending.
+  Keep GitHub Pages for the local/CPU launch, with Cloudflare DNS for the custom
+  domain. Moving the frontend to Workers is optional later; no multiplayer D1
+  or Durable Objects are needed for this launch.
+- **Working relationship:** agents handle routine engineering decisions,
+  validation and concise documentation within the authorized scope. Maintainer
+  involvement focuses on occasional playtesting, necessary account access,
+  spending and meaningful product decisions. No comprehensive planning assignment
+  or community-operations commitment is expected of the maintainer.
 
-Teams/2v2 and other variants are later candidates. Invite rooms are useful for
-development and testing; an invite-only release does not fulfill the public
-matchmaking-and-ratings goal.
+Teams/2v2 and other variants remain ideas. A casual friend-invite release is a
+useful standalone outcome; no automatic progression to matchmaking is required.
 
 ## Current baseline
 
@@ -48,11 +62,12 @@ See [README.md](README.md) for implemented capabilities and
 The bounded 2026-09-08 bot endgame follow-up is implemented and
 [validated](docs/engine/endgame-evidence-20260908/README.md). It adds pawn-route
 and king-escort guidance within existing CPU budgets. This does not change
-milestone status.
+milestone status or the UI1 → L1 sequence.
 
 ## Milestones
 
-Status vocabulary: **planned**, **in progress**, **blocked**, **complete**.
+Status vocabulary: **planned**, **in progress**, **blocked**, **paused**,
+**deferred**, **complete**.
 Complete means the exit criteria have supporting evidence. Existing partial
 capabilities do not make a milestone complete.
 
@@ -60,11 +75,42 @@ capabilities do not make a milestone complete.
 | --- | --- | --- | --- | --- |
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
 | M2 | Responsive local and CPU play | Complete | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
-| M3 | Reliable online game service | In progress | M1 | Four remote players can finish and recover a game. |
-| M4 | Public matchmaking and rated beta | Planned | M2, M3 | Players can find opponents and build a credible rating. |
-| M5 | Analysis and learning | Planned | M4; editor/replay work can begin earlier | Players can understand and improve their play. |
-| M6 | Community and organized competition | Planned | M4 | Communities can organize and follow events. |
-| M7 | Sustainable open platform | Planned | Public usage and operational evidence | Contributors can maintain, operate, and extend the service. |
+| UI1 | Lichess-style interface, board and icons | Planned — next | M2 | A familiar, cohesive four-player interface. |
+| L1 | Local/CPU launch on li4chess.org | Planned — after UI1 | M1, M2, UI1 | Visitors can play immediately without an account or opponents. |
+| M3 | Reliable friend-invite online game service | Paused after local implementation | M1; hosted release after L1 | Four friends can finish and recover a casual game. |
+| M4 | Public matchmaking and rated beta | Deferred | Demand and operating capacity after M3 | Players can find opponents and build a credible rating. |
+| M5 | Analysis and learning | Deferred — uncommitted ideas | Player interest | Players can understand and improve their play. |
+| M6 | Community and organized competition | Deferred — uncommitted ideas | Demand and willing operators | Communities can organize and follow events. |
+| M7 | Sustainable open platform | Deferred — uncommitted expansion | Public usage and maintenance capacity | Contributors can maintain, operate, and extend the service. |
+
+### UI1 — Lichess-style UI sprint
+
+**Planned; next task.** The maintainer requested a close Lichess visual reference
+on 2026-09-08, including board, pieces and icons, with licensed reuse encouraged.
+The [bounded sprint](docs/ui-sprint-lichess.md) covers the existing setup/game
+screens, four-seat presentation, responsive layouts and asset provenance.
+
+**Exit criteria:** inspected desktop/mobile captures demonstrate the intended
+style; four armies and passive pieces remain legible; keyboard/touch and game
+controls remain usable; selected assets have source, license and attribution
+records; repository-required checks pass. No rules, networking or new product
+features are required. Retain the existing renderer unless a bounded technical
+assessment establishes a clear reason to replace it.
+
+### L1 — Local/CPU launch on li4chess.org
+
+**Planned; after UI1.** Use the existing GitHub Pages workflow, with the custom
+domain and root-path assets configured. See the [launch handoff](docs/local-launch-handoff.md).
+
+**Exit criteria:** the domain serves the verified root-path build over HTTPS;
+desktop and phone checks demonstrate complete games, responsive CPU turns,
+refresh/resume and replay export/import; the site describes its actual
+capabilities; deployment and rollback are repeatable; routing and operating
+limits are understood. Record hosted checks separately from local evidence.
+
+Keep this bounded. Do not activate multiplayer or provision its storage to meet
+L1. Keep GitHub Pages hosting for this release. This planning update
+does not itself authorize deployment, account changes or purchases.
 
 ### M1 — Compatible, versioned FFA rules
 
@@ -160,6 +206,10 @@ direction, not Chess.com visual copying or a claim of implemented parity.
 
 ### M3 — Reliable online game service (internal alpha)
 
+**Paused (2026-09-08).** Local implementation is retained; hosted friend-invite
+play can follow L1. M3 remains incomplete and is not a prerequisite for L1.
+The completed slices below retain their original evidence and acceptance scope.
+
 **M3-01 complete (2026-09-06):** the isolated local prototype and
 [ADR](docs/m3-01-adr.md) validate consistency/recovery boundaries, with
 [reviewed evidence](docs/m3-01-evidence/README.md) and
@@ -190,7 +240,7 @@ with [reviewed Windows/Linux evidence](docs/m3-07-evidence/README.md). The
 historical [rematch handoff](docs/m3-08-handoff.md) preceded M3-08.
 **M3-08 locally complete (2026-09-08):** authenticated unanimous private rematches
 have [reviewed evidence](docs/m3-08-evidence/README.md). The
-[next handoff](docs/m3-hosted-handoff.md) proposes hosted acceptance planning.
+[deferred handoff](docs/m3-hosted-handoff.md) retains hosted acceptance needs.
 M3 is incomplete; local evidence does not discharge the hosted gates.
 
 **Capabilities**
@@ -239,82 +289,39 @@ added to CI and cover refresh, disconnect, restart, and recovery.
 | M3-05 | Multiplayer protocol | **Complete 2026-09-07.** Authenticated guests, private membership/seats, strict wire schemas, exact retries, takeover and browser reconnect/resync; reviewed real Windows/Linux runtime evidence. Opt-in local configuration only. |
 | M3-06 | Four-browser multiplayer validation | **Locally complete 2026-09-07.** Windows/Linux each passed 70 observations, 27 starts and 13 terminal histories; independent canonical/replay/source review and all existing suites passed. See [evidence](docs/m3-06-evidence/README.md). PR #17 merged at `eddbcad`; merge CI and Pages passed. Hosted gates and remaining M3 product work are separate. |
 | M3-07 | Completed private replay retrieval/export | **Locally complete 2026-09-07.** Reviewed authenticated proof-free member downloads preserve canonical replay/producer/lineage. All 17 Windows commands and Linux CI 34171318234 passed; each platform passed 83/27 full and 11/3 focused campaign observations/starts. See [evidence](docs/m3-07-evidence/README.md), PR #18 merged at 229e325 with passing post-merge CI/Pages. Rematches are covered by M3-08; hosted activation remains separate. |
-| M3-08 | Authenticated private rematch consent and fresh creation | **Locally complete 2026-09-08.** All 18 Windows commands and Linux CI 34185544401 passed on reviewed 9cad92f: 716 units, 47 local browser tests and 16 rematch observations/21 starts per platform. See [inventory](docs/m3-08-acceptance.md), [evidence](docs/m3-08-evidence/README.md), draft PR #19 and [next handoff](docs/m3-hosted-handoff.md). Hosted activation and M4 remain separate. |
+| M3-08 | Authenticated private rematch consent and fresh creation | **Locally complete 2026-09-08.** All 18 Windows commands and Linux CI 34185544401 passed on reviewed 9cad92f: 716 units, 47 local browser tests and 16 rematch observations/21 starts per platform. See [inventory](docs/m3-08-acceptance.md), [evidence](docs/m3-08-evidence/README.md), PR #19 (merged at 9a49a80) and [deferred handoff](docs/m3-hosted-handoff.md). Hosted activation and M4 remain separate. |
 
-### M4 — Public matchmaking and rated beta (first public release)
+### M4 — Public matchmaking and rated beta (deferred)
 
-**Capabilities**
+Reconsider only after friend-invite usage suggests enough simultaneous players
+and someone has capacity for support, abuse reports and service operation.
+Public casual matchmaking should precede accounts and ratings. If rated play
+is pursued, accounts remain required and anonymous games remain casual; CPU
+opponents must be clearly labeled. Rating policy, integrity and operational
+requirements need a bounded scope at that time. None blocks L1 or casual invites.
 
-- Public casual and rated FFA queues, a small initial set of time controls, fair
-  seat assignment, queue cancellation, and clear waiting/reconnect states.
-- Free anonymous play and CPU games; persistent identity, profiles, game history,
-  rating history, provisional status, and basic leaderboards for account holders.
-  Guests remain eligible for casual matchmaking and CPU games.
-- A documented multiplayer rating policy tied to final M1 placements, including
-  ties, inactivity, aborted games, and corrections. Use the
-  [published Chess.com rating overview](https://support.chess.com/en/articles/8724787-how-do-ratings-work-in-4-player-chess)
-  as a reference; exact formula/parameter parity requires a separate decision.
-- Transactional, idempotent result/rating updates and an auditable correction
-  path. Simulations and fixtures evaluate placement handling and rating behavior.
-- Basic fair-play rules addressing assistance, collusion, and account abuse;
-  reporting, operator review, sanctions, and an appeal/contact route. Detection
-  flags are evidence for review, not automatic proof of cheating.
-- A lean production deployment, health checks, useful logs, error monitoring,
-  rate limits, backups, tested restoration, upgrade/rollback instructions, and
-  documented account/data handling.
+### M5 — Analysis and learning (uncommitted ideas)
 
-**Exit criteria:** public users can join, finish, and replay games; rating changes
-are applied once despite retries/restarts and match the documented policy.
-Anonymous and CPU access work. A small multi-user beta exercises queue churn,
-disconnects, and moderation. A declared concurrency target is load-tested on
-the intended deployment with recorded resource use and a cost estimate. Backup
-restore and rollback drills pass before launch.
+Position editing, annotated replays, studies, lessons and puzzles are candidates
+based on player interest. Preserve existing replay functionality. No additional
+analysis or bot research is required for launch.
 
-**Account policy (confirmed):** accounts are required for rated play; anonymous
-games are casual. **Working scope proposal:** keep CPU games outside human
-rating pools. Do not silently fill human queues with bots or present CPUs as
-human opponents.
+### M6 — Community and organized competition (uncommitted ideas)
 
-### M5 — Analysis and learning
+Clubs, chat, spectating, tournaments and Teams/2v2 remain ideas. Consider them
+only with demonstrated demand and a willing operator for their ongoing duties.
 
-**Capabilities:** a position editor, replay navigation, shareable annotated
-variations/studies, import/export with a documented four-player format, bounded
-analysis, and curated lessons and puzzles using verified FFA rules.
+### M7 — Sustainable open platform (uncommitted expansion)
 
-**Exit criteria:** a completed game can become a persistent, shareable lesson;
-exports round-trip correctly; analysis names the ruleset, search version, and
-budget and distinguishes estimates from forced outcomes. Puzzle answers have
-verified continuations. Begin with browser analysis and curated content; remote
-analysis and automatic puzzle mining need their own cost and quality evidence.
-
-### M6 — Community and organized competition
-
-**Capabilities:** clubs/groups, player challenges, event listings, spectating,
-moderated communication, and tournaments with four-player pairings, seating,
-scoring, and tie-breaks. Expand reporting and organizer tools with these features.
-
-**Exit criteria:** an organizer can run an event through withdrawals, disconnects,
-uneven attendance, and final standings; players understand the scoring; operators
-can handle abuse. Team/2v2 play requires its own ruleset, bot, rating, and queue
-design before inclusion. Avoid fragmenting a small population across many queues.
-
-### M7 — Sustainable open platform
-
-**Capabilities:** localization, deeper accessibility support, documented public
-APIs, contributor and self-hosting guides, security reporting, transparent project
-decisions, community governance, and a funding/maintenance plan consistent with
-free access and no ads. Native apps, additional variants, and larger-scale
-infrastructure remain candidates based on demand.
-
-**Exit criteria:** someone outside the original development sessions can deploy,
-recover, and contribute to the service using repository documentation. Capacity
-and operating costs are measured; maintenance responsibilities and community
-decision processes are documented. Publish feature-specific gates before taking
-on broad later-stage work.
+Localization, public APIs, formal governance and funding mechanisms are possible
+future work. Basic maintainability, accessibility, security fixes and clear
+operating instructions remain part of maintaining what is actually shipped.
 
 ## Architecture direction and scope control
 
-Start with the existing monorepo and a Cloudflare-native TypeScript application:
+L1 uses the existing browser game and GitHub Pages, with Cloudflare DNS.
+The retained multiplayer architecture below applies to later hosted friend-invite
+play:
 
 | Responsibility | Initial direction |
 | --- | --- |
@@ -337,7 +344,8 @@ deploy the application.
 
 Specify Durable Object lifecycle, command ordering, persistence boundaries,
 alarms/clocks, WebSocket behavior, crash recovery, and deployment rollback before
-depending on the topology. M3-01 must verify then-current platform limits, pricing,
+depending on the topology. M3-01 recorded local architecture evidence. Recheck
+current platform limits, pricing,
 data-location options, development tooling, D1 transaction/consistency behavior,
 and observability. Choose a concrete operating budget and load target when
 deployment work becomes actionable.
@@ -349,7 +357,7 @@ limit server compute. Accessibility, fairness, observability, and documentation
 are ongoing work, not deferred until M7.
 
 Stronger bots, Teams, correspondence play, advanced anti-cheat automation,
-donations, and public datasets are future workstreams. Define scope and privacy
+donations, and public datasets are uncommitted ideas. Define scope and privacy
 implications before implementation; none is an implicit M4 launch requirement.
 
 ## Keeping the plan current
