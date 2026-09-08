@@ -14,7 +14,10 @@ replay-v2 artifact without taking control; original producer and source lineage
 are retained. See the [retrieval contract](docs/multiplayer-v1.md) for limits,
 authentication, retry behavior and historical-build compatibility.
 M3-07 has [reviewed Windows/Linux evidence](docs/m3-07-evidence/README.md).
-Rematches and hosted activation remain outside the implemented scope.
+Private rematches have [reviewed Windows/Linux evidence](docs/m3-08-evidence/README.md):
+all four original guests consent, then deliberately enter and ready in a new room.
+The original result and replay remain intact. Hosted activation remains outside
+the implemented scope.
 
 The goal is a free, ad-free four-player equivalent of Lichess. The first public
 release will offer Chess.com-compatible FFA, public matchmaking, anonymous
@@ -183,9 +186,9 @@ M3-06 has [reviewed local complete-game/recovery evidence](docs/m3-06-evidence/R
 M3 remains incomplete.
 
 M3-07 has [reviewed completed-game replay evidence](docs/m3-07-evidence/README.md).
-The [next bounded M3 handoff](docs/m3-08-handoff.md) proposes private rematch consent
-and new-game creation. Rematches and separately authorized hosted validation remain
-open; M3 is not complete.
+M3-08 has [reviewed private rematch evidence](docs/m3-08-evidence/README.md).
+The [next bounded handoff](docs/m3-hosted-handoff.md) proposes separately authorized
+hosted acceptance planning; M3 is not complete.
 
 ## Bot research and benchmarks
 

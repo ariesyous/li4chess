@@ -1,0 +1,18 @@
+{
+  "recordedAt": "2026-09-08T03:47:28.233Z",
+  "node": "v24.18.0",
+  "nodeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+  "pnpm": "10.33.0",
+  "pnpmEntry": "C:/Program Files/nodejs/node_modules/corepack/dist/pnpm.js",
+  "wherePnpm": [
+    "C:\\Users\\sith\\Code\\li4chess\\arena-results\\toolchain\\pnpm",
+    "C:\\Users\\sith\\Code\\li4chess\\arena-results\\toolchain\\pnpm.CMD",
+    "C:\\Users\\sith\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd"
+  ],
+  "platform": "win32",
+  "arch": "x64",
+  "os": "10.0.26200",
+  "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+  "logicalCpus": 12,
+  "totalMemoryBytes": 34269650944
+}

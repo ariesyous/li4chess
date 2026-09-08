@@ -27,6 +27,13 @@ async function fixture(){
   return {reader,member,db,records,storage,next,prepared,producer,timing,setNow:(value:number)=>{now=value;}};
 }
 describe("completed replay read-only member audit",()=>{
+  it("always fences rematch eligibility, including current producer, and retains exact original seats/policy/seed",async()=>{
+    const f=await fixture(),before=structuredClone(f.records);
+    expect(await f.reader.eligibility(f.member,f.db)).toMatchObject({ok:true,principals:["p0","p1","p2","p3"],policy:f.timing.policy,seed:f.next.header.replay.initialState.position.randomSeed});
+    expect(f.db.inspect).toHaveBeenCalled();expect(f.records).toEqual(before);expect(f.storage.write).not.toHaveBeenCalled();
+    f.next.state={...f.next.state,position:{...f.next.state.position,result:null}};
+    expect(await f.reader.eligibility(f.member,f.db)).toEqual({ok:false,code:"replayIncomplete"});
+  });
   it.each([0,1])("port-assisted 2048-command byte boundary +%i admits exactly or rejects without final publication",async extra=>{
     // Synthetic padded events isolate resource accounting at the trusted D1 port.
     // They are NOT a claim of engine reachability or a replay-v2-valid long game;

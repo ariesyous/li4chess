@@ -32,6 +32,11 @@ async function attach(client:OnlineConnection,snapshot:OnlineSnapshot){await vi.
   await vi.waitFor(()=>expect(client.view.phase).toBe("connected"));return socket;}
 afterEach(()=>{for(const c of clients)c.stop();clients.length=0;vi.unstubAllGlobals();});
 describe("online browser ordering and recovery",()=>{
+  it("obtains fresh proof when entry fails after retirement and the source connection restarts",async()=>{
+    const f=await fixture();await attach(f.client,f.states[0]);await f.client.leave();
+    const before=f.fetcher.mock.calls.filter(([,o])=>JSON.parse(o.body as string).type==="connection").length;
+    f.client.start();await vi.waitFor(()=>expect(f.fetcher.mock.calls.filter(([,o])=>JSON.parse(o.body as string).type==="connection").length).toBe(before+1));
+  });
   it("checks historical completed mode before retained proof/pending handling and never attaches or retires",async()=>{
     const f=await fixture();await attach(f.client,f.states[0]);f.fetcher.mockRejectedValue(new Error("lost"));
     await f.client.command({type:"move",from:17,to:31});f.client.stop();

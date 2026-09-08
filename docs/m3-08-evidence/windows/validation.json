@@ -1,0 +1,138 @@
+{
+  "revision": "9cad92f435d7d4a949cc038d7e3447c2351a0252",
+  "status": "",
+  "node": "v24.18.0",
+  "nodeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+  "pnpm": "10.33.0",
+  "pnpmEntry": "C:/Program Files/nodejs/node_modules/corepack/dist/pnpm.js",
+  "pathPrefix": "C:\\Users\\sith\\Code\\li4chess\\arena-results\\toolchain",
+  "started": "2026-09-08T04:02:07.078Z",
+  "checks": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "started": "2026-09-08T04:02:07.078Z",
+      "finished": "2026-09-08T04:02:07.654Z",
+      "exitCode": 0,
+      "log": "01.log"
+    },
+    {
+      "command": "pnpm lint --force",
+      "started": "2026-09-08T04:02:07.655Z",
+      "finished": "2026-09-08T04:02:16.171Z",
+      "exitCode": 0,
+      "log": "02.log"
+    },
+    {
+      "command": "pnpm test --force",
+      "started": "2026-09-08T04:02:16.172Z",
+      "finished": "2026-09-08T04:02:46.960Z",
+      "exitCode": 0,
+      "log": "03.log"
+    },
+    {
+      "command": "pnpm build --force",
+      "started": "2026-09-08T04:02:46.960Z",
+      "finished": "2026-09-08T04:02:54.297Z",
+      "exitCode": 0,
+      "log": "04.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/web test:e2e",
+      "started": "2026-09-08T04:02:54.297Z",
+      "finished": "2026-09-08T04:04:25.148Z",
+      "exitCode": 0,
+      "log": "05.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/architecture-spike test:integration",
+      "started": "2026-09-08T04:04:25.149Z",
+      "finished": "2026-09-08T04:04:51.444Z",
+      "exitCode": 0,
+      "log": "06.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/persistence test:integration",
+      "started": "2026-09-08T04:04:51.444Z",
+      "finished": "2026-09-08T04:05:23.799Z",
+      "exitCode": 0,
+      "log": "07.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/game-room test:integration",
+      "started": "2026-09-08T04:05:23.800Z",
+      "finished": "2026-09-08T04:07:26.924Z",
+      "exitCode": 0,
+      "log": "08.log"
+    },
+    {
+      "command": "pnpm build:workers",
+      "started": "2026-09-08T04:07:26.925Z",
+      "finished": "2026-09-08T04:07:30.191Z",
+      "exitCode": 0,
+      "log": "09.log"
+    },
+    {
+      "command": "pnpm check:workers",
+      "started": "2026-09-08T04:07:30.191Z",
+      "finished": "2026-09-08T04:07:33.841Z",
+      "exitCode": 0,
+      "log": "10.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker check:room",
+      "started": "2026-09-08T04:07:33.842Z",
+      "finished": "2026-09-08T04:07:37.436Z",
+      "exitCode": 0,
+      "log": "11.log"
+    },
+    {
+      "command": "pnpm test:workers",
+      "started": "2026-09-08T04:07:37.437Z",
+      "finished": "2026-09-08T04:07:51.073Z",
+      "exitCode": 0,
+      "log": "12.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker build:multiplayer",
+      "started": "2026-09-08T04:07:51.074Z",
+      "finished": "2026-09-08T04:07:54.019Z",
+      "exitCode": 0,
+      "log": "13.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker check:multiplayer",
+      "started": "2026-09-08T04:07:54.020Z",
+      "finished": "2026-09-08T04:07:58.259Z",
+      "exitCode": 0,
+      "log": "14.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker test:multiplayer",
+      "started": "2026-09-08T04:07:58.259Z",
+      "finished": "2026-09-08T04:08:42.503Z",
+      "exitCode": 0,
+      "log": "15.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker test:campaign",
+      "started": "2026-09-08T04:08:42.504Z",
+      "finished": "2026-09-08T04:15:26.630Z",
+      "exitCode": 0,
+      "log": "16.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker test:replay",
+      "started": "2026-09-08T04:15:26.630Z",
+      "finished": "2026-09-08T04:15:51.667Z",
+      "exitCode": 0,
+      "log": "17.log"
+    },
+    {
+      "command": "pnpm --filter @li4chess/worker test:rematch",
+      "started": "2026-09-08T04:15:51.667Z",
+      "finished": "2026-09-08T04:18:02.406Z",
+      "exitCode": 0,
+      "log": "18.log"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "165049549e74a9054fffcd52929afbd71f83ee12",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:d0ced7008093b69754938e210fcd45e3a8fc34dde23c81ab7e3c84902d5dbd88",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "environment": {
+    "node": "v24.20.0",
+    "platform": "linux",
+    "release": "6.17.0-1022-azure",
+    "architecture": "x64",
+    "cpu": "Intel(R) Xeon(R) 6973P-C",
+    "logicalCpus": 4,
+    "totalMemoryBytes": 16765378560
+  },
+  "nodeExecutable": "/opt/hostedtoolcache/node/24.20.0/x64/bin/node",
+  "pnpm": "10.33.0",
+  "wrangler": "4.129.0",
+  "workerd": "1.20260903.1",
+  "chromium": "141.0.7390.37",
+  "command": "pnpm --filter @li4chess/worker test:campaign",
+  "selected": [
+    "ordinary",
+    "endings",
+    "recovery",
+    "clocks",
+    "incidents",
+    "auth"
+  ],
+  "starts": 2,
+  "hosted": false
+}

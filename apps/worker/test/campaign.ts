@@ -4,7 +4,7 @@ import { randomBytes } from "node:crypto";
 import { mkdir, readFile, writeFile, readdir } from "node:fs/promises";
 import { DatabaseSync } from "node:sqlite";
 import { dirname, resolve } from "node:path";
-import { chromium, expect, type BrowserContext, type Page } from "@playwright/test";
+import { chromium, expect, type BrowserContext, type Page, type Response as BrowserResponse, type Request as BrowserRequest, type ConsoleMessage } from "@playwright/test";
 import { legalMoves, localSquare, PieceType, resignPlayer, type PlayerColor } from "@li4chess/engine";
 import { ONLINE_VERSION, parseOnlineResponse, engineState, readReplay, equalCanonical, canonicalJson } from "@li4chess/protocol";
 import type { OnlineResponse, OnlineSnapshot, ReplayEnvelopeV2, ReplayEventV2 } from "@li4chess/protocol";
@@ -23,7 +23,7 @@ await captureSourceMap(root, output, artifact.producer);
 const port = await freePort(), origin = `http://127.0.0.1:${port}`;
 const key = randomBytes(32).toString("hex");
 const selected = (process.env.M3_06_CASES ?? "ordinary,endings,recovery,clocks,incidents,auth").split(",");
-assert(selected.every(s => ["ordinary","endings","recovery","clocks","incidents","auth","replay"].includes(s)), "Unknown campaign group");
+assert(selected.every(s => ["ordinary","endings","recovery","clocks","incidents","auth","replay","rematch"].includes(s)), "Unknown campaign group");
 const browser = await chromium.launch();
 const observations: unknown[] = [];
 const secrets = new Set<string>([key]);
@@ -90,7 +90,28 @@ async function proof(page: Page): Promise<string> {
   const value = await page.evaluate(() => JSON.parse(sessionStorage.getItem("li4chess.online.connection.v1")!).proof as string);
   secrets.add(value); return value;
 }
-async function enter(page: Page) { await page.goto(origin); await page.getByRole("button", { name: "Private multiplayer", exact: true }).click(); }
+let entryFailure=0;
+async function enter(page: Page) {
+  const events:unknown[]=[];const remember=(value:unknown)=>{if(events.length<40)events.push(value);};
+  const pathname=(url:string)=>{try{return new URL(url).pathname;}catch{return "[invalid URL]";}};
+  const pageError=(error:Error)=>remember({type:"pageerror",message:error.message.slice(0,2000)});
+  const consoleError=(message:ConsoleMessage)=>{if(message.type()==="error")remember({type:"console",message:message.text().slice(0,2000)});};
+  const crash=()=>remember({type:"crash"});
+  const failed=(request:BrowserRequest)=>remember({type:"requestfailed",path:pathname(request.url()),failure:request.failure()?.errorText});
+  const response=(r:BrowserResponse)=>{if(["document","script","stylesheet"].includes(r.request().resourceType()))remember({type:"response",path:pathname(r.url()),status:r.status(),contentType:r.headers()["content-type"]??null});};
+  page.on("pageerror",pageError);page.on("console",consoleError);page.on("crash",crash);page.on("requestfailed",failed);page.on("response",response);
+  try{await page.goto(origin);await page.getByRole("button",{name:"Private multiplayer",exact:true}).click();}
+  catch(error){
+    const name=`browser-entry-failure-${entryFailure++}`;
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    const document=await Promise.race([page.evaluate(()=>({rootChildren:window.document.getElementById("root")?.childElementCount??null,readyState:window.document.readyState,
+      buttons:Array.from(window.document.querySelectorAll("button")).slice(0,30).map(button=>(button.textContent??"").slice(0,100))})).catch(()=>null),
+      new Promise<{timedOut:true}>(resolve=>{timer=setTimeout(()=>resolve({timedOut:true}),3000);})]);clearTimeout(timer);
+    await writeFile(resolve(output,`${name}.json`),campaignJson({events,document,path:pathname(page.url()),runtimeExitCode:runtime?.child.exitCode,runtimeSignal:runtime?.child.signalCode},secrets)).catch(()=>undefined);
+    await page.screenshot({path:resolve(output,`${name}.png`),mask:[page.locator("input"),page.locator("code")],animations:"disabled",timeout:5000}).catch(()=>undefined);
+    throw error;
+  }finally{page.off("pageerror",pageError);page.off("console",consoleError);page.off("crash",crash);page.off("requestfailed",failed);page.off("response",response);}
+}
 type Game = { pages: Page[]; guests: BrowserContext[]; room: string; invitation: string };
 type Inspection = {records:{pending?:Prepared;cache:Boundary;timing:{value:OnlineSnapshot["timing"]};incident?:unknown};hit:{stage:string}|null};
 async function game(): Promise<Game> {
@@ -566,6 +587,217 @@ try {
       record(`B05 all-seat live ${mode} closes access and later requests reject`,{classification:"unfinished-credential-loss",canonical}); await closeGame(retired);
     }
   }
+  if(selected.includes("rematch")) {
+    const status=async(g:Game,seat=0)=>{const r=await request(g.guests[seat],{type:"rematch",room:g.room});assert(r.type==="rematch",JSON.stringify(r));return r;};
+    const currentRematch=async(g:Game,seat:number)=>{const s=await status(g,seat);await expect(g.pages[seat].getByTestId("rematch-status")).toHaveAttribute("data-revision",String(s.rematch.revision));};
+    let serial=0;
+    const mutation=async(g:Game,seat:number,type:"rematchPropose"|"rematchConsent"|"rematchDecline")=>{
+      const s=await status(g,seat);return {type,room:g.room,id:`rematch-${serial++}`,expectedRevision:s.rematch.revision,...(type==="rematchPropose"?{}:{proposal:s.rematch.proposal})};
+    };
+    const canonicalBytes=async(room:string)=>{const db=await database();try{return JSON.stringify({
+      game:db.prepare("SELECT * FROM games WHERE id=?").all(room),
+      commands:db.prepare("SELECT * FROM commands WHERE game_id=? ORDER BY seq").all(room),
+      events:db.prepare("SELECT * FROM events WHERE game_id=? ORDER BY seq").all(room),
+      checkpoints:db.prepare("SELECT * FROM checkpoints WHERE game_id=? ORDER BY command_seq").all(room),
+      results:db.prepare("SELECT * FROM results WHERE game_id=?").all(room),
+    });}finally{db.close();}};
+    await start("rematch-ordinary");const g=await game();
+    const unfinished=await request(g.guests[0],{type:"rematch",room:g.room});assert(unfinished.type==="error"&&unfinished.code==="replayIncomplete");
+    for(let ply=0;ply<16;ply++){const seat=ply%4 as PlayerColor,outward=Math.floor(ply/4)%2===0;await uiMove(g,localSquare(seat,outward?1:0,outward?0:2),localSquare(seat,outward?0:1,outward?2:0));}
+    const completed=await audit(g,"RM01-original-repetition","ordinary-complete");
+    const oldRoom=g.room,oldBytes=await canonicalBytes(oldRoom),oldReplay=canonicalJson(await apiReplay(g.guests[0],oldRoom));
+    await g.pages[0].getByRole("button",{name:"Propose rematch",exact:true}).click();
+    await expect(g.pages[0].getByTestId("rematch-status")).toContainText("pending · 0/4");
+    const pending=await status(g);assert(pending.rematch.successor===null);
+    const competing=await Promise.all([1,2].map(async seat=>request(g.guests[seat],await mutation(g,seat,"rematchPropose"))));
+    assert(competing.every(r=>r.type==="error"&&["conflict","stale"].includes(r.code)));
+    const observer=await g.guests[0].newPage();await enter(observer);
+    await observer.getByRole("textbox",{name:"Invitation",exact:true}).fill(g.invitation);await observer.getByRole("button",{name:"Join private room",exact:true}).click();await connected(observer);
+    await expect(observer.getByTestId("online-control")).toContainText("Observer");
+    await observer.getByRole("button",{name:"Consent to rematch",exact:true}).click();
+    await expect(g.pages[0].getByRole("button",{name:"You consented",exact:true})).toBeDisabled();
+    const duplicate=await mutation(g,0,"rematchConsent"),first=await request(g.guests[0],duplicate);assert(first.type==="rematch");
+    const repeat=await request(g.guests[0],duplicate);assert(repeat.type==="rematch");same(first.receipt,repeat.receipt);assert.equal(repeat.rematch.consents.filter(Boolean).length,1);
+    const mismatch=await request(g.guests[0],{...duplicate,type:"rematchDecline"});assert(mismatch.type==="error"&&mismatch.code==="conflict");
+    await observer.getByRole("button",{name:"Take control",exact:true}).click();await expect(observer.getByTestId("online-control")).toContainText("Controller");
+    await observer.close();
+    record("RM04 observer/controller takeover and duplicate consent share one principal vote; competing proposals add none");
+    await currentRematch(g,1);
+    let lost=true;const sent:string[]=[];
+    await g.pages[1].route("**/api/online",async route=>{const b=route.request().postDataJSON() as {type:string;id:string};
+      if(b.type==="rematchConsent"){sent.push(b.id);if(lost){await route.fetch();await route.abort("failed");return;}}await route.continue();});
+    await g.pages[1].getByRole("button",{name:"Consent to rematch",exact:true}).click();
+    await expect(g.pages[1].getByTestId("pending-rematch")).toBeVisible();const lostId=await g.pages[1].getByTestId("pending-rematch").textContent();
+    await g.pages[1].reload();await g.pages[1].getByRole("button",{name:"Private multiplayer",exact:true}).click();await connected(g.pages[1]);
+    await expect(g.pages[1].getByTestId("pending-rematch")).toHaveText(lostId!);lost=false;
+    await g.pages[1].getByRole("button",{name:"Retry same rematch request",exact:true}).click();await expect(g.pages[1].getByTestId("pending-rematch")).toHaveCount(0);
+    assert.equal(new Set(sent).size,1);await g.pages[1].unroute("**/api/online");
+    assert.equal((await status(g)).rematch.consents.filter(Boolean).length,2);await currentRematch(g,2);
+    await g.pages[2].getByRole("button",{name:"Consent to rematch",exact:true}).click();await expect(g.pages[2].getByTestId("rematch-status")).toContainText("3/4");
+    for(let seat=0;seat<4;seat++){
+      const before=await request(g.guests[seat],{type:"session"});const rotated=await request(g.guests[seat],{type:"rotate"});assert(before.type==="session"&&rotated.type==="session"&&before.principal===rotated.principal);
+      for(const cookie of await g.guests[seat].cookies())secrets.add(cookie.value);
+      await g.pages[seat].reload();await g.pages[seat].getByRole("button",{name:"Private multiplayer",exact:true}).click();await connected(g.pages[seat]);
+      for(const cookie of await g.guests[seat].cookies())secrets.add(cookie.value);
+      assert.equal((await status(g,seat)).rematch.consents.filter(Boolean).length,3);
+    }
+    await currentRematch(g,3);
+    let captured:OnlineResponse|undefined;await g.pages[3].route("**/api/online",async route=>{if((route.request().postDataJSON() as {type:string}).type==="rematchConsent"){const response=await route.fetch();captured=await parseOnlineResponse(await response.json());await route.abort("failed");return;}await route.continue();});
+    await g.pages[3].getByRole("button",{name:"Consent to rematch",exact:true}).click();await expect.poll(()=>captured?.type).toBe("rematch");await expect(g.pages[3].getByTestId("pending-rematch")).toBeVisible();
+    const last=await g.pages[3].evaluate(()=>JSON.parse(sessionStorage.getItem("li4chess.online.rematch.v1")!).request as {type:"rematchConsent";room:string;id:string;expectedRevision:number;proposal:number});
+    const lastReply=captured!;assert(lastReply.type==="rematch"&&lastReply.rematch.successor);
+    const successor=lastReply.rematch.successor;
+    for(const [seat,page] of g.pages.entries()){await expect(page.getByTestId("online-result")).toBeVisible();if(seat!==3)await expect(page.getByRole("button",{name:"Enter rematch room",exact:true})).toBeEnabled();}
+    let db=await database();assert.equal(db.prepare("SELECT count(*) AS n FROM games WHERE id=?").get(successor)!.n,0);db.close();
+    const waiting=await request(g.guests[0],{type:"lobby",room:successor});assert(waiting.type==="lobby"&&waiting.lobby.phase==="waiting");assert(waiting.lobby.seats.every(s=>s&&!s.ready));same(waiting.lobby.policy,completed.final.timing.policy);
+    await restart();await g.pages[3].unroute("**/api/online");await g.pages[3].getByRole("button",{name:"Retry same rematch request",exact:true}).click();await expect(g.pages[3].getByTestId("pending-rematch")).toHaveCount(0);const recovered=await request(g.guests[3],last);assert(recovered.type==="rematch");same(recovered.receipt,lastReply.receipt);assert.equal(recovered.rematch.successor,successor);
+    assert.equal(await canonicalBytes(oldRoom),oldBytes);assert.equal(canonicalJson(await apiReplay(g.guests[0],oldRoom)),oldReplay);
+    record("RM01/RM03/RM06 unanimous consent persists once across runtime restart; all-seat rotation and lost reply preserve principal intentions",{oldRoom,successor,lastReceipt:lastReply.receipt});
+    // Retire succeeds, but successor lookup fails: the old room must obtain a fresh proof.
+    await g.pages[0].reload();await g.pages[0].getByRole("button",{name:"Private multiplayer",exact:true}).click();await connected(g.pages[0]);
+    const retiredProof=await proof(g.pages[0]);let entryFailure=true;
+    await g.pages[0].route("**/api/online",async route=>{const b=route.request().postDataJSON() as {type:string;room:string};
+      if(entryFailure&&b.type==="lobby"&&b.room===successor){entryFailure=false;await route.abort("failed");return;}await route.continue();});
+    await g.pages[0].getByRole("button",{name:"Enter rematch room",exact:true}).click();
+    await expect.poll(()=>g.pages[0].evaluate(old=>{const raw=sessionStorage.getItem("li4chess.online.connection.v1");const value=raw?JSON.parse(raw).proof:null;return !!value&&value!==old;},retiredProof)).toBe(true);await connected(g.pages[0]);await g.pages[0].unroute("**/api/online");
+    record("RM06 failed successor entry recovers the retired source connection with fresh proof");
+    for(const page of g.pages){await page.reload();await page.getByRole("button",{name:"Private multiplayer",exact:true}).click();await connected(page);await page.getByRole("button",{name:"Enter rematch room",exact:true}).click();await expect(page.getByTestId("online-room")).toHaveText(successor);}
+    const fixed=await request(g.guests[0],{type:"seat",room:successor,seat:1});assert(fixed.type==="error"&&fixed.code==="conflict");
+    await g.pages[0].getByRole("button",{name:"View previous result and replay",exact:true}).click();await expect(g.pages[0].getByTestId("previous-result")).toContainText("repetition");
+    await g.pages[0].getByRole("button",{name:"Close previous result",exact:true}).click();
+    for(const page of g.pages)await page.getByRole("button",{name:"Ready",exact:true}).click();for(const page of g.pages)await connected(page);
+    g.room=successor;const fresh=await converge(g,0);
+    assert.notEqual(fresh.state.position.randomSeed,completed.final.state.position.randomSeed);assert.equal(fresh.producer.sourceRevision,artifact.producer.sourceRevision);
+    await uiMove(g,17,31);assert.equal(await canonicalBytes(oldRoom),oldBytes);assert.equal(canonicalJson(await apiReplay(g.guests[0],oldRoom)),oldReplay);
+    db=await database();const newHeader=JSON.parse(String(db.prepare("SELECT header_json FROM games WHERE id=?").get(successor)!.header_json));db.close();
+    await writeFile(resolve(output,"RM01-new-genesis.json"),JSON.stringify({oldRoom,successor,header:newHeader,firstMove:await snapshot(g.pages[0])}));
+    record("RM01/RM02 deliberate entry, fixed seats, readiness and legal new-game play preserve exact original canonical/replay bytes",{oldRoom,successor,oldSeed:completed.final.state.position.randomSeed,newSeed:fresh.state.position.randomSeed});
+    await closeGame(g);
+  }
+  if(selected.includes("rematch")) {
+    await start("rematch-abort-and-departure");const g=await game();await action(g,0,{type:"resign"},"rm-abort");await converge(g,1);
+    const audited=await audit(g,"RM08-opening-abort","ordinary-complete");assert.equal(audited.final.state.position.result?.reason,"abort");
+    const status=async()=>{const r=await request(g.guests[1],{type:"rematch",room:g.room});assert(r.type==="rematch");return r;};
+    let serial=0;
+    const mutate=async(seat:number,type:"rematchPropose"|"rematchConsent"|"rematchDecline")=>{const r=await status();return request(g.guests[seat],{type,room:g.room,id:`abort-rematch-${serial++}`,expectedRevision:r.rematch.revision,...(type==="rematchPropose"?{}:{proposal:r.rematch.proposal})});};
+    const outsider=await browser.newContext();contexts.add(outsider);
+    const attempt={type:"rematchPropose",room:g.room,id:"abort-first-proposal",expectedRevision:0};
+    const missing=await request(outsider,attempt,await proof(g.pages[0]));assert(missing.type==="error"&&missing.code==="unauthorized");
+    await request(outsider,{type:"issue"});for(const cookie of await outsider.cookies())secrets.add(cookie.value);
+    const nonmember=await request(outsider,attempt);assert(nonmember.type==="error"&&nonmember.code==="unauthorized");
+    for(let seat=0;seat<4;seat++){
+      const forged=await request(g.guests[seat],{...attempt,id:`forged-${seat}`,seat,principal:"forged"});assert(forged.type==="error"&&forged.code==="invalid");
+    }
+    await outsider.close();contexts.delete(outsider);
+    assert.equal((await request(g.guests[0],attempt)).type,"rematch");assert.equal((await mutate(0,"rematchConsent")).type,"rematch");
+    const page=g.pages[0];await page.route("**/api/online",async route=>{
+      if((route.request().postDataJSON() as {type:string}).type==="rematch"){await route.abort("failed");return;}await route.continue();});
+    await page.reload();await page.getByRole("button",{name:"Private multiplayer",exact:true}).click();await connected(page);
+    const dismissed=new Promise<void>(resolve=>page.once("dialog",dialog=>{assert(dialog.message().includes("without confirmed withdrawal"));void dialog.dismiss().then(resolve);}));
+    await page.getByRole("button",{name:"Leave online room",exact:true}).click();await dismissed;await expect(page.getByRole("button",{name:"Leave online room",exact:true})).toBeEnabled();await expect(page.getByTestId("online-result")).toBeVisible();
+    assert.equal((await status()).rematch.consents.filter(Boolean).length,1);
+    await page.unroute("**/api/online");await page.getByRole("button",{name:"Leave online room",exact:true}).click();
+    await expect(page.getByRole("button",{name:"Private multiplayer",exact:true})).toBeVisible();assert.equal((await status()).rematch.phase,"declined");
+    const stale=await request(g.guests[1],{type:"rematchConsent",room:g.room,id:"stale-departure",proposal:1,expectedRevision:1});assert(stale.type==="error"&&stale.code==="stale");
+      for(let epoch=2;epoch<=8;epoch++){
+      const proposed=await mutate(1,"rematchPropose");assert(proposed.type==="rematch"&&proposed.rematch.proposal===epoch&&proposed.rematch.consents.every(v=>!v));
+      if(epoch===8){
+        let capped=false;for(let i=0;i<120;i++){const vote=await mutate(1,"rematchConsent");if(vote.type==="error"){assert.equal(vote.code,"capacity");capped=true;break;}assert.equal(vote.type,"rematch");}
+        assert(capped);assert.equal((await status()).rematch.phase,"pending");
+      }
+      assert.equal((await mutate(2,"rematchDecline")).type,"rematch");
+    }
+    const cap=await mutate(1,"rematchPropose");assert(cap.type==="error"&&cap.code==="capacity");
+    const exact=await request(g.guests[0],attempt);assert(exact.type==="rematch"&&exact.receipt?.id===attempt.id&&exact.rematch.proposal===8);
+    same(await apiReplay(g.guests[1],g.room),await apiReplay(g.guests[2],g.room));
+    record("RM03/RM05/RM06/RM08 abort eligibility, identity fences, fresh departure withdrawal, stale epochs and proposal capacity");await closeGame(g);
+  }
+  if(selected.includes("rematch")) {
+    const guestSql=async<T=unknown>(sql:string,values:(string|number|null)[]=[])=>admin<T>({op:"guest-sql",room:"unused",sql,values});
+    for(const stage of ["before-creation","after-creation","before-d1","after-d1"]){
+      await start(`rematch-recovery-${stage}`,true);const g=await game();await action(g,0,{type:"resign"},`abort-${stage}`);await converge(g,1);
+      const original=await apiReplay(g.guests[0],g.room);
+      const sourceRows=async()=>{const db=await database();try{return JSON.stringify({game:db.prepare("SELECT * FROM games WHERE id=?").get(g.room),commands:db.prepare("SELECT * FROM commands WHERE game_id=? ORDER BY seq").all(g.room),events:db.prepare("SELECT * FROM events WHERE game_id=? ORDER BY seq").all(g.room),result:db.prepare("SELECT * FROM results WHERE game_id=?").all(g.room)});}finally{db.close();}};
+      const originalRows=await sourceRows();
+      if(stage==="after-creation"){
+        const before=await request(g.guests[0],{type:"session"});assert(before.type==="session");const old=(await g.guests[0].cookies())[0];secrets.add(old.value);
+        await admin({op:"detach-outage",room:g.room,value:true});const rotated=await request(g.guests[0],{type:"rotate"});assert(rotated.type==="session"&&rotated.principal===before.principal);
+        for(const cookie of await g.guests[0].cookies())secrets.add(cookie.value);
+        const rejected=await g.guests[0].request.post(`${origin}/api/online`,{...campaignHttp,headers:{...campaignHttp.headers,Origin:origin,"Content-Type":"application/json","X-Li4chess-Protocol":ONLINE_VERSION,Cookie:`${old.name}=${old.value}`},data:{version:ONLINE_VERSION,type:"rematch",room:g.room}});assert.equal((await rejected.json() as {code:string}).code,"revoked");
+        await admin({op:"detach-outage",room:g.room,value:false});
+      }
+      for(const page of g.pages)await page.close();
+      const status=async()=>{const r=await request(g.guests[0],{type:"rematch",room:g.room});assert(r.type==="rematch");return r;};
+      let serial=0;
+      const intention=async(type:"rematchPropose"|"rematchConsent"|"rematchDecline")=>{const r=await status();return {type,room:g.room,id:`fault-rematch-${serial++}`,expectedRevision:r.rematch.revision,...(type==="rematchPropose"?{}:{proposal:r.rematch.proposal})};};
+      const proposal=await intention("rematchPropose");assert.equal((await request(g.guests[0],proposal)).type,"rematch");
+      if(stage==="after-creation"){
+        const old=await admin<Inspection>({op:"inspect",room:g.room});
+        await admin({op:"mutate",room:g.room,key:"incident",value:{reason:"isolated integrity incident"}});
+        const incident=await request(g.guests[0],{type:"rematch",room:g.room});assert(incident.type==="error");await admin({op:"mutate",room:g.room,key:"incident",value:old.records.incident??null});
+        await admin({op:"mutate",room:g.room,key:"cache",value:{...old.records.cache,head:{...old.records.cache.head,stateHash:`sha256:${"f".repeat(64)}`}}});
+        const divergent=await request(g.guests[0],{type:"rematch",room:g.room});assert(divergent.type==="error");await admin({op:"mutate",room:g.room,key:"cache",value:old.records.cache});
+        const cfg=JSON.parse(await readFile(configPath,"utf8"));cfg.vars.M3_07_READER_BUILD="7".repeat(40);await writeFile(configPath,JSON.stringify(cfg));await restart();
+        assert.equal((await status()).rematch.phase,"pending");same(await apiReplay(g.guests[0],g.room),original);
+        delete cfg.vars.M3_07_READER_BUILD;await writeFile(configPath,JSON.stringify(cfg));await restart();
+        record("RM03/RM08 interrupted detach rotation, incident/divergent rejection and historical-serving rematch eligibility",{historicalReader:"7".repeat(40)});
+      }
+      if(stage==="before-creation"){
+        await guestSql("UPDATE guest_records SET value=json_set(value,'$.proposals[0].expiresAt',?) WHERE key=?",[Date.now()-1,`rematch:${g.room}`]);
+        assert.equal((await status()).rematch.phase,"expired");
+        assert.equal((await request(g.guests[0],await intention("rematchPropose"))).type,"rematch");
+        for(let seat=0;seat<4;seat++){
+          const auth=await request(g.guests[seat],{type:"session"});assert(auth.type==="session");
+          await guestSql("UPDATE guest_records SET value=json_set(value,'$.expiresAt',?) WHERE key LIKE 'credential:%' AND json_extract(value,'$.principal')=?",[Date.now()-1,auth.principal]);
+          const observed=await request(g.guests[(seat+1)%4],{type:"rematch",room:g.room});assert(observed.type==="rematch"&&observed.rematch.phase==="participantUnavailable"&&!observed.rematch.successor);
+          // Isolated fixture restores the original credential deadline for the next independent seat case.
+          await guestSql("UPDATE guest_records SET value=json_set(value,'$.expiresAt',?) WHERE key LIKE 'credential:%' AND json_extract(value,'$.principal')=?",[auth.expiresAt,auth.principal]);
+          assert.equal((await request(g.guests[0],await intention("rematchPropose"))).type,"rematch");
+        }
+      }
+      for(let seat=0;seat<3;seat++)assert.equal((await request(g.guests[seat],await intention("rematchConsent"))).type,"rematch");
+      const last=await intention("rematchConsent");
+      if(stage==="before-creation"){
+        await admin({op:"eligibility-delay",room:g.room,now:2500});
+        const auth=await request(g.guests[3],{type:"session"});assert(auth.type==="session");
+        await guestSql("UPDATE guest_records SET value=json_set(value,'$.expiresAt',?) WHERE key LIKE 'credential:%' AND json_extract(value,'$.principal')=?",[Date.now()+2000,auth.principal]);
+        const expired=await request(g.guests[3],last);assert(expired.type==="error"&&expired.code==="expired");
+        await admin({op:"eligibility-delay",room:g.room});
+        await guestSql("UPDATE guest_records SET value=json_set(value,'$.expiresAt',?) WHERE key LIKE 'credential:%' AND json_extract(value,'$.principal')=?",[auth.expiresAt,auth.principal]);
+        // Expiry can settle the proposal via the real alarm. Start a fresh epoch if necessary.
+        if((await status()).rematch.phase!=="pending"){
+          assert.equal((await request(g.guests[0],await intention("rematchPropose"))).type,"rematch");
+          for(let seat=0;seat<3;seat++)assert.equal((await request(g.guests[seat],await intention("rematchConsent"))).type,"rematch");
+          Object.assign(last,await intention("rematchConsent"));
+        }
+      }
+      // SQLite trigger interrupts the actual local admission transaction, not a mocked reducer.
+      await guestSql("CREATE TRIGGER rematch_allocation_rollback BEFORE INSERT ON guest_records WHEN NEW.key LIKE 'lobby:%' BEGIN SELECT RAISE(ABORT,'isolated rematch allocation rollback'); END");
+      const rolled=await request(g.guests[3],last);assert(rolled.type==="error");assert.equal((await status()).rematch.consents.filter(Boolean).length,3);assert.equal((await status()).rematch.successor,null);
+      await restart();await guestSql("DROP TRIGGER rematch_allocation_rollback");
+      const allocated=await request(g.guests[3],last);assert(allocated.type==="rematch"&&allocated.rematch.successor);const successor=allocated.rematch.successor;
+      const exact=await request(g.guests[3],last);assert(exact.type==="rematch");same(exact.receipt,allocated.receipt);
+      if(stage==="before-d1")await admin({op:"sql",room:successor,sql:"CREATE TRIGGER rematch_d1_rollback BEFORE INSERT ON games BEGIN SELECT RAISE(ABORT,'isolated rematch D1 rollback'); END"});
+      else {await admin({op:"fault",room:successor,fault:{stage,mode:"throw",remaining:100}});await admin({op:"hold-recovery",room:successor,value:true});}
+      // The configured development clock changes, but the successor must copy its source policy.
+      const cfg=JSON.parse(await readFile(configPath,"utf8"));cfg.vars.ONLINE_INITIAL_MS="777777";cfg.vars.ONLINE_INCREMENT_MS="777";await writeFile(configPath,JSON.stringify(cfg));
+      const retained=structuredClone(cfg);retained.vars.M3_06_KEY="[ephemeral; omitted]";await writeFile(resolve(output,`RM07-${stage}-changed.configuration.json`),JSON.stringify(retained));await restart();
+      for(let seat=0;seat<4;seat++)await request(g.guests[seat],{type:"ready",room:successor,ready:true});
+      const frozenRows=await guestSql<{value:string}[]>("SELECT value FROM guest_records WHERE key=?",[`lobby:${successor}`]);const frozen=JSON.parse(frozenRows[0].value) as {creation:{policy:unknown};phase:string};assert.equal(frozen.phase,"creating");assert(frozen.creation);same(frozen.creation.policy,{initialMs:600000,incrementMs:50,increment:"after-move"});
+      if(stage!=="before-d1"){const hit=await admin<Inspection>({op:"inspect",room:successor});assert.equal(hit.hit?.stage,stage);}
+      // Expire every credential only AFTER exact intent has been durably frozen.
+      await guestSql("UPDATE guest_records SET value=json_set(value,'$.expiresAt',?) WHERE key LIKE 'credential:%'",[Date.now()-1]);
+      await restart();await admin({op:"hold-recovery",room:successor,value:false});await admin({op:"fault",room:successor});if(stage==="before-d1")await admin({op:"sql",room:successor,sql:"DROP TRIGGER rematch_d1_rollback"});
+      await expect.poll(async()=>{const rows=await guestSql<{value:string}[]>("SELECT value FROM guest_records WHERE key=?",[`lobby:${successor}`]);return (JSON.parse(rows[0].value) as {phase:string}).phase;},{timeout:90000}).toBe("started");
+      const recoveredRows=await guestSql<{value:string}[]>("SELECT value FROM guest_records WHERE key=?",[`lobby:${successor}`]);const recovered=JSON.parse(recoveredRows[0].value) as {creation:unknown;phase:string};assert.equal(recovered.phase,"started");same(recovered.creation,frozen.creation);
+      const db=await database();try{assert.equal(db.prepare("SELECT count(*) AS n FROM games WHERE id=?").get(successor)!.n,1);}finally{db.close();}
+      const unavailable=await request(g.guests[0],{type:"lobby",room:successor});assert(unavailable.type==="error"&&unavailable.code==="expired");
+      const canonical=await admin<Boundary>({op:"canonical",room:successor});assert.equal(canonical.head.command,0);
+      assert.equal(await sourceRows(),originalRows);
+      await writeFile(resolve(output,`RM07-${stage}.json`),JSON.stringify({stage,oldRoom:g.room,successor,original,frozenCreation:frozen.creation,recoveredCreation:recovered.creation,canonical}));
+      record(`RM07/RM08 ${stage}: allocation rollback, whole-runtime restart and credential-independent frozen creation recovery`,{oldRoom:g.room,successor});await closeGame(g);
+    }
+  }
   if(selected.includes("replay")) {
     await start("replay-members",true);const g=await game();
     const error=async(guest:BrowserContext,body:object,code:string)=>{
@@ -706,7 +938,7 @@ finally {
   await writeFile(resolve(output, "manifest.json"), JSON.stringify({ producer: artifact.producer, environment: runtimeEnvironment(), nodeExecutable: process.execPath,
     pnpm: execFileSync(process.execPath, [process.env.npm_execpath!, "--version"], { encoding: "utf8", windowsHide: true }).trim(),
     wrangler: require("wrangler/package.json").version, workerd: require(require.resolve("workerd/package.json", { paths: [resolve(root, "node_modules/wrangler")] })).version,
-    chromium: browser.version(), command: selected.join(",")==="replay"?"pnpm --filter @li4chess/worker test:replay":"pnpm --filter @li4chess/worker test:campaign", selected, starts, hosted: false }, null, 2));
+    chromium: browser.version(), command: selected.join(",")==="rematch"?"pnpm --filter @li4chess/worker test:rematch":selected.join(",")==="replay"?"pnpm --filter @li4chess/worker test:replay":"pnpm --filter @li4chess/worker test:campaign", selected, starts, hosted: false }, null, 2));
   await writeFile(resolve(output, "summary.json"), campaignJson({ passed: !failure, groups: observations.length, selected, starts, failure: failure instanceof Error ? failure.stack : failure ? String(failure) : null }, secrets));
 }
 if (failure) throw new Error(sanitizeCampaign(failure instanceof Error ? failure.stack ?? failure.message : String(failure), secrets));

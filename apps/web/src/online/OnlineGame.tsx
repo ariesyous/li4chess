@@ -6,6 +6,9 @@ import type { OnlineLobby, OnlineResponse } from "@li4chess/protocol";
 import { Board, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
 import { OnlineConnection, onlineRequest, type Session } from "./connection.js";
 import { ReplayDownload } from "./ReplayDownload.js";
+import { RematchClient } from "./rematch.js";
+import { RematchPanel } from "./RematchPanel.js";
+import { PreviousResult } from "./PreviousResult.js";
 
 export function OnlineGame({onLeave}:{onLeave:()=>void}){
   const [session,setSession]=useState<Session|null>(null),[lobby,setLobby]=useState<OnlineLobby|null>(null),[invite,setInvite]=useState(""),[message,setMessage]=useState("Checking guest session…");
@@ -20,7 +23,17 @@ export function OnlineGame({onLeave}:{onLeave:()=>void}){
   const perform=async(operation:()=>Promise<OnlineResponse>)=>{setBusy(true);try{accept(await operation());}catch{if(mounted.current)setMessage("Response lost. Retry the same operation.");}finally{if(mounted.current)setBusy(false);}};
   const create=()=>perform(()=>{let id=sessionStorage.getItem("li4chess.online.create");if(!id){id=crypto.randomUUID();sessionStorage.setItem("li4chess.online.create",id);}return onlineRequest({type:"create",id});});
   const leave=()=>{mounted.current=false;sessionStorage.removeItem("li4chess.online.room");sessionStorage.removeItem("li4chess.online.create");setLobby(null);onLeave();};
-  if(session&&lobby?.phase==="started")return <ConnectedGame room={lobby.room} session={session} onLeave={leave}/>;
+  const enterRematch=async(room:string)=>{
+    if(!session||!lobby)return;const oldRoom=lobby.room;
+    const response=await onlineRequest({type:"lobby",room});
+    if(!mounted.current)return;
+    if(response.type!=="lobby"||response.lobby.room!==room||response.lobby.rematchOf!==oldRoom)throw new Error("Rematch lobby unavailable. Retry entry into the same room.");
+    const auth=await onlineRequest({type:"session"});if(!mounted.current)return;
+    if(auth.type!=="session"||auth.principal!==session.principal||auth.generation!==session.generation)throw new Error("Guest session changed. Reopen the original room with a valid session.");
+    sessionStorage.setItem("li4chess.online.room",room);
+    setInvite("");setLobby(response.lobby);setMessage("");
+  };
+  if(session&&lobby?.phase==="started")return <ConnectedGame key={`${lobby.room}:${session.principal}:${session.generation}`} room={lobby.room} session={session} previousRoom={lobby.rematchOf} onEnter={enterRematch} onLeave={leave}/>;
   return <main className="setup-shell online-setup"><h1>Private multiplayer</h1><p>Four authenticated guests · Local service</p>
     <p role="status">{message}</p>
     {!session?<button disabled={busy} onClick={()=>void perform(()=>onlineRequest({type:"issue"}))}>Create guest session</button>:<>
@@ -29,6 +42,7 @@ export function OnlineGame({onLeave}:{onLeave:()=>void}){
         <label>Invitation <input value={invite} onChange={e=>setInvite(e.target.value)} autoComplete="off"/></label>
         <button disabled={busy||!/^[0-9a-f]{64}$/.test(invite)} onClick={()=>void perform(()=>onlineRequest({type:"join",invitation:invite}))}>Join private room</button></>:<>
         <p>Room <code data-testid="online-room">{lobby.room}</code> · {lobby.phase}</p>
+        {lobby.rematchOf&&<PreviousResult room={lobby.rematchOf} session={session}/>}
         {invite&&<label>Share invitation <input aria-label="Share invitation" readOnly value={invite}/></label>}
         <p>Development clock: {lobby.policy.initialMs/1000} seconds + {lobby.policy.incrementMs/1000}. This is not a launch time control.</p>
         <div className="online-seats">{ALL_COLORS.map(seat=><button key={seat} disabled={busy||lobby.phase!=="waiting"||!!lobby.seats[seat]&&!lobby.seats[seat]!.mine}
@@ -39,10 +53,14 @@ export function OnlineGame({onLeave}:{onLeave:()=>void}){
     </>}
     <button onClick={leave}>Back to local play</button></main>;
 }
-function ConnectedGame({room,session,onLeave}:{room:string;session:Session;onLeave:()=>void}){
+function ConnectedGame({room,session,previousRoom,onEnter,onLeave}:{room:string;session:Session;previousRoom?:string;onEnter:(room:string)=>Promise<void>;onLeave:()=>void}){
   const [downloads,setDownloads]=useState(()=>new AbortController());
   useEffect(()=>{const controller=new AbortController();setDownloads(controller);return()=>controller.abort();},[]);
   const [client]=useState(()=>new OnlineConnection(room,session,sessionStorage));const [view,setView]=useState(client.view);
+  const [rematch]=useState(()=>new RematchClient(room,session,sessionStorage));
+  const [transitionMessage,setTransitionMessage]=useState(""),[leaving,setLeaving]=useState(false),[transitioning,setTransitioning]=useState(false);
+  const departure=useRef(false),lifetime=useRef(true);
+  useEffect(()=>{lifetime.current=true;return()=>{lifetime.current=false;rematch.stop();};},[rematch]);
   const [selected,setSelected]=useState<number|null>(null),[now,setNow]=useState(performance.now());
   useEffect(()=>{const unsubscribe=client.subscribe(()=>{setView(client.view);setSelected(null);});client.start();return()=>{unsubscribe();client.stop();};},[client]);
   useEffect(()=>{const timer=setInterval(()=>setNow(performance.now()),250);return()=>clearInterval(timer);},[]);
@@ -50,14 +68,42 @@ function ConnectedGame({room,session,onLeave}:{room:string;session:Session;onLea
   const moves=state&&view.phase==="connected"&&view.control?.controller&&!view.pending&&!view.takeover&&state.turn===seat?[...legalMoves(state)]:[];
   const targets=new Set(moves.filter(m=>m.from===selected).map(m=>m.to));
   const select=(square:number)=>{if(selected!==null&&targets.has(square)){void client.command({type:"move",from:selected,to:square});setSelected(null);}else setSelected(moves.some(m=>m.from===square)?square:null);};
-  const leave=async()=>{if((view.pending||view.takeover||view.identityConflict)&&!window.confirm("A sent command or takeover may already be committed. Leave and clear its saved intention after abandoning response recovery?"))return;downloads.abort();await client.leave();onLeave();};
+  const leave=async()=>{
+    if(departure.current)return;departure.current=true;setTransitioning(true);
+    try{
+      if((view.pending||view.takeover||view.identityConflict)&&!window.confirm("A sent command or takeover may already be committed. Leave and clear its saved intention after abandoning response recovery?"))return;
+      if(rematch.view.pending||rematch.view.blocked){
+        if(!window.confirm("A rematch request is unresolved. Leave after abandoning response recovery? It may already be committed; this does not guarantee withdrawal."))return;
+        if(!rematch.abandon())return;
+      }else if(state?.result){
+        if(!await rematch.reconcile()){
+          if(!window.confirm("Rematch status is unavailable. Leave without confirmed withdrawal? Your consent may remain and a new room may be created."))return;
+        }else if(rematch.view.state?.phase==="pending"&&!await rematch.act("rematchDecline")){
+          setTransitionMessage("Withdrawal is not confirmed. Resolve or retry the rematch request before leaving, or deliberately abandon recovery.");return;
+        }
+      }
+      if(!lifetime.current)return;
+      setLeaving(true);downloads.abort();rematch.stop();
+      await client.leave();if(lifetime.current)onLeave();
+    }catch{if(lifetime.current){setTransitionMessage("Connection cleanup failed. Retry leaving.");setDownloads(new AbortController());client.start();rematch.start();}}
+    finally{departure.current=false;if(lifetime.current){setLeaving(false);setTransitioning(false);}}
+  };
+  const enter=async(next:string)=>{
+    if(departure.current||view.pending||view.takeover||view.identityConflict||rematch.view.pending||rematch.view.blocked)return;
+    departure.current=true;setLeaving(true);downloads.abort();rematch.stop();
+    try{await client.leave();if(lifetime.current)await onEnter(next);}
+    catch(error){if(lifetime.current){setTransitionMessage(error instanceof Error?error.message:"Entry failed. Retry the same rematch room.");setDownloads(new AbortController());client.start();rematch.start();}}
+    finally{if(lifetime.current){departure.current=false;setLeaving(false);}}
+  };
   const seconds=(n:number)=>Math.max(0,n/1000).toFixed(1);
-  return <main className="game-shell"><header className="app-header"><h1>Private multiplayer</h1><button onClick={()=>void leave()}>Leave online room</button></header>
+  return <main className="game-shell"><header className="app-header"><h1>Private multiplayer</h1><button disabled={leaving||transitioning} onClick={()=>void leave()}>Leave online room</button></header>
+    <p role="status">{transitionMessage}</p>
+    {previousRoom&&<PreviousResult room={previousRoom} session={session}/>}
     <p role="status" data-testid="online-status">{view.phase} · {view.notice}</p>
     {view.identityConflict&&<button onClick={()=>{if(window.confirm("Abandon the previous identity's unresolved intention? This cannot undo a committed command or recover its receipt under the new identity."))client.abandonPreviousIdentity();}}>Abandon previous intention and connect</button>}
     <p data-testid="online-control">{seat===undefined?view.phase==="terminal"?"Member · Replay-only observation":"Authenticating seat":`${PLAYER_COLOR_NAME[seat]} · ${view.control?.controller?"Controller":"Observer"} · generation ${view.control?.generation}`}</p>
-    {view.control&&!view.control.controller&&<button onClick={()=>void client.takeControl()}>Take control</button>}
-    <button onClick={()=>client.reconnect()}>Reconnect and resync</button>
+    {view.control&&!view.control.controller&&<button disabled={leaving||transitioning} onClick={()=>void client.takeControl()}>Take control</button>}
+    <button disabled={leaving||transitioning} onClick={()=>client.reconnect()}>Reconnect and resync</button>
     {view.takeover&&<div role="status"><p>Pending takeover <code data-testid="pending-takeover">{view.takeover}</code>. Its outcome may already be committed.</p>
       <button onClick={()=>void client.takeControl()}>Retry same takeover</button></div>}
     {view.pending&&<div role="status"><p>Pending command <code data-testid="pending-command">{view.pending.request.id}</code>. Its outcome may already be committed.</p>
@@ -75,7 +121,8 @@ function ConnectedGame({room,session,onLeave}:{room:string;session:Session;onLea
       <div className="board-tools"><button disabled={!view.control?.controller||view.phase!=="connected"||!!view.pending||!!view.takeover||seat===undefined||state.players[seat].status!=="active"} onClick={()=>{if(window.confirm("Resign your seat? During the opening this aborts the game."))void client.command({type:"resign"});}}>Resign my seat</button>
         {seat!==undefined&&canClaimWin(state,seat)&&<button disabled={!view.control?.controller||view.phase!=="connected"||!!view.pending||!!view.takeover} onClick={()=>{if(window.confirm("Claim Win now and end this game?"))void client.command({type:"claimWin"});}}>Claim Win</button>}</div>
       {state.result&&<section data-testid="online-result"><h2>Authoritative result: {state.result.reason}</h2>{state.result.placements.map(p=><p key={p.color}>{PLAYER_COLOR_NAME[p.color]} — place {p.place}, {p.score} points</p>)}
-        <ReplayDownload room={room} session={session} snapshot={snapshot} signal={downloads.signal} allowed={!view.identityConflict&&view.phase!=="expired"&&view.phase!=="revoked"}/></section>}
+        <ReplayDownload room={room} session={session} snapshot={snapshot} signal={downloads.signal} allowed={!view.identityConflict&&view.phase!=="expired"&&view.phase!=="revoked"}/>
+        <RematchPanel client={rematch} transitioning={transitioning} allowed={!leaving&&!view.identityConflict&&view.phase!=="expired"&&view.phase!=="revoked"} onEnter={enter}/></section>}
     </>}
   </main>;
 }

@@ -193,3 +193,21 @@ jobs:
             arena-results/m3-07-ci/*.log
             arena-results/m3-07-ci/*.png
           retention-days: 14
+
+      - name: Validate authenticated private rematches and fresh game recovery
+        run: pnpm --filter @li4chess/worker test:rematch
+        env:
+          M3_08_OUTPUT: ${{ github.workspace }}/arena-results/m3-08-ci
+          WRANGLER_SEND_METRICS: "false"
+
+      - name: Retain private rematch acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m3-08-rematch-evidence
+          path: |
+            arena-results/m3-08-ci/*.json
+            arena-results/m3-08-ci/*.json.gz
+            arena-results/m3-08-ci/*.log
+            arena-results/m3-08-ci/*.png
+          retention-days: 14

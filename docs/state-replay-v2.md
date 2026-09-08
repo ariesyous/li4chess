@@ -158,3 +158,8 @@ Their bytes are preserved and rejection is executable. Reclassification/replay
 requires producing-revision evidence or a dedicated compatibility reader;
 no old game was rerun or reaggregated under standard-v1. The old archival writer
 is disabled before I/O to protect the frozen directory.
+
+Private rematches allocate a fresh game and genesis; their consent, proposal and
+source/successor relationship remain lobby metadata. They do not append events
+to, reset, or rewrite the completed source replay. Previous producer identity
+and source digest retain their existing meaning.

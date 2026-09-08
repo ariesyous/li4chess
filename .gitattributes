@@ -14,3 +14,6 @@ docs/m3-07-evidence/linux/** -text
 docs/m3-07-evidence/exploratory/** -text
 # Signed commit-object whitespace is part of the immutable object bytes.
 docs/m3-07-evidence/**/ci-merge.commit -diff
+
+docs/m3-08-evidence/** -text whitespace=cr-at-eol
+docs/m3-08-evidence/**/ci-merge.commit -diff

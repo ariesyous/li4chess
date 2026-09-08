@@ -30,6 +30,17 @@ export class CompletedReplay {
   private audits = new Map<string, Audit>();
   constructor(private readonly storage: RoomStorage, private readonly namespace: string, private readonly objectId: string,
     private readonly owns: (game: string) => boolean, private readonly now: () => number) {}
+  async eligibility(member: ReplayMember, db: D1Persistence) {
+    try {
+      const boundary = await this.fence(member, db);
+      const identity = this.storage.read<Creation>("identity")!;
+      const timing = this.storage.read<{value: Timing}>("timing")!.value;
+      check(equalCanonical(identity.policy, timing.policy));
+      check(identity.seats.length === 4 && new Set(identity.seats.map(s => s.principal)).size === 4);
+      return { ok: true as const, snapshot: { boundary, timing }, principals: identity.seats.map(s => s.principal),
+        policy: identity.policy, seed: boundary.header.replay.initialState.position.randomSeed };
+    } catch (error) { return { ok: false as const, code: failureCode(error) }; }
+  }
   async status(member: ReplayMember, db: D1Persistence, producer: EngineBuildIdentityV1) {
     try {
     const id=this.storage.read<Creation>("identity");

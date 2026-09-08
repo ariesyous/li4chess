@@ -1,0 +1,1298 @@
+{
+  "seed": "12345678",
+  "requestedCommands": 256,
+  "commands": 256,
+  "events": 293,
+  "terminal": null,
+  "elapsedMs": 58003.72349999999,
+  "sizes": [
+    {
+      "command": 1,
+      "stateBytes": 4849,
+      "sqliteBytes": 17403
+    },
+    {
+      "command": 2,
+      "stateBytes": 5289,
+      "sqliteBytes": 17843
+    },
+    {
+      "command": 3,
+      "stateBytes": 5730,
+      "sqliteBytes": 18284
+    },
+    {
+      "command": 4,
+      "stateBytes": 6171,
+      "sqliteBytes": 18725
+    },
+    {
+      "command": 5,
+      "stateBytes": 6609,
+      "sqliteBytes": 19163
+    },
+    {
+      "command": 6,
+      "stateBytes": 7049,
+      "sqliteBytes": 19605
+    },
+    {
+      "command": 7,
+      "stateBytes": 7490,
+      "sqliteBytes": 20046
+    },
+    {
+      "command": 8,
+      "stateBytes": 7929,
+      "sqliteBytes": 20485
+    },
+    {
+      "command": 9,
+      "stateBytes": 8369,
+      "sqliteBytes": 20925
+    },
+    {
+      "command": 10,
+      "stateBytes": 8810,
+      "sqliteBytes": 21371
+    },
+    {
+      "command": 11,
+      "stateBytes": 9251,
+      "sqliteBytes": 21812
+    },
+    {
+      "command": 12,
+      "stateBytes": 9690,
+      "sqliteBytes": 22251
+    },
+    {
+      "command": 13,
+      "stateBytes": 10129,
+      "sqliteBytes": 22690
+    },
+    {
+      "command": 14,
+      "stateBytes": 10646,
+      "sqliteBytes": 23207
+    },
+    {
+      "command": 15,
+      "stateBytes": 11100,
+      "sqliteBytes": 23661
+    },
+    {
+      "command": 16,
+      "stateBytes": 11552,
+      "sqliteBytes": 24113
+    },
+    {
+      "command": 17,
+      "stateBytes": 11926,
+      "sqliteBytes": 24487
+    },
+    {
+      "command": 18,
+      "stateBytes": 12366,
+      "sqliteBytes": 24927
+    },
+    {
+      "command": 19,
+      "stateBytes": 12807,
+      "sqliteBytes": 25368
+    },
+    {
+      "command": 20,
+      "stateBytes": 13345,
+      "sqliteBytes": 25906
+    },
+    {
+      "command": 21,
+      "stateBytes": 13782,
+      "sqliteBytes": 26343
+    },
+    {
+      "command": 22,
+      "stateBytes": 14220,
+      "sqliteBytes": 26781
+    },
+    {
+      "command": 23,
+      "stateBytes": 14758,
+      "sqliteBytes": 27319
+    },
+    {
+      "command": 24,
+      "stateBytes": 15197,
+      "sqliteBytes": 27758
+    },
+    {
+      "command": 25,
+      "stateBytes": 15632,
+      "sqliteBytes": 28193
+    },
+    {
+      "command": 26,
+      "stateBytes": 16068,
+      "sqliteBytes": 28629
+    },
+    {
+      "command": 27,
+      "stateBytes": 16507,
+      "sqliteBytes": 29068
+    },
+    {
+      "command": 28,
+      "stateBytes": 16943,
+      "sqliteBytes": 29504
+    },
+    {
+      "command": 29,
+      "stateBytes": 17378,
+      "sqliteBytes": 29939
+    },
+    {
+      "command": 30,
+      "stateBytes": 17897,
+      "sqliteBytes": 30458
+    },
+    {
+      "command": 31,
+      "stateBytes": 18368,
+      "sqliteBytes": 30929
+    },
+    {
+      "command": 32,
+      "stateBytes": 18802,
+      "sqliteBytes": 31363
+    },
+    {
+      "command": 33,
+      "stateBytes": 19235,
+      "sqliteBytes": 31796
+    },
+    {
+      "command": 34,
+      "stateBytes": 19671,
+      "sqliteBytes": 32232
+    },
+    {
+      "command": 35,
+      "stateBytes": 20107,
+      "sqliteBytes": 32668
+    },
+    {
+      "command": 36,
+      "stateBytes": 20541,
+      "sqliteBytes": 33102
+    },
+    {
+      "command": 37,
+      "stateBytes": 20975,
+      "sqliteBytes": 33536
+    },
+    {
+      "command": 38,
+      "stateBytes": 21412,
+      "sqliteBytes": 33973
+    },
+    {
+      "command": 39,
+      "stateBytes": 21847,
+      "sqliteBytes": 34408
+    },
+    {
+      "command": 40,
+      "stateBytes": 22282,
+      "sqliteBytes": 34843
+    },
+    {
+      "command": 41,
+      "stateBytes": 22716,
+      "sqliteBytes": 35277
+    },
+    {
+      "command": 42,
+      "stateBytes": 23151,
+      "sqliteBytes": 35712
+    },
+    {
+      "command": 43,
+      "stateBytes": 23586,
+      "sqliteBytes": 36147
+    },
+    {
+      "command": 44,
+      "stateBytes": 24022,
+      "sqliteBytes": 36583
+    },
+    {
+      "command": 45,
+      "stateBytes": 24455,
+      "sqliteBytes": 37016
+    },
+    {
+      "command": 46,
+      "stateBytes": 24890,
+      "sqliteBytes": 37451
+    },
+    {
+      "command": 47,
+      "stateBytes": 25326,
+      "sqliteBytes": 37887
+    },
+    {
+      "command": 48,
+      "stateBytes": 25760,
+      "sqliteBytes": 38321
+    },
+    {
+      "command": 49,
+      "stateBytes": 26194,
+      "sqliteBytes": 38755
+    },
+    {
+      "command": 50,
+      "stateBytes": 26628,
+      "sqliteBytes": 39189
+    },
+    {
+      "command": 51,
+      "stateBytes": 27064,
+      "sqliteBytes": 39625
+    },
+    {
+      "command": 52,
+      "stateBytes": 27500,
+      "sqliteBytes": 40061
+    },
+    {
+      "command": 53,
+      "stateBytes": 27934,
+      "sqliteBytes": 40495
+    },
+    {
+      "command": 54,
+      "stateBytes": 28368,
+      "sqliteBytes": 40929
+    },
+    {
+      "command": 55,
+      "stateBytes": 28904,
+      "sqliteBytes": 41465
+    },
+    {
+      "command": 56,
+      "stateBytes": 29336,
+      "sqliteBytes": 41897
+    },
+    {
+      "command": 57,
+      "stateBytes": 29767,
+      "sqliteBytes": 42328
+    },
+    {
+      "command": 58,
+      "stateBytes": 30201,
+      "sqliteBytes": 42762
+    },
+    {
+      "command": 59,
+      "stateBytes": 30634,
+      "sqliteBytes": 43195
+    },
+    {
+      "command": 60,
+      "stateBytes": 31066,
+      "sqliteBytes": 43627
+    },
+    {
+      "command": 61,
+      "stateBytes": 31498,
+      "sqliteBytes": 44059
+    },
+    {
+      "command": 62,
+      "stateBytes": 31930,
+      "sqliteBytes": 44491
+    },
+    {
+      "command": 63,
+      "stateBytes": 32465,
+      "sqliteBytes": 45026
+    },
+    {
+      "command": 64,
+      "stateBytes": 32997,
+      "sqliteBytes": 45558
+    },
+    {
+      "command": 65,
+      "stateBytes": 33426,
+      "sqliteBytes": 45987
+    },
+    {
+      "command": 66,
+      "stateBytes": 33955,
+      "sqliteBytes": 46516
+    },
+    {
+      "command": 67,
+      "stateBytes": 34483,
+      "sqliteBytes": 47044
+    },
+    {
+      "command": 68,
+      "stateBytes": 34908,
+      "sqliteBytes": 47469
+    },
+    {
+      "command": 69,
+      "stateBytes": 35333,
+      "sqliteBytes": 47894
+    },
+    {
+      "command": 70,
+      "stateBytes": 35758,
+      "sqliteBytes": 48319
+    },
+    {
+      "command": 71,
+      "stateBytes": 36184,
+      "sqliteBytes": 48745
+    },
+    {
+      "command": 72,
+      "stateBytes": 36611,
+      "sqliteBytes": 49172
+    },
+    {
+      "command": 73,
+      "stateBytes": 37036,
+      "sqliteBytes": 49597
+    },
+    {
+      "command": 74,
+      "stateBytes": 37463,
+      "sqliteBytes": 50024
+    },
+    {
+      "command": 75,
+      "stateBytes": 37890,
+      "sqliteBytes": 50451
+    },
+    {
+      "command": 76,
+      "stateBytes": 38317,
+      "sqliteBytes": 50878
+    },
+    {
+      "command": 77,
+      "stateBytes": 38742,
+      "sqliteBytes": 51303
+    },
+    {
+      "command": 78,
+      "stateBytes": 39168,
+      "sqliteBytes": 51729
+    },
+    {
+      "command": 79,
+      "stateBytes": 39595,
+      "sqliteBytes": 52156
+    },
+    {
+      "command": 80,
+      "stateBytes": 40020,
+      "sqliteBytes": 52581
+    },
+    {
+      "command": 81,
+      "stateBytes": 40444,
+      "sqliteBytes": 53005
+    },
+    {
+      "command": 82,
+      "stateBytes": 40870,
+      "sqliteBytes": 53431
+    },
+    {
+      "command": 83,
+      "stateBytes": 41297,
+      "sqliteBytes": 53858
+    },
+    {
+      "command": 84,
+      "stateBytes": 41825,
+      "sqliteBytes": 54386
+    },
+    {
+      "command": 85,
+      "stateBytes": 42249,
+      "sqliteBytes": 54810
+    },
+    {
+      "command": 86,
+      "stateBytes": 42775,
+      "sqliteBytes": 55336
+    },
+    {
+      "command": 87,
+      "stateBytes": 43200,
+      "sqliteBytes": 55761
+    },
+    {
+      "command": 88,
+      "stateBytes": 43724,
+      "sqliteBytes": 56285
+    },
+    {
+      "command": 89,
+      "stateBytes": 44249,
+      "sqliteBytes": 56812
+    },
+    {
+      "command": 90,
+      "stateBytes": 44669,
+      "sqliteBytes": 57232
+    },
+    {
+      "command": 91,
+      "stateBytes": 45193,
+      "sqliteBytes": 57756
+    },
+    {
+      "command": 92,
+      "stateBytes": 45610,
+      "sqliteBytes": 58173
+    },
+    {
+      "command": 93,
+      "stateBytes": 46026,
+      "sqliteBytes": 58589
+    },
+    {
+      "command": 94,
+      "stateBytes": 46444,
+      "sqliteBytes": 59007
+    },
+    {
+      "command": 95,
+      "stateBytes": 46967,
+      "sqliteBytes": 59530
+    },
+    {
+      "command": 96,
+      "stateBytes": 47383,
+      "sqliteBytes": 59948
+    },
+    {
+      "command": 97,
+      "stateBytes": 47799,
+      "sqliteBytes": 60364
+    },
+    {
+      "command": 98,
+      "stateBytes": 48216,
+      "sqliteBytes": 60781
+    },
+    {
+      "command": 99,
+      "stateBytes": 48634,
+      "sqliteBytes": 61199
+    },
+    {
+      "command": 100,
+      "stateBytes": 49153,
+      "sqliteBytes": 61721
+    },
+    {
+      "command": 101,
+      "stateBytes": 49567,
+      "sqliteBytes": 62135
+    },
+    {
+      "command": 102,
+      "stateBytes": 49983,
+      "sqliteBytes": 62551
+    },
+    {
+      "command": 103,
+      "stateBytes": 50399,
+      "sqliteBytes": 62967
+    },
+    {
+      "command": 104,
+      "stateBytes": 50815,
+      "sqliteBytes": 63383
+    },
+    {
+      "command": 105,
+      "stateBytes": 51229,
+      "sqliteBytes": 63797
+    },
+    {
+      "command": 106,
+      "stateBytes": 51643,
+      "sqliteBytes": 64211
+    },
+    {
+      "command": 107,
+      "stateBytes": 52057,
+      "sqliteBytes": 64625
+    },
+    {
+      "command": 108,
+      "stateBytes": 52575,
+      "sqliteBytes": 65143
+    },
+    {
+      "command": 109,
+      "stateBytes": 52988,
+      "sqliteBytes": 65556
+    },
+    {
+      "command": 110,
+      "stateBytes": 53403,
+      "sqliteBytes": 65971
+    },
+    {
+      "command": 111,
+      "stateBytes": 53818,
+      "sqliteBytes": 66386
+    },
+    {
+      "command": 112,
+      "stateBytes": 54231,
+      "sqliteBytes": 66799
+    },
+    {
+      "command": 113,
+      "stateBytes": 54644,
+      "sqliteBytes": 67212
+    },
+    {
+      "command": 114,
+      "stateBytes": 55057,
+      "sqliteBytes": 67625
+    },
+    {
+      "command": 115,
+      "stateBytes": 55573,
+      "sqliteBytes": 68141
+    },
+    {
+      "command": 116,
+      "stateBytes": 55984,
+      "sqliteBytes": 68552
+    },
+    {
+      "command": 117,
+      "stateBytes": 56394,
+      "sqliteBytes": 68962
+    },
+    {
+      "command": 118,
+      "stateBytes": 56805,
+      "sqliteBytes": 69373
+    },
+    {
+      "command": 119,
+      "stateBytes": 57216,
+      "sqliteBytes": 69784
+    },
+    {
+      "command": 120,
+      "stateBytes": 57626,
+      "sqliteBytes": 70194
+    },
+    {
+      "command": 121,
+      "stateBytes": 58037,
+      "sqliteBytes": 70605
+    },
+    {
+      "command": 122,
+      "stateBytes": 58448,
+      "sqliteBytes": 71016
+    },
+    {
+      "command": 123,
+      "stateBytes": 58860,
+      "sqliteBytes": 71428
+    },
+    {
+      "command": 124,
+      "stateBytes": 59271,
+      "sqliteBytes": 71839
+    },
+    {
+      "command": 125,
+      "stateBytes": 59682,
+      "sqliteBytes": 72250
+    },
+    {
+      "command": 126,
+      "stateBytes": 60094,
+      "sqliteBytes": 72662
+    },
+    {
+      "command": 127,
+      "stateBytes": 60507,
+      "sqliteBytes": 73075
+    },
+    {
+      "command": 128,
+      "stateBytes": 60918,
+      "sqliteBytes": 73486
+    },
+    {
+      "command": 129,
+      "stateBytes": 61433,
+      "sqliteBytes": 74001
+    },
+    {
+      "command": 130,
+      "stateBytes": 61842,
+      "sqliteBytes": 74410
+    },
+    {
+      "command": 131,
+      "stateBytes": 62354,
+      "sqliteBytes": 74922
+    },
+    {
+      "command": 132,
+      "stateBytes": 62762,
+      "sqliteBytes": 75330
+    },
+    {
+      "command": 133,
+      "stateBytes": 63273,
+      "sqliteBytes": 75841
+    },
+    {
+      "command": 134,
+      "stateBytes": 63679,
+      "sqliteBytes": 76247
+    },
+    {
+      "command": 135,
+      "stateBytes": 64087,
+      "sqliteBytes": 76655
+    },
+    {
+      "command": 136,
+      "stateBytes": 64495,
+      "sqliteBytes": 77063
+    },
+    {
+      "command": 137,
+      "stateBytes": 64901,
+      "sqliteBytes": 77469
+    },
+    {
+      "command": 138,
+      "stateBytes": 65309,
+      "sqliteBytes": 77877
+    },
+    {
+      "command": 139,
+      "stateBytes": 65715,
+      "sqliteBytes": 78283
+    },
+    {
+      "command": 140,
+      "stateBytes": 66121,
+      "sqliteBytes": 78689
+    },
+    {
+      "command": 141,
+      "stateBytes": 66527,
+      "sqliteBytes": 79095
+    },
+    {
+      "command": 142,
+      "stateBytes": 67037,
+      "sqliteBytes": 79605
+    },
+    {
+      "command": 143,
+      "stateBytes": 67443,
+      "sqliteBytes": 80011
+    },
+    {
+      "command": 144,
+      "stateBytes": 67847,
+      "sqliteBytes": 80415
+    },
+    {
+      "command": 145,
+      "stateBytes": 68251,
+      "sqliteBytes": 80819
+    },
+    {
+      "command": 146,
+      "stateBytes": 68656,
+      "sqliteBytes": 81224
+    },
+    {
+      "command": 147,
+      "stateBytes": 69061,
+      "sqliteBytes": 81629
+    },
+    {
+      "command": 148,
+      "stateBytes": 69467,
+      "sqliteBytes": 82035
+    },
+    {
+      "command": 149,
+      "stateBytes": 69869,
+      "sqliteBytes": 82437
+    },
+    {
+      "command": 150,
+      "stateBytes": 70273,
+      "sqliteBytes": 82841
+    },
+    {
+      "command": 151,
+      "stateBytes": 70677,
+      "sqliteBytes": 83245
+    },
+    {
+      "command": 152,
+      "stateBytes": 71084,
+      "sqliteBytes": 83652
+    },
+    {
+      "command": 153,
+      "stateBytes": 71486,
+      "sqliteBytes": 84054
+    },
+    {
+      "command": 154,
+      "stateBytes": 71891,
+      "sqliteBytes": 84459
+    },
+    {
+      "command": 155,
+      "stateBytes": 72297,
+      "sqliteBytes": 84865
+    },
+    {
+      "command": 156,
+      "stateBytes": 72702,
+      "sqliteBytes": 85270
+    },
+    {
+      "command": 157,
+      "stateBytes": 73105,
+      "sqliteBytes": 85673
+    },
+    {
+      "command": 158,
+      "stateBytes": 73509,
+      "sqliteBytes": 86077
+    },
+    {
+      "command": 159,
+      "stateBytes": 73916,
+      "sqliteBytes": 86484
+    },
+    {
+      "command": 160,
+      "stateBytes": 74407,
+      "sqliteBytes": 86975
+    },
+    {
+      "command": 161,
+      "stateBytes": 74930,
+      "sqliteBytes": 87498
+    },
+    {
+      "command": 162,
+      "stateBytes": 75348,
+      "sqliteBytes": 87916
+    },
+    {
+      "command": 163,
+      "stateBytes": 75684,
+      "sqliteBytes": 88252
+    },
+    {
+      "command": 164,
+      "stateBytes": 76087,
+      "sqliteBytes": 88655
+    },
+    {
+      "command": 165,
+      "stateBytes": 76490,
+      "sqliteBytes": 89058
+    },
+    {
+      "command": 166,
+      "stateBytes": 76998,
+      "sqliteBytes": 89566
+    },
+    {
+      "command": 167,
+      "stateBytes": 77401,
+      "sqliteBytes": 89969
+    },
+    {
+      "command": 168,
+      "stateBytes": 77804,
+      "sqliteBytes": 90372
+    },
+    {
+      "command": 169,
+      "stateBytes": 78206,
+      "sqliteBytes": 90774
+    },
+    {
+      "command": 170,
+      "stateBytes": 78608,
+      "sqliteBytes": 91176
+    },
+    {
+      "command": 171,
+      "stateBytes": 79012,
+      "sqliteBytes": 91580
+    },
+    {
+      "command": 172,
+      "stateBytes": 79415,
+      "sqliteBytes": 91983
+    },
+    {
+      "command": 173,
+      "stateBytes": 79817,
+      "sqliteBytes": 92385
+    },
+    {
+      "command": 174,
+      "stateBytes": 80221,
+      "sqliteBytes": 92789
+    },
+    {
+      "command": 175,
+      "stateBytes": 80625,
+      "sqliteBytes": 93193
+    },
+    {
+      "command": 176,
+      "stateBytes": 81029,
+      "sqliteBytes": 93597
+    },
+    {
+      "command": 177,
+      "stateBytes": 81431,
+      "sqliteBytes": 93999
+    },
+    {
+      "command": 178,
+      "stateBytes": 81834,
+      "sqliteBytes": 94402
+    },
+    {
+      "command": 179,
+      "stateBytes": 82238,
+      "sqliteBytes": 94806
+    },
+    {
+      "command": 180,
+      "stateBytes": 82642,
+      "sqliteBytes": 95210
+    },
+    {
+      "command": 181,
+      "stateBytes": 83044,
+      "sqliteBytes": 95612
+    },
+    {
+      "command": 182,
+      "stateBytes": 83550,
+      "sqliteBytes": 96118
+    },
+    {
+      "command": 183,
+      "stateBytes": 83952,
+      "sqliteBytes": 96520
+    },
+    {
+      "command": 184,
+      "stateBytes": 84457,
+      "sqliteBytes": 97025
+    },
+    {
+      "command": 185,
+      "stateBytes": 84854,
+      "sqliteBytes": 97422
+    },
+    {
+      "command": 186,
+      "stateBytes": 85252,
+      "sqliteBytes": 97820
+    },
+    {
+      "command": 187,
+      "stateBytes": 85652,
+      "sqliteBytes": 98220
+    },
+    {
+      "command": 188,
+      "stateBytes": 86053,
+      "sqliteBytes": 98621
+    },
+    {
+      "command": 189,
+      "stateBytes": 86558,
+      "sqliteBytes": 99126
+    },
+    {
+      "command": 190,
+      "stateBytes": 86958,
+      "sqliteBytes": 99526
+    },
+    {
+      "command": 191,
+      "stateBytes": 87357,
+      "sqliteBytes": 99925
+    },
+    {
+      "command": 192,
+      "stateBytes": 87859,
+      "sqliteBytes": 100427
+    },
+    {
+      "command": 193,
+      "stateBytes": 88253,
+      "sqliteBytes": 100821
+    },
+    {
+      "command": 194,
+      "stateBytes": 88648,
+      "sqliteBytes": 101216
+    },
+    {
+      "command": 195,
+      "stateBytes": 89042,
+      "sqliteBytes": 101610
+    },
+    {
+      "command": 196,
+      "stateBytes": 89439,
+      "sqliteBytes": 102007
+    },
+    {
+      "command": 197,
+      "stateBytes": 89939,
+      "sqliteBytes": 102507
+    },
+    {
+      "command": 198,
+      "stateBytes": 90333,
+      "sqliteBytes": 102901
+    },
+    {
+      "command": 199,
+      "stateBytes": 90731,
+      "sqliteBytes": 103299
+    },
+    {
+      "command": 200,
+      "stateBytes": 91126,
+      "sqliteBytes": 103694
+    },
+    {
+      "command": 201,
+      "stateBytes": 91622,
+      "sqliteBytes": 104190
+    },
+    {
+      "command": 202,
+      "stateBytes": 92118,
+      "sqliteBytes": 104686
+    },
+    {
+      "command": 203,
+      "stateBytes": 92614,
+      "sqliteBytes": 105182
+    },
+    {
+      "command": 204,
+      "stateBytes": 93003,
+      "sqliteBytes": 105571
+    },
+    {
+      "command": 205,
+      "stateBytes": 93393,
+      "sqliteBytes": 105961
+    },
+    {
+      "command": 206,
+      "stateBytes": 93783,
+      "sqliteBytes": 106351
+    },
+    {
+      "command": 207,
+      "stateBytes": 94277,
+      "sqliteBytes": 106845
+    },
+    {
+      "command": 208,
+      "stateBytes": 94666,
+      "sqliteBytes": 107234
+    },
+    {
+      "command": 209,
+      "stateBytes": 95055,
+      "sqliteBytes": 107623
+    },
+    {
+      "command": 210,
+      "stateBytes": 95444,
+      "sqliteBytes": 108012
+    },
+    {
+      "command": 211,
+      "stateBytes": 95833,
+      "sqliteBytes": 108401
+    },
+    {
+      "command": 212,
+      "stateBytes": 96222,
+      "sqliteBytes": 108790
+    },
+    {
+      "command": 213,
+      "stateBytes": 96609,
+      "sqliteBytes": 109177
+    },
+    {
+      "command": 214,
+      "stateBytes": 96998,
+      "sqliteBytes": 109566
+    },
+    {
+      "command": 215,
+      "stateBytes": 97491,
+      "sqliteBytes": 110059
+    },
+    {
+      "command": 216,
+      "stateBytes": 97878,
+      "sqliteBytes": 110446
+    },
+    {
+      "command": 217,
+      "stateBytes": 98264,
+      "sqliteBytes": 110832
+    },
+    {
+      "command": 218,
+      "stateBytes": 98652,
+      "sqliteBytes": 111220
+    },
+    {
+      "command": 219,
+      "stateBytes": 99040,
+      "sqliteBytes": 111608
+    },
+    {
+      "command": 220,
+      "stateBytes": 99428,
+      "sqliteBytes": 111996
+    },
+    {
+      "command": 221,
+      "stateBytes": 99814,
+      "sqliteBytes": 112382
+    },
+    {
+      "command": 222,
+      "stateBytes": 100202,
+      "sqliteBytes": 112770
+    },
+    {
+      "command": 223,
+      "stateBytes": 100590,
+      "sqliteBytes": 113158
+    },
+    {
+      "command": 224,
+      "stateBytes": 100977,
+      "sqliteBytes": 113545
+    },
+    {
+      "command": 225,
+      "stateBytes": 101367,
+      "sqliteBytes": 113935
+    },
+    {
+      "command": 226,
+      "stateBytes": 101858,
+      "sqliteBytes": 114426
+    },
+    {
+      "command": 227,
+      "stateBytes": 102245,
+      "sqliteBytes": 114813
+    },
+    {
+      "command": 228,
+      "stateBytes": 102633,
+      "sqliteBytes": 115201
+    },
+    {
+      "command": 229,
+      "stateBytes": 103017,
+      "sqliteBytes": 115585
+    },
+    {
+      "command": 230,
+      "stateBytes": 103402,
+      "sqliteBytes": 115970
+    },
+    {
+      "command": 231,
+      "stateBytes": 103893,
+      "sqliteBytes": 116461
+    },
+    {
+      "command": 232,
+      "stateBytes": 104277,
+      "sqliteBytes": 116845
+    },
+    {
+      "command": 233,
+      "stateBytes": 104660,
+      "sqliteBytes": 117228
+    },
+    {
+      "command": 234,
+      "stateBytes": 105046,
+      "sqliteBytes": 117614
+    },
+    {
+      "command": 235,
+      "stateBytes": 105431,
+      "sqliteBytes": 117999
+    },
+    {
+      "command": 236,
+      "stateBytes": 105815,
+      "sqliteBytes": 118383
+    },
+    {
+      "command": 237,
+      "stateBytes": 106201,
+      "sqliteBytes": 118769
+    },
+    {
+      "command": 238,
+      "stateBytes": 106587,
+      "sqliteBytes": 119155
+    },
+    {
+      "command": 239,
+      "stateBytes": 106972,
+      "sqliteBytes": 119540
+    },
+    {
+      "command": 240,
+      "stateBytes": 107358,
+      "sqliteBytes": 119926
+    },
+    {
+      "command": 241,
+      "stateBytes": 107845,
+      "sqliteBytes": 120413
+    },
+    {
+      "command": 242,
+      "stateBytes": 108333,
+      "sqliteBytes": 120901
+    },
+    {
+      "command": 243,
+      "stateBytes": 108714,
+      "sqliteBytes": 121282
+    },
+    {
+      "command": 244,
+      "stateBytes": 109095,
+      "sqliteBytes": 121663
+    },
+    {
+      "command": 245,
+      "stateBytes": 109475,
+      "sqliteBytes": 122043
+    },
+    {
+      "command": 246,
+      "stateBytes": 109856,
+      "sqliteBytes": 122424
+    },
+    {
+      "command": 247,
+      "stateBytes": 110239,
+      "sqliteBytes": 122807
+    },
+    {
+      "command": 248,
+      "stateBytes": 110620,
+      "sqliteBytes": 123188
+    },
+    {
+      "command": 249,
+      "stateBytes": 111001,
+      "sqliteBytes": 123569
+    },
+    {
+      "command": 250,
+      "stateBytes": 111382,
+      "sqliteBytes": 123950
+    },
+    {
+      "command": 251,
+      "stateBytes": 111765,
+      "sqliteBytes": 124333
+    },
+    {
+      "command": 252,
+      "stateBytes": 112148,
+      "sqliteBytes": 124716
+    },
+    {
+      "command": 253,
+      "stateBytes": 112529,
+      "sqliteBytes": 125097
+    },
+    {
+      "command": 254,
+      "stateBytes": 112912,
+      "sqliteBytes": 125480
+    },
+    {
+      "command": 255,
+      "stateBytes": 113294,
+      "sqliteBytes": 125862
+    },
+    {
+      "command": 256,
+      "stateBytes": 113676,
+      "sqliteBytes": 126244
+    }
+  ],
+  "limits": {
+    "queued": 16,
+    "connections": 8,
+    "recordBytes": 1100000,
+    "retryMinMs": 1000,
+    "retryMaxMs": 60000
+  },
+  "caveat": "Real local workerd/D1 HTTP/SQLite timings include fixture capture and full canonical verification; not hosted capacity or latency."
+}

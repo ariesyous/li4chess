@@ -7,6 +7,15 @@ import { stateHash, readReplay } from "./replay.js";
 export const ONLINE_VERSION = "li4chess-online-v1" as const;
 export const ONLINE_LIMITS = { requestBytes: 4096, snapshotBytes: 600_000, command: 2048, id: 128 } as const;
 export const REPLAY_LIMITS = { bytes: 32_000_000, eventsPerPage: 32, cursorMs: 600_000, readers: 4 } as const;
+export const REMATCH_LIMITS = { proposals: 8, receipts: 128, ordinaryReceipts: 120, lifetimeMs: 600_000 } as const;
+export type RematchMutation = { type: "rematchPropose"; room: string; id: string; expectedRevision: number } |
+  { type: "rematchConsent" | "rematchDecline"; room: string; id: string; expectedRevision: number; proposal: number };
+export interface OnlineRematch {
+  room: string; revision: number; proposal: number;
+  phase: "none" | "pending" | "declined" | "expired" | "participantUnavailable" | "created";
+  expiresAt: number | null; consents: boolean[]; successor: string | null; seat: number;
+}
+export interface RematchReceipt { id: string; revision: number; outcome: "proposed" | "consented" | "declined" | "created" }
 export const replayJsonBytes = (value: unknown): number => new TextEncoder().encode(canonicalJson(value)).length;
 /** Exact canonical envelope size: empty event brackets already occur in base. */
 export function replayArtifactBytes(header: ReplayEnvelopeV2, result: RulesetResultV2, eventCount: number, eventBytes: number): number {
@@ -22,7 +31,8 @@ export type Intention = { type: "move"; from: number; to: number } | { type: "re
 export type OnlineRequest = { version: typeof ONLINE_VERSION } & (
   { type: "session" | "issue" | "rotate" | "revoke" } |
   { type: "create"; id: string } | { type: "join"; invitation: string } |
-  { type: "lobby" | "connection" | "retire" | "replayStatus"; room: string } |
+  { type: "lobby" | "connection" | "retire" | "replayStatus" | "completedView"; room: string } | { type: "rematch"; room: string } |
+  RematchMutation |
   { type: "replay"; room: string; cursor: string | null } |
   { type: "seat"; room: string; seat: number } | { type: "ready"; room: string; ready: boolean } |
   { type: "command"; room: string; id: string; expectedCommand: number; action: Intention } |
@@ -42,7 +52,7 @@ export interface OnlineSnapshot { gameId: string; command: number; event: number
 export interface OnlineControl { seat: number; generation: number; controller: boolean }
 export interface OnlineSuspension { command:number; stateHash:string; timing:OnlineTiming }
 export interface OnlineLobby { room: string; phase: "waiting" | "creating" | "started"; revision: number;
-  seats: ({ mine: boolean; ready: boolean } | null)[]; policy: OnlineTiming["policy"] }
+  seats: ({ mine: boolean; ready: boolean } | null)[]; policy: OnlineTiming["policy"]; rematchOf?: string }
 export const ONLINE_ERRORS = ["invalid", "unauthorized", "expired", "revoked", "conflict", "stale", "terminal", "unavailable", "capacity", "origin",
   "replayIncomplete", "replayMissing", "replayIncompatible", "replayIntegrity", "replayRestart", "replayLimit"] as const;
 export type OnlineErrorCode = typeof ONLINE_ERRORS[number];
@@ -55,6 +65,7 @@ export type OnlineResponse = { version: typeof ONLINE_VERSION } & (
   { type: "snapshot"; snapshot: OnlineSnapshot } |
   { type: "replay"; page: OnlineReplayPage } |
   { type: "replayStatus"; principal: string; generation: number; snapshot: OnlineSnapshot | null; seat: number | null } |
+  { type: "rematch"; principal: string; generation: number; rematch: OnlineRematch; receipt: RematchReceipt | null } |
   { type: "suspended"; suspension: OnlineSuspension } |
   { type: "receipt"; receipt: OnlineReceipt; admittedAt: number } |
   { type: "error"; code: OnlineErrorCode; ambiguous: boolean } |
@@ -75,7 +86,8 @@ export function parseOnlineRequest(value: unknown): OnlineRequest {
   check(r && typeof r === "object", "request");
   const keys: Record<OnlineRequest["type"], string[]> = { session: [], issue: [], rotate: [], revoke: [], create: ["id"], join: ["invitation"],
     lobby: ["room"], connection: ["room"], retire: ["room"], seat: ["room","seat"], ready: ["room","ready"], command: ["room","id","expectedCommand","action"],
-    takeControl: ["room","id"], resync: ["room","expectedCommand"], replay: ["room","cursor"], replayStatus: ["room"] };
+    takeControl: ["room","id"], resync: ["room","expectedCommand"], replay: ["room","cursor"], replayStatus: ["room"], completedView: ["room"], rematch: ["room"],
+    rematchPropose: ["room","id","expectedRevision"], rematchConsent: ["room","id","expectedRevision","proposal"], rematchDecline: ["room","id","expectedRevision","proposal"] };
   check(Object.hasOwn(keys,r.type), "request type"); envelope(r,keys[r.type]);
   if ("room" in r) wireId(r.room);
   if ("id" in r) { wireId(r.id); check(!r.id.startsWith("server:"), "reserved id"); }
@@ -85,6 +97,8 @@ export function parseOnlineRequest(value: unknown): OnlineRequest {
   if ("expectedCommand" in r) wireInteger(r.expectedCommand, r.type === "command" ? 2047 : 2048);
   if (r.type === "command") validateIntention(r.action);
   if (r.type === "replay" && r.cursor !== null) wireProof(r.cursor);
+  if ("expectedRevision" in r) wireInteger(r.expectedRevision, 256);
+  if ("proposal" in r) { wireInteger(r.proposal, REMATCH_LIMITS.proposals); check(r.proposal > 0, "proposal"); }
   return r;
 }
 export function validateOnlineTiming(v: unknown): asserts v is OnlineTiming {
@@ -106,13 +120,27 @@ export function validateOnlineTiming(v: unknown): asserts v is OnlineTiming {
 }
 function control(v: OnlineControl) { object(v,["seat","generation","controller"]); wireInteger(v.seat,3); wireInteger(v.generation); check(v.generation>0,"generation"); bool(v.controller); }
 function lobby(v: OnlineLobby) {
-  object(v,["room","phase","revision","seats","policy"]); wireId(v.room); wireInteger(v.revision); check(["waiting","creating","started"].includes(v.phase),"lobby phase");
+  object(v,["room","phase","revision","seats","policy"],["rematchOf"]); wireId(v.room); wireInteger(v.revision); check(["waiting","creating","started"].includes(v.phase),"lobby phase");
+  if(v.rematchOf!==undefined){wireId(v.rematchOf);check(v.rematchOf!==v.room,"fresh rematch room");}
   check(Array.isArray(v.seats)&&v.seats.length===4,"lobby seats"); for(const s of v.seats) if(s!==null){object(s,["mine","ready"]);bool(s.mine);bool(s.ready);}
   object(v.policy,["initialMs","incrementMs","increment"]);wireInteger(v.policy.initialMs,86400000);wireInteger(v.policy.incrementMs,86400000);check(v.policy.initialMs>0&&v.policy.increment==="after-move","policy");
 }
 export async function parseOnlineResponse(value: unknown): Promise<OnlineResponse> {
   bytes(value,ONLINE_LIMITS.snapshotBytes); const r=value as OnlineResponse; check(r&&typeof r==="object","response");
   switch(r.type){
+    case "rematch": {
+      envelope(r,["principal","generation","rematch","receipt"]);wireId(r.principal);wireInteger(r.generation);check(r.generation>0,"session");
+      const m=r.rematch;object(m,["room","revision","proposal","phase","expiresAt","consents","successor","seat"]);
+      wireId(m.room);wireInteger(m.revision,256);wireInteger(m.proposal,REMATCH_LIMITS.proposals);wireInteger(m.seat,3);
+      check(["none","pending","declined","expired","participantUnavailable","created"].includes(m.phase),"rematch phase");
+      check(Array.isArray(m.consents)&&m.consents.length===4,"consents");m.consents.forEach(bool);
+      if(m.expiresAt!==null)wireInteger(m.expiresAt);if(m.successor!==null){wireId(m.successor);check(m.successor!==m.room,"fresh identity");}
+      check((m.phase==="none")===(m.proposal===0),"proposal identity");check((m.phase==="none")===(m.expiresAt===null),"proposal expiry");
+      check((m.phase==="created")===(m.successor!==null),"successor");if(m.phase==="created")check(m.consents.every(Boolean),"unanimity");
+      if(r.receipt!==null){object(r.receipt,["id","revision","outcome"]);wireId(r.receipt.id);wireInteger(r.receipt.revision,m.revision);
+        check(["proposed","consented","declined","created"].includes(r.receipt.outcome),"rematch receipt");}
+      break;
+    }
     case "replayStatus": {
       envelope(r,["principal","generation","snapshot","seat"]);wireId(r.principal);wireInteger(r.generation);check(r.generation>0,"replay status session");
       if(r.snapshot===null)check(r.seat===null,"current room mode");

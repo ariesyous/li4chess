@@ -32,6 +32,9 @@ export class GameRoom extends DurableObject<GameRoomEnvironment> {
   completedStatus(member: ReplayMember) {
     return this.room.completedStatus(member,new D1Persistence(this.env.GAME_DB,completedReplayReader));
   }
+  completedEligibility(member: ReplayMember) {
+    return this.room.completedEligibility(member,new D1Persistence(this.env.GAME_DB,completedReplayReader));
+  }
   takeControl(context: ConnectionContext, nextGeneration: number) { return this.room.takeControl(context, nextGeneration); }
   controlStatus(context: ConnectionContext) { return this.room.controlStatus(context); }
   detach(context: ConnectionContext) { return this.room.disconnect(context); }

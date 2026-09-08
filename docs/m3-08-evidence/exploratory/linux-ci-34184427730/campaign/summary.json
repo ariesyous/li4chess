@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "groups": 12,
+  "selected": [
+    "ordinary",
+    "endings",
+    "recovery",
+    "clocks",
+    "incidents",
+    "auth"
+  ],
+  "starts": 2,
+  "failure": "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Private multiplayer', exact: true })\n\n    at enter (/home/runner/work/li4chess/li4chess/apps/worker/test/campaign.ts:93:138)\n    at async takeovers (/home/runner/work/li4chess/li4chess/apps/worker/test/campaign.ts:141:41)\n    at async <anonymous> (/home/runner/work/li4chess/li4chess/apps/worker/test/campaign.ts:348:3)"
+}

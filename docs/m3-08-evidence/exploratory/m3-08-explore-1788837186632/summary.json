@@ -1,0 +1,9 @@
+{
+  "passed": false,
+  "groups": 4,
+  "selected": [
+    "rematch"
+  ],
+  "starts": 1,
+  "failure": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByTestId('rematch-status')\nExpected substring: \"3/4\"\nReceived string:    \"pending · 1/4 consented \"\nTimeout: 5000ms\n\nCall log:\n  - Expect \"to.have.text\" with timeout 5000ms\n  - waiting for getByTestId('rematch-status')\n    2 × locator resolved to <p role=\"status\" data-testid=\"rematch-status\">pending · 1/4 consented Waiting for the rematch r…</p>\n      - unexpected value \"pending · 1/4 consented Waiting for the rematch request outcome…\"\n    7 × locator resolved to <p role=\"status\" data-testid=\"rematch-status\">pending · 1/4 consented </p>\n      - unexpected value \"pending · 1/4 consented \"\n\n    at Proxy.<anonymous> (C:\\Users\\sith\\Code\\li4chess\\node_modules\\.pnpm\\playwright@1.56.1\\node_modules\\playwright\\lib\\matchers\\expect.js:221:24)\n    at <anonymous> (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:612:144)"
+}

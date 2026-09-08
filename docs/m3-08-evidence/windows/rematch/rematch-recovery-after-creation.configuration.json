@@ -1,0 +1,59 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "li4chess-multiplayer-local",
+  "main": "C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign-worker.ts",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "C:\\Users\\sith\\Code\\li4chess\\apps\\web\\dist-workers",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "html_handling": "none",
+    "not_found_handling": "none"
+  },
+  "vars": {
+    "APP_ENV": "local",
+    "ROOM_NAMESPACE": "li4chess-multiplayer-local-v1",
+    "ONLINE_ORIGIN": "http://127.0.0.1:55244",
+    "GUEST_TTL_MS": "3600000",
+    "ONLINE_INITIAL_MS": "600000",
+    "ONLINE_INCREMENT_MS": "50",
+    "M3_06_KEY": "[ephemeral; omitted]",
+    "M3_06_SCENARIO": "ordinary"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "GAME_ROOMS",
+        "class_name": "GameRoom"
+      },
+      {
+        "name": "GUESTS",
+        "class_name": "GuestService"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "room-v1",
+      "new_sqlite_classes": [
+        "GameRoom"
+      ]
+    },
+    {
+      "tag": "guest-v1",
+      "new_sqlite_classes": [
+        "GuestService"
+      ]
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "GAME_DB",
+      "database_name": "li4chess-multiplayer-local",
+      "database_id": "00000000-0000-0000-0000-000000000005",
+      "migrations_dir": "C:\\Users\\sith\\Code\\li4chess\\packages\\persistence\\migrations"
+    }
+  ]
+}
