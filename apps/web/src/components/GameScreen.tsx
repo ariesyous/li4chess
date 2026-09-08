@@ -21,8 +21,8 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
     exportReplay, importReplay, replayBusy, replayMessage, cpuStatus, cpuNotice, save, saveMessage } = game;
   const [rotateToMover, setRotateToMover] = useState(false);
   const [showOwnerLetters, setShowOwnerLetters] = useState(() => {
-    try { return localStorage.getItem(OWNER_LETTERS_KEY) !== "false"; }
-    catch { return true; }
+    try { return localStorage.getItem(OWNER_LETTERS_KEY) === "true"; }
+    catch { return false; }
   });
   const changeOwnerLetters = (show: boolean) => {
     setShowOwnerLetters(show);

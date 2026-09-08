@@ -8,6 +8,21 @@ superseded handoffs.
 
 ## Current focus
 
+**Owner letters default off (2026-09-08):** new local games with no saved display
+choice start with **Show piece-owner letters** unchecked, including when browser
+storage is unavailable. Explicit saved on/off choices remain honored. This
+supersedes the original default-on description below. On base `06c0de0` plus
+this follow-up, five focused Chromium tests passed on Windows/Node 24.18.0/pnpm
+10.33.0, covering the default, persistence of both choices, accessible names and
+passive-dead markers. Final PR CI supplies the four local-release checks.
+
+UI1 and streamlined CI were published by PR #20 at `06c0de0`: the
+[Pages run](https://github.com/ariesyous/li4chess/actions/runs/34274417133) and
+[main CI](https://github.com/ariesyous/li4chess/actions/runs/34274417049) passed.
+Hosted Chromium desktop and emulated-phone checks verified that exact revision,
+CPU moves, owner-letter persistence, saves, replay round trips and opening aborts.
+L1 release tagging remains separate.
+
 **CI scope aligned with local/CPU release (2026-09-08):** after the maintainer
 questioned the hosted-backend checks blocking this publication, default PR/main
 CI retains lint, all unit tests, build and local-game Playwright tests. The
