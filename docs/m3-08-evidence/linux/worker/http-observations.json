@@ -1,0 +1,166 @@
+[
+  {
+    "method": "GET",
+    "path": "/api/health",
+    "status": 200,
+    "headers": {
+      "transfer-encoding": "chunked",
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "content-encoding": "gzip",
+      "x-content-type-options": "nosniff"
+    },
+    "body": "{\"ok\":true,\"service\":\"li4chess\",\"environment\":\"local\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/build",
+    "status": 200,
+    "headers": {
+      "transfer-encoding": "chunked",
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "content-encoding": "gzip",
+      "x-content-type-options": "nosniff"
+    },
+    "body": "{\"service\":\"li4chess\",\"environment\":\"local\",\"target\":\"workers\",\"basePath\":\"/\",\"sourceRevision\":\"138fcf3f37e121f314f8aa32628c680935bb3d40\",\"buildFingerprint\":\"sha256:155511b1cc966c82247bf26062202c96245a43f44088c4d088be26349cfa6ff2\",\"workingTree\":\"clean\"}"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/health",
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "content-encoding": "gzip",
+      "x-content-type-options": "nosniff"
+    },
+    "body": ""
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/build",
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+      "content-encoding": "gzip",
+      "x-content-type-options": "nosniff"
+    },
+    "body": ""
+  },
+  {
+    "method": "GET",
+    "path": "/api",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/missing",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/rooms/game/init",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/rooms/game/fault",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api/rooms/game/forget",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/api%2Fmissing",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/%61pi/missing",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/src/main.tsx",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/src",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/node_modules",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/.generated/build.json",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/.git/config",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/assets/missing",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/assets/missing.js",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/missing.css",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/missing.png",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/favicon.ico",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  },
+  {
+    "method": "GET",
+    "path": "/bad%252fpath",
+    "status": 404,
+    "body": "{\"error\":\"not_found\"}"
+  }
+]

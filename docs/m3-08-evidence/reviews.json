@@ -1,0 +1,73 @@
+{
+  "implementation": "44cfc48b642fa0ac64d850cc1e9da13b24b2d379",
+  "prechange": "8054754",
+  "reviewedAt": "2026-09-08T03:54:00.676Z",
+  "scope": "Independent read-only source reviews before implementation commit; runtime validation recorded separately",
+  "reviews": [
+    {
+      "area": "server and recovery",
+      "resolved": [
+        "atomic credential replacement during rotation",
+        "durable alarm for frozen creation independent of credentials",
+        "persistent recovery barrier and actual alarm evidence",
+        "actual D1 rollback and copied policy assertions"
+      ],
+      "remainingBlockers": []
+    },
+    {
+      "area": "browser",
+      "resolved": [
+        "retry errors cannot discard an accepted saved ID",
+        "fresh proof after retired connection entry failure",
+        "fresh departure reconciliation and uncertainty confirmation",
+        "disable actions during departure awaits",
+        "restart recovery after storage cleanup failure"
+      ],
+      "remainingBlockers": []
+    },
+    {
+      "area": "protocol and reducer",
+      "verified": [
+        "principal-owned exact receipt lookup before stale/cap checks",
+        "immutable successor and terminal epochs",
+        "cancellation reserve and bounded revision",
+        "obsolete identity and callback fencing"
+      ],
+      "remainingBlockers": []
+    }
+  ],
+  "finalEvidenceReview": {
+    "reviewedAt": "2026-09-08T04:28:03.835Z",
+    "windows": {
+      "revision": "9cad92f435d7d4a949cc038d7e3447c2351a0252",
+      "checks": 18,
+      "indexedFiles": 255,
+      "sourceMaps": 3,
+      "replays": 111,
+      "canonicalHistories": 16,
+      "recoveryGenesis": 4
+    },
+    "linux": {
+      "head": "9cad92f435d7d4a949cc038d7e3447c2351a0252",
+      "run": 34185544401,
+      "merge": "138fcf3f37e121f314f8aa32628c680935bb3d40",
+      "indexedFiles": 239,
+      "sourceMaps": 3,
+      "replays": 111,
+      "canonicalHistories": 16,
+      "recoveryGenesis": 4
+    },
+    "credentialScan": "No suspicious values found in retained diagnostics",
+    "runtimeDatabasesRetained": false,
+    "remainingBlockers": [],
+    "committedByteVerificationRequiredBeforePush": true
+  },
+  "diagnosticRevision": "9cad92f435d7d4a949cc038d7e3447c2351a0252",
+  "diagnosticReview": {
+    "boundedDomDeadlineMs": 3000,
+    "screenshotDeadlineMs": 5000,
+    "originalErrorPreserved": true,
+    "retriesAdded": false,
+    "remainingBlockers": []
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "passed": false,
+  "groups": 5,
+  "selected": [
+    "rematch"
+  ],
+  "starts": 2,
+  "failure": "page.evaluate: TypeError: Cannot read properties of null (reading 'proof')\n    at eval (eval at evaluate (:290:30), <anonymous>:1:72)\n    at UtilityScript.evaluate (<anonymous>:292:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at proof (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:90:28)\n    at Object.generator (C:\\Users\\sith\\Code\\li4chess\\apps\\worker\\test\\campaign.ts:636:27)"
+}

@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "groups": 11,
+  "selected": [
+    "rematch"
+  ],
+  "starts": 3,
+  "failure": null
+}

@@ -1,0 +1,122 @@
+{
+  "browserVersion": "141.0.7390.37",
+  "workers": [
+    "http://127.0.0.1:55216/assets/cpu.worker-BJwOlXFh.js",
+    "http://127.0.0.1:55216/assets/cpu.worker-BJwOlXFh.js",
+    "http://127.0.0.1:55216/assets/cpu.worker-BJwOlXFh.js"
+  ],
+  "messages": [
+    {
+      "type": "started",
+      "version": 1,
+      "requestId": "2f56e6c1-02e8-4b01-a328-cc4c5a09a0d3",
+      "gameId": "d3c543d5-71c1-4ec3-a142-adf24273faf6",
+      "stateId": "sha256:c34d3afdebdb10c0d44a5e3cde77285f9bf0df71a6b7e243b5223bc4b8601310",
+      "seat": 1
+    },
+    {
+      "type": "result",
+      "version": 1,
+      "requestId": "2f56e6c1-02e8-4b01-a328-cc4c5a09a0d3",
+      "gameId": "d3c543d5-71c1-4ec3-a142-adf24273faf6",
+      "stateId": "sha256:c34d3afdebdb10c0d44a5e3cde77285f9bf0df71a6b7e243b5223bc4b8601310",
+      "seat": 1,
+      "move": {
+        "from": 56,
+        "to": 72
+      },
+      "diagnostics": {
+        "nodes": 20,
+        "completedDepth": 1,
+        "elapsedMs": 15.200000047683716,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "type": "started",
+      "version": 1,
+      "requestId": "7500c2fc-a503-4104-9c07-5a3638c1c8fd",
+      "gameId": "d3c543d5-71c1-4ec3-a142-adf24273faf6",
+      "stateId": "sha256:549e08ecb81f13ceb5575112d452698d8f29230691799e3b6f70d82c2cd110d6",
+      "seat": 2
+    },
+    {
+      "type": "result",
+      "version": 1,
+      "requestId": "7500c2fc-a503-4104-9c07-5a3638c1c8fd",
+      "gameId": "d3c543d5-71c1-4ec3-a142-adf24273faf6",
+      "stateId": "sha256:549e08ecb81f13ceb5575112d452698d8f29230691799e3b6f70d82c2cd110d6",
+      "seat": 2,
+      "move": {
+        "from": 171,
+        "to": 157
+      },
+      "diagnostics": {
+        "nodes": 20,
+        "completedDepth": 1,
+        "elapsedMs": 14.199999988079071,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "type": "started",
+      "version": 1,
+      "requestId": "42b23e67-629a-48f1-b26b-55412307c476",
+      "gameId": "d3c543d5-71c1-4ec3-a142-adf24273faf6",
+      "stateId": "sha256:33a18f75bf1f59276f4d0a71c4e0af267be0d32006dfb7d111c0cecc723214e5",
+      "seat": 3
+    },
+    {
+      "type": "result",
+      "version": 1,
+      "requestId": "42b23e67-629a-48f1-b26b-55412307c476",
+      "gameId": "d3c543d5-71c1-4ec3-a142-adf24273faf6",
+      "stateId": "sha256:33a18f75bf1f59276f4d0a71c4e0af267be0d32006dfb7d111c0cecc723214e5",
+      "seat": 3,
+      "move": {
+        "from": 54,
+        "to": 53
+      },
+      "diagnostics": {
+        "nodes": 20,
+        "completedDepth": 1,
+        "elapsedMs": 14.100000023841858,
+        "stopped": "depth",
+        "fallback": false
+      }
+    }
+  ],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:55216/assets/index-VTGqtwO1.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:55216/assets/index-5oxGJebU.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:55216/assets/cpu.worker-BJwOlXFh.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:55216/assets/cpu.worker-BJwOlXFh.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:55216/assets/cpu.worker-BJwOlXFh.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:55216/assets/index-5oxGJebU.js",
+      "status": 304
+    },
+    {
+      "url": "http://127.0.0.1:55216/assets/index-VTGqtwO1.css",
+      "status": 304
+    }
+  ],
+  "errors": []
+}

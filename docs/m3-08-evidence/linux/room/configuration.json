@@ -1,0 +1,60 @@
+{
+  "name": "li4chess-game-room-test",
+  "main": "/home/runner/work/li4chess/li4chess/packages/game-room/test/worker.ts",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",
+        "class_name": "TestRoom"
+      },
+      {
+        "name": "REAL_ROOMS",
+        "class_name": "FixtureGameRoom"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "TestRoom",
+        "FixtureGameRoom"
+      ]
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "m3-04-test",
+      "database_id": "00000000-0000-0000-0000-000000000004",
+      "migrations_dir": "/home/runner/work/li4chess/li4chess/packages/game-room/.generated/run-1788840267523/migrations"
+    }
+  ],
+  "vars": {
+    "TEST_KEY": "[redacted]",
+    "PLAYER_KEYS": "[redacted]",
+    "PRODUCER": {
+      "format": "li4chess-engine-build-v1",
+      "sourceRevision": "138fcf3f37e121f314f8aa32628c680935bb3d40",
+      "packageVersions": {
+        "@li4chess/web": "0.0.0",
+        "@li4chess/worker": "0.0.0",
+        "@li4chess/architecture-spike": "0.0.0",
+        "@li4chess/arena": "0.0.0",
+        "@li4chess/bot": "0.0.0",
+        "@li4chess/engine": "0.0.0",
+        "@li4chess/game-room": "0.0.0",
+        "@li4chess/persistence": "0.0.0",
+        "@li4chess/protocol": "0.0.0",
+        "@li4chess/ui-kit": "0.0.0"
+      },
+      "buildFingerprint": "sha256:155511b1cc966c82247bf26062202c96245a43f44088c4d088be26349cfa6ff2",
+      "workingTree": {
+        "status": "clean"
+      }
+    }
+  }
+}

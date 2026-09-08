@@ -154,7 +154,7 @@ downloaded replay's canonical digest. The original downloaded producer is not
 rewritten. [Acceptance and evidence inventory](m3-07-acceptance.md).
 
 
-## Private rematches (M3-08; acceptance in progress)
+## Private rematches (M3-08; locally validated 2026-09-08)
 
 A completed private game, including an opening abort, permits a proposal by any
 currently authenticated original member. The server always verifies canonical
@@ -190,4 +190,4 @@ result/replay access remains separate from the successor connection.
 Rematch metadata never modifies the source canonical history or replay format.
 No invitation admits replacement participants to a rematch. The existing 64-lobby
 bound still applies. These are bounded local implementation defaults, not launch
-policy. See [M3-08 acceptance](m3-08-acceptance.md) for evidence still required.
+policy. See [M3-08 acceptance](m3-08-acceptance.md) and [retained evidence](m3-08-evidence/README.md) for the local acceptance boundary.

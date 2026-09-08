@@ -1,6 +1,6 @@
 # Project state
 
-Last updated: 2026-09-07.
+Last updated: 2026-09-08.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
@@ -8,36 +8,35 @@ superseded handoffs.
 
 ## Current focus
 
-**M3-08 implementation and acceptance in progress (2026-09-07; UTC 2026-09-08).**
-The maintainer authorized review and conditional merge of PR #18, then authenticated
-private rematches. Two fresh independent reviews found no merge blocker; the
-evidence reviewer verified 514 indexed files, 112 decoded checksums, four source
-maps and 28 groups of identical four-member downloads. Exact-head CI 34172770041
-passed. PR #18 merged at `229e325c7f4ee4ebae7abe53f025047f070aa5f9`; Pages
-[34180878310](https://github.com/ariesyous/li4chess/actions/runs/34180878310) passed.
-Post-merge [CI 34180878295](https://github.com/ariesyous/li4chess/actions/runs/34180878295)
-passed all steps on the exact merge revision before implementation. The new dedicated
-`codex/m3-08-private-rematches` branch starts from fetched `origin/main` at that
-merge, preserving the older local main and other branches.
+**M3-08 is complete within its local acceptance scope (2026-09-08).**
+Four original authenticated principals independently consent before one fresh
+successor is allocated. Entry and readiness remain deliberate; original results,
+replays, seats and clock policy are preserved with fresh identity and seed.
+See the [inventory](m3-08-acceptance.md), [contract](multiplayer-v1.md) and
+[reviewed Windows/Linux evidence](m3-08-evidence/README.md).
 
-The [pre-change acceptance inventory](m3-08-acceptance.md) separates authorized
-same-four-principal consent from proposed bounded lifecycle defaults. Independent
-design review requires always-fenced terminal eligibility, stored original policy
-and seed, rotation/revocation distinction, cancellation capacity, exact receipts,
-atomic successor lobby allocation, deliberate room entry and preserved departure
-uncertainty. Previous-result access must not replace an active successor connection.
-The maintained rematch reducer, authenticated terminal fence, atomic successor
-lobby allocation, frozen creation recovery, saved browser intentions and explicit
-entry are implemented on the dedicated branch. Independent server, browser and
-protocol reviews resolved rotation atomicity, persisted creation alarms, retry
-retention, departure reconciliation and retired-connection recovery findings.
-Exploratory ordinary four-browser rematches, all-seat rotation, lost consent,
-restart, failed entry and abort/departure cases passed; expanded storage-fault
-acceptance is still in progress. Browser checks passed 47 units; protocol passed
-58 units. These focused runs are not final Windows/Linux acceptance.
-Next: complete fault/auth/resource coverage, full frozen-source validation, retain
-sanitized Windows/Linux evidence, independent final review and exact-head draft PR.
-M3 remains incomplete; hosted gates and M4 remain outside this task.
+PR #18 merged at 229e325c7f4ee4ebae7abe53f025047f070aa5f9 after independent
+review and green exact-head CI. Post-merge CI 34180878295 and Pages 34180878310
+passed before M3-08 implementation on codex/m3-08-private-rematches.
+
+Reviewed implementation 44cfc48 and diagnostic revision
+9cad92f435d7d4a949cc038d7e3447c2351a0252 passed all 18 fresh Windows commands.
+[Linux CI 34185544401](https://github.com/ariesyous/li4chess/actions/runs/34185544401)
+passed on the latter exact head. Each platform passed 716 units, 47 local browser
+tests, 83/27 full-campaign observations/starts, 11/3 replay observations/starts and
+16/21 rematch observations/starts. Independent server, browser, protocol and fresh
+evidence reviews resolved substantive findings and verified canonical replay,
+source maps, recovered genesis and credential redaction. Source remained frozen
+during the full validation runs.
+
+The first Linux attempt failed during browser startup before rematch construction;
+its cause remains undetermined. Retained failed evidence is separate from acceptance.
+Reviewed diagnostics preserve the original failure and add no assertion retries.
+[PR #19](https://github.com/ariesyous/li4chess/pull/19) remains draft and unmerged;
+its final documentation/evidence head receives a separate exact-head CI check.
+Next: review that PR, then separately authorize the
+[hosted acceptance planning handoff](m3-hosted-handoff.md). M3 remains incomplete;
+hosted activation, provisioning, public policy and M4 remain outside this task.
 
 **M3-07 is complete within its local acceptance scope (2026-09-07).**
 Authenticated room members can download completed private replay-v2 artifacts
@@ -46,7 +45,8 @@ original producer and source lineage. Browser export guards room/session races
 and supports safe retry and existing local import. The
 [pre-change inventory](m3-07-acceptance.md), [contracts](multiplayer-v1.md) and
 [Windows/Linux evidence](m3-07-evidence/README.md) define the precise boundary.
-Rematches, hosted activation and M4 remain excluded; M3 stays incomplete.
+Rematches were excluded from M3-07 and are now covered by M3-08 above.
+Hosted activation and M4 remain separate; M3 stays incomplete.
 
 Reviewed implementation `c29885d` and test-driver correction
 `f9c54928d7faece4b18e0b39f1cb317a258b2777` passed all 17 fresh Windows commands:
@@ -56,8 +56,7 @@ observations/3 starts. [CI 34171318234](https://github.com/ariesyous/li4chess/ac
 passed on exact head `f9c5492`; original CI merge tree and bytes are retained.
 Independent source/evidence reviews resolved substantive findings and verified
 source maps, canonical/download/import agreement, lineage and credential redaction.
-[PR #18](https://github.com/ariesyous/li4chess/pull/18) remains draft/unmerged;
-its final documentation/evidence commit receives a separate exact-head CI check.
+[PR #18](https://github.com/ariesyous/li4chess/pull/18) is merged as verified above.
 The [next bounded handoff](m3-08-handoff.md) proposes private rematch consent and
 new-game creation without authorizing that work or any hosted activation.
 
@@ -108,7 +107,7 @@ maintained authority; deployable bundle checks exclude fixtures/time/admin hooks
 No rules, migrations, default hosting, classic bot or archived evidence changed.
 
 M3 remains in progress: replay retrieval/export has completed M3-07 acceptance;
-rematches remain a product gap; hosted TLS/origin/cookies, latency/load,
+rematches have completed local acceptance; hosted TLS/origin/cookies, latency/load,
 eviction/hibernation, restore and rollout/rollback need separate authorization.
 The [next bounded handoff](m3-07-handoff.md) proposes completed-game replay export
 first and separates rematches and hosted gates. No launch clock or public policy

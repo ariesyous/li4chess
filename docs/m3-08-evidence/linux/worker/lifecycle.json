@@ -1,0 +1,16 @@
+[
+  {
+    "boundary": "starting",
+    "port": 45241,
+    "exitCode": 130,
+    "portReleased": true,
+    "signal": "OS SIGTERM"
+  },
+  {
+    "boundary": "ready",
+    "port": 45355,
+    "exitCode": 130,
+    "portReleased": true,
+    "signal": "OS SIGTERM"
+  }
+]

@@ -94,3 +94,16 @@ Mark M3-08 complete only after RM01-RM10 have actual evidence. Keep M3 incomplet
 for hosted TLS/origin/cookies, geography/load, eviction/hibernation, coordinated
 restore and release/rollback gates. No hosted activation, M4, accounts, matchmaking,
 ratings, analysis, shared CPU seats, public history or broad lobby redesign.
+
+## Acceptance result — 2026-09-08
+
+The [retained Windows/Linux evidence](m3-08-evidence/README.md) records the actual
+coverage and assisted fixtures against this pre-change inventory. All 18 Windows
+commands and Linux CI 34185544401 passed on reviewed diagnostic revision
+`9cad92f435d7d4a949cc038d7e3447c2351a0252`: 716 unit tests, 47 local browser tests,
+and full/replay/rematch campaigns of 83/11/16 observations. Independent source and
+evidence reviews resolved findings and reconstructed both platforms' histories.
+An earlier Linux observer-startup failure remains preserved and unexplained;
+bounded diagnostics were added without retries or weakened assertions.
+PR #19 remains draft. Its final evidence/documentation revision must pass its own
+CI before handoff. M3 remains incomplete for separately authorized hosted gates.

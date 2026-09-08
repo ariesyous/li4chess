@@ -1,0 +1,52 @@
+{
+  "createdAt": "2026-09-08T03:43:41.153Z",
+  "producer": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "44cfc48b642fa0ac64d850cc1e9da13b24b2d379",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:b5e9201cded8517846461a3f08a92ab55d30e43a5290ffe5be2d4b8ab94c88dd",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 34269650944
+  },
+  "versions": {
+    "wrangler": "4.129.0",
+    "pnpm": "10.33.0",
+    "workerd": [
+      "workerd@1.20260903.1"
+    ]
+  },
+  "command": "pnpm --filter @li4chess/architecture-spike test:integration",
+  "scope": "Actual local Wrangler/workerd, SQLite Durable Objects and D1 emulation; explicitly injected application failures; no hosted guarantees",
+  "sourceSnapshot": "source/",
+  "assetHashes": {
+    "index.html": "sha256:31c2b9a530aff64aaa4221b0c269afc894136381004388de1717592949a2ac7b",
+    "li4chess/assets/cpu.worker-BJwOlXFh.js": "sha256:a08d3cea0a40ddcec609d9b69dc3c8211deb1a1b878d0c3336c221a73a238470",
+    "li4chess/assets/index-D8k1Cf-J.js": "sha256:60e39eaa8d3f60a564f420161516ff6c1c997a9481aa833f66c207bf9aca2263",
+    "li4chess/assets/index-VTGqtwO1.css": "sha256:e2bd5a3f638f96a4d60798f0c69f79a2e91e60ae5df2ea7dda94538f7ae0955f",
+    "li4chess/index.html": "sha256:008dafba370b457854cc5264e7c19e4205942d90d2a70bc7b9e341b9b56b0b49"
+  },
+  "seed": "00000001",
+  "port": 8799,
+  "persistentRuntimeDirectory": "runtime/"
+}
