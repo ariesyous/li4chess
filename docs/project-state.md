@@ -8,6 +8,28 @@ superseded handoffs.
 
 ## Current focus
 
+**M3-08 acceptance planning (2026-09-07; merge observed 2026-09-08 UTC).**
+The maintainer authorized review and conditional merge of PR #18, then authenticated
+private rematches. Two fresh independent reviews found no merge blocker; the
+evidence reviewer verified 514 indexed files, 112 decoded checksums, four source
+maps and 28 groups of identical four-member downloads. Exact-head CI 34172770041
+passed. PR #18 merged at `229e325c7f4ee4ebae7abe53f025047f070aa5f9`; Pages
+[34180878310](https://github.com/ariesyous/li4chess/actions/runs/34180878310) passed.
+Post-merge [CI 34180878295](https://github.com/ariesyous/li4chess/actions/runs/34180878295)
+is running; product implementation waits for its success. The new dedicated
+`codex/m3-08-private-rematches` branch starts from fetched `origin/main` at that
+merge, preserving the older local main and other branches.
+
+The [pre-change acceptance inventory](m3-08-acceptance.md) separates authorized
+same-four-principal consent from proposed bounded lifecycle defaults. Independent
+design review requires always-fenced terminal eligibility, stored original policy
+and seed, rotation/revocation distinction, cancellation capacity, exact receipts,
+atomic successor lobby allocation, deliberate room entry and preserved departure
+uncertainty. Previous-result access must not replace an active successor connection.
+No rematch behavior is implemented yet. Node 24.18.0/Corepack pnpm 10.33.0 and a
+frozen baseline install passed; these are setup checks, not M3-08 acceptance.
+M3 remains incomplete; hosted gates and M4 remain outside this task.
+
 **M3-07 is complete within its local acceptance scope (2026-09-07).**
 Authenticated room members can download completed private replay-v2 artifacts
 without taking control, preserving initial state, events, results, random facts,
