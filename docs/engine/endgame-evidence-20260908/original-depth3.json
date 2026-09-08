@@ -1,0 +1,338 @@
+{
+  "sourceReplayHash": "sha256:aea47bafac8c4c55c981b117f7474fa6bac9cd2b1457cacac17d188175b1efd7",
+  "producer": {
+    "buildFingerprint": "sha256:c3d8b1e859c251b36038dd379937725f9c0eb7a366ddbe7461c38c6544170440",
+    "format": "li4chess-engine-build-v1",
+    "packageVersions": {
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0",
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0"
+    },
+    "sourceRevision": "9a49a8083d1b2d968d187e46299d2b50a1be9e01",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "events": 0,
+  "validated": true,
+  "historyMoves": 240,
+  "historyEquality": {
+    "board": true,
+    "turn": true,
+    "turnNumber": true,
+    "reversibleMoves": true,
+    "positionCounts": true,
+    "awardLedger": true,
+    "moveHistory": true,
+    "result": true
+  },
+  "players": {
+    "0": {
+      "color": 0,
+      "cpuDifficulty": 3,
+      "isCPU": false,
+      "score": 52,
+      "status": "active"
+    },
+    "1": {
+      "color": 1,
+      "cpuDifficulty": 3,
+      "isCPU": true,
+      "score": 55,
+      "status": "active"
+    },
+    "2": {
+      "color": 2,
+      "cpuDifficulty": 3,
+      "isCPU": true,
+      "score": 30,
+      "status": "active"
+    },
+    "3": {
+      "color": 3,
+      "cpuDifficulty": 3,
+      "isCPU": true,
+      "score": 38,
+      "status": "active"
+    }
+  },
+  "turn": 0,
+  "turnNumber": 241,
+  "reversibleMoves": 77,
+  "pieces": [
+    {
+      "hasMoved": true,
+      "owner": 3,
+      "type": "K",
+      "square": "i6",
+      "local": [
+        2,
+        5
+      ]
+    },
+    {
+      "hasMoved": true,
+      "owner": 1,
+      "type": "K",
+      "square": "c8",
+      "local": [
+        3,
+        2
+      ]
+    },
+    {
+      "hasMoved": true,
+      "owner": 0,
+      "type": "K",
+      "square": "e8",
+      "local": [
+        1,
+        7
+      ]
+    },
+    {
+      "hasMoved": true,
+      "owner": 2,
+      "type": "K",
+      "square": "g8",
+      "local": [
+        4,
+        6
+      ]
+    },
+    {
+      "hasMoved": true,
+      "owner": 1,
+      "type": "P",
+      "square": "d10",
+      "local": [
+        1,
+        3
+      ]
+    },
+    {
+      "hasMoved": true,
+      "owner": 2,
+      "type": "P",
+      "square": "e10",
+      "local": [
+        6,
+        4
+      ]
+    },
+    {
+      "hasMoved": true,
+      "owner": 1,
+      "type": "P",
+      "square": "c11",
+      "local": [
+        0,
+        2
+      ]
+    },
+    {
+      "hasMoved": true,
+      "owner": 2,
+      "type": "P",
+      "square": "d11",
+      "local": [
+        7,
+        3
+      ]
+    }
+  ],
+  "positionMaxCount": 2,
+  "lastProgress": [
+    {
+      "ply": 156,
+      "move": "Green P i10-h10"
+    },
+    {
+      "ply": 157,
+      "move": "Red K d5-e5",
+      "capture": {
+        "hasMoved": true,
+        "owner": 2,
+        "promotedFrom": "P",
+        "type": "Q"
+      }
+    },
+    {
+      "ply": 160,
+      "move": "Green P h10-g10"
+    },
+    {
+      "ply": 162,
+      "move": "Blue P b10-d10"
+    },
+    {
+      "ply": 163,
+      "move": "Yellow K f10-g10",
+      "capture": {
+        "hasMoved": true,
+        "owner": 3,
+        "promotedFrom": "P",
+        "type": "Q"
+      }
+    }
+  ],
+  "last32": [
+    "Red K d8-e7",
+    "Blue K b7-c7",
+    "Yellow K h7-g7",
+    "Green K l9-k9",
+    "Red K e7-e8",
+    "Blue K c7-b7",
+    "Yellow K g7-g8",
+    "Green K k9-j9",
+    "Red K e8-d8",
+    "Blue K b7-b8",
+    "Yellow K g8-h8",
+    "Green K j9-k9",
+    "Red K d8-e8",
+    "Blue K b8-c8",
+    "Yellow K h8-g8",
+    "Green K k9-j9",
+    "Red K e8-e7",
+    "Blue K c8-b8",
+    "Yellow K g8-g7",
+    "Green K j9-i9",
+    "Red K e7-e8",
+    "Blue K b8-c8",
+    "Yellow K g7-g8",
+    "Green K i9-i8",
+    "Red K e8-e7",
+    "Blue K c8-b8",
+    "Yellow K g8-g7",
+    "Green K i8-i7",
+    "Red K e7-e8",
+    "Blue K b8-c8",
+    "Yellow K g7-g8",
+    "Green K i7-i6"
+  ],
+  "analysis": [
+    {
+      "ply": 237,
+      "played": "Red K e7-e8",
+      "choices": [
+        {
+          "move": "Red K e7-e8",
+          "value": -35.306666666666665
+        },
+        {
+          "move": "Red K e7-d7",
+          "value": -35.42
+        },
+        {
+          "move": "Red K e7-e6",
+          "value": -35.42
+        },
+        {
+          "move": "Red K e7-d6",
+          "value": -35.42
+        },
+        {
+          "move": "Red K e7-d8",
+          "value": -35.57666666666667
+        }
+      ]
+    },
+    {
+      "ply": 238,
+      "played": "Blue K b8-c8",
+      "choices": [
+        {
+          "move": "Blue K b8-c8",
+          "value": 29.69333333333333
+        },
+        {
+          "move": "Blue K b8-b9",
+          "value": 29.69333333333333
+        },
+        {
+          "move": "Blue K b8-b7",
+          "value": 29.69333333333333
+        },
+        {
+          "move": "Blue K b8-c7",
+          "value": 29.69333333333333
+        },
+        {
+          "move": "Blue K b8-c9",
+          "value": 29.673333333333332
+        },
+        {
+          "move": "Blue K b8-a8",
+          "value": 29.633333333333333
+        },
+        {
+          "move": "Blue K b8-a9",
+          "value": 29.633333333333333
+        },
+        {
+          "move": "Blue K b8-a7",
+          "value": 29.633333333333333
+        }
+      ]
+    },
+    {
+      "ply": 239,
+      "played": "Yellow K g7-g8",
+      "choices": [
+        {
+          "move": "Yellow K g7-g8",
+          "value": -249.78
+        },
+        {
+          "move": "Yellow K g7-g6",
+          "value": -249.83
+        },
+        {
+          "move": "Yellow K g7-f6",
+          "value": -249.83
+        },
+        {
+          "move": "Yellow P e10-e9",
+          "value": -249.89333333333335
+        }
+      ]
+    },
+    {
+      "ply": 240,
+      "played": "Green K i7-i6",
+      "choices": [
+        {
+          "move": "Green K i7-i8",
+          "value": -175.20666666666668
+        },
+        {
+          "move": "Green K i7-i6",
+          "value": -175.20666666666668
+        },
+        {
+          "move": "Green K i7-h6",
+          "value": -175.20666666666668
+        },
+        {
+          "move": "Green K i7-j7",
+          "value": -175.25666666666666
+        },
+        {
+          "move": "Green K i7-j8",
+          "value": -175.25666666666666
+        },
+        {
+          "move": "Green K i7-j6",
+          "value": -175.25666666666666
+        }
+      ]
+    }
+  ]
+}

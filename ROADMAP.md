@@ -45,6 +45,11 @@ runs in a bounded Worker; M2 validation is complete. M1 fixtures cover the accep
 See [README.md](README.md) for implemented capabilities and
 [project state](docs/project-state.md) for the current focus and evidence.
 
+The bounded 2026-09-08 bot endgame follow-up is implemented and
+[validated](docs/engine/endgame-evidence-20260908/README.md). It adds pawn-route
+and king-escort guidance within existing CPU budgets. This does not change
+milestone status.
+
 ## Milestones
 
 Status vocabulary: **planned**, **in progress**, **blocked**, **complete**.

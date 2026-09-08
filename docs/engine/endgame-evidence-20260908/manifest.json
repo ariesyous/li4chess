@@ -1,0 +1,150 @@
+{
+  "format": "li4chess-endgame-evidence-v1",
+  "date": "2026-09-08",
+  "files": {
+    "README.md": {
+      "bytes": 10427,
+      "sha256": "5b49cc268c11ccd2c64b8746c2a0a9a711cb2dce2a5079eb44f8a6e592695ab3"
+    },
+    "checks/browser.log": {
+      "bytes": 7174,
+      "sha256": "bb3a8a1ed28747001d98e08aa556f17439c77c6b7a70a798be7c4647d55e4e9d"
+    },
+    "checks/build.log": {
+      "bytes": 2801,
+      "sha256": "c247f76bd9a5d076b93e8ff0f998b74f00c5872a59359b7640635f850c4ffca7"
+    },
+    "checks/lint.log": {
+      "bytes": 1977,
+      "sha256": "00bd637c71df9af743efb42701421912a394b601394993c53e930230e2775fd2"
+    },
+    "checks/test.log": {
+      "bytes": 16291,
+      "sha256": "25f9536f8922eeab10a8cc9e3ff262a3f049dd0a89a487efa42f2baaab9e403b"
+    },
+    "deterministic/games.jsonl.gz": {
+      "bytes": 32161,
+      "sha256": "db8571e874920ad8a87d136889fe48353e844ec372da38fc06d86c51c1edfbe7"
+    },
+    "deterministic/run.json": {
+      "bytes": 1142,
+      "sha256": "621262eca74cc7d4b28b6401a16a5f6ccfab404e688d4fb1a8c2e9ebcc163a68"
+    },
+    "exploratory/stopped-v1.zip": {
+      "bytes": 325437,
+      "sha256": "b8b2afa00c7eed9a67d29de829c9cc057e7091d5984b4527afd4383065c88f1c"
+    },
+    "original-depth3.json": {
+      "bytes": 6535,
+      "sha256": "76a5bb25aecbc2739081a2bef909e9efc24237734f5496ad51060db169be4d07"
+    },
+    "primary/combined.json": {
+      "bytes": 4102,
+      "sha256": "9573f3c4f545f6e3a03ce0cb5801dbbcc3b0982dbe8d32c063796355aa44f290"
+    },
+    "primary/depth.json": {
+      "bytes": 4602,
+      "sha256": "b3de168bffa1c147ec3a551d22f95ba762a3d1cca20a687e9e5ee57a7ff03fa7"
+    },
+    "primary/derived.json": {
+      "bytes": 46799,
+      "sha256": "cd0a95afadc0e8d2a83f5ced075615397ed63cbe88f43d026f087c34a64460d6"
+    },
+    "primary/games.jsonl.gz": {
+      "bytes": 287848,
+      "sha256": "6dc8b95be8ffbc9f724c795ab851830a39bc024e99582769a3b1aa0c7031047a"
+    },
+    "primary/observations.json": {
+      "bytes": 71641,
+      "sha256": "ad24a6e11ee5de3230e8786e41a653ceac081fb7a8124661428545121826fc2b"
+    },
+    "primary/plan-misses.json": {
+      "bytes": 49,
+      "sha256": "bde036843642c838aff199100186e9ca9a91c8572ea6496b92b74b35177e8ff7"
+    },
+    "primary/reproduction.json": {
+      "bytes": 820,
+      "sha256": "edcf65a3fdea67ec0ff393c5a665a99d1b3b669204de947c1bcf79127245ed5a"
+    },
+    "primary/run.json": {
+      "bytes": 1896,
+      "sha256": "52e823cde83d4937234841aab67267fc0c94e7c12b613ca42b47db6669d33c40"
+    },
+    "primary/source-hashes.json": {
+      "bytes": 14191,
+      "sha256": "f48628ce90a5ea1173afb6172a0d3c6f29c4f57ec49df242db4725d5465e4291"
+    },
+    "primary/source.zip": {
+      "bytes": 220945,
+      "sha256": "9f97ae3cef0a0a8f8c842f38840add87c6da5e2b750eec9743ce9b9ec4ec99eb"
+    },
+    "primary/summary.json": {
+      "bytes": 4700,
+      "sha256": "742b252b74ce4a55a7c7394349b10164c8114e61fa9e82b4324fbbe4d6cab785"
+    },
+    "primary/working-tree.patch": {
+      "bytes": 45247,
+      "sha256": "6939cfecc99e9cc048bb0f322760afb88a297f16b5d7f62ed153d63a71766048"
+    },
+    "reverse/derived.json": {
+      "bytes": 43960,
+      "sha256": "57e2666af2205252095682dca439d977bfb5c51c9cebe25a8d2a71774c6c55bb"
+    },
+    "reverse/games.jsonl.gz": {
+      "bytes": 216031,
+      "sha256": "1c9d36b13fb6eed4115a26ea37b7a0863e86008c240b47d5f262a8b2ddb08d39"
+    },
+    "reverse/observations.json": {
+      "bytes": 20768,
+      "sha256": "1c2103c2cfbaabee43aab385649db44318f0ce668d90dc43d10f9a17534f6335"
+    },
+    "reverse/reproduction.json": {
+      "bytes": 820,
+      "sha256": "edcf65a3fdea67ec0ff393c5a665a99d1b3b669204de947c1bcf79127245ed5a"
+    },
+    "reverse/run.json": {
+      "bytes": 2081,
+      "sha256": "0eb02c7ca3ed63e9bc088f6f3bfaf6c2b56157a800bf41cc165c9eadfa43895d"
+    },
+    "reverse/source-hashes.json": {
+      "bytes": 14191,
+      "sha256": "bd46218b11af25cf1ffc3ac419695893de74042f13f5804c9a02150b2897eda1"
+    },
+    "reverse/source.zip": {
+      "bytes": 221114,
+      "sha256": "8016779edb3f9f723963e37c973cc28b6462eff62f267baa757ac6c759fa203d"
+    },
+    "reverse/summary.json": {
+      "bytes": 4537,
+      "sha256": "f3116af78707b895f05b105f899394fa849a1b734a4a2fb60c3fe70c2de0e78c"
+    },
+    "reverse/working-tree.patch": {
+      "bytes": 45247,
+      "sha256": "6939cfecc99e9cc048bb0f322760afb88a297f16b5d7f62ed153d63a71766048"
+    },
+    "scripts/endgame-analysis.mjs": {
+      "bytes": 1402,
+      "sha256": "8b3884cd3ab22c926ff6e011aa1f1e4d6b0edccb07bce57fe4cbecab01b1e5fc"
+    },
+    "scripts/endgame-combine.mjs": {
+      "bytes": 2435,
+      "sha256": "6df47f3b4f7070f1c8853bdc74e206de8da8746fb3bb69f2a834fb67938ce8b2"
+    },
+    "scripts/endgame-depth.ts": {
+      "bytes": 1087,
+      "sha256": "fa7666c42e2254fc807cc132796b54846b98816514556dce6fb1e728245919f8"
+    },
+    "scripts/endgame-deterministic.ts": {
+      "bytes": 1501,
+      "sha256": "363eca50410d5f80897aebb1911a86ca4497030556ae9c7f764a0a4035f24f8e"
+    },
+    "scripts/endgame-final-audit.mjs": {
+      "bytes": 2932,
+      "sha256": "461a8edb90c0474dae0014a39a4c37c05d0216bde988b66db61c6edaaef7bf62"
+    },
+    "scripts/endgame-plan-misses.ts": {
+      "bytes": 1173,
+      "sha256": "d7d881f3b5edd7db2e41545cdc29adea619d85168e819ad1c2ca9497484c4b4c"
+    }
+  }
+}

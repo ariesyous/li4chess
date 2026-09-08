@@ -1,0 +1,39 @@
+{
+  "build": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "9a49a8083d1b2d968d187e46299d2b50a1be9e01",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:7ca44a5d5418337670ad2afab870dcc5458b6b3f9ba089102464e869235db0af",
+    "workingTree": {
+      "status": "dirty",
+      "contentHash": "sha256:7ca44a5d5418337670ad2afab870dcc5458b6b3f9ba089102464e869235db0af"
+    }
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 34269650944
+  },
+  "budget": {
+    "maxDepth": 3,
+    "nodeBudget": 2048,
+    "timeMs": null
+  },
+  "random": "constant .99",
+  "cap": 32
+}

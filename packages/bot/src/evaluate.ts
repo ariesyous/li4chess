@@ -15,6 +15,7 @@ import {
   rankOf,
   hasLiveKing,
   isLivePiece,
+  localSquare,
 } from "@li4chess/engine";
 
 // A king has a rule award value of 20, but is not capturable material.
@@ -69,6 +70,8 @@ export interface EvalWeights {
   readonly kingHunt: number;
   /** Historical configuration field; points-based terminal ranks do not use material contempt. */
   readonly drawContempt: number;
+  /** Conservative route/escort guidance, only in king-and-pawn endings. */
+  readonly pawnEndgame?: number;
 }
 
 export const FULL_EVAL_WEIGHTS: EvalWeights = {
@@ -81,6 +84,7 @@ export const FULL_EVAL_WEIGHTS: EvalWeights = {
   eliminationBonus: 2,
   kingHunt: 0.2,
   drawContempt: 8,
+  pawnEndgame: 1,
 };
 
 export const MATERIAL_ONLY_WEIGHTS: EvalWeights = {
@@ -197,6 +201,54 @@ function kingHuntScore(
   return score;
 }
 
+/** A bounded positional hint, not a proof of promotion. Unlike two-player
+ * passed-pawn file masks, this checks every owner's differently oriented attacks.
+ * No history/novelty reward: walking elsewhere cannot accumulate a bonus.
+ */
+export function pawnEndgameScore(state: GameState, color: PlayerColor): number {
+  const kings = new Int32Array(4).fill(-1);
+  const pawns: number[] = [];
+  for (let square = 0; square < state.board.length; square++) {
+    const piece = state.board[square];
+    if (!piece || !isLivePiece(state, piece)) continue;
+    if (piece.type === PieceType.King) kings[piece.owner] = square;
+    else if (piece.type === PieceType.Pawn) {
+      if (piece.owner === color) pawns.push(square);
+    } else return 0;
+  }
+  if (!pawns.length || kings[color] < 0) return 0;
+  const enemies = ALL_COLORS.filter(c => c !== color && hasLiveKing(state, c));
+  const pawnAttacks = enemies.map(c => attackMap(state.board, c,
+    p => isLivePiece(state, p) && p.type === PieceType.Pawn));
+  let score = 0;
+  let escort = 0;
+  for (const square of pawns) {
+    const [file, rank] = boardToLocal(color, fileOf(square), rankOf(square));
+    if (rank >= 7) continue;
+    const next = localSquare(color, file, rank + 1);
+    // Reward approaching a concrete blockade/escort square, with a plateau
+    // beside it. One king supports one plan; many pawns cannot multiply this.
+    escort = Math.max(escort, 0.12 * (7 - Math.min(7,
+      Math.max(0, chebyshevDistance(kings[color], next) - 1))));
+    let clear = true;
+    let safe = true;
+    for (let r = rank; r <= 7; r++) {
+      const target = localSquare(color, file, r);
+      if (r > rank && state.board[target] !== null) { clear = false; break; }
+      const steps = r - rank;
+      // Opponents may move before the pawn again. Assume each king gets a
+      // move per pawn step, plus one; only current king protection is trusted.
+      const defended = chebyshevDistance(kings[color], target) <= 1;
+      if (pawnAttacks.some(a => a[target] === 1) || (!defended && enemies.some(c =>
+        kings[c] >= 0 && chebyshevDistance(kings[c], target) <= steps + 1))) safe = false;
+    }
+    // A blocked or interceptable route gets no race bonus. King escort remains
+    // a small gradient so search can prepare a route over several own turns.
+    if (clear && safe) score += 0.35 * rank;
+  }
+  return score + escort;
+}
+
 /**
  * Full v2 positional eval: a weighted sum of several factors folded to a single
  * scalar from `botColor`'s perspective (required by the paranoid search backup).
@@ -286,7 +338,8 @@ export function evaluateFull(
     kingSafety * weights.kingSafety +
     pawnAdvancement * weights.pawnAdvancement +
     eliminatedOpponents * weights.eliminationBonus +
-    kingHuntScore(state.board, botColor, opponents, summary, botAttacks) * weights.kingHunt;
+    kingHuntScore(state.board, botColor, opponents, summary, botAttacks) * weights.kingHunt +
+    (weights.pawnEndgame ? pawnEndgameScore(state, botColor) * weights.pawnEndgame : 0);
 
   const rivals=ALL_COLORS.filter(color=>color!==botColor);
   const pointLead=state.players[botColor].score-Math.max(...rivals.map(color=>state.players[color].score));

@@ -17,3 +17,8 @@ docs/m3-07-evidence/**/ci-merge.commit -diff
 
 docs/m3-08-evidence/** -text whitespace=cr-at-eol
 docs/m3-08-evidence/**/ci-merge.commit -diff
+
+# Preserve the original user replay and new endgame measurement/source bytes.
+packages/arena/fixtures/endgame/user-replay-v2.json -text
+packages/arena/src/endgame-baseline/** -text whitespace=cr-at-eol
+docs/engine/endgame-evidence-20260908/** -text whitespace=cr-at-eol

@@ -1,0 +1,2164 @@
+{
+  "byEngine": {
+    "pawn-plans-v1": {
+      "moves": 677,
+      "quietKing": 432,
+      "kingReturns": 86,
+      "pawnMoves": 41,
+      "captures": 32
+    },
+    "baseline-9a49a80": {
+      "moves": 669,
+      "quietKing": 561,
+      "kingReturns": 138,
+      "pawnMoves": 16,
+      "captures": 32
+    }
+  },
+  "details": [
+    {
+      "label": "validation-0-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 42,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 22,
+          "quietKing": 10,
+          "kingReturns": 1,
+          "pawnMoves": 2,
+          "captures": 2
+        },
+        "baseline-9a49a80": {
+          "moves": 20,
+          "quietKing": 19,
+          "kingReturns": 1,
+          "pawnMoves": 1,
+          "captures": 0
+        }
+      },
+      "progress": [
+        {
+          "ply": 1,
+          "color": 0,
+          "from": 79,
+          "to": 93,
+          "type": "P"
+        },
+        {
+          "ply": 5,
+          "color": 0,
+          "from": 93,
+          "to": 107,
+          "type": "P"
+        },
+        {
+          "ply": 15,
+          "color": 2,
+          "from": 117,
+          "to": 103,
+          "type": "P"
+        },
+        {
+          "ply": 17,
+          "color": 0,
+          "from": 107,
+          "to": 103,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 42,
+          "color": 1,
+          "from": 126,
+          "to": 127,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 18,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      }
+    },
+    {
+      "label": "validation-0-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 110,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 55,
+          "quietKing": 27,
+          "kingReturns": 10,
+          "pawnMoves": 2,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 55,
+          "quietKing": 54,
+          "kingReturns": 12,
+          "pawnMoves": 0,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 1,
+          "color": 0,
+          "from": 79,
+          "to": 93,
+          "type": "P"
+        },
+        {
+          "ply": 5,
+          "color": 0,
+          "from": 93,
+          "to": 107,
+          "type": "P"
+        },
+        {
+          "ply": 13,
+          "color": 0,
+          "from": 103,
+          "to": 117,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 110,
+          "color": 1,
+          "from": 190,
+          "to": 176,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 38,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      }
+    },
+    {
+      "label": "validation-0-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 153,
+      "per": {
+        "baseline-9a49a80": {
+          "moves": 77,
+          "quietKing": 72,
+          "kingReturns": 21,
+          "pawnMoves": 2,
+          "captures": 1
+        },
+        "pawn-plans-v1": {
+          "moves": 76,
+          "quietKing": 41,
+          "kingReturns": 10,
+          "pawnMoves": 2,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 1,
+          "color": 1,
+          "from": 61,
+          "to": 62,
+          "type": "P"
+        },
+        {
+          "ply": 5,
+          "color": 1,
+          "from": 62,
+          "to": 63,
+          "type": "P"
+        },
+        {
+          "ply": 15,
+          "color": 3,
+          "from": 120,
+          "to": 133,
+          "type": "P",
+          "capture": "Q"
+        },
+        {
+          "ply": 19,
+          "color": 3,
+          "from": 133,
+          "to": 132,
+          "type": "P"
+        },
+        {
+          "ply": 153,
+          "color": 1,
+          "from": 109,
+          "to": 95,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 55,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      }
+    },
+    {
+      "label": "validation-0-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 22,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 11,
+          "quietKing": 4,
+          "kingReturns": 0,
+          "pawnMoves": 3,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 11,
+          "quietKing": 10,
+          "kingReturns": 3,
+          "pawnMoves": 0,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 1,
+          "color": 1,
+          "from": 61,
+          "to": 62,
+          "type": "P"
+        },
+        {
+          "ply": 3,
+          "color": 3,
+          "from": 120,
+          "to": 119,
+          "type": "P"
+        },
+        {
+          "ply": 5,
+          "color": 1,
+          "from": 62,
+          "to": 63,
+          "type": "P"
+        },
+        {
+          "ply": 9,
+          "color": 1,
+          "from": 63,
+          "to": 119,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 22,
+          "color": 2,
+          "from": 191,
+          "to": 177,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 13,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      }
+    },
+    {
+      "label": "validation-0-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 58,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 30,
+          "quietKing": 21,
+          "kingReturns": 5,
+          "pawnMoves": 2,
+          "captures": 2
+        },
+        "baseline-9a49a80": {
+          "moves": 28,
+          "quietKing": 26,
+          "kingReturns": 6,
+          "pawnMoves": 1,
+          "captures": 0
+        }
+      },
+      "progress": [
+        {
+          "ply": 3,
+          "color": 0,
+          "from": 92,
+          "to": 106,
+          "type": "P"
+        },
+        {
+          "ply": 10,
+          "color": 3,
+          "from": 82,
+          "to": 67,
+          "type": "K",
+          "capture": "Q"
+        },
+        {
+          "ply": 33,
+          "color": 2,
+          "from": 116,
+          "to": 102,
+          "type": "P"
+        },
+        {
+          "ply": 37,
+          "color": 2,
+          "from": 102,
+          "to": 88,
+          "type": "P"
+        },
+        {
+          "ply": 58,
+          "color": 3,
+          "from": 111,
+          "to": 110,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 3,
+            "meanRank": 3
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 2
+      }
+    },
+    {
+      "label": "validation-0-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 44,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 22,
+          "quietKing": 10,
+          "kingReturns": 0,
+          "pawnMoves": 4,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 22,
+          "quietKing": 21,
+          "kingReturns": 6,
+          "pawnMoves": 0,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 1,
+          "color": 2,
+          "from": 116,
+          "to": 102,
+          "type": "P"
+        },
+        {
+          "ply": 5,
+          "color": 2,
+          "from": 102,
+          "to": 88,
+          "type": "P"
+        },
+        {
+          "ply": 15,
+          "color": 0,
+          "from": 78,
+          "to": 93,
+          "type": "P",
+          "capture": "Q"
+        },
+        {
+          "ply": 19,
+          "color": 0,
+          "from": 93,
+          "to": 107,
+          "type": "P"
+        },
+        {
+          "ply": 44,
+          "color": 1,
+          "from": 78,
+          "to": 64,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 16,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 0
+      }
+    },
+    {
+      "label": "validation-0-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 48,
+      "per": {
+        "baseline-9a49a80": {
+          "moves": 24,
+          "quietKing": 24,
+          "kingReturns": 2,
+          "pawnMoves": 0,
+          "captures": 0
+        },
+        "pawn-plans-v1": {
+          "moves": 24,
+          "quietKing": 11,
+          "kingReturns": 2,
+          "pawnMoves": 1,
+          "captures": 2
+        }
+      },
+      "progress": [
+        {
+          "ply": 3,
+          "color": 1,
+          "from": 76,
+          "to": 77,
+          "type": "P"
+        },
+        {
+          "ply": 15,
+          "color": 1,
+          "from": 160,
+          "to": 134,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 48,
+          "color": 2,
+          "from": 178,
+          "to": 177,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 28,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      }
+    },
+    {
+      "label": "validation-0-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 82,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 41,
+          "quietKing": 17,
+          "kingReturns": 5,
+          "pawnMoves": 4,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 41,
+          "quietKing": 40,
+          "kingReturns": 14,
+          "pawnMoves": 0,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 1,
+          "color": 3,
+          "from": 134,
+          "to": 133,
+          "type": "P"
+        },
+        {
+          "ply": 5,
+          "color": 3,
+          "from": 133,
+          "to": 132,
+          "type": "P"
+        },
+        {
+          "ply": 47,
+          "color": 1,
+          "from": 75,
+          "to": 76,
+          "type": "P"
+        },
+        {
+          "ply": 51,
+          "color": 1,
+          "from": 76,
+          "to": 77,
+          "type": "P"
+        },
+        {
+          "ply": 57,
+          "color": 3,
+          "from": 97,
+          "to": 83,
+          "type": "K",
+          "capture": "Q"
+        },
+        {
+          "ply": 82,
+          "color": 0,
+          "from": 49,
+          "to": 35,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 26,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      }
+    },
+    {
+      "label": "validation-1-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 102,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 52,
+          "quietKing": 49,
+          "kingReturns": 17,
+          "pawnMoves": 1,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 50,
+          "quietKing": 25,
+          "kingReturns": 10,
+          "pawnMoves": 1,
+          "captures": 3
+        }
+      },
+      "progress": [
+        {
+          "ply": 4,
+          "color": 3,
+          "from": 119,
+          "to": 104,
+          "type": "P",
+          "capture": "P"
+        },
+        {
+          "ply": 6,
+          "color": 1,
+          "from": 118,
+          "to": 119,
+          "type": "P"
+        },
+        {
+          "ply": 8,
+          "color": 3,
+          "from": 104,
+          "to": 90,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 12,
+          "color": 3,
+          "from": 90,
+          "to": 93,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 102,
+          "color": 1,
+          "from": 141,
+          "to": 127,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 54,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      }
+    },
+    {
+      "label": "validation-1-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 50,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 25,
+          "quietKing": 20,
+          "kingReturns": 4,
+          "pawnMoves": 1,
+          "captures": 3
+        },
+        "baseline-9a49a80": {
+          "moves": 25,
+          "quietKing": 24,
+          "kingReturns": 10,
+          "pawnMoves": 0,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 3,
+          "color": 2,
+          "from": 134,
+          "to": 119,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 7,
+          "color": 2,
+          "from": 119,
+          "to": 118,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 35,
+          "color": 2,
+          "from": 77,
+          "to": 90,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 43,
+          "color": 2,
+          "from": 104,
+          "to": 90,
+          "type": "P"
+        },
+        {
+          "ply": 50,
+          "color": 1,
+          "from": 101,
+          "to": 116,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      }
+    },
+    {
+      "label": "validation-1-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 62,
+      "per": {
+        "baseline-9a49a80": {
+          "moves": 32,
+          "quietKing": 29,
+          "kingReturns": 7,
+          "pawnMoves": 2,
+          "captures": 1
+        },
+        "pawn-plans-v1": {
+          "moves": 30,
+          "quietKing": 15,
+          "kingReturns": 3,
+          "pawnMoves": 1,
+          "captures": 3
+        }
+      },
+      "progress": [
+        {
+          "ply": 4,
+          "color": 0,
+          "from": 92,
+          "to": 105,
+          "type": "P",
+          "capture": "P"
+        },
+        {
+          "ply": 10,
+          "color": 2,
+          "from": 106,
+          "to": 92,
+          "type": "P"
+        },
+        {
+          "ply": 12,
+          "color": 0,
+          "from": 77,
+          "to": 92,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 13,
+          "color": 1,
+          "from": 104,
+          "to": 105,
+          "type": "P"
+        },
+        {
+          "ply": 16,
+          "color": 0,
+          "from": 92,
+          "to": 105,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 62,
+          "color": 2,
+          "from": 191,
+          "to": 177,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 29,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      }
+    },
+    {
+      "label": "validation-1-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 49,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 25,
+          "quietKing": 23,
+          "kingReturns": 2,
+          "pawnMoves": 0,
+          "captures": 2
+        },
+        "baseline-9a49a80": {
+          "moves": 24,
+          "quietKing": 12,
+          "kingReturns": 2,
+          "pawnMoves": 1,
+          "captures": 2
+        }
+      },
+      "progress": [
+        {
+          "ply": 4,
+          "color": 0,
+          "from": 92,
+          "to": 105,
+          "type": "P",
+          "capture": "P"
+        },
+        {
+          "ply": 21,
+          "color": 1,
+          "from": 92,
+          "to": 106,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 28,
+          "color": 0,
+          "from": 108,
+          "to": 104,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 49,
+          "color": 1,
+          "from": 125,
+          "to": 138,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      }
+    },
+    {
+      "label": "validation-1-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 34,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 18,
+          "quietKing": 15,
+          "kingReturns": 3,
+          "pawnMoves": 1,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 16,
+          "quietKing": 8,
+          "kingReturns": 1,
+          "pawnMoves": 1,
+          "captures": 3
+        }
+      },
+      "progress": [
+        {
+          "ply": 4,
+          "color": 1,
+          "from": 76,
+          "to": 91,
+          "type": "P",
+          "capture": "P"
+        },
+        {
+          "ply": 8,
+          "color": 1,
+          "from": 91,
+          "to": 105,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 10,
+          "color": 3,
+          "from": 77,
+          "to": 76,
+          "type": "P"
+        },
+        {
+          "ply": 16,
+          "color": 1,
+          "from": 120,
+          "to": 121,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 34,
+          "color": 3,
+          "from": 152,
+          "to": 138,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 17,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      }
+    },
+    {
+      "label": "validation-1-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 22,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 11,
+          "quietKing": 10,
+          "kingReturns": 0,
+          "pawnMoves": 1,
+          "captures": 0
+        },
+        "baseline-9a49a80": {
+          "moves": 11,
+          "quietKing": 5,
+          "kingReturns": 0,
+          "pawnMoves": 1,
+          "captures": 4
+        }
+      },
+      "progress": [
+        {
+          "ply": 4,
+          "color": 1,
+          "from": 76,
+          "to": 91,
+          "type": "P",
+          "capture": "P"
+        },
+        {
+          "ply": 8,
+          "color": 1,
+          "from": 91,
+          "to": 77,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 9,
+          "color": 2,
+          "from": 105,
+          "to": 91,
+          "type": "P"
+        },
+        {
+          "ply": 12,
+          "color": 1,
+          "from": 77,
+          "to": 91,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 22,
+          "color": 3,
+          "from": 54,
+          "to": 68,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      }
+    },
+    {
+      "label": "validation-1-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 53,
+      "per": {
+        "baseline-9a49a80": {
+          "moves": 27,
+          "quietKing": 24,
+          "kingReturns": 9,
+          "pawnMoves": 2,
+          "captures": 1
+        },
+        "pawn-plans-v1": {
+          "moves": 26,
+          "quietKing": 13,
+          "kingReturns": 3,
+          "pawnMoves": 1,
+          "captures": 3
+        }
+      },
+      "progress": [
+        {
+          "ply": 4,
+          "color": 2,
+          "from": 103,
+          "to": 90,
+          "type": "P",
+          "capture": "P"
+        },
+        {
+          "ply": 6,
+          "color": 0,
+          "from": 89,
+          "to": 103,
+          "type": "P"
+        },
+        {
+          "ply": 8,
+          "color": 2,
+          "from": 90,
+          "to": 103,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 9,
+          "color": 3,
+          "from": 91,
+          "to": 90,
+          "type": "P"
+        },
+        {
+          "ply": 12,
+          "color": 2,
+          "from": 103,
+          "to": 90,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 53,
+          "color": 3,
+          "from": 139,
+          "to": 138,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 26,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      }
+    },
+    {
+      "label": "validation-1-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 53,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 27,
+          "quietKing": 25,
+          "kingReturns": 3,
+          "pawnMoves": 1,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 26,
+          "quietKing": 13,
+          "kingReturns": 3,
+          "pawnMoves": 1,
+          "captures": 3
+        }
+      },
+      "progress": [
+        {
+          "ply": 4,
+          "color": 2,
+          "from": 103,
+          "to": 90,
+          "type": "P",
+          "capture": "P"
+        },
+        {
+          "ply": 8,
+          "color": 2,
+          "from": 90,
+          "to": 89,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 9,
+          "color": 3,
+          "from": 91,
+          "to": 90,
+          "type": "P"
+        },
+        {
+          "ply": 12,
+          "color": 2,
+          "from": 89,
+          "to": 90,
+          "type": "Q",
+          "capture": "Q"
+        },
+        {
+          "ply": 53,
+          "color": 3,
+          "from": 139,
+          "to": 138,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      }
+    },
+    {
+      "label": "validation-2-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 24,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 12,
+          "quietKing": 9,
+          "kingReturns": 1,
+          "pawnMoves": 2,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 12,
+          "quietKing": 10,
+          "kingReturns": 3,
+          "pawnMoves": 1,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 3,
+          "color": 2,
+          "from": 119,
+          "to": 105,
+          "type": "P"
+        },
+        {
+          "ply": 6,
+          "color": 1,
+          "from": 120,
+          "to": 105,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 17,
+          "color": 0,
+          "from": 79,
+          "to": 93,
+          "type": "P"
+        },
+        {
+          "ply": 21,
+          "color": 0,
+          "from": 93,
+          "to": 107,
+          "type": "P"
+        },
+        {
+          "ply": 24,
+          "color": 3,
+          "from": 122,
+          "to": 107,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 11,
+            "place": 1,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 1,
+            "meanRank": 2
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 1,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": null
+      }
+    },
+    {
+      "label": "validation-2-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 18,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 9,
+          "quietKing": 9,
+          "kingReturns": 2,
+          "pawnMoves": 0,
+          "captures": 0
+        },
+        "baseline-9a49a80": {
+          "moves": 9,
+          "quietKing": 7,
+          "kingReturns": 3,
+          "pawnMoves": 0,
+          "captures": 2
+        }
+      },
+      "progress": [
+        {
+          "ply": 2,
+          "color": 1,
+          "from": 93,
+          "to": 79,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 18,
+          "color": 1,
+          "from": 105,
+          "to": 119,
+          "type": "K",
+          "capture": "P"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 12,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          }
+        ],
+        "winner": 1
+      }
+    },
+    {
+      "label": "validation-2-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 68,
+      "per": {
+        "baseline-9a49a80": {
+          "moves": 34,
+          "quietKing": 33,
+          "kingReturns": 7,
+          "pawnMoves": 0,
+          "captures": 1
+        },
+        "pawn-plans-v1": {
+          "moves": 34,
+          "quietKing": 22,
+          "kingReturns": 9,
+          "pawnMoves": 2,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 2,
+          "color": 2,
+          "from": 62,
+          "to": 61,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 27,
+          "color": 3,
+          "from": 92,
+          "to": 91,
+          "type": "P"
+        },
+        {
+          "ply": 31,
+          "color": 3,
+          "from": 91,
+          "to": 90,
+          "type": "P"
+        },
+        {
+          "ply": 68,
+          "color": 0,
+          "from": 77,
+          "to": 63,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 18,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      }
+    },
+    {
+      "label": "validation-2-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 53,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 27,
+          "quietKing": 18,
+          "kingReturns": 1,
+          "pawnMoves": 3,
+          "captures": 1
+        },
+        "baseline-9a49a80": {
+          "moves": 26,
+          "quietKing": 25,
+          "kingReturns": 7,
+          "pawnMoves": 0,
+          "captures": 1
+        }
+      },
+      "progress": [
+        {
+          "ply": 5,
+          "color": 1,
+          "from": 61,
+          "to": 62,
+          "type": "P"
+        },
+        {
+          "ply": 6,
+          "color": 2,
+          "from": 47,
+          "to": 62,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 27,
+          "color": 3,
+          "from": 92,
+          "to": 91,
+          "type": "P"
+        },
+        {
+          "ply": 31,
+          "color": 3,
+          "from": 91,
+          "to": 90,
+          "type": "P"
+        },
+        {
+          "ply": 53,
+          "color": 1,
+          "from": 75,
+          "to": 61,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 15,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      }
+    },
+    {
+      "label": "validation-2-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 61,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 31,
+          "quietKing": 28,
+          "kingReturns": 3,
+          "pawnMoves": 1,
+          "captures": 2
+        },
+        "baseline-9a49a80": {
+          "moves": 30,
+          "quietKing": 16,
+          "kingReturns": 4,
+          "pawnMoves": 1,
+          "captures": 0
+        }
+      },
+      "progress": [
+        {
+          "ply": 1,
+          "color": 2,
+          "from": 116,
+          "to": 102,
+          "type": "P"
+        },
+        {
+          "ply": 6,
+          "color": 3,
+          "from": 101,
+          "to": 102,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 7,
+          "color": 0,
+          "from": 90,
+          "to": 104,
+          "type": "P"
+        },
+        {
+          "ply": 61,
+          "color": 2,
+          "from": 163,
+          "to": 177,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 0
+      }
+    },
+    {
+      "label": "validation-2-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 72,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 36,
+          "quietKing": 17,
+          "kingReturns": 2,
+          "pawnMoves": 3,
+          "captures": 0
+        },
+        "baseline-9a49a80": {
+          "moves": 36,
+          "quietKing": 34,
+          "kingReturns": 3,
+          "pawnMoves": 0,
+          "captures": 2
+        }
+      },
+      "progress": [
+        {
+          "ply": 3,
+          "color": 0,
+          "from": 76,
+          "to": 90,
+          "type": "P"
+        },
+        {
+          "ply": 7,
+          "color": 0,
+          "from": 90,
+          "to": 104,
+          "type": "P"
+        },
+        {
+          "ply": 25,
+          "color": 2,
+          "from": 116,
+          "to": 102,
+          "type": "P"
+        },
+        {
+          "ply": 28,
+          "color": 1,
+          "from": 115,
+          "to": 102,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 72,
+          "color": 1,
+          "from": 150,
+          "to": 136,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 29,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      }
+    },
+    {
+      "label": "validation-2-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 28,
+      "per": {
+        "baseline-9a49a80": {
+          "moves": 14,
+          "quietKing": 13,
+          "kingReturns": 2,
+          "pawnMoves": 1,
+          "captures": 0
+        },
+        "pawn-plans-v1": {
+          "moves": 14,
+          "quietKing": 6,
+          "kingReturns": 0,
+          "pawnMoves": 1,
+          "captures": 2
+        }
+      },
+      "progress": [
+        {
+          "ply": 3,
+          "color": 1,
+          "from": 104,
+          "to": 105,
+          "type": "P"
+        },
+        {
+          "ply": 5,
+          "color": 3,
+          "from": 134,
+          "to": 133,
+          "type": "P"
+        },
+        {
+          "ply": 7,
+          "color": 1,
+          "from": 105,
+          "to": 133,
+          "type": "Q",
+          "capture": "P"
+        },
+        {
+          "ply": 28,
+          "color": 2,
+          "from": 191,
+          "to": 177,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 16,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      }
+    },
+    {
+      "label": "validation-2-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 38,
+      "per": {
+        "pawn-plans-v1": {
+          "moves": 19,
+          "quietKing": 12,
+          "kingReturns": 0,
+          "pawnMoves": 2,
+          "captures": 0
+        },
+        "baseline-9a49a80": {
+          "moves": 19,
+          "quietKing": 17,
+          "kingReturns": 2,
+          "pawnMoves": 0,
+          "captures": 2
+        }
+      },
+      "progress": [
+        {
+          "ply": 6,
+          "color": 0,
+          "from": 117,
+          "to": 103,
+          "type": "K",
+          "capture": "P"
+        },
+        {
+          "ply": 13,
+          "color": 3,
+          "from": 134,
+          "to": 133,
+          "type": "P"
+        },
+        {
+          "ply": 17,
+          "color": 3,
+          "from": 133,
+          "to": 132,
+          "type": "P"
+        },
+        {
+          "ply": 38,
+          "color": 0,
+          "from": 79,
+          "to": 93,
+          "type": "K",
+          "capture": "Q"
+        }
+      ],
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      }
+    }
+  ]
+}

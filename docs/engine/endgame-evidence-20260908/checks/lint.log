@@ -1,0 +1,35 @@
+
+> li4chess@0.0.0 lint C:\Users\sith\Code\li4chess
+> turbo run lint "--force"
+
+• turbo 2.10.12
+
+   • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+   • Running lint in 10 packages
+   • Remote caching disabled
+
+@li4chess/bot:lint: cache bypass, force executing d416ec7df22fca1f
+@li4chess/arena:lint: cache bypass, force executing e44a8d493a262822
+@li4chess/game-room:lint: cache bypass, force executing 69479e8d0eac58ea
+@li4chess/protocol:lint: cache bypass, force executing 631de03b408466d8
+@li4chess/architecture-spike:lint: cache bypass, force executing bf3d4f84c40dcb36
+@li4chess/engine:lint: cache bypass, force executing 7d179feb40e21e44
+@li4chess/ui-kit:lint: cache bypass, force executing 8e079457b7a52043
+@li4chess/persistence:lint: cache bypass, force executing d229e648242191cb
+@li4chess/worker:lint: cache bypass, force executing 697de424b75cfb92
+@li4chess/web:lint: cache bypass, force executing 99d7b86d62d0635c
+@li4chess/ui-kit:lint: $ tsc -p tsconfig.json --noEmit
+@li4chess/engine:lint: $ tsc -p tsconfig.json --noEmit
+@li4chess/worker:lint: $ tsc -p tsconfig.json && tsc -p tsconfig.tools.json && tsc -p tsconfig.campaign-worker.json
+@li4chess/bot:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/persistence:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/arena:lint: $ tsc -p tsconfig.json --noEmit
+@li4chess/architecture-spike:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/game-room:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/web:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/protocol:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+
+ Tasks:    10 successful, 10 total
+Cached:    0 cached, 10 total
+  Time:    10.467s 
+

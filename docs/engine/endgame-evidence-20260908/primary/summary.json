@@ -1,0 +1,200 @@
+{
+  "validation": {
+    "games": 24,
+    "completed": 24,
+    "censored": 0,
+    "automaticKingMoves": 0,
+    "errors": 0,
+    "aborted": 0,
+    "repetitionRate": 0,
+    "plies": {
+      "count": 24,
+      "mean": 60.916666666666664,
+      "p50": 50,
+      "p95": 102,
+      "max": 153
+    },
+    "durationMs": {
+      "count": 24,
+      "mean": 8175.898570833334,
+      "p50": 7305.561799999996,
+      "p95": 14425.409400000004,
+      "max": 20055.3165
+    },
+    "engines": [
+      {
+        "id": "baseline-9a49a80",
+        "completedSeatGames": 48,
+        "firstPlace": 0.3333333333333333,
+        "soleWin": 0.3333333333333333,
+        "averagePlacement": 2.3020833333333335,
+        "averageScore": 15.4375,
+        "survival": 1,
+        "seatNormalizedFirst": 0.3333333333333333,
+        "firstPlaceCluster95": null,
+        "perSeat": [
+          {
+            "seat": 0,
+            "count": 12,
+            "first": 0.4166666666666667,
+            "placement": 2.375
+          },
+          {
+            "seat": 1,
+            "count": 12,
+            "first": 0.25,
+            "placement": 2.375
+          },
+          {
+            "seat": 2,
+            "count": 12,
+            "first": 0.3333333333333333,
+            "placement": 2.1666666666666665
+          },
+          {
+            "seat": 3,
+            "count": 12,
+            "first": 0.3333333333333333,
+            "placement": 2.2916666666666665
+          }
+        ],
+        "moveMs": {
+          "count": 734,
+          "mean": 115.33705463215254,
+          "p50": 112.93419999999605,
+          "p95": 231.08580000000075,
+          "max": 250.46340000000055
+        },
+        "branching": {
+          "count": 734,
+          "mean": 17.63351498637602,
+          "p50": 6,
+          "p95": 51,
+          "max": 53
+        },
+        "searchNodes": {
+          "count": 734,
+          "mean": 1067.798365122616,
+          "p50": 1038,
+          "p95": 2048,
+          "max": 2048
+        },
+        "reachedDepth": {
+          "count": 734,
+          "mean": 2.811989100817439,
+          "p50": 3,
+          "p95": 3,
+          "max": 3
+        }
+      },
+      {
+        "id": "pawn-plans-v1",
+        "completedSeatGames": 48,
+        "firstPlace": 0.16666666666666666,
+        "soleWin": 0.16666666666666666,
+        "averagePlacement": 2.6979166666666665,
+        "averageScore": 13,
+        "survival": 1,
+        "seatNormalizedFirst": 0.16666666666666666,
+        "firstPlaceCluster95": null,
+        "perSeat": [
+          {
+            "seat": 0,
+            "count": 12,
+            "first": 0.16666666666666666,
+            "placement": 2.7083333333333335
+          },
+          {
+            "seat": 1,
+            "count": 12,
+            "first": 0.25,
+            "placement": 2.3333333333333335
+          },
+          {
+            "seat": 2,
+            "count": 12,
+            "first": 0.16666666666666666,
+            "placement": 2.6666666666666665
+          },
+          {
+            "seat": 3,
+            "count": 12,
+            "first": 0.08333333333333333,
+            "placement": 3.0833333333333335
+          }
+        ],
+        "moveMs": {
+          "count": 728,
+          "mean": 110.75035769230801,
+          "p50": 97.79970000000321,
+          "p95": 231.91270000000077,
+          "max": 250.46550000002026
+        },
+        "branching": {
+          "count": 728,
+          "mean": 10.118131868131869,
+          "p50": 6,
+          "p95": 48,
+          "max": 53
+        },
+        "searchNodes": {
+          "count": 728,
+          "mean": 1007.1744505494505,
+          "p50": 838,
+          "p95": 2048,
+          "max": 2048
+        },
+        "reachedDepth": {
+          "count": 728,
+          "mean": 2.8324175824175826,
+          "p50": 3,
+          "p95": 3,
+          "max": 3
+        }
+      }
+    ],
+    "headToHead": [
+      {
+        "a": "baseline-9a49a80",
+        "b": "pawn-plans-v1",
+        "seatNormalizedPairScore": 0.5989583333333334
+      }
+    ]
+  },
+  "tactics": [
+    {
+      "id": "baseline-9a49a80",
+      "passed": 32,
+      "total": 32
+    },
+    {
+      "id": "pawn-plans-v1",
+      "passed": 32,
+      "total": 32
+    }
+  ],
+  "timing": [
+    {
+      "id": "baseline-9a49a80",
+      "elapsed": {
+        "count": 36,
+        "mean": 201.76041944444782,
+        "p50": 63.20079999999143,
+        "p95": 1000.0323000000208,
+        "max": 1000.0988999999827
+      },
+      "fallbacks": 0
+    },
+    {
+      "id": "pawn-plans-v1",
+      "elapsed": {
+        "count": 36,
+        "mean": 205.33194999999898,
+        "p50": 82.69309999997495,
+        "p95": 1000.0308000000077,
+        "max": 1000.1117000000086
+      },
+      "fallbacks": 0
+    }
+  ]
+}

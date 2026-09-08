@@ -1,0 +1,3390 @@
+{
+  "observations": [
+    {
+      "label": "replay-baseline",
+      "seed": 41,
+      "termination": "max-ply",
+      "plies": 160,
+      "result": null,
+      "maxQuietRun": 122,
+      "kingReturns": 76,
+      "planMissProxy": 0,
+      "progressMoves": 9
+    },
+    {
+      "label": "replay-candidate-cpus",
+      "seed": 41,
+      "termination": "max-ply",
+      "plies": 160,
+      "result": null,
+      "maxQuietRun": 122,
+      "kingReturns": 57,
+      "planMissProxy": 0,
+      "progressMoves": 3
+    },
+    {
+      "label": "validation-0-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 42,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 18,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 2,
+      "planMissProxy": 1,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 110,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 38,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 22,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-0-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 153,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 55,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 31,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 22,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 13,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 3,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 42,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 15,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 3,
+            "meanRank": 3
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 3,
+      "planMissProxy": 1,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 44,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 16,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 6,
+      "planMissProxy": 1,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 48,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 28,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 4,
+      "planMissProxy": 0,
+      "progressMoves": 3
+    },
+    {
+      "label": "validation-0-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 82,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 26,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 19,
+      "planMissProxy": 0,
+      "progressMoves": 6
+    },
+    {
+      "label": "validation-1-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 102,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 54,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 27,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 85,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 25,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 14,
+      "kingReturns": 19,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 62,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 29,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 10,
+      "planMissProxy": 0,
+      "progressMoves": 6
+    },
+    {
+      "label": "validation-1-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 50,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 25,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 7,
+      "planMissProxy": 0,
+      "progressMoves": 6
+    },
+    {
+      "label": "validation-1-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 101,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 42,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 18,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 3,
+            "meanRank": 3
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 19,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 22,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 0,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 81,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 28,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 10,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-1-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 70,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 24,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 7,
+      "kingReturns": 7,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-2-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 46,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 4,
+      "kingReturns": 2,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 10,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 12,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 1,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 57,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 15,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 27,
+      "kingReturns": 23,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 14,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 12,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 1,
+      "planMissProxy": 0,
+      "progressMoves": 6
+    },
+    {
+      "label": "validation-2-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 61,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 4,
+      "kingReturns": 7,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 28,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 7,
+      "kingReturns": 3,
+      "planMissProxy": 1,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 28,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 16,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 2,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 102,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 40,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 16,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    }
+  ],
+  "tactics": [
+    {
+      "position": "opening",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 21,
+        "to": 49,
+        "piece": {
+          "type": "P",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 982.0947999999917,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "opening",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 21,
+        "to": 49,
+        "piece": {
+          "type": "P",
+          "owner": 0,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 915.2605999999796,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "opening",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 85,
+        "to": 87,
+        "piece": {
+          "type": "P",
+          "owner": 1,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 885.3139000000083,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "opening",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 85,
+        "to": 87,
+        "piece": {
+          "type": "P",
+          "owner": 1,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 996.8330000000133,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "opening",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 174,
+        "to": 146,
+        "piece": {
+          "type": "P",
+          "owner": 2,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 883.6462000000174,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "opening",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 174,
+        "to": 146,
+        "piece": {
+          "type": "P",
+          "owner": 2,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 857.9064000000071,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "opening",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 110,
+        "to": 108,
+        "piece": {
+          "type": "P",
+          "owner": 3,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 873.1242000000202,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "opening",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 110,
+        "to": 108,
+        "piece": {
+          "type": "P",
+          "owner": 3,
+          "hasMoved": false
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 892.829699999973,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 87,
+        "to": 101,
+        "piece": {
+          "owner": 0,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          3
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 16.401000000012573,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 87,
+        "to": 101,
+        "piece": {
+          "owner": 0,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          3
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 16.526300000026822,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 146,
+        "to": 147,
+        "piece": {
+          "owner": 1,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 16.23170000000391,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 146,
+        "to": 147,
+        "piece": {
+          "owner": 1,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 19.817800000018906,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 108,
+        "to": 94,
+        "piece": {
+          "owner": 2,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 15.90690000000177,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 108,
+        "to": 94,
+        "piece": {
+          "owner": 2,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 16.648199999995995,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 49,
+        "to": 48,
+        "piece": {
+          "owner": 3,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 16.92259999999078,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "promotion",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 49,
+        "to": 48,
+        "piece": {
+          "owner": 3,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2
+        ],
+        "eliminates": [],
+        "promotion": "Q"
+      },
+      "diagnostics": {
+        "nodes": 207,
+        "completedDepth": 3,
+        "elapsedMs": 16.556900000025053,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 75,
+        "to": 117,
+        "piece": {
+          "owner": 0,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 1,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 256.1632999999565,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 75,
+        "to": 117,
+        "piece": {
+          "owner": 0,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 1,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 240.12199999997392,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 117,
+        "to": 120,
+        "piece": {
+          "owner": 1,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 2,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 237.80309999996098,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 117,
+        "to": 120,
+        "piece": {
+          "owner": 1,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 2,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 232.28330000001006,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 120,
+        "to": 78,
+        "piece": {
+          "owner": 2,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 3,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 233.02419999998529,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 120,
+        "to": 78,
+        "piece": {
+          "owner": 2,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 3,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 254.5154999999795,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 78,
+        "to": 75,
+        "piece": {
+          "owner": 3,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 0,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 241.26799999998184,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "hanging-queen",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 78,
+        "to": 75,
+        "piece": {
+          "owner": 3,
+          "type": "R",
+          "hasMoved": true
+        },
+        "captured": {
+          "owner": 0,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 221.89030000002822,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 75,
+        "to": 90,
+        "piece": {
+          "owner": 0,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1,
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 207.79039999999804,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 75,
+        "to": 90,
+        "piece": {
+          "owner": 0,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1,
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 212.34340000001248,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 117,
+        "to": 104,
+        "piece": {
+          "owner": 1,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 209.51970000000438,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 117,
+        "to": 104,
+        "piece": {
+          "owner": 1,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 208.33439999999246,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 120,
+        "to": 105,
+        "piece": {
+          "owner": 2,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 215.3923000000068,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 120,
+        "to": 105,
+        "piece": {
+          "owner": 2,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 207.97380000003614,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 78,
+        "to": 91,
+        "piece": {
+          "owner": 3,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 215.6472000000067,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "poisoned-pawn",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 78,
+        "to": 91,
+        "piece": {
+          "owner": 3,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 209.69109999999637,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 6,
+        "to": 90,
+        "piece": {
+          "owner": 0,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1,
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 143.64850000001024,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 6,
+        "to": 90,
+        "piece": {
+          "owner": 0,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1,
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 141.4084000000148,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 98,
+        "to": 104,
+        "piece": {
+          "owner": 1,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 150.437099999981,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 98,
+        "to": 104,
+        "piece": {
+          "owner": 1,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 144.329000000027,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 189,
+        "to": 105,
+        "piece": {
+          "owner": 2,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 148.76290000003064,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 189,
+        "to": 105,
+        "piece": {
+          "owner": 2,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 144.69649999996182,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 97,
+        "to": 91,
+        "piece": {
+          "owner": 3,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 145.07420000003185,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "double-check",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 97,
+        "to": 91,
+        "piece": {
+          "owner": 3,
+          "type": "Q",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0,
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 1613,
+        "completedDepth": 3,
+        "elapsedMs": 143.58850000001257,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 73,
+        "to": 3,
+        "piece": {
+          "owner": 3,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 143.37510000000475,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 73,
+        "to": 3,
+        "piece": {
+          "owner": 3,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 140.31479999999283,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 145,
+        "to": 140,
+        "piece": {
+          "owner": 0,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 129.2333000000217,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 145,
+        "to": 140,
+        "piece": {
+          "owner": 0,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 126.48149999999441,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 122,
+        "to": 192,
+        "piece": {
+          "owner": 1,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 141.48810000001686,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 122,
+        "to": 192,
+        "piece": {
+          "owner": 1,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 125.91670000000158,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 50,
+        "to": 55,
+        "piece": {
+          "owner": 2,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 143.9091999999946,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "mate-in-one",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 50,
+        "to": 55,
+        "piece": {
+          "owner": 2,
+          "type": "R",
+          "hasMoved": true
+        },
+        "isCheck": [
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 2048,
+        "completedDepth": 2,
+        "elapsedMs": 143.56969999999274,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 20,
+        "to": 34,
+        "piece": {
+          "owner": 0,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 130,
+        "completedDepth": 3,
+        "elapsedMs": 5.539000000047963,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 6,
+        "to": 7,
+        "piece": {
+          "owner": 0,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 127,
+        "completedDepth": 3,
+        "elapsedMs": 5.6243000000249594,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 99,
+        "to": 100,
+        "piece": {
+          "owner": 1,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 149,
+        "completedDepth": 3,
+        "elapsedMs": 6.46720000001369,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 98,
+        "to": 112,
+        "piece": {
+          "owner": 1,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 152,
+        "completedDepth": 3,
+        "elapsedMs": 7.420400000002701,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 175,
+        "to": 161,
+        "piece": {
+          "owner": 2,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 117,
+        "completedDepth": 3,
+        "elapsedMs": 5.791800000006333,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 189,
+        "to": 190,
+        "piece": {
+          "owner": 2,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 132,
+        "completedDepth": 3,
+        "elapsedMs": 6.962499999965075,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 96,
+        "to": 95,
+        "piece": {
+          "owner": 3,
+          "type": "P",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 144,
+        "completedDepth": 3,
+        "elapsedMs": 6.608799999987241,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-endgame",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 97,
+        "to": 111,
+        "piece": {
+          "owner": 3,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 149,
+        "completedDepth": 3,
+        "elapsedMs": 6.661499999987427,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 0,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 6,
+        "to": 7,
+        "piece": {
+          "owner": 0,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 59.47970000002533,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 0,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 6,
+        "to": 7,
+        "piece": {
+          "owner": 0,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          2
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 59.92519999999786,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 1,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 98,
+        "to": 112,
+        "piece": {
+          "owner": 1,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 59.489300000015646,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 1,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 98,
+        "to": 112,
+        "piece": {
+          "owner": 1,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          3
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 58.431799999962095,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 2,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 189,
+        "to": 190,
+        "piece": {
+          "owner": 2,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 61.243000000016764,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 2,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 189,
+        "to": 190,
+        "piece": {
+          "owner": 2,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          0
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 62.31449999997858,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 3,
+      "id": "baseline-9a49a80",
+      "matches": true,
+      "move": {
+        "from": 97,
+        "to": 111,
+        "piece": {
+          "owner": 3,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 60.64470000000438,
+        "stopped": "depth",
+        "fallback": false
+      }
+    },
+    {
+      "position": "king-escape",
+      "rotation": 3,
+      "id": "pawn-plans-v1",
+      "matches": true,
+      "move": {
+        "from": 97,
+        "to": 111,
+        "piece": {
+          "owner": 3,
+          "type": "K",
+          "hasMoved": true
+        },
+        "isCheck": [
+          1
+        ],
+        "eliminates": []
+      },
+      "diagnostics": {
+        "nodes": 764,
+        "completedDepth": 3,
+        "elapsedMs": 58.84700000000885,
+        "stopped": "depth",
+        "fallback": false
+      }
+    }
+  ],
+  "timing": [
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 0,
+      "nodes": 43,
+      "completedDepth": 3,
+      "elapsedMs": 5.931299999996554,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 0,
+      "nodes": 43,
+      "completedDepth": 3,
+      "elapsedMs": 7.769399999990128,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 1,
+      "nodes": 43,
+      "completedDepth": 3,
+      "elapsedMs": 5.292100000020582,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 1,
+      "nodes": 43,
+      "completedDepth": 3,
+      "elapsedMs": 4.956499999971129,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 2,
+      "nodes": 43,
+      "completedDepth": 3,
+      "elapsedMs": 5.799899999983609,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 2,
+      "nodes": 43,
+      "completedDepth": 3,
+      "elapsedMs": 5.414999999979045,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 0,
+      "nodes": 294,
+      "completedDepth": 4,
+      "elapsedMs": 37.05749999999534,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 0,
+      "nodes": 294,
+      "completedDepth": 4,
+      "elapsedMs": 41.5348000000231,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 1,
+      "nodes": 294,
+      "completedDepth": 4,
+      "elapsedMs": 38.210699999995995,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 1,
+      "nodes": 294,
+      "completedDepth": 4,
+      "elapsedMs": 32.948199999984354,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 2,
+      "nodes": 294,
+      "completedDepth": 4,
+      "elapsedMs": 32.02090000000317,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 2,
+      "nodes": 294,
+      "completedDepth": 4,
+      "elapsedMs": 32.97299999999814,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 0,
+      "nodes": 780,
+      "completedDepth": 5,
+      "elapsedMs": 98.8188000000082,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 0,
+      "nodes": 780,
+      "completedDepth": 5,
+      "elapsedMs": 96.76350000000093,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 1,
+      "nodes": 780,
+      "completedDepth": 5,
+      "elapsedMs": 93.72809999994934,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 1,
+      "nodes": 780,
+      "completedDepth": 5,
+      "elapsedMs": 96.13360000000102,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 2,
+      "nodes": 780,
+      "completedDepth": 5,
+      "elapsedMs": 128.06040000001667,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 2,
+      "nodes": 780,
+      "completedDepth": 5,
+      "elapsedMs": 111.83399999997346,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 0,
+      "nodes": 198,
+      "completedDepth": 3,
+      "elapsedMs": 17.88860000000568,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 0,
+      "nodes": 198,
+      "completedDepth": 3,
+      "elapsedMs": 21.244699999981094,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 1,
+      "nodes": 198,
+      "completedDepth": 3,
+      "elapsedMs": 18.583600000012666,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 1,
+      "nodes": 198,
+      "completedDepth": 3,
+      "elapsedMs": 19.887400000006892,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 2,
+      "nodes": 198,
+      "completedDepth": 3,
+      "elapsedMs": 20.524199999985285,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 2,
+      "nodes": 198,
+      "completedDepth": 3,
+      "elapsedMs": 28.022500000020955,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 0,
+      "nodes": 714,
+      "completedDepth": 4,
+      "elapsedMs": 58.394200000038836,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 0,
+      "nodes": 714,
+      "completedDepth": 4,
+      "elapsedMs": 58.15480000001844,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 1,
+      "nodes": 714,
+      "completedDepth": 4,
+      "elapsedMs": 61.183099999965634,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 1,
+      "nodes": 714,
+      "completedDepth": 4,
+      "elapsedMs": 56.64480000000913,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 2,
+      "nodes": 714,
+      "completedDepth": 4,
+      "elapsedMs": 60.32709999999497,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 2,
+      "nodes": 714,
+      "completedDepth": 4,
+      "elapsedMs": 62.44049999996787,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 0,
+      "nodes": 1683,
+      "completedDepth": 5,
+      "elapsedMs": 157.8768000000273,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 0,
+      "nodes": 1683,
+      "completedDepth": 5,
+      "elapsedMs": 164.0179000000353,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 1,
+      "nodes": 1683,
+      "completedDepth": 5,
+      "elapsedMs": 170.36570000002393,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 1,
+      "nodes": 1683,
+      "completedDepth": 5,
+      "elapsedMs": 164.8232999999891,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 2,
+      "nodes": 1683,
+      "completedDepth": 5,
+      "elapsedMs": 148.18969999998808,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 2,
+      "nodes": 1683,
+      "completedDepth": 5,
+      "elapsedMs": 158.74099999997998,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 0,
+      "nodes": 600,
+      "completedDepth": 3,
+      "elapsedMs": 54.64199999999255,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 0,
+      "nodes": 600,
+      "completedDepth": 3,
+      "elapsedMs": 58.724800000025425,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 1,
+      "nodes": 600,
+      "completedDepth": 3,
+      "elapsedMs": 59.40130000002682,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 1,
+      "nodes": 600,
+      "completedDepth": 3,
+      "elapsedMs": 55.211899999994785,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 2,
+      "nodes": 600,
+      "completedDepth": 3,
+      "elapsedMs": 63.20079999999143,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 2,
+      "nodes": 600,
+      "completedDepth": 3,
+      "elapsedMs": 82.69309999997495,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 0,
+      "nodes": 3752,
+      "completedDepth": 3,
+      "elapsedMs": 500.1067000000039,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 0,
+      "nodes": 4880,
+      "completedDepth": 3,
+      "elapsedMs": 500.1156000000192,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 1,
+      "nodes": 4653,
+      "completedDepth": 3,
+      "elapsedMs": 500.0634999999893,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 1,
+      "nodes": 5152,
+      "completedDepth": 4,
+      "elapsedMs": 479.141900000046,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 2,
+      "nodes": 5152,
+      "completedDepth": 4,
+      "elapsedMs": 500.04570000001695,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 2,
+      "nodes": 4676,
+      "completedDepth": 3,
+      "elapsedMs": 500.0207999999984,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 0,
+      "nodes": 8578,
+      "completedDepth": 4,
+      "elapsedMs": 1000.0566000000108,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 0,
+      "nodes": 8005,
+      "completedDepth": 4,
+      "elapsedMs": 1000.1117000000086,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 1,
+      "nodes": 8852,
+      "completedDepth": 4,
+      "elapsedMs": 1000.0561999999918,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 1,
+      "nodes": 9357,
+      "completedDepth": 4,
+      "elapsedMs": 1000.0988999999827,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 2,
+      "nodes": 9136,
+      "completedDepth": 4,
+      "elapsedMs": 1000.0323000000208,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 2,
+      "nodes": 8848,
+      "completedDepth": 4,
+      "elapsedMs": 1000.0308000000077,
+      "stopped": "time",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 0,
+      "nodes": 411,
+      "completedDepth": 3,
+      "elapsedMs": 33.86060000001453,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 0,
+      "nodes": 411,
+      "completedDepth": 3,
+      "elapsedMs": 36.79359999997541,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 1,
+      "nodes": 411,
+      "completedDepth": 3,
+      "elapsedMs": 36.538100000005215,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 1,
+      "nodes": 411,
+      "completedDepth": 3,
+      "elapsedMs": 34.20100000000093,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 3,
+      "sample": 2,
+      "nodes": 411,
+      "completedDepth": 3,
+      "elapsedMs": 33.93379999999888,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 3,
+      "sample": 2,
+      "nodes": 411,
+      "completedDepth": 3,
+      "elapsedMs": 34.94189999997616,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 0,
+      "nodes": 1472,
+      "completedDepth": 4,
+      "elapsedMs": 121.47509999998147,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 0,
+      "nodes": 1472,
+      "completedDepth": 4,
+      "elapsedMs": 125.36629999999423,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 1,
+      "nodes": 1472,
+      "completedDepth": 4,
+      "elapsedMs": 130.5046999999904,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 1,
+      "nodes": 1472,
+      "completedDepth": 4,
+      "elapsedMs": 118.60070000000997,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 4,
+      "sample": 2,
+      "nodes": 1472,
+      "completedDepth": 4,
+      "elapsedMs": 113.82630000001518,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 4,
+      "sample": 2,
+      "nodes": 1472,
+      "completedDepth": 4,
+      "elapsedMs": 119.90650000004098,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 0,
+      "nodes": 3663,
+      "completedDepth": 5,
+      "elapsedMs": 335.34130000002915,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 0,
+      "nodes": 3541,
+      "completedDepth": 5,
+      "elapsedMs": 341.2998999999836,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 1,
+      "nodes": 3541,
+      "completedDepth": 5,
+      "elapsedMs": 339.7724000000162,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 1,
+      "nodes": 3663,
+      "completedDepth": 5,
+      "elapsedMs": 334.4253000000026,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "baseline-9a49a80",
+      "level": 5,
+      "sample": 2,
+      "nodes": 3663,
+      "completedDepth": 5,
+      "elapsedMs": 338.89100000000326,
+      "stopped": "depth",
+      "fallback": false
+    },
+    {
+      "id": "pawn-plans-v1",
+      "level": 5,
+      "sample": 2,
+      "nodes": 3541,
+      "completedDepth": 5,
+      "elapsedMs": 349.33460000000196,
+      "stopped": "depth",
+      "fallback": false
+    }
+  ]
+}

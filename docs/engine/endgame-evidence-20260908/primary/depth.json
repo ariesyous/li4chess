@@ -1,0 +1,282 @@
+[
+  {
+    "name": "baseline",
+    "depth": 1,
+    "nodes": 4,
+    "elapsedMs": 1.574200000000019,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.78
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.78
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.78
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -249.86333333333334
+      }
+    ]
+  },
+  {
+    "name": "baseline",
+    "depth": 2,
+    "nodes": 29,
+    "elapsedMs": 4.793199999999956,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.78
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.78
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.78
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -249.86333333333334
+      }
+    ]
+  },
+  {
+    "name": "baseline",
+    "depth": 3,
+    "nodes": 65,
+    "elapsedMs": 8.033699999999953,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.78
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.83
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.83
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -249.89333333333335
+      }
+    ]
+  },
+  {
+    "name": "baseline",
+    "depth": 4,
+    "nodes": 308,
+    "elapsedMs": 46.740999999999985,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.78
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.83
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.83
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -261.33
+      }
+    ]
+  },
+  {
+    "name": "baseline",
+    "depth": 5,
+    "nodes": 621,
+    "elapsedMs": 92.63139999999999,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.78
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.83
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.87333333333333
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -261.22333333333336
+      }
+    ]
+  },
+  {
+    "name": "candidate",
+    "depth": 1,
+    "nodes": 4,
+    "elapsedMs": 1.3565999999999576,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.06
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -249.14333333333335
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.18
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.18
+      }
+    ]
+  },
+  {
+    "name": "candidate",
+    "depth": 2,
+    "nodes": 29,
+    "elapsedMs": 4.457899999999995,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.06
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -249.14333333333335
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.18
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.18
+      }
+    ]
+  },
+  {
+    "name": "candidate",
+    "depth": 3,
+    "nodes": 65,
+    "elapsedMs": 7.889300000000048,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.06
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -249.17333333333335
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.23
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.23
+      }
+    ]
+  },
+  {
+    "name": "candidate",
+    "depth": 4,
+    "nodes": 308,
+    "elapsedMs": 39.202,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -249.06
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.23
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.23
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -260.73
+      }
+    ]
+  },
+  {
+    "name": "candidate",
+    "depth": 5,
+    "nodes": 620,
+    "elapsedMs": 89.49009999999998,
+    "choices": [
+      {
+        "from": 90,
+        "to": 104,
+        "value": -248.96
+      },
+      {
+        "from": 90,
+        "to": 76,
+        "value": -249.15333333333334
+      },
+      {
+        "from": 90,
+        "to": 75,
+        "value": -249.15333333333334
+      },
+      {
+        "from": 130,
+        "to": 116,
+        "value": -260.62333333333333
+      }
+    ]
+  }
+]

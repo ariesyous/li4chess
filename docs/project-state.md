@@ -8,6 +8,33 @@ superseded handoffs.
 
 ## Current focus
 
+**Bounded bot endgame follow-up complete (2026-09-08):** the
+[implementation and evidence](engine/endgame-evidence-20260908/README.md) preserve
+the original replay and independently reconstruct all 240 moves, including the
+77 quiet final moves and unchanged draw counters. A small level-3–5 evaluation
+term guides kings toward pawn support and credits clear, conservatively screened
+promotion routes only in king-and-pawn endings. Rules, search budgets, Worker
+cancellation/watchdog behavior, frozen classic, UI and hosting are unchanged.
+
+The deterministic regression gets an escorted pawn exchange on continuation
+plies 23/26/27, versus 32 more quiet baseline moves. Seed 41 still waits until
+ply 123, but Yellow's king can now recapture; both 160-ply continuations remain
+unfinished. Long shuffling is not solved. Exact depth 5 alone also retains the
+original king-move preference. No winning pawn push is claimed.
+
+Fresh Windows/Node 24.18.0/Corepack pnpm 10.33.0 validation on base `9a49a80`
+plus preserved documentation and this implementation: lint, **731 unit tests**,
+build and **47 browser tests** passed, all uncached with no browser retries.
+The 48 balanced equal-budget validation games all replay-validated and completed;
+candidate/baseline mean rank was 2.453/2.547 and king returns 223/245. Quiet king
+moves overall did not decrease. Three artificial positions and two correlated
+seed blocks cannot establish general strength. The report retains source
+snapshots, hashes, timing, tactical checks, corrected exploratory fixture and
+the reversed assignments added to balance pawn ownership. Further tuning needs
+new validation positions/seeds.
+Final diff/whitespace checks and 154 local links passed. Paired initial states,
+reversed assignments, artifact checksums and archived source hashes were verified.
+
 **M3-08 is complete within its local acceptance scope (2026-09-08).**
 Four original authenticated principals independently consent before one fresh
 successor is allocated. Entry and readiness remain deliberate; original results,

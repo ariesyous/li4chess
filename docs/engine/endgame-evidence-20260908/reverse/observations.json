@@ -1,0 +1,966 @@
+{
+  "observations": [
+    {
+      "label": "validation-0-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 42,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 18,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 2,
+      "planMissProxy": 1,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 110,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 38,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 22,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-0-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 153,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 55,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 31,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 22,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 13,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 3,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 58,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 3,
+            "meanRank": 3
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 22,
+      "kingReturns": 11,
+      "planMissProxy": 1,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 44,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 16,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 6,
+      "planMissProxy": 1,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-0-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 48,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 28,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 4,
+      "planMissProxy": 0,
+      "progressMoves": 3
+    },
+    {
+      "label": "validation-0-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 82,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 26,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 19,
+      "planMissProxy": 0,
+      "progressMoves": 6
+    },
+    {
+      "label": "validation-1-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 102,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 54,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 27,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 50,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 27,
+      "kingReturns": 14,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 62,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 29,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 10,
+      "planMissProxy": 0,
+      "progressMoves": 6
+    },
+    {
+      "label": "validation-1-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 49,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 4,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-1-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 34,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 17,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 4,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 22,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 0,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-1-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 53,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 26,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 12,
+      "planMissProxy": 0,
+      "progressMoves": 6
+    },
+    {
+      "label": "validation-1-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 53,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 2,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 2
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 6,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-2-rotation-0",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 24,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 11,
+            "place": 1,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 1,
+            "meanRank": 2
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 1,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": null
+      },
+      "maxQuietRun": 10,
+      "kingReturns": 4,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-2-rotation-0",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 18,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 12,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 2,
+            "meanRank": 3
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 15,
+      "kingReturns": 5,
+      "planMissProxy": 0,
+      "progressMoves": 2
+    },
+    {
+      "label": "validation-2-rotation-1",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 68,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 18,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 24,
+      "kingReturns": 16,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-1",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 53,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 15,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 20,
+      "kingReturns": 8,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-2-rotation-2",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 61,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 22,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 3,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2.5
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 4,
+            "meanRank": 4
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 4,
+      "kingReturns": 7,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-2",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 72,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 0,
+            "score": 29,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 1,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 0
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 5,
+      "planMissProxy": 0,
+      "progressMoves": 5
+    },
+    {
+      "label": "validation-2-rotation-3",
+      "seed": 701,
+      "termination": "insufficient-material",
+      "plies": 28,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 1,
+            "score": 16,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 2,
+            "score": 11,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 0,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 3,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 1
+      },
+      "maxQuietRun": 3,
+      "kingReturns": 2,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    },
+    {
+      "label": "validation-2-rotation-3",
+      "seed": 1709,
+      "termination": "insufficient-material",
+      "plies": 38,
+      "result": {
+        "reason": "insufficient-material",
+        "placements": [
+          {
+            "color": 3,
+            "score": 14,
+            "place": 1,
+            "meanRank": 1
+          },
+          {
+            "color": 0,
+            "score": 12,
+            "place": 2,
+            "meanRank": 2
+          },
+          {
+            "color": 1,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          },
+          {
+            "color": 2,
+            "score": 10,
+            "place": 3,
+            "meanRank": 3.5
+          }
+        ],
+        "winner": 3
+      },
+      "maxQuietRun": 6,
+      "kingReturns": 2,
+      "planMissProxy": 0,
+      "progressMoves": 4
+    }
+  ],
+  "tactics": [],
+  "timing": []
+}

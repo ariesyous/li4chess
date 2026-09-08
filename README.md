@@ -198,6 +198,11 @@ bounded iterative search with paranoid and Maxⁿ strategies, optional
 transposition tables and quiescence, and a tactical position corpus. Experimental
 search has not been promoted to the browser's production bot.
 
+Levels 3–5 also use bounded king-and-pawn endgame guidance for clear promotion
+routes and king escort. The [endgame follow-up](docs/engine/endgame-evidence-20260908/README.md)
+records the user replay regression, equal-budget comparison and remaining
+shuffling limitations; it does not establish general playing strength.
+
 Arena writers produce version-2 records with replay hashes, actual build and
 runtime/hardware provenance, engine configuration, seeds and budgets. Readers
 validate games before aggregation. Legacy v1 records are rejected and preserved

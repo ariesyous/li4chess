@@ -1,0 +1,26 @@
+{
+  "hash": "sha256:aea47bafac8c4c55c981b117f7474fa6bac9cd2b1457cacac17d188175b1efd7",
+  "producer": {
+    "buildFingerprint": "sha256:c3d8b1e859c251b36038dd379937725f9c0eb7a366ddbe7461c38c6544170440",
+    "format": "li4chess-engine-build-v1",
+    "packageVersions": {
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0",
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0"
+    },
+    "sourceRevision": "9a49a8083d1b2d968d187e46299d2b50a1be9e01",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "moves": 240,
+  "reversible": 77,
+  "maxRepetition": 2
+}

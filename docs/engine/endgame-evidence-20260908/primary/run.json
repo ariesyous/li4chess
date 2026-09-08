@@ -1,0 +1,46 @@
+{
+  "date": "2026-09-08T18:14:38.881Z",
+  "build": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "9a49a8083d1b2d968d187e46299d2b50a1be9e01",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:3fc99e5b13410363cafcc65b3982f2bf9b3b8f8eda467e3c4847d3f38bd06988",
+    "workingTree": {
+      "status": "dirty",
+      "contentHash": "sha256:3fc99e5b13410363cafcc65b3982f2bf9b3b8f8eda467e3c4847d3f38bd06988"
+    }
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 34269650944
+  },
+  "pnpm": "10.33.0",
+  "limits": {
+    "maxDepth": 3,
+    "nodeBudget": 2048,
+    "timeMs": 250
+  },
+  "cap": 160,
+  "validationSeeds": [
+    701,
+    1709
+  ],
+  "protocol": "24 held-out games: three positions, four spatial/owner rotations, adjacent AABB and opposite ABAB. Four seeded legal jitter plies precede each game. Two replay continuations, 160-ply cap, Red modeled by baseline CPU (not human prediction). No tuning after validation starts.",
+  "metrics": "Completed placements only; capped games unfinished. Quiet king run and own-king returns are descriptive, not automatically mistakes. Plan-miss proxy: quiet king move failing to improve the fixed route/escort score when a legal pawn move improves it and survives the immediately following opponent's legal captures. This does not prove long-term safety or winning play."
+}
