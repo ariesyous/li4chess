@@ -20,7 +20,7 @@ The original result and replay remain intact. Hosted activation remains outside
 the implemented scope.
 
 li4chess is released as a polished, free, ad-free local/CPU game on the existing
-[GitHub Pages site](https://ariesyous.github.io/li4chess/), intended to require
+[GitHub Pages site at li4chess.org](https://li4chess.org/), intended to require
 little ongoing maintainer time. The bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
 prepared the interface, board and pieces for the release checkpoint.
 The visual refresh is complete, with [before/after captures and validation](docs/ui1-evidence/README.md).
@@ -29,8 +29,8 @@ directional seat panels and consistent setup/history/result surfaces. Exact sour
 licenses and recoloring are recorded in [third-party notices](THIRD_PARTY_NOTICES.md),
 also linked from the app. See the [L1 release handoff](docs/local-launch-handoff.md)
 for release notes, limitations, and the Pages update/rollback procedure.
-Human players share one device; CPU opponents run in the browser. Cloudflare,
-the li4chess.org launch and hosted multiplayer are shelved. Completed local
+Human players share one device; CPU opponents run in the browser. Cloudflare
+hosting and hosted multiplayer are shelved. Completed local
 private multiplayer and its evidence remain available for development, with no
 scheduled hosted follow-up. Public matchmaking, accounts and ratings are deferred.
 See [ROADMAP.md](ROADMAP.md), the [launch handoff](docs/local-launch-handoff.md)
@@ -150,8 +150,8 @@ The longer D1, Worker and multiplayer campaigns are preserved in the manually
 triggered [Extended local multiplayer validation](.github/workflows/validate-multiplayer.yml)
 workflow. Run it from GitHub Actions when working on that deferred backend;
 it is outside the default local/CPU Pages release checks and does not deploy.
-The GitHub Pages workflow deploys `apps/web/dist` from `main`; Vite's base path
-is configured for `/li4chess/`.
+The GitHub Pages workflow deploys `apps/web/dist` from `main` using the configured
+Pages base path: `/` for li4chess.org. Local builds retain `/li4chess/`.
 
 The isolated [M3-01 architecture probe](packages/architecture-spike/README.md)
 uses actual local Wrangler/workerd, SQLite Durable Objects, D1 and WebSockets.

@@ -45,6 +45,11 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
+The 2026-09-09 deployment repair accommodates the existing li4chess.org custom
+domain on GitHub Pages. Its build base follows actual Pages settings; the older
+project URL redirects there. This corrects the historical domain assumptions
+below without activating Cloudflare hosting or multiplayer.
+
 The repository has local hotseat and CPU games, a pure TypeScript rules engine,
 a React board, production bot search, a separate research laboratory, and CI.
 An internal authoritative GameRoom implements clocks, disconnect banks and D1

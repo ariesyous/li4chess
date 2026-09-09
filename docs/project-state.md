@@ -8,6 +8,20 @@ superseded handoffs.
 
 ## Current focus
 
+**Custom-domain deployment repair (2026-09-09):** GitHub Pages is configured
+for li4chess.org and redirects the former project URL there. The release HTML
+requested `/li4chess/assets/` (404), while assets existed under `/assets/` (200),
+leaving the page blank. The Pages workflow now configures Pages before building
+and passes its actual `base_path` to Vite. Local project-path builds and deferred
+Workers hosting remain unchanged. This supersedes earlier statements that the
+live site still uses the project path; historical release evidence is retained.
+On base `2423d27` plus this repair, Windows/Node 24.18.0/pnpm 10.33.0 lint,
+unit tests (Turbo cache reused), build and all 52 fresh Playwright tests passed.
+The explicit `build --base /` also passed and emitted root-relative asset URLs;
+154 local documentation links and `git diff --check` passed. An initial unit
+command passed a Turbo flag to Vitest incorrectly; the corrected invocation
+passed. Remote CI and hosted repair verification follow publication.
+
 **L1 release checkpoint complete (2026-09-09):** the local/CPU GitHub Pages
 release is tagged and its immutable GitHub release records the exact commit,
 final CI and Pages workflow links, and hosted browser review. The release scope,
