@@ -23,6 +23,8 @@ li4chess is released as a polished, free, ad-free local/CPU game on the existing
 [GitHub Pages site at li4chess.org](https://li4chess.org/), intended to require
 little ongoing maintainer time. The bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
 prepared the interface, board and pieces for the release checkpoint.
+Links shared from the site use an Open Graph/Twitter large-card preview of the
+four-army board.
 The visual refresh is complete, with [before/after captures and validation](docs/ui1-evidence/README.md).
 It uses a warm continuous board, four-color Cburnett SVG pieces, compact controls,
 directional seat panels and consistent setup/history/result surfaces. Exact sources,

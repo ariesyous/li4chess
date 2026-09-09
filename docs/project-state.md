@@ -8,6 +8,17 @@ superseded handoffs.
 
 ## Current focus
 
+**Social share preview (2026-09-09):** the web app now includes a branded
+four-player-board Open Graph/Twitter image at
+[`apps/web/public/social-preview.png`](../apps/web/public/social-preview.png).
+Its HTML declares the title, local-play description, image dimensions and
+accessible alternative text for `https://li4chess.org/`. Validate the generated
+asset survives the Pages build and refresh social platforms' cached cards after
+the next deployment. On Windows/Node 24.18.0/pnpm 10.33.0, `pnpm lint`,
+`pnpm test`, `pnpm build`, the 52-test Playwright suite, and an explicit
+root-base Vite build passed; the latter emitted the 1734 × 907 PNG and its
+metadata reference.
+
 **Custom-domain deployment repair (2026-09-09):** GitHub Pages is configured
 for li4chess.org and redirects the former project URL there. The release HTML
 requested `/li4chess/assets/` (404), while assets existed under `/assets/` (200),
