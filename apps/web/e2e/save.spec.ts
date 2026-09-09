@@ -28,7 +28,9 @@ test("abort result survives refresh and a new game replaces its save", async ({ 
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
 });
 test("missing and corrupted saves leave setup usable", async ({ page }) => {
-  await page.goto("/"); await page.getByRole("button", { name: "Resume saved game" }).click();
+  await page.goto("/");
+  await expect(page.getByLabel("Local game recovery")).toContainText("previously saved in this browser");
+  await page.getByRole("button", { name: "Resume saved game" }).click();
   await expect(page.getByRole("status")).toContainText("No saved game");
   await page.evaluate(() => localStorage.setItem("li4chess.local-game.v1", "broken"));
   await page.getByRole("button", { name: "Resume saved game" }).click();
