@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GameScreen } from "./components/GameScreen.js";
 import { SeatSetupScreen } from "./components/SeatSetupScreen.js";
 import { SeatSetups } from "./game/useLocalGame.js";
@@ -14,6 +14,7 @@ export function App() {
   const [resumeMessage, setResumeMessage] = useState("");
   const [resumeBusy, setResumeBusy] = useState(false);
   const operation = useRef(0);
+  useEffect(() => { window.scrollTo({ top: 0, left: 0, behavior: "auto" }); }, [seats]);
   const start = (next: SeatSetups) => { operation.current++; setResumed(undefined); setSeats(next); setResumeBusy(false); };
   const resume = async () => {
     const token = ++operation.current;

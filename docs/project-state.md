@@ -8,6 +8,13 @@ superseded handoffs.
 
 ## Current focus
 
+**Start-game viewport recovery (2026-09-09):** changing from the setup screen
+to a game now resets the document scroll position. A narrow, short viewport
+could retain its 397 px setup offset after Start Game, leaving the game above
+the visible viewport and appearing blank. The focused Playwright regression
+test covers that transition. Fresh Windows/Node 24.18.0/pnpm 10.33.0 checks
+passed: `pnpm lint`, `pnpm test`, `pnpm build`, and all 53 Playwright tests.
+
 **Social share preview (2026-09-09):** the web app now includes a branded
 four-player-board Open Graph/Twitter image at
 [`apps/web/public/social-preview.png`](../apps/web/public/social-preview.png).

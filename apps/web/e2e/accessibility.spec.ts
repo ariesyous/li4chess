@@ -48,6 +48,16 @@ test("keyboard-only setup, board selection, clearing, move and game controls", a
   await page.keyboard.press("Enter"); await expect(page.getByTestId("save-message")).toContainText("Saved on this browser");
 });
 
+test("starting a game returns the viewport to the game", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 600 });
+  await page.goto("/");
+  const start = page.getByRole("button", { name: "Start game" });
+  await start.scrollIntoViewIfNeeded();
+  await start.click();
+  await expect(page.locator(".chess-board")).toBeVisible();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+});
+
 test("arrow navigation follows every rotation and player panels follow the same directions", async ({ page }) => {
   await page.goto("/");
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
