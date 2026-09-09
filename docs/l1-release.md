@@ -31,14 +31,17 @@ record for the immutable tag.
 ## Update and rollback
 
 The real workflow is [Deploy to GitHub Pages](../.github/workflows/deploy-pages.yml):
-it builds `apps/web/dist` with the Vite `/li4chess/` base and deploys on every
+it builds `apps/web/dist` with the base path reported by `configure-pages`
+(`/` for li4chess.org, `/li4chess/` for the project URL) and deploys on every
 push to `main`, or when manually dispatched. Creating a Git tag or GitHub release
 does **not** deploy Pages.
 
 To update: validate the candidate with `pnpm lint`, `pnpm test`, `pnpm build`,
 and `pnpm --filter @li4chess/web test:e2e`; merge or fast-forward the verified
 commit to `main`; wait for both CI and the Pages workflow to succeed; then load
-`https://ariesyous.github.io/li4chess/` and check assets and a local CPU turn.
+`https://li4chess.org/` and check assets and a local CPU turn. The old project
+URL redirects to the configured custom domain. Local development and ordinary
+`pnpm build` retain `/li4chess/`; deployment overrides the base explicitly.
 
 To roll back: identify a known-good commit or immutable release tag, create a
 revert commit (preferred, preserving history) or deliberately fast-forward

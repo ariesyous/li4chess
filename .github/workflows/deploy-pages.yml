@@ -29,11 +29,15 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter @li4chess/web build
-
       - uses: actions/configure-pages@v5
+        id: pages
         with:
           enablement: true
+
+      # Custom domains serve at /; project sites serve at /<repository>/.
+      - run: pnpm --filter @li4chess/web build --base "$PAGES_BASE_PATH/"
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

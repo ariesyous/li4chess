@@ -1,5 +1,10 @@
 # L1: polished local/CPU GitHub Pages checkpoint
 
+Operational correction (2026-09-09): Pages now serves the configured custom
+domain [li4chess.org](https://li4chess.org/), and the old project URL redirects
+there. Builds use the actual Pages base path. The accepted scope below is retained
+as historical context; Cloudflare hosting and multiplayer remain shelved.
+
 Accepted direction: 2026-09-08, D14 in [project state](project-state.md).
 This is L1 in the [roadmap](../ROADMAP.md), following the bounded
 [Lichess-style UI sprint](ui-sprint-lichess.md). It replaces the custom-domain
