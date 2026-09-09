@@ -19,16 +19,16 @@ all four original guests consent, then deliberately enter and ready in a new roo
 The original result and replay remain intact. Hosted activation remains outside
 the implemented scope.
 
-The immediate goal is a polished, free, ad-free local/CPU release on the existing
-[GitHub Pages site](https://ariesyous.github.io/li4chess/) that requires little
-ongoing maintainer time. The bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
-prepares the interface, board and pieces for a complete local-play review,
-deployment verification and a tagged release.
+li4chess is released as a polished, free, ad-free local/CPU game on the existing
+[GitHub Pages site](https://ariesyous.github.io/li4chess/), intended to require
+little ongoing maintainer time. The bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
+prepared the interface, board and pieces for the release checkpoint.
 The visual refresh is complete, with [before/after captures and validation](docs/ui1-evidence/README.md).
 It uses a warm continuous board, four-color Cburnett SVG pieces, compact controls,
 directional seat panels and consistent setup/history/result surfaces. Exact sources,
 licenses and recoloring are recorded in [third-party notices](THIRD_PARTY_NOTICES.md),
-also linked from the app. The L1 release checkpoint remains planned.
+also linked from the app. See the [L1 release handoff](docs/local-launch-handoff.md)
+for release notes, limitations, and the Pages update/rollback procedure.
 Human players share one device; CPU opponents run in the browser. Cloudflare,
 the li4chess.org launch and hosted multiplayer are shelved. Completed local
 private multiplayer and its evidence remain available for development, with no
@@ -85,8 +85,8 @@ cover all levels, four positions and desktop/tablet/phone browser sizes. The for
 `chooseCpuMove` remains available to historical comparison consumers;
 the browser uses `chooseBoundedCpuMove`. This is not a playing-strength claim.
 Games now save automatically on this browser after every accepted action. Use
-**Resume saved game** on setup after refreshing, or **Save game** to retry a failed
-save. Resume validates the state-v2 checkpoint and action journal through replay-v2,
+**Resume saved game** on setup when you have a prior local save, or **Save game**
+to retry a failed save. Resume validates the state-v2 checkpoint and action journal through replay-v2,
 retaining seat difficulty, scores, randomness and producer lineage. Starting a new
 game replaces the one local save. Export a replay for a portable backup, especially
 if browser storage is unavailable. The responsive frame has four directional seat panels,

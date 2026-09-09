@@ -21,9 +21,9 @@ export function SeatSetupScreen({ onStart, onResume, resumeBusy, resumeMessage }
   return <main className="setup-shell">
     <header className="setup-header"><h1>li<span>4</span>chess</h1><p className="eyebrow">Four players. One board.</p>
       <p>Share a game with friends, take on the CPUs, or watch all four play. Free-for-all chess, right here in your browser.</p></header>
-    <section className="resume-card" aria-label="Saved local game">
+    <section className="resume-card" aria-label="Local game recovery">
       <button type="button" onClick={onResume} disabled={resumeBusy}><Icon name="reset" />Resume saved game</button>
-      <p>Autosaved on this browser. Start a new game below to replace it, or resume after a refresh.</p>
+      <p>Resume a game previously saved in this browser. Starting a new game below replaces that local save.</p>
     </section>
     {resumeMessage && <p className="notice" role="status">{resumeMessage}</p>}
     <h2>Choose your seats</h2><div className="seat-grid">{ALL_COLORS.map(color => <section key={color} className="seat-row"

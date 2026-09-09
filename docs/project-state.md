@@ -1,12 +1,21 @@
 # Project state
 
-Last updated: 2026-09-08.
+Last updated: 2026-09-09.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**L1 release checkpoint complete (2026-09-09):** the local/CPU GitHub Pages
+release is tagged and its immutable GitHub release records the exact commit,
+final CI and Pages workflow links, and hosted browser review. The release scope,
+limitations and update/rollback procedure are in [l1-release.md](l1-release.md).
+The live site remains [https://ariesyous.github.io/li4chess/](https://ariesyous.github.io/li4chess/).
+Hosted verification is explicitly browser desktop and mobile emulation, not
+physical-device or screen-reader evidence. L1 fixed misleading setup recovery
+copy: the resume control no longer implies a browser-local save exists.
 
 **Owner letters default off (2026-09-08):** new local games with no saved display
 choice start with **Show piece-owner letters** unchecked, including when browser
@@ -556,12 +565,7 @@ engineering contracts retain their evidence; deferred features are not commitmen
 
 ## Next actionable tasks
 
-1. **L1: polished local/CPU GitHub Pages checkpoint.** UI1 is complete with
-   [evidence](ui1-evidence/README.md). Follow the
-   [bounded release handoff](local-launch-handoff.md): review the full local
-   experience, fix concrete defects, run required checks, verify the existing
-   /li4chess/ deployment and record a release tag, limitations and rollback.
-2. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
+1. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
    no promised feature schedule. Cloudflare/domain launch and hosted multiplayer
    are shelved. The [preserved hosted handoff](m3-hosted-handoff.md) needs a new
    scope decision. Matchmaking/ratings and other ideas have no active task queue.

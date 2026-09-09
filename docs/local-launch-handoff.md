@@ -1,4 +1,4 @@
-# L1: polished local/CPU GitHub Pages checkpoint after UI1
+# L1: polished local/CPU GitHub Pages checkpoint
 
 Accepted direction: 2026-09-08, D14 in [project state](project-state.md).
 This is L1 in the [roadmap](../ROADMAP.md), following the bounded
@@ -10,16 +10,31 @@ Deliver a polished standalone browser game at the existing
 players sharing one device and optional CPU seats. Preserve completed local
 multiplayer and all rules/bot/replay evidence. There is no scheduled hosted follow-up.
 
-## Release work and completion evidence
+## Completed release work and completion evidence
 
-UI1 is complete with [local validation and captures](ui1-evidence/README.md).
-Its implementation is on `codex/ui1-lichess-refresh`; it was not merged, deployed
-or tagged by the UI1 task. Carry forward [piece attribution](../THIRD_PARTY_NOTICES.md).
-L1 still needs the release-revision CI and actual Pages HTTPS checks below.
-The maintainer subsequently authorized publishing UI1 and its owner-letter toggle
-through [PR #20](https://github.com/ariesyous/li4chess/pull/20). Carry its merge,
-CI and Pages workflow results into L1; publication alone does not finish the
-release-tagging checkpoint.
+UI1 was published through [PR #20](https://github.com/ariesyous/li4chess/pull/20).
+The owner-letter default follow-up, [PR #21](https://github.com/ariesyous/li4chess/pull/21),
+landed at `88eff78`; its [CI](https://github.com/ariesyous/li4chess/actions/runs/34275820654)
+and [Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/34275820649)
+passed. The hosted site loaded under `/li4chess/` with assets, CPU Worker play,
+owner letters off by default, responsive controls, local save/resume, and replay
+export. The release candidate also corrects the setup recovery copy: it no longer
+claims a save exists before one has been created.
+
+Hosted review on 2026-09-09 at that deployed `88eff78` baseline used Chromium
+desktop and a 360 × 800 browser emulation (not a physical phone). It completed
+a four-CPU level-1 game in 177 moves and rendered eliminations, the points ledger
+and final places; completed a hotseat rotation; completed human/CPU turn
+scheduling; reset/cancelled a local game; refreshed and resumed a saved game;
+exported a replay; and imported the validated terminal hotseat fixture, rendering
+the threefold-draw result. The mobile layout kept a 337 px board within a 345 px
+document width and a 317 px Start Game control within the 360 px viewport. The
+final release deployment rechecks the only candidate change—the recovery wording—
+alongside asset and CPU-Worker loading.
+
+The tagged release's exact commit, final CI and Pages run links, and hosted review
+record are published in its GitHub release. [L1 release notes](l1-release.md)
+define the product boundary, known limitations and repeatable Pages procedure.
 
 1. Verify the current main revision, working tree and CI before implementation.
    Preserve existing work; historical acceptance does not validate a new release.
@@ -49,8 +64,7 @@ release-tagging checkpoint.
    to restore a known-good revision and verify its resulting deployment; do not
    imply that creating a tag deploys it. Mark L1 complete only with this evidence.
 
-This documentation task does not deploy or tag anything. L1 is a bounded release
-checkpoint, not a claim that the game can never improve. Afterwards, focus on bug
-fixes and occasional feedback without a promised feature schedule. The preserved
-[hosted multiplayer handoff](m3-hosted-handoff.md) requires a new maintainer scope
-decision before resuming.
+L1 is a bounded release checkpoint, not a claim that the game can never improve.
+Afterwards, focus on bug fixes and occasional feedback without a promised feature
+schedule. The preserved [hosted multiplayer handoff](m3-hosted-handoff.md)
+requires a new maintainer scope decision before resuming.

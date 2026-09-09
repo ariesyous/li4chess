@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-09-08. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-09-09. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -76,7 +76,7 @@ capabilities do not make a milestone complete.
 | M1 | Compatible, versioned FFA rules | Complete | Existing engine | The game behaves as a Chess.com FFA player expects. |
 | M2 | Responsive local and CPU play | Complete | M1 for final validation | Anyone can play an enjoyable game on desktop or phone. |
 | UI1 | Lichess-style interface, board and icons | Complete | M2 | A familiar, cohesive four-player interface. |
-| L1 | Polished local/CPU GitHub Pages checkpoint | Planned — after UI1 | M1, M2, UI1 | Visitors can play a verified release without an account or remote opponents. |
+| L1 | Polished local/CPU GitHub Pages checkpoint | Complete — 2026-09-09 | M1, M2, UI1 | Visitors can play a verified release without an account or remote opponents. |
 | M3 | Reliable friend-invite online game service | Paused — hosted plans shelved | M1; new scope decision required | Four friends could finish and recover a hosted casual game if resumed. |
 | M4 | Public matchmaking and rated beta | Deferred | Demand and operating capacity after M3 | Players can find opponents and build a credible rating. |
 | M5 | Analysis and learning | Deferred — uncommitted ideas | Player interest | Players can understand and improve their play. |
@@ -105,8 +105,11 @@ assessment establishes a clear reason to replace it.
 
 ### L1 — Polished local/CPU GitHub Pages checkpoint
 
-**Planned; after UI1.** Use the existing GitHub Pages workflow and /li4chess/
-project path. See the [release handoff](docs/local-launch-handoff.md).
+**Complete (2026-09-09).** The checkpoint retains the existing GitHub Pages
+workflow and `/li4chess/` project path. The [release handoff](docs/local-launch-handoff.md)
+records the candidate evidence, release procedure, known limitations and the
+post-release maintenance boundary. The release tag targets this checkpoint; tag
+creation does not deploy—only a `main` push or workflow dispatch deploys Pages.
 
 **Exit criteria:** review setup, play, CPU turns, saving/resuming and results;
 resolve concrete release-blocking usability/reliability defects. Required lint,
@@ -117,10 +120,9 @@ deployed revision and hosted checks separately from local evidence. The site
 clearly describes local/CPU play; a release tag, known limitations and repeatable
 deployment/rollback instructions establish the checkpoint.
 
-Keep this bounded: no domain migration, Cloudflare provisioning, hosted
-multiplayer or open-ended bot tuning. This documentation update does not deploy
-or tag a release; those are later delivery steps. After L1, stop feature expansion
-and focus on bugs and occasional feedback unless the maintainer selects new work.
+The release remains bounded: no domain migration, Cloudflare provisioning, hosted
+multiplayer or open-ended bot tuning. After L1, focus on bugs and occasional
+feedback unless the maintainer selects new work.
 
 ### M1 — Compatible, versioned FFA rules
 
