@@ -45,6 +45,9 @@ jobs:
       - name: Run browser tests
         run: pnpm --filter @li4chess/web test:e2e
 
+      - name: Verify bundled default hybrid and asset failure recovery
+        run: pnpm --filter @li4chess/web test:e2e:production
+
       - name: Retain failed local-play browser diagnostics
         if: failure()
         uses: actions/upload-artifact@v4

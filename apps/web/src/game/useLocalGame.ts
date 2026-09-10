@@ -13,7 +13,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { canonicalJson, recordReplay, replayCheckpoint, resolveAction, serializeGameState, sha256 } from "@li4chess/protocol";
 import type { ActionRequest } from "@li4chess/protocol";
-import { requestCpu } from "./cpuClient.js";
+import { requestHybridCpu as requestCpu } from "./cpuClient.js";
 import type { CpuFailure } from "./cpuClient.js";
 import { saveLocalGame } from "./localSave.js";
 import type { LocalJournal, ResumedGame } from "./localSave.js";

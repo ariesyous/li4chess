@@ -1,0 +1,85 @@
+{
+  "implementationCommit": "275f07da753b71227ff935b5bd0fb345a69a9240",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1949,
+      "sha256": "766cba7a0db81526b4295dcbcc44838075fcf71c5807becabd2e431537b6eeec"
+    },
+    {
+      "path": "campaign/controls.jsonl.gz",
+      "bytes": 143826,
+      "sha256": "1f2cb59543c571f1d9092361da7b934ccd108f3fb05ee265a3ff9049a8397edf"
+    },
+    {
+      "path": "campaign/mixed.jsonl.gz",
+      "bytes": 605241,
+      "sha256": "51f67f7226dd0e6bb2097cbe00593fdbb341282082b780a597983c1312a0baf7"
+    },
+    {
+      "path": "campaign/run.json",
+      "bytes": 2763,
+      "sha256": "0d8608a9e9e3d7671a6fe217f818be3ba09600d31288bd6e1215a8828c51b37f"
+    },
+    {
+      "path": "campaign/summary.json",
+      "bytes": 7134,
+      "sha256": "fc929d61c5bb4560d24b62f2fc7a3eadce7e2f0d6317613c3df41c35c1c8c47c"
+    },
+    {
+      "path": "smoke/controls.jsonl.gz",
+      "bytes": 4675,
+      "sha256": "66e7516931138e8d9caab3099bf6f3352d85278a2300a1a042e03b01f8516d22"
+    },
+    {
+      "path": "smoke/mixed.jsonl.gz",
+      "bytes": 21088,
+      "sha256": "b75d6b8822b18b91d00b72436b8dccf617a24854be7e37ff8668e37998ef2fdf"
+    },
+    {
+      "path": "smoke/run.json",
+      "bytes": 2838,
+      "sha256": "85b87f1b85dfae3749f4e586f64c75d8687064b1c5b7b396d728e667bfefd19a"
+    },
+    {
+      "path": "smoke/summary.json",
+      "bytes": 6532,
+      "sha256": "c01d5f9e9ef8084d608243807dee0fdc9a722be0acb215dba5e8516e41449e45"
+    },
+    {
+      "path": "validation/build.log",
+      "bytes": 2644,
+      "sha256": "d3e3217c24b46292409245bcab91c57f7e3c7da5e2ace55b93d1d2514efa27d6"
+    },
+    {
+      "path": "validation/campaign.log",
+      "bytes": 9180,
+      "sha256": "447ab76c82666e137019aca71614eb15e5c8bbadc00ab1bcf67378dd0a615d56"
+    },
+    {
+      "path": "validation/ci.json",
+      "bytes": 2877,
+      "sha256": "9ed472c7bc0dd502936d82ae947258df2416c4f740a2dcbd5364a51c44b60e14"
+    },
+    {
+      "path": "validation/ci.log",
+      "bytes": 125499,
+      "sha256": "f98361d92de5d405bc703f008450eb79e5ae325c47114d03d243674a14594dcb"
+    },
+    {
+      "path": "validation/lint.log",
+      "bytes": 2033,
+      "sha256": "bc98f1ac1ff762aaf625a8e60701406efd3fcfa6138891268b1a648778cd63c3"
+    },
+    {
+      "path": "validation/runtime-smoke.log",
+      "bytes": 2268,
+      "sha256": "e9c50db2d6a0be849b155790b88965db33cdbfcd224154a7b2d3bbbb644e2ba1"
+    },
+    {
+      "path": "validation/test.log",
+      "bytes": 16262,
+      "sha256": "901714edc4e826d9a28e2a90a01fa62a7148f3fd00a2e6baec173dd8a0d3f3cf"
+    }
+  ]
+}

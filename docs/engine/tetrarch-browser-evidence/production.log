@@ -1,0 +1,25 @@
+
+> @li4chess/web@0.0.0 test:e2e:production C:\Users\sith\Code\li4chess\apps\web
+> playwright test --config playwright.production.config.ts
+
+[WebServer] npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "recursive". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] (node:27828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:22660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\hybrid.spec.ts:29:1 › default CPU loads real WASM/NNUE and returns a Tetrarch move (1.4s)
+  ok 2 e2e\hybrid.spec.ts:45:1 › missing network uses native search without stopping the game (1.3s)
+  ok 3 e2e\hybrid.spec.ts:56:1 › corrupt network fails integrity validation and uses native search (1.3s)
+  ok 4 e2e\hybrid.spec.ts:69:1 › default hybrid remains usable under fourfold CPU throttling (1.7s)
+
+  4 passed (9.4s)

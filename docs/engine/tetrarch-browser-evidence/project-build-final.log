@@ -1,0 +1,19 @@
+
+> @li4chess/web@0.0.0 build C:\Users\sith\Code\li4chess\apps\web
+> node ../../packages/tetrarch-engine/scripts/verify-runtime.mjs && tsc -p tsconfig.json --noEmit && vite build
+
+Pinned browser runtime and vendor inputs verified
+vite v5.4.21 building for production...
+transforming...
+✓ 101 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                1.78 kB │ gzip:  0.55 kB
+dist/assets/cpu.native.worker-shkKWfEl.js     35.07 kB
+dist/assets/tetrarch-rEP-iVNV.wasm            46.79 kB
+dist/assets/cpu.worker-f35ntzbI.js            47.81 kB
+dist/assets/params-DkkuhD0M.bin               85.87 kB
+dist/assets/net-ffa1-DkZdNghk.nnue         1,976.88 kB
+dist/assets/index-CyWbkTzf.css                10.53 kB │ gzip:  3.03 kB
+dist/assets/index-BElkO6v6.js                261.56 kB │ gzip: 83.45 kB
+✓ built in 1.08s

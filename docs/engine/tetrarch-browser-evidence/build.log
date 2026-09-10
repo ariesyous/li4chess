@@ -1,0 +1,54 @@
+
+> li4chess@0.0.0 build C:\Users\sith\Code\li4chess
+> turbo run build
+
+• turbo 2.10.12
+
+   • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+   • Running build in 11 packages
+   • Remote caching disabled
+
+@li4chess/engine:build: cache hit, replaying logs 82c6b343984abe8e
+@li4chess/engine:build: $ tsc -p tsconfig.json
+@li4chess/ui-kit:build: cache hit, replaying logs 93e7156f153c7227
+@li4chess/protocol:build: cache hit, replaying logs 79aac8e9622699b6
+@li4chess/ui-kit:build: $ tsc -p tsconfig.json
+@li4chess/protocol:build: $ tsc -p tsconfig.json
+@li4chess/bot:build: cache hit, replaying logs a0c335d4abd986ef
+@li4chess/persistence:build: cache hit, replaying logs 9b50a45ab3c4f93a
+@li4chess/bot:build: $ tsc -p tsconfig.json
+@li4chess/persistence:build: $ tsc --noEmit
+@li4chess/architecture-spike:build: cache miss, executing 41800acb125a1ce1
+@li4chess/game-room:build: cache hit, replaying logs ba98ab097baf2f7d
+@li4chess/game-room:build: $ tsc --noEmit
+@li4chess/worker:build: cache miss, executing 0df484288aa73d0f
+@li4chess/tetrarch-engine:build: cache hit, replaying logs 5a147c3d74f33e26
+@li4chess/tetrarch-engine:build: $ tsc
+@li4chess/arena:build: cache miss, executing fe81af2aa84e0058
+@li4chess/web:build: cache miss, executing b4c154daf3b8a51a
+@li4chess/architecture-spike:build: $ tsc --noEmit
+@li4chess/worker:build: $ tsc -p tsconfig.json
+@li4chess/arena:build: $ tsc -p tsconfig.json
+@li4chess/web:build: $ node ../../packages/tetrarch-engine/scripts/verify-runtime.mjs && tsc -p tsconfig.json --noEmit && vite build
+@li4chess/web:build: Pinned browser runtime and vendor inputs verified
+@li4chess/web:build: vite v5.4.21 building for production...
+@li4chess/web:build: transforming...
+@li4chess/web:build: ✓ 101 modules transformed.
+@li4chess/web:build: rendering chunks...
+@li4chess/web:build: computing gzip size...
+@li4chess/web:build: dist/index.html                                1.78 kB │ gzip:  0.55 kB
+@li4chess/web:build: dist/assets/cpu.native.worker-shkKWfEl.js     35.07 kB
+@li4chess/web:build: dist/assets/tetrarch-rEP-iVNV.wasm            46.79 kB
+@li4chess/web:build: dist/assets/cpu.worker-f35ntzbI.js            47.81 kB
+@li4chess/web:build: dist/assets/params-DkkuhD0M.bin               85.87 kB
+@li4chess/web:build: dist/assets/net-ffa1-DkZdNghk.nnue         1,976.88 kB
+@li4chess/web:build: dist/assets/index-CyWbkTzf.css                10.53 kB │ gzip:  3.03 kB
+@li4chess/web:build: dist/assets/index-Bks-5uDT.js                261.56 kB │ gzip: 83.45 kB
+@li4chess/web:build: ✓ built in 1.09s
+
+ Tasks:    11 successful, 11 total
+Cached:    7 cached, 11 total
+  Time:    5.136s 
+
+ WARNING  no output files found for task @li4chess/architecture-spike#build. Please check your `outputs` key in `turbo.json`
+ WARNING  no output files found for task @li4chess/worker#build. Please check your `outputs` key in `turbo.json`

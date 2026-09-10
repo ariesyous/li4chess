@@ -45,6 +45,23 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
+The explicitly requested 2026-09-09
+[Tetrarch v8 integration spike](docs/engine/tetrarch-v8-report.md) is separate
+from the completed release checkpoint. Its decision is **NO-GO for unmodified
+v8**: WASM/NNUE work, but search legality, scoring and terminal utility conflict
+with the canonical rules. The research package remains isolated; no production
+switch or automatic follow-on engine research is authorized by this result.
+The maintainer subsequently accepted a [bounded hybrid experiment](docs/engine/tetrarch-hybrid-plan.md):
+Tetrarch advises, li4chess validates/adjudicates, and the existing bot handles
+unsupported roots or adviser failures. The [completed arena comparison](docs/engine/tetrarch-hybrid-report.md)
+replayed all 20 games; Tetrarch supplied 980/985 hybrid moves, with five native EP
+fallbacks. Its nine first places in 14 completed mixed games are limited evidence
+at the declared budgets; two mixed games were capped. This does not authorize a
+browser switch or an automatic follow-on campaign by itself. The maintainer then
+explicitly selected the [browser hybrid as default](docs/engine/tetrarch-browser-default.md).
+The branch implements that choice with canonical authority, native recovery,
+verified runtime assets and bounded difficulty tiers. Deployment remains separate.
+
 The 2026-09-09 deployment repair accommodates the existing li4chess.org custom
 domain on GitHub Pages. Its build base follows actual Pages settings; the older
 project URL redirects there. This corrects the historical domain assumptions

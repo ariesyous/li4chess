@@ -77,15 +77,15 @@ explicit checkpoint under the current build, retaining a source replay hash.
 The implemented ruleset is `li4chess-ffa-standard-v1`. M1 is complete; its
 validation and CI evidence is recorded in [project state](docs/project-state.md).
 
-CPU search runs in a dedicated Web Worker using bounded iterative production
-search. Five resource policies retain production evaluation; only completed
-iterations drive evaluated choices. Cancellation terminates the Worker, replies
-must match the current game/state/seat, and failures recover from current legal
-moves. Budgets and acceptance thresholds are in [M2 acceptance](docs/m2-acceptance.md);
-[fresh production calibration and complete-game evidence](docs/m2-evidence/README.md)
-cover all levels, four positions and desktop/tablet/phone browser sizes. The former synchronous
-`chooseCpuMove` remains available to historical comparison consumers;
-the browser uses `chooseBoundedCpuMove`. This is not a playing-strength claim.
+CPU turns default to the Tetrarch advisory hybrid in a dedicated Web Worker.
+li4chess validates every move and owns all rules and results. Unsupported roots,
+missing/corrupt assets and adviser failures use the existing bounded native bot;
+a failed or timed-out Worker is replaced by a native Worker. If both Workers fail,
+the current legal list provides final recovery. Cancellation terminates active
+work and replies must match the current game/state/seat. The five hybrid resource
+tiers and runtime boundaries are in [browser integration](docs/engine/tetrarch-browser-default.md).
+The [M2 acceptance](docs/m2-acceptance.md) and [native calibration](docs/m2-evidence/README.md)
+remain historical evidence for the native fallback, not calibration of Tetrarch.
 Games now save automatically on this browser after every accepted action. Use
 **Resume saved game** on setup when you have a prior local save, or **Save game**
 to retry a failed save. Resume validates the state-v2 checkpoint and action journal through replay-v2,
@@ -99,6 +99,17 @@ opt-in local private multiplayer has authoritative clock/disconnect UI. Hosted
 public play remains subject to the M3 gates.
 
 ## Monorepo layout
+
+The isolated [Tetrarch v8 integration spike](docs/engine/tetrarch-v8-report.md)
+proves C/WASM and FFA NNUE execution, but rejects unmodified v8 for production
+because its search rules conflict with canonical FFA scoring and legality.
+Its initial no-go finding describes faithful rules compatibility. The maintainer
+subsequently selected the advisory hybrid as the default browser CPU, with native
+fallback and canonical game authority.
+The accepted [hybrid follow-up](docs/engine/tetrarch-hybrid-plan.md) adds an opt-in
+arena adviser with canonical validation and bounded native fallback. See the
+[20-game result](docs/engine/tetrarch-hybrid-report.md) and
+[package instructions](packages/tetrarch-engine/README.md) to run it locally.
 
 The TypeScript monorepo uses pnpm workspaces and Turborepo.
 
@@ -212,13 +223,13 @@ acceptance needs; M3 is paused and incomplete. The
 
 ## Bot research and benchmarks
 
-The production bot includes outcome-aware scoring, endgame guidance, and
+The native fallback bot includes outcome-aware scoring, endgame guidance, and
 selection among moves with comparable evaluated scores. The laboratory adds
 bounded iterative search with paranoid and Maxⁿ strategies, optional
 transposition tables and quiescence, and a tactical position corpus. Experimental
 search has not been promoted to the browser's production bot.
 
-Levels 3–5 also use bounded king-and-pawn endgame guidance for clear promotion
+Native fallback levels 3–5 also use bounded king-and-pawn endgame guidance for clear promotion
 routes and king escort. The [endgame follow-up](docs/engine/endgame-evidence-20260908/README.md)
 records the user replay regression, equal-budget comparison and remaining
 shuffling limitations; it does not establish general playing strength.

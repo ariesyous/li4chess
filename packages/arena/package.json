@@ -10,11 +10,13 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "arena": "vite-node src/cli.ts",
     "compare-production": "vite-node src/compare-production.ts",
+    "compare-tetrarch": "vite-node src/compare-tetrarch.ts",
     "bench": "vite-node src/bench.ts",
     "experiments": "vite-node src/experiments.ts",
     "report": "vite-node src/report.ts"
   },
   "dependencies": {
+    "@li4chess/tetrarch-engine": "workspace:*",
     "@li4chess/protocol": "workspace:*",
     "@li4chess/engine": "workspace:*",
     "@li4chess/bot": "workspace:*"

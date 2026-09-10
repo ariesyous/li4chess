@@ -1,0 +1,82 @@
+
+> @li4chess/tetrarch-engine@0.0.0 smoke:hybrid C:\Users\sith\Code\li4chess\packages\tetrarch-engine
+> vite-node scripts/hybrid-smoke.ts
+
+{
+  "passed": true,
+  "checks": [
+    "actual NNUE/WASM worker",
+    "canonical move",
+    "deterministic node search",
+    "in-flight cancellation",
+    "worker replacement recovery"
+  ],
+  "first": {
+    "engineUsed": "tetrarch-v8",
+    "revision": "4a35cea06b710a6633302c2226ebfebbba52d7a4",
+    "stateId": "sha256:65ad689e0b6dcbff26ef3a771d8289f5985a9d75e7a643149847a3b6a7959141",
+    "fallback": false,
+    "capability": {
+      "canAdvise": true,
+      "reasons": [],
+      "modelLimitations": [
+        "descendant-active-king-captures",
+        "descendant-en-passant-differences",
+        "score-attribution",
+        "survival-terminal-utility",
+        "prior-repetition-history-not-transferred",
+        "draw-and-claim-horizon"
+      ]
+    },
+    "external": {
+      "best": 10249,
+      "score": -698,
+      "depth": 3,
+      "nodes": 20000,
+      "elapsedMs": 114.1259,
+      "nodesPerSecond": 175245.058308412,
+      "pv": [
+        10249
+      ],
+      "nnueLoaded": true,
+      "memoryBytes": 33554432
+    },
+    "nodes": 20000,
+    "depthReached": 3,
+    "elapsedMs": 160.46979999999996
+  },
+  "recovered": {
+    "engineUsed": "tetrarch-v8",
+    "revision": "4a35cea06b710a6633302c2226ebfebbba52d7a4",
+    "stateId": "sha256:65ad689e0b6dcbff26ef3a771d8289f5985a9d75e7a643149847a3b6a7959141",
+    "fallback": false,
+    "capability": {
+      "canAdvise": true,
+      "reasons": [],
+      "modelLimitations": [
+        "descendant-active-king-captures",
+        "descendant-en-passant-differences",
+        "score-attribution",
+        "survival-terminal-utility",
+        "prior-repetition-history-not-transferred",
+        "draw-and-claim-horizon"
+      ]
+    },
+    "external": {
+      "best": 10249,
+      "score": -698,
+      "depth": 3,
+      "nodes": 20000,
+      "elapsedMs": 117.73270000000002,
+      "nodesPerSecond": 169876.3385193748,
+      "pv": [
+        10249
+      ],
+      "nnueLoaded": true,
+      "memoryBytes": 33554432
+    },
+    "nodes": 20000,
+    "depthReached": 3,
+    "elapsedMs": 160.0936999999999
+  }
+}

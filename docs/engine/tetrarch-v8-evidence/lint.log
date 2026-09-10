@@ -1,0 +1,37 @@
+
+> li4chess@0.0.0 lint C:\Users\sith\Code\li4chess
+> turbo run lint "--force"
+
+• turbo 2.10.12
+
+   • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+   • Running lint in 11 packages
+   • Remote caching disabled
+
+@li4chess/architecture-spike:lint: cache bypass, force executing 99ee6b727a3970f8
+@li4chess/bot:lint: cache bypass, force executing 5974661f4e306abf
+@li4chess/web:lint: cache bypass, force executing d9a209295851e816
+@li4chess/protocol:lint: cache bypass, force executing 4b96cdadd83850fc
+@li4chess/tetrarch-engine:lint: cache bypass, force executing d7e5125a2931a7c8
+@li4chess/engine:lint: cache bypass, force executing a91e44b8647d0926
+@li4chess/persistence:lint: cache bypass, force executing 6d1a5a335da266a1
+@li4chess/arena:lint: cache bypass, force executing a8a7890587a4f5ee
+@li4chess/worker:lint: cache bypass, force executing 2a172c8637de805c
+@li4chess/game-room:lint: cache bypass, force executing 6c70a58be2b41165
+@li4chess/architecture-spike:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/bot:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/web:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/protocol:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/tetrarch-engine:lint: $ tsc --noEmit
+@li4chess/engine:lint: $ tsc -p tsconfig.json --noEmit
+@li4chess/persistence:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/arena:lint: $ tsc -p tsconfig.json --noEmit
+@li4chess/worker:lint: $ tsc -p tsconfig.json && tsc -p tsconfig.tools.json && tsc -p tsconfig.campaign-worker.json
+@li4chess/game-room:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/ui-kit:lint: cache bypass, force executing f8122ced7db5d26a
+@li4chess/ui-kit:lint: $ tsc -p tsconfig.json --noEmit
+
+ Tasks:    11 successful, 11 total
+Cached:    0 cached, 11 total
+  Time:    9.525s 
+

@@ -1,0 +1,37 @@
+
+> li4chess@0.0.0 lint C:\Users\sith\Code\li4chess
+> turbo run lint
+
+• turbo 2.10.12
+
+   • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+   • Running lint in 11 packages
+   • Remote caching disabled
+
+@li4chess/tetrarch-engine:lint: cache miss, executing 953a627e4651554e
+@li4chess/protocol:lint: cache miss, executing 399bef9d511b7984
+@li4chess/game-room:lint: cache miss, executing 4b142c86db088471
+@li4chess/bot:lint: cache miss, executing f0d0a980bc664136
+@li4chess/web:lint: cache miss, executing 5ff81ad1bb46c29c
+@li4chess/arena:lint: cache miss, executing e0e7417b5e61b8ab
+@li4chess/persistence:lint: cache miss, executing 4b8a93285591c67d
+@li4chess/worker:lint: cache miss, executing 848bfff31dfdbaab
+@li4chess/architecture-spike:lint: cache miss, executing 7a0ba875111f8deb
+@li4chess/engine:lint: cache miss, executing 8c26269fa21bf985
+@li4chess/tetrarch-engine:lint: $ tsc --noEmit
+@li4chess/protocol:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/game-room:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/bot:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/web:lint: $ tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+@li4chess/arena:lint: $ tsc -p tsconfig.json --noEmit
+@li4chess/persistence:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/worker:lint: $ tsc -p tsconfig.json && tsc -p tsconfig.tools.json && tsc -p tsconfig.campaign-worker.json
+@li4chess/architecture-spike:lint: $ tsc --noEmit && tsc -p tsconfig.tests.json
+@li4chess/engine:lint: $ tsc -p tsconfig.json --noEmit
+@li4chess/ui-kit:lint: cache miss, executing 79c54176dafd4857
+@li4chess/ui-kit:lint: $ tsc -p tsconfig.json --noEmit
+
+ Tasks:    11 successful, 11 total
+Cached:    0 cached, 11 total
+  Time:    9.295s 
+

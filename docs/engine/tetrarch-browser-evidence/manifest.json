@@ -1,0 +1,59 @@
+{
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1380,
+      "sha256": "2bc4d3b2f4ac46cea37196138e34a17fcb53046c271d26524567ee0c37c91592"
+    },
+    {
+      "path": "browser.log",
+      "bytes": 8268,
+      "sha256": "31296bbef373ef7cf3a2f13a895f168c5a53d2f6d488e83327a996b087306cb9"
+    },
+    {
+      "path": "build.log",
+      "bytes": 3126,
+      "sha256": "04af0f4b2ffe25da9728d1e7d12cc4cb92c4bfb0d0006b01b5e5a8447ae69718"
+    },
+    {
+      "path": "lint.log",
+      "bytes": 2033,
+      "sha256": "3cbe428a8ad6561e813d4beda69405523631632a9002dcc4118a573ed47fcde2"
+    },
+    {
+      "path": "production.log",
+      "bytes": 2005,
+      "sha256": "8ed9f046510d81b2f202f062294ee7222f2de1aff197d8cce1fdf34266f7b96a"
+    },
+    {
+      "path": "project-build-final.log",
+      "bytes": 892,
+      "sha256": "511fd386f989b34b9e292f993208f94da05dd94d79785a5b5d88fe0f7fb44809"
+    },
+    {
+      "path": "project-production-final.log",
+      "bytes": 2005,
+      "sha256": "6fb77c4c78e7d5ad4ca61e55d16d9cd54967c2f4c9d8d5d230a06111a0bda58d"
+    },
+    {
+      "path": "root-build.log",
+      "bytes": 905,
+      "sha256": "c6696aad5263e3eb26cbbb3e5c41e993bc475252f6c5d9219b8c36043677653c"
+    },
+    {
+      "path": "root-production-fixed.log",
+      "bytes": 2003,
+      "sha256": "32f0ca605df57e07121e7b42a26b08c73cb78046fc74064e1e80eb1e36e7054a"
+    },
+    {
+      "path": "root-production.log",
+      "bytes": 10712,
+      "sha256": "fce7cb1f23c281efad22249cc0dee8b939e93e50a1dc2fae361621d47f202620"
+    },
+    {
+      "path": "test.log",
+      "bytes": 16117,
+      "sha256": "c4f03f2b550ed019d9c5ff9e30b3a2c8328410971498fa9f77685fd878ed19f1"
+    }
+  ]
+}

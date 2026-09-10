@@ -1,0 +1,296 @@
+
+> li4chess@0.0.0 test C:\Users\sith\Code\li4chess
+> turbo run test "--force" "--concurrency=1"
+
+• turbo 2.10.12
+
+   • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+   • Running test in 11 packages
+   • Remote caching disabled
+
+@li4chess/engine:build: cache bypass, force executing a4989b9a22c3705e
+@li4chess/engine:build: $ tsc -p tsconfig.json
+@li4chess/engine:test: cache bypass, force executing e67d21e964d22610
+@li4chess/engine:test: $ vitest run
+@li4chess/engine:test: 
+@li4chess/engine:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/engine
+@li4chess/engine:test: 
+@li4chess/engine:test:  ✓ test/legality.test.ts (6 tests) 42ms
+@li4chess/engine:test:  ✓ test/applyMove.test.ts (4 tests) 16ms
+@li4chess/engine:test:  ✓ test/ffa-walking.test.ts (41 tests) 148ms
+@li4chess/engine:test:  ✓ test/ffa-end.test.ts (17 tests) 185ms
+@li4chess/engine:test:  ✓ test/ffa-promotion.test.ts (36 tests) 243ms
+@li4chess/engine:test:  ✓ test/ffa-draw.test.ts (33 tests) 250ms
+@li4chess/engine:test:  ✓ test/ffa-core.test.ts (48 tests) 263ms
+@li4chess/engine:test:  ✓ test/ffa-en-passant.test.ts (48 tests) 333ms
+@li4chess/engine:test:  ✓ test/movegen.test.ts (7 tests) 15ms
+@li4chess/engine:test:  ✓ test/ffa-scoring.test.ts (60 tests) 464ms
+@li4chess/engine:test:  ✓ test/ffa-dead.test.ts (32 tests) 482ms
+@li4chess/engine:test:  ✓ test/board.test.ts (7 tests) 47ms
+@li4chess/engine:test:  ✓ test/repetition.test.ts (1 test) 17ms
+@li4chess/engine:test:  ✓ test/ffa-score-resolution.test.ts (20 tests) 171ms
+@li4chess/engine:test:  ✓ test/ffa-state-boundary.test.ts (8 tests) 78ms
+@li4chess/engine:test:  ✓ test/ffa-abort.test.ts (21 tests) 127ms
+@li4chess/engine:test:  ✓ test/setup.test.ts (5 tests) 6ms
+@li4chess/engine:test:  ✓ test/ffa-setup.test.ts (4 tests) 143ms
+@li4chess/engine:test:  ✓ test/pawns.test.ts (1 test) 5ms
+@li4chess/engine:test:  ✓ test/attacks.test.ts (3 tests) 870ms
+@li4chess/engine:test:    ✓ attackMap > agrees with isSquareAttacked throughout randomly played games 826ms
+@li4chess/engine:test:  ✓ test/ffa-castling.test.ts (64 tests) 2117ms
+@li4chess/engine:test:  ✓ test/hasLegalMove.test.ts (3 tests) 1470ms
+@li4chess/engine:test:    ✓ hasLegalMove > agrees with legalMoves throughout randomly played games 1436ms
+@li4chess/engine:test:  ✓ test/fuzz.test.ts (2 tests) 6709ms
+@li4chess/engine:test:    ✓ fuzz: random self-play games > every game terminates (either a result, or the ply cap) without throwing, across many seeds 2299ms
+@li4chess/engine:test:    ✓ fuzz: random self-play games > completed games include every color and only a unique highest scorer is winner 4408ms
+@li4chess/engine:test: 
+@li4chess/engine:test:  Test Files  23 passed (23)
+@li4chess/engine:test:       Tests  471 passed (471)
+@li4chess/engine:test:    Start at  20:26:25
+@li4chess/engine:test:    Duration  8.13s (transform 801ms, setup 0ms, collect 4.09s, tests 14.20s, environment 5ms, prepare 3.76s)
+@li4chess/engine:test: 
+@li4chess/bot:build: cache bypass, force executing 5011bab41511f1ad
+@li4chess/bot:build: $ tsc -p tsconfig.json
+@li4chess/protocol:build: cache bypass, force executing bf81064a117617eb
+@li4chess/protocol:build: $ tsc -p tsconfig.json
+@li4chess/protocol:test: cache bypass, force executing 958ebbcc359b95cc
+@li4chess/protocol:test: $ vitest run
+@li4chess/protocol:test: 
+@li4chess/protocol:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/protocol
+@li4chess/protocol:test: 
+@li4chess/protocol:test:  ✓ test/multiplayer.test.ts (19 tests) 13ms
+@li4chess/protocol:test:  ✓ test/completed-replay.test.ts (3 tests) 30ms
+@li4chess/protocol:test:  ✓ test/serialization.test.ts (9 tests) 68ms
+@li4chess/protocol:test:  ✓ test/replay.test.ts (26 tests) 778ms
+@li4chess/protocol:test:  ✓ test/node.test.ts (1 test) 1300ms
+@li4chess/protocol:test:    ✓ REPLAY-01: actual clean/dirty/development producer identities and drift detection 1299ms
+@li4chess/protocol:test: 
+@li4chess/protocol:test:  Test Files  5 passed (5)
+@li4chess/protocol:test:       Tests  58 passed (58)
+@li4chess/protocol:test:    Start at  20:26:37
+@li4chess/protocol:test:    Duration  1.77s (transform 376ms, setup 0ms, collect 1.28s, tests 2.19s, environment 1ms, prepare 704ms)
+@li4chess/protocol:test: 
+@li4chess/bot:test: cache bypass, force executing 7f445f22ceeb1e15
+@li4chess/bot:test: $ vitest run
+@li4chess/bot:test: 
+@li4chess/bot:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/bot
+@li4chess/bot:test: 
+@li4chess/bot:test:  ✓ test/evaluate.test.ts (4 tests) 11ms
+@li4chess/bot:test:  ✓ test/progress.test.ts (2 tests) 176ms
+@li4chess/bot:test:  ✓ test/hash.test.ts (8 tests) 335ms
+@li4chess/bot:test:  ✓ test/results.test.ts (2 tests) 452ms
+@li4chess/bot:test:    ✓ search does not force an eligible claim that loses to an eliminated high scorer 447ms
+@li4chess/bot:test:  ✓ test/search.test.ts (3 tests) 518ms
+@li4chess/bot:test:    ✓ bot search > chooseCpuMove returns a legal move at every difficulty level 456ms
+@li4chess/bot:test:  ✓ test/pawn-endgame.test.ts (13 tests) 656ms
+@li4chess/bot:test:  ✓ test/walking.test.ts (1 test) 48ms
+@li4chess/bot:test:  ✓ test/bounded.test.ts (10 tests) 794ms
+@li4chess/bot:test:  ✓ test/classic.test.ts (1 test) 10ms
+@li4chess/bot:test:  ✓ test/lab.test.ts (16 tests) 1316ms
+@li4chess/bot:test:    ✓ experimental search semantics > enhanced ordering preserves fixed-depth values and bounded quiescence sees a poisoned capture 344ms
+@li4chess/bot:test:    ✓ experimental search semantics > iterative and direct search agree at fixed depth, with legal PV and exact sampling 709ms
+@li4chess/bot:test:  ✓ test/decisive.test.ts (5 tests) 1311ms
+@li4chess/bot:test:    ✓ decisive outcomes outweigh material > prefers a win available now over the same win a move later 1042ms
+@li4chess/bot:test:  ✓ test/selection.test.ts (5 tests) 8731ms
+@li4chess/bot:test:    ✓ move selection never trades value for novelty > stays within the contender tolerance of the best move at level 3 4908ms
+@li4chess/bot:test:    ✓ move selection never trades value for novelty > still prefers a fresh move when the alternatives really are equal 3821ms
+@li4chess/bot:test:  ✓ test/endgame.test.ts (6 tests) 10043ms
+@li4chess/bot:test:    ✓ won endgames actually get finished > converts king, queen and rook against a lone king 6024ms
+@li4chess/bot:test:    ✓ won endgames actually get finished > converts king and queen against a lone king 2655ms
+@li4chess/bot:test:    ✓ won endgames actually get finished > converts king and rook against a lone king 1359ms
+@li4chess/bot:test: 
+@li4chess/bot:test:  Test Files  13 passed (13)
+@li4chess/bot:test:       Tests  76 passed (76)
+@li4chess/bot:test:    Start at  20:26:39
+@li4chess/bot:test:    Duration  10.91s (transform 784ms, setup 0ms, collect 3.94s, tests 24.40s, environment 3ms, prepare 2.18s)
+@li4chess/bot:test: 
+@li4chess/ui-kit:build: cache bypass, force executing 982007ba0f129824
+@li4chess/ui-kit:build: $ tsc -p tsconfig.json
+@li4chess/architecture-spike:test: cache bypass, force executing 504b9da0613b41ae
+@li4chess/architecture-spike:test: $ vitest run
+@li4chess/architecture-spike:test: 
+@li4chess/architecture-spike:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/architecture-spike
+@li4chess/architecture-spike:test: 
+@li4chess/architecture-spike:test:  ✓ test/command.test.ts (3 tests) 4ms
+@li4chess/architecture-spike:test:  ✓ test/persistence.test.ts (1 test) 48ms
+@li4chess/architecture-spike:test: 
+@li4chess/architecture-spike:test:  Test Files  2 passed (2)
+@li4chess/architecture-spike:test:       Tests  4 passed (4)
+@li4chess/architecture-spike:test:    Start at  20:26:52
+@li4chess/architecture-spike:test:    Duration  704ms (transform 293ms, setup 0ms, collect 579ms, tests 53ms, environment 0ms, prepare 240ms)
+@li4chess/architecture-spike:test: 
+@li4chess/arena:test: cache bypass, force executing eab6bbaaebe1cc5f
+@li4chess/arena:test: $ vitest run
+@li4chess/arena:test: 
+@li4chess/arena:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/arena
+@li4chess/arena:test: 
+@li4chess/arena:test:  ✓ test/legacy.test.ts (1 test) 40ms
+@li4chess/arena:test:  ✓ test/endgame-replay.test.ts (2 tests) 3792ms
+@li4chess/arena:test:    ✓ reconstructs the original 240 moves and reproduces Yellow's depth-3 preference 338ms
+@li4chess/arena:test:    ✓ replay continuation prepares a pawn exchange instead of another 32 quiet king moves 3454ms
+@li4chess/arena:test:  ❯ test/arena.test.ts (10 tests | 9 failed) 9729ms
+@li4chess/arena:test:    × arena > FFA-DRAW-09: automatic draws are completed and replay their flat awards 1089ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > FFA-END-08: auto-claims preserve replay and reports use shared mean ranks 1228ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > records an abort separately without inventing placements or completed-seat statistics 1073ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > walking actions bypass seat engines and replay the recorded choice 1049ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > records four tied first places separately from sole wins 1104ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > reproduces seeded games and replays against the oracle 1055ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > captures engine errors without inventing placements 980ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > rejects historical snapshots before replay, aggregation or resuming a record 1085ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:    × arena > REPLAY-10: a complete Modern repetition game verifies all moves and four shared first places 1063ms
+@li4chess/arena:test:      → Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > FFA-DRAW-09: automatic draws are completed and replay their flat awards
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:10:22
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > FFA-END-08: auto-claims preserve replay and reports use shared mean ranks
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:21:22
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > records an abort separately without inventing placements or completed-seat statistics
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:38:22
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > walking actions bypass seat engines and replay the recorded choice
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:49:22
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > records four tied first places separately from sole wins
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:61:22
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > reproduces seeded games and replays against the oracle
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:68:21
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > captures engine errors without inventing placements
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:83:24
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > rejects historical snapshots before replay, aggregation or resuming a record
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:88:24
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  FAIL  test/arena.test.ts > arena > REPLAY-10: a complete Modern repetition game verifies all moves and four shared first places
+@li4chess/arena:test: Error: Source/build identity changed during this run; restart before producing evidence
+@li4chess/arena:test:  ❯ Module.assertBuildUnchanged ../protocol/src/node.js:52:67
+@li4chess/arena:test:      50| /** @param {EngineBuildIdentityV1} producer */
+@li4chess/arena:test:      51| export function assertBuildUnchanged(producer, root = repositoryRoot) {
+@li4chess/arena:test:      52|   if (!isDeepStrictEqual(producer,readBuildIdentity(root))) throw new …
+@li4chess/arena:test:        |                                                                   ^
+@li4chess/arena:test:      53| }
+@li4chess/arena:test:      54| 
+@li4chess/arena:test:  ❯ Module.runGame src/index.ts:47:3
+@li4chess/arena:test:  ❯ test/arena.test.ts:104:22
+@li4chess/arena:test: 
+@li4chess/arena:test: ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+@li4chess/arena:test: 
+@li4chess/arena:test:  Test Files  1 failed | 2 passed (3)
+@li4chess/arena:test:       Tests  9 failed | 4 passed (13)
+@li4chess/arena:test:    Start at  20:26:54
+@li4chess/arena:test:    Duration  11.68s (transform 482ms, setup 0ms, collect 3.47s, tests 13.56s, environment 1ms, prepare 385ms)
+@li4chess/arena:test: 
+@li4chess/arena:test: [ELIFECYCLE] Test failed. See above for more details.
+@li4chess/persistence:build: cache bypass, force executing a2ff3ebd48586359
+@li4chess/tetrarch-engine:test: cache bypass, force executing f06614defb9b7eec
+@li4chess/persistence:test: cache bypass, force executing 0ac460c8ba1ecb64
+@li4chess/web:test: cache bypass, force executing cf73994bd3c6dc5a
+@li4chess/arena#test:  ERROR  command (C:\Users\sith\Code\li4chess\packages\arena) C:\Users\sith\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback\pnpm.cmd run test exited (1)
+
+ Tasks:    8 successful, 13 total
+Cached:    0 cached, 13 total
+  Time:    43.172s 
+Failed:    @li4chess/arena#test
+
+ ERROR  run failed: command  exited (1)
+ ELIFECYCLE  Test failed. See above for more details.

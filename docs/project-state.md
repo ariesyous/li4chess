@@ -8,6 +8,58 @@ superseded handoffs.
 
 ## Current focus
 
+**Default browser hybrid authorized and implemented on the PR branch (2026-09-09):**
+the maintainer explicitly requested the hybrid as the default, superseding the
+opt-in/browser deferral below. CPU turns now use a browser WASM/NNUE adviser with
+canonical matching, native fallback for unsupported roots/assets, and native
+Worker retry after a crash or watchdog. Pinned browser runtime bytes and build
+inputs are verified during normal web builds; no local compiler is needed for
+normal CI or Pages builds. All five levels have bounded hybrid resource tiers.
+See [browser integration](engine/tetrarch-browser-default.md). Fresh lint, **759 unit
+tests**, build, **57 browser tests**, and **four production-bundle tests** passed,
+including real default WASM/NNUE, missing/corrupt assets, native crash recovery,
+cancellation and fourfold CPU throttling. This branch has not been merged or deployed.
+
+**Tetrarch hybrid experiment completed (2026-09-09):** the maintainer accepted
+using unmodified Tetrarch as an imperfect move adviser with the existing bounded
+bot as fallback, while keeping all game authority canonical. The
+[bounded plan](engine/tetrarch-hybrid-plan.md) reopens arena testing on the
+existing branch/PR #24. It replaces the earlier stop-before-arena decision below;
+the original incompatibility evidence remains valid. The
+[hybrid report](engine/tetrarch-hybrid-report.md) records clean implementation
+commit `275f07d`: 20 games / 5,096 measured plies, all replay-verified; 14/16 mixed
+games completed, two capped; 3/4 controls completed, one capped. The hybrid took
+first in 9/14 completed games at the declared 20k-node / native-level-3 settings.
+It supplied 980/985 moves; five pending-EP roots used native fallback, with zero
+candidate rejection/crash/watchdog events. Median hybrid turn 104.6 ms, p95 124.7 ms.
+Worker cancellation/recovery and routing tests pass; local lint, 755 unit tests,
+build and CI's 53 browser tests passed. Retain the opt-in arena experiment; no C
+fork was needed for this slice. A browser prototype or larger matched-budget,
+held-out comparison needs separate scope. No browser switch, merge or deployment.
+
+**Initial Tetrarch v8 spike (2026-09-09, historical gate):** the maintainer explicitly reopened bounded
+external-engine research after L1. Based on latest fetched main `c62507e`, branch
+`codex/tetrarch-v8-integration-spike` isolates pinned upstream v8
+`4a35cea06b710a6633302c2226ebfebbba52d7a4`, MIT notices, reproducible Emscripten
+build, Python-free runtime adapter and canonical differential diagnostics.
+The [report](engine/tetrarch-v8-report.md) records **NO-GO for unmodified v8**:
+active-king capture, mate/stalemate attribution and survival-based terminal utility
+are incompatible. The production capability predicate rejects every state;
+the existing bot, rules, arena, Worker and deployed assets remain unchanged.
+WASM/NNUE execution is proven; root legal-set agreement alone does not certify
+search semantics. At that checkpoint arena and browser integration stopped at
+the failed gate. The subsequently accepted advisory hybrid above supersedes the
+stop-before-arena decision and the proposed need for a compatibility fork.
+Final Windows/Node 24.18.0/pnpm 10.33.0 frozen install, uncached lint/build,
+**742 unit tests** and **53 Playwright tests** passed. The 4,385-position root
+campaign compared 162,787 canonical moves: six explained king-capture mismatch
+positions, zero unexplained, 46 root exclusions. All 51 measured source hashes
+were verified; long-budget Node results include observed time overruns. An initial
+unit run was rejected by the provenance guard because its log changed the tracked
+tree; the fixed-tree rerun passed with no weakened check.
+[Draft PR #24](https://github.com/ariesyous/li4chess/pull/24) contains the pushed
+architecture, implementation and evidence commits. Nothing is merged or deployed.
+
 **Start-game viewport recovery (2026-09-09):** changing from the setup screen
 to a game now resets the document scroll position. A narrow, short viewport
 could retain its 397 px setup offset after Start Game, leaving the game above

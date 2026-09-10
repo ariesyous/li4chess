@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "build": "node ../../packages/tetrarch-engine/scripts/verify-runtime.mjs && tsc -p tsconfig.json --noEmit && vite build",
     "lint": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json",
     "test": "vitest run",
     "preview": "vite preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:production": "playwright test --config playwright.production.config.ts"
   },
   "dependencies": {
+    "@li4chess/tetrarch-engine": "workspace:*",
     "@li4chess/protocol": "workspace:*",
     "@li4chess/bot": "workspace:*",
     "@li4chess/engine": "workspace:*",

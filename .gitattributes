@@ -28,3 +28,18 @@ docs/m3-08-evidence/**/ci-merge.commit -diff
 packages/arena/fixtures/endgame/user-replay-v2.json -text
 packages/arena/src/endgame-baseline/** -text whitespace=cr-at-eol
 docs/engine/endgame-evidence-20260908/** -text whitespace=cr-at-eol
+
+# Pinned upstream blobs and spike evidence must retain manifest bytes.
+packages/tetrarch-engine/vendor/** -text whitespace=cr-at-eol
+docs/engine/tetrarch-v8-evidence/** -text
+docs/engine/tetrarch-v8-evidence/*.log whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+docs/engine/tetrarch-hybrid-evidence/** -text
+docs/engine/tetrarch-hybrid-evidence/**/*.log whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+packages/tetrarch-engine/runtime/*.mjs -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+packages/tetrarch-engine/runtime/*.wasm -text
+packages/tetrarch-engine/runtime/EMSCRIPTEN-* -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+# Build-input hashes must be identical on Windows and Linux checkouts.
+packages/tetrarch-engine/native/bridge.c text eol=lf
+packages/tetrarch-engine/scripts/build.mjs text eol=lf
+docs/engine/tetrarch-browser-evidence/** -text
+docs/engine/tetrarch-browser-evidence/*.log whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

@@ -1,0 +1,304 @@
+{
+  "mixed": {
+    "games": 16,
+    "completed": 14,
+    "censored": 2,
+    "automaticKingMoves": 0,
+    "errors": 0,
+    "aborted": 0,
+    "repetitionRate": 0,
+    "plies": {
+      "count": 16,
+      "mean": 249.5,
+      "p50": 226,
+      "p95": 400,
+      "max": 400
+    },
+    "durationMs": {
+      "count": 16,
+      "mean": 44108.264843749996,
+      "p50": 43566.221300000034,
+      "p95": 63923.268500000006,
+      "max": 66766.29610000004
+    },
+    "engines": [
+      {
+        "id": "tetrarch-v8-hybrid-20k",
+        "completedSeatGames": 14,
+        "firstPlace": 0.6428571428571429,
+        "soleWin": 0.6428571428571429,
+        "averagePlacement": 1.8571428571428572,
+        "averageScore": 64.14285714285714,
+        "survival": 0.5,
+        "seatNormalizedFirst": 0.6458333333333333,
+        "firstPlaceCluster95": null,
+        "perSeat": [
+          {
+            "seat": 0,
+            "count": 3,
+            "first": 0.3333333333333333,
+            "placement": 2.3333333333333335
+          },
+          {
+            "seat": 1,
+            "count": 4,
+            "first": 0.75,
+            "placement": 1.75
+          },
+          {
+            "seat": 2,
+            "count": 4,
+            "first": 0.5,
+            "placement": 2.25
+          },
+          {
+            "seat": 3,
+            "count": 3,
+            "first": 1,
+            "placement": 1
+          }
+        ],
+        "moveMs": {
+          "count": 985,
+          "mean": 106.23654994923903,
+          "p50": 104.62939999997616,
+          "p95": 124.71250000002328,
+          "max": 254.1638999999268
+        },
+        "branching": {
+          "count": 985,
+          "mean": 32.568527918781726,
+          "p50": 32,
+          "p95": 70,
+          "max": 107
+        },
+        "searchNodes": {
+          "count": 980,
+          "mean": 20000,
+          "p50": 20000,
+          "p95": 20000,
+          "max": 20000
+        },
+        "reachedDepth": {
+          "count": 980,
+          "mean": 4.281632653061225,
+          "p50": 4,
+          "p95": 6,
+          "max": 7
+        }
+      },
+      {
+        "id": "production-bounded-level3",
+        "completedSeatGames": 42,
+        "firstPlace": 0.11904761904761904,
+        "soleWin": 0.11904761904761904,
+        "averagePlacement": 2.7142857142857144,
+        "averageScore": 45.38095238095238,
+        "survival": 0.5,
+        "seatNormalizedFirst": 0.11590909090909092,
+        "firstPlaceCluster95": null,
+        "perSeat": [
+          {
+            "seat": 0,
+            "count": 11,
+            "first": 0.18181818181818182,
+            "placement": 2.909090909090909
+          },
+          {
+            "seat": 1,
+            "count": 10,
+            "first": 0,
+            "placement": 2.7
+          },
+          {
+            "seat": 2,
+            "count": 10,
+            "first": 0.1,
+            "placement": 2.7
+          },
+          {
+            "seat": 3,
+            "count": 11,
+            "first": 0.18181818181818182,
+            "placement": 2.5454545454545454
+          }
+        ],
+        "moveMs": {
+          "count": 3007,
+          "mean": 186.45898945793078,
+          "p50": 243.6357999999891,
+          "p95": 250.76209999993443,
+          "max": 253.04150000000664
+        },
+        "branching": {
+          "count": 3007,
+          "mean": 15.795144662454273,
+          "p50": 10,
+          "p95": 46,
+          "max": 100
+        },
+        "searchNodes": {
+          "count": 3007,
+          "mean": 1076.2866644496175,
+          "p50": 1079,
+          "p95": 2018,
+          "max": 2048
+        },
+        "reachedDepth": {
+          "count": 3007,
+          "mean": 2.3584968407050217,
+          "p50": 2,
+          "p95": 3,
+          "max": 3
+        }
+      }
+    ],
+    "headToHead": [
+      {
+        "a": "production-bounded-level3",
+        "b": "tetrarch-v8-hybrid-20k",
+        "seatNormalizedPairScore": 0.2863636363636364
+      }
+    ]
+  },
+  "controls": {
+    "games": 4,
+    "completed": 3,
+    "censored": 1,
+    "automaticKingMoves": 0,
+    "errors": 0,
+    "aborted": 0,
+    "repetitionRate": 0,
+    "plies": {
+      "count": 4,
+      "mean": 276,
+      "p50": 211,
+      "p95": 333,
+      "max": 400
+    },
+    "durationMs": {
+      "count": 4,
+      "mean": 48937.51165,
+      "p50": 34293.8493,
+      "p95": 59450.707200000004,
+      "max": 67994.5857
+    },
+    "engines": [
+      {
+        "id": "production-bounded-level3",
+        "completedSeatGames": 12,
+        "firstPlace": 0.25,
+        "soleWin": 0.25,
+        "averagePlacement": 2.5,
+        "averageScore": 58.416666666666664,
+        "survival": 0.4166666666666667,
+        "seatNormalizedFirst": 0.25,
+        "firstPlaceCluster95": null,
+        "perSeat": [
+          {
+            "seat": 0,
+            "count": 3,
+            "first": 0.3333333333333333,
+            "placement": 2.3333333333333335
+          },
+          {
+            "seat": 1,
+            "count": 3,
+            "first": 0.3333333333333333,
+            "placement": 3
+          },
+          {
+            "seat": 2,
+            "count": 3,
+            "first": 0.3333333333333333,
+            "placement": 2.3333333333333335
+          },
+          {
+            "seat": 3,
+            "count": 3,
+            "first": 0,
+            "placement": 2.3333333333333335
+          }
+        ],
+        "moveMs": {
+          "count": 1104,
+          "mean": 167.46797672101445,
+          "p50": 195.7212999999756,
+          "p95": 250.81020000000717,
+          "max": 261.3226999999897
+        },
+        "branching": {
+          "count": 1104,
+          "mean": 17.247282608695652,
+          "p50": 10,
+          "p95": 48,
+          "max": 84
+        },
+        "searchNodes": {
+          "count": 1104,
+          "mean": 989.1992753623189,
+          "p50": 936,
+          "p95": 1919,
+          "max": 2048
+        },
+        "reachedDepth": {
+          "count": 1104,
+          "mean": 2.467391304347826,
+          "p50": 3,
+          "p95": 3,
+          "max": 3
+        }
+      }
+    ],
+    "headToHead": []
+  },
+  "routing": {
+    "turns": 985,
+    "accepted": 980,
+    "fallback": 5,
+    "reasons": {
+      "unsupported-state": 5
+    },
+    "unsupported": {
+      "en-passant-semantics": 5
+    },
+    "acceptedMs": {
+      "count": 980,
+      "mean": 105.48672744898009,
+      "p50": 104.58990000002086,
+      "p95": 124.28850000002421,
+      "max": 177.3746000000001
+    },
+    "fallbackMs": {
+      "count": 5,
+      "mean": 253.20175999999046,
+      "p50": 252.88509999995586,
+      "p95": 253.625800000038,
+      "max": 254.1638999999268
+    }
+  },
+  "movement": {
+    "mixed": [
+      {
+        "id": "tetrarch-v8-hybrid-20k",
+        "moves": 985,
+        "reversedPreviousOwnMove": 113,
+        "revisitedPosition": 24
+      },
+      {
+        "id": "production-bounded-level3",
+        "moves": 3007,
+        "reversedPreviousOwnMove": 579,
+        "revisitedPosition": 3
+      }
+    ],
+    "controls": [
+      {
+        "id": "production-bounded-level3",
+        "moves": 1104,
+        "reversedPreviousOwnMove": 196,
+        "revisitedPosition": 7
+      }
+    ]
+  }
+}

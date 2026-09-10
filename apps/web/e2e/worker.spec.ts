@@ -92,12 +92,12 @@ test("failure during active production search recovers once and the terminated s
   await observeWorkers(page); await startRedCpu(page);
   await page.evaluate(() => window.failActiveCpu());
   await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
-  await expect(page.getByText("CPU recovery (crash): used a legal move. Play can continue.", { exact:true })).toBeVisible();
+  await expect(page.getByText("CPU recovery (crash): used a legal move. Play can continue.", { exact:true })).not.toBeVisible();
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
   await page.waitForTimeout(1300);
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(1);
-  expect(await page.evaluate(() => window.cpuProbe.started)).toBe(1);
-  expect(await page.evaluate(() => window.cpuProbe.results)).toBe(0);
+  expect(await page.evaluate(() => window.cpuProbe.started)).toBe(2);
+  expect(await page.evaluate(() => window.cpuProbe.results)).toBe(1);
   expect(await page.evaluate(() => window.cpuProbe.terminated)).toBeGreaterThanOrEqual(1);
 });
 

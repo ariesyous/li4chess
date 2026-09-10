@@ -1,0 +1,13 @@
+{
+  "revision": "4a35cea06b710a6633302c2226ebfebbba52d7a4",
+  "compiler": "4.0.15",
+  "hashes": {
+    "tetrarch.mjs": "02d5fefc569bee91d833a80b97b2c4a98df327a244318ea3b6e637ca4389a337",
+    "tetrarch.wasm": "a35d46272740f065baee2bb1b9bf34bde3222141ec3f0be7532fc333ab2e4e9f"
+  },
+  "inputs": {
+    "native/bridge.c": "7ca9f02a1c26e4b182f1156cc5962b9fc9f20a4cabd4092d895032fd7fd0ceb1",
+    "vendor/tetrarch/tetrarch.c": "5ed68f482ee7da72c3c8b777b84d988199634817fad8bdec1cab64b1cc126d4b",
+    "scripts/build.mjs": "81ee5c94895f7e057bf3659a8879b0431702c28108e889777f179f263fa26d2d"
+  }
+}
