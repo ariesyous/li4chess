@@ -1,0 +1,46 @@
+{
+  "revision": "836a75032aa538ee6e05db921bc2e79c9e43b4f5",
+  "deployment": "https://github.com/ariesyous/li4chess/actions/runs/34427239734",
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             "
+  },
+  "note": "Live functional smoke in a fresh Playwright Chromium context; not a performance benchmark.",
+  "check": {
+    "checkedAt": "2026-09-10T01:55:40.598Z",
+    "url": "https://li4chess.org/",
+    "status": 200,
+    "scripts": [
+      "https://li4chess.org/assets/index-CiTCDU63.js"
+    ],
+    "assets": [
+      {
+        "url": "https://li4chess.org/assets/tetrarch-rEP-iVNV.wasm",
+        "status": 200
+      },
+      {
+        "url": "https://li4chess.org/assets/params-DkkuhD0M.bin",
+        "status": 200
+      },
+      {
+        "url": "https://li4chess.org/assets/net-ffa1-DkZdNghk.nnue",
+        "status": 200
+      }
+    ],
+    "results": [
+      {
+        "engine": "tetrarch",
+        "nodes": 20000,
+        "completedDepth": 3,
+        "elapsedMs": 113.39999999850988,
+        "stopped": "nodes",
+        "fallback": false
+      }
+    ],
+    "turns": "Turn 2 — Blue to move",
+    "moves": 1,
+    "errors": []
+  }
+}

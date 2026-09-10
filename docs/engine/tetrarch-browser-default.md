@@ -2,8 +2,10 @@
 
 The maintainer explicitly selected the hybrid as the default CPU on 2026-09-09,
 after the [arena comparison](tetrarch-hybrid-report.md). This supersedes the
-earlier opt-in proposal. Implementation is on draft PR #24; it is not deployed
-until that branch is merged and the normal Pages workflow publishes it.
+earlier opt-in proposal. PR #24 merged as `836a750` and the
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/34427239734)
+succeeded. The live default was verified at li4chess.org: engine assets loaded,
+a level-3 Tetrarch move advanced the turn to Blue, and no page errors occurred.
 
 ## Runtime
 

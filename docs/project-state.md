@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**Default browser hybrid authorized and implemented on the PR branch (2026-09-09):**
+**Default browser hybrid released (2026-09-09):**
 the maintainer explicitly requested the hybrid as the default, superseding the
 opt-in/browser deferral below. CPU turns now use a browser WASM/NNUE adviser with
 canonical matching, native fallback for unsupported roots/assets, and native
@@ -18,7 +18,12 @@ normal CI or Pages builds. All five levels have bounded hybrid resource tiers.
 See [browser integration](engine/tetrarch-browser-default.md). Fresh lint, **759 unit
 tests**, build, **57 browser tests**, and **four production-bundle tests** passed,
 including real default WASM/NNUE, missing/corrupt assets, native crash recovery,
-cancellation and fourfold CPU throttling. This branch has not been merged or deployed.
+cancellation and fourfold CPU throttling. PR #24 merged as `836a750` after CI passed.
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/34427239734)
+succeeded. A fresh browser at `https://li4chess.org/` loaded WASM, parameters and
+NNUE with HTTP 200; the default level-3 CPU returned a Tetrarch move and advanced
+to Blue with no page errors. [Live verification](engine/tetrarch-browser-deployment-20260909.json)
+records the deployed revision and observed assets. The hybrid is now the live default.
 
 **Tetrarch hybrid experiment completed (2026-09-09):** the maintainer accepted
 using unmodified Tetrarch as an imperfect move adviser with the existing bounded

@@ -59,8 +59,10 @@ fallbacks. Its nine first places in 14 completed mixed games are limited evidenc
 at the declared budgets; two mixed games were capped. This does not authorize a
 browser switch or an automatic follow-on campaign by itself. The maintainer then
 explicitly selected the [browser hybrid as default](docs/engine/tetrarch-browser-default.md).
-The branch implements that choice with canonical authority, native recovery,
-verified runtime assets and bounded difficulty tiers. Deployment remains separate.
+PR #24 implemented that choice with canonical authority, native recovery,
+verified runtime assets and bounded difficulty tiers. It merged as `836a750` and
+[deployed successfully](https://github.com/ariesyous/li4chess/actions/runs/34427239734)
+on 2026-09-09 local; a live browser verified a real Tetrarch CPU turn at li4chess.org.
 
 The 2026-09-09 deployment repair accommodates the existing li4chess.org custom
 domain on GitHub Pages. Its build base follows actual Pages settings; the older
