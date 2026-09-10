@@ -1,0 +1,96 @@
+{
+  "started": "2026-09-10T01:00:20.109Z",
+  "pid": 7504,
+  "engineBuild": {
+    "format": "li4chess-engine-build-v1",
+    "sourceRevision": "275f07da753b71227ff935b5bd0fb345a69a9240",
+    "packageVersions": {
+      "@li4chess/web": "0.0.0",
+      "@li4chess/worker": "0.0.0",
+      "@li4chess/architecture-spike": "0.0.0",
+      "@li4chess/arena": "0.0.0",
+      "@li4chess/bot": "0.0.0",
+      "@li4chess/engine": "0.0.0",
+      "@li4chess/game-room": "0.0.0",
+      "@li4chess/persistence": "0.0.0",
+      "@li4chess/protocol": "0.0.0",
+      "@li4chess/tetrarch-engine": "0.0.0",
+      "@li4chess/ui-kit": "0.0.0"
+    },
+    "buildFingerprint": "sha256:b142b3fed51bc83a70a694efc56d5408645964570d6ee01d970db5becbde5d66",
+    "workingTree": {
+      "status": "clean"
+    }
+  },
+  "environment": {
+    "node": "v24.18.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "architecture": "x64",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "logicalCpus": 12,
+    "totalMemoryBytes": 34269650944
+  },
+  "assets": [
+    {
+      "path": ".generated/tetrarch.wasm",
+      "bytes": 46790,
+      "sha256": "a35d46272740f065baee2bb1b9bf34bde3222141ec3f0be7532fc333ab2e4e9f"
+    },
+    {
+      "path": ".generated/tetrarch.mjs",
+      "bytes": 8364,
+      "sha256": "c04f4df6940662238cab87420239df72ab4b8cf2cc0eb48b07968dd84a62508f"
+    },
+    {
+      "path": "vendor/tetrarch/params.bin",
+      "bytes": 85872,
+      "sha256": "5b8467838f4a6319349c426b296b56577ceb67d9b9d7e84b4d314b01bc31be5a"
+    },
+    {
+      "path": "vendor/tetrarch/net-ffa1.nnue",
+      "bytes": 1976880,
+      "sha256": "3b6ef963fc41786c5211da65ce9141fd192df3caa7af4874f4fde104a89897ae"
+    }
+  ],
+  "seeds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "maxPlies": 400,
+  "openingPlies": 8,
+  "geometry": "one hybrid / three bounded production, four rotations; one all-native control per opening",
+  "configurations": [
+    {
+      "revision": "4a35cea06b710a6633302c2226ebfebbba52d7a4",
+      "budget": {
+        "nodeBudget": 20000,
+        "maxDepth": 32
+      },
+      "watchdogMs": 30000,
+      "fallback": {
+        "label": "Thoughtful",
+        "maxDepth": 3,
+        "nodeBudget": 2048,
+        "timeMs": 250
+      },
+      "modelLimitations": [
+        "descendant-active-king-captures",
+        "descendant-en-passant-differences",
+        "score-attribution",
+        "survival-terminal-utility",
+        "prior-repetition-history-not-transferred",
+        "draw-and-claim-horizon"
+      ]
+    },
+    {
+      "label": "Thoughtful",
+      "maxDepth": 3,
+      "nodeBudget": 2048,
+      "timeMs": 250
+    }
+  ],
+  "limitation": "Small configuration comparison; unequal nodes, wall-limited native search, no Elo or full-strength claim. Capped games are censored."
+}

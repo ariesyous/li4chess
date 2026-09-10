@@ -106,6 +106,7 @@ because its search rules conflict with canonical FFA scoring and legality.
 It does not change the browser bot or add engine assets to the site.
 The accepted [hybrid follow-up](docs/engine/tetrarch-hybrid-plan.md) adds an opt-in
 arena adviser with canonical validation and bounded native fallback. See the
+[20-game result](docs/engine/tetrarch-hybrid-report.md) and
 [package instructions](packages/tetrarch-engine/README.md) to run it locally.
 
 The TypeScript monorepo uses pnpm workspaces and Turborepo.

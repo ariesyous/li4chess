@@ -14,6 +14,8 @@ state hashes and replaces its worker after cancellation, crash or a 30-second
 watchdog. The watchdog bounds external work, not native fallback or total latency.
 Callers must discard cancelled/stale game requests and close the client when done.
 No adviser score or principal variation determines canonical game outcomes.
+The [20-game report](../../docs/engine/tetrarch-hybrid-report.md) records routing,
+latency, placements, censoring and the remaining limits.
 
 After `build:wasm`, run the Node-only experiment from the repository root:
 

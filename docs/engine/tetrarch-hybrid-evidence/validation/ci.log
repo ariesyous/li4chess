@@ -1,0 +1,1061 @@
+check	Set up job	﻿2026-09-10T01:01:43.7524040Z Current runner version: '2.337.0'
+check	Set up job	2026-09-10T01:01:43.7544606Z ##[group]Runner Image Provisioner
+check	Set up job	2026-09-10T01:01:43.7545384Z Hosted Compute Agent
+check	Set up job	2026-09-10T01:01:43.7545858Z Version: 20260828.587
+check	Set up job	2026-09-10T01:01:43.7546363Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+check	Set up job	2026-09-10T01:01:43.7546950Z Build Date: 2026-08-28T16:44:25Z
+check	Set up job	2026-09-10T01:01:43.7547455Z Worker ID: {fc6498b4-ea78-43cf-88ac-653ed79eee3a}
+check	Set up job	2026-09-10T01:01:43.7548021Z Azure Region: westus3
+check	Set up job	2026-09-10T01:01:43.7548438Z ##[endgroup]
+check	Set up job	2026-09-10T01:01:43.7549299Z ##[group]Operating System
+check	Set up job	2026-09-10T01:01:43.7549838Z Ubuntu
+check	Set up job	2026-09-10T01:01:43.7550459Z 24.04.5
+check	Set up job	2026-09-10T01:01:43.7550872Z LTS
+check	Set up job	2026-09-10T01:01:43.7551299Z ##[endgroup]
+check	Set up job	2026-09-10T01:01:43.7551692Z ##[group]Runner Image
+check	Set up job	2026-09-10T01:01:43.7552220Z Image: ubuntu-24.04
+check	Set up job	2026-09-10T01:01:43.7552640Z Version: 20260907.300.1
+check	Set up job	2026-09-10T01:01:43.7553406Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+check	Set up job	2026-09-10T01:01:43.7554642Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+check	Set up job	2026-09-10T01:01:43.7555427Z ##[endgroup]
+check	Set up job	2026-09-10T01:01:43.7556202Z ##[group]GITHUB_TOKEN Permissions
+check	Set up job	2026-09-10T01:01:43.7557643Z Contents: read
+check	Set up job	2026-09-10T01:01:43.7558068Z Metadata: read
+check	Set up job	2026-09-10T01:01:43.7558572Z ##[endgroup]
+check	Set up job	2026-09-10T01:01:43.7560282Z Secret source: Actions
+check	Set up job	2026-09-10T01:01:43.7561028Z Cache mode: write
+check	Set up job	2026-09-10T01:01:43.7561538Z Prepare workflow directory
+check	Set up job	2026-09-10T01:01:43.7801336Z Prepare all required actions
+check	Set up job	2026-09-10T01:01:43.7838062Z Getting action download info
+check	Set up job	2026-09-10T01:01:44.0803571Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+check	Set up job	2026-09-10T01:01:44.3789766Z Download action repository 'pnpm/action-setup@v4' (SHA:b906affcce14559ad1aafd4ab0e942779e9f58b1)
+check	Set up job	2026-09-10T01:01:45.3352568Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+check	Set up job	2026-09-10T01:01:45.4543354Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+check	Set up job	2026-09-10T01:01:45.7057974Z Complete job name: check
+check	Run actions/checkout@v4	﻿2026-09-10T01:01:45.7676813Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7684633Z ##[group]Run actions/checkout@v4
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7685296Z with:
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7685827Z   repository: ariesyous/li4chess
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7692151Z   token: ***
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7692642Z   ssh-strict: true
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7693156Z   ssh-user: git
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7693631Z   persist-credentials: true
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7694197Z   clean: true
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7694669Z   sparse-checkout-cone-mode: true
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7695229Z   fetch-depth: 1
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7695794Z   fetch-tags: false
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7696282Z   show-progress: true
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7696832Z   lfs: false
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7697263Z   submodules: false
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7697912Z   set-safe-directory: true
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7698462Z   allow-unsafe-pr-checkout: false
+check	Run actions/checkout@v4	2026-09-10T01:01:45.7699152Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8478446Z Syncing repository: ariesyous/li4chess
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8480707Z ##[group]Getting Git version info
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8481612Z Working directory is '/home/runner/work/li4chess/li4chess'
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8483060Z [command]/usr/bin/git version
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8560839Z git version 2.55.0
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8581416Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8596199Z Temporarily overriding HOME='/home/runner/work/_temp/38965403-506e-4bf9-9cea-f81a75a2bf9b' before making global git config changes
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8598380Z Adding repository directory to the temporary git global config as a safe directory
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8600572Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/li4chess/li4chess
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8734793Z Deleting the contents of '/home/runner/work/li4chess/li4chess'
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8739490Z ##[group]Initializing the repository
+check	Run actions/checkout@v4	2026-09-10T01:01:45.8744292Z [command]/usr/bin/git init /home/runner/work/li4chess/li4chess
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9748611Z hint: Using 'master' as the name for the initial branch. This default branch name
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9750859Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9754937Z hint: to use in all of your new repositories, which will suppress this warning,
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9756009Z hint: call:
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9756640Z hint:
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9757386Z hint: 	git config --global init.defaultBranch <name>
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9758126Z hint:
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9758773Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9759875Z hint: 'development'. The just-created branch can be renamed via this command:
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9761037Z hint:
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9761509Z hint: 	git branch -m <name>
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9762212Z hint:
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9762974Z hint: Disable this message with "git config set advice.defaultBranchName false"
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9764562Z Initialized empty Git repository in /home/runner/work/li4chess/li4chess/.git/
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9767116Z [command]/usr/bin/git remote add origin https://github.com/ariesyous/li4chess
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9818700Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9820327Z ##[group]Disabling automatic garbage collection
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9821771Z [command]/usr/bin/git config --local gc.auto 0
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9854052Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9925570Z ##[group]Setting up auth
+check	Run actions/checkout@v4	2026-09-10T01:01:45.9927023Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2342686Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2351034Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2386569Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2597731Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2631408Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2839769Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2875370Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2876532Z ##[group]Fetching the repository
+check	Run actions/checkout@v4	2026-09-10T01:01:46.2883479Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5055a17cd52097589435fb6ea610eaf0d8ff55e2:refs/remotes/pull/24/merge
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5332180Z From https://github.com/ariesyous/li4chess
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5333294Z  * [new ref]         5055a17cd52097589435fb6ea610eaf0d8ff55e2 -> pull/24/merge
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5335652Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5336062Z ##[group]Determining the checkout info
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5337828Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5343910Z [command]/usr/bin/git sparse-checkout disable
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5401107Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5462725Z ##[group]Checking out the ref
+check	Run actions/checkout@v4	2026-09-10T01:01:50.5466377Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/24/merge
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8121462Z Note: switching to 'refs/remotes/pull/24/merge'.
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8121852Z 
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8122078Z You are in 'detached HEAD' state. You can look around, make experimental
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8122870Z changes and commit them, and you can discard any commits you make in this
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8123392Z state without impacting any branches by switching back to a branch.
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8123706Z 
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8124010Z If you want to create a new branch to retain commits you create, you may
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8124486Z do so (now or later) by using -c with the switch command. Example:
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8124737Z 
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8124860Z   git switch -c <new-branch-name>
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8125059Z 
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8125180Z Or undo this operation with:
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8125363Z 
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8125467Z   git switch -
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8125608Z 
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8125829Z Turn off this advice by setting config variable advice.detachedHead to false
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8126154Z 
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8126556Z HEAD is now at 5055a17 Merge 275f07da753b71227ff935b5bd0fb345a69a9240 into c62507e60b24955950af3d6a5780d4c62347c410
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8149287Z ##[endgroup]
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8197105Z [command]/usr/bin/git log -1 --format=%H
+check	Run actions/checkout@v4	2026-09-10T01:01:50.8225665Z 5055a17cd52097589435fb6ea610eaf0d8ff55e2
+check	Run pnpm/action-setup@v4	﻿2026-09-10T01:01:50.8432393Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8433814Z ##[group]Run pnpm/action-setup@v4
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8433999Z with:
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8434143Z   dest: ~/setup-pnpm
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8434326Z   run_install: null
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8434469Z   cache: false
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8434626Z   cache_dependency_path: pnpm-lock.yaml
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8434852Z   package_json_file: package.json
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8435029Z   standalone: false
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.8435176Z ##[endgroup]
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:50.9518471Z ##[group]Running self-installer...
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.2531777Z (node:2074) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.2532954Z (Use `node --trace-deprecation ...` to show where the warning was created)
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.4460938Z Progress: resolved 1, reused 0, downloaded 0, added 0
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.4525870Z Packages: +1
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.4526188Z +
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.7978648Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.8334206Z 
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.8334573Z dependencies:
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.8334879Z + pnpm 10.33.0 (12.3.4 is available)
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.8335090Z 
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.8360444Z Done in 752ms
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.8543657Z ##[endgroup]
+check	Run pnpm/action-setup@v4	2026-09-10T01:01:51.8543974Z Installation Completed!
+check	Run actions/setup-node@v4	﻿2026-09-10T01:01:51.8713555Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8714381Z ##[group]Run actions/setup-node@v4
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8714555Z with:
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8714691Z   node-version: 24
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8714832Z   cache: pnpm
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8714967Z   always-auth: false
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8715116Z   check-latest: false
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8716812Z   token: ***
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8716947Z env:
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8717128Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.8717337Z ##[endgroup]
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.9782183Z Found in cache @ /opt/hostedtoolcache/node/24.20.0/x64
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.9785227Z (node:2088) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.9785768Z (Use `node --trace-deprecation ...` to show where the warning was created)
+check	Run actions/setup-node@v4	2026-09-10T01:01:51.9787198Z ##[group]Environment details
+check	Run actions/setup-node@v4	2026-09-10T01:01:52.7608400Z node: v24.20.0
+check	Run actions/setup-node@v4	2026-09-10T01:01:52.7608671Z npm: 11.19.0
+check	Run actions/setup-node@v4	2026-09-10T01:01:52.7608809Z yarn: 1.22.22
+check	Run actions/setup-node@v4	2026-09-10T01:01:52.7609293Z ##[endgroup]
+check	Run actions/setup-node@v4	2026-09-10T01:01:52.7623836Z [command]/home/runner/setup-pnpm/node_modules/.bin/pnpm store path --silent
+check	Run actions/setup-node@v4	2026-09-10T01:01:53.1268592Z /home/runner/setup-pnpm/node_modules/.bin/store/v10
+check	Run actions/setup-node@v4	2026-09-10T01:01:53.3631433Z pnpm cache is not found
+check	Run pnpm install --frozen-lockfile	﻿2026-09-10T01:01:53.3752758Z ##[group]Run pnpm install --frozen-lockfile
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.3753053Z [36;1mpnpm install --frozen-lockfile[0m
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.3798385Z shell: /usr/bin/bash -e {0}
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.3798567Z env:
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.3798748Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.3798961Z ##[endgroup]
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.5956996Z Scope: all 12 workspace projects
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.6256969Z Lockfile is up to date, resolution step is skipped
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.6454004Z Progress: resolved 1, reused 0, downloaded 0, added 0
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.6616903Z Packages: +141
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:53.6617619Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:54.6475131Z Progress: resolved 141, reused 0, downloaded 100, added 75
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:55.0450601Z Progress: resolved 141, reused 0, downloaded 141, added 141, done
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:55.1461872Z .../node_modules/workerd postinstall$ node install.js
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:55.1469593Z .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:55.1479078Z .../esbuild@0.28.1/node_modules/esbuild postinstall$ node install.js
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:55.8849420Z .../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:55.8921398Z .../node_modules/workerd postinstall: Done
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:55.9939339Z .../esbuild@0.28.1/node_modules/esbuild postinstall: Done
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:56.1648329Z 
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:56.1649105Z devDependencies:
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:56.1649474Z + turbo 2.10.12
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:56.1649659Z + typescript 5.9.3
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:56.1649825Z + wrangler 4.129.0
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:56.1649917Z 
+check	Run pnpm install --frozen-lockfile	2026-09-10T01:01:56.2073339Z Done in 2.7s using pnpm v10.33.0
+check	Run pnpm lint	﻿2026-09-10T01:01:56.2448123Z ##[group]Run pnpm lint
+check	Run pnpm lint	2026-09-10T01:01:56.2448350Z [36;1mpnpm lint[0m
+check	Run pnpm lint	2026-09-10T01:01:56.2484500Z shell: /usr/bin/bash -e {0}
+check	Run pnpm lint	2026-09-10T01:01:56.2484680Z env:
+check	Run pnpm lint	2026-09-10T01:01:56.2484858Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+check	Run pnpm lint	2026-09-10T01:01:56.2485077Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:01:56.4476227Z 
+check	Run pnpm lint	2026-09-10T01:01:56.4477008Z > li4chess@0.0.0 lint /home/runner/work/li4chess/li4chess
+check	Run pnpm lint	2026-09-10T01:01:56.4477321Z > turbo run lint
+check	Run pnpm lint	2026-09-10T01:01:56.4477419Z 
+check	Run pnpm lint	2026-09-10T01:01:56.4816174Z 
+check	Run pnpm lint	2026-09-10T01:01:56.4817029Z Attention:
+check	Run pnpm lint	2026-09-10T01:01:56.4817610Z Turborepo now collects completely anonymous telemetry regarding usage.
+check	Run pnpm lint	2026-09-10T01:01:56.4818295Z This information is used to shape the Turborepo roadmap and prioritize features.
+check	Run pnpm lint	2026-09-10T01:01:56.4819268Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+check	Run pnpm lint	2026-09-10T01:01:56.4820083Z https://turborepo.dev/docs/telemetry
+check	Run pnpm lint	2026-09-10T01:01:56.4820287Z 
+check	Run pnpm lint	2026-09-10T01:01:56.4983367Z 
+check	Run pnpm lint	2026-09-10T01:01:56.4986991Z    • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+check	Run pnpm lint	2026-09-10T01:01:56.4988346Z    • Running lint in 11 packages
+check	Run pnpm lint	2026-09-10T01:01:56.4988711Z    • Remote caching disabled
+check	Run pnpm lint	2026-09-10T01:01:56.4988894Z 
+check	Run pnpm lint	2026-09-10T01:02:01.7117738Z ##[group]@li4chess/engine:lint
+check	Run pnpm lint	2026-09-10T01:02:01.7184148Z cache miss, executing 826f2ba9775cc7ea
+check	Run pnpm lint	2026-09-10T01:02:01.7238505Z 
+check	Run pnpm lint	2026-09-10T01:02:01.7354943Z > @li4chess/engine@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/engine
+check	Run pnpm lint	2026-09-10T01:02:01.7397742Z > tsc -p tsconfig.json --noEmit
+check	Run pnpm lint	2026-09-10T01:02:01.7433445Z 
+check	Run pnpm lint	2026-09-10T01:02:01.7481535Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:03.1351569Z ##[group]@li4chess/ui-kit:lint
+check	Run pnpm lint	2026-09-10T01:02:03.1403493Z cache miss, executing 6680f8413fc1af14
+check	Run pnpm lint	2026-09-10T01:02:03.1414184Z 
+check	Run pnpm lint	2026-09-10T01:02:03.1491138Z > @li4chess/ui-kit@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/ui-kit
+check	Run pnpm lint	2026-09-10T01:02:03.1594370Z > tsc -p tsconfig.json --noEmit
+check	Run pnpm lint	2026-09-10T01:02:03.1675775Z 
+check	Run pnpm lint	2026-09-10T01:02:03.1716587Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:05.4560318Z ##[group]@li4chess/tetrarch-engine:lint
+check	Run pnpm lint	2026-09-10T01:02:05.4632223Z cache miss, executing a257b5b10b9ad889
+check	Run pnpm lint	2026-09-10T01:02:05.4639309Z 
+check	Run pnpm lint	2026-09-10T01:02:05.4786176Z > @li4chess/tetrarch-engine@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/tetrarch-engine
+check	Run pnpm lint	2026-09-10T01:02:05.4861015Z > tsc --noEmit
+check	Run pnpm lint	2026-09-10T01:02:05.4930514Z 
+check	Run pnpm lint	2026-09-10T01:02:05.4963233Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:06.1844411Z ##[group]@li4chess/arena:lint
+check	Run pnpm lint	2026-09-10T01:02:06.1890995Z cache miss, executing e08b27dd5c48b249
+check	Run pnpm lint	2026-09-10T01:02:06.2014451Z 
+check	Run pnpm lint	2026-09-10T01:02:06.2183309Z > @li4chess/arena@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/arena
+check	Run pnpm lint	2026-09-10T01:02:06.2332547Z > tsc -p tsconfig.json --noEmit
+check	Run pnpm lint	2026-09-10T01:02:06.2501310Z 
+check	Run pnpm lint	2026-09-10T01:02:06.2552931Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:09.2821722Z ##[group]@li4chess/bot:lint
+check	Run pnpm lint	2026-09-10T01:02:09.2881215Z cache miss, executing f96afe4e10b27c48
+check	Run pnpm lint	2026-09-10T01:02:09.2940692Z 
+check	Run pnpm lint	2026-09-10T01:02:09.3042116Z > @li4chess/bot@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/bot
+check	Run pnpm lint	2026-09-10T01:02:09.3171233Z > tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+check	Run pnpm lint	2026-09-10T01:02:09.3212506Z 
+check	Run pnpm lint	2026-09-10T01:02:09.3328652Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:10.0862910Z ##[group]@li4chess/protocol:lint
+check	Run pnpm lint	2026-09-10T01:02:10.0944961Z cache miss, executing fd5b5615addea280
+check	Run pnpm lint	2026-09-10T01:02:10.1011158Z 
+check	Run pnpm lint	2026-09-10T01:02:10.1061997Z > @li4chess/protocol@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/protocol
+check	Run pnpm lint	2026-09-10T01:02:10.1073392Z > tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+check	Run pnpm lint	2026-09-10T01:02:10.1073858Z 
+check	Run pnpm lint	2026-09-10T01:02:10.1082021Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:10.2954287Z ##[group]@li4chess/architecture-spike:lint
+check	Run pnpm lint	2026-09-10T01:02:10.2971680Z cache miss, executing 3c3a7c56d58f433b
+check	Run pnpm lint	2026-09-10T01:02:10.2972608Z 
+check	Run pnpm lint	2026-09-10T01:02:10.2973374Z > @li4chess/architecture-spike@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/architecture-spike
+check	Run pnpm lint	2026-09-10T01:02:10.2974141Z > tsc --noEmit && tsc -p tsconfig.tests.json
+check	Run pnpm lint	2026-09-10T01:02:10.2974550Z 
+check	Run pnpm lint	2026-09-10T01:02:10.2975056Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:10.6438983Z ##[group]@li4chess/persistence:lint
+check	Run pnpm lint	2026-09-10T01:02:10.6441515Z cache miss, executing 3050dc25b0c108da
+check	Run pnpm lint	2026-09-10T01:02:10.6441983Z 
+check	Run pnpm lint	2026-09-10T01:02:10.6442559Z > @li4chess/persistence@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/persistence
+check	Run pnpm lint	2026-09-10T01:02:10.6443389Z > tsc --noEmit && tsc -p tsconfig.tests.json
+check	Run pnpm lint	2026-09-10T01:02:10.6443784Z 
+check	Run pnpm lint	2026-09-10T01:02:10.6444334Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:11.9608765Z ##[group]@li4chess/game-room:lint
+check	Run pnpm lint	2026-09-10T01:02:11.9612330Z cache miss, executing f76400475a4b0024
+check	Run pnpm lint	2026-09-10T01:02:11.9614773Z 
+check	Run pnpm lint	2026-09-10T01:02:11.9615451Z > @li4chess/game-room@0.0.0 lint /home/runner/work/li4chess/li4chess/packages/game-room
+check	Run pnpm lint	2026-09-10T01:02:11.9616290Z > tsc --noEmit && tsc -p tsconfig.tests.json
+check	Run pnpm lint	2026-09-10T01:02:11.9616703Z 
+check	Run pnpm lint	2026-09-10T01:02:11.9617224Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:13.8699767Z ##[group]@li4chess/worker:lint
+check	Run pnpm lint	2026-09-10T01:02:13.8709607Z cache miss, executing 2da0f7e60e58f7c9
+check	Run pnpm lint	2026-09-10T01:02:13.8709813Z 
+check	Run pnpm lint	2026-09-10T01:02:13.8710593Z > @li4chess/worker@0.0.0 lint /home/runner/work/li4chess/li4chess/apps/worker
+check	Run pnpm lint	2026-09-10T01:02:13.8711210Z > tsc -p tsconfig.json && tsc -p tsconfig.tools.json && tsc -p tsconfig.campaign-worker.json
+check	Run pnpm lint	2026-09-10T01:02:13.8711589Z 
+check	Run pnpm lint	2026-09-10T01:02:13.8711938Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:14.1741705Z ##[group]@li4chess/web:lint
+check	Run pnpm lint	2026-09-10T01:02:14.1742281Z cache miss, executing 6f629359c2f931e0
+check	Run pnpm lint	2026-09-10T01:02:14.1742493Z 
+check	Run pnpm lint	2026-09-10T01:02:14.1743123Z > @li4chess/web@0.0.0 lint /home/runner/work/li4chess/li4chess/apps/web
+check	Run pnpm lint	2026-09-10T01:02:14.1743681Z > tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json
+check	Run pnpm lint	2026-09-10T01:02:14.1743965Z 
+check	Run pnpm lint	2026-09-10T01:02:14.1744236Z ##[endgroup]
+check	Run pnpm lint	2026-09-10T01:02:14.1751798Z 
+check	Run pnpm lint	2026-09-10T01:02:14.1752250Z  Tasks:    11 successful, 11 total
+check	Run pnpm lint	2026-09-10T01:02:14.1752644Z Cached:    0 cached, 11 total
+check	Run pnpm lint	2026-09-10T01:02:14.1752840Z   Time:    17.694s 
+check	Run pnpm lint	2026-09-10T01:02:14.1752937Z 
+check	Run pnpm test	﻿2026-09-10T01:02:14.1957672Z ##[group]Run pnpm test
+check	Run pnpm test	2026-09-10T01:02:14.1957876Z [36;1mpnpm test[0m
+check	Run pnpm test	2026-09-10T01:02:14.1994252Z shell: /usr/bin/bash -e {0}
+check	Run pnpm test	2026-09-10T01:02:14.1994432Z env:
+check	Run pnpm test	2026-09-10T01:02:14.1994611Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+check	Run pnpm test	2026-09-10T01:02:14.1994827Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:14.3995941Z 
+check	Run pnpm test	2026-09-10T01:02:14.3996878Z > li4chess@0.0.0 test /home/runner/work/li4chess/li4chess
+check	Run pnpm test	2026-09-10T01:02:14.3997337Z > turbo run test
+check	Run pnpm test	2026-09-10T01:02:14.3997488Z 
+check	Run pnpm test	2026-09-10T01:02:14.4491085Z 
+check	Run pnpm test	2026-09-10T01:02:14.4492951Z    • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+check	Run pnpm test	2026-09-10T01:02:14.4493833Z    • Running test in 11 packages
+check	Run pnpm test	2026-09-10T01:02:14.4494206Z    • Remote caching disabled
+check	Run pnpm test	2026-09-10T01:02:14.4494486Z 
+check	Run pnpm test	2026-09-10T01:02:15.9694094Z ##[group]@li4chess/engine:build
+check	Run pnpm test	2026-09-10T01:02:15.9694905Z cache miss, executing 5ec4c6ec92a5201c
+check	Run pnpm test	2026-09-10T01:02:15.9720444Z 
+check	Run pnpm test	2026-09-10T01:02:15.9743563Z > @li4chess/engine@0.0.0 build /home/runner/work/li4chess/li4chess/packages/engine
+check	Run pnpm test	2026-09-10T01:02:15.9852196Z > tsc -p tsconfig.json
+check	Run pnpm test	2026-09-10T01:02:15.9852669Z 
+check	Run pnpm test	2026-09-10T01:02:15.9906733Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:21.2248252Z ##[group]@li4chess/bot:build
+check	Run pnpm test	2026-09-10T01:02:21.2328079Z cache miss, executing 045f79451ce706fa
+check	Run pnpm test	2026-09-10T01:02:21.2373189Z 
+check	Run pnpm test	2026-09-10T01:02:21.2398324Z > @li4chess/bot@0.0.0 build /home/runner/work/li4chess/li4chess/packages/bot
+check	Run pnpm test	2026-09-10T01:02:21.2461222Z > tsc -p tsconfig.json
+check	Run pnpm test	2026-09-10T01:02:21.2510251Z 
+check	Run pnpm test	2026-09-10T01:02:21.2541361Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:21.8621672Z ##[group]@li4chess/ui-kit:build
+check	Run pnpm test	2026-09-10T01:02:21.8651190Z cache miss, executing 0839312c7bb51f26
+check	Run pnpm test	2026-09-10T01:02:21.8680568Z 
+check	Run pnpm test	2026-09-10T01:02:21.8714432Z > @li4chess/ui-kit@0.0.0 build /home/runner/work/li4chess/li4chess/packages/ui-kit
+check	Run pnpm test	2026-09-10T01:02:21.8761118Z > tsc -p tsconfig.json
+check	Run pnpm test	2026-09-10T01:02:21.8820448Z 
+check	Run pnpm test	2026-09-10T01:02:21.8841115Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:22.2353772Z ##[group]@li4chess/protocol:build
+check	Run pnpm test	2026-09-10T01:02:22.2381014Z cache miss, executing a050ce2974fc25fa
+check	Run pnpm test	2026-09-10T01:02:22.2385555Z 
+check	Run pnpm test	2026-09-10T01:02:22.2421136Z > @li4chess/protocol@0.0.0 build /home/runner/work/li4chess/li4chess/packages/protocol
+check	Run pnpm test	2026-09-10T01:02:22.2449893Z > tsc -p tsconfig.json
+check	Run pnpm test	2026-09-10T01:02:22.2480379Z 
+check	Run pnpm test	2026-09-10T01:02:22.2506350Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:24.8672323Z ##[group]@li4chess/protocol:test
+check	Run pnpm test	2026-09-10T01:02:24.8730989Z cache miss, executing ab8373a6af087fea
+check	Run pnpm test	2026-09-10T01:02:24.8850485Z 
+check	Run pnpm test	2026-09-10T01:02:24.8923257Z > @li4chess/protocol@0.0.0 test /home/runner/work/li4chess/li4chess/packages/protocol
+check	Run pnpm test	2026-09-10T01:02:24.9084669Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:24.9159117Z 
+check	Run pnpm test	2026-09-10T01:02:24.9332369Z 
+check	Run pnpm test	2026-09-10T01:02:24.9482221Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/protocol[39m
+check	Run pnpm test	2026-09-10T01:02:24.9591253Z 
+check	Run pnpm test	2026-09-10T01:02:24.9600567Z  [32m✓[39m test/multiplayer.test.ts [2m([22m[2m19 tests[22m[2m)[22m[90m 70[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:24.9743001Z  [32m✓[39m test/serialization.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 406[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:24.9907629Z  [32m✓[39m test/node.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 357[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:25.0064985Z    [33m[2m✓[22m[39m REPLAY-01: actual clean/dirty/development producer identities and drift detection [33m356[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:25.0131461Z  [32m✓[39m test/completed-replay.test.ts [2m([22m[2m3 tests[22m[2m)[22m[90m 140[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:25.0191279Z  [32m✓[39m test/replay.test.ts [2m([22m[2m26 tests[22m[2m)[22m[33m 4603[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:25.0251812Z    [33m[2m✓[22m[39m REPLAY-01..12 accepted v2 contract[2m > [22mREPLAY-03: legal canonical moves, before/after chain, metadata and actor tampering [33m590[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:25.0414816Z    [33m[2m✓[22m[39m REPLAY-01..12 accepted v2 contract[2m > [22mREPLAY-07/08: interrupted awards are resumable, null stays unfinished, terminal cannot be forged [33m960[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:25.0666803Z    [33m[2m✓[22m[39m REPLAY-01..12 accepted v2 contract[2m > [22mREPLAY-10: complete Modern game, opening rotation, three forfeits and sole survivor +60 [33m770[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:25.0727154Z 
+check	Run pnpm test	2026-09-10T01:02:25.0751509Z [2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+check	Run pnpm test	2026-09-10T01:02:25.0813182Z [2m      Tests [22m [1m[32m58 passed[39m[22m[90m (58)[39m
+check	Run pnpm test	2026-09-10T01:02:25.0858200Z [2m   Start at [22m 01:02:17
+check	Run pnpm test	2026-09-10T01:02:25.0915979Z [2m   Duration [22m 6.91s[2m (transform 1.45s, setup 0ms, collect 3.84s, tests 5.58s, environment 1ms, prepare 1.74s)[22m
+check	Run pnpm test	2026-09-10T01:02:25.0950422Z 
+check	Run pnpm test	2026-09-10T01:02:25.1063526Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:28.9186638Z ##[group]@li4chess/tetrarch-engine:test
+check	Run pnpm test	2026-09-10T01:02:28.9287174Z cache miss, executing c91a01130a2833e0
+check	Run pnpm test	2026-09-10T01:02:28.9355666Z 
+check	Run pnpm test	2026-09-10T01:02:28.9417414Z > @li4chess/tetrarch-engine@0.0.0 test /home/runner/work/li4chess/li4chess/packages/tetrarch-engine
+check	Run pnpm test	2026-09-10T01:02:28.9467857Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:28.9534208Z 
+check	Run pnpm test	2026-09-10T01:02:28.9651925Z 
+check	Run pnpm test	2026-09-10T01:02:28.9771798Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/tetrarch-engine[39m
+check	Run pnpm test	2026-09-10T01:02:28.9850317Z 
+check	Run pnpm test	2026-09-10T01:02:28.9985779Z  [32m✓[39m test/adapter.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 434[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:29.0101585Z  [32m✓[39m test/hybrid.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 445[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:29.0210941Z 
+check	Run pnpm test	2026-09-10T01:02:29.0289437Z [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+check	Run pnpm test	2026-09-10T01:02:29.0346218Z [2m      Tests [22m [1m[32m24 passed[39m[22m[90m (24)[39m
+check	Run pnpm test	2026-09-10T01:02:29.0405275Z [2m   Start at [22m 01:02:25
+check	Run pnpm test	2026-09-10T01:02:29.0523463Z [2m   Duration [22m 3.52s[2m (transform 1.19s, setup 0ms, collect 2.33s, tests 880ms, environment 0ms, prepare 991ms)[22m
+check	Run pnpm test	2026-09-10T01:02:29.0560901Z 
+check	Run pnpm test	2026-09-10T01:02:29.0681211Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:29.3771630Z ##[group]@li4chess/architecture-spike:test
+check	Run pnpm test	2026-09-10T01:02:29.3780384Z cache miss, executing c0d8055bafe5a757
+check	Run pnpm test	2026-09-10T01:02:29.3830799Z 
+check	Run pnpm test	2026-09-10T01:02:29.3861254Z > @li4chess/architecture-spike@0.0.0 test /home/runner/work/li4chess/li4chess/packages/architecture-spike
+check	Run pnpm test	2026-09-10T01:02:29.3862166Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:29.3930619Z 
+check	Run pnpm test	2026-09-10T01:02:29.3990769Z 
+check	Run pnpm test	2026-09-10T01:02:29.4065466Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/architecture-spike[39m
+check	Run pnpm test	2026-09-10T01:02:29.4084665Z 
+check	Run pnpm test	2026-09-10T01:02:29.4120385Z  [32m✓[39m test/command.test.ts [2m([22m[2m3 tests[22m[2m)[22m[90m 36[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:29.4141175Z  [32m✓[39m test/persistence.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 361[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:29.4171168Z    [33m[2m✓[22m[39m cross-store canonical lineage[2m > [22mrejects divergent valid restored histories instead of silently choosing one [33m360[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:29.4171781Z 
+check	Run pnpm test	2026-09-10T01:02:29.4172092Z [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+check	Run pnpm test	2026-09-10T01:02:29.4172619Z [2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+check	Run pnpm test	2026-09-10T01:02:29.4173040Z [2m   Start at [22m 01:02:25
+check	Run pnpm test	2026-09-10T01:02:29.4174191Z [2m   Duration [22m 3.79s[2m (transform 1.41s, setup 0ms, collect 2.92s, tests 397ms, environment 16ms, prepare 1.01s)[22m
+check	Run pnpm test	2026-09-10T01:02:29.4174640Z 
+check	Run pnpm test	2026-09-10T01:02:29.4175027Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:29.4711399Z ##[group]@li4chess/persistence:test
+check	Run pnpm test	2026-09-10T01:02:29.4788001Z cache miss, executing f6fc38fd84195cac
+check	Run pnpm test	2026-09-10T01:02:29.4812887Z 
+check	Run pnpm test	2026-09-10T01:02:29.4878300Z > @li4chess/persistence@0.0.0 test /home/runner/work/li4chess/li4chess/packages/persistence
+check	Run pnpm test	2026-09-10T01:02:29.4912322Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:29.4955917Z 
+check	Run pnpm test	2026-09-10T01:02:29.4996843Z 
+check	Run pnpm test	2026-09-10T01:02:29.5031842Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/persistence[39m
+check	Run pnpm test	2026-09-10T01:02:29.5090416Z 
+check	Run pnpm test	2026-09-10T01:02:29.5146974Z  [32m✓[39m test/model.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 400[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:29.5199752Z 
+check	Run pnpm test	2026-09-10T01:02:29.5261605Z [2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+check	Run pnpm test	2026-09-10T01:02:29.5321642Z [2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+check	Run pnpm test	2026-09-10T01:02:29.5410986Z [2m   Start at [22m 01:02:25
+check	Run pnpm test	2026-09-10T01:02:29.5442157Z [2m   Duration [22m 4.01s[2m (transform 1.37s, setup 0ms, collect 1.88s, tests 400ms, environment 0ms, prepare 476ms)[22m
+check	Run pnpm test	2026-09-10T01:02:29.5533531Z 
+check	Run pnpm test	2026-09-10T01:02:29.5609663Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:30.6991502Z ##[group]@li4chess/persistence:build
+check	Run pnpm test	2026-09-10T01:02:30.7059558Z cache miss, executing 367932d990b5b75f
+check	Run pnpm test	2026-09-10T01:02:30.7120389Z 
+check	Run pnpm test	2026-09-10T01:02:30.7207960Z > @li4chess/persistence@0.0.0 build /home/runner/work/li4chess/li4chess/packages/persistence
+check	Run pnpm test	2026-09-10T01:02:30.7301225Z > tsc --noEmit
+check	Run pnpm test	2026-09-10T01:02:30.7336056Z 
+check	Run pnpm test	2026-09-10T01:02:30.7406959Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:32.0961808Z ##[group]@li4chess/tetrarch-engine:build
+check	Run pnpm test	2026-09-10T01:02:32.0989237Z cache miss, executing e0eef47c810e8800
+check	Run pnpm test	2026-09-10T01:02:32.1049666Z 
+check	Run pnpm test	2026-09-10T01:02:32.1101470Z > @li4chess/tetrarch-engine@0.0.0 build /home/runner/work/li4chess/li4chess/packages/tetrarch-engine
+check	Run pnpm test	2026-09-10T01:02:32.1170845Z > tsc
+check	Run pnpm test	2026-09-10T01:02:32.1200724Z 
+check	Run pnpm test	2026-09-10T01:02:32.1221045Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:33.6967095Z ##[group]@li4chess/web:test
+check	Run pnpm test	2026-09-10T01:02:33.7054654Z cache miss, executing 1f7a432da443c476
+check	Run pnpm test	2026-09-10T01:02:33.7170501Z 
+check	Run pnpm test	2026-09-10T01:02:33.7271790Z > @li4chess/web@0.0.0 test /home/runner/work/li4chess/li4chess/apps/web
+check	Run pnpm test	2026-09-10T01:02:33.7451053Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:33.7507209Z 
+check	Run pnpm test	2026-09-10T01:02:33.7620561Z 
+check	Run pnpm test	2026-09-10T01:02:33.7731728Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/apps/web[39m
+check	Run pnpm test	2026-09-10T01:02:33.7776895Z 
+check	Run pnpm test	2026-09-10T01:02:33.7874392Z  [32m✓[39m test/localSave.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 625[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.7926308Z    [33m[2m✓[22m[39m synchronously saves exact rules state, seat settings and saved producer lineage [33m377[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.7998313Z  [32m✓[39m test/rematch.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 674[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8041336Z  [32m✓[39m test/cpuClient.test.ts [2m([22m[2m14 tests[22m[2m)[22m[90m 39[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8141416Z  [32m✓[39m test/cpuJob.test.ts [2m([22m[2m2 tests[22m[2m)[22m[90m 177[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8191293Z  [32m✓[39m test/online.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 5353[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8274444Z    [33m[2m✓[22m[39m online browser ordering and recovery[2m > [22mobtains fresh proof when entry fails after retirement and the source connection restarts [33m393[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8372095Z    [33m[2m✓[22m[39m online browser ordering and recovery[2m > [22mchecks historical completed mode before retained proof/pending handling and never attaches or retires [33m306[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8483060Z    [33m[2m✓[22m[39m online browser ordering and recovery[2m > [22mretains the original command when receipt cannot be persisted and resends the same ID after reconnect [33m712[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8485398Z    [33m[2m✓[22m[39m online browser ordering and recovery[2m > [22mretains the original command when rejection cannot be persisted and resends the same ID after reconnect [33m720[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8487116Z    [33m[2m✓[22m[39m online browser ordering and recovery[2m > [22mretains the original command when explicit cleanup cannot be persisted and resends the same ID after reconnect [33m716[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8488865Z    [33m[2m✓[22m[39m online browser ordering and recovery[2m > [22mreacts to resyncRequired immediately and ignores old socket close callbacks [33m657[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:33.8489506Z 
+check	Run pnpm test	2026-09-10T01:02:33.8489844Z [2m Test Files [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+check	Run pnpm test	2026-09-10T01:02:33.8490550Z [2m      Tests [22m [1m[32m47 passed[39m[22m[90m (47)[39m
+check	Run pnpm test	2026-09-10T01:02:33.8491014Z [2m   Start at [22m 01:02:24
+check	Run pnpm test	2026-09-10T01:02:33.8491782Z [2m   Duration [22m 8.48s[2m (transform 2.25s, setup 0ms, collect 5.85s, tests 6.87s, environment 17ms, prepare 2.36s)[22m
+check	Run pnpm test	2026-09-10T01:02:33.8492227Z 
+check	Run pnpm test	2026-09-10T01:02:33.8492663Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:38.4301446Z ##[group]@li4chess/game-room:build
+check	Run pnpm test	2026-09-10T01:02:38.4366242Z cache miss, executing a1a142933bca576e
+check	Run pnpm test	2026-09-10T01:02:38.4420475Z 
+check	Run pnpm test	2026-09-10T01:02:38.4450230Z > @li4chess/game-room@0.0.0 build /home/runner/work/li4chess/li4chess/packages/game-room
+check	Run pnpm test	2026-09-10T01:02:38.4476951Z > tsc --noEmit
+check	Run pnpm test	2026-09-10T01:02:38.4500225Z 
+check	Run pnpm test	2026-09-10T01:02:38.4560988Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:47.7436185Z ##[group]@li4chess/engine:test
+check	Run pnpm test	2026-09-10T01:02:47.7451737Z cache miss, executing 946a72d163f33cdf
+check	Run pnpm test	2026-09-10T01:02:47.7452357Z 
+check	Run pnpm test	2026-09-10T01:02:47.7453019Z > @li4chess/engine@0.0.0 test /home/runner/work/li4chess/li4chess/packages/engine
+check	Run pnpm test	2026-09-10T01:02:47.7453774Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:47.7453979Z 
+check	Run pnpm test	2026-09-10T01:02:47.7453991Z 
+check	Run pnpm test	2026-09-10T01:02:47.7454886Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/engine[39m
+check	Run pnpm test	2026-09-10T01:02:47.7455328Z 
+check	Run pnpm test	2026-09-10T01:02:47.7455810Z  [32m✓[39m test/ffa-draw.test.ts [2m([22m[2m33 tests[22m[2m)[22m[90m 258[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7456625Z  [32m✓[39m test/ffa-dead.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 421[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7457429Z  [32m✓[39m test/ffa-walking.test.ts [2m([22m[2m41 tests[22m[2m)[22m[90m 175[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7458259Z  [32m✓[39m test/applyMove.test.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 60[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7459081Z  [32m✓[39m test/ffa-en-passant.test.ts [2m([22m[2m48 tests[22m[2m)[22m[33m 462[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7459899Z  [32m✓[39m test/ffa-scoring.test.ts [2m([22m[2m60 tests[22m[2m)[22m[33m 907[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7460934Z  [32m✓[39m test/ffa-promotion.test.ts [2m([22m[2m36 tests[22m[2m)[22m[33m 482[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7461754Z  [32m✓[39m test/ffa-end.test.ts [2m([22m[2m17 tests[22m[2m)[22m[90m 290[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7462511Z  [32m✓[39m test/ffa-core.test.ts [2m([22m[2m48 tests[22m[2m)[22m[33m 621[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7463278Z  [32m✓[39m test/legality.test.ts [2m([22m[2m6 tests[22m[2m)[22m[90m 226[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7464035Z  [32m✓[39m test/movegen.test.ts [2m([22m[2m7 tests[22m[2m)[22m[90m 15[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7464846Z  [32m✓[39m test/ffa-castling.test.ts [2m([22m[2m64 tests[22m[2m)[22m[33m 6439[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7465973Z    [33m[2m✓[22m[39m FFA castling: Red[2m > [22mFFA-CASTLE-15: dead pieces block every path square and can screen active attacks [33m488[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7467294Z    [33m[2m✓[22m[39m FFA castling: Red[2m > [22mFFA-CASTLE-16: dead attacks do not forbid castles; inactive owners lose all rights [33m447[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7468966Z    [33m[2m✓[22m[39m FFA castling: Blue[2m > [22mFFA-CASTLE-15: dead pieces block every path square and can screen active attacks [33m678[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7470411Z    [33m[2m✓[22m[39m FFA castling: Blue[2m > [22mFFA-CASTLE-16: dead attacks do not forbid castles; inactive owners lose all rights [33m539[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7471725Z    [33m[2m✓[22m[39m FFA castling: Yellow[2m > [22mFFA-CASTLE-15: dead pieces block every path square and can screen active attacks [33m591[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7473362Z    [33m[2m✓[22m[39m FFA castling: Yellow[2m > [22mFFA-CASTLE-16: dead attacks do not forbid castles; inactive owners lose all rights [33m537[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7474683Z    [33m[2m✓[22m[39m FFA castling: Green[2m > [22mFFA-CASTLE-15: dead pieces block every path square and can screen active attacks [33m588[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7475984Z    [33m[2m✓[22m[39m FFA castling: Green[2m > [22mFFA-CASTLE-16: dead attacks do not forbid castles; inactive owners lose all rights [33m446[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7491034Z  [32m✓[39m test/ffa-score-resolution.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 437[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7491882Z  [32m✓[39m test/board.test.ts [2m([22m[2m7 tests[22m[2m)[22m[90m 166[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7492656Z  [32m✓[39m test/ffa-abort.test.ts [2m([22m[2m21 tests[22m[2m)[22m[33m 371[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7493461Z  [32m✓[39m test/repetition.test.ts [2m([22m[2m1 test[22m[2m)[22m[90m 47[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7494302Z  [32m✓[39m test/ffa-state-boundary.test.ts [2m([22m[2m8 tests[22m[2m)[22m[90m 223[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7495128Z  [32m✓[39m test/ffa-setup.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 525[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7495883Z  [32m✓[39m test/setup.test.ts [2m([22m[2m5 tests[22m[2m)[22m[90m 31[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7496653Z  [32m✓[39m test/attacks.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 4023[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7497623Z    [33m[2m✓[22m[39m attackMap[2m > [22magrees with isSquareAttacked throughout randomly played games [33m3766[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7498529Z  [32m✓[39m test/pawns.test.ts [2m([22m[2m1 test[22m[2m)[22m[90m 12[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7499317Z  [32m✓[39m test/hasLegalMove.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 7261[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7500635Z    [33m[2m✓[22m[39m hasLegalMove[2m > [22magrees with legalMoves throughout randomly played games [33m7040[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7501549Z  [32m✓[39m test/fuzz.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 25119[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7502734Z    [33m[2m✓[22m[39m fuzz: random self-play games[2m > [22mevery game terminates (either a result, or the ply cap) without throwing, across many seeds [33m13323[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7504181Z    [33m[2m✓[22m[39m fuzz: random self-play games[2m > [22mcompleted games include every color and only a unique highest scorer is winner [33m11794[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.7504811Z 
+check	Run pnpm test	2026-09-10T01:02:47.7505155Z [2m Test Files [22m [1m[32m23 passed[39m[22m[90m (23)[39m
+check	Run pnpm test	2026-09-10T01:02:47.7505748Z [2m      Tests [22m [1m[32m471 passed[39m[22m[90m (471)[39m
+check	Run pnpm test	2026-09-10T01:02:47.7506216Z [2m   Start at [22m 01:02:14
+check	Run pnpm test	2026-09-10T01:02:47.7507055Z [2m   Duration [22m 32.69s[2m (transform 757ms, setup 0ms, collect 4.11s, tests 48.57s, environment 5ms, prepare 5.58s)[22m
+check	Run pnpm test	2026-09-10T01:02:47.7507545Z 
+check	Run pnpm test	2026-09-10T01:02:47.7507965Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:47.9140588Z ##[group]@li4chess/arena:test
+check	Run pnpm test	2026-09-10T01:02:47.9150686Z cache miss, executing af95a56dca8ebf72
+check	Run pnpm test	2026-09-10T01:02:47.9151203Z 
+check	Run pnpm test	2026-09-10T01:02:47.9151675Z > @li4chess/arena@0.0.0 test /home/runner/work/li4chess/li4chess/packages/arena
+check	Run pnpm test	2026-09-10T01:02:47.9152533Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:47.9152788Z 
+check	Run pnpm test	2026-09-10T01:02:47.9152879Z 
+check	Run pnpm test	2026-09-10T01:02:47.9153800Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/arena[39m
+check	Run pnpm test	2026-09-10T01:02:47.9154401Z 
+check	Run pnpm test	2026-09-10T01:02:47.9154922Z  [32m✓[39m test/legacy.test.ts [2m([22m[2m1 test[22m[2m)[22m[90m 46[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9155468Z  [32m✓[39m test/endgame-replay.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 9752[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9156608Z    [33m[2m✓[22m[39m reconstructs the original 240 moves and reproduces Yellow's depth-3 preference [33m1698[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9157577Z    [33m[2m✓[22m[39m replay continuation prepares a pawn exchange instead of another 32 quiet king moves [33m8053[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9158379Z  [32m✓[39m test/arena.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 10381[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9159050Z    [33m[2m✓[22m[39m arena[2m > [22mFFA-DRAW-09: automatic draws are completed and replay their flat awards [33m955[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9159720Z    [33m[2m✓[22m[39m arena[2m > [22mFFA-END-08: auto-claims preserve replay and reports use shared mean ranks [33m2379[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9160729Z    [33m[2m✓[22m[39m arena[2m > [22mrecords an abort separately without inventing placements or completed-seat statistics [33m592[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9161373Z    [33m[2m✓[22m[39m arena[2m > [22mwalking actions bypass seat engines and replay the recorded choice [33m575[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9161954Z    [33m[2m✓[22m[39m arena[2m > [22mrecords four tied first places separately from sole wins [33m762[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9162501Z    [33m[2m✓[22m[39m arena[2m > [22mreproduces seeded games and replays against the oracle [33m2323[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9163036Z    [33m[2m✓[22m[39m arena[2m > [22mcaptures engine errors without inventing placements [33m596[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9163644Z    [33m[2m✓[22m[39m arena[2m > [22mrejects historical snapshots before replay, aggregation or resuming a record [33m592[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9164343Z    [33m[2m✓[22m[39m arena[2m > [22mREPLAY-10: a complete Modern repetition game verifies all moves and four shared first places [33m1605[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:47.9164678Z 
+check	Run pnpm test	2026-09-10T01:02:47.9164890Z [2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+check	Run pnpm test	2026-09-10T01:02:47.9165242Z [2m      Tests [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+check	Run pnpm test	2026-09-10T01:02:47.9165523Z [2m   Start at [22m 01:02:33
+check	Run pnpm test	2026-09-10T01:02:47.9165998Z [2m   Duration [22m 13.92s[2m (transform 1.69s, setup 0ms, collect 6.76s, tests 20.18s, environment 7ms, prepare 734ms)[22m
+check	Run pnpm test	2026-09-10T01:02:47.9166274Z 
+check	Run pnpm test	2026-09-10T01:02:47.9166607Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:48.2460457Z ##[group]@li4chess/bot:test
+check	Run pnpm test	2026-09-10T01:02:48.2460992Z cache miss, executing c1f382ef3c2add45
+check	Run pnpm test	2026-09-10T01:02:48.2461249Z 
+check	Run pnpm test	2026-09-10T01:02:48.2461538Z > @li4chess/bot@0.0.0 test /home/runner/work/li4chess/li4chess/packages/bot
+check	Run pnpm test	2026-09-10T01:02:48.2461983Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:48.2462109Z 
+check	Run pnpm test	2026-09-10T01:02:48.2462116Z 
+check	Run pnpm test	2026-09-10T01:02:48.2462867Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/bot[39m
+check	Run pnpm test	2026-09-10T01:02:48.2463247Z 
+check	Run pnpm test	2026-09-10T01:02:48.2463696Z  [32m✓[39m test/decisive.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 3203[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2464727Z    [33m[2m✓[22m[39m decisive outcomes outweigh material[2m > [22mprefers a win available now over the same win a move later [33m2795[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2465634Z  [32m✓[39m test/lab.test.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 3999[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2466714Z    [33m[2m✓[22m[39m experimental search semantics[2m > [22menhanced ordering preserves fixed-depth values and bounded quiescence sees a poisoned capture [33m787[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2468837Z    [33m[2m✓[22m[39m experimental search semantics[2m > [22miterative and direct search agree at fixed depth, with legal PV and exact sampling [33m1896[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2469764Z    [33m[2m✓[22m[39m position corpus[2m > [22mopening [33m876[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2470894Z  [32m✓[39m test/hash.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 512[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2471688Z    [33m[2m✓[22m[39m delta hashes match full recomputation over legal paths and tactical transitions [33m302[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2472765Z  [32m✓[39m test/pawn-endgame.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 2459[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2473558Z    [33m[2m✓[22m[39m safe promotion progress and conservative interception, orientation 0 [33m796[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2474349Z    [33m[2m✓[22m[39m safe promotion progress and conservative interception, orientation 1 [33m430[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2474901Z    [33m[2m✓[22m[39m safe promotion progress and conservative interception, orientation 2 [33m377[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2475379Z  [32m✓[39m test/bounded.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 1683[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2475937Z    [33m[2m✓[22m[39m bounded production search[2m > [22mpreserves terminal utility over material on a won endgame [33m335[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2476589Z    [33m[2m✓[22m[39m bounded production search[2m > [22mlevel 1 is legal and deterministic under a node cap [33m360[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2477099Z  [32m✓[39m test/progress.test.ts [2m([22m[2m2 tests[22m[2m)[22m[90m 253[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2477528Z  [32m✓[39m test/evaluate.test.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 21[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2477944Z  [32m✓[39m test/search.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 543[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2478470Z    [33m[2m✓[22m[39m bot search[2m > [22mchooseCpuMove returns a legal move at every difficulty level [33m391[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2478965Z  [32m✓[39m test/results.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 728[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2479475Z    [33m[2m✓[22m[39m search does not force an eligible claim that loses to an eliminated high scorer [33m716[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2480111Z  [32m✓[39m test/walking.test.ts [2m([22m[2m1 test[22m[2m)[22m[90m 124[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2480572Z  [32m✓[39m test/classic.test.ts [2m([22m[2m1 test[22m[2m)[22m[90m 3[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2481001Z  [32m✓[39m test/selection.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 27026[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2481640Z    [33m[2m✓[22m[39m move selection never trades value for novelty[2m > [22mstays within the contender tolerance of the best move at level 3 [33m18837[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2482416Z    [33m[2m✓[22m[39m move selection never trades value for novelty[2m > [22mstill prefers a fresh move when the alternatives really are equal [33m8183[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2482991Z  [32m✓[39m test/endgame.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 23238[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2483550Z    [33m[2m✓[22m[39m won endgames actually get finished[2m > [22mconverts king, queen and rook against a lone king [33m16718[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2484181Z    [33m[2m✓[22m[39m won endgames actually get finished[2m > [22mconverts king and queen against a lone king [33m4409[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2484792Z    [33m[2m✓[22m[39m won endgames actually get finished[2m > [22mconverts king and rook against a lone king [33m2099[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:48.2485070Z 
+check	Run pnpm test	2026-09-10T01:02:48.2485274Z [2m Test Files [22m [1m[32m13 passed[39m[22m[90m (13)[39m
+check	Run pnpm test	2026-09-10T01:02:48.2485611Z [2m      Tests [22m [1m[32m76 passed[39m[22m[90m (76)[39m
+check	Run pnpm test	2026-09-10T01:02:48.2486063Z [2m   Start at [22m 01:02:17
+check	Run pnpm test	2026-09-10T01:02:48.2486532Z [2m   Duration [22m 30.68s[2m (transform 1.35s, setup 0ms, collect 4.97s, tests 63.79s, environment 11ms, prepare 3.37s)[22m
+check	Run pnpm test	2026-09-10T01:02:48.2486806Z 
+check	Run pnpm test	2026-09-10T01:02:48.2487057Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:54.8635686Z ##[group]@li4chess/game-room:test
+check	Run pnpm test	2026-09-10T01:02:54.8636200Z cache miss, executing 9db4d9e2a9973876
+check	Run pnpm test	2026-09-10T01:02:54.8636408Z 
+check	Run pnpm test	2026-09-10T01:02:54.8637122Z > @li4chess/game-room@0.0.0 test /home/runner/work/li4chess/li4chess/packages/game-room
+check	Run pnpm test	2026-09-10T01:02:54.8637590Z > vitest run
+check	Run pnpm test	2026-09-10T01:02:54.8637711Z 
+check	Run pnpm test	2026-09-10T01:02:54.8637718Z 
+check	Run pnpm test	2026-09-10T01:02:54.8638514Z [1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/li4chess/li4chess/packages/game-room[39m
+check	Run pnpm test	2026-09-10T01:02:54.8638886Z 
+check	Run pnpm test	2026-09-10T01:02:54.8639279Z  [32m✓[39m test/timing.test.ts [2m([22m[2m12 tests[22m[2m)[22m[90m 148[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8640462Z  [32m✓[39m test/rematch.test.ts [2m([22m[2m8 tests[22m[2m)[22m[90m 121[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8641123Z  [32m✓[39m test/room.test.ts [2m([22m[2m27 tests[22m[2m)[22m[33m 5190[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8642282Z    [33m[2m✓[22m[39m Room state machine with mocked storage and canonical I/O[2m > [22mkeeps completed history readable when a sibling tab has already closed during disconnect publication [33m336[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8643773Z    [33m[2m✓[22m[39m Room state machine with mocked storage and canonical I/O[2m > [22mlimits recovery alarm to one canonical action before scheduling its walking successor [33m1192[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8644886Z    [33m[2m✓[22m[39m Room state machine with mocked storage and canonical I/O[2m > [22mcannot reconnect away an exhausted bank when recovery committed an earlier tied forfeit [33m940[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8645855Z  [32m✓[39m test/completed-replay.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 20669[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8647138Z    [33m[2m✓[22m[39m completed replay read-only member audit[2m > [22mport-assisted 2048-command byte boundary +0 admits exactly or rejects without final publication [33m15156[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8648428Z    [33m[2m✓[22m[39m completed replay read-only member audit[2m > [22mport-assisted 2048-command byte boundary +1 admits exactly or rejects without final publication [33m5311[2mms[22m[39m
+check	Run pnpm test	2026-09-10T01:02:54.8648932Z 
+check	Run pnpm test	2026-09-10T01:02:54.8649281Z [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+check	Run pnpm test	2026-09-10T01:02:54.8649721Z [2m      Tests [22m [1m[32m59 passed[39m[22m[90m (59)[39m
+check	Run pnpm test	2026-09-10T01:02:54.8650257Z [2m   Start at [22m 01:02:32
+check	Run pnpm test	2026-09-10T01:02:54.8650872Z [2m   Duration [22m 22.55s[2m (transform 1.52s, setup 0ms, collect 3.77s, tests 26.13s, environment 7ms, prepare 857ms)[22m
+check	Run pnpm test	2026-09-10T01:02:54.8651181Z 
+check	Run pnpm test	2026-09-10T01:02:54.8651524Z ##[endgroup]
+check	Run pnpm test	2026-09-10T01:02:54.8651944Z  WARNING  no output files found for task @li4chess/game-room#build. Please check your `outputs` key in `turbo.json`
+check	Run pnpm test	2026-09-10T01:02:54.8652462Z  WARNING  no output files found for task @li4chess/persistence#build. Please check your `outputs` key in `turbo.json`
+check	Run pnpm test	2026-09-10T01:02:54.8652730Z 
+check	Run pnpm test	2026-09-10T01:02:54.8652829Z  Tasks:    16 successful, 16 total
+check	Run pnpm test	2026-09-10T01:02:54.8653022Z Cached:    0 cached, 16 total
+check	Run pnpm test	2026-09-10T01:02:54.8653181Z   Time:    40.428s 
+check	Run pnpm test	2026-09-10T01:02:54.8653270Z 
+check	Run pnpm build	﻿2026-09-10T01:02:54.8822770Z ##[group]Run pnpm build
+check	Run pnpm build	2026-09-10T01:02:54.8822964Z [36;1mpnpm build[0m
+check	Run pnpm build	2026-09-10T01:02:54.8856156Z shell: /usr/bin/bash -e {0}
+check	Run pnpm build	2026-09-10T01:02:54.8856319Z env:
+check	Run pnpm build	2026-09-10T01:02:54.8856482Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+check	Run pnpm build	2026-09-10T01:02:54.8856676Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:55.0666535Z 
+check	Run pnpm build	2026-09-10T01:02:55.0667202Z > li4chess@0.0.0 build /home/runner/work/li4chess/li4chess
+check	Run pnpm build	2026-09-10T01:02:55.0667523Z > turbo run build
+check	Run pnpm build	2026-09-10T01:02:55.0667960Z 
+check	Run pnpm build	2026-09-10T01:02:55.1107161Z 
+check	Run pnpm build	2026-09-10T01:02:55.1109211Z    • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+check	Run pnpm build	2026-09-10T01:02:55.1110478Z    • Running build in 11 packages
+check	Run pnpm build	2026-09-10T01:02:55.1110794Z    • Remote caching disabled
+check	Run pnpm build	2026-09-10T01:02:55.1110901Z 
+check	Run pnpm build	2026-09-10T01:02:55.1148025Z ##[group]@li4chess/engine:build
+check	Run pnpm build	2026-09-10T01:02:55.1156447Z cache hit, replaying logs 5ec4c6ec92a5201c
+check	Run pnpm build	2026-09-10T01:02:55.1156993Z 
+check	Run pnpm build	2026-09-10T01:02:55.1157487Z > @li4chess/engine@0.0.0 build /home/runner/work/li4chess/li4chess/packages/engine
+check	Run pnpm build	2026-09-10T01:02:55.1158242Z > tsc -p tsconfig.json
+check	Run pnpm build	2026-09-10T01:02:55.1158540Z 
+check	Run pnpm build	2026-09-10T01:02:55.1158974Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:55.1159465Z ##[group]@li4chess/bot:build
+check	Run pnpm build	2026-09-10T01:02:55.1159915Z cache hit, replaying logs 045f79451ce706fa
+check	Run pnpm build	2026-09-10T01:02:55.1160394Z 
+check	Run pnpm build	2026-09-10T01:02:55.1160796Z > @li4chess/bot@0.0.0 build /home/runner/work/li4chess/li4chess/packages/bot
+check	Run pnpm build	2026-09-10T01:02:55.1161315Z > tsc -p tsconfig.json
+check	Run pnpm build	2026-09-10T01:02:55.1161523Z 
+check	Run pnpm build	2026-09-10T01:02:55.1161785Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:55.1162120Z ##[group]@li4chess/protocol:build
+check	Run pnpm build	2026-09-10T01:02:55.1162437Z cache hit, replaying logs a050ce2974fc25fa
+check	Run pnpm build	2026-09-10T01:02:55.1162669Z 
+check	Run pnpm build	2026-09-10T01:02:55.1162973Z > @li4chess/protocol@0.0.0 build /home/runner/work/li4chess/li4chess/packages/protocol
+check	Run pnpm build	2026-09-10T01:02:55.1163345Z > tsc -p tsconfig.json
+check	Run pnpm build	2026-09-10T01:02:55.1163556Z 
+check	Run pnpm build	2026-09-10T01:02:55.1163805Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:55.1164168Z ##[group]@li4chess/ui-kit:build
+check	Run pnpm build	2026-09-10T01:02:55.1164479Z cache hit, replaying logs 0839312c7bb51f26
+check	Run pnpm build	2026-09-10T01:02:55.1164711Z 
+check	Run pnpm build	2026-09-10T01:02:55.1165004Z > @li4chess/ui-kit@0.0.0 build /home/runner/work/li4chess/li4chess/packages/ui-kit
+check	Run pnpm build	2026-09-10T01:02:55.1165358Z > tsc -p tsconfig.json
+check	Run pnpm build	2026-09-10T01:02:55.1165565Z 
+check	Run pnpm build	2026-09-10T01:02:55.1165810Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:55.1166140Z ##[group]@li4chess/tetrarch-engine:build
+check	Run pnpm build	2026-09-10T01:02:55.1166460Z cache hit, replaying logs e0eef47c810e8800
+check	Run pnpm build	2026-09-10T01:02:55.1166685Z 
+check	Run pnpm build	2026-09-10T01:02:55.1167031Z > @li4chess/tetrarch-engine@0.0.0 build /home/runner/work/li4chess/li4chess/packages/tetrarch-engine
+check	Run pnpm build	2026-09-10T01:02:55.1167410Z > tsc
+check	Run pnpm build	2026-09-10T01:02:55.1167595Z 
+check	Run pnpm build	2026-09-10T01:02:55.1167842Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:55.1168170Z ##[group]@li4chess/persistence:build
+check	Run pnpm build	2026-09-10T01:02:55.1168484Z cache hit, replaying logs 367932d990b5b75f
+check	Run pnpm build	2026-09-10T01:02:55.1168715Z 
+check	Run pnpm build	2026-09-10T01:02:55.1169032Z > @li4chess/persistence@0.0.0 build /home/runner/work/li4chess/li4chess/packages/persistence
+check	Run pnpm build	2026-09-10T01:02:55.1169403Z > tsc --noEmit
+check	Run pnpm build	2026-09-10T01:02:55.1169622Z 
+check	Run pnpm build	2026-09-10T01:02:55.1169867Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:55.1170658Z ##[group]@li4chess/game-room:build
+check	Run pnpm build	2026-09-10T01:02:55.1170999Z cache hit, replaying logs a1a142933bca576e
+check	Run pnpm build	2026-09-10T01:02:55.1171175Z 
+check	Run pnpm build	2026-09-10T01:02:55.1171501Z > @li4chess/game-room@0.0.0 build /home/runner/work/li4chess/li4chess/packages/game-room
+check	Run pnpm build	2026-09-10T01:02:55.1171891Z > tsc --noEmit
+check	Run pnpm build	2026-09-10T01:02:55.1171985Z 
+check	Run pnpm build	2026-09-10T01:02:55.1172117Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:57.4827605Z ##[group]@li4chess/architecture-spike:build
+check	Run pnpm build	2026-09-10T01:02:57.4845604Z cache miss, executing 7f33dfb220a11251
+check	Run pnpm build	2026-09-10T01:02:57.4846204Z 
+check	Run pnpm build	2026-09-10T01:02:57.4846848Z > @li4chess/architecture-spike@0.0.0 build /home/runner/work/li4chess/li4chess/packages/architecture-spike
+check	Run pnpm build	2026-09-10T01:02:57.4847550Z > tsc --noEmit
+check	Run pnpm build	2026-09-10T01:02:57.4848194Z 
+check	Run pnpm build	2026-09-10T01:02:57.4848647Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:58.4154732Z ##[group]@li4chess/worker:build
+check	Run pnpm build	2026-09-10T01:02:58.4155399Z cache miss, executing 368e797708677cad
+check	Run pnpm build	2026-09-10T01:02:58.4155781Z 
+check	Run pnpm build	2026-09-10T01:02:58.4156243Z > @li4chess/worker@0.0.0 build /home/runner/work/li4chess/li4chess/apps/worker
+check	Run pnpm build	2026-09-10T01:02:58.4156879Z > tsc -p tsconfig.json
+check	Run pnpm build	2026-09-10T01:02:58.4157204Z 
+check	Run pnpm build	2026-09-10T01:02:58.4157582Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:58.4483517Z ##[group]@li4chess/arena:build
+check	Run pnpm build	2026-09-10T01:02:58.4484417Z cache miss, executing 1582f25fd3c981b0
+check	Run pnpm build	2026-09-10T01:02:58.4485061Z 
+check	Run pnpm build	2026-09-10T01:02:58.4485556Z > @li4chess/arena@0.0.0 build /home/runner/work/li4chess/li4chess/packages/arena
+check	Run pnpm build	2026-09-10T01:02:58.4486222Z > tsc -p tsconfig.json
+check	Run pnpm build	2026-09-10T01:02:58.4486517Z 
+check	Run pnpm build	2026-09-10T01:02:58.4486923Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:59.8716837Z ##[group]@li4chess/web:build
+check	Run pnpm build	2026-09-10T01:02:59.8717400Z cache miss, executing cf98adddca8b71d5
+check	Run pnpm build	2026-09-10T01:02:59.8717620Z 
+check	Run pnpm build	2026-09-10T01:02:59.8717949Z > @li4chess/web@0.0.0 build /home/runner/work/li4chess/li4chess/apps/web
+check	Run pnpm build	2026-09-10T01:02:59.8718445Z > tsc -p tsconfig.json --noEmit && vite build
+check	Run pnpm build	2026-09-10T01:02:59.8718700Z 
+check	Run pnpm build	2026-09-10T01:02:59.8719782Z [36mvite v5.4.21 [32mbuilding for production...[36m[39m
+check	Run pnpm build	2026-09-10T01:02:59.8720302Z transforming...
+check	Run pnpm build	2026-09-10T01:02:59.8720683Z [32m✓[39m 100 modules transformed.
+check	Run pnpm build	2026-09-10T01:02:59.8720979Z rendering chunks...
+check	Run pnpm build	2026-09-10T01:02:59.8721247Z computing gzip size...
+check	Run pnpm build	2026-09-10T01:02:59.8721865Z [2mdist/[22m[32mindex.html                     [39m[1m[2m  1.77 kB[22m[1m[22m[2m │ gzip:  0.54 kB[22m
+check	Run pnpm build	2026-09-10T01:02:59.8722419Z [2mdist/[22m[2massets/[22m[32mcpu.worker-CObQFQzj.js  [39m[1m[2m 34.95 kB[22m[1m[22m
+check	Run pnpm build	2026-09-10T01:02:59.8722977Z [2mdist/[22m[2massets/[22m[35mindex-CyWbkTzf.css      [39m[1m[2m 10.53 kB[22m[1m[22m[2m │ gzip:  3.03 kB[22m
+check	Run pnpm build	2026-09-10T01:02:59.8724840Z [2mdist/[22m[2massets/[22m[36mindex-BVTaOCCP.js       [39m[1m[2m260.57 kB[22m[1m[22m[2m │ gzip: 83.18 kB[22m
+check	Run pnpm build	2026-09-10T01:02:59.8725406Z [32m✓ built in 887ms[39m
+check	Run pnpm build	2026-09-10T01:02:59.8725847Z ##[endgroup]
+check	Run pnpm build	2026-09-10T01:02:59.8725972Z 
+check	Run pnpm build	2026-09-10T01:02:59.8726111Z  Tasks:    11 successful, 11 total
+check	Run pnpm build	2026-09-10T01:02:59.8726506Z Cached:    7 cached, 11 total
+check	Run pnpm build	2026-09-10T01:02:59.8726872Z   Time:    4.774s 
+check	Run pnpm build	2026-09-10T01:02:59.8727037Z 
+check	Run pnpm build	2026-09-10T01:02:59.8727709Z  WARNING  no output files found for task @li4chess/architecture-spike#build. Please check your `outputs` key in `turbo.json`
+check	Run pnpm build	2026-09-10T01:02:59.8728846Z  WARNING  no output files found for task @li4chess/worker#build. Please check your `outputs` key in `turbo.json`
+check	Install Chromium for browser tests	﻿2026-09-10T01:02:59.8981195Z ##[group]Run pnpm --filter @li4chess/web exec playwright install --with-deps chromium
+check	Install Chromium for browser tests	2026-09-10T01:02:59.8981612Z [36;1mpnpm --filter @li4chess/web exec playwright install --with-deps chromium[0m
+check	Install Chromium for browser tests	2026-09-10T01:02:59.9017185Z shell: /usr/bin/bash -e {0}
+check	Install Chromium for browser tests	2026-09-10T01:02:59.9017365Z env:
+check	Install Chromium for browser tests	2026-09-10T01:02:59.9017538Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+check	Install Chromium for browser tests	2026-09-10T01:02:59.9017753Z ##[endgroup]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.4758556Z Installing dependencies...
+check	Install Chromium for browser tests	2026-09-10T01:03:00.4801863Z Switching to root user to install dependencies...
+check	Install Chromium for browser tests	2026-09-10T01:03:00.6931414Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.7406517Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.8067450Z Get:7 https://dl.google.com/linux/chrome-stable/deb stable InRelease [2548 B]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.8637434Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+check	Install Chromium for browser tests	2026-09-10T01:03:00.8645137Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.8666370Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.8676683Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.8913868Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [410 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.9028286Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [459 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:00.9936159Z Get:10 https://dl.google.com/linux/chrome-stable/deb stable/main amd64 Packages [1412 B]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0118801Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1260 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0178303Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [181 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0192891Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1690 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0261458Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0275865Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1536 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0338652Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0604586Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5760 B]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.0613071Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.1022372Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1005 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.1062434Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [213 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.1494158Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.5 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.1502313Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1206 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.1545053Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.3 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.1554190Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1441 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:01.1607071Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [334 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:05.8945691Z Fetched 10.6 MB in 1s (9566 kB/s)
+check	Install Chromium for browser tests	2026-09-10T01:03:06.5058716Z Reading package lists...
+check	Install Chromium for browser tests	2026-09-10T01:03:06.5282002Z Reading package lists...
+check	Install Chromium for browser tests	2026-09-10T01:03:06.7013068Z Building dependency tree...
+check	Install Chromium for browser tests	2026-09-10T01:03:06.7018763Z Reading state information...
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8437023Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8437806Z libasound2t64 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8438429Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8439049Z libatk-bridge2.0-0t64 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8440519Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8441070Z libatk1.0-0t64 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8441641Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8442208Z libatspi2.0-0t64 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8442742Z libcairo2 is already the newest version (1.18.0-3build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8443214Z libcairo2 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8443610Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8443990Z libcups2t64 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8444367Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8444679Z libdbus-1-3 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8444945Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8445193Z libdrm2 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8445439Z libgbm1 is already the newest version (25.2.8-0ubuntu0.24.04.2).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8445682Z libgbm1 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8445933Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.8).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8446189Z libglib2.0-0t64 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8446447Z libnspr4 is already the newest version (2:4.35-1.1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8446682Z libnspr4 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8446962Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8447312Z libnss3 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8447604Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8447853Z libpango-1.0-0 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8448093Z libx11-6 is already the newest version (2:1.8.7-1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8448508Z libx11-6 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8448733Z libxcb1 is already the newest version (1.15-1ubuntu2).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8448953Z libxcb1 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8449208Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8449457Z libxcomposite1 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8449710Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8450121Z libxdamage1 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8450433Z libxext6 is already the newest version (2:1.3.4-1build2).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8450668Z libxext6 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8450905Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8451140Z libxfixes3 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8451389Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8451629Z libxkbcommon0 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8451878Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8452112Z libxrandr2 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8452351Z xvfb is already the newest version (2:21.1.12-1ubuntu1.6).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8452679Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8453114Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8453503Z libfontconfig1 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8453926Z libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.1).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8454327Z libfreetype6 set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8454732Z fonts-liberation is already the newest version (1:2.1.5-3).
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8455126Z fonts-liberation set to manually installed.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8455525Z The following additional packages will be installed:
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8455866Z   xfonts-encodings xfonts-utils
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8456053Z Recommended packages:
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8456229Z   fonts-ipafont-mincho fonts-tlwg-loma
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8748355Z The following NEW packages will be installed:
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8749125Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8754951Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8755427Z   xfonts-utils
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8910509Z 0 upgraded, 9 newly installed, 0 to remove and 3 not upgraded.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8910874Z Need to get 21.1 MB of archives.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8911151Z After this operation, 79.5 MB of additional disk space will be used.
+check	Install Chromium for browser tests	2026-09-10T01:03:06.8911464Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+check	Install Chromium for browser tests	2026-09-10T01:03:06.9699167Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.0638057Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.1990833Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.2447342Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.3354561Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.4812717Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.5288216Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.5741122Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.6205683Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+check	Install Chromium for browser tests	2026-09-10T01:03:07.9712151Z Fetched 21.1 MB in 1s (28.5 MB/s)
+check	Install Chromium for browser tests	2026-09-10T01:03:08.2644220Z Selecting previously unselected package fonts-ipafont-gothic.
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3000408Z (Reading database ... 
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3000738Z (Reading database ... 5%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3001059Z (Reading database ... 10%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3001333Z (Reading database ... 15%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3001527Z (Reading database ... 20%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3001692Z (Reading database ... 25%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3001857Z (Reading database ... 30%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3002372Z (Reading database ... 35%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3002666Z (Reading database ... 40%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3002919Z (Reading database ... 45%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3003177Z (Reading database ... 50%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.3043821Z (Reading database ... 55%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.4372617Z (Reading database ... 60%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.7271263Z (Reading database ... 65%
+check	Install Chromium for browser tests	2026-09-10T01:03:08.9328023Z (Reading database ... 70%
+check	Install Chromium for browser tests	2026-09-10T01:03:09.0720249Z (Reading database ... 75%
+check	Install Chromium for browser tests	2026-09-10T01:03:09.2399575Z (Reading database ... 80%
+check	Install Chromium for browser tests	2026-09-10T01:03:09.4833399Z (Reading database ... 85%
+check	Install Chromium for browser tests	2026-09-10T01:03:09.6694607Z (Reading database ... 90%
+check	Install Chromium for browser tests	2026-09-10T01:03:09.8637609Z (Reading database ... 95%
+check	Install Chromium for browser tests	2026-09-10T01:03:09.8638057Z (Reading database ... 100%
+check	Install Chromium for browser tests	2026-09-10T01:03:09.8638558Z (Reading database ... 201818 files and directories currently installed.)
+check	Install Chromium for browser tests	2026-09-10T01:03:09.8680402Z Preparing to unpack .../0-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:09.9274535Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.1857299Z Selecting previously unselected package fonts-freefont-ttf.
+check	Install Chromium for browser tests	2026-09-10T01:03:10.1969648Z Preparing to unpack .../1-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.1978580Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.3706504Z Selecting previously unselected package fonts-tlwg-loma-otf.
+check	Install Chromium for browser tests	2026-09-10T01:03:10.3818559Z Preparing to unpack .../2-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.4088396Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.4690878Z Selecting previously unselected package fonts-unifont.
+check	Install Chromium for browser tests	2026-09-10T01:03:10.4800833Z Preparing to unpack .../3-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.4809725Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.7321157Z Selecting previously unselected package fonts-wqy-zenhei.
+check	Install Chromium for browser tests	2026-09-10T01:03:10.7466389Z Preparing to unpack .../4-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:10.7660310Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.2789084Z Selecting previously unselected package xfonts-encodings.
+check	Install Chromium for browser tests	2026-09-10T01:03:11.2900702Z Preparing to unpack .../5-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.2909859Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.3267265Z Selecting previously unselected package xfonts-utils.
+check	Install Chromium for browser tests	2026-09-10T01:03:11.3382112Z Preparing to unpack .../6-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.3527772Z Unpacking xfonts-utils (1:7.7+6build3) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.4492053Z Selecting previously unselected package xfonts-cyrillic.
+check	Install Chromium for browser tests	2026-09-10T01:03:11.4602199Z Preparing to unpack .../7-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.4978666Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.6546003Z Selecting previously unselected package xfonts-scalable.
+check	Install Chromium for browser tests	2026-09-10T01:03:11.6655528Z Preparing to unpack .../8-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.6666535Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7078937Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7201725Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7279795Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7317943Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7342752Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7420973Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7532297Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.7760475Z Setting up xfonts-utils (1:7.7+6build3) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.8784806Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:11.9193947Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:12.0011059Z Processing triggers for man-db (2.12.0-4build2) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:12.0063893Z Not building database; man-db/auto-update is not 'true'.
+check	Install Chromium for browser tests	2026-09-10T01:03:12.0077700Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0254600Z 
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0255306Z Running kernel seems to be up-to-date.
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0255565Z 
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0255703Z No services need to be restarted.
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0255865Z 
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0255997Z No containers need to be restarted.
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0256165Z 
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0256364Z No user sessions are running outdated binaries.
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0256546Z 
+check	Install Chromium for browser tests	2026-09-10T01:03:13.0256791Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+check	Install Chromium for browser tests	2026-09-10T01:03:13.8617570Z Downloading Chromium 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip
+check	Install Chromium for browser tests	2026-09-10T01:03:13.9713826Z |                                                                                |   0% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:14.0903779Z |■■■■■■■■                                                                        |  10% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:14.1576950Z |■■■■■■■■■■■■■■■■                                                                |  20% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:14.5717207Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:14.6741774Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:15.3273144Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:15.4257279Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:15.5244899Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:15.5924014Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:15.7037360Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:15.9686653Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 173.9 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.6045984Z Chromium 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium-1194
+check	Install Chromium for browser tests	2026-09-10T01:03:18.6050982Z Downloading FFMPEG playwright build v1011 from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7388185Z |                                                                                |   0% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7412884Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7429739Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7449555Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7464120Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7481595Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7491501Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7509024Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7515945Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7529350Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7535120Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7966114Z FFMPEG playwright build v1011 downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+check	Install Chromium for browser tests	2026-09-10T01:03:18.7969108Z Downloading Chromium Headless Shell 141.0.7390.37 (playwright build v1194) from https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip
+check	Install Chromium for browser tests	2026-09-10T01:03:18.9094091Z |                                                                                |   0% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.9559509Z |■■■■■■■■                                                                        |  10% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:18.9843670Z |■■■■■■■■■■■■■■■■                                                                |  20% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.0218426Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.0692056Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.0995744Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.1217836Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.1674380Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.1902730Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.2176050Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:19.2662653Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 104.3 MiB
+check	Install Chromium for browser tests	2026-09-10T01:03:20.6293687Z Chromium Headless Shell 141.0.7390.37 (playwright build v1194) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1194
+check	Run browser tests	﻿2026-09-10T01:03:20.8565671Z ##[group]Run pnpm --filter @li4chess/web test:e2e
+check	Run browser tests	2026-09-10T01:03:20.8565957Z [36;1mpnpm --filter @li4chess/web test:e2e[0m
+check	Run browser tests	2026-09-10T01:03:20.8601827Z shell: /usr/bin/bash -e {0}
+check	Run browser tests	2026-09-10T01:03:20.8602005Z env:
+check	Run browser tests	2026-09-10T01:03:20.8602176Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+check	Run browser tests	2026-09-10T01:03:20.8602390Z ##[endgroup]
+check	Run browser tests	2026-09-10T01:03:21.0777683Z 
+check	Run browser tests	2026-09-10T01:03:21.0778796Z > @li4chess/web@0.0.0 test:e2e /home/runner/work/li4chess/li4chess/apps/web
+check	Run browser tests	2026-09-10T01:03:21.0779344Z > playwright test
+check	Run browser tests	2026-09-10T01:03:21.0779452Z 
+check	Run browser tests	2026-09-10T01:03:22.8939759Z [WebServer] npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+check	Run browser tests	2026-09-10T01:03:22.8941399Z [WebServer] npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+check	Run browser tests	2026-09-10T01:03:22.8942552Z [WebServer] npm warn Unknown env config "recursive". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+check	Run browser tests	2026-09-10T01:03:22.8943357Z [WebServer] npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+check	Run browser tests	2026-09-10T01:03:24.8343721Z 
+check	Run browser tests	2026-09-10T01:03:24.8344377Z Running 53 tests using 1 worker
+check	Run browser tests	2026-09-10T01:03:24.8344613Z 
+check	Run browser tests	2026-09-10T01:03:26.1855160Z   ✓   1 e2e/accessibility.spec.ts:4:1 › a check against a non-current player is announced alongside its score (582ms)
+check	Run browser tests	2026-09-10T01:03:26.8380133Z   ✓   2 e2e/accessibility.spec.ts:71:1 › keyboard-only setup, board selection, clearing, move and game controls (643ms)
+check	Run browser tests	2026-09-10T01:03:27.2806478Z   ✓   3 e2e/accessibility.spec.ts:123:1 › starting a game returns the viewport to the game (433ms)
+check	Run browser tests	2026-09-10T01:03:28.2282640Z   ✓   4 e2e/accessibility.spec.ts:139:1 › arrow navigation follows every rotation and player panels follow the same directions (939ms)
+check	Run browser tests	2026-09-10T01:03:29.1839272Z   ✓   5 e2e/accessibility.spec.ts:169:3 › 360px layout › full board, readable panels, touch controls and deliberate terminal result (949ms)
+check	Run browser tests	2026-09-10T01:03:30.1520464Z   ✓   6 e2e/accessibility.spec.ts:169:3 › 768px layout › full board, readable panels, touch controls and deliberate terminal result (960ms)
+check	Run browser tests	2026-09-10T01:03:31.0697139Z   ✓   7 e2e/accessibility.spec.ts:169:3 › 1280px layout › full board, readable panels, touch controls and deliberate terminal result (910ms)
+check	Run browser tests	2026-09-10T01:03:32.1902321Z   ✓   8 e2e/accessibility.spec.ts:226:1 › long histories stay scrollable without expanding the board frame (1.1s)
+check	Run browser tests	2026-09-10T01:03:33.3232601Z   ✓   9 e2e/board-display.spec.ts:2:1 › piece-owner letters default off and remember either choice without changing square names (1.1s)
+check	Run browser tests	2026-09-10T01:03:33.7873234Z   ✓  10 e2e/claim.spec.ts:33:5 › Claim: lead 20, turn 0, CPU false, eliminated score 0 (450ms)
+check	Run browser tests	2026-09-10T01:03:34.3323749Z   ✓  11 e2e/claim.spec.ts:33:5 › Claim: lead 21, turn 0, CPU false, eliminated score 0 (537ms)
+check	Run browser tests	2026-09-10T01:03:34.8861252Z   ✓  12 e2e/claim.spec.ts:33:5 › Claim: lead 21, turn 1, CPU false, eliminated score 0 (546ms)
+check	Run browser tests	2026-09-10T01:03:36.2672555Z   ✓  13 e2e/claim.spec.ts:33:5 › Claim: lead 21, turn 0, CPU true, eliminated score 0 (1.4s)
+check	Run browser tests	2026-09-10T01:03:37.5920665Z   ✓  14 e2e/claim.spec.ts:33:5 › Claim: lead 21, turn 0, CPU true, eliminated score 50 (1.3s)
+check	Run browser tests	2026-09-10T01:03:39.5306693Z   ✓  15 e2e/complete.spec.ts:40:1 › complete phone hotseat game: Modern opening to repetition, export and terminal resume (1.9s)
+check	Run browser tests	2026-09-10T01:03:47.4304925Z   ✓  16 e2e/complete.spec.ts:68:1 › complete mixed game: real CPU opening, deliberate forfeits, walking Kings and final awards (7.9s)
+check	Run browser tests	2026-09-10T01:03:48.2397254Z   ✓  17 e2e/dead-armies.spec.ts:5:3 › active King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable (797ms)
+check	Run browser tests	2026-09-10T01:03:49.0561401Z   ✓  18 e2e/dead-armies.spec.ts:5:3 › walking King checkmated: retained army is grey, unselectable, unchecked and zero-point capturable (809ms)
+check	Run browser tests	2026-09-10T01:03:49.8688433Z   ✓  19 e2e/dead-armies.spec.ts:5:3 › active King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable (805ms)
+check	Run browser tests	2026-09-10T01:03:50.6865073Z   ✓  20 e2e/dead-armies.spec.ts:5:3 › walking King stalemated: retained army is grey, unselectable, unchecked and zero-point capturable (811ms)
+check	Run browser tests	2026-09-10T01:03:51.2385320Z   ✓  21 e2e/draw.spec.ts:3:62 › automatic insufficient-material draw explains the result and flat awards (540ms)
+check	Run browser tests	2026-09-10T01:03:51.8280155Z   ✓  22 e2e/draw.spec.ts:3:62 › automatic fifty-move draw explains the result and flat awards (583ms)
+check	Run browser tests	2026-09-10T01:03:52.3284979Z   ✓  23 e2e/forfeit.spec.ts:4:3 › Resign Red: opening action aborts without placements (490ms)
+check	Run browser tests	2026-09-10T01:03:53.7226024Z   ✓  24 e2e/forfeit.spec.ts:22:3 › Resign Red: post-opening dead army retains a live automatically moving King (1.4s)
+check	Run browser tests	2026-09-10T01:03:54.2282515Z   ✓  25 e2e/forfeit.spec.ts:4:3 › Simulate timeout: opening action aborts without placements (497ms)
+check	Run browser tests	2026-09-10T01:03:55.5831680Z   ✓  26 e2e/forfeit.spec.ts:22:3 › Simulate timeout: post-opening dead army retains a live automatically moving King (1.4s)
+check	Run browser tests	2026-09-10T01:03:57.9530317Z   ✓  27 e2e/game.spec.ts:3:1 › human (Red) + 3 CPU: a real move plays, then all three CPU seats auto-play their turns (2.4s)
+check	Run browser tests	2026-09-10T01:04:38.8331844Z   ✓  28 e2e/game.spec.ts:26:1 › 4-CPU autoplay: the whole game drives itself turn after turn with no errors or desync (40.9s)
+check	Run browser tests	2026-09-10T01:04:39.4665937Z   ✓  29 e2e/promotion.spec.ts:3:1 › eighth-rank promotion displays Queen and history, then capture scores one point (623ms)
+check	Run browser tests	2026-09-10T01:04:39.8800597Z   ✓  30 e2e/replay-download.spec.ts:15:1 › StrictMode download survives identity rerender, ignores delayed obsolete response and retries (403ms)
+check	Run browser tests	2026-09-10T01:04:41.1013578Z   ✓  31 e2e/replay.spec.ts:42:1 › export, reload, resume and re-export retain state and producer lineage; tampering rejects (1.2s)
+check	Run browser tests	2026-09-10T01:04:41.9801402Z   ✓  32 e2e/replay.spec.ts:75:1 › terminal abort exports and imports without placements (873ms)
+check	Run browser tests	2026-09-10T01:04:43.3143812Z   ✓  33 e2e/replay.spec.ts:92:1 › imported walking King resumes its cursor and exports the recorded automatic move (1.3s)
+check	Run browser tests	2026-09-10T01:04:44.1741018Z   ✓  34 e2e/replay.spec.ts:122:1 › an interrupted terminal award transaction recovers the exact final result (853ms)
+check	Run browser tests	2026-09-10T01:04:45.5507615Z   ✓  35 e2e/replay.spec.ts:158:1 › imported CPU ownership and difficulty drive scheduling in a human-configured game (1.4s)
+check	Run browser tests	2026-09-10T01:04:46.4350407Z   ✓  36 e2e/save.spec.ts:9:1 › hotseat moves autosave before immediate refresh and resume through keyboard controls (871ms)
+check	Run browser tests	2026-09-10T01:04:47.2063881Z   ✓  37 e2e/save.spec.ts:28:1 › abort result survives refresh and a new game replaces its save (765ms)
+check	Run browser tests	2026-09-10T01:04:47.5989236Z   ✓  38 e2e/save.spec.ts:52:1 › missing and corrupted saves leave setup usable (387ms)
+check	Run browser tests	2026-09-10T01:04:48.1167049Z   ✓  39 e2e/save.spec.ts:71:1 › unavailable storage reports the limitation while legal moves remain usable (512ms)
+check	Run browser tests	2026-09-10T01:04:48.9399270Z   ✓  40 e2e/save.spec.ts:89:1 › an older asynchronous resume cannot replace a newly started game (817ms)
+check	Run browser tests	2026-09-10T01:04:50.1112918Z   ✓  41 e2e/ui1.spec.ts:29:5 › desktop › UI1 setup, play, states and results fit the viewport (1.2s)
+check	Run browser tests	2026-09-10T01:04:51.2148595Z   ✓  42 e2e/ui1.spec.ts:29:5 › short-desktop › UI1 setup, play, states and results fit the viewport (1.1s)
+check	Run browser tests	2026-09-10T01:04:52.3688990Z   ✓  43 e2e/ui1.spec.ts:29:5 › tablet › UI1 setup, play, states and results fit the viewport (1.1s)
+check	Run browser tests	2026-09-10T01:04:53.4006150Z   ✓  44 e2e/ui1.spec.ts:29:5 › phone › UI1 setup, play, states and results fit the viewport (1.0s)
+check	Run browser tests	2026-09-10T01:04:55.9328080Z   ✓  45 e2e/worker.spec.ts:54:1 › real level-5 Worker keeps input usable; leaving terminates active search (2.5s)
+check	Run browser tests	2026-09-10T01:04:58.2310702Z   ✓  46 e2e/worker.spec.ts:78:1 › import during real active search terminates old Worker and preserves the imported turn (2.3s)
+check	Run browser tests	2026-09-10T01:05:00.5287171Z   ✓  47 e2e/worker.spec.ts:108:1 › terminal action cancels an active real Worker (2.3s)
+check	Run browser tests	2026-09-10T01:05:03.4081583Z   ✓  48 e2e/worker.spec.ts:123:1 › confirmed reset terminates active search and only the new game can move (2.9s)
+check	Run browser tests	2026-09-10T01:05:05.6962139Z   ✓  49 e2e/worker.spec.ts:142:1 › failure during active production search recovers once and the terminated search cannot reply (2.3s)
+check	Run browser tests	2026-09-10T01:05:09.2361994Z   ✓  50 e2e/worker.spec.ts:159:1 › refresh during real active search resumes exactly one CPU turn with saved difficulty (3.5s)
+check	Run browser tests	2026-09-10T01:05:11.3045974Z   ✓  51 e2e/worker.spec.ts:178:3 › constructor recovery applies exactly one legal move (2.1s)
+check	Run browser tests	2026-09-10T01:05:13.3747377Z   ✓  52 e2e/worker.spec.ts:178:3 › crash recovery applies exactly one legal move (2.1s)
+check	Run browser tests	2026-09-10T01:05:17.4418223Z   ✓  53 e2e/worker.spec.ts:178:3 › watchdog recovery applies exactly one legal move (4.1s)
+check	Run browser tests	2026-09-10T01:05:17.5382563Z 
+check	Run browser tests	2026-09-10T01:05:17.5386577Z   53 passed (1.9m)
+check	Post Run actions/setup-node@v4	﻿2026-09-10T01:05:17.5751529Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:17.5752317Z Post job cleanup.
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:17.6658960Z (node:7368) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:17.6659542Z (Use `node --trace-deprecation ...` to show where the warning was created)
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:17.6808522Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/li4chess/li4chess --files-from manifest.txt --use-compress-program zstdmt
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:18.6077896Z (node:7368) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:19.6021486Z Sent 38993920 of 99116736 (39.3%), 37.2 MBs/sec
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:20.6030252Z Sent 99116736 of 99116736 (100.0%), 47.2 MBs/sec
+check	Post Run actions/setup-node@v4	2026-09-10T01:05:21.0271786Z Cache saved with the key: node-cache-Linux-x64-pnpm-73178a37d6d852032ccf8fd7c88865fbe58cfe939a97cf8a981018c20dc0533b
+check	Post Run pnpm/action-setup@v4	﻿2026-09-10T01:05:21.0397857Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+check	Post Run pnpm/action-setup@v4	2026-09-10T01:05:21.0398794Z Post job cleanup.
+check	Post Run pnpm/action-setup@v4	2026-09-10T01:05:21.1446583Z Pruning is unnecessary.
+check	Post Run actions/checkout@v4	﻿2026-09-10T01:05:21.1613187Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.1614561Z Post job cleanup.
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2306341Z [command]/usr/bin/git version
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2342644Z git version 2.55.0
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2368469Z Temporarily overriding HOME='/home/runner/work/_temp/ba609a88-f4c9-4557-84b6-b0ae7171fd4f' before making global git config changes
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2369484Z Adding repository directory to the temporary git global config as a safe directory
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2372655Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/li4chess/li4chess
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2420764Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2457539Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2762585Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2827540Z http.https://github.com/.extraheader
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2842077Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.2894911Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.3129882Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+check	Post Run actions/checkout@v4	2026-09-10T01:05:21.3165460Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+check	Complete job	﻿2026-09-10T01:05:21.3514621Z Cleaning up orphan processes
+check	Complete job	2026-09-10T01:05:21.3775487Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, pnpm/action-setup@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
