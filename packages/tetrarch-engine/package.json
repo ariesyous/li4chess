@@ -5,13 +5,15 @@
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "exports": { ".": "./src/index.ts", "./hybrid": "./src/hybrid.ts", "./node": "./src/node.ts" },
   "scripts": {
     "lint": "tsc --noEmit",
     "build": "tsc",
     "test": "vitest run",
     "vendor": "node scripts/vendor.mjs",
     "build:wasm": "node scripts/build.mjs",
-    "proof": "vite-node scripts/campaign.ts"
+    "proof": "vite-node scripts/campaign.ts",
+    "smoke:hybrid": "vite-node scripts/hybrid-smoke.ts"
   },
   "dependencies": { "@li4chess/engine": "workspace:*", "@li4chess/protocol": "workspace:*" },
   "devDependencies": { "typescript": "^5.6.3", "vitest": "^2.1.4", "vite-node": "^2.1.4", "@types/node": "^22.10.1" }

@@ -51,6 +51,10 @@ from the completed release checkpoint. Its decision is **NO-GO for unmodified
 v8**: WASM/NNUE work, but search legality, scoring and terminal utility conflict
 with the canonical rules. The research package remains isolated; no production
 switch or automatic follow-on engine research is authorized by this result.
+The maintainer subsequently accepted a [bounded hybrid experiment](docs/engine/tetrarch-hybrid-plan.md):
+Tetrarch advises, li4chess validates/adjudicates, and the existing bot handles
+unsupported roots or adviser failures. The Node arena adapter is implemented;
+full-seat comparison evidence is pending. This does not authorize a browser switch.
 
 The 2026-09-09 deployment repair accommodates the existing li4chess.org custom
 domain on GitHub Pages. Its build base follows actual Pages settings; the older

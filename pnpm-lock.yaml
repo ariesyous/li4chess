@@ -134,6 +134,9 @@ importers:
       '@li4chess/protocol':
         specifier: workspace:*
         version: link:../protocol
+      '@li4chess/tetrarch-engine':
+        specifier: workspace:*
+        version: link:../tetrarch-engine
     devDependencies:
       '@types/node':
         specifier: ^22.10.0

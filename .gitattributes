@@ -33,3 +33,5 @@ docs/engine/endgame-evidence-20260908/** -text whitespace=cr-at-eol
 packages/tetrarch-engine/vendor/** -text whitespace=cr-at-eol
 docs/engine/tetrarch-v8-evidence/** -text
 docs/engine/tetrarch-v8-evidence/*.log whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+docs/engine/tetrarch-hybrid-evidence/** -text
+docs/engine/tetrarch-hybrid-evidence/**/*.log whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

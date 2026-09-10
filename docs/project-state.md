@@ -8,6 +8,15 @@ superseded handoffs.
 
 ## Current focus
 
+**Tetrarch hybrid experiment authorized (2026-09-09):** the maintainer accepted
+using unmodified Tetrarch as an imperfect move adviser with the existing bounded
+bot as fallback, while keeping all game authority canonical. The
+[bounded plan](engine/tetrarch-hybrid-plan.md) reopens arena testing on the
+existing branch/PR #24. It replaces the earlier stop-before-arena decision below;
+the original incompatibility evidence remains valid. Current work: executable
+routing, isolated Worker failure/cancellation boundaries, full-seat paired arena
+comparison and observable fallback/rejection rates. No browser switch or deployment.
+
 **Tetrarch v8 spike (2026-09-09):** the maintainer explicitly reopened bounded
 external-engine research after L1. Based on latest fetched main `c62507e`, branch
 `codex/tetrarch-v8-integration-spike` isolates pinned upstream v8

@@ -6,6 +6,30 @@ The existing browser bot remains in use. See the
 [architecture note](../../docs/engine/tetrarch-v8-architecture.md) and
 [integration report](../../docs/engine/tetrarch-v8-report.md).
 
+The accepted [hybrid experiment](../../docs/engine/tetrarch-hybrid-plan.md)
+separately allows v8 to advise the research arena despite those model differences.
+`chooseHybrid` uses the transport capability, canonical root matching and bounded
+native fallback. `NodeAdvisoryClient` isolates search, correlates requests with
+state hashes and replaces its worker after cancellation, crash or a 30-second
+watchdog. The watchdog bounds external work, not native fallback or total latency.
+Callers must discard cancelled/stale game requests and close the client when done.
+No adviser score or principal variation determines canonical game outcomes.
+
+After `build:wasm`, run the Node-only experiment from the repository root:
+
+```sh
+corepack pnpm --filter @li4chess/tetrarch-engine build
+corepack pnpm --filter @li4chess/tetrarch-engine smoke:hybrid
+corepack pnpm --filter @li4chess/arena compare-tetrarch ../../arena-results/tetrarch-hybrid-new 4 400
+```
+
+This uses eight seeded legal opening plies, all four hybrid seats per seed and
+one four-native control per opening. Tetrarch gets 20,000 nodes; the native baseline
+and fallback use production level 3 (250 ms / 2,048 nodes / depth 3). Outputs include
+independently validated compressed replays, configuration/source/asset identity,
+censoring, placement, routing reasons and move latency. Normal CI does not require
+Emscripten or run this campaign; unit tests mock the worker failure boundary.
+
 ## Pin and boundaries
 
 - Repository: <https://github.com/IchNukeDichWeg/Tetrarch>
@@ -125,6 +149,7 @@ Do not follow upstream main. A future task must change the exact pin in the
 vendor script, adapter constant and documentation; retain prior evidence, verify
 license/network provenance, regenerate from a clean checkout, review blob/hash
 changes, rebuild and rerun all diagnostics into a new directory. Add local
-behavior changes only as explicit, reviewable patches. Reopen full state-transition
-and scoring parity before arena strength tests, then Worker/cancellation/browser
-gates. Root legality alone cannot promote this package to production.
+behavior changes only as explicit, reviewable patches. The accepted advisory
+experiment supersedes the initial stop-before-arena gate. Broader evidence and
+browser integration gates remain necessary before any production proposal.
+Root legality alone cannot promote this package to production.
