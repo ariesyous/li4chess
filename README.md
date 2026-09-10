@@ -100,6 +100,11 @@ public play remains subject to the M3 gates.
 
 ## Monorepo layout
 
+The isolated [Tetrarch v8 integration spike](docs/engine/tetrarch-v8-report.md)
+proves C/WASM and FFA NNUE execution, but rejects unmodified v8 for production
+because its search rules conflict with canonical FFA scoring and legality.
+It does not change the browser bot or add engine assets to the site.
+
 The TypeScript monorepo uses pnpm workspaces and Turborepo.
 
 | Package | Responsibility |

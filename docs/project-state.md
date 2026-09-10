@@ -8,6 +8,27 @@ superseded handoffs.
 
 ## Current focus
 
+**Tetrarch v8 spike (2026-09-09):** the maintainer explicitly reopened bounded
+external-engine research after L1. Based on latest fetched main `c62507e`, branch
+`codex/tetrarch-v8-integration-spike` isolates pinned upstream v8
+`4a35cea06b710a6633302c2226ebfebbba52d7a4`, MIT notices, reproducible Emscripten
+build, Python-free runtime adapter and canonical differential diagnostics.
+The [report](engine/tetrarch-v8-report.md) records **NO-GO for unmodified v8**:
+active-king capture, mate/stalemate attribution and survival-based terminal utility
+are incompatible. The production capability predicate rejects every state;
+the existing bot, rules, arena, Worker and deployed assets remain unchanged.
+WASM/NNUE execution is proven; root legal-set agreement alone does not certify
+search semantics. Arena strength and browser integration stop at the failed gate.
+Further work would require an explicitly scoped compatibility fork and new
+transition/scoring evidence, not incremental tuning of the TypeScript bot.
+Final Windows/Node 24.18.0/pnpm 10.33.0 frozen install, uncached lint/build,
+**742 unit tests** and **53 Playwright tests** passed. The 4,385-position root
+campaign compared 162,787 canonical moves: six explained king-capture mismatch
+positions, zero unexplained, 46 root exclusions. All 51 measured source hashes
+were verified; long-budget Node results include observed time overruns. An initial
+unit run was rejected by the provenance guard because its log changed the tracked
+tree; the fixed-tree rerun passed with no weakened check. Nothing is merged.
+
 **Start-game viewport recovery (2026-09-09):** changing from the setup screen
 to a game now resets the document scroll position. A narrow, short viewport
 could retain its 397 px setup offset after Start Game, leaving the game above
