@@ -1,0 +1,18 @@
+{
+  "name": "@li4chess/tetrarch-engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "build": "tsc",
+    "test": "vitest run",
+    "vendor": "node scripts/vendor.mjs",
+    "build:wasm": "node scripts/build.mjs",
+    "proof": "vite-node scripts/campaign.ts"
+  },
+  "dependencies": { "@li4chess/engine": "workspace:*", "@li4chess/protocol": "workspace:*" },
+  "devDependencies": { "typescript": "^5.6.3", "vitest": "^2.1.4", "vite-node": "^2.1.4", "@types/node": "^22.10.1" }
+}

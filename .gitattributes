@@ -28,3 +28,8 @@ docs/m3-08-evidence/**/ci-merge.commit -diff
 packages/arena/fixtures/endgame/user-replay-v2.json -text
 packages/arena/src/endgame-baseline/** -text whitespace=cr-at-eol
 docs/engine/endgame-evidence-20260908/** -text whitespace=cr-at-eol
+
+# Pinned upstream blobs and spike evidence must retain manifest bytes.
+packages/tetrarch-engine/vendor/** -text whitespace=cr-at-eol
+docs/engine/tetrarch-v8-evidence/** -text
+docs/engine/tetrarch-v8-evidence/*.log whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

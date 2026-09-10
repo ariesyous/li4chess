@@ -1,0 +1,42 @@
+{
+  "repository": "https://github.com/IchNukeDichWeg/Tetrarch",
+  "tag": "v8",
+  "revision": "4a35cea06b710a6633302c2226ebfebbba52d7a4",
+  "license": "MIT",
+  "copyright": "Copyright (c) 2026 IchNukeDichWeg",
+  "openingBookRedistributed": false,
+  "networkRedistributed": true,
+  "upstreamPatches": [],
+  "imported": [
+    {
+      "source": "LICENSE",
+      "name": "LICENSE",
+      "bytes": 1071,
+      "sha256": "3e1809ba26c0367529b7a3a3fe41e7787829ead06b68c281496c15edfa91e50f"
+    },
+    {
+      "source": "src/c/tetrarch.c",
+      "name": "tetrarch.c",
+      "bytes": 106891,
+      "sha256": "5ed68f482ee7da72c3c8b777b84d988199634817fad8bdec1cab64b1cc126d4b"
+    },
+    {
+      "source": "nets/net-ffa1.nnue",
+      "name": "net-ffa1.nnue",
+      "bytes": 1976880,
+      "sha256": "3b6ef963fc41786c5211da65ce9141fd192df3caa7af4874f4fde104a89897ae"
+    },
+    {
+      "source": "generated from pinned Python reference",
+      "name": "params.bin",
+      "bytes": 85872,
+      "sha256": "5b8467838f4a6319349c426b296b56577ceb67d9b9d7e84b4d314b01bc31be5a"
+    },
+    {
+      "source": "generated from pinned Python reference",
+      "name": "reference.json",
+      "bytes": 13535,
+      "sha256": "4d32ae3a5b0247a99cacc1ff06b2ba8c95b5811bf4ef08827dac4a3aeac19941"
+    }
+  ]
+}

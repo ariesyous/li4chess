@@ -38,3 +38,16 @@ restrained surfaces and compact hierarchy are visual references. The CSS,
 control SVG icons and existing cross-board renderer are li4chess code.
 No Lichess logo, board bitmap, icon font, font file or Chessground code was
 imported. Control icons keep visible text labels and use the application license.
+## Tetrarch v8 research assets
+
+The isolated `packages/tetrarch-engine/vendor/tetrarch` directory contains
+Tetrarch's C core, `net-ffa1.nnue`, and derived initialization/reference data.
+Upstream: <https://github.com/IchNukeDichWeg/Tetrarch>, tag `v8`, commit
+`4a35cea06b710a6633302c2226ebfebbba52d7a4`.
+
+Copyright (c) 2026 IchNukeDichWeg. MIT licensed; the complete notice and license
+are retained in [LICENSE](packages/tetrarch-engine/vendor/tetrarch/LICENSE).
+The [manifest](packages/tetrarch-engine/vendor/tetrarch/manifest.json) records
+exact imported assets and hashes. No opening book is redistributed; no upstream
+behavior patches are applied. These assets are research-only and are not included
+in the site's downloads. [Rebuild/update instructions](packages/tetrarch-engine/README.md).
