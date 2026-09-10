@@ -27,7 +27,9 @@ campaign compared 162,787 canonical moves: six explained king-capture mismatch
 positions, zero unexplained, 46 root exclusions. All 51 measured source hashes
 were verified; long-budget Node results include observed time overruns. An initial
 unit run was rejected by the provenance guard because its log changed the tracked
-tree; the fixed-tree rerun passed with no weakened check. Nothing is merged.
+tree; the fixed-tree rerun passed with no weakened check.
+[Draft PR #24](https://github.com/ariesyous/li4chess/pull/24) contains the pushed
+architecture, implementation and evidence commits. Nothing is merged or deployed.
 
 **Start-game viewport recovery (2026-09-09):** changing from the setup screen
 to a game now resets the document scroll position. A narrow, short viewport

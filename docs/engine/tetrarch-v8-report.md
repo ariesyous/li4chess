@@ -286,7 +286,10 @@ integration campaign or deployment was performed.
 
 Branch `codex/tetrarch-v8-integration-spike`, based on latest fetched main
 `c62507e60b24955950af3d6a5780d4c62347c410`. Review-only research; do not merge
-automatically. PR details are recorded at publication.
+automatically. [Draft PR #24](https://github.com/ariesyous/li4chess/pull/24) is
+pushed and open. Logical commits separate the architecture (`4341455`), isolated
+implementation (`e89232f`) and evidence/report (`4ba6fcc`); documentation closeout
+adds this publication record. No merge or deployment occurred.
 
 ## Recommended next step
 
