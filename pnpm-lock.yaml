@@ -29,6 +29,9 @@ importers:
       '@li4chess/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
+      '@li4chess/tetrarch-engine':
+        specifier: workspace:*
+        version: link:../../packages/tetrarch-engine
       '@li4chess/ui-kit':
         specifier: workspace:*
         version: link:../../packages/ui-kit

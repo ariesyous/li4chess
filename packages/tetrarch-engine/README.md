@@ -1,10 +1,13 @@
-# Tetrarch v8 research package
+# Tetrarch v8 adviser and research package
 
-**Not a production bot.** The production capability predicate always returns
-`supported: false`. Unmodified v8's search rules are incompatible with li4chess.
-The existing browser bot remains in use. See the
+The default browser CPU uses this package as an adviser with canonical validation
+and native fallback. The original strict compatibility predicate still returns
+`supported: false`: unmodified v8 does not faithfully implement li4chess rules.
+The accepted advisory path uses `hybridCapability` instead. See the
 [architecture note](../../docs/engine/tetrarch-v8-architecture.md) and
 [integration report](../../docs/engine/tetrarch-v8-report.md).
+The [browser integration](../../docs/engine/tetrarch-browser-default.md) documents
+the later maintainer decision, default runtime, resource tiers and validation.
 
 The accepted [hybrid experiment](../../docs/engine/tetrarch-hybrid-plan.md)
 separately allows v8 to advise the research arena despite those model differences.
@@ -44,8 +47,12 @@ Emscripten or run this campaign; unit tests mock the worker failure boundary.
   from the upstream source. No opening book, other networks, Python engine or
   upstream tooling is redistributed. Python/NumPy are build-time inputs only
   when regenerating parameters. Normal builds/tests need neither Python nor C.
-- `.generated` holds ignored WASM/ES-module output. It is not shipped by the web
-  app. `src/wasm.ts` is a research runner, deliberately absent from package exports.
+- `.generated` holds ignored Node research WASM/ES-module output. `runtime` holds
+  the pinned browser build, shipped through Vite's hashed asset URLs along with
+  the vendor parameters/network. The browser export must run inside a Worker.
+  Normal web builds verify runtime/input hashes and require no C compiler.
+  Regenerate browser files with `pnpm --filter @li4chess/tetrarch-engine build:browser`
+  using the same Emscripten setup below.
 
 ## Reproduce
 
@@ -136,14 +143,16 @@ packed directly. Passive mate/stalemate armies retain their pieces. Arbitrary
 non-Modern castle geometry, no-move attribution, historical repetition, seeded
 actions, ledgers, terminal results and claim behavior are not certified for
 search. Even an entirely ordinary root can reach incompatible descendants.
-`canUseTetrarch` therefore rejects **every** production state. No measured
-root-representation percentage is advertised as a safe fallback rate.
+The historical `canUseTetrarch` strict-parity predicate rejects **every** state.
+The default advisory hybrid deliberately uses the separate transport capability.
+No root-representation percentage certifies correctness of the search model.
 
 Candidates carry only from/to/promotion. `matchCandidate` resolves them against
 the canonical legal list; external capture, check, elimination and castle/EP
 flags never supply authority. Rejections include root identity, raw move, turn,
 canonical list and capability reasons. `chooseWithFallback` demonstrates the
-fail-closed native callback path; the app continues using its existing Worker.
+historical fail-closed native callback path. The app uses `chooseHybrid` with
+native fallback inside a terminable Worker.
 
 ## Update procedure
 
@@ -152,6 +161,6 @@ vendor script, adapter constant and documentation; retain prior evidence, verify
 license/network provenance, regenerate from a clean checkout, review blob/hash
 changes, rebuild and rerun all diagnostics into a new directory. Add local
 behavior changes only as explicit, reviewable patches. The accepted advisory
-experiment supersedes the initial stop-before-arena gate. Broader evidence and
-browser integration gates remain necessary before any production proposal.
-Root legality alone cannot promote this package to production.
+experiment supersedes the initial stop-before-arena gate, and the maintainer
+subsequently accepted the default browser hybrid. Preserve its canonical checks,
+native recovery, asset integrity and browser regression coverage in future updates.

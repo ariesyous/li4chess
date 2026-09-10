@@ -1,0 +1,227 @@
+
+> li4chess@0.0.0 test C:\Users\sith\Code\li4chess
+> turbo run test
+
+• turbo 2.10.12
+
+   • Packages in scope: @li4chess/architecture-spike, @li4chess/arena, @li4chess/bot, @li4chess/engine, @li4chess/game-room, @li4chess/persistence, @li4chess/protocol, @li4chess/tetrarch-engine, @li4chess/ui-kit, @li4chess/web, @li4chess/worker
+   • Running test in 11 packages
+   • Remote caching disabled
+
+@li4chess/engine:test: cache miss, executing c46eaa1498b2bc50
+@li4chess/engine:build: cache miss, executing 82c6b343984abe8e
+@li4chess/engine:test: $ vitest run
+@li4chess/engine:build: $ tsc -p tsconfig.json
+@li4chess/engine:test: 
+@li4chess/engine:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/engine
+@li4chess/engine:test: 
+@li4chess/ui-kit:build: cache miss, executing 93e7156f153c7227
+@li4chess/bot:test: cache miss, executing 146934743a373c2f
+@li4chess/bot:build: cache miss, executing a0c335d4abd986ef
+@li4chess/protocol:build: cache miss, executing 79aac8e9622699b6
+@li4chess/protocol:test: cache miss, executing c8d033c12563cb73
+@li4chess/engine:test:  ✓ test/legality.test.ts (6 tests) 43ms
+@li4chess/engine:test:  ✓ test/applyMove.test.ts (4 tests) 22ms
+@li4chess/engine:test:  ✓ test/ffa-end.test.ts (17 tests) 117ms
+@li4chess/engine:test:  ✓ test/ffa-walking.test.ts (41 tests) 125ms
+@li4chess/engine:test:  ✓ test/ffa-promotion.test.ts (36 tests) 252ms
+@li4chess/engine:test:  ✓ test/ffa-core.test.ts (48 tests) 267ms
+@li4chess/engine:test:  ✓ test/ffa-draw.test.ts (33 tests) 296ms
+@li4chess/engine:test:  ✓ test/ffa-en-passant.test.ts (48 tests) 377ms
+@li4chess/engine:test:  ✓ test/ffa-scoring.test.ts (60 tests) 428ms
+@li4chess/engine:test:  ✓ test/ffa-dead.test.ts (32 tests) 546ms
+@li4chess/engine:test:  ✓ test/movegen.test.ts (7 tests) 15ms
+@li4chess/engine:test:  ✓ test/board.test.ts (7 tests) 41ms
+@li4chess/ui-kit:build: $ tsc -p tsconfig.json
+@li4chess/engine:test:  ✓ test/ffa-score-resolution.test.ts (20 tests) 151ms
+@li4chess/engine:test:  ✓ test/ffa-abort.test.ts (21 tests) 98ms
+@li4chess/bot:build: $ tsc -p tsconfig.json
+@li4chess/bot:test: $ vitest run
+@li4chess/engine:test:  ✓ test/ffa-state-boundary.test.ts (8 tests) 103ms
+@li4chess/engine:test:  ✓ test/repetition.test.ts (1 test) 16ms
+@li4chess/protocol:test: $ vitest run
+@li4chess/protocol:build: $ tsc -p tsconfig.json
+@li4chess/engine:test:  ✓ test/setup.test.ts (5 tests) 5ms
+@li4chess/engine:test:  ✓ test/ffa-setup.test.ts (4 tests) 152ms
+@li4chess/engine:test:  ✓ test/pawns.test.ts (1 test) 6ms
+@li4chess/bot:test: 
+@li4chess/bot:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/bot
+@li4chess/bot:test: 
+@li4chess/engine:test:  ✓ test/attacks.test.ts (3 tests) 1794ms
+@li4chess/engine:test:    ✓ attackMap > agrees with isSquareAttacked throughout randomly played games 1754ms
+@li4chess/protocol:test: 
+@li4chess/protocol:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/protocol
+@li4chess/protocol:test: 
+@li4chess/engine:test:  ✓ test/ffa-castling.test.ts (64 tests) 3419ms
+@li4chess/bot:test:  ✓ test/evaluate.test.ts (4 tests) 10ms
+@li4chess/bot:test:  ✓ test/progress.test.ts (2 tests) 210ms
+@li4chess/protocol:test:  ✓ test/multiplayer.test.ts (19 tests) 16ms
+@li4chess/protocol:test:  ✓ test/completed-replay.test.ts (3 tests) 48ms
+@li4chess/bot:test:  ✓ test/hash.test.ts (8 tests) 424ms
+@li4chess/bot:test:    ✓ delta hashes match full recomputation over legal paths and tactical transitions 315ms
+@li4chess/protocol:test:  ✓ test/serialization.test.ts (9 tests) 82ms
+@li4chess/bot:test:  ✓ test/results.test.ts (2 tests) 620ms
+@li4chess/bot:test:    ✓ search does not force an eligible claim that loses to an eliminated high scorer 614ms
+@li4chess/bot:test:  ✓ test/search.test.ts (3 tests) 452ms
+@li4chess/bot:test:    ✓ bot search > chooseCpuMove returns a legal move at every difficulty level 380ms
+@li4chess/engine:test:  ✓ test/hasLegalMove.test.ts (3 tests) 3557ms
+@li4chess/engine:test:    ✓ hasLegalMove > agrees with legalMoves throughout randomly played games 3520ms
+@li4chess/bot:test:  ✓ test/pawn-endgame.test.ts (13 tests) 870ms
+@li4chess/bot:test:  ✓ test/bounded.test.ts (10 tests) 892ms
+@li4chess/bot:test:  ✓ test/walking.test.ts (1 test) 38ms
+@li4chess/bot:test:  ✓ test/classic.test.ts (1 test) 5ms
+@li4chess/persistence:test: cache miss, executing 6d308dd75286140e
+@li4chess/persistence:build: cache miss, executing 9b50a45ab3c4f93a
+@li4chess/tetrarch-engine:build: cache miss, executing 5a147c3d74f33e26
+@li4chess/architecture-spike:test: cache miss, executing 902168220bd5949c
+@li4chess/tetrarch-engine:test: cache miss, executing fe8f5158ce421ff6
+@li4chess/bot:test:  ✓ test/lab.test.ts (16 tests) 1757ms
+@li4chess/bot:test:    ✓ experimental search semantics > enhanced ordering preserves fixed-depth values and bounded quiescence sees a poisoned capture 391ms
+@li4chess/bot:test:    ✓ experimental search semantics > iterative and direct search agree at fixed depth, with legal PV and exact sampling 865ms
+@li4chess/bot:test:    ✓ position corpus > opening 348ms
+@li4chess/bot:test:  ✓ test/decisive.test.ts (5 tests) 1926ms
+@li4chess/bot:test:    ✓ decisive outcomes outweigh material > prefers a win available now over the same win a move later 1681ms
+@li4chess/persistence:test: $ vitest run
+@li4chess/persistence:build: $ tsc --noEmit
+@li4chess/tetrarch-engine:build: $ tsc
+@li4chess/protocol:test:  ✓ test/replay.test.ts (26 tests) 2253ms
+@li4chess/protocol:test:    ✓ REPLAY-01..12 accepted v2 contract > REPLAY-03: legal canonical moves, before/after chain, metadata and actor tampering 672ms
+@li4chess/protocol:test:    ✓ REPLAY-01..12 accepted v2 contract > REPLAY-07/08: interrupted awards are resumable, null stays unfinished, terminal cannot be forged 449ms
+@li4chess/architecture-spike:test: $ vitest run
+@li4chess/tetrarch-engine:test: $ vitest run
+@li4chess/protocol:test:  ✓ test/node.test.ts (1 test) 3218ms
+@li4chess/protocol:test:    ✓ REPLAY-01: actual clean/dirty/development producer identities and drift detection 3217ms
+@li4chess/protocol:test: 
+@li4chess/protocol:test:  Test Files  5 passed (5)
+@li4chess/protocol:test:       Tests  58 passed (58)
+@li4chess/protocol:test:    Start at  21:38:02
+@li4chess/protocol:test:    Duration  3.99s (transform 1.23s, setup 0ms, collect 3.50s, tests 5.62s, environment 1ms, prepare 976ms)
+@li4chess/protocol:test: 
+@li4chess/persistence:test: 
+@li4chess/persistence:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/persistence
+@li4chess/persistence:test: 
+@li4chess/architecture-spike:test: 
+@li4chess/architecture-spike:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/architecture-spike
+@li4chess/architecture-spike:test: 
+@li4chess/tetrarch-engine:test: 
+@li4chess/tetrarch-engine:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/tetrarch-engine
+@li4chess/tetrarch-engine:test: 
+@li4chess/architecture-spike:test:  ✓ test/command.test.ts (3 tests) 7ms
+@li4chess/architecture-spike:test:  ✓ test/persistence.test.ts (1 test) 85ms
+@li4chess/persistence:test:  ✓ test/model.test.ts (3 tests) 150ms
+@li4chess/architecture-spike:test: 
+@li4chess/architecture-spike:test:  Test Files  2 passed (2)
+@li4chess/architecture-spike:test:       Tests  4 passed (4)
+@li4chess/architecture-spike:test:    Start at  21:38:07
+@li4chess/architecture-spike:test:    Duration  1.61s (transform 619ms, setup 0ms, collect 1.14s, tests 92ms, environment 0ms, prepare 511ms)
+@li4chess/architecture-spike:test: 
+@li4chess/persistence:test: 
+@li4chess/persistence:test:  Test Files  1 passed (1)
+@li4chess/persistence:test:       Tests  3 passed (3)
+@li4chess/persistence:test:    Start at  21:38:06
+@li4chess/persistence:test:    Duration  1.96s (transform 1.01s, setup 0ms, collect 1.14s, tests 150ms, environment 0ms, prepare 227ms)
+@li4chess/persistence:test: 
+@li4chess/game-room:build: cache miss, executing ba98ab097baf2f7d
+@li4chess/game-room:test: cache miss, executing f645834b277359a4
+@li4chess/tetrarch-engine:test:  ✓ test/adapter.test.ts (11 tests) 110ms
+@li4chess/tetrarch-engine:test:  ✓ test/hybrid.test.ts (13 tests) 113ms
+@li4chess/tetrarch-engine:test: 
+@li4chess/tetrarch-engine:test:  Test Files  2 passed (2)
+@li4chess/tetrarch-engine:test:       Tests  24 passed (24)
+@li4chess/tetrarch-engine:test:    Start at  21:38:07
+@li4chess/tetrarch-engine:test:    Duration  1.62s (transform 661ms, setup 0ms, collect 1.22s, tests 223ms, environment 1ms, prepare 346ms)
+@li4chess/tetrarch-engine:test: 
+@li4chess/game-room:build: $ tsc --noEmit
+@li4chess/game-room:test: $ vitest run
+@li4chess/arena:test: cache miss, executing bdc5efa90c5bc653
+@li4chess/web:test: cache miss, executing e3e8df6f864e3da9
+@li4chess/game-room:test: 
+@li4chess/game-room:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/game-room
+@li4chess/game-room:test: 
+@li4chess/arena:test: $ vitest run
+@li4chess/web:test: $ vitest run
+@li4chess/game-room:test:  ✓ test/rematch.test.ts (8 tests) 45ms
+@li4chess/game-room:test:  ✓ test/timing.test.ts (12 tests) 42ms
+@li4chess/arena:test: 
+@li4chess/arena:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/packages/arena
+@li4chess/arena:test: 
+@li4chess/web:test: 
+@li4chess/web:test:  RUN  v2.1.9 C:/Users/sith/Code/li4chess/apps/web
+@li4chess/web:test: 
+@li4chess/web:test:  ✓ test/cpuClient.test.ts (17 tests) 20ms
+@li4chess/web:test:  ✓ test/localSave.test.ts (5 tests) 188ms
+@li4chess/web:test:  ✓ test/cpuJob.test.ts (3 tests) 117ms
+@li4chess/web:test:  ✓ test/rematch.test.ts (9 tests) 641ms
+@li4chess/game-room:test:  ✓ test/room.test.ts (27 tests) 3343ms
+@li4chess/game-room:test:    ✓ Room state machine with mocked storage and canonical I/O > retains active-game ambiguous publication recovery 529ms
+@li4chess/game-room:test:    ✓ Room state machine with mocked storage and canonical I/O > limits recovery alarm to one canonical action before scheduling its walking successor 524ms
+@li4chess/game-room:test:    ✓ Room state machine with mocked storage and canonical I/O > cannot reconnect away an exhausted bank when recovery committed an earlier tied forfeit 476ms
+@li4chess/arena:test:  ✓ test/legacy.test.ts (1 test) 60ms
+@li4chess/engine:test:  ✓ test/fuzz.test.ts (2 tests) 15309ms
+@li4chess/engine:test:    ✓ fuzz: random self-play games > every game terminates (either a result, or the ply cap) without throwing, across many seeds 5324ms
+@li4chess/engine:test:    ✓ fuzz: random self-play games > completed games include every color and only a unique highest scorer is winner 9984ms
+@li4chess/engine:test: 
+@li4chess/engine:test:  Test Files  23 passed (23)
+@li4chess/engine:test:       Tests  471 passed (471)
+@li4chess/engine:test:    Start at  21:37:58
+@li4chess/engine:test:    Duration  17.21s (transform 1.87s, setup 0ms, collect 5.52s, tests 27.14s, environment 6ms, prepare 4.80s)
+@li4chess/engine:test: 
+@li4chess/bot:test:  ✓ test/selection.test.ts (5 tests) 12599ms
+@li4chess/bot:test:    ✓ move selection never trades value for novelty > stays within the contender tolerance of the best move at level 3 7781ms
+@li4chess/bot:test:    ✓ move selection never trades value for novelty > still prefers a fresh move when the alternatives really are equal 4815ms
+@li4chess/arena:test:  ✓ test/endgame-replay.test.ts (2 tests) 4703ms
+@li4chess/arena:test:    ✓ reconstructs the original 240 moves and reproduces Yellow's depth-3 preference 584ms
+@li4chess/arena:test:    ✓ replay continuation prepares a pawn exchange instead of another 32 quiet king moves 4117ms
+@li4chess/bot:test:  ✓ test/endgame.test.ts (6 tests) 14298ms
+@li4chess/bot:test:    ✓ won endgames actually get finished > converts king, queen and rook against a lone king 9986ms
+@li4chess/bot:test:    ✓ won endgames actually get finished > converts king and queen against a lone king 2761ms
+@li4chess/bot:test:    ✓ won endgames actually get finished > converts king and rook against a lone king 1546ms
+@li4chess/bot:test: 
+@li4chess/bot:test:  Test Files  13 passed (13)
+@li4chess/bot:test:       Tests  76 passed (76)
+@li4chess/bot:test:    Start at  21:38:01
+@li4chess/bot:test:    Duration  16.35s (transform 4.86s, setup 0ms, collect 13.25s, tests 34.10s, environment 3ms, prepare 2.98s)
+@li4chess/bot:test: 
+@li4chess/web:test:  ✓ test/online.test.ts (17 tests) 5056ms
+@li4chess/web:test:    ✓ online browser ordering and recovery > retains the original command when receipt cannot be persisted and resends the same ID after reconnect 762ms
+@li4chess/web:test:    ✓ online browser ordering and recovery > retains the original command when rejection cannot be persisted and resends the same ID after reconnect 749ms
+@li4chess/web:test:    ✓ online browser ordering and recovery > retains the original command when explicit cleanup cannot be persisted and resends the same ID after reconnect 750ms
+@li4chess/web:test:    ✓ online browser ordering and recovery > reacts to resyncRequired immediately and ignores old socket close callbacks 685ms
+@li4chess/web:test: 
+@li4chess/web:test:  Test Files  5 passed (5)
+@li4chess/web:test:       Tests  51 passed (51)
+@li4chess/web:test:    Start at  21:38:11
+@li4chess/web:test:    Duration  6.61s (transform 963ms, setup 0ms, collect 2.99s, tests 6.02s, environment 1ms, prepare 968ms)
+@li4chess/web:test: 
+@li4chess/game-room:test:  ✓ test/completed-replay.test.ts (12 tests) 17290ms
+@li4chess/game-room:test:    ✓ completed replay read-only member audit > port-assisted 2048-command byte boundary +0 admits exactly or rejects without final publication 9988ms
+@li4chess/game-room:test:    ✓ completed replay read-only member audit > port-assisted 2048-command byte boundary +1 admits exactly or rejects without final publication 7148ms
+@li4chess/game-room:test: 
+@li4chess/game-room:test:  Test Files  4 passed (4)
+@li4chess/game-room:test:       Tests  59 passed (59)
+@li4chess/game-room:test:    Start at  21:38:10
+@li4chess/game-room:test:    Duration  18.55s (transform 764ms, setup 0ms, collect 2.39s, tests 20.72s, environment 1ms, prepare 713ms)
+@li4chess/game-room:test: 
+@li4chess/arena:test:  ✓ test/arena.test.ts (10 tests) 25755ms
+@li4chess/arena:test:    ✓ arena > FFA-DRAW-09: automatic draws are completed and replay their flat awards 2509ms
+@li4chess/arena:test:    ✓ arena > FFA-END-08: auto-claims preserve replay and reports use shared mean ranks 6318ms
+@li4chess/arena:test:    ✓ arena > records an abort separately without inventing placements or completed-seat statistics 2040ms
+@li4chess/arena:test:    ✓ arena > walking actions bypass seat engines and replay the recorded choice 2050ms
+@li4chess/arena:test:    ✓ arena > records four tied first places separately from sole wins 2116ms
+@li4chess/arena:test:    ✓ arena > reproduces seeded games and replays against the oracle 4249ms
+@li4chess/arena:test:    ✓ arena > captures engine errors without inventing placements 1964ms
+@li4chess/arena:test:    ✓ arena > rejects historical snapshots before replay, aggregation or resuming a record 1957ms
+@li4chess/arena:test:    ✓ arena > REPLAY-10: a complete Modern repetition game verifies all moves and four shared first places 2550ms
+@li4chess/arena:test: 
+@li4chess/arena:test:  Test Files  3 passed (3)
+@li4chess/arena:test:       Tests  13 passed (13)
+@li4chess/arena:test:    Start at  21:38:11
+@li4chess/arena:test:    Duration  29.22s (transform 988ms, setup 0ms, collect 5.68s, tests 30.52s, environment 1ms, prepare 861ms)
+@li4chess/arena:test: 
+
+ Tasks:    16 successful, 16 total
+Cached:    0 cached, 16 total
+  Time:    43.208s 
+
+ WARNING  no output files found for task @li4chess/game-room#build. Please check your `outputs` key in `turbo.json`
+ WARNING  no output files found for task @li4chess/persistence#build. Please check your `outputs` key in `turbo.json`

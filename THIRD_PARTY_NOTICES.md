@@ -38,7 +38,7 @@ restrained surfaces and compact hierarchy are visual references. The CSS,
 control SVG icons and existing cross-board renderer are li4chess code.
 No Lichess logo, board bitmap, icon font, font file or Chessground code was
 imported. Control icons keep visible text labels and use the application license.
-## Tetrarch v8 research assets
+## Tetrarch v8 engine assets
 
 The isolated `packages/tetrarch-engine/vendor/tetrarch` directory contains
 Tetrarch's C core, `net-ffa1.nnue`, and derived initialization/reference data.
@@ -49,5 +49,11 @@ Copyright (c) 2026 IchNukeDichWeg. MIT licensed; the complete notice and license
 are retained in [LICENSE](packages/tetrarch-engine/vendor/tetrarch/LICENSE).
 The [manifest](packages/tetrarch-engine/vendor/tetrarch/manifest.json) records
 exact imported assets and hashes. No opening book is redistributed; no upstream
-behavior patches are applied. These assets are research-only and are not included
-in the site's downloads. [Rebuild/update instructions](packages/tetrarch-engine/README.md).
+behavior patches are applied. The default browser hybrid downloads the compiled
+WASM, parameters and NNUE from this site's own assets. The original source and
+research evidence remain available. [Rebuild/update instructions](packages/tetrarch-engine/README.md).
+
+The browser runtime is generated with Emscripten 4.0.15. Its runtime code is
+available under MIT or University of Illinois/NCSA terms; the complete
+[Emscripten license](packages/tetrarch-engine/runtime/EMSCRIPTEN-LICENSE) and
+[authors](packages/tetrarch-engine/runtime/EMSCRIPTEN-AUTHORS) are retained.

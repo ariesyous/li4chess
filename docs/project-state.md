@@ -8,6 +8,18 @@ superseded handoffs.
 
 ## Current focus
 
+**Default browser hybrid authorized and implemented on the PR branch (2026-09-09):**
+the maintainer explicitly requested the hybrid as the default, superseding the
+opt-in/browser deferral below. CPU turns now use a browser WASM/NNUE adviser with
+canonical matching, native fallback for unsupported roots/assets, and native
+Worker retry after a crash or watchdog. Pinned browser runtime bytes and build
+inputs are verified during normal web builds; no local compiler is needed for
+normal CI or Pages builds. All five levels have bounded hybrid resource tiers.
+See [browser integration](engine/tetrarch-browser-default.md). Fresh lint, **759 unit
+tests**, build, **57 browser tests**, and **four production-bundle tests** passed,
+including real default WASM/NNUE, missing/corrupt assets, native crash recovery,
+cancellation and fourfold CPU throttling. This branch has not been merged or deployed.
+
 **Tetrarch hybrid experiment completed (2026-09-09):** the maintainer accepted
 using unmodified Tetrarch as an imperfect move adviser with the existing bounded
 bot as fallback, while keeping all game authority canonical. The

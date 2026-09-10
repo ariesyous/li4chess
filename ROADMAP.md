@@ -57,7 +57,10 @@ unsupported roots or adviser failures. The [completed arena comparison](docs/eng
 replayed all 20 games; Tetrarch supplied 980/985 hybrid moves, with five native EP
 fallbacks. Its nine first places in 14 completed mixed games are limited evidence
 at the declared budgets; two mixed games were capped. This does not authorize a
-browser switch or an automatic follow-on campaign.
+browser switch or an automatic follow-on campaign by itself. The maintainer then
+explicitly selected the [browser hybrid as default](docs/engine/tetrarch-browser-default.md).
+The branch implements that choice with canonical authority, native recovery,
+verified runtime assets and bounded difficulty tiers. Deployment remains separate.
 
 The 2026-09-09 deployment repair accommodates the existing li4chess.org custom
 domain on GitHub Pages. Its build base follows actual Pages settings; the older

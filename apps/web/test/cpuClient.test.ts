@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { requestCpu } from "../src/game/cpuClient.js";
+import { requestCpu, requestHybridCpu } from "../src/game/cpuClient.js";
 import type { WorkerPort } from "../src/game/cpuClient.js";
 import type { CpuRequest, CpuResponse } from "../src/game/cpuContract.js";
 
@@ -59,5 +59,32 @@ describe("CPU request lifetime", () => {
     vi.runAllTimers();
     expect(done).toHaveBeenCalledTimes(1); expect(done).toHaveBeenCalledWith(null, reason);
     expect(worker.terminate).toHaveBeenCalledTimes(1);
+  });
+});
+describe("hybrid recovery",()=>{
+  it("replaces a crashed adviser with native search exactly once",()=>{
+    const hybrid=port(),native=port(),done=vi.fn();
+    requestHybridCpu(request,done,()=>hybrid,10,()=>{},()=>native);
+    hybrid.onerror!({preventDefault:vi.fn()} as unknown as ErrorEvent);
+    expect(native.postMessage).toHaveBeenCalledWith({...request,engine:"native"});
+    native.onmessage!(event(result));
+    expect(done).toHaveBeenCalledTimes(1);
+    expect(done.mock.calls[0][0].diagnostics).toMatchObject({engine:"native",fallbackReason:"worker-crash"});
+  });
+  it("cancels a recovery search and never retries a cancelled adviser",()=>{
+    vi.useFakeTimers();const hybrid=port(),native=port(),done=vi.fn(),factory=vi.fn(()=>native);
+    const cancel=requestHybridCpu(request,done,()=>hybrid,10,()=>{},factory);
+    cancel();vi.runAllTimers();expect(factory).not.toHaveBeenCalled();
+    const h=port();const stop=requestHybridCpu(request,done,()=>h,10,()=>{},factory);
+    vi.advanceTimersByTime(11);expect(factory).toHaveBeenCalledTimes(1);
+    const reply=native.onmessage!;stop();reply(event(result));vi.runAllTimers();
+    expect(native.terminate).toHaveBeenCalled();expect(done).not.toHaveBeenCalled();
+  });
+  it("rejects an adviser reply exceeding its tier or impersonating native recovery",()=>{
+    for(const input of [request,{...request,engine:"native" as const}]){
+      const worker=port(),done=vi.fn();requestCpu(input,done,()=>worker);
+      worker.onmessage!(event({...result,diagnostics:{...result.diagnostics,engine:"tetrarch",nodes:1001}}));
+      expect(done).toHaveBeenCalledWith(null,"malformed");
+    }
   });
 });

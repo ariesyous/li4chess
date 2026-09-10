@@ -1,0 +1,153 @@
+
+> @li4chess/web@0.0.0 test:e2e:production C:\Users\sith\Code\li4chess\apps\web
+> playwright test --config playwright.production.config.ts
+
+[WebServer] npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "recursive". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+[WebServer] (node:8028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:24328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:26972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\hybrid.spec.ts:29:1 › default CPU loads real WASM/NNUE and returns a Tetrarch move (30.0s)
+(node:18728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 e2e\hybrid.spec.ts:45:1 › missing network uses native search without stopping the game (30.0s)
+(node:3192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 e2e\hybrid.spec.ts:56:1 › corrupt network fails integrity validation and uses native search (30.0s)
+(node:27920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:27920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 e2e\hybrid.spec.ts:69:1 › default hybrid remains usable under fourfold CPU throttling (30.0s)
+
+
+  1) e2e\hybrid.spec.ts:29:1 › default CPU loads real WASM/NNUE and returns a Tetrarch move ────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[type="checkbox"]').first()[22m
+
+
+      15 |   await page.goto("/");
+      16 |   for(const checkbox of await page.locator('input[type="checkbox"]').all())await checkbox.uncheck();
+    > 17 |   await page.locator('input[type="checkbox"]').first().check();
+         |                                                        ^
+      18 |   await page.locator("select").selectOption("3");
+      19 |   await page.getByRole("button",{name:"Start game"}).click();
+      20 |   await expect(page.getByTestId("turn-status")).toContainText("Blue to move",{timeout:10000});
+        at start (C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:17:56)
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:26:17
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\hybrid-default-CPU-loads-r-e61b4-and-returns-a-Tetrarch-move\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\hybrid-default-CPU-loads-r-e61b4-and-returns-a-Tetrarch-move\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\hybrid.spec.ts:45:1 › missing network uses native search without stopping the game ────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[type="checkbox"]').first()[22m
+
+
+      15 |   await page.goto("/");
+      16 |   for(const checkbox of await page.locator('input[type="checkbox"]').all())await checkbox.uncheck();
+    > 17 |   await page.locator('input[type="checkbox"]').first().check();
+         |                                                        ^
+      18 |   await page.locator("select").selectOption("3");
+      19 |   await page.getByRole("button",{name:"Start game"}).click();
+      20 |   await expect(page.getByTestId("turn-status")).toContainText("Blue to move",{timeout:10000});
+        at start (C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:17:56)
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:33:17
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\hybrid-missing-network-use-9c74d-h-without-stopping-the-game\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\hybrid-missing-network-use-9c74d-h-without-stopping-the-game\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e\hybrid.spec.ts:56:1 › corrupt network fails integrity validation and uses native search ───
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[type="checkbox"]').first()[22m
+
+
+      15 |   await page.goto("/");
+      16 |   for(const checkbox of await page.locator('input[type="checkbox"]').all())await checkbox.uncheck();
+    > 17 |   await page.locator('input[type="checkbox"]').first().check();
+         |                                                        ^
+      18 |   await page.locator("select").selectOption("3");
+      19 |   await page.getByRole("button",{name:"Start game"}).click();
+      20 |   await expect(page.getByTestId("turn-status")).toContainText("Blue to move",{timeout:10000});
+        at start (C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:17:56)
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:38:17
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\hybrid-corrupt-network-fai-d14bf-tion-and-uses-native-search\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\hybrid-corrupt-network-fai-d14bf-tion-and-uses-native-search\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) e2e\hybrid.spec.ts:69:1 › default hybrid remains usable under fourfold CPU throttling ─────────
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.check: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('input[type="checkbox"]').first()[22m
+
+
+      15 |   await page.goto("/");
+      16 |   for(const checkbox of await page.locator('input[type="checkbox"]').all())await checkbox.uncheck();
+    > 17 |   await page.locator('input[type="checkbox"]').first().check();
+         |                                                        ^
+      18 |   await page.locator("select").selectOption("3");
+      19 |   await page.getByRole("button",{name:"Start game"}).click();
+      20 |   await expect(page.getByTestId("turn-status")).toContainText("Blue to move",{timeout:10000});
+        at start (C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:17:56)
+        at C:\Users\sith\Code\li4chess\apps\web\e2e\hybrid.spec.ts:44:17
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\hybrid-default-hybrid-rema-7e8a0-der-fourfold-CPU-throttling\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\hybrid-default-hybrid-rema-7e8a0-der-fourfold-CPU-throttling\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    e2e\hybrid.spec.ts:29:1 › default CPU loads real WASM/NNUE and returns a Tetrarch move ─────────
+    e2e\hybrid.spec.ts:45:1 › missing network uses native search without stopping the game ─────────
+    e2e\hybrid.spec.ts:56:1 › corrupt network fails integrity validation and uses native search ────
+    e2e\hybrid.spec.ts:69:1 › default hybrid remains usable under fourfold CPU throttling ──────────
+C:\Users\sith\Code\li4chess\apps\web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @li4chess/web@0.0.0 test:e2e:production: `playwright test --config playwright.production.config.ts`
+Exit status 1

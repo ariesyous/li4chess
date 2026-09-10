@@ -12,6 +12,7 @@ export interface AdvisoryRequest {
   stateId: string; squares: Uint8Array; meta: Int32Array; budget: AdvisoryBudget;
 }
 export interface AdvisorySearch {
+  prepare?(): Promise<void>;
   search(request: AdvisoryRequest, signal?: AbortSignal): Promise<AdvisoryResult>;
 }
 export type NativeSearch = (state: GameState) => { move: Move; stats?: Record<string, unknown> };

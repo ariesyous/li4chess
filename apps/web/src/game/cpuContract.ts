@@ -6,11 +6,12 @@ import type { PlayerColor } from "@li4chess/engine";
 export interface CpuIdentity { requestId: string; gameId: string; stateId: string; seat: PlayerColor }
 export interface CpuRequest extends CpuIdentity {
   type: "search"; version: 1; stateJson: string; difficulty: CpuLevel; budget: CpuBudget;
+  engine?: "native";
 }
 export interface MoveIntention { from: number; to: number; promotion?: PieceType }
 export interface CpuStarted extends CpuIdentity { type: "started"; version: 1 }
 export interface CpuResponse extends CpuIdentity {
-  type: "result"; version: 1; move: MoveIntention; diagnostics: CpuDiagnostics;
+  type: "result"; version: 1; move: MoveIntention; diagnostics: CpuDiagnostics & { engine?: "tetrarch" | "native"; fallbackReason?: string };
 }
 const record = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
 function identity(v: Record<string, unknown>): boolean {
@@ -21,7 +22,7 @@ function identity(v: Record<string, unknown>): boolean {
 }
 export function validRequest(v: unknown): v is CpuRequest {
   if (!record(v) || !identity(v) || v.type !== "search" || v.version !== 1 ||
-    typeof v.stateJson !== "string" || !Number.isInteger(v.difficulty) || Number(v.difficulty) < 1 || Number(v.difficulty) > 5) return false;
+    typeof v.stateJson !== "string" || (v.engine !== undefined && v.engine !== "native") || !Number.isInteger(v.difficulty) || Number(v.difficulty) < 1 || Number(v.difficulty) > 5) return false;
   try { validateCpuBudget(v.budget as CpuBudget); return true; } catch { return false; }
 }
 export function validResponse(v: unknown): v is CpuResponse {
@@ -29,8 +30,10 @@ export function validResponse(v: unknown): v is CpuResponse {
   const m = v.move, d = v.diagnostics;
   return [m.from, m.to].every(s => Number.isInteger(s) && Number(s) >= 0 && Number(s) < 196) &&
     (m.promotion === undefined || m.promotion === PieceType.Queen) &&
-    Number.isInteger(d.nodes) && Number(d.nodes) >= 0 && Number(d.nodes) <= 32768 &&
-    Number.isInteger(d.completedDepth) && Number(d.completedDepth) >= 0 && Number(d.completedDepth) <= 5 &&
+    (d.engine === undefined || d.engine === "native" || d.engine === "tetrarch") &&
+    (d.fallbackReason === undefined || typeof d.fallbackReason === "string" && d.fallbackReason.length < 200) &&
+    Number.isInteger(d.nodes) && Number(d.nodes) >= 0 && Number(d.nodes) <= (d.engine === "tetrarch" ? 80_000 : 32768) &&
+    Number.isInteger(d.completedDepth) && Number(d.completedDepth) >= 0 && Number(d.completedDepth) <= (d.engine === "tetrarch" ? 12 : 5) &&
     typeof d.elapsedMs === "number" && Number.isFinite(d.elapsedMs) && d.elapsedMs >= 0 &&
     ["depth", "nodes", "time"].includes(String(d.stopped)) && typeof d.fallback === "boolean";
 }

@@ -72,7 +72,12 @@ changes to the rules engine do not silently alter the experiment being measured.
 
 ## Bot and research work
 
-Production browser CPU turns call `chooseBoundedCpuMove` in a dedicated Worker.
+The maintainer accepted the Tetrarch advisory hybrid as the default browser CPU
+on 2026-09-09. Browser turns call `chooseHybrid` in a dedicated Worker, with
+`chooseBoundedCpuMove` as native fallback. li4chess remains the sole rules and
+result authority. See `docs/engine/tetrarch-browser-default.md` for asset verification,
+resource tiers and recovery. Preserve the initial audit and arena measurements
+as historical evidence; they do not certify equivalent external search rules.
 Each request has game/state/seat identity, shared node/time limits, termination
 on cancellation and a hard watchdog. Recovery uses the current legal list.
 The synchronous `chooseCpuMove` remains a comparison API; the laboratory's
