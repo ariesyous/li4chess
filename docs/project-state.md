@@ -72,16 +72,20 @@ the visible viewport and appearing blank. The focused Playwright regression
 test covers that transition. Fresh Windows/Node 24.18.0/pnpm 10.33.0 checks
 passed: `pnpm lint`, `pnpm test`, `pnpm build`, and all 53 Playwright tests.
 
-**Social share preview (2026-09-09):** the web app now includes a branded
-four-player-board Open Graph/Twitter image at
-[`apps/web/public/social-preview.png`](../apps/web/public/social-preview.png).
-Its HTML declares the title, local-play description, image dimensions and
-accessible alternative text for `https://li4chess.org/`. Validate the generated
-asset survives the Pages build and refresh social platforms' cached cards after
-the next deployment. On Windows/Node 24.18.0/pnpm 10.33.0, `pnpm lint`,
-`pnpm test`, `pnpm build`, the 52-test Playwright suite, and an explicit
-root-base Vite build passed; the latter emitted the 1734 × 907 PNG and its
-metadata reference.
+**Social share preview correction (2026-09-09):** visual review found that the
+original free-form render gave some armies a second pawn rank. The replacement
+[`apps/web/public/social-preview.png`](../apps/web/public/social-preview.png) is
+a deterministic top-down rendering of the canonical setup using the retained
+Cburnett pieces and app palette. The checked-in `generate:social-preview` script
+asserts 160 playable squares, 64 distinct occupied squares, 32 total pawns and
+16 pieces for each color before writing the 1734 × 907 asset. Open Graph/Twitter
+metadata and accessible alternative text remain unchanged. Fresh Windows/Node
+24.18.0/pnpm 10.33.0 validation passed: the generator, `pnpm lint`, all 759 unit
+tests and `pnpm build`; the built PNG is byte-identical to the source asset
+(`sha256:4b8b3a48d226facdd5af94a41f813f9cd3f966ec4c070eb2db761fce1865206f`).
+Browser tests were not rerun because the change is confined to a static social
+asset and its offline generator. Refresh social platforms' cached cards after
+the next deployment.
 
 **Custom-domain deployment repair (2026-09-09):** GitHub Pages is configured
 for li4chess.org and redirects the former project URL there. The release HTML

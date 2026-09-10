@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "node ../../packages/tetrarch-engine/scripts/verify-runtime.mjs && tsc -p tsconfig.json --noEmit && vite build",
+    "generate:social-preview": "node scripts/generate-social-preview.mjs",
     "lint": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.tests.json",
     "test": "vitest run",
     "preview": "vite preview",
