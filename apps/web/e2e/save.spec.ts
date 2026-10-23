@@ -1,8 +1,10 @@
+import { openCustomize, openGameTools } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
 async function hotseat(page: Page) {
   await page.goto("/");
+  await openCustomize(page);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button", { name: "Start game" }).click();
 }
@@ -23,19 +25,18 @@ test("abort result survives refresh and a new game replaces its save", async ({ 
   await page.reload(); await page.getByRole("button", { name: "Resume saved game" }).click();
   await expect(page.getByTestId("game-result")).toContainText("Game aborted");
   await page.getByRole("button", { name: "New game", exact: true }).click();
-  await page.getByRole("button", { name: "Start game" }).click();
+  await page.getByRole("button", { name: "Play against computers" }).click();
   await expect(page.getByTestId("game-result")).toHaveCount(0);
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
 });
 test("missing and corrupted saves leave setup usable", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByLabel("Local game recovery")).toContainText("previously saved in this browser");
-  await page.getByRole("button", { name: "Resume saved game" }).click();
-  await expect(page.getByRole("status")).toContainText("No saved game");
+  await expect(page.getByRole("button", { name: "Resume saved game" })).toHaveCount(0);
   await page.evaluate(() => localStorage.setItem("li4chess.local-game.v1", "broken"));
+  await page.reload();
   await page.getByRole("button", { name: "Resume saved game" }).click();
   await expect(page.getByRole("status")).toContainText("Cannot resume");
-  await page.getByRole("button", { name: "Start game" }).click();
+  await page.getByRole("button", { name: "Play against computers" }).click();
   await expect(page.getByTestId("turn-status")).toBeVisible();
 });
 test("unavailable storage reports the limitation while legal moves remain usable", async ({ page }) => {
@@ -44,7 +45,16 @@ test("unavailable storage reports the limitation while legal moves remain usable
   await expect(page.getByTestId("save-message")).toContainText("Could not save");
   await page.locator('[data-square="20"]').click(); await page.locator('[data-square="48"]').click();
   await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
+  await openGameTools(page);
   await expect(page.getByRole("button", { name: "Export replay", exact: true })).toBeEnabled();
+});
+
+test("blocked storage reads hide resume and leave quick start usable", async ({ page }) => {
+  await page.addInitScript(() => { Storage.prototype.getItem = () => { throw new DOMException("Blocked", "SecurityError"); }; });
+  await page.goto("/");
+  await expect(page.getByRole("button", { name: "Resume saved game" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Play against computers" }).click();
+  await expect(page.getByTestId("turn-status")).toContainText("Your turn");
 });
 
 test("an older asynchronous resume cannot replace a newly started game", async ({ page }) => {
@@ -72,7 +82,7 @@ test("an older asynchronous resume cannot replace a newly started game", async (
   });
   await page.getByRole("button", { name: "Resume saved game" }).click();
   await expect(page.getByRole("status")).toContainText("Verifying");
-  await page.getByRole("button", { name: "Start game" }).click();
+  await page.getByRole("button", { name: "Play against computers" }).click();
   await page.evaluate(() => (window as Window & { releaseResume?: () => void }).releaseResume!());
   await page.waitForFunction(() => document.documentElement.dataset.resumeVerified === "true");
   await expect(page.getByTestId("turn-status")).toContainText("Red to move");

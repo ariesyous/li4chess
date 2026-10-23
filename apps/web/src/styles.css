@@ -76,12 +76,17 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
 .rules-help { font-size: 13px; line-height: 1.5; }
 .rules-help summary { min-height: 44px; padding: 10px 0; font-weight: 500; }
 .rules-help p { margin: 10px 0; }
-.board-display { font-size: 13px; border-top: 1px solid var(--line); margin-top: 12px; padding-top: 4px; }
-.board-display summary { min-height: 44px; padding: 10px 0; }
+.board-display, .game-tools { font-size: 13px; border-top: 1px solid var(--line); margin-top: 12px; padding-top: 4px; }
+.board-display summary, .game-tools summary { min-height: 44px; padding: 10px 0; }
+.game-tools[open] summary { margin-bottom: 8px; }
+.game-tools .import-control { margin-top: 12px; }
 .notice { border-left: 4px solid #a07c24; background: #fff5db; padding: 12px; font-size: 13px; overflow-wrap: anywhere; }
 .result-card { border-top: 3px solid #62933f; margin: 12px 0; }
 .result-card h2 { font-size: 23px; line-height: 1.3; }
 .result-card p { font-size: 13px; }
+.result-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 16px; }
+.result-actions .primary-button { margin: 0; }
+.notice p:last-of-type { margin-bottom: 10px; }
 .eyebrow { text-transform: uppercase; font-size: 11px; letter-spacing: 1.5px; font-weight: 500; color: var(--muted); }
 .placements { padding: 0; list-style: none; }
 .placements li { padding: 12px; font-size: 13px; background: #f0eeea; border-left: 4px solid var(--seat-color); margin: 4px 0; }
@@ -91,6 +96,18 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
 .setup-header h1 span { color: #397caa; }
 .setup-header .eyebrow { margin-bottom: 16px; }
 .setup-header p:last-child { max-width: 510px; margin: 0 auto; font-size: 14px; color: var(--muted); }
+.quick-start-card { margin: 24px 0 18px; padding: 22px; background: #faf9f7; border-radius: 3px; box-shadow: 0 2px 5px #29262112; }
+.quick-start-copy h2 { font-size: 20px; margin-bottom: 10px; }
+.quick-start-copy p { margin-bottom: 0; font-size: 14px; color: var(--muted); }
+.quick-start-card .primary-button, .customize-game-body > .primary-button { width: 100%; }
+.quick-start-card .primary-button { margin: 18px 0 0; }
+.quick-start-card .setup-note { margin: 12px 0 0; }
+.setup-primer { list-style: none; padding: 0 4px; margin: 20px 0; font-size: 13px; line-height: 1.5; }
+.setup-primer li { margin: 8px 0; }
+.customize-game { margin-bottom: 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.customize-game > summary { min-height: 48px; padding: 14px 4px; font-size: 15px; }
+.customize-game-body { padding: 4px 0 0; }
+.customize-game-body > p:first-child { font-size: 13px; color: var(--muted); }
 .resume-card { margin: 24px 0; display: flex; align-items: center; gap: 18px; padding: 16px; background: #e1ded7; border-radius: 3px; }
 .resume-card button { flex-shrink: 0; font-size: 13px; }
 .resume-card p { margin: 0; font-size: 12px; color: #5c564e; }
@@ -104,6 +121,13 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
 .primary-button:hover { background: #2c6993; color: #fff; }
 .setup-shell > .primary-button { width: 100%; }
 .setup-note { font-size: 12px; color: var(--muted); }
+.site-information, .javascript-notice { max-width: 780px; margin: 0 auto; padding: 0 24px 20px; }
+.javascript-notice { padding-top: 32px; }
+.about-game h2 { font-size: 23px; line-height: 1.3; }
+.about-game h3 { font-size: 16px; line-height: 1.4; text-transform: none; letter-spacing: normal; color: #45413c; margin: 24px 0 10px; }
+.about-game p { font-size: 14px; line-height: 1.65; }
+.about-game .eyebrow { font-size: 11px; }
+.about-game p:last-child { margin-bottom: 0; }
 .app-footer { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 18px; padding: 22px 0 8px; font-size: 11px; color: var(--muted); }
 .app-footer a { text-decoration: none; }
 .app-footer a:hover { text-decoration: underline; }
@@ -136,8 +160,11 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
   .card, .result-card { padding: 16px; }
   .move-list { max-height: 200px; }
   .setup-shell { margin: 0; padding: 20px 14px 10px; }
+  .site-information, .javascript-notice { padding-left: 14px; padding-right: 14px; }
   .setup-header h1 { font-size: 38px; }
   .setup-header p:last-child { font-size: 13px; }
+  .quick-start-card { margin-top: 18px; padding: 16px; }
+  .quick-start-copy h2 { font-size: 18px; }
   .seat-grid { grid-template-columns: 1fr; gap: 8px; }
   .seat-row { display: grid; grid-template-columns: 104px 1fr; align-items: center; padding: 8px; }
   .seat-row h2 { font-size: 14px; margin: 0; }

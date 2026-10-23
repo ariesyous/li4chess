@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-09-09. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-10-23. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -44,6 +44,17 @@ Teams/2v2 and other variants remain ideas. The local/CPU Pages release is a
 standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
+
+The maintainer selected a bounded local/CPU usability follow-up on 2026-10-23:
+quick start, clearer solo guidance, simpler controls and same-settings rematches.
+Implementation and validation are tracked in [project state](docs/project-state.md).
+This is maintenance of the released product, with no new hosted milestone.
+CPU pacing, move-by-move review and mobile zoom remain future ideas; visitor
+analytics access was declined for this review.
+The maintainer also requested a bounded search-discovery follow-up on the same
+date: robots.txt, a canonical homepage sitemap, clearer metadata and useful
+homepage information readable before JavaScript. This adds no services or
+ongoing content schedule; implementation and validation remain in project state.
 
 The explicitly requested 2026-09-09
 [Tetrarch v8 integration spike](docs/engine/tetrarch-v8-report.md) is separate

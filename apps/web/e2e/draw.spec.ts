@@ -1,3 +1,4 @@
+import { openCustomize } from "./helpers.js";
 import { expect,test } from "@playwright/test";
 import { createInitialState,GameState } from "@li4chess/engine";
 
@@ -9,7 +10,7 @@ for(const cause of ["insufficient-material","fifty-move"] as const) test(`automa
     expect(source).toContain("createInitialState(toSeatConfig(seats))");
     await route.fulfill({response,body:source.replace("createInitialState(toSeatConfig(seats))",`(${JSON.stringify(initial)})`)});
   });
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   for(const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button",{name:"Start game"}).click();
   const square=(index:number)=>page.locator(`button[data-square="${index}"]`);

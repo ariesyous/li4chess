@@ -1,8 +1,9 @@
+import { openGameTools } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 
 test("piece-owner letters default off and remember either choice without changing square names", async ({ page }) => {
   await page.goto("/li4chess/");
-  await page.getByRole("button", { name: "Start game", exact: true }).click();
+  await page.getByRole("button", { name: "Play against computers", exact: true }).click();
   const pawn = page.getByRole("button", { name: "g2 Red Pawn", exact: true });
   await expect(page.locator(".piece-owner")).toHaveCount(0);
   await page.getByText("Board display", { exact: true }).click();
@@ -12,6 +13,7 @@ test("piece-owner letters default off and remember either choice without changin
   await expect(pawn.locator(".piece-owner")).toHaveText("R");
   await pawn.click();
   await expect(pawn).toHaveAttribute("aria-pressed", "true");
+  await openGameTools(page);
   await page.getByRole("button", { name: "Save game", exact: true }).click();
   await expect(page.getByTestId("save-message")).toContainText("Saved on this browser");
   await page.reload();

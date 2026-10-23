@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://li4chess.org/sitemap.xml

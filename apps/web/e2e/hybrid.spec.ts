@@ -1,3 +1,4 @@
+import { openCustomize } from "./helpers.js";
 import { test, expect } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
@@ -12,7 +13,7 @@ async function start(page: Page) {
       }
     };
   });
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   for(const checkbox of await page.locator('input[type="checkbox"]').all())await checkbox.uncheck();
   await page.locator('input[type="checkbox"]').first().check();
   await page.locator("select").selectOption("3");

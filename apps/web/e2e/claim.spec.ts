@@ -1,3 +1,4 @@
+import { openCustomize } from "./helpers.js";
 import { expect,test } from "@playwright/test";
 import { createInitialState,GameState } from "@li4chess/engine";
 
@@ -17,7 +18,7 @@ for(const {lead,turn,cpu,deadScore} of [
     expect(source).toContain("createInitialState(toSeatConfig(seats))");
     await route.fulfill({response,body:source.replace("createInitialState(toSeatConfig(seats))",`(${JSON.stringify(initial)})`)});
   });
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   for(const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   if(cpu) await page.locator('input[type="checkbox"]').first().check();
   await page.getByRole("button",{name:"Start game"}).click();

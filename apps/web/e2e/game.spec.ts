@@ -1,22 +1,22 @@
 import { expect, test } from "@playwright/test";
-import { makeARedPawnMove, setAllDifficulties } from "./helpers.js";
+import { makeARedPawnMove, setAllDifficulties, openCustomize } from "./helpers.js";
 
 test("human (Red) + 3 CPU: a real move plays, then all three CPU seats auto-play their turns", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
 
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   // Default seat config is exactly Red human / Blue+Yellow+Green CPU.
   await setAllDifficulties(page, 1);
   await page.getByRole("button", { name: "Start game" }).click();
 
-  await expect(page.getByTestId("turn-status")).toContainText("Turn 1 — Red to move");
+  await expect(page.getByTestId("turn-status")).toContainText("Turn 1 — Your turn · Red to move");
 
   await makeARedPawnMove(page);
 
   // Rotation is Red -> Blue -> Yellow -> Green -> Red; after Red's move and all
   // three CPU seats auto-playing, it should come back around to Red on turn 5.
-  await expect(page.getByTestId("turn-status")).toContainText("Turn 5 — Red to move", { timeout: 15_000 });
+  await expect(page.getByTestId("turn-status")).toContainText("Turn 5 — Your turn · Red to move", { timeout: 15_000 });
 
   const history = page.getByTestId("move-history").locator("li");
   await expect(history).toHaveCount(4);
@@ -35,7 +35,7 @@ test("4-CPU autoplay: the whole game drives itself turn after turn with no error
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
 
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   // Seat rows render in fixed Red/Blue/Yellow/Green order, so the first CPU
   // checkbox on the page is Red's — check it too, and drop every difficulty to 1 for speed.
   await page.locator('input[type="checkbox"]').first().check();

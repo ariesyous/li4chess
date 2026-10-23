@@ -60,11 +60,14 @@ export function useLocalGame(seats: SeatSetups, resumed?: ResumedGame) {
   const currentState = useRef(state);
   const journal = useRef<LocalJournal>({ initial:state,requests:[], ...(resumed ? { sourceReplayHash: resumed.sourceReplayHash } : {}) });
   const [saveMessage, setSaveMessage] = useState("");
+  const [saveFailed, setSaveFailed] = useState(false);
   const save = useCallback(() => {
     try {
       saveLocalGame(window.localStorage, journal.current, __ENGINE_BUILD__);
+      setSaveFailed(false);
       setSaveMessage("Saved on this browser. Resume from setup after refresh.");
     } catch {
+      setSaveFailed(true);
       setSaveMessage("Could not save on this browser. Your latest moves may not survive refresh. Export a replay to keep them.");
     }
   }, []);
@@ -180,7 +183,7 @@ export function useLocalGame(seats: SeatSetups, resumed?: ResumedGame) {
   const reset = useCallback(() => {
     operation.current++; cancelCpu.current(); busy.current = false; setReplayBusy(false);
     gameId.current = crypto.randomUUID();
-    setCpuDiagnostics(null); setCpuNotice("");
+    setCpuDiagnostics(null); setCpuNotice(""); setReplayMessage("");
     const players = currentState.current.players;
     const resetSeats = Object.fromEntries([0, 1, 2, 3].map(color => [color, {
       isCPU: players[color as PlayerColor].isCPU, difficulty: players[color as PlayerColor].cpuDifficulty ?? 3,
@@ -230,5 +233,5 @@ export function useLocalGame(seats: SeatSetups, resumed?: ResumedGame) {
   },[save]);
 
   const clearSelection = useCallback(() => setSelectedSquare(null), []);
-  return { state, selectedSquare, legalTargets, selectSquare, clearSelection, reset, resign, timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuDiagnostics,cpuNotice,save,saveMessage };
+  return { state, selectedSquare, legalTargets, selectSquare, clearSelection, reset, resign, timeout,claim,exportReplay,importReplay,replayBusy,replayMessage,cpuStatus,cpuDiagnostics,cpuNotice,save,saveMessage,saveFailed };
 }

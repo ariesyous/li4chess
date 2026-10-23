@@ -1,3 +1,4 @@
+import { openCustomize } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 import { GameState, PieceType, createInitialState } from "@li4chess/engine";
 
@@ -15,7 +16,7 @@ test("eighth-rank promotion displays Queen and history, then capture scores one 
     expect(source).toContain(initializer);
     await route.fulfill({ response, body:source.replace(initializer, `(${JSON.stringify(initial)})`) });
   });
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   await expect(page.getByRole("button", { name:"Start game" })).toBeVisible();
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button", { name:"Start game" }).click();

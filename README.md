@@ -41,6 +41,12 @@ and [project state](docs/project-state.md). This direction was accepted on
 
 Current features include:
 
+- One-click **Play against computers** (you are Red against three level-3 CPUs),
+  with same-device hotseat and per-seat options under **Customize game**.
+- A short rules primer, **You / Your turn** guidance for solo play, and immediate
+  **Play again** rematches using the current seats and difficulty levels.
+- An accessible homepage description of CPU play, same-device games, scoring,
+  saves and controls, available in the initial HTML before JavaScript runs.
 - A cross-shaped board with 160 playable squares and Red → Blue → Yellow → Green turn order.
 - Legal-move highlighting, last-move and check indicators, move history, and optional board rotation to the current player.
 - **Board display → Show piece-owner letters** is off by default and remembers the choice in this browser; passive pieces retain their × marker.
@@ -86,13 +92,18 @@ work and replies must match the current game/state/seat. The five hybrid resourc
 tiers and runtime boundaries are in [browser integration](docs/engine/tetrarch-browser-default.md).
 The [M2 acceptance](docs/m2-acceptance.md) and [native calibration](docs/m2-evidence/README.md)
 remain historical evidence for the native fallback, not calibration of Tetrarch.
-Games now save automatically on this browser after every accepted action. Use
-**Resume saved game** on setup when you have a prior local save, or **Save game**
-to retry a failed save. Resume validates the state-v2 checkpoint and action journal through replay-v2,
+Games save automatically on this browser after every accepted action. Setup shows
+**Resume saved game** when saved data is present; **Retry save** appears if saving
+fails. **More game tools** contains manual saving, replay import/export, reset and
+simulated timeout. Resume validates the state-v2 checkpoint and action journal through replay-v2,
 retaining seat difficulty, scores, randomness and producer lineage. Starting a new
 game replaces the one local save. Export a replay for a portable backup, especially
 if browser storage is unavailable. The responsive frame has four directional seat panels,
 readable move/points histories, rules help, and deliberate resign/reset/claim controls.
+After the only human is eliminated, a persistent notice offers watching the finish
+or returning to setup; final placements still wait for the canonical game result.
+**Change settings** retains the current seats for this visit, including imported
+games. Starting a rematch replaces the local save; export a replay first to keep it.
 Tab enters the board; arrows navigate displayed squares, Enter/Space select or move,
 and Escape clears selection. Color names and state labels supplement hue;
 opt-in local private multiplayer has authoritative clock/disconnect UI. Hosted
@@ -134,6 +145,30 @@ plain JSON-shaped data.
 
 ## Development
 
+### Search discovery
+
+The homepage has a descriptive title, matching search/social descriptions and
+the canonical URL `https://li4chess.org/`. The visible About section lives in
+`apps/web/index.html` below the setup controls; it stays readable without
+JavaScript and is hidden during play. JavaScript is required for the game itself.
+
+`apps/web/public/robots.txt` allows crawling and advertises
+`https://li4chess.org/sitemap.xml`. The sitemap lists only the canonical homepage;
+game states and saved replays are not separate public pages. Vite copies both
+files into the build output. The Pages workflow supplies the actual base path,
+currently `/`, so these files publish at the custom-domain root. The default
+local `/li4chess/robots.txt` is a preview artifact, not a robots policy for the
+parent `github.io` host. Keep the canonical, social URLs and sitemap in sync if
+the public domain changes, and add real public pages to the sitemap when added.
+
+After publication, verify the live root files and optionally submit the sitemap
+through Google Search Console or Bing Webmaster Tools. No service registration
+or submission is performed by the build. See Google's guidance on
+[JavaScript SEO](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics)
+and [sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap).
+
+### Local setup
+
 Use Node.js 24 or newer and pnpm **10.33.0**, the version pinned in
 `package.json`. Run commands from the repository root:
 
@@ -143,9 +178,9 @@ pnpm dev
 ```
 
 Open the local Vite server at `/li4chess/` (normally
-`http://localhost:5173/li4chess/`). The default setup is a human playing Red
-against three level-3 CPUs. Configure each seat before starting, then click a
-piece and a highlighted destination to move.
+`http://localhost:5173/li4chess/`). **Play against computers** immediately starts
+a human playing Red against three level-3 CPUs. Use **Customize game** to configure
+individual seats. Click a piece and a highlighted destination to move.
 
 ### Validation
 

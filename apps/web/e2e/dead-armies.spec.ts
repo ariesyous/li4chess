@@ -1,3 +1,4 @@
+import { openCustomize } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 import { GameState, PieceType, PlayerColor, createInitialState, squareOf } from "@li4chess/engine";
 import { resolveAction } from "@li4chess/protocol";
@@ -27,7 +28,7 @@ for (const status of ["checkmated", "stalemated"] as const) for (const walking o
     });
     const errors: string[] = [];
     page.on("pageerror", error => errors.push(error.message));
-    await page.goto("/");
+    await page.goto("/"); await openCustomize(page);
     await expect(page.getByRole("button", { name:"Start game" })).toBeVisible();
     for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.getByRole("button", { name:"Start game" }).click();

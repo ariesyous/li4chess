@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 import type { Page, TestInfo } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -9,6 +10,7 @@ import { resumeLocalGame } from "../src/game/localSave.js";
 export async function exportCompleted(page: Page, info: TestInfo, name: string) {
   await expect(page.locator("#result-heading")).toBeFocused();
   const pending = page.waitForEvent("download");
+  await openGameTools(page);
   await page.getByRole("button", { name: "Export replay", exact: true }).click();
   const download = await pending, path = info.outputPath(`${name}.replay.json`);
   await download.saveAs(path);
@@ -28,7 +30,7 @@ export async function exportCompleted(page: Page, info: TestInfo, name: string) 
 }
 
 test("complete phone hotseat game: Modern opening to repetition, export and terminal resume", async ({ page }, info) => {
-  await page.setViewportSize({ width: 360, height: 900 }); await page.goto("/");
+  await page.setViewportSize({ width: 360, height: 900 }); await page.goto("/"); await openCustomize(page);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button", { name: "Start game" }).click();
   for (let ply = 0; ply < 16; ply++) {
@@ -45,7 +47,7 @@ test("complete phone hotseat game: Modern opening to repetition, export and term
 
 test("complete mixed game: real CPU opening, deliberate forfeits, walking Kings and final awards", async ({ page }, info) => {
   test.setTimeout(60_000);
-  await page.setViewportSize({ width: 768, height: 900 }); await page.goto("/");
+  await page.setViewportSize({ width: 768, height: 900 }); await page.goto("/"); await openCustomize(page);
   await page.getByLabel("Yellow CPU", { exact:true }).uncheck(); await page.getByLabel("Green CPU", { exact:true }).uncheck();
   for (const select of await page.locator("select").all()) await select.selectOption("1");
   await page.getByRole("button", { name: "Start game" }).click();
