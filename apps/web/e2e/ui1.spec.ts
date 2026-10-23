@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 import { createInitialState } from "@li4chess/engine";
 import type { GameState } from "@li4chess/engine";
@@ -21,6 +22,7 @@ for (const [name, width, height] of [["desktop",1440,1000], ["short-desktop",128
       };
       await page.goto("/li4chess/");
       await capture("setup");
+      await openCustomize(page);
       for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
       await page.getByRole("button", { name: "Start game", exact: true }).click();
       const source = page.getByRole("button", { name: "g2 Red Pawn", exact: true });
@@ -36,6 +38,7 @@ for (const [name, width, height] of [["desktop",1440,1000], ["short-desktop",128
       const checkReplay = await recordReplay({ ...base, board: checkBoard, positionCounts: {}, castlingRights: {
         0: { kingside:false, queenside:false }, 1: { kingside:false, queenside:false }, 2: { kingside:false, queenside:false }, 3: { kingside:false, queenside:false },
       } }, [], producer);
+      await openGameTools(page);
       await page.getByLabel("Import replay", { exact:true }).setInputFiles({name:"check.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(checkReplay))});
       await expect(page.getByTestId("player-2")).toContainText("Check");
       await expect(page.locator('[data-square="120"]')).toHaveAccessibleName(/in check/);
@@ -46,6 +49,7 @@ for (const [name, width, height] of [["desktop",1440,1000], ["short-desktop",128
           2: {...base.players[2], status:"resigned",kingStatus:"walking",forfeit:{reason:"resign",sequence:1}},
           3: {...base.players[3], status:"resigned",kingStatus:"walking",forfeit:{reason:"resign",sequence:2}}} };
       const replay = await recordReplay(fixture, [], producer);
+      await openGameTools(page);
       await page.getByLabel("Import replay", { exact:true }).setInputFiles({name:"ui1.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(replay))});
       await expect(page.getByTestId("replay-message")).toContainText("Replay verified");
       await expect(page.getByTestId("player-2")).toContainText("Walking King");

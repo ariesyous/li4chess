@@ -1,11 +1,13 @@
+import { openCustomize, openGameTools } from "./helpers.js";
 import { expect,test } from "@playwright/test";
 import { createInitialState,GameState } from "@li4chess/engine";
 
 for(const action of ["Resign Red","Simulate timeout"]) {
   test(`${action}: opening action aborts without placements`,async({page})=>{
-    await page.goto("/");
+    await page.goto("/"); await openCustomize(page);
     for(const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.getByRole("button",{name:"Start game"}).click();
+    if (action === "Simulate timeout") await openGameTools(page);
     page.once("dialog", dialog => dialog.accept());
     await page.getByRole("button",{name:action,exact:true}).click();
     await expect(page.getByTestId("game-result")).toContainText("Game aborted");
@@ -23,9 +25,10 @@ for(const action of ["Resign Red","Simulate timeout"]) {
     });
     const errors:string[]=[];
     page.on("pageerror",error=>errors.push(error.message));
-    await page.goto("/");
+    await page.goto("/"); await openCustomize(page);
     for(const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.getByRole("button",{name:"Start game"}).click();
+    if (action === "Simulate timeout") await openGameTools(page);
     page.once("dialog", dialog => dialog.accept());
     await page.getByRole("button",{name:action,exact:true}).click();
     await expect(page.getByTestId("player-0")).toContainText("Walking King");

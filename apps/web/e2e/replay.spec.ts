@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "./helpers.js";
 import { expect,test,Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { createInitialState } from "@li4chess/engine";
@@ -8,12 +9,13 @@ const producer:EngineBuildIdentityV1={format:"li4chess-engine-build-v1",sourceRe
   packageVersions:{"@li4chess/engine":"0.0.0","@li4chess/protocol":"0.0.0"},
   workingTree:{status:"unreproducible",reason:"Browser acceptance fixture"}};
 async function start(page:Page) {
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button",{name:"Start game"}).click();
 }
 async function exportGame(page:Page):Promise<ReplayEnvelopeV2> {
   const downloadPromise=page.waitForEvent("download");
+  await openGameTools(page);
   await page.getByRole("button",{name:"Export replay",exact:true}).click();
   const download=await downloadPromise;
   const replay=JSON.parse(await readFile((await download.path())!,"utf8"));
@@ -21,6 +23,7 @@ async function exportGame(page:Page):Promise<ReplayEnvelopeV2> {
   return replay;
 }
 async function importGame(page:Page,replay:unknown) {
+  await openGameTools(page);
   await page.getByLabel("Import replay").setInputFiles({name:"game.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(replay))});
 }
 

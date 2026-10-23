@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "../e2e/helpers.js";
 import { expect, test } from "@playwright/test";
 import { createInitialState, legalMoves } from "@li4chess/engine";
 import type { GameState, PieceType, PlayerColor } from "@li4chess/engine";
@@ -39,7 +40,7 @@ test("production Worker budgets and real input frames across positions and viewp
   const groups: { width:number; position:string; level:number; jobs:Observation[]; inputs:InputSample[] }[] = [];
   const errors: string[] = []; page.on("pageerror", error => errors.push(error.message));
   for (const width of [1280,768,360]) {
-    await page.setViewportSize({ width, height:900 }); await page.goto("./");
+    await page.setViewportSize({ width, height:900 }); await page.goto("./"); await openCustomize(page);
     for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.getByRole("button", { name:"Start game" }).click();
     const savedProducer = await page.evaluate(() => JSON.parse(localStorage.getItem("li4chess.local-game.v1")!).producer);
@@ -54,6 +55,7 @@ test("production Worker budgets and real input frames across positions and viewp
       for (let trial = 0; trial < 5 || (level === 5 && group.inputs.length < 30); trial++) {
         expect(trial, "30 active-search inputs must be measurable within 30 trials").toBeLessThan(30);
         const before = await page.evaluate(() => window.m2.jobs.length);
+        await openGameTools(page);
         await page.getByLabel("Import replay", { exact:true }).setInputFiles({ name:"position.json", mimeType:"application/json", buffer:Buffer.from(JSON.stringify(replay)) });
         await page.waitForFunction(count => window.m2.jobs.length > count && !!window.m2.jobs[count].started, before);
         if (level === 5) for (let input = 0; input < 6; input++) {

@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "../../web/e2e/helpers.js";
 import { expect, test, type Page } from "@playwright/test";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -89,6 +90,7 @@ test("Static Assets returns exact built bytes and MIME types, navigation and HEA
 });
 
 async function exportGame(page: Page): Promise<ReplayEnvelopeV2> {
+  await openGameTools(page);
   const pending = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export replay", exact: true }).click();
   const file = await pending; const replay = JSON.parse(await readFile((await file.path())!, "utf8"));
@@ -110,12 +112,12 @@ test("bundled CPU Worker makes real turns; refresh, save and replay import retai
       }
     };
   });
-  await page.goto("/play/local");
+  await page.goto("/play/local"); await openCustomize(page);
   for (const select of await page.locator("select").all()) await select.selectOption("1");
   await page.getByRole("button", { name: "Start game" }).click();
   await page.getByRole("button", { name: "g2 Red Pawn", exact: true }).click();
   await page.getByRole("button", { name: "g4 empty, legal destination", exact: true }).click();
-  await expect(page.getByTestId("turn-status")).toContainText("Turn 5 — Red to move", { timeout: 15000 });
+  await expect(page.getByTestId("turn-status")).toContainText("Turn 5 — Your turn · Red to move", { timeout: 15000 });
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(4);
   await expectFullBoard(page);
   expect(workers).toHaveLength(3);
@@ -140,7 +142,7 @@ test("bundled CPU Worker makes real turns; refresh, save and replay import retai
   const saved = await exportGame(page); const savedState = (await readReplay(saved)).state;
   const expectedCheckpoint = await recordReplay(engineState(savedState), [], build.producer, await sha256(canonicalJson(saved)));
   await page.reload(); await page.getByRole("button", { name: "Resume saved game" }).focus(); await page.keyboard.press("Enter");
-  await expect(page.getByTestId("turn-status")).toContainText("Turn 5 — Red to move");
+  await expect(page.getByTestId("turn-status")).toContainText("Turn 5 — Your turn · Red to move");
   const resumed = await exportGame(page);
   expect(resumed).toEqual(expectedCheckpoint);
   expect(resumed.game.sourceReplayHash).toBe(await sha256(canonicalJson(saved)));
@@ -156,7 +158,7 @@ test("bundled CPU Worker makes real turns; refresh, save and replay import retai
 });
 
 test("phone viewport preserves keyboard board controls through Worker navigation and refresh", async ({ page }) => {
-  await page.setViewportSize({ width: 360, height: 800 }); await page.goto("/play");
+  await page.setViewportSize({ width: 360, height: 800 }); await page.goto("/play"); await openCustomize(page);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button", { name: "Start game" }).click();
   const pawn = page.getByRole("button", { name: "g2 Red Pawn", exact: true });

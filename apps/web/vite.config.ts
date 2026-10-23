@@ -9,8 +9,8 @@ export default defineConfig(({ command, mode }) => ({
     ? JSON.parse(readFileSync(new URL("../worker/.generated/build.json", import.meta.url), "utf8")).producer
     : readBuildIdentity(fileURLToPath(new URL("../..",import.meta.url)),command === "serve")) },
   plugins: [react()],
-  // Served from https://ariesyous.github.io/li4chess/ (a project Pages site), so
-  // asset URLs need the repo name as a base path rather than the domain root.
+  // Local/project-path builds use /li4chess/. Pages supplies its configured base
+  // at build time: / for the existing li4chess.org custom domain.
   base: mode === "workers" ? "/" : "/li4chess/",
   build: { outDir: mode === "workers" ? "dist-workers" : "dist" },
 }));

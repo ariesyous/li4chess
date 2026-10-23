@@ -278,7 +278,8 @@ async function audit(g: Game, name: string, classification: "ordinary-complete" 
       await expect(page.getByTestId("online-control")).toHaveText(control!);
     }
     record(`${name}: four authenticated result downloads equal canonical replay`,{room:g.room,producer:replay.engineBuild,sourceReplayHash:replay.game.sourceReplayHash??null});
-    const local=await g.guests[0].newPage();await local.goto(origin);await local.getByRole("button",{name:"Start game",exact:true}).click();
+    const local=await g.guests[0].newPage();await local.goto(origin);await local.getByRole("button",{name:"Play against computers",exact:true}).click();
+    await local.locator("summary").filter({hasText:/^More game tools$/}).click();
     await local.getByLabel("Import replay",{exact:true}).setInputFiles({name:"private.replay.json",mimeType:"application/json",buffer:Buffer.from(canonicalJson(replay))});
     await expect(local.getByTestId("game-result")).toBeVisible();
     const localDownload=local.waitForEvent("download");await local.getByRole("button",{name:"Export replay",exact:true}).click();
@@ -839,7 +840,7 @@ try {
     await page.getByRole("button",{name:"Download replay",exact:true}).click();await arrived;
     await expect(page.getByRole("button",{name:"Download replay",exact:true})).toBeDisabled();
     await page.getByRole("button",{name:"Leave online room",exact:true}).click();release();
-    await expect(page.getByRole("button",{name:"Start game",exact:true})).toBeVisible();await page.unroute("**/api/online");assert.equal(downloads,1);
+    await expect(page.getByRole("button",{name:"Play against computers",exact:true})).toBeVisible();await page.unroute("**/api/online");assert.equal(downloads,1);
     record("R05 lost response retries, duplicate-click guard and late callback after leaving do not export a partial/wrong file");
 
     const rotatingPage=g.pages[2];let rotatedDownloads=0;rotatingPage.on("download",()=>rotatedDownloads++);

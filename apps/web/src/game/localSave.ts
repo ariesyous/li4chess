@@ -8,6 +8,12 @@ export interface LocalJournal { initial: GameState; requests: ActionRequest[]; s
 export interface ResumedGame { state: GameState; sourceReplayHash: string }
 export interface SaveStorage { getItem(key: string): string | null; setItem(key: string, value: string): void }
 
+/** Check presence without parsing or replacing a potentially recoverable save. */
+export function hasLocalSave(storage: Pick<SaveStorage, "getItem">): boolean {
+  try { return storage.getItem(LOCAL_SAVE_KEY) !== null; }
+  catch { return false; }
+}
+
 function fields(value: unknown, required: string[], optional: string[] = []): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Invalid local action.");
   const object = value as Record<string, unknown>;

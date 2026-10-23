@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import { createInitialState } from "@li4chess/engine";
@@ -29,7 +30,7 @@ async function observeWorkers(page: Page) {
   });
 }
 async function startRedCpu(page: Page) {
-  await page.goto("/");
+  await page.goto("/"); await openCustomize(page);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.locator('input[type="checkbox"]').first().check();
   await page.locator("select").selectOption("5");
@@ -43,7 +44,8 @@ test("real level-5 Worker keeps input usable; leaving terminates active search",
   await expect(page.getByLabel("Rotate board to current player")).toBeChecked();
   expect(await page.evaluate(() => window.cpuProbe.busy)).toBe(true);
   await page.getByRole("button", { name: "New game", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Start game" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Play against computers" })).toBeVisible();
+  await openCustomize(page);
   expect(await page.evaluate(() => window.cpuProbe.terminated)).toBe(1);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button", { name: "Start game" }).click();
@@ -57,6 +59,7 @@ test("import during real active search terminates old Worker and preserves the i
     workingTree: { status: "unreproducible", reason: "Worker lifecycle acceptance fixture" } };
   const saved = await recordReplay(createInitialState(), [], producer);
   await observeWorkers(page); await startRedCpu(page);
+  await openGameTools(page);
   await page.getByLabel("Import replay").setInputFiles({ name: "hotseat.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(saved)) });
   await expect(page.getByTestId("replay-message")).toContainText("Replay verified");
   expect(await page.evaluate(() => window.cpuProbe.terminated)).toBe(1);
@@ -68,6 +71,7 @@ test("import during real active search terminates old Worker and preserves the i
 
 test("terminal action cancels an active real Worker", async ({ page }) => {
   await observeWorkers(page); await startRedCpu(page);
+  await openGameTools(page);
   page.once("dialog", dialog => dialog.accept());
   await page.getByRole("button", { name: "Resign Red", exact: true }).click();
   await expect(page.getByTestId("game-result")).toContainText("Game aborted");
@@ -79,6 +83,7 @@ test("terminal action cancels an active real Worker", async ({ page }) => {
 test("confirmed reset terminates active search and only the new game can move", async ({ page }) => {
   await observeWorkers(page); await startRedCpu(page);
   page.once("dialog", dialog => dialog.accept());
+  await openGameTools(page);
   await page.getByRole("button", { name: "Reset game", exact: true }).click();
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
   expect(await page.evaluate(() => window.cpuProbe.terminated)).toBe(1);
@@ -122,7 +127,7 @@ for (const failure of ["constructor", "crash", "watchdog"] as const) {
       await page.route("**/src/game/cpu.worker.ts*", route => route.fulfill({ contentType: "application/javascript",
         body: failure === "crash" ? 'throw new Error("Injected Worker crash")' : 'self.onmessage = () => { while (true) {} };' }));
     }
-    await page.goto("/");
+    await page.goto("/"); await openCustomize(page);
     for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.locator('input[type="checkbox"]').first().check();
     await page.locator("select").selectOption("1");

@@ -3,26 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>li4chess — Free four-player chess</title>
-    <meta name="description" content="Play free four-player chess in your browser, with hotseat and CPU opponents." />
+    <title>Free 4 Player Chess Against Computers | li4chess</title>
+    <meta name="description" content="Play free four-player chess against computers or friends on the same device. Five CPU levels, automatic saves, no accounts or ads." />
+    <link rel="canonical" href="https://li4chess.org/" />
     <meta name="theme-color" content="#eeece8" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="li4chess" />
     <meta property="og:url" content="https://li4chess.org/" />
-    <meta property="og:title" content="li4chess — Free four-player chess" />
-    <meta property="og:description" content="Play free four-player chess in your browser, with hotseat and CPU opponents." />
+    <meta property="og:title" content="Free 4 Player Chess Against Computers | li4chess" />
+    <meta property="og:description" content="Play free four-player chess against computers or friends on the same device. Five CPU levels, automatic saves, no accounts or ads." />
     <meta property="og:image" content="https://li4chess.org/social-preview.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1734" />
     <meta property="og:image:height" content="907" />
     <meta property="og:image:alt" content="li4chess four-player chess board with red, blue, yellow, and green armies" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="li4chess — Free four-player chess" />
-    <meta name="twitter:description" content="Play free four-player chess in your browser, with hotseat and CPU opponents." />
+    <meta name="twitter:title" content="Free 4 Player Chess Against Computers | li4chess" />
+    <meta name="twitter:description" content="Play free four-player chess against computers or friends on the same device. Five CPU levels, automatic saves, no accounts or ads." />
     <meta name="twitter:image" content="https://li4chess.org/social-preview.png" />
     <meta name="twitter:image:alt" content="li4chess four-player chess board with red, blue, yellow, and green armies" />
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div class="javascript-notice">
+        <h1>li4chess — Free four-player chess</h1>
+        <p>Enable JavaScript to play the game. You can read about the game and its rules below.</p>
+      </div>
+    </noscript>
+    <!-- Keep this information in the initial HTML and visible below setup.
+         The app hides it only while a game or private-room screen is open. -->
+    <section id="site-information" class="site-information" aria-labelledby="about-heading">
+      <article class="card about-game">
+        <p class="eyebrow">About li4chess</p>
+        <h2 id="about-heading">Free four-player chess in your browser</h2>
+        <p>li4chess is a free, ad-free chess game where four armies share one board and
+          compete for the highest final score. Play against computer opponents,
+          take turns with friends on the same device, or watch four computers play.
+          No account, subscription or installation is needed.</p>
+
+        <h3>Play against computers at five difficulty levels</h3>
+        <p>Choose <strong>Play against computers</strong> to start as Red against three
+          level-3 opponents. Open <strong>Customize game</strong> to choose a human or
+          computer for each seat and set each computer's level from 1 to 5.
+          The computers run in your browser, so you can start without waiting for opponents.</p>
+
+        <h3>How does four-player chess work?</h3>
+        <p>The cross-shaped board has 160 playable squares. Turns go
+          <strong>Red → Blue → Yellow → Green</strong>, skipping eliminated players.
+          Protect your own king while earning points through captures, checks against
+          multiple kings and checkmates. The highest final points total wins, including
+          points earned by eliminated players; tied scores share a place.</p>
+        <p>Checkmated and stalemated armies remain on the board as blockers: they cannot
+          move or attack and are worth no capture points. Pawns automatically promote
+          to queens on their eighth rank. The in-game rules and points history explain
+          scoring and game endings in more detail.</p>
+
+        <h3>Can I play with friends?</h3>
+        <p>Yes, by sharing a device. In <strong>Customize game</strong>, turn off CPU
+          control for the seats your friends will play, then take turns on the same
+          screen. You can mix human and computer players. Online rooms, matchmaking
+          and accounts are not available on this site.</p>
+
+        <h3>Can I save a game and come back later?</h3>
+        <p>Games save automatically in this browser when browser storage is available.
+          Choose <strong>Resume saved game</strong> to continue later on the same browser
+          and device. Starting a new game replaces that save. Use <strong>More game tools</strong>
+          to export a replay file as a portable backup or import one to restore a game.
+          Saves do not sync between devices.</p>
+
+        <h3>Play with a mouse, touch or keyboard</h3>
+        <p>Select a piece, then a highlighted destination. Keyboard players can use
+          the arrow keys to navigate, Enter or Space to select and move, and Escape
+          to clear a selection. The board and controls adapt to desktop and phone screens.</p>
+      </article>
+      <footer class="app-footer">
+        <span>Free, local &amp; open source</span>
+        <a href="https://github.com/ariesyous/li4chess">Source</a>
+        <a href="https://github.com/ariesyous/li4chess/blob/main/THIRD_PARTY_NOTICES.md">Pieces &amp; credits</a>
+      </footer>
+    </section>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

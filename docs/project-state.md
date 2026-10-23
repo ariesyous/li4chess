@@ -1,12 +1,104 @@
 # Project state
 
-Last updated: 2026-09-09.
+Last updated: 2026-10-23.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Publication authorized (2026-10-23):** the maintainer explicitly requested
+deployment of both validated usability and search-discovery follow-ups to
+`https://li4chess.org/`. Use the existing GitHub Pages pipeline, verify PR CI
+before merging, then verify main CI, Pages and the live game/crawl files. This
+does not activate hosted multiplayer or authorize analytics account access.
+
+**Search discovery follow-up (2026-10-23, locally validated):** the
+maintainer requested robots.txt, a sitemap and more descriptive homepage content.
+The public crawl files permit crawling and list only `https://li4chess.org/`.
+The HTML now has a canonical link and aligned title/search/social descriptions.
+A visible About section below setup explains CPU levels, FFA scoring, same-device
+friends, browser-local saves and controls; it is present before JavaScript runs
+and hidden only during play/private-room screens. The static section owns the
+setup footer; game footers remain unchanged. A no-JavaScript notice explains the
+requirement to enable it to play. No new routes, dependencies, search accounts,
+analytics access, crawler blocking or ranking guarantees were introduced.
+
+Both development `/li4chess/` and the Pages custom-domain `/` builds retain the
+canonical `https://li4chess.org/` URLs. Current code preserves the prior usability
+follow-up and the pre-existing analytics note. Nothing from these follow-ups has
+been published yet; no search-console registration or sitemap submission occurred.
+
+Validation on base `7990cb6` plus the cumulative working-tree changes used Windows,
+Node 24.18.0 and Corepack pnpm 10.33.0. Final `pnpm lint`, `pnpm test` and
+`pnpm build` passed: 51 web unit tests executed, with 708 unchanged unit results
+reused from Turbo cache. The final default browser run passed **66 tests** with
+no retries. Production-preview checks passed **9 tests at `/li4chess/` and 9 at
+`/`**, after an explicit `pnpm --filter @li4chess/web build --base /` for the
+custom-domain variant. These verify raw HTML content, canonical/social metadata,
+robots MIME/content, a parseable one-URL sitemap, JavaScript-disabled readability,
+desktop/phone setup visibility and real CPU runtime loading/recovery. Current
+desktop/phone screenshots were visually inspected; this is Chromium emulation.
+An initial browser attempt was stopped after descriptive copy exposed ambiguous
+text selectors; tests now target the actual menu summaries. The no-JavaScript
+assertion now checks the visible notice child rather than Playwright's excluded
+`noscript` text. Gameplay assertions are unchanged. Final diff-format checks
+passed. Deferred Worker/multiplayer campaigns were not run.
+
+**Local/CPU usability follow-up (2026-10-23, locally validated):** the
+maintainer accepted the first batch from the site/code review: one-click default
+CPU play, a concise rules primer and solo identity/turn guidance, secondary game
+tools, and immediate same-settings rematches. Setup checks for saved data without
+parsing or overwriting it; resume retains full replay validation. Custom settings
+stay available during the visit, including settings from imported games. Results
+offer Play again and Change settings; the sole eliminated human can watch the
+finish or return to setup while retaining the save. Normal human resignation,
+Claim Win and save-error retry remain visible; manual save, replay files, reset,
+CPU-seat resignation and simulated timeout are under More game tools.
+
+Rules, CPU search/pacing, replay/save formats and hosting are unchanged. Move
+review and mobile zoom remain future ideas. The maintainer chose site/code-only
+analysis; no analytics data or settings were accessed. The existing October 18
+analytics documentation change is preserved. No publication has occurred in this
+follow-up.
+
+Validation on base `7990cb6` plus these working-tree changes used Windows,
+Node 24.18.0 and Corepack pnpm 10.33.0. `pnpm lint` and `pnpm build` passed
+(web/Worker tasks executed; unchanged package tasks used Turbo cache). `pnpm test`
+passed: 51 web unit tests executed, with 708 unchanged package unit results
+reused from cache. All **61 Playwright tests** passed freshly with no retries,
+including conditional/blocked/corrupt saves, stale resume prevention, keyboard
+focus, custom/imported rematches, elimination watching, CPU recovery and replay
+lineage. The earlier focused browser run passed 17 tests. Final lint included the
+updated retained Worker acceptance/campaign UI callers; those deferred campaigns
+were not run. Reviewed current desktop and phone setup/game/result screenshots
+from `apps/web/test-results`; this is Chromium viewport emulation, not physical
+phone or screen-reader evidence. `git diff --check` passed. Rules, engine search
+and backend campaign assertions were not weakened.
+
+**Cloudflare Zaraz analytics configuration (2026-10-18):** the maintainer
+explicitly requested Google Analytics and Microsoft Clarity for li4chess.org
+at the Cloudflare edge. Both services' signed-in profiles were verified as
+`aries@magnascale.com`. Created GA4 property `li4chess` (`559483714`) in the
+existing MagnascaleWebsite account, with web stream `li4chess.org`
+(`16154793036`), measurement ID `G-LNE52KRLMZ`, US Dollar and New York reporting
+time. Created Clarity project `li4chess` (`yztm85z68z`). Zaraz has enabled GA4
+automatic actions and a Microsoft Clarity Custom HTML action on Pageview, with
+Ignore SPA enabled and an initialization guard. Automatic pageview tracking,
+SPA support and auto-injection are enabled; Preview & Publish is off, so saves
+apply directly. The four apex GitHub Pages A records and the `www` CNAME were
+changed from DNS only to Proxied to support edge injection; their origin values
+and TXT records are unchanged. GitHub Pages remains the origin; hosted
+multiplayer remains deferred. Google Public DNS returned Cloudflare addresses
+`104.21.56.153` and `172.67.152.193`, but this Chrome session still received
+GitHub's 404 for `/cdn-cgi/trace` and no injected scripts on the homepage.
+Live injection and analytics receipt therefore remain unverified; retry after
+the browser/resolver's old direct-origin route expires. No application tracking
+code was added on repository base `7990cb6`; this configuration is external to
+the repository. The documentation diff was reviewed and `git diff --check`
+passed. No application checks were run for this account configuration and
+documentation-only change.
 
 **Default browser hybrid released (2026-09-09):**
 the maintainer explicitly requested the hybrid as the default, superseding the
@@ -658,7 +750,13 @@ engineering contracts retain their evidence; deferred features are not commitmen
 
 ## Next actionable tasks
 
-1. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
+1. **Search discovery follow-up:** implementation and local validation are
+   complete. After publication, verify the live root robots/sitemap files and
+   canonical HTML; optional Search Console/Bing submission remains separate.
+2. **Local/CPU usability follow-up:** implementation and local validation are
+   complete in the working tree. Publication and hosted verification are now
+   explicitly authorized; retain the existing Pages configuration.
+3. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
    no promised feature schedule. Cloudflare/domain launch and hosted multiplayer
    are shelved. The [preserved hosted handoff](m3-hosted-handoff.md) needs a new
    scope decision. Matchmaking/ratings and other ideas have no active task queue.

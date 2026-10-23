@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "./helpers.js";
 import { expect, test } from "@playwright/test";
 import { localSquare, createInitialState, legalMoves } from "@li4chess/engine";
 import { recordReplay, resolveAction } from "@li4chess/protocol";
@@ -15,7 +16,8 @@ test("a check against a non-current player is announced alongside its score", as
   const producer: EngineBuildIdentityV1 = { format: "li4chess-engine-build-v1", sourceRevision: "0".repeat(40),
     packageVersions: { "@li4chess/engine": "0.0.0", "@li4chess/protocol": "0.0.0" }, workingTree: { status: "unreproducible", reason: "Check announcement fixture" } };
   const replay = await recordReplay(initial, [], producer);
-  await page.goto("/"); await page.getByRole("button", { name: "Start game" }).click();
+  await page.goto("/"); await page.getByRole("button", { name: "Play against computers" }).click();
+  await openGameTools(page);
   await page.getByLabel("Import replay", { exact: true }).setInputFiles({ name: "checks.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(replay)) });
   await expect(page.getByTestId("replay-message")).toContainText("Replay verified");
   await page.locator('[data-square="6"]').click(); await page.locator('[data-square="90"]').click();
@@ -27,13 +29,16 @@ test("a check against a non-current player is announced alongside its score", as
 
 test("keyboard-only setup, board selection, clearing, move and game controls", async ({ page }) => {
   await page.goto("/");
-  await page.keyboard.press("Tab"); await expect(page.getByRole("button", { name: "Resume saved game" })).toBeFocused();
+  await page.keyboard.press("Tab"); await expect(page.getByRole("button", { name: "Play against computers" })).toBeFocused();
+  await page.keyboard.press("Tab"); await expect(page.locator("summary").filter({ hasText: /^Customize game$/ })).toBeFocused();
+  await page.keyboard.press("Enter");
   await page.keyboard.press("Tab"); await expect(page.getByLabel("Red CPU", { exact: true })).toBeFocused();
   for (const name of ["Blue", "Yellow", "Green"]) {
     await page.keyboard.press("Tab"); await expect(page.getByLabel(`${name} CPU`, { exact: true })).toBeFocused(); await page.keyboard.press("Space");
   }
   await page.keyboard.press("Tab"); await expect(page.getByRole("button", { name: "Start game" })).toBeFocused(); await page.keyboard.press("Enter");
-  await page.keyboard.press("Tab"); await page.keyboard.press("Tab"); await page.keyboard.press("Tab");
+  await expect(page.getByTestId("turn-banner")).toBeFocused();
+  await page.keyboard.press("Tab");
   await expect(page.locator('[data-square="20"]')).toBeFocused();
   await page.keyboard.press("Enter"); await expect(page.locator('[data-square="20"]')).toHaveAttribute("aria-pressed", "true");
   await page.keyboard.press("Escape"); await expect(page.locator('[data-square="20"]')).toHaveAttribute("aria-pressed", "false");
@@ -44,22 +49,35 @@ test("keyboard-only setup, board selection, clearing, move and game controls", a
   await page.keyboard.press("Enter"); await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
   await page.keyboard.press("Tab"); await expect(page.getByLabel("Rotate board to current player")).toBeFocused();
   await page.keyboard.press("Space"); await expect(page.locator(".chess-board")).toHaveAttribute("data-bottom-color", "1");
+  await page.keyboard.press("Tab"); await expect(page.getByRole("button", { name: "Resign Blue", exact: true })).toBeFocused();
+  await page.keyboard.press("Tab"); await expect(page.getByText("Board display", { exact: true })).toBeFocused();
+  await page.keyboard.press("Tab"); await expect(page.locator("summary").filter({ hasText: /^More game tools$/ })).toBeFocused();
+  await page.keyboard.press("Enter");
   await page.keyboard.press("Tab"); await expect(page.getByRole("button", { name: "Save game", exact: true })).toBeFocused();
   await page.keyboard.press("Enter"); await expect(page.getByTestId("save-message")).toContainText("Saved on this browser");
 });
 
-test("starting a game returns the viewport to the game", async ({ page }) => {
+test("fresh phone setup offers a visible one-click solo game and focuses its board context", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 600 });
   await page.goto("/");
-  const start = page.getByRole("button", { name: "Start game" });
-  await start.scrollIntoViewIfNeeded();
+  const start = page.getByRole("button", { name: "Play against computers" });
+  await expect(start).toBeInViewport();
+  await expect(page.getByRole("button", { name: "Resume saved game" })).toHaveCount(0);
+  await expect(page.getByLabel("Red CPU", { exact: true })).not.toBeVisible();
   await start.click();
   await expect(page.locator(".chess-board")).toBeVisible();
+  await expect(page.getByTestId("turn-banner")).toBeFocused();
+  await expect(page.getByTestId("turn-status")).toContainText("Your turn");
+  await expect(page.getByTestId("player-0")).toContainText("You");
+  for (const color of [1, 2, 3]) await expect(page.getByTestId(`player-${color}`)).toContainText("CPU L3");
+  await expect(page.getByRole("button", { name: "Save game", exact: true })).not.toBeVisible();
+  await expect(page.getByTestId("save-message")).toBeVisible();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 });
 
 test("arrow navigation follows every rotation and player panels follow the same directions", async ({ page }) => {
   await page.goto("/");
+  await openCustomize(page);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.getByRole("button", { name: "Start game" }).click();
   await page.getByLabel("Rotate board to current player").check();
@@ -78,11 +96,13 @@ for (const width of [360, 768, 1280]) test.describe(`${width}px layout`, () => {
   test.use({ viewport: { width, height: 900 }, hasTouch: width < 1000 });
   test("full board, readable panels, touch controls and deliberate terminal result", async ({ page }, testInfo) => {
     await page.goto("/");
+    await openCustomize(page);
     for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
     await page.getByRole("button", { name: "Start game" }).click();
     for (const color of [0, 1, 2, 3]) {
       await expect(page.getByTestId(`player-${color}`)).toBeVisible();
       await expect(page.getByTestId(`player-${color}`)).toContainText("Human");
+      await expect(page.getByTestId(`player-${color}`)).not.toContainText("You");
       await expect(page.getByTestId(`player-${color}`)).toContainText("0 pts");
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -118,7 +138,8 @@ test("long histories stay scrollable without expanding the board frame", async (
   expect(state.moveHistory.length).toBeGreaterThan(30);
   const replay = await recordReplay(initial, requests, producer);
   await page.setViewportSize({ width: 360, height: 900 }); await page.goto("/");
-  await page.getByRole("button", { name: "Start game" }).click();
+  await page.getByRole("button", { name: "Play against computers" }).click();
+  await openGameTools(page);
   await page.getByLabel("Import replay", { exact: true }).setInputFiles({ name: "history.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(replay)) });
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(state.moveHistory.length);
   const list = page.getByTestId("move-history");

@@ -15,11 +15,12 @@ const directions = ["bottom", "left", "top", "right"] as const;
 const points = (value: number) => Number.isInteger(value) ? String(value) : value.toFixed(2);
 const OWNER_LETTERS_KEY = "li4chess.show-owner-letters";
 
-export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; onRestart: () => void; resumed?: ResumedGame }) {
+export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; onRestart: (next?: SeatSetups) => void; resumed?: ResumedGame }) {
   const game = useLocalGame(seats, resumed);
   const { state, selectedSquare, legalTargets, selectSquare, clearSelection, reset, resign, timeout, claim,
     exportReplay, importReplay, replayBusy, replayMessage, cpuStatus, cpuNotice, save, saveMessage } = game;
   const [rotateToMover, setRotateToMover] = useState(false);
+  const [watchingFinish, setWatchingFinish] = useState(false);
   const [showOwnerLetters, setShowOwnerLetters] = useState(() => {
     try { return localStorage.getItem(OWNER_LETTERS_KEY) === "true"; }
     catch { return false; }
@@ -30,7 +31,11 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
     catch { /* The display choice still works for this game without browser storage. */ }
   };
   const resultHeading = useRef<HTMLHeadingElement>(null);
-  useEffect(() => { if (state.result) resultHeading.current?.focus(); }, [state.result]);
+  const turnBanner = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (state.result) resultHeading.current?.focus();
+    else turnBanner.current?.focus();
+  }, [state.result]);
   const bottomColor = rotateToMover ? state.turn : PlayerColor.Red;
   const lastMove = state.moveHistory.at(-1) ?? null;
   const deadSquares = new Set(state.board.flatMap((piece, square) => piece && !isLivePiece(state, piece) ? [square] : []));
@@ -57,10 +62,20 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
     setActionAnnouncement(parts.join(" "));
   }, [state]);
   const justAffected = ALL_COLORS.filter(color => state.players[color].eliminatedOnTurn === state.turnNumber && ["checkmated", "stalemated"].includes(state.players[color].status));
-  const humanCount = ALL_COLORS.filter(color => !state.players[color].isCPU).length;
+  const humanSeats = ALL_COLORS.filter(color => !state.players[color].isCPU);
+  const humanCount = humanSeats.length;
+  const soloHuman = humanCount === 1 ? humanSeats[0] : undefined;
+  const humanEliminated = soloHuman !== undefined && state.players[soloHuman].status !== "active";
+  useEffect(() => { setWatchingFinish(false); }, [soloHuman, humanEliminated]);
   const mode = humanCount === 4 ? "Hotseat" : humanCount === 0 ? "Four CPUs" : "Human + CPU";
   const opening = ALL_COLORS.some(color => state.completedMoves[color] < 3);
   const confirmAction = (message: string, action: () => void) => { if (window.confirm(message)) action(); };
+  const changeSettings = () => onRestart(Object.fromEntries(ALL_COLORS.map(color => [color, {
+    isCPU: state.players[color].isCPU, difficulty: state.players[color].cpuDifficulty ?? 3,
+  }])) as SeatSetups);
+  const playAgain = () => { reset(); window.scrollTo({ top: 0, left: 0, behavior: "auto" }); };
+  const activeTurn = !state.result && state.players[state.turn].status === "active";
+  const resignButton = <button type="button" disabled={replayBusy} onClick={() => confirmAction(opening ? `Resign ${PLAYER_COLOR_NAME[state.turn]}? This aborts the game because not everyone has completed three moves.` : `Resign ${PLAYER_COLOR_NAME[state.turn]}? Your army becomes dead and your King walks automatically.`, resign)}>Resign {PLAYER_COLOR_NAME[state.turn]}</button>;
   const events = [
     ...ALL_COLORS.flatMap(color => state.players[color].forfeit ? [{
       sequence: state.players[color].forfeit!.sequence,
@@ -71,15 +86,15 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
 
   return <main className="game-shell">
     <header className="app-header">
-      <a className="brand" href="#" onClick={event => { event.preventDefault(); onRestart(); }}>li4chess<span>Four players. One board.</span></a>
+      <a className="brand" href="#" onClick={event => { event.preventDefault(); changeSettings(); }}>li4chess<span>Four players. One board.</span></a>
       <div className="context"><strong>Standard FFA</strong><span>{mode} · Local · No clock</span></div>
-      <button type="button" onClick={onRestart}>New game</button>
+      <button type="button" onClick={changeSettings}>New game</button>
     </header>
     <div className="game-layout">
       <section className="play-area" aria-label="Game board and players">
-        <div className="turn-banner" aria-live="polite" aria-atomic="true">
+        <div className="turn-banner" data-testid="turn-banner" ref={turnBanner} tabIndex={-1} aria-live="polite" aria-atomic="true">
           {state.result ? <span>{state.result.reason === "abort" ? "Game aborted" : "Game finished"} · Results below</span> :
-            <span data-testid="turn-status">Turn {state.turnNumber} — <strong>{PLAYER_COLOR_NAME[state.turn]} to move</strong>{checkedColors.has(state.turn) ? " · Check" : ""}</span>}
+            <span data-testid="turn-status">Turn {state.turnNumber} — <strong>{soloHuman === state.turn && !humanEliminated ? "Your turn · " : ""}{PLAYER_COLOR_NAME[state.turn]} to move</strong>{checkedColors.has(state.turn) ? " · Check" : ""}</span>}
           <span data-testid="cpu-status">{cpuStatus}</span>
           <span className="sr-only" data-testid="action-announcement">{actionAnnouncement}</span>
         </div>
@@ -92,7 +107,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
               style={{ "--seat-color": PLAYER_COLOR_HEX[color] } as CSSProperties}
               data-testid={`player-${color}`} data-direction={direction} aria-label={`${PLAYER_COLOR_NAME[color]}, ${direction} player`}>
               <strong className="player-name">{PLAYER_COLOR_NAME[color]} <span aria-hidden="true">{current ? "◆" : "◇"}</span></strong>
-              <span className="player-kind">{player.isCPU ? `CPU L${player.cpuDifficulty ?? 3}` : "Human"}</span>
+              <span className="player-kind">{player.isCPU ? `CPU L${player.cpuDifficulty ?? 3}` : color === soloHuman ? "You" : "Human"}</span>
               <strong className="player-points">{points(player.score)} <small>pts</small></strong>
               <span className="player-state">{status}</span>
             </section>;
@@ -109,6 +124,14 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
         <p className="board-help" role="status">{selectedSquare === null ? "Select a piece, then a marked square. Keyboard: arrows, Enter / Space; Escape clears." : `${squareLabel(selectedSquare)} selected · ${legalTargets.size} legal destinations. Choose a marked square; Escape clears.`}</p>
         {cpuNotice && <p className="notice" role="status">{cpuNotice}</p>}
         {justAffected.map(color => <p key={color} className="notice">{PLAYER_COLOR_NAME[color]} is {state.players[color].status} — their dead pieces block squares, cannot move or attack, and can be captured for zero points.</p>)}
+        {soloHuman !== undefined && humanEliminated && !state.result && <section className="notice" data-testid="solo-eliminated" aria-label="Your army is out">
+          <p><strong>{watchingFinish ? "Watching the finish" : "Your army is out"}</strong> · You were {PLAYER_COLOR_NAME[soloHuman]}.</p>
+          <p>The computers are still playing. Your points still count; your final place is decided when the game ends.</p>
+          <div className="button-row">
+            {!watchingFinish && <button type="button" onClick={() => { setWatchingFinish(true); turnBanner.current?.focus(); }}>Watch the finish</button>}
+            <button type="button" onClick={changeSettings}>Start another game</button>
+          </div>
+        </section>}
         {state.result && <section className="result-card" data-testid="game-result" aria-labelledby="result-heading">
           <p className="eyebrow">Final result</p>
           <h2 id="result-heading" ref={resultHeading} tabIndex={-1}>{state.result.reason === "abort" ? "Game aborted" : "Game over"}
@@ -119,25 +142,20 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
             <strong>{PLAYER_COLOR_NAME[p.color]} — {points(p.score)} pts · place {p.place}{p.meanRank !== p.place ? " (shared)" : ""}</strong>
           </li>)}</ol>
           {state.result.reason !== "abort" && <p>Final points determine every placement, including eliminated players.</p>}
-          <button className="primary-button" type="button" onClick={onRestart}><Icon name="play" />Play again</button>
+          <p>Play again uses these seats and difficulty levels and replaces the saved game. Export a replay from More game tools to keep this result.</p>
+          <div className="result-actions">
+            <button className="primary-button" type="button" onClick={playAgain}><Icon name="play" />Play again</button>
+            <button type="button" onClick={changeSettings}>Change settings</button>
+          </div>
         </section>}
       </section>
       <aside className="game-sidebar" aria-label="Game controls and history">
         <section className="card controls"><h2>Your game</h2>
-          <p>{mode}. {state.players[state.turn].isCPU && !state.result ? `CPU level ${state.players[state.turn].cpuDifficulty ?? 3}: ${CPU_POLICIES[(state.players[state.turn].cpuDifficulty ?? 3) as CpuLevel].label}.` : "Play locally, save here, or export a replay."}</p>
-          <div className="button-row"><button type="button" onClick={save}><Icon name="save" />Save game</button><button type="button" disabled={replayBusy} onClick={() => void exportReplay()}><Icon name="download" />Export replay</button></div>
+          <p>{soloHuman !== undefined ? `You play ${PLAYER_COLOR_NAME[soloHuman]}. ` : `${mode}. `}Highest final points win. Protect your King; checkmated and stalemated armies stay as harmless blockers.</p>
+          {state.players[state.turn].isCPU && !state.result && <p className="subtle">CPU level {state.players[state.turn].cpuDifficulty ?? 3}: {CPU_POLICIES[(state.players[state.turn].cpuDifficulty ?? 3) as CpuLevel].label}.</p>}
           <p className="subtle" data-testid="save-message" role="status">{saveMessage}</p>
-          <label className="import-control">Import replay<input type="file" accept=".json,application/json" disabled={replayBusy} onChange={event => {
-            const file = event.currentTarget.files?.[0]; event.currentTarget.value = ""; if (file) void importReplay(file);
-          }} /></label>
-          {replayMessage && <p role="status" data-testid="replay-message">{replayMessage}</p>}
-          <div className="button-row game-actions">
-            <button type="button" onClick={() => confirmAction("Reset this game with the current seats? This replaces the local save. Export a replay first to keep this game.", reset)}><Icon name="reset" />Reset game</button>
-            {!state.result && state.players[state.turn].status === "active" && <>
-              <button type="button" disabled={replayBusy} onClick={() => confirmAction(opening ? `Resign ${PLAYER_COLOR_NAME[state.turn]}? This aborts the game because not everyone has completed three moves.` : `Resign ${PLAYER_COLOR_NAME[state.turn]}? Your army becomes dead and your King walks automatically.`, resign)}>Resign {PLAYER_COLOR_NAME[state.turn]}</button>
-              <button type="button" disabled={replayBusy} onClick={() => confirmAction(opening ? "Record a simulated timeout? This aborts the opening game." : "Record a simulated timeout? This forfeits the current seat and its King walks automatically.", timeout)}>Simulate timeout</button>
-            </>}
-          </div>
+          {game.saveFailed && <button type="button" onClick={save}><Icon name="save" />Retry save</button>}
+          {activeTurn && !state.players[state.turn].isCPU && <div className="button-row game-actions">{resignButton}</div>}
           {ALL_COLORS.filter(color => !state.players[color].isCPU && canClaimWin(state, color)).map(color => <div key={color} className="claim-control">
             <button type="button" disabled={replayBusy} onClick={() => confirmAction(`Claim Win for ${PLAYER_COLOR_NAME[color]}? The other active player receives 20 points. Play ends immediately and final points decide placements.`, () => claim(color))}>Claim Win for {PLAYER_COLOR_NAME[color]}</button>
             <p>End now: the other active player receives 20 points. Final points determine placements.</p>
@@ -146,6 +164,18 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
           <label><input type="checkbox" checked={showOwnerLetters} onChange={event => changeOwnerLetters(event.target.checked)} />Show piece-owner letters</label>
           <p className="subtle">Letters identify each army. Dead pieces keep their × marker when letters are hidden.</p>
           </details>
+          <details className="game-tools"><summary>More game tools</summary>
+            <div className="button-row"><button type="button" onClick={save}><Icon name="save" />Save game</button><button type="button" disabled={replayBusy} onClick={() => void exportReplay()}><Icon name="download" />Export replay</button></div>
+            <label className="import-control">Import replay<input type="file" accept=".json,application/json" disabled={replayBusy} onChange={event => {
+              const file = event.currentTarget.files?.[0]; event.currentTarget.value = ""; if (file) void importReplay(file);
+            }} /></label>
+            <div className="button-row game-actions">
+              <button type="button" onClick={() => confirmAction("Reset this game with the current seats? This replaces the local save. Export a replay first to keep this game.", playAgain)}><Icon name="reset" />Reset game</button>
+              {activeTurn && state.players[state.turn].isCPU && resignButton}
+              {activeTurn && <button type="button" disabled={replayBusy} onClick={() => confirmAction(opening ? "Record a simulated timeout? This aborts the opening game." : "Record a simulated timeout? This forfeits the current seat and its King walks automatically.", timeout)}>Simulate timeout</button>}
+            </div>
+          </details>
+          {replayMessage && <p role="status" data-testid="replay-message">{replayMessage}</p>}
         </section>
         <section className="card history-card"><h2>Move history</h2>
           <ol data-testid="move-history" className="move-list" tabIndex={0} aria-label="Move history, scroll to inspect earlier moves">{state.moveHistory.map((move, index) => <li key={index}>

@@ -1,3 +1,4 @@
+import { openCustomize, openGameTools } from "../e2e/helpers.js";
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -11,7 +12,7 @@ test("uninterrupted four production CPUs finish a Modern game and resume its exa
   await page.setViewportSize({ width:1280, height:900 });
   await observeProduction(page);
   const errors: string[] = []; page.on("pageerror", error => errors.push(error.message));
-  await page.goto("./"); await page.getByLabel("Red CPU", { exact: true }).check();
+  await page.goto("./"); await openCustomize(page); await page.getByLabel("Red CPU", { exact: true }).check();
   for (const select of await page.locator("select").all()) await select.selectOption("1");
   await page.getByRole("button", { name: "Start game" }).click();
   // The observation limit is not a draw. On failure retain the unfinished journal.
@@ -22,6 +23,7 @@ test("uninterrupted four production CPUs finish a Modern game and resume its exa
   }
   await expect(page.locator("#result-heading")).toBeFocused();
   const observations = await page.evaluate(() => window.m2.jobs.map(({ request, ...job }) => ({ ...job, request: request && { ...request, stateJson: undefined } })));
+  await openGameTools(page);
   const pending = page.waitForEvent("download"); await page.getByRole("button", { name: "Export replay", exact: true }).click();
   const download = await pending; await download.saveAs(resolve(directory, "four-cpu.replay.json"));
   const replay = JSON.parse(await readFile(resolve(directory, "four-cpu.replay.json"), "utf8"));
