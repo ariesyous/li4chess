@@ -55,6 +55,9 @@ The maintainer also requested a bounded search-discovery follow-up on the same
 date: robots.txt, a canonical homepage sitemap, clearer metadata and useful
 homepage information readable before JavaScript. This adds no services or
 ongoing content schedule; implementation and validation remain in project state.
+Both follow-ups were published to li4chess.org through
+[PR #25](https://github.com/ariesyous/li4chess/pull/25) on 2026-10-23;
+the release revision, CI, Pages and live checks are recorded in project state.
 
 The explicitly requested 2026-09-09
 [Tetrarch v8 integration spike](docs/engine/tetrarch-v8-report.md) is separate

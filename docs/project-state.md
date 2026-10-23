@@ -8,13 +8,34 @@ superseded handoffs.
 
 ## Current focus
 
-**Publication authorized (2026-10-23):** the maintainer explicitly requested
-deployment of both validated usability and search-discovery follow-ups to
-`https://li4chess.org/`. Use the existing GitHub Pages pipeline, verify PR CI
-before merging, then verify main CI, Pages and the live game/crawl files. This
-does not activate hosted multiplayer or authorize analytics account access.
+**Usability and search-discovery release (2026-10-23):** the maintainer
+explicitly requested deployment of both follow-ups to `https://li4chess.org/`.
+[PR #25](https://github.com/ariesyous/li4chess/pull/25) merged as
+`2f8250a1d50f2408e94a33742ba3143c49d25dff` after
+[PR CI](https://github.com/ariesyous/li4chess/actions/runs/39993254462) passed:
+fresh lint, all **759 unit tests**, build, **66 browser tests** and **9 production
+preview tests**, without browser retries. The Ubuntu runner's package downloads
+delayed Chromium installation but completed successfully. The existing
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/39995357556)
+succeeded. [Main CI](https://github.com/ariesyous/li4chess/actions/runs/39995357651)
+also passed lint, all 759 freshly executed unit tests, build, 66 browser tests
+and 9 production-preview tests, with no browser retries.
 
-**Search discovery follow-up (2026-10-23, locally validated):** the
+Live HTTPS verification returned HTTP 200 for the homepage, `robots.txt`,
+`sitemap.xml` and the WASM/parameter/NNUE assets. The homepage has the new title,
+canonical URL and descriptive initial HTML. Robots is served as `text/plain`
+and references the sitemap; the sitemap is valid `application/xml` with only
+`https://li4chess.org/`. The public `/assets/index-ChyemFr0.js` identifies the
+exact merged revision above. In the live Chromium browser, quick start produced
+Red human plus three level-3 CPUs; Red's h2-h4 was followed by all three CPU
+replies, returning to Red at turn 5. Resume restored that saved position, and
+the information section hid during play and returned on setup. No browser
+warnings/errors were observed. The live desktop screenshot was inspected; local
+and CI phone checks remain viewport emulation, not physical-device evidence.
+No hosting/DNS/analytics settings or search-console registrations/submissions
+were changed; hosted multiplayer remains deferred.
+
+**Search discovery follow-up (2026-10-23, released):** the
 maintainer requested robots.txt, a sitemap and more descriptive homepage content.
 The public crawl files permit crawling and list only `https://li4chess.org/`.
 The HTML now has a canonical link and aligned title/search/social descriptions.
@@ -27,8 +48,8 @@ analytics access, crawler blocking or ranking guarantees were introduced.
 
 Both development `/li4chess/` and the Pages custom-domain `/` builds retain the
 canonical `https://li4chess.org/` URLs. Current code preserves the prior usability
-follow-up and the pre-existing analytics note. Nothing from these follow-ups has
-been published yet; no search-console registration or sitemap submission occurred.
+follow-up and the pre-existing analytics note. Both follow-ups are published in
+the release above; no search-console registration or sitemap submission occurred.
 
 Validation on base `7990cb6` plus the cumulative working-tree changes used Windows,
 Node 24.18.0 and Corepack pnpm 10.33.0. Final `pnpm lint`, `pnpm test` and
@@ -46,7 +67,7 @@ assertion now checks the visible notice child rather than Playwright's excluded
 `noscript` text. Gameplay assertions are unchanged. Final diff-format checks
 passed. Deferred Worker/multiplayer campaigns were not run.
 
-**Local/CPU usability follow-up (2026-10-23, locally validated):** the
+**Local/CPU usability follow-up (2026-10-23, released):** the
 maintainer accepted the first batch from the site/code review: one-click default
 CPU play, a concise rules primer and solo identity/turn guidance, secondary game
 tools, and immediate same-settings rematches. Setup checks for saved data without
@@ -60,8 +81,8 @@ CPU-seat resignation and simulated timeout are under More game tools.
 Rules, CPU search/pacing, replay/save formats and hosting are unchanged. Move
 review and mobile zoom remain future ideas. The maintainer chose site/code-only
 analysis; no analytics data or settings were accessed. The existing October 18
-analytics documentation change is preserved. No publication has occurred in this
-follow-up.
+analytics documentation change is preserved. Publication and live verification
+are recorded in the release above.
 
 Validation on base `7990cb6` plus these working-tree changes used Windows,
 Node 24.18.0 and Corepack pnpm 10.33.0. `pnpm lint` and `pnpm build` passed
@@ -750,15 +771,12 @@ engineering contracts retain their evidence; deferred features are not commitmen
 
 ## Next actionable tasks
 
-1. **Search discovery follow-up:** implementation and local validation are
-   complete. After publication, verify the live root robots/sitemap files and
-   canonical HTML; optional Search Console/Bing submission remains separate.
-2. **Local/CPU usability follow-up:** implementation and local validation are
-   complete in the working tree. Publication and hosted verification are now
-   explicitly authorized; retain the existing Pages configuration.
-3. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
-   no promised feature schedule. Cloudflare/domain launch and hosted multiplayer
-   are shelved. The [preserved hosted handoff](m3-hosted-handoff.md) needs a new
+1. **Search discovery:** usability/SEO improvements are published and live
+   crawl files and canonical HTML are verified. Optional Search Console/Bing
+   registration and submission remain separate; no indexing guarantee is made.
+2. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
+   no promised feature schedule. Additional hosting work and hosted multiplayer
+   remain shelved. The [preserved hosted handoff](m3-hosted-handoff.md) needs a new
    scope decision. Matchmaking/ratings and other ideas have no active task queue.
 
 Do not change game rules while merely collecting comparison evidence. Preserve
