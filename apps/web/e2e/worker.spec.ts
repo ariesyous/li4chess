@@ -29,17 +29,17 @@ async function observeWorkers(page: Page) {
     };
   });
 }
-async function startRedCpu(page: Page) {
+async function startRedCpu(page: Page, level = "5") {
   await page.goto("/"); await openCustomize(page);
   for (const checkbox of await page.locator('input[type="checkbox"]').all()) await checkbox.uncheck();
   await page.locator('input[type="checkbox"]').first().check();
-  await page.locator("select").selectOption("5");
+  await page.locator("select").selectOption(level);
   await page.getByRole("button", { name: "Start game" }).click();
   await page.waitForFunction(() => window.cpuProbe.busy);
 }
 
-test("real level-5 Worker keeps input usable; leaving terminates active search", async ({ page }) => {
-  await observeWorkers(page); await startRedCpu(page);
+for (const level of ["5", "10"]) test(`real level-${level} Worker keeps input usable; leaving terminates active search`, async ({ page }) => {
+  await observeWorkers(page); await startRedCpu(page, level);
   await page.getByLabel("Rotate board to current player").check();
   await expect(page.getByLabel("Rotate board to current player")).toBeChecked();
   expect(await page.evaluate(() => window.cpuProbe.busy)).toBe(true);

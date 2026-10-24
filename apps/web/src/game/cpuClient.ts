@@ -1,6 +1,7 @@
 import { sameIdentity, validResponse, validStarted } from "./cpuContract.js";
 import type { CpuRequest, CpuResponse } from "./cpuContract.js";
 import { HYBRID_POLICIES } from "./hybridPolicy.js";
+import { MAX_CPU_THINK_MS } from "@li4chess/bot";
 
 export type CpuFailure = "initialization" | "crash" | "message" | "malformed" | "watchdog";
 export interface WorkerPort {
@@ -63,15 +64,35 @@ export function requestHybridCpu(request: CpuRequest, complete: (result: CpuResp
   nativeFactory: WorkerFactory = () => new Worker(new URL("./cpu.native.worker.ts", import.meta.url), { type: "module" })): () => void {
   let cancelled = false;
   const stops: (()=>void)[] = [];
+  let deadline: number | undefined;
+  let searchTimer: ReturnType<typeof setTimeout> | undefined;
+  const cancel = () => {
+    cancelled = true; clearTimeout(searchTimer);
+    for (const stop of stops) stop();
+  };
+  const finish = (result: CpuResponse | null, failure?: CpuFailure) => {
+    if (cancelled) return;
+    cancel(); complete(result, failure);
+  };
+  const searchStarted = () => {
+    if (deadline !== undefined || cancelled) return;
+    // Loading has its own watchdog; all computation and retries share ten seconds.
+    deadline = Date.now() + MAX_CPU_THINK_MS;
+    searchTimer = setTimeout(() => finish(null, "watchdog"), MAX_CPU_THINK_MS);
+    started();
+  };
   stops.push(requestCpu(request, (result, failure) => {
     if (cancelled) return;
-    if (result) { complete(result); return; }
-    stops.push(requestCpu({ ...request, engine: "native" }, (recovered, nativeFailure) => {
+    if (result) { finish(result); return; }
+    const remaining = deadline === undefined ? MAX_CPU_THINK_MS : Math.max(0, deadline - Date.now());
+    if (!remaining) { finish(null, "watchdog"); return; }
+    const budget = { ...request.budget, timeMs: Math.min(request.budget.timeMs ?? remaining, Math.max(0, remaining - 250)) };
+    stops.push(requestCpu({ ...request, budget, engine: "native" }, (recovered, nativeFailure) => {
       if (cancelled) return;
       if (recovered) recovered = { ...recovered, diagnostics: { ...recovered.diagnostics,
         engine: "native", fallbackReason: `worker-${failure}` } };
-      complete(recovered, recovered ? undefined : nativeFailure);
-    }, nativeFactory));
-  }, factory, watchdogMs, started));
-  return () => { cancelled = true; for (const stop of stops) stop(); };
+      finish(recovered, recovered ? undefined : nativeFailure);
+    }, nativeFactory, Math.min((budget.timeMs ?? 1000) + 2000, remaining), searchStarted));
+  }, factory, watchdogMs, searchStarted));
+  return cancel;
 }

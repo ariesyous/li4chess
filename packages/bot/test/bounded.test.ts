@@ -34,7 +34,7 @@ describe("bounded production search", () => {
     expect(() => chooseBoundedCpuMove(walking, 3)).toThrow("active turn");
   });
   const state = createInitialState();
-  for (const level of [1, 2, 3, 4, 5] as CpuLevel[]) {
+  for (const level of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as CpuLevel[]) {
     it(`level ${level} is legal and deterministic under a node cap`, () => {
       const budget = { ...CPU_POLICIES[level], nodeBudget: 24, timeMs: null };
       const a = chooseBoundedCpuMove(state, level, budget, () => 0.99, () => 0);
@@ -61,8 +61,17 @@ describe("bounded production search", () => {
     const result = chooseBoundedCpuMove(state, 5, { maxDepth: 5, nodeBudget: 100, timeMs: 2 }, () => 0.99, () => clock++);
     expect(result.diagnostics.stopped).toBe("time");
     expect(result.diagnostics.nodes).toBeLessThan(100);
-    for (const nodeBudget of [-1, NaN, Infinity, 1.5, 32769]) {
+    for (const nodeBudget of [-1, NaN, Infinity, 1.5, CPU_POLICIES[10].nodeBudget + 1]) {
       expect(() => chooseBoundedCpuMove(state, 1, { maxDepth: 1, nodeBudget, timeMs: null })).toThrow("budget");
+    }
+  });
+  it("accepts the ten-second tier and rejects budgets beyond its limits", () => {
+    let clock = 0;
+    const result = chooseBoundedCpuMove(state, 10, CPU_POLICIES[10], () => 0.99, () => clock += 1000);
+    expect(legalMoves(state)).toContainEqual(result.move);
+    expect(result.diagnostics.stopped).toBe("time");
+    for (const patch of [{ timeMs: 10001 }, { maxDepth: 11 }, { nodeBudget: 1048577 }]) {
+      expect(() => chooseBoundedCpuMove(state, 10, { ...CPU_POLICIES[10], ...patch })).toThrow("budget");
     }
   });
 });

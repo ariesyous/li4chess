@@ -3,6 +3,16 @@ import { describe, expect, it } from "vitest";
 import { deserializeGameState, deserializeMove, serializeGameState, serializeMove } from "../src/index.js";
 
 describe("serialization round-trip", () => {
+  it("retains all ten CPU levels and rejects out-of-range or fractional levels", () => {
+    for (let level = 1; level <= 10; level++) {
+      const state = createInitialState({ isCPU: { 0: true, 1: false, 2: false, 3: false }, cpuDifficulty: { 0: level } });
+      expect(deserializeGameState(serializeGameState(state))).toEqual(state);
+    }
+    for (const level of [0, 11, 1.5]) {
+      const state = createInitialState({ isCPU: { 0: true, 1: false, 2: false, 3: false }, cpuDifficulty: { 0: level } });
+      expect(() => serializeGameState(state)).toThrow();
+    }
+  });
   it("FFA-END-08: claim result retains surrendered winner, shared ranks and precise awards",()=>{
     const base=createInitialState();
     const initial={ ...base,players:{ ...base.players,0:{ ...base.players[0],score:21 },

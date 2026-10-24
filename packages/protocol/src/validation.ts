@@ -90,7 +90,7 @@ export function validatePosition(value: unknown, pending = false): asserts value
     const p = object(value, ["color", "status", "isCPU", "score"], ["cpuDifficulty", "eliminatedOnTurn", "kingStatus", "forfeit", "noMoveCause"]);
     requireValue(p.color === seat && ["active", "checkmated", "stalemated", "resigned", "timed-out"].includes(p.status as string), "player status");
     boolean(p.isCPU); points(p.score);
-    if (p.cpuDifficulty !== undefined) { integer(p.cpuDifficulty,1); requireValue(p.cpuDifficulty <= 5,"CPU difficulty"); }
+    if (p.cpuDifficulty !== undefined) { integer(p.cpuDifficulty,1); requireValue(p.cpuDifficulty <= 10,"CPU difficulty"); }
     if (p.eliminatedOnTurn !== undefined) { integer(p.eliminatedOnTurn, 1); requireValue(p.eliminatedOnTurn <= turnNumber, "elimination turn"); }
     if (p.kingStatus !== undefined) requireValue(["walking", "checkmated", "stalemated", "surrendered"].includes(p.kingStatus as string) && p.status !== "active", "king status");
     const kings = (s.board as GameState["board"]).filter(piece => piece?.owner === seat && piece.type === "K").length;
