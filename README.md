@@ -1,329 +1,161 @@
 # li4chess
 
-An open-source four-player chess site, inspired by [lichess](https://lichess.org).
+Free, ad-free, open-source four-player chess. Play against the computer or share
+one device with friends, right in your browser. Inspired by [lichess](https://lichess.org).
 
-## Status
+[![CI](https://github.com/ariesyous/li4chess/actions/workflows/ci.yml/badge.svg)](https://github.com/ariesyous/li4chess/actions/workflows/ci.yml)
+[![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](LICENSE)
 
-Early development, with a playable local free-for-all game in a single browser
-tab. Each of the four seats can be a hotseat human or a CPU, including fully
-automatic four-CPU games. Authenticated private multiplayer is available through
-an explicit local Worker configuration; the default hosted app remains local play.
-Completed private games have authenticated member replay downloads, including
-opening aborts. Controller and observer tabs can export the same canonical
-replay-v2 artifact without taking control; original producer and source lineage
-are retained. See the [retrieval contract](docs/multiplayer-v1.md) for limits,
-authentication, retry behavior and historical-build compatibility.
-M3-07 has [reviewed Windows/Linux evidence](docs/m3-07-evidence/README.md).
-Private rematches have [reviewed Windows/Linux evidence](docs/m3-08-evidence/README.md):
-all four original guests consent, then deliberately enter and ready in a new room.
-The original result and replay remain intact. Hosted activation remains outside
-the implemented scope.
+**[Play now](https://li4chess.org/)** · [Run locally](#run-locally) ·
+[Contribute](#contributing) · [Roadmap](ROADMAP.md)
 
-li4chess is released as a polished, free, ad-free local/CPU game on the existing
-[GitHub Pages site at li4chess.org](https://li4chess.org/), intended to require
-little ongoing maintainer time. The bounded [Lichess-style UI sprint](docs/ui-sprint-lichess.md)
-prepared the interface, board and pieces for the release checkpoint.
-Links shared from the site use an Open Graph/Twitter large-card preview of the
-four-army board.
-The visual refresh is complete, with [before/after captures and validation](docs/ui1-evidence/README.md).
-It uses a warm continuous board, four-color Cburnett SVG pieces, compact controls,
-directional seat panels and consistent setup/history/result surfaces. Exact sources,
-licenses and recoloring are recorded in [third-party notices](THIRD_PARTY_NOTICES.md),
-also linked from the app. See the [L1 release handoff](docs/local-launch-handoff.md)
-for release notes, limitations, and the Pages update/rollback procedure.
-Human players share one device; CPU opponents run in the browser. Cloudflare
-hosting and hosted multiplayer are shelved. Completed local
-private multiplayer and its evidence remain available for development, with no
-scheduled hosted follow-up. Public matchmaking, accounts and ratings are deferred.
-See [ROADMAP.md](ROADMAP.md), the [launch handoff](docs/local-launch-handoff.md)
-and [project state](docs/project-state.md). This direction was accepted on
-2026-09-08 and replaces the earlier custom-domain launch plan.
+[![li4chess: four armies on a cross-shaped chessboard](apps/web/public/social-preview.png)](https://li4chess.org/)
 
-Current features include:
+## Play your way
 
-- One-click **Play against computers** (you are Red against three level-3 CPUs),
-  with same-device hotseat and per-seat options under **Customize game**.
-- A short rules primer, **You / Your turn** guidance for solo play, and immediate
-  **Play again** rematches using the current seats and difficulty levels.
-- An accessible homepage description of CPU play, same-device games, scoring,
-  saves and controls, available in the initial HTML before JavaScript runs.
-- A cross-shaped board with 160 playable squares and Red → Blue → Yellow → Green turn order.
-- Legal-move highlighting, last-move and check indicators, move history, and optional board rotation to the current player.
-- **Board display → Show piece-owner letters** is off by default and remembers the choice in this browser; passive pieces retain their × marker.
-- Five CPU difficulty levels using paranoid alpha-beta search, which treats opponents as a coalition against the searching player.
-- Castling, en passant, promotion, deferred checkmate/stalemate resolution, placements, and threefold-repetition draws.
+- **Jump straight in.** Choose **Play against computers** to play Red against
+  three level-3 CPUs, or **Customize game** to mix human and CPU seats. All four
+  seats can be computers, too.
+- **Choose your challenge.** Five CPU difficulty levels run in your browser,
+  using the Tetrarch advisory hybrid with a native fallback. li4chess validates
+  every move and determines all rules and results.
+- **Follow the action.** Legal-move highlights, check indicators, optional board
+  rotation, move history and a points ledger help you keep track of four armies.
+- **Pick up where you left off.** Games autosave in this browser. Resume from
+  setup, or export and import validated replay files for portable backups.
+- **Play comfortably.** A responsive board, keyboard controls, optional
+  piece-owner letters and text labels supplement the four player colors.
+- **Go again.** **Play again** starts a rematch with the same seats and difficulty
+  levels; **Change settings** returns to setup with those choices retained.
 
-The [rules specification](docs/rules-spec.md) describes the implemented
-standard FFA contract. Setup, ordinary king safety, active-king
-non-capture, per-player en-passant windows, and castling now have executable
-acceptance fixtures for all four orientations. Castling enforces own home
-pieces, permanent rights loss, king-path safety, and passive dead-piece blocking.
-Checkmated and stalemated armies remain as grey passive pieces: they occupy and
-block squares, cannot move or attack, lose special rights, and are capturable
-for zero points (including eligible dead-pawn en passant). Final points determine
-all placements, including eliminated players; equal scores share a place. The
-third elimination ends play and the survivor gets 20 per live walking King.
-With two active players, a leader ahead by at least 21 may Claim Win immediately,
-awarding the trailer 20 points without further walking turns.
-Pawns automatically promote on their eighth rank to Queens worth one capture
-point; provenance survives moves, captures, serialization, and search hashes.
-Captures use standard piece values, and own-army newly delivered multi-checks
-award the Queen/non-Queen schedule. An ordered points ledger explains those
-awards in the local UI. Active checking owners split mate points; stalemate
-credit tracks the last cause of losing all legal moves. Local resignation and
-simulated timeout abort during the opening, then leave dead armies with live
-Kings that move automatically on scheduled turns using recorded seeded choices.
-Automatic repetition, insufficient-material and 50-move draws each award a
-flat 10 points per active player. The 50-move rule counts 200 individual turns
-and resets on pawn moves or any capture, including dead pieces.
-The local app exports and imports validated replay-v2 files, including unfinished
-games and terminal results. State-v2 canonical SHA-256 hashes cover actions,
-individual awards, random provenance and results. Imported games resume from an
-explicit checkpoint under the current build, retaining a source replay hash.
-The implemented ruleset is `li4chess-ffa-standard-v1`. M1 is complete; its
-validation and CI evidence is recorded in [project state](docs/project-state.md).
+The public site supports local and CPU play. Human players share one device.
+Private multiplayer is available for local development; hosted multiplayer,
+accounts, matchmaking and ratings are deferred.
 
-CPU turns default to the Tetrarch advisory hybrid in a dedicated Web Worker.
-li4chess validates every move and owns all rules and results. Unsupported roots,
-missing/corrupt assets and adviser failures use the existing bounded native bot;
-a failed or timed-out Worker is replaced by a native Worker. If both Workers fail,
-the current legal list provides final recovery. Cancellation terminates active
-work and replies must match the current game/state/seat. The five hybrid resource
-tiers and runtime boundaries are in [browser integration](docs/engine/tetrarch-browser-default.md).
-The [M2 acceptance](docs/m2-acceptance.md) and [native calibration](docs/m2-evidence/README.md)
-remain historical evidence for the native fallback, not calibration of Tetrarch.
-Games save automatically on this browser after every accepted action. Setup shows
-**Resume saved game** when saved data is present; **Retry save** appears if saving
-fails. **More game tools** contains manual saving, replay import/export, reset and
-simulated timeout. Resume validates the state-v2 checkpoint and action journal through replay-v2,
-retaining seat difficulty, scores, randomness and producer lineage. Starting a new
-game replaces the one local save. Export a replay for a portable backup, especially
-if browser storage is unavailable. The responsive frame has four directional seat panels,
-readable move/points histories, rules help, and deliberate resign/reset/claim controls.
-After the only human is eliminated, a persistent notice offers watching the finish
-or returning to setup; final placements still wait for the canonical game result.
-**Change settings** retains the current seats for this visit, including imported
-games. Starting a rematch replaces the local save; export a replay first to keep it.
-Tab enters the board; arrows navigate displayed squares, Enter/Space select or move,
-and Escape clears selection. Color names and state labels supplement hue;
-opt-in local private multiplayer has authoritative clock/disconnect UI. Hosted
-public play remains subject to the M3 gates.
+### A quick rules primer
 
-## Monorepo layout
+Four armies take turns **Red → Blue → Yellow → Green** on a cross-shaped board
+with 160 playable squares. Final points determine placements, including those of
+eliminated players, and tied scores share a place.
 
-The isolated [Tetrarch v8 integration spike](docs/engine/tetrarch-v8-report.md)
-proves C/WASM and FFA NNUE execution, but rejects unmodified v8 for production
-because its search rules conflict with canonical FFA scoring and legality.
-Its initial no-go finding describes faithful rules compatibility. The maintainer
-subsequently selected the advisory hybrid as the default browser CPU, with native
-fallback and canonical game authority.
-The accepted [hybrid follow-up](docs/engine/tetrarch-hybrid-plan.md) adds an opt-in
-arena adviser with canonical validation and bounded native fallback. See the
-[20-game result](docs/engine/tetrarch-hybrid-report.md) and
-[package instructions](packages/tetrarch-engine/README.md) to run it locally.
+Castling, en passant and automatic queen promotion are supported. Checkmate and
+stalemate resolve when the affected player's turn arrives; their pieces remain
+as passive blockers that can be captured for zero points. Resignation after the
+opening guard leaves a king that moves automatically on its regular turn.
 
-The TypeScript monorepo uses pnpm workspaces and Turborepo.
+See the [standard FFA rules specification](docs/rules-spec.md) for scoring,
+endings and special cases. The implemented ruleset is `li4chess-ffa-standard-v1`.
 
-| Package | Responsibility |
-| --- | --- |
-| [`apps/web`](apps/web) | React/Vite app, seat setup, local game state, and CPU turn scheduling. |
-| [`apps/worker`](apps/worker) | Application Worker/Static Assets foundation, explicit HTTP routing and real local runtime/browser checks. |
-| [`packages/engine`](packages/engine) | Pure rules engine: board geometry, move generation, legality, scoring, elimination, and repetition. No UI or I/O dependencies. |
-| [`packages/bot`](packages/bot) | Production CPU search and evaluation, frozen classic bot, and experimental search. |
-| [`packages/arena`](packages/arena) | Seeded tournaments, replay validation, reports, and benchmarks. |
-| [`packages/protocol`](packages/protocol) | Validated state-v2/replay-v2, canonical hashes and producer provenance. |
-| [`packages/persistence`](packages/persistence) | Maintained D1 migrations, canonical command/event receipts, checkpoints and recovery; internal server library, no online play. |
-| [`packages/game-room`](packages/game-room) | Internal authoritative SQLite GameRoom, persisted clocks/disconnect banks, prepared D1 commits and alarm recovery; no public gameplay routes. |
-| [`packages/ui-kit`](packages/ui-kit) | Presentational board, piece glyphs, and player colors. |
-| [`packages/architecture-spike`](packages/architecture-spike) | Isolated M3-01 local Cloudflare consistency/recovery prototype; no shipped online play. |
+### Controls and saves
 
-The main application flow lives in
-[`useLocalGame`](apps/web/src/game/useLocalGame.ts): human input or CPU search
-selects a move, `applyMoveRequest` matches it against current legal moves and
-applies the canonical move, and React renders the updated board. Game state is
-plain JSON-shaped data.
+Click a piece, then a highlighted destination. With a keyboard, **Tab** enters
+the board, **arrow keys** navigate, **Enter/Space** select or move, and **Escape**
+clears the selection.
 
-## Development
+**More game tools** contains manual saving, replay import/export, reset and
+simulated timeout. The browser keeps one local save; starting a new game or a
+rematch replaces it. Export a replay first to keep a portable copy.
 
-### Search discovery
+## Run locally
 
-The homepage has a descriptive title, matching search/social descriptions and
-the canonical URL `https://li4chess.org/`. The visible About section lives in
-`apps/web/index.html` below the setup controls; it stays readable without
-JavaScript and is hidden during play. JavaScript is required for the game itself.
-
-`apps/web/public/robots.txt` allows crawling and advertises
-`https://li4chess.org/sitemap.xml`. The sitemap lists only the canonical homepage;
-game states and saved replays are not separate public pages. Vite copies both
-files into the build output. The Pages workflow supplies the actual base path,
-currently `/`, so these files publish at the custom-domain root. The default
-local `/li4chess/robots.txt` is a preview artifact, not a robots policy for the
-parent `github.io` host. Keep the canonical, social URLs and sitemap in sync if
-the public domain changes, and add real public pages to the sitemap when added.
-
-After publication, verify the live root files and optionally submit the sitemap
-through Google Search Console or Bing Webmaster Tools. No service registration
-or submission is performed by the build. See Google's guidance on
-[JavaScript SEO](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics)
-and [sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap).
-
-### Local setup
-
-Use Node.js 24 or newer and pnpm **10.33.0**, the version pinned in
-`package.json`. Run commands from the repository root:
+Use **Node.js 24+** and **pnpm 10.33.0** (pinned in `package.json`). From the
+repository root:
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open the local Vite server at `/li4chess/` (normally
-`http://localhost:5173/li4chess/`). **Play against computers** immediately starts
-a human playing Red against three level-3 CPUs. Use **Customize game** to configure
-individual seats. Click a piece and a highlighted destination to move.
+Open [localhost:5173/li4chess/](http://localhost:5173/li4chess/).
 
-### Validation
+### Checks
 
 ```sh
-pnpm lint                             # TypeScript checks across all packages
-pnpm test                             # Unit tests, including rules, bots, and arena
-pnpm build                            # Build all packages and the web app
+pnpm lint                          # TypeScript checks
+pnpm test                          # Unit tests
+pnpm build                         # Production build
 pnpm --filter @li4chess/web exec playwright install chromium
-pnpm --filter @li4chess/web test:e2e    # Human/CPU turns, autoplay, and dead armies
+pnpm --filter @li4chess/web test:e2e # Browser tests; starts its own Vite server
 ```
 
-CI runs lint, unit tests, the production build, and browser tests on pull
-requests and pushes to `main`. Playwright starts its own local Vite server.
-The longer D1, Worker and multiplayer campaigns are preserved in the manually
-triggered [Extended local multiplayer validation](.github/workflows/validate-multiplayer.yml)
-workflow. Run it from GitHub Actions when working on that deferred backend;
-it is outside the default local/CPU Pages release checks and does not deploy.
-The GitHub Pages workflow deploys `apps/web/dist` from `main` using the configured
-Pages base path: `/` for li4chess.org. Local builds retain `/li4chess/`.
-
-The isolated [M3-01 architecture probe](packages/architecture-spike/README.md)
-uses actual local Wrangler/workerd, SQLite Durable Objects, D1 and WebSockets.
-After `pnpm build`, run
-`pnpm --filter @li4chess/architecture-spike test:integration` to exercise
-authorization, retries, persistence boundaries and whole-runtime restart.
-It stages the existing Vite assets locally and requires no Cloudflare account.
-The [ADR](docs/m3-01-adr.md) defines canonical persistence, recovery and hosted
-validation gates. Existing local play and Pages deployment remain as described above.
-
-The maintained [application Worker](apps/worker/README.md) serves the actual game
-through Workers Static Assets, independently of that prototype. Run `pnpm build`
-then `pnpm build:workers`, `pnpm check:workers`, and `pnpm test:workers` for both
-build outputs, environment dry runs and real workerd/browser acceptance. Use
-`pnpm dev:workers` for the compiled local runtime at `http://127.0.0.1:8787/`.
-Workers builds use `/` and `apps/web/dist-workers`; Pages keeps `/li4chess/` and
-`apps/web/dist`. Read-only `/api/health` and `/api/build` identify the service;
-unknown APIs and missing assets never return SPA HTML. No hosted environment or
-online play is activated. [Later GitHub Builds setup](docs/m3-02-operations.md)
-keeps account settings, deployment and rollback as separately authorized gates.
-[M3-02 acceptance evidence](docs/m3-02-evidence/README.md) records independent
-reviews and passing local/CI checks.
-
-The [D1 persistence package](packages/persistence/README.md) provides versioned
-migrations, atomic fenced command/effect commits, stable receipts, immutable
-results and bounded checkpoint recovery. Run
-`pnpm --filter @li4chess/persistence test:integration` for actual local D1 migration,
-rollback, concurrency, restart and replay checks. It uses isolated test bindings;
-the default application configuration has no online rooms or D1 binding. The
-[M3-03 acceptance plan](docs/m3-03-acceptance.md) and
-[GameRoom handoff](docs/m3-03-handoff.md) describe the persistence boundary and
-hosted gates. [Reviewed local and CI evidence](docs/m3-03-evidence/README.md)
-completes M3-03; M3 networked play remains incomplete.
-
-The maintained [GameRoom](packages/game-room/README.md) now provides internal
-serialized authority, persisted clocks and cumulative disconnect banks, durable
-prepare/D1 commit/finalize, seeded walking turns and alarm recovery. Strict
-command-v2 admission timing preserves command-v1 compatibility and existing replay
-formats. [M3-04 evidence](docs/m3-04-evidence/README.md) records actual Windows and
-Linux workerd/D1 checks. An explicit local Worker configuration registers the room;
-the shipped app remains local play. M3-05 adds real guest credentials, private room
-membership/seats/readiness, strict commands/receipts and browser reconnect/resync.
-See [local multiplayer setup](apps/worker/README.md#explicit-local-authenticated-multiplayer),
-[wire contract](docs/multiplayer-v1.md), [acceptance](docs/m3-05-acceptance.md) and
-[evidence](docs/m3-05-evidence/README.md).
-Launch time controls and hosted activation remain separate decisions.
-M3-05 has [reviewed local and CI acceptance evidence](docs/m3-05-evidence/README.md).
-M3-06 has [reviewed local complete-game/recovery evidence](docs/m3-06-evidence/README.md);
-M3 remains incomplete.
-
-M3-07 has [reviewed completed-game replay evidence](docs/m3-07-evidence/README.md).
-M3-08 has [reviewed private rematch evidence](docs/m3-08-evidence/README.md).
-The [deferred multiplayer handoff](docs/m3-hosted-handoff.md) retains hosted
-acceptance needs; M3 is paused and incomplete. The
-[local/CPU Pages checkpoint](docs/local-launch-handoff.md) is the active release goal.
-
-## Bot research and benchmarks
-
-The native fallback bot includes outcome-aware scoring, endgame guidance, and
-selection among moves with comparable evaluated scores. The laboratory adds
-bounded iterative search with paranoid and Maxⁿ strategies, optional
-transposition tables and quiescence, and a tactical position corpus. Experimental
-search has not been promoted to the browser's production bot.
-
-Native fallback levels 3–5 also use bounded king-and-pawn endgame guidance for clear promotion
-routes and king escort. The [endgame follow-up](docs/engine/endgame-evidence-20260908/README.md)
-records the user replay regression, equal-budget comparison and remaining
-shuffling limitations; it does not establish general playing strength.
-
-Arena writers produce version-2 records with replay hashes, actual build and
-runtime/hardware provenance, engine configuration, seeds and budgets. Readers
-validate games before aggregation. Legacy v1 records are rejected and preserved
-in a separate [checksum manifest](docs/legacy-replay-manifest.json):
+[CI](.github/workflows/ci.yml) runs these checks on pull requests and pushes to
+`main`, plus production-preview checks for the bundled CPU runtime and homepage.
+To run those preview checks locally after building:
 
 ```sh
-pnpm --filter @li4chess/arena bench ../../arena-results/current-benchmark
-pnpm --filter @li4chess/arena compare-production ../../arena-results/current-comparison 1 250
+pnpm --filter @li4chess/web test:e2e:production
 ```
 
-Choose a fresh output directory for each run. These paths are relative to
-`packages/arena`; the examples write into the root `arena-results` directory.
-The comparison uses one seed, four seat rotations, and a 250-ply cap per game,
-and can take several minutes. Capped games are unfinished, not draws.
+### Deployment
 
-- [Arena methodology](docs/engine/arena-methodology.md): commands, replay validation, seat rotation, and interpretation of results.
-- [Production reconciliation](docs/engine/reconciliation.md): production changes and measurements after their integration with the laboratory.
-- [Experiment ledger](docs/engine/experiments.md): historical results and limitations.
-- [Engine recommendation](docs/engine/engine-v2-recommendation.md): research conclusions and next engineering steps.
+The [GitHub Pages workflow](.github/workflows/deploy-pages.yml) publishes
+`apps/web/dist` from `main`. It uses the base path supplied by Pages: `/` for
+[li4chess.org](https://li4chess.org/). Local builds default to `/li4chess/`.
+See the [release notes and rollback procedure](docs/l1-release.md).
 
-Keep the frozen sources in `packages/bot/src/classic` and historical evidence
-intact. Both production and classic bots use the current rules engine; new
-measurements must identify their code version and environment. Historical
-timings do not describe current performance, and the existing small comparisons
-do not establish general playing strength.
+Homepage metadata lives in [`apps/web/index.html`](apps/web/index.html); crawl
+files live in [`apps/web/public`](apps/web/public). Keep the canonical URL,
+social URLs and sitemap in sync if the public domain changes.
 
-## Roadmap and project continuity
+## Project structure
 
-The [M3-06 acceptance campaign](docs/m3-06-acceptance.md), with [passing Windows/Linux evidence](docs/m3-06-evidence/README.md), tests ordinary complete
-games, separately labeled fixture endings, four-seat browser interruptions and
-whole-runtime recovery against local workerd/D1. After `build:multiplayer`, run
-`pnpm --filter @li4chess/worker test:campaign`. Pending takeover IDs now remain
-visible through recovery, and leaving asks before abandoning that intention.
-Local campaign success does not establish hosted readiness or select a launch clock.
+TypeScript, React and Vite, organized with pnpm workspaces and Turborepo.
 
-[ROADMAP.md](ROADMAP.md) prioritizes a polished local/CPU GitHub Pages checkpoint,
-then bug fixes and occasional feedback with no promised feature schedule.
-Cloudflare/domain launch and hosted friend-invite games are shelved. Matchmaking,
-ratings and broader community features are deferred or uncommitted; completed
-milestone evidence is retained.
+| Location | Responsibility |
+| --- | --- |
+| [`apps/web`](apps/web) | Browser app, seat setup, saves and CPU turn scheduling. |
+| [`packages/engine`](packages/engine) | Pure rules, legal moves, scoring and game results. |
+| [`packages/ui-kit`](packages/ui-kit) | Board, SVG pieces and theme. |
+| [`packages/bot`](packages/bot) | Native CPU search, frozen classic bot and experimental search. |
+| [`packages/tetrarch-engine`](packages/tetrarch-engine) | Tetrarch WASM adviser, runtime assets and hybrid integration. |
+| [`packages/protocol`](packages/protocol) | Validated state/replay formats, canonical hashes and multiplayer schemas. |
+| [`packages/arena`](packages/arena) | Seeded tournaments, replay validation and benchmarks. |
+| [`apps/worker`](apps/worker) | Static Assets runtime and opt-in local private multiplayer. |
+| [`packages/game-room`](packages/game-room) | Guest/lobby service, authoritative rooms, clocks and recovery. |
+| [`packages/persistence`](packages/persistence) | D1 migrations, command/event history and replay reconstruction. |
+| [`packages/architecture-spike`](packages/architecture-spike) | Preserved local multiplayer architecture prototype. |
 
-[docs/project-state.md](docs/project-state.md) retains accepted decisions,
-current focus, the next actionable tasks, open questions, and dated validation
-between development sessions. M1 is complete; see the
-[fixture coverage](docs/m1-03-fixtures.md).
-M2 is complete; [acceptance evidence](docs/m2-evidence/README.md) records production
-budgets, complete games and inspected layouts. M3-01 is complete: the isolated
-[architecture evidence](docs/m3-01-evidence/README.md) supports the ADR and its
-explicit hosted validation gates. M3 remains incomplete. Research continues
-alongside the product roadmap with versioned, reproducible evidence.
+[`useLocalGame`](apps/web/src/game/useLocalGame.ts) coordinates local play and CPU
+turns. The rules engine owns legality and scoring; game state is immutable and
+JSON-shaped.
 
-See [AGENTS.md](AGENTS.md) for repository conventions, including validation,
-preserving research evidence, and commit attribution.
+## Contributing
 
-## License
+Bug reports, usability feedback and focused fixes are welcome. Use
+[GitHub Issues](https://github.com/ariesyous/li4chess/issues) to report a problem;
+include steps to reproduce it, your browser and a replay file when useful.
 
-li4chess is licensed under the GNU Affero General Public License, version 3
-(`AGPL-3.0-only`). See [LICENSE](LICENSE) for the full terms.
+Before making a change, read [AGENTS.md](AGENTS.md) for repository conventions
+and validation requirements. The [roadmap](ROADMAP.md) describes product scope;
+[project state](docs/project-state.md) records current work and accepted decisions.
+The released local/CPU game is in maintenance, with no promised feature schedule.
+
+For code changes, run lint, unit tests and the build. Run browser tests when
+browser behavior is affected, including rules or CPU changes. For documentation
+changes, check local links, referenced commands and `git diff --check`.
+
+### Deeper documentation
+
+- **Rules and replays:** [standard FFA contract](docs/rules-spec.md) and
+  [protocol package](packages/protocol).
+- **Browser CPU:** [Tetrarch integration, resource tiers and recovery](docs/engine/tetrarch-browser-default.md).
+- **Bot research:** [arena methodology](docs/engine/arena-methodology.md),
+  [production reconciliation](docs/engine/reconciliation.md) and
+  [experiment ledger](docs/engine/experiments.md). Preserve frozen classic sources
+  and archived evidence; label new measurements with their code and environment.
+  Replay-validate games and treat ply-capped games as unfinished. Historical
+  timings and small comparisons do not establish current performance or strength.
+- **Local private multiplayer:** [setup](apps/worker/README.md#explicit-local-authenticated-multiplayer),
+  [wire contract](docs/multiplayer-v1.md) and
+  [deferred hosted handoff](docs/m3-hosted-handoff.md). The
+  [extended validation workflow](.github/workflows/validate-multiplayer.yml)
+  covers Worker/D1/multiplayer campaigns separately from default Pages CI.
+
+## License and credits
+
+li4chess is licensed under **GNU AGPL v3 only**. See [LICENSE](LICENSE).
+
+The interface takes inspiration from Lichess. Chess pieces are adapted from
+Colin M. L. Burnett's Cburnett SVG set under GPL-2.0-or-later. See
+[third-party notices](THIRD_PARTY_NOTICES.md) for asset sources, licenses and
+modifications, including the Tetrarch runtime.

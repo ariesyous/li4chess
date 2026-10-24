@@ -8,6 +8,15 @@ superseded handoffs.
 
 ## Current focus
 
+**README polish (2026-10-23):** reorganized the OSS front page around play,
+features, local setup, checks, package responsibilities and contributing. Reused
+the existing social-preview board banner and added CI/license badges. Detailed
+rules, CPU research and deferred multiplayer remain in linked documentation;
+removed stale early-development and launch-status wording. Documentation only
+on base `b5522e1`: local Markdown file/heading links in README and this state file,
+README commands/toolchain against package scripts, and `git diff --check` passed.
+Code, unit/browser tests and builds were not run for this documentation change.
+
 **Usability and search-discovery release (2026-10-23):** the maintainer
 explicitly requested deployment of both follow-ups to `https://li4chess.org/`.
 [PR #25](https://github.com/ariesyous/li4chess/pull/25) merged as
