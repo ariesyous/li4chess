@@ -1,0 +1,76 @@
+{
+  "checkedAtUtc": "2026-10-24T04:24:47.350Z",
+  "url": "https://li4chess.org/",
+  "expectedRevision": "5aedee35319215a71341e07dcd5caf44f394568d",
+  "bundleUrl": "/assets/index-DdS0v5Qe.js",
+  "levels": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10"
+  ],
+  "request": {
+    "difficulty": 10,
+    "budget": {
+      "label": "Maximum",
+      "maxDepth": 10,
+      "nodeBudget": 1048576,
+      "timeMs": 10000
+    }
+  },
+  "diagnostics": {
+    "engine": "tetrarch",
+    "nodes": 1200000,
+    "completedDepth": 6,
+    "elapsedMs": 6378.79999999702,
+    "stopped": "nodes",
+    "fallback": false
+  },
+  "assets": [
+    {
+      "url": "https://li4chess.org/assets/params-DkkuhD0M.bin",
+      "status": 200
+    },
+    {
+      "url": "https://li4chess.org/assets/tetrarch-rEP-iVNV.wasm",
+      "status": 200
+    },
+    {
+      "url": "https://li4chess.org/assets/net-ffa1-DkZdNghk.nnue",
+      "status": 200
+    }
+  ],
+  "pageErrors": [],
+  "checks": {
+    "revision": true,
+    "level10Turn": true,
+    "tenSecondBudget": true,
+    "oneMove": true,
+    "resumeBoardAndHistory": true
+  },
+  "purpose": "Functional deployment verification; diagnostics are not a performance or playing-strength benchmark.",
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "node": "v24.18.0",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor             ",
+    "playwright": "1.56.1",
+    "browser": "Chromium 141.0.7390.37 (headless)",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    }
+  },
+  "release": {
+    "pullRequest": "https://github.com/ariesyous/li4chess/pull/26",
+    "pullRequestCi": "https://github.com/ariesyous/li4chess/actions/runs/40061774098",
+    "deployment": "https://github.com/ariesyous/li4chess/actions/runs/40062140097",
+    "mainCi": "https://github.com/ariesyous/li4chess/actions/runs/40062140058"
+  }
+}

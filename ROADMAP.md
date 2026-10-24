@@ -49,6 +49,9 @@ The maintainer requested CPU levels through 10 on 2026-10-24, allowing up to ten
 seconds of thinking per turn. This bounded resource-tier extension retains
 levels 1–5, the advisory hybrid and canonical game authority. It adds no engine
 research campaign or hosted milestone; validation is tracked in project state.
+The extension was published to li4chess.org through
+[PR #26](https://github.com/ariesyous/li4chess/pull/26); the Pages deployment and
+live level-10 turn/resume verification are recorded in project state.
 
 The maintainer selected a bounded local/CPU usability follow-up on 2026-10-23:
 quick start, clearer solo guidance, simpler controls and same-settings rematches.

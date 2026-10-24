@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**CPU levels 1–10 (2026-10-24, publication in progress):** the
+**CPU levels 1–10 (2026-10-24, released):** the
 maintainer requested a maximum level of 10 with up to ten seconds of thinking
 per turn. Levels 6–10 add 2/3.5/5/7.5/10-second allowances with larger adviser
 and native node/depth caps; levels 1–5 and quick-start level 3 retain their tiers.
@@ -18,9 +18,28 @@ separate. Setup, metadata, saves/replays and rematches support all ten levels.
 See [the resource table and recovery contract](engine/tetrarch-browser-default.md).
 Rules, pinned WASM/NNUE assets, frozen classic and archived measurements are
 unchanged. No new playing-strength/rating claim is made. The maintainer explicitly
-requested deployment to li4chess.org after local validation; publish through a
-checked pull request and the existing GitHub Pages workflow, then verify the
-deployed revision, level-10 CPU turn and save/resume on the live site.
+requested deployment to li4chess.org after local validation.
+
+[PR #26](https://github.com/ariesyous/li4chess/pull/26) merged as
+`5aedee35319215a71341e07dcd5caf44f394568d` after
+[PR CI](https://github.com/ariesyous/li4chess/actions/runs/40061774098) passed
+fresh lint, all **771 unit tests**, build, **69 browser tests** and **11
+production-preview tests**, with no browser retries. The existing
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/40062140097)
+succeeded. [Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/40062140058)
+also passed fresh lint, all 771 unit tests, build, 69 browser tests and 11
+production-preview tests, with no browser retries.
+
+A fresh headless Chromium session at `https://li4chess.org/` verified the merged
+revision in `/assets/index-DdS0v5Qe.js`, all ten difficulty choices and a level-10
+Tetrarch turn with the ten-second request budget. Exactly one move advanced to
+Blue; reload/resume retained CPU L10, all 160 square labels and move history.
+WASM/parameters/NNUE returned HTTP 200 with no page errors. The desktop game
+capture was inspected. [Live evidence](engine/cpu-levels-deployment-20261024.json)
+records revision, assets, diagnostics and environment; this is functional
+deployment verification, not a performance or strength benchmark. Local root-base
+build and all **11 production-preview tests at `/`** also passed on release head
+`b72b534`. Hosting, DNS, analytics and deferred multiplayer settings are unchanged.
 
 Validation on base `f92c9c2` plus this working tree used Windows, Node 24.18.0
 and Corepack pnpm 10.33.0. `pnpm lint`, `pnpm test` (**771 unit results**, with
@@ -39,8 +58,10 @@ an existing arena test later timed out under concurrent build/browser load.
 The fixed-tree final unit run passed with no assertions or timeouts changed.
 Local Markdown file links and diff-format checks passed. Deferred multiplayer
 campaigns and physical-device/playing-strength tests were not run. No blocker
-remains for local use. Publication and live-site verification are now authorized
-and in progress; the local validation above predates those release operations.
+remains for local use. Publication, post-merge CI and live-site verification are
+complete. The release-record closeout changes documentation/evidence only; local
+Markdown file links, JSON parsing and diff-format checks passed without rerunning
+application tests. No additional release task remains.
 
 **README polish (2026-10-23):** reorganized the OSS front page around play,
 features, local setup, checks, package responsibilities and contributing. Reused
