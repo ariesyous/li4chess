@@ -13,7 +13,7 @@ function storage() {
 }
 it("synchronously saves exact rules state, seat settings and saved producer lineage", async () => {
   const disk = storage();
-  const initial = createInitialState({ isCPU: { 0: false, 1: true, 2: true, 3: false }, cpuDifficulty: { 0: 5, 1: 2, 2: 4, 3: 1 } });
+  const initial = createInitialState({ isCPU: { 0: false, 1: true, 2: true, 3: false }, cpuDifficulty: { 0: 10, 1: 6, 2: 9, 3: 1 } });
   const request: ActionRequest = { type: "move", actor: 0, move: legalMoves(initial)[0] };
   saveLocalGame(disk, { initial, requests: [request] }, producer);
   expect(disk.getItem(LOCAL_SAVE_KEY)).not.toBeNull();

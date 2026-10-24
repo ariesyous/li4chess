@@ -47,11 +47,11 @@ export function SeatSetupScreen({ seats, onSeatsChange, customizeOpen, hasSavedG
         onChange={event => onSeatsChange({ ...seats, [color]: { ...seats[color], isCPU: event.target.checked } })} />CPU {seats[color].isCPU ? "opponent" : "off · Human"}</label>
       {seats[color].isCPU && <label>Level<select aria-label={`${PLAYER_COLOR_NAME[color]} difficulty`} value={seats[color].difficulty}
         onChange={event => onSeatsChange({ ...seats, [color]: { ...seats[color], difficulty: Number(event.target.value) as CpuLevel } })}>
-        {([1, 2, 3, 4, 5] as CpuLevel[]).map(level => <option key={level} value={level}>{level} · {CPU_POLICIES[level].label}</option>)}
+        {(Object.keys(CPU_POLICIES).map(Number) as CpuLevel[]).map(level => <option key={level} value={level}>{level} · {CPU_POLICIES[level].label}</option>)}
       </select></label>}
     </section>)}</div>
     <button className="primary-button" type="button" onClick={() => onStart(seats)}><Icon name="play" />Start game</button>
-    <p className="setup-note">Levels 1–5 give the CPU more thinking time, from 50 ms to 1 second. These are search budgets, not ratings. All games are anonymous and local, with no running clocks.</p>
+    <p className="setup-note">Levels 1–10 give the CPU more thinking time, from 50 ms to 10 seconds per turn. The CPU may move sooner. These are search budgets, not ratings. All games are anonymous and local, with no running clocks.</p>
     </div></details>
     <section className="card"><RulesHelp /></section>
   </main>;

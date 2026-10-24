@@ -20,7 +20,7 @@ import type { LocalJournal, ResumedGame } from "./localSave.js";
 
 export interface SeatSetup {
   readonly isCPU: boolean;
-  readonly difficulty: 1 | 2 | 3 | 4 | 5;
+  readonly difficulty: CpuLevel;
 }
 
 export type SeatSetups = Readonly<Record<PlayerColor, SeatSetup>>;

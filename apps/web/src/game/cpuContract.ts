@@ -1,7 +1,8 @@
-import { validateCpuBudget } from "@li4chess/bot";
+import { CPU_POLICIES, validateCpuBudget } from "@li4chess/bot";
 import type { CpuBudget, CpuDiagnostics, CpuLevel } from "@li4chess/bot";
 import { PieceType } from "@li4chess/engine";
 import type { PlayerColor } from "@li4chess/engine";
+import { HYBRID_POLICIES } from "./hybridPolicy.js";
 
 export interface CpuIdentity { requestId: string; gameId: string; stateId: string; seat: PlayerColor }
 export interface CpuRequest extends CpuIdentity {
@@ -22,7 +23,7 @@ function identity(v: Record<string, unknown>): boolean {
 }
 export function validRequest(v: unknown): v is CpuRequest {
   if (!record(v) || !identity(v) || v.type !== "search" || v.version !== 1 ||
-    typeof v.stateJson !== "string" || (v.engine !== undefined && v.engine !== "native") || !Number.isInteger(v.difficulty) || Number(v.difficulty) < 1 || Number(v.difficulty) > 5) return false;
+    typeof v.stateJson !== "string" || (v.engine !== undefined && v.engine !== "native") || !Number.isInteger(v.difficulty) || Number(v.difficulty) < 1 || Number(v.difficulty) > 10) return false;
   try { validateCpuBudget(v.budget as CpuBudget); return true; } catch { return false; }
 }
 export function validResponse(v: unknown): v is CpuResponse {
@@ -32,8 +33,8 @@ export function validResponse(v: unknown): v is CpuResponse {
     (m.promotion === undefined || m.promotion === PieceType.Queen) &&
     (d.engine === undefined || d.engine === "native" || d.engine === "tetrarch") &&
     (d.fallbackReason === undefined || typeof d.fallbackReason === "string" && d.fallbackReason.length < 200) &&
-    Number.isInteger(d.nodes) && Number(d.nodes) >= 0 && Number(d.nodes) <= (d.engine === "tetrarch" ? 80_000 : 32768) &&
-    Number.isInteger(d.completedDepth) && Number(d.completedDepth) >= 0 && Number(d.completedDepth) <= (d.engine === "tetrarch" ? 12 : 5) &&
+    Number.isInteger(d.nodes) && Number(d.nodes) >= 0 && Number(d.nodes) <= (d.engine === "tetrarch" ? HYBRID_POLICIES[10].nodeBudget : CPU_POLICIES[10].nodeBudget) &&
+    Number.isInteger(d.completedDepth) && Number(d.completedDepth) >= 0 && Number(d.completedDepth) <= (d.engine === "tetrarch" ? HYBRID_POLICIES[10].maxDepth : CPU_POLICIES[10].maxDepth) &&
     typeof d.elapsedMs === "number" && Number.isFinite(d.elapsedMs) && d.elapsedMs >= 0 &&
     ["depth", "nodes", "time"].includes(String(d.stopped)) && typeof d.fallback === "boolean";
 }

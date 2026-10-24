@@ -24,22 +24,44 @@ on the UI thread. Fallback reason and actual engine remain in response diagnosti
 
 The initial host watchdog is five seconds plus the native tier's time allowance;
 native retry uses two seconds plus that allowance. These cover loading and search.
-The soft C search time limit uses the tier's existing 50/100/250/500/1,000 ms
-allowance and may overrun; Worker termination provides the hard recovery boundary.
+All computation, including native retries, shares a ten-second host deadline
+from the first search-start notification. The deadline terminates outstanding
+Workers and uses current-legal-list recovery if no result arrives. Asset loading
+and the existing 400 ms move pacing are separate from thinking time. Native
+retries and in-Worker fallback receive only the remaining allowance.
+The WASM adapter estimates time from node throughput and can overrun its soft
+limit; Worker termination provides the hard recovery boundary. At level 10 the
+soft limit is 9,750 ms, leaving 250 ms to publish a result before termination.
 Asset loading completes before the search-start notification. HTTP caching can
 reuse the immutable hashed asset URLs across fresh Workers.
 
-| Level | Tetrarch node cap | Maximum depth | Soft time allowance |
+| Level | Tetrarch node cap | Maximum depth | Turn search allowance |
 | --- | ---: | ---: | ---: |
 | 1 | 1,000 | 2 | 50 ms |
 | 2 | 5,000 | 3 | 100 ms |
 | 3 | 20,000 | 8 | 250 ms |
 | 4 | 40,000 | 10 | 500 ms |
 | 5 | 80,000 | 12 | 1,000 ms |
+| 6 | 160,000 | 14 | 2,000 ms |
+| 7 | 320,000 | 16 | 3,500 ms |
+| 8 | 500,000 | 18 | 5,000 ms |
+| 9 | 800,000 | 20 | 7,500 ms |
+| 10 | 1,200,000 | 24 | 10,000 ms |
 
 These are resource tiers, not calibrated ratings or proven monotonically stronger
 opponents. Level 3 retains the arena's 20,000-node cap but adds a soft time limit
-and depth ceiling. Native fallback retains each existing `CPU_POLICIES` tier.
+and depth ceiling. Levels 1–5 retain their existing search tiers. The maintainer
+requested levels through 10 with up to ten seconds of thinking per turn on
+2026-10-24. Higher levels increase search resources; they do not change the
+adviser's rules model or certify stronger play. Search may finish sooner at its
+node or depth cap.
+
+Native fallback uses `CPU_POLICIES`: levels 6–10 allow depths 6/7/8/9/10,
+65,536/131,072/262,144/524,288/1,048,576 nodes, and the same time allowances
+above (subject to the shared deadline and publication margin). It retains full
+evaluation and zero intentional randomness. Saves and replays accept levels
+1–10 without changing rules or replay identifiers; older readers limited to five
+levels cannot import new higher-level seat metadata.
 
 ## Assets and reproducibility
 

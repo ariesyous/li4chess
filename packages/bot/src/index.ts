@@ -85,7 +85,7 @@ function contenders(
 
 /**
  * Chooses a move for a CPU-controlled seat at the given difficulty level
- * (1-5): searches to the level's depth using its eval weights, then — at
+ * (1-10): searches to the level's depth using its eval weights, then — at
  * lower levels — picks randomly among the top-K near-equal candidates rather
  * than always the single best, to simulate imperfect play instead of just a
  * shallower one.

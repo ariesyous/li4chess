@@ -4,7 +4,8 @@ import { DIFFICULTY_PRESETS } from "./difficulty.js";
 import { evaluateFull } from "./evaluate.js";
 import { scoreMovesExactly } from "./search.js";
 
-export type CpuLevel = 1 | 2 | 3 | 4 | 5;
+export type CpuLevel = keyof typeof DIFFICULTY_PRESETS;
+export const MAX_CPU_THINK_MS = 10_000;
 export interface CpuBudget { maxDepth: number; nodeBudget: number; timeMs: number | null }
 export const CPU_POLICIES: Readonly<Record<CpuLevel, Readonly<CpuBudget & { label: string }>>> = {
   1: { label: "Beginner", maxDepth: 1, nodeBudget: 128, timeMs: 50 },
@@ -12,6 +13,11 @@ export const CPU_POLICIES: Readonly<Record<CpuLevel, Readonly<CpuBudget & { labe
   3: { label: "Thoughtful", maxDepth: 3, nodeBudget: 2048, timeMs: 250 },
   4: { label: "Challenging", maxDepth: 4, nodeBudget: 8192, timeMs: 500 },
   5: { label: "Patient", maxDepth: 5, nodeBudget: 32768, timeMs: 1000 },
+  6: { label: "Deep", maxDepth: 6, nodeBudget: 65536, timeMs: 2000 },
+  7: { label: "Deeper", maxDepth: 7, nodeBudget: 131072, timeMs: 3500 },
+  8: { label: "Intensive", maxDepth: 8, nodeBudget: 262144, timeMs: 5000 },
+  9: { label: "Very intensive", maxDepth: 9, nodeBudget: 524288, timeMs: 7500 },
+  10: { label: "Maximum", maxDepth: 10, nodeBudget: 1048576, timeMs: MAX_CPU_THINK_MS },
 };
 export interface CpuDiagnostics {
   nodes: number; completedDepth: number; elapsedMs: number;
@@ -19,9 +25,9 @@ export interface CpuDiagnostics {
 }
 
 export function validateCpuBudget(value: CpuBudget): void {
-  if (!value || !Number.isInteger(value.maxDepth) || value.maxDepth < 1 || value.maxDepth > 5 ||
-      !Number.isInteger(value.nodeBudget) || value.nodeBudget < 0 || value.nodeBudget > 32768 ||
-      (value.timeMs !== null && (!Number.isFinite(value.timeMs) || value.timeMs < 0 || value.timeMs > 1000))) {
+  if (!value || !Number.isInteger(value.maxDepth) || value.maxDepth < 1 || value.maxDepth > CPU_POLICIES[10].maxDepth ||
+      !Number.isInteger(value.nodeBudget) || value.nodeBudget < 0 || value.nodeBudget > CPU_POLICIES[10].nodeBudget ||
+      (value.timeMs !== null && (!Number.isFinite(value.timeMs) || value.timeMs < 0 || value.timeMs > MAX_CPU_THINK_MS))) {
     throw new Error("Invalid CPU budget");
   }
 }

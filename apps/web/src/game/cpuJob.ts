@@ -1,4 +1,4 @@
-import { chooseBoundedCpuMove } from "@li4chess/bot";
+import { chooseBoundedCpuMove, MAX_CPU_THINK_MS } from "@li4chess/bot";
 import { deserializeGameState, sha256 } from "@li4chess/protocol";
 import { validRequest } from "./cpuContract.js";
 import type { CpuResponse, CpuStarted } from "./cpuContract.js";
@@ -19,14 +19,21 @@ export async function runCpuJob(value: unknown, started: (message: CpuStarted) =
     try { await adviser.prepare?.(); } catch { /* chooseHybrid records the failed load and selects native search. */ }
   }
   started({ type: "started", version: 1, requestId: request.requestId, gameId: request.gameId, stateId: request.stateId, seat: request.seat });
-  const native = (s: typeof state) => chooseBoundedCpuMove(s, request.difficulty, request.budget);
+  const searchStart = performance.now();
+  // Leave a small margin to publish the completed iteration before host termination.
+  const timeMs = request.budget.timeMs === null ? null : Math.min(request.budget.timeMs, MAX_CPU_THINK_MS - 250);
+  // Adviser and in-Worker recovery share the turn's allowance.
+  const native = (s: typeof state) => chooseBoundedCpuMove(s, request.difficulty, {
+    ...request.budget, timeMs: timeMs === null ? null
+      : Math.max(0, timeMs - (performance.now() - searchStart)),
+  });
   let result: { move: ReturnType<typeof native>["move"]; diagnostics: CpuResponse["diagnostics"] };
   if (adviser && request.engine !== "native") {
     const policy = HYBRID_POLICIES[request.difficulty];
     let fallback: ReturnType<typeof native> | undefined;
     const chosen = await chooseHybrid(state, adviser, s => {
       fallback = native(s); return { move: fallback.move, stats: { ...fallback.diagnostics } };
-    }, { ...policy, ...(request.budget.timeMs ? { timeMs: request.budget.timeMs } : {}) });
+    }, { ...policy, ...(timeMs ? { timeMs } : {}) });
     const external = chosen.stats.external;
     result = { move: chosen.move, diagnostics: chosen.stats.fallback
       ? { ...fallback!.diagnostics, engine: "native", fallbackReason: chosen.stats.fallbackReason }

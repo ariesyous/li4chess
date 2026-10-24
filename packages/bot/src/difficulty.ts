@@ -1,7 +1,7 @@
 import { EvalWeights, FULL_EVAL_WEIGHTS, MATERIAL_ONLY_WEIGHTS } from "./evaluate.js";
 
 export interface DifficultyConfig {
-  readonly level: 1 | 2 | 3 | 4 | 5;
+  readonly level: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   readonly maxDepth: number;
   /** Probability of picking a random move among the top-K near-equal candidates instead of the single best. */
   readonly randomness: number;
@@ -15,4 +15,9 @@ export const DIFFICULTY_PRESETS: Readonly<Record<DifficultyConfig["level"], Diff
   3: { level: 3, maxDepth: 3, randomness: 0.1, topK: 2, evalWeights: FULL_EVAL_WEIGHTS },
   4: { level: 4, maxDepth: 4, randomness: 0.02, topK: 1, evalWeights: FULL_EVAL_WEIGHTS },
   5: { level: 5, maxDepth: 5, randomness: 0, topK: 1, evalWeights: FULL_EVAL_WEIGHTS },
+  6: { level: 6, maxDepth: 6, randomness: 0, topK: 1, evalWeights: FULL_EVAL_WEIGHTS },
+  7: { level: 7, maxDepth: 7, randomness: 0, topK: 1, evalWeights: FULL_EVAL_WEIGHTS },
+  8: { level: 8, maxDepth: 8, randomness: 0, topK: 1, evalWeights: FULL_EVAL_WEIGHTS },
+  9: { level: 9, maxDepth: 9, randomness: 0, topK: 1, evalWeights: FULL_EVAL_WEIGHTS },
+  10: { level: 10, maxDepth: 10, randomness: 0, topK: 1, evalWeights: FULL_EVAL_WEIGHTS },
 };

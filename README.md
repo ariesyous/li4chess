@@ -16,7 +16,8 @@ one device with friends, right in your browser. Inspired by [lichess](https://li
 - **Jump straight in.** Choose **Play against computers** to play Red against
   three level-3 CPUs, or **Customize game** to mix human and CPU seats. All four
   seats can be computers, too.
-- **Choose your challenge.** Five CPU difficulty levels run in your browser,
+- **Choose your challenge.** Ten CPU difficulty levels run in your browser,
+  with up to ten seconds of thinking time per turn,
   using the Tetrarch advisory hybrid with a native fallback. li4chess validates
   every move and determines all rules and results.
 - **Follow the action.** Legal-move highlights, check indicators, optional board

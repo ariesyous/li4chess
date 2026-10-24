@@ -53,7 +53,7 @@ const validation = [
   loadPosition({ id: "interception", tags: [], pieces: [[35,0,"K"],[108,1,"K"],[185,2,"K"],[153,3,"K"],[79,0,"P"],[119,2,"P"]] }),
 ];
 for (const state of validation) for (const rotation of ALL_COLORS) assertLocalMigrationState(rotated(state, rotation));
-const adapter = (id: string, choose: typeof chooseBoundedCpuMove): ArenaEngine => ({ id, config: limits,
+const adapter = (id: string, choose: typeof baselineChoose): ArenaEngine => ({ id, config: limits,
   choose: (state, random) => { const r = choose(state, 3, limits, random); return { move: r.move, stats: { ...r.diagnostics, depthReached: r.diagnostics.completedDepth } }; } });
 const a = adapter("baseline-9a49a80", baselineChoose), b = adapter("pawn-plans-v1", chooseBoundedCpuMove);
 

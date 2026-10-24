@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-10-23. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-10-24. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -44,6 +44,11 @@ Teams/2v2 and other variants remain ideas. The local/CPU Pages release is a
 standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
+
+The maintainer requested CPU levels through 10 on 2026-10-24, allowing up to ten
+seconds of thinking per turn. This bounded resource-tier extension retains
+levels 1–5, the advisory hybrid and canonical game authority. It adds no engine
+research campaign or hosted milestone; validation is tracked in project state.
 
 The maintainer selected a bounded local/CPU usability follow-up on 2026-10-23:
 quick start, clearer solo guidance, simpler controls and same-settings rematches.

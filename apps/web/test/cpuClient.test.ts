@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { requestCpu, requestHybridCpu } from "../src/game/cpuClient.js";
 import type { WorkerPort } from "../src/game/cpuClient.js";
 import type { CpuRequest, CpuResponse } from "../src/game/cpuContract.js";
+import { CPU_POLICIES } from "@li4chess/bot";
+import { HYBRID_POLICIES } from "../src/game/hybridPolicy.js";
 
 const request: CpuRequest = { type: "search", version: 1, requestId: "request", gameId: "game", stateId: `sha256:${"a".repeat(64)}`, seat: 0,
   stateJson: "{}", difficulty: 1, budget: { maxDepth: 1, nodeBudget: 128, timeMs: 50 } };
@@ -62,6 +64,45 @@ describe("CPU request lifetime", () => {
   });
 });
 describe("hybrid recovery",()=>{
+  const high = { ...request, difficulty: 10 as const, budget: CPU_POLICIES[10] };
+  const started = { ...request, type: "started", version: 1 };
+  it("accepts level-10 diagnostics while retaining per-tier rejection", () => {
+    const worker = port(), done = vi.fn();
+    const reply = { ...result, diagnostics: { ...result.diagnostics, engine: "tetrarch", nodes: HYBRID_POLICIES[10].nodeBudget, completedDepth: 24 } };
+    requestCpu(high, done, () => worker);
+    worker.onmessage!(event(reply));
+    expect(done).toHaveBeenCalledWith(reply, undefined);
+    const lower = port(), rejected = vi.fn();
+    requestCpu({ ...high, difficulty: 9 }, rejected, () => lower);
+    lower.onmessage!(event(reply));
+    expect(rejected).toHaveBeenCalledWith(null, "malformed");
+  });
+  it("shares a ten-second computation deadline across crash recovery", () => {
+    vi.useFakeTimers();
+    const hybrid = port(), native = port(), done = vi.fn();
+    requestHybridCpu(high, done, () => hybrid, undefined, () => {}, () => native);
+    vi.advanceTimersByTime(2000); // Asset loading is separate from computation.
+    hybrid.onmessage!(event(started));
+    vi.advanceTimersByTime(6000);
+    hybrid.onerror!({ preventDefault: vi.fn() } as unknown as ErrorEvent);
+    expect(native.postMessage).toHaveBeenCalledWith({ ...high, engine: "native", budget: { ...high.budget, timeMs: 3750 } });
+    native.onmessage!(event(started));
+    vi.advanceTimersByTime(3999); expect(done).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1);
+    expect(done).toHaveBeenCalledTimes(1);
+    expect(done).toHaveBeenCalledWith(null, "watchdog");
+    expect(hybrid.terminate).toHaveBeenCalled(); expect(native.terminate).toHaveBeenCalled();
+  });
+  it("terminates a hung level-10 search at ten seconds without a fresh retry budget", () => {
+    vi.useFakeTimers();
+    const hybrid = port(), done = vi.fn(), retry = vi.fn(() => port());
+    requestHybridCpu(high, done, () => hybrid, undefined, () => {}, retry);
+    hybrid.onmessage!(event(started));
+    vi.advanceTimersByTime(10000);
+    expect(done).toHaveBeenCalledWith(null, "watchdog");
+    expect(retry).not.toHaveBeenCalled();
+    expect(hybrid.terminate).toHaveBeenCalledTimes(1);
+  });
   it("replaces a crashed adviser with native search exactly once",()=>{
     const hybrid=port(),native=port(),done=vi.fn();
     requestHybridCpu(request,done,()=>hybrid,10,()=>{},()=>native);

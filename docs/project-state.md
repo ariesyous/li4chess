@@ -1,12 +1,46 @@
 # Project state
 
-Last updated: 2026-10-23.
+Last updated: 2026-10-24.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**CPU levels 1–10 (2026-10-24, publication in progress):** the
+maintainer requested a maximum level of 10 with up to ten seconds of thinking
+per turn. Levels 6–10 add 2/3.5/5/7.5/10-second allowances with larger adviser
+and native node/depth caps; levels 1–5 and quick-start level 3 retain their tiers.
+The browser shares one ten-second computation deadline across adviser and
+native recovery, with a publication margin; asset loading and move pacing are
+separate. Setup, metadata, saves/replays and rematches support all ten levels.
+See [the resource table and recovery contract](engine/tetrarch-browser-default.md).
+Rules, pinned WASM/NNUE assets, frozen classic and archived measurements are
+unchanged. No new playing-strength/rating claim is made. The maintainer explicitly
+requested deployment to li4chess.org after local validation; publish through a
+checked pull request and the existing GitHub Pages workflow, then verify the
+deployed revision, level-10 CPU turn and save/resume on the live site.
+
+Validation on base `f92c9c2` plus this working tree used Windows, Node 24.18.0
+and Corepack pnpm 10.33.0. `pnpm lint`, `pnpm test` (**771 unit results**, with
+Turbo cache reuse), `pnpm build`, all **69 browser tests**, and all **11
+production-preview tests** at `/li4chess/` passed. Changed bot/protocol/web tests
+executed during this validation; the final unit rerun freshly executed the 13
+arena tests and reused the other results. Real level-10 adviser and native
+fallback turns, exact reconstructed resume state, imported rematch settings,
+responsive controls/cancellation, per-tier diagnostics and the shared hard
+deadline have coverage. The build verifies pinned runtime assets. The comparison
+harness adapter retains its original five-level type; frozen sources and
+historical measurements are intact. The phone setup capture was inspected.
+
+An initial unit run rejected source drift from concurrent documentation edits;
+an existing arena test later timed out under concurrent build/browser load.
+The fixed-tree final unit run passed with no assertions or timeouts changed.
+Local Markdown file links and diff-format checks passed. Deferred multiplayer
+campaigns and physical-device/playing-strength tests were not run. No blocker
+remains for local use. Publication and live-site verification are now authorized
+and in progress; the local validation above predates those release operations.
 
 **README polish (2026-10-23):** reorganized the OSS front page around play,
 features, local setup, checks, package responsibilities and contributing. Reused

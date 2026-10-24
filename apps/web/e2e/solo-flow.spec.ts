@@ -38,7 +38,7 @@ test("play again immediately starts fresh with customized seats and difficulty",
 
 test("rematch and Change settings use imported current seats, clearing results and points", async ({ page }) => {
   const initial = { ...createInitialState({ isCPU: { 0: false, 1: true, 2: true, 3: true },
-    cpuDifficulty: { 0: 3, 1: 1, 2: 4, 3: 5 } }), reversibleMoves: 199 };
+    cpuDifficulty: { 0: 3, 1: 6, 2: 9, 3: 10 } }), reversibleMoves: 199 };
   const replay = await recordReplay(initial, [{ type: "move", actor: 0, move: { from: 4, to: 31 } }], producer);
   await page.goto("/"); await page.getByRole("button", { name: "Play against computers" }).click();
   await openGameTools(page);
@@ -52,7 +52,7 @@ test("rematch and Change settings use imported current seats, clearing results a
   await expect(page.getByTestId("replay-message")).toHaveCount(0);
   await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
   await expect(page.getByTestId("award-ledger").locator("li")).toHaveCount(0);
-  for (const [color, level] of [[1, 1], [2, 4], [3, 5]]) await expect(page.getByTestId(`player-${color}`)).toContainText(`CPU L${level}`);
+  for (const [color, level] of [[1, 6], [2, 9], [3, 10]]) await expect(page.getByTestId(`player-${color}`)).toContainText(`CPU L${level}`);
   for (const color of [0, 1, 2, 3]) await expect(page.getByTestId(`player-${color}`)).toContainText("0 pts");
   const saved = await page.evaluate(() => localStorage.getItem("li4chess.local-game.v1"));
   const recovered = await resumeLocalGame({ getItem: () => saved, setItem: () => {} });
@@ -65,7 +65,7 @@ test("rematch and Change settings use imported current seats, clearing results a
   await page.getByRole("button", { name: "Change settings", exact: true }).click();
   await openCustomize(page);
   await expect(page.getByLabel("Red CPU", { exact: true })).not.toBeChecked();
-  for (const [name, level] of [["Blue", "1"], ["Yellow", "4"], ["Green", "5"]]) {
+  for (const [name, level] of [["Blue", "6"], ["Yellow", "9"], ["Green", "10"]]) {
     await expect(page.getByLabel(`${name} CPU`, { exact: true })).toBeChecked();
     await expect(page.getByLabel(`${name} difficulty`, { exact: true })).toHaveValue(level);
   }
