@@ -1,12 +1,69 @@
 # Project state
 
-Last updated: 2026-10-24.
+Last updated: 2026-10-30.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Board size and zen mode (2026-10-30, implemented on
+`claude/game-board-resize-zen-mode-b15bae`; not merged or deployed):**
+the maintainer asked for usability improvements, starting with a resizable board
+and an optional zen mode. Both are browser-local display choices on the local
+game screen. Rules, CPU search, save/replay formats, hosting and the private
+multiplayer screen are unchanged; no analytics or hosting settings were touched.
+
+*Board size.* **Board display → Board size** is a slider (390 px minimum, 10 px
+steps) with **Fit to window**; a pointer-only grip in the board's empty top-right
+corner resizes by dragging sideways (double-click fits the window). The chosen
+width is remembered in browser storage and clamped to what the window holds. A
+larger board widens the page past the former 1240 px shell and 760 px board limits
+instead of squeezing the side panel. Without a choice, the existing fit (window
+height − 335 px, at most 760 px) is unchanged: board sizes measured at six
+viewports from 360 to 2560 px wide matched their pre-change values. Where the
+board already fills the window (phones) no resize controls appear. Keyboard users
+resize with the slider; the grip is hidden from assistive technology.
+
+*Zen mode.* A header button (visibly "Zen" on phones; its accessible name is "Zen
+mode") hides the header chrome, side panel (controls, history, rules), rotate
+toggle and visible help, and fits the board to the window without scrolling down
+to the 390 px board floor. It keeps the turn banner, all four player panels with
+points, the board, notices, the result card and the credits line
+([THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) promises credits on game
+screens). Because the side panel's save status is hidden, an autosave failure is
+shown in zen mode with a retry button, and the result card points to leaving zen
+mode for replay export and move history. The choice is remembered. Zen always
+fits the window and ignores a custom board size, which returns on exit. Focus
+stays on the same toggle button, and a status message announces each change.
+
+Decisions made without a maintainer ruling, easy to reverse: scores stay visible
+in zen; no keyboard shortcut was added (a single-key shortcut would need an
+accessibility safeguard); resizing and zen are not offered on the private
+multiplayer board. Move review and mobile zoom remain future ideas.
+
+Validation on base `4ddc844` plus this change's working tree (run before it was
+committed) used Windows 11, Node 24.18.0,
+Corepack pnpm 10.33.0 and Playwright Chromium 1.56.1. `pnpm lint` and `pnpm test`
+passed (**778 unit results**, including 7 new display-preference tests; the web,
+arena and game-room tasks executed and the other packages were Turbo cache hits
+from an earlier run with identical inputs). `pnpm build` passed from cache, and an
+uncached `pnpm --filter @li4chess/web build` passed. All **86 browser tests** (69
+existing plus 17 new for board size and zen mode) and all **11 production-preview
+tests** passed with no retries. Desktop, short-desktop and 320–430 px renders were
+inspected, including the production bundle, with no console warnings or errors;
+this is Chromium viewport emulation. The grip was exercised with mouse pointer
+events only: touch dragging, physical devices and screen readers were not tested.
+Deferred multiplayer campaigns were not run.
+
+Two process notes. Turborepo needed a `pnpm` binary on PATH, which a throwaway
+shim outside the repository supplied (no global Corepack change). An intermediate
+unit run failed five arena tests with "Source/build identity changed during this
+run" after a tracked file was edited mid-run; the rerun on an unchanged tree
+passed with no assertion or timeout changed. These documentation closeout edits
+were made after the final run and were checked for local links and diff format
+without rerunning application tests.
 
 **CPU levels 1–10 (2026-10-24, released):** the
 maintainer requested a maximum level of 10 with up to ten seconds of thinking

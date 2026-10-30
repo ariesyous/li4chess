@@ -25,7 +25,9 @@ one device with friends, right in your browser. Inspired by [lichess](https://li
 - **Pick up where you left off.** Games autosave in this browser. Resume from
   setup, or export and import validated replay files for portable backups.
 - **Play comfortably.** A responsive board, keyboard controls, optional
-  piece-owner letters and text labels supplement the four player colors.
+  piece-owner letters and text labels supplement the four player colors. Resize
+  the board to suit your screen, or switch on **Zen mode** to keep just the board,
+  the players and whose turn it is.
 - **Go again.** **Play again** starts a rematch with the same seats and difficulty
   levels; **Change settings** returns to setup with those choices retained.
 
@@ -52,6 +54,14 @@ endings and special cases. The implemented ruleset is `li4chess-ffa-standard-v1`
 Click a piece, then a highlighted destination. With a keyboard, **Tab** enters
 the board, **arrow keys** navigate, **Enter/Space** select or move, and **Escape**
 clears the selection.
+
+**Board display** sets the board size with a slider (or drag the grip in the
+board's top-right corner; double-click it to fit the window again). The size is
+remembered in this browser and is limited only by the window, so wide screens can
+show a larger board than the default. **Zen mode**, in the header, hides the
+header, side panel and help text and fits the board to the window; it is
+remembered too. Leave zen mode to resign, save, export replays or review moves;
+the result, notices and any autosave problem still appear inside it.
 
 **More game tools** contains manual saving, replay import/export, reset and
 simulated timeout. The browser keeps one local save; starting a new game or a

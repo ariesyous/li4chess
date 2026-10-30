@@ -2,10 +2,13 @@ import { ALL_COLORS, PlayerColor, isPlayerInCheck, isLivePiece, hasLiveKing, can
 import { CPU_POLICIES } from "@li4chess/bot";
 import type { CpuLevel } from "@li4chess/bot";
 import { Board, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
 import type { ResumedGame } from "../game/localSave.js";
+import { BOARD_SIZE_STEP, readZenMode, writeZenMode } from "../game/displayPrefs.js";
+import { useBoardSize } from "../game/useBoardSize.js";
+import { BoardResizer } from "./BoardResizer.js";
 import { RulesHelp } from "./RulesHelp.js";
 import { Credits } from "./Credits.js";
 import { Icon } from "./Icon.js";
@@ -29,6 +32,16 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
     setShowOwnerLetters(show);
     try { localStorage.setItem(OWNER_LETTERS_KEY, String(show)); }
     catch { /* The display choice still works for this game without browser storage. */ }
+  };
+  const [zen, setZen] = useState(readZenMode);
+  const [zenStatus, setZenStatus] = useState("");
+  const sizing = useBoardSize(zen);
+  const sizeSliderId = useId();
+  const toggleZen = () => {
+    const next = !zen;
+    setZen(next); writeZenMode(next);
+    setZenStatus(next ? "Zen mode on. Controls and history are hidden." : "Zen mode off. Controls and history are shown.");
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   };
   const resultHeading = useRef<HTMLHeadingElement>(null);
   const turnBanner = useRef<HTMLDivElement>(null);
@@ -84,14 +97,20 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
     ...state.randomActions.map(action => ({ sequence: action.sequence, text: `${PLAYER_COLOR_NAME[action.actor]} walking King: ${squareLabel(action.move.from)}–${squareLabel(action.move.to)}` })),
   ].sort((a, b) => a.sequence - b.sequence);
 
-  return <main className="game-shell">
+  return <main className={`game-shell local-game${zen ? " zen" : ""}`} ref={sizing.shellRef} style={sizing.style}>
     <header className="app-header">
-      <a className="brand" href="#" onClick={event => { event.preventDefault(); changeSettings(); }}>li4chess<span>Four players. One board.</span></a>
-      <div className="context"><strong>Standard FFA</strong><span>{mode} · Local · No clock</span></div>
-      <button type="button" onClick={changeSettings}>New game</button>
+      {!zen && <a className="brand" href="#" onClick={event => { event.preventDefault(); changeSettings(); }}>li4chess<span>Four players. One board.</span></a>}
+      {!zen && <div className="context"><strong>Standard FFA</strong><span>{mode} · Local · No clock</span></div>}
+      <div className="header-actions">
+        <button type="button" className="zen-toggle" onClick={toggleZen}
+          title={zen ? "Show the header, side panels and controls again" : "Hide the header and side panels to focus on the board"}>
+          <Icon name="zen" />{zen ? "Exit zen mode" : <>Zen<span className="zen-toggle-more"> mode</span></>}</button>
+        {!zen && <button type="button" onClick={changeSettings}>New game</button>}
+        <span className="sr-only" role="status" data-testid="zen-status">{zenStatus}</span>
+      </div>
     </header>
-    <div className="game-layout">
-      <section className="play-area" aria-label="Game board and players">
+    <div className="game-layout" ref={sizing.layoutRef}>
+      <section className="play-area" ref={sizing.boardAreaRef} aria-label="Game board and players">
         <div className="turn-banner" data-testid="turn-banner" ref={turnBanner} tabIndex={-1} aria-live="polite" aria-atomic="true">
           {state.result ? <span>{state.result.reason === "abort" ? "Game aborted" : "Game finished"} · Results below</span> :
             <span data-testid="turn-status">Turn {state.turnNumber} — <strong>{soloHuman === state.turn && !humanEliminated ? "Your turn · " : ""}{PLAYER_COLOR_NAME[state.turn]} to move</strong>{checkedColors.has(state.turn) ? " · Check" : ""}</span>}
@@ -116,13 +135,18 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
             showOwnerLetters={showOwnerLetters}
             selectedSquare={selectedSquare} legalTargets={legalTargets} checkedColors={checkedColors} deadSquares={deadSquares}
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null} bottomColor={bottomColor} /></div>
+          {sizing.canResize && <BoardResizer getWidth={sizing.currentWidth} onResize={sizing.setSize} onReset={sizing.reset} />}
         </div>
-        <div className="board-tools">
+        {!zen && <div className="board-tools">
           <label><input type="checkbox" checked={rotateToMover} onChange={event => setRotateToMover(event.target.checked)} /> Rotate board to current player</label>
           <span>Bottom: {PLAYER_COLOR_NAME[bottomColor]}</span>
-        </div>
-        <p className="board-help" role="status">{selectedSquare === null ? "Select a piece, then a marked square. Keyboard: arrows, Enter / Space; Escape clears." : `${squareLabel(selectedSquare)} selected · ${legalTargets.size} legal destinations. Choose a marked square; Escape clears.`}</p>
+        </div>}
+        <p className={zen ? "sr-only" : "board-help"} role="status">{selectedSquare === null ? "Select a piece, then a marked square. Keyboard: arrows, Enter / Space; Escape clears." : `${squareLabel(selectedSquare)} selected · ${legalTargets.size} legal destinations. Choose a marked square; Escape clears.`}</p>
         {cpuNotice && <p className="notice" role="status">{cpuNotice}</p>}
+        {zen && game.saveFailed && <section className="notice" data-testid="zen-save-warning" role="status" aria-label="Autosave problem">
+          <p>Could not save on this browser. Your latest moves may not survive a refresh. Leave zen mode to export a replay to keep them.</p>
+          <div className="button-row"><button type="button" onClick={save}><Icon name="save" />Retry save</button></div>
+        </section>}
         {justAffected.map(color => <p key={color} className="notice">{PLAYER_COLOR_NAME[color]} is {state.players[color].status} — their dead pieces block squares, cannot move or attack, and can be captured for zero points.</p>)}
         {soloHuman !== undefined && humanEliminated && !state.result && <section className="notice" data-testid="solo-eliminated" aria-label="Your army is out">
           <p><strong>{watchingFinish ? "Watching the finish" : "Your army is out"}</strong> · You were {PLAYER_COLOR_NAME[soloHuman]}.</p>
@@ -142,14 +166,14 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
             <strong>{PLAYER_COLOR_NAME[p.color]} — {points(p.score)} pts · place {p.place}{p.meanRank !== p.place ? " (shared)" : ""}</strong>
           </li>)}</ol>
           {state.result.reason !== "abort" && <p>Final points determine every placement, including eliminated players.</p>}
-          <p>Play again uses these seats and difficulty levels and replaces the saved game. Export a replay from More game tools to keep this result.</p>
+          <p>Play again uses these seats and difficulty levels and replaces the saved game. {zen ? "Leave zen mode to export a replay or review the move history." : "Export a replay from More game tools to keep this result."}</p>
           <div className="result-actions">
             <button className="primary-button" type="button" onClick={playAgain}><Icon name="play" />Play again</button>
             <button type="button" onClick={changeSettings}>Change settings</button>
           </div>
         </section>}
       </section>
-      <aside className="game-sidebar" aria-label="Game controls and history">
+      {!zen && <aside className="game-sidebar" aria-label="Game controls and history">
         <section className="card controls"><h2>Your game</h2>
           <p>{soloHuman !== undefined ? `You play ${PLAYER_COLOR_NAME[soloHuman]}. ` : `${mode}. `}Highest final points win. Protect your King; checkmated and stalemated armies stay as harmless blockers.</p>
           {state.players[state.turn].isCPU && !state.result && <p className="subtle">CPU level {state.players[state.turn].cpuDifficulty ?? 3}: {CPU_POLICIES[(state.players[state.turn].cpuDifficulty ?? 3) as CpuLevel].label}.</p>}
@@ -163,6 +187,16 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
           <details className="board-display"><summary>Board display</summary>
           <label><input type="checkbox" checked={showOwnerLetters} onChange={event => changeOwnerLetters(event.target.checked)} />Show piece-owner letters</label>
           <p className="subtle">Letters identify each army. Dead pieces keep their × marker when letters are hidden.</p>
+          {sizing.canResize && <div className="board-size-control">
+            <label htmlFor={sizeSliderId}>Board size</label>
+            <div className="board-size-row">
+              <input id={sizeSliderId} type="range" min={sizing.min} max={sizing.max} step={BOARD_SIZE_STEP} value={sizing.value}
+                aria-valuetext={`${sizing.value} pixels`} onChange={event => sizing.setSize(Number(event.target.value))} />
+              <output htmlFor={sizeSliderId}>{sizing.value} px</output>
+            </div>
+            <div className="button-row"><button type="button" disabled={!sizing.custom} onClick={sizing.reset}>Fit to window</button></div>
+            <p className="subtle">You can also drag the grip in the board's top-right corner. Zen mode always fits the board to the window.</p>
+          </div>}
           </details>
           <details className="game-tools"><summary>More game tools</summary>
             <div className="button-row"><button type="button" onClick={save}><Icon name="save" />Save game</button><button type="button" disabled={replayBusy} onClick={() => void exportReplay()}><Icon name="download" />Export replay</button></div>
@@ -189,7 +223,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
           {!!events.length && <><h3>Game events</h3><ol className="event-list" tabIndex={0} aria-label="Game events">{events.map(event => <li key={event.sequence}>{event.text}</li>)}</ol></>}
         </section>
         <section className="card"><RulesHelp /></section>
-      </aside>
+      </aside>}
     </div>
     <Credits />
   </main>;
