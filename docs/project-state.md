@@ -1,6 +1,6 @@
 # Project state
 
-Last updated: 2026-10-30.
+Last updated: 2026-10-31.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
@@ -8,9 +8,8 @@ superseded handoffs.
 
 ## Current focus
 
-**Board size and zen mode (2026-10-30, implemented on
-`claude/game-board-resize-zen-mode-b15bae`; not merged or deployed):**
-the maintainer asked for usability improvements, starting with a resizable board
+**Board size and zen mode (2026-10-30, released 2026-10-31):** the maintainer
+asked for usability improvements, starting with a resizable board
 and an optional zen mode. Both are browser-local display choices on the local
 game screen. Rules, CPU search, save/replay formats, hosting and the private
 multiplayer screen are unchanged; no analytics or hosting settings were touched.
@@ -41,7 +40,46 @@ stays on the same toggle button, and a status message announces each change.
 Decisions made without a maintainer ruling, easy to reverse: scores stay visible
 in zen; no keyboard shortcut was added (a single-key shortcut would need an
 accessibility safeguard); resizing and zen are not offered on the private
-multiplayer board. Move review and mobile zoom remain future ideas.
+multiplayer board. Move review and mobile zoom remain future ideas. These choices
+shipped unchanged; the maintainer asked for the merge without changing them.
+
+[PR #27](https://github.com/ariesyous/li4chess/pull/27) merged as
+`1de1ec5a5d97021fac399729b9dcf88e2d5389c3` at the maintainer's request after
+[PR CI](https://github.com/ariesyous/li4chess/actions/runs/41115496353) passed
+on the exact head `a56fd90` on a fresh Linux runner: lint, all **778 unit
+tests**, build, **86 browser tests** and **11 production-preview tests**. The
+merge commit's tree is identical to that head's tree, so `main` holds exactly
+the validated content. The maintainer asked for the merge, not a separate
+deployment; the existing
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/41172739961),
+which publishes every push to `main`, succeeded, and GitHub's `github-pages`
+deployment record shows `1de1ec5` as successful.
+[Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/41172739966)
+also passed fresh lint, all 778 unit tests, build, 86 browser tests and 11
+production-preview tests.
+
+A fresh headless Chromium session at `https://li4chess.org/` verified the merged
+revision. The homepage (last modified 05:29:14 GMT) referenced
+`/assets/index-DDv0cfyi.js`, which embeds `sourceRevision` `1de1ec5…` with a
+clean working tree and contains the zen-mode, board-size and resize-grip code;
+the live `index-Bre2JPP0.css` is byte-identical to the CSS of the locally
+validated production build. Thirteen checks passed at 1440×900 and 360×800: the
+unchanged 565 px default board; the Board size slider (390–1050 px at that
+width) with a remembered 700 px size and **Fit to window**; grip dragging
+(565 → 770 → 565 px) and double-click reset; a real CPU round (a Red move, three
+CPU replies, Red to move at turn 5); zen mode (642 px board, no scrolling, side
+panel hidden, four players and credits kept, remembered across reload, clean
+exit); and the phone layout (full-width board, no resize controls, no horizontal
+overflow, zen toggled by touch). The CPU worker, parameter, WASM and NNUE assets,
+robots.txt, the one-URL sitemap and the social image returned HTTP 200, and the
+canonical link and the old project URL's redirect to li4chess.org are unchanged.
+No console warnings, page errors or HTTP errors occurred; the only failed
+requests were Cloudflare Zaraz, Cloudflare RUM and Microsoft Clarity beacons
+aborted by the script's page reloads, and the reload-free phone session had none.
+These sessions add a few pageviews to analytics. This is functional deployment
+verification, not a performance benchmark or physical-device evidence. This
+record's commit carries `[skip ci]` so that recording it does not redeploy and
+re-stamp the live bundle's revision.
 
 Validation on base `4ddc844` plus this change's working tree (run before it was
 committed) used Windows 11, Node 24.18.0,
@@ -61,9 +99,10 @@ Two process notes. Turborepo needed a `pnpm` binary on PATH, which a throwaway
 shim outside the repository supplied (no global Corepack change). An intermediate
 unit run failed five arena tests with "Source/build identity changed during this
 run" after a tracked file was edited mid-run; the rerun on an unchanged tree
-passed with no assertion or timeout changed. These documentation closeout edits
-were made after the final run and were checked for local links and diff format
-without rerunning application tests.
+passed with no assertion or timeout changed. The release record and the earlier
+documentation closeout edits were made after the final local application runs and
+were checked for local links and diff format without rerunning application tests
+locally.
 
 **CPU levels 1–10 (2026-10-24, released):** the
 maintainer requested a maximum level of 10 with up to ten seconds of thinking
