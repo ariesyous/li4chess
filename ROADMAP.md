@@ -48,8 +48,10 @@ standalone outcome; no automatic progression to hosted play is planned.
 The maintainer asked for usability improvements on 2026-10-30, starting with a
 resizable board and an optional zen mode. Both are browser-local display choices
 on the local game screen, with no rules, CPU, save/replay, hosting or multiplayer
-change and no new milestone. They are implemented on a feature branch and not yet
-merged or released; decisions and validation are in [project state](docs/project-state.md).
+change and no new milestone. They were merged through
+[PR #27](https://github.com/ariesyous/li4chess/pull/27) and published to
+li4chess.org by the existing Pages workflow on 2026-10-31; decisions, CI and live
+verification are in [project state](docs/project-state.md).
 
 The maintainer requested CPU levels through 10 on 2026-10-24, allowing up to ten
 seconds of thinking per turn. This bounded resource-tier extension retains
