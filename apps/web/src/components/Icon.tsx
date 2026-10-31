@@ -5,6 +5,8 @@ const paths = {
   download: "M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5",
   reset: "M3 10a9 9 0 1 1 2 8M3 3v7h7",
   flag: "M5 22V3c5-4 9 4 15 0v11c-6 4-10-4-15 0",
+  resize: "M20 14 10 4M20 9l-5-5",
+  zen: "M17.7 6.3A8 8 0 1 1 14.1 4.3",
 };
 export function Icon({ name }: { name: keyof typeof paths }) {
   return <svg className="control-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d={paths[name]} /></svg>;
