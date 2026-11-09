@@ -134,6 +134,11 @@ follow the configured base, while canonical/search/social URLs use li4chess.org.
 Crawl files live in [`apps/web/public`](apps/web/public); keep every canonical
 URL and the sitemap in sync if the public domain changes.
 
+All five pages share an original four-color king favicon. Its editable source is
+[`favicon.svg`](apps/web/public/favicon.svg); regenerate the PNG, multi-size ICO
+and Apple touch icon with `pnpm --filter @li4chess/web generate:favicons`
+after installing Playwright Chromium.
+
 Guide diagrams reuse the credited piece SVGs and engine-validated teaching
 positions. Regenerate them with `pnpm --filter @li4chess/web generate:guide-diagrams`,
 or add `--check` to verify the checked-in output. No browser rendering is needed

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>li4chess</title>
+  <rect width="64" height="64" rx="14" fill="#292621"/>
+  <rect x="24" y="5" width="16" height="7" rx="2" fill="#f4cf52"/>
+  <rect x="5" y="24" width="7" height="16" rx="2" fill="#6da8e3"/>
+  <rect x="52" y="24" width="7" height="16" rx="2" fill="#72bb83"/>
+  <rect x="24" y="52" width="16" height="7" rx="2" fill="#e66b64"/>
+  <g fill="#f8f7f5">
+    <path d="M30 17h4v5h5v4h-5v5h-4v-5h-5v-4h5z"/>
+    <path d="M20 31q12 7 24 0l-6 10H26z"/>
+    <rect x="22" y="43" width="20" height="4" rx="1"/>
+  </g>
+</svg>
