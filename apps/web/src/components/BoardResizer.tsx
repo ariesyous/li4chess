@@ -1,28 +1,45 @@
-import { useRef } from "react";
-import { boardSizeFromDrag } from "../game/displayPrefs.js";
+import { useId, useRef } from "react";
+import type { PointerEvent } from "react";
+import { BOARD_SIZE_STEP, boardSizeFromDrag } from "../game/displayPrefs.js";
 import { Icon } from "./Icon.js";
 
-/**
- * Pointer-only grip for the empty top-right corner of the board. Keyboard and assistive-technology users resize
- * with the Board size slider in Board display, so the grip is hidden from the accessibility tree and not focusable.
- */
-export function BoardResizer({ getWidth, onResize, onReset }: {
+/** Mouse, touch and keyboard grip below the lower-right player panel. */
+export function BoardResizer({ getWidth, onResize, onReset, min, max, value }: {
   getWidth: () => number; onResize: (width: number) => void; onReset: () => void;
+  min: number; max: number; value: number;
 }) {
-  const drag = useRef<{ x: number; width: number } | null>(null);
-  return <div className="board-resizer" data-testid="board-resizer" aria-hidden="true"
-    title="Drag sideways to resize the board. Double-click to fit it to the window."
+  const drag = useRef<{ id: number; x: number; y: number; width: number } | null>(null);
+  const helpId = useId();
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if (drag.current?.id !== event.pointerId) return;
+    drag.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+  return <><div className="board-resizer" data-testid="board-resizer" role="slider" tabIndex={0}
+    aria-label="Resize board" aria-valuemin={min} aria-valuemax={max} aria-valuenow={Math.max(min, Math.min(max, value))}
+    aria-valuetext={`${value} pixels`} aria-describedby={helpId}
+    title="Resize board: drag or use arrow keys. Double-click to fit the window."
+    onKeyDown={event => {
+      const sizes: Record<string, number> = {
+        ArrowLeft: value - BOARD_SIZE_STEP, ArrowDown: value - BOARD_SIZE_STEP,
+        ArrowRight: value + BOARD_SIZE_STEP, ArrowUp: value + BOARD_SIZE_STEP,
+        PageDown: value - 70, PageUp: value + 70, Home: min, End: max,
+      };
+      if (sizes[event.key] === undefined) return;
+      event.preventDefault(); onResize(sizes[event.key]);
+    }}
     onPointerDown={event => {
-      if (event.button !== 0) return;
-      event.currentTarget.setPointerCapture(event.pointerId);
-      drag.current = { x: event.clientX, width: getWidth() };
+      if (!event.isPrimary || event.button !== 0) return;
       event.preventDefault();
+      event.currentTarget.focus({ preventScroll: true });
+      event.currentTarget.setPointerCapture(event.pointerId);
+      drag.current = { id: event.pointerId, x: event.clientX, y: event.clientY, width: getWidth() };
     }}
     onPointerMove={event => {
       const start = drag.current;
-      if (start) onResize(boardSizeFromDrag(start.width, event.clientX - start.x));
+      if (start?.id === event.pointerId) onResize(boardSizeFromDrag(start.width, event.clientX - start.x, event.clientY - start.y));
     }}
-    onPointerUp={() => { drag.current = null; }}
-    onPointerCancel={() => { drag.current = null; }}
-    onDoubleClick={onReset}><Icon name="resize" /></div>;
+    onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag}
+    onDoubleClick={onReset}><Icon name="resize" /></div>
+    <span id={helpId} className="sr-only">Drag to resize the board. Arrow keys adjust the size; Home makes it smallest and End makes it largest. Double-click to fit the window.</span></>;
 }

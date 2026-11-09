@@ -1,12 +1,46 @@
 # Project state
 
-Last updated: 2026-10-31.
+Last updated: 2026-11-08.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Tablet resizing (2026-11-08, implemented for review):** the maintainer requested a
+bottom-right grip after observing a clipped board in a tablet recording, then
+asked for a focused PR. This follow-up is based on `8a7f28e`, preserving the
+released board-size preference, custom wide-screen layout and Zen mode. The grip
+moves below the lower-right player card with a 44px touch target, horizontal or
+vertical pointer capture and keyboard slider semantics. The custom minimum is
+280px, so phones also offer a useful resize range. The existing size slider,
+10px steps, Fit to window and double-click reset remain available.
+
+Automatic fitting now measures the actual player panels, controls and wrapped
+help against the viewport height, including visual-viewport changes. Scrolling
+does not change the fit. Explicit custom widths retain their prior behavior:
+they are limited by available width and can be taller than the viewport, with
+page scrolling. The 280px floor can also require scrolling on very short screens.
+The grip and slider share the current preference, so consecutive keyboard input
+does not depend on a delayed ResizeObserver notification. Zen still ignores the
+custom size and restores it on exit. Storage failures leave the controls usable.
+
+Eight new browser cases cover viewport fitting, mouse drag/resume with legal
+input, real Chromium vertical touch dragging without scroll or board selection,
+keyboard and slider bounds/reset, viewport changes and blocked storage. Existing
+board-size, wide-screen, phone and Zen cases are retained and updated for the
+new fit and minimum. Validation on base `8a7f28e` plus this working tree used
+Windows, Node 24.18.0 and Corepack pnpm 10.33.0. `pnpm lint`, `pnpm test`
+(**778 unit results**: 63 web tests freshly executed, 715 unchanged results from
+Turbo cache), `pnpm build`, and all **94 browser tests** passed with no retries.
+The web lint/build tasks executed freshly; unchanged package tasks reused cache.
+The tablet touch capture was visually inspected; all 135 local Markdown file
+links in README, ROADMAP and this state file resolved, and `git diff --check`
+passed. The validation closeout edits documentation only. PR CI and review are
+next; no merge or deployment is performed. No physical tablet or Safari claim is
+made. Rules, CPU behavior, deferred multiplayer and move highlighting are outside
+this PR. Unrelated local documentation remains in the original checkout.
 
 **Board size and zen mode (2026-10-30, released 2026-10-31):** the maintainer
 asked for usability improvements, starting with a resizable board

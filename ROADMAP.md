@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-10-24. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-11-08. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -44,6 +44,12 @@ Teams/2v2 and other variants remain ideas. The local/CPU Pages release is a
 standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
+
+The maintainer requested a bottom-right resize grip on 2026-11-08 after observing
+tablet clipping. This maintenance follow-up builds on the released board-size
+controls: mouse/touch and keyboard dragging, phone resizing and height-aware
+automatic fitting. Existing custom sizes and Zen mode are retained; no new
+milestone is added. Implementation and validation are tracked in project state.
 
 The maintainer asked for usability improvements on 2026-10-30, starting with a
 resizable board and an optional zen mode. Both are browser-local display choices
