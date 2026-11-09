@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**Touch and in-game board stability (2026-11-09, implementation and validation):**
+**Touch and in-game board stability (2026-11-09, released):**
 the maintainer reported that mobile scrolling resized the board and that an
 elimination notice changed it again. The earlier desktop drags and viewport-fit
 checks did not cover these interactions. Native touch swipes reproduced the
@@ -51,9 +51,41 @@ All **144 Chromium browser tests**, **37 WebKit layout/control checks** and
 default project-path build was restored. Final narrow-phone captures before and
 after checkmate were inspected. These are headless browser and viewport-emulation
 checks, including native touch swipes and browser page-scale changes; no physical
-phone or mobile browser toolbar was tested. Publication and fresh full CI are
-next under the existing push/deploy direction. Rules, bot policy, hosting
-configuration and deferred scope are unchanged.
+phone or mobile browser toolbar was tested. The existing push/deploy direction
+covered publication. Rules, bot policy, hosting configuration and deferred
+scope are unchanged.
+
+[PR #37](https://github.com/ariesyous/li4chess/pull/37) merged as
+`9359757df3a37c195f95f771f08a8d4083e60be7` after
+[PR CI](https://github.com/ariesyous/li4chess/actions/runs/42649091963)
+passed on exact head `9701f2c`: fresh Linux lint, all **782 unit tests**, build,
+**144 browser tests** and **57 production-preview tests**, without retries.
+The merge was guarded by its head SHA, and its file tree matches the validated
+head exactly. The existing
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/42650646429)
+succeeded for `9359757`.
+[Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/42650646574)
+also passed fresh Linux lint, all **782 unit tests**, build, **144 browser tests**
+and **57 production-preview tests**, without retries.
+
+Fresh live sessions verified release `9359757` in `/assets/index-DAWAWFLc.js`.
+All **49 live Chromium board checks** and **28 live WebKit fit/transition checks**
+passed without retries. The reported touch swipes, browser zoom/pans, actual
+checkmate notices and real scrollbar transitions preserved board width and the
+stored size. Explicit touch-slider changes worked; player cards stayed clear of
+playable squares, the full frame remained visible after mate, and selection/CPU
+turns retained size in normal and Zen modes. The live phone grip was hidden and
+Board display provided the sizing control. Local Chromium and live WebKit
+before/after mate captures were inspected. A Red move plus three CPU replies
+reached turn 5; reload/resume, keyboard sizing, Zen toggles and all four static
+information pages passed the deployment smoke checks, with no page errors.
+The [deployment evidence](board-stability-deployment-20261109.json) retains the
+exact revision, environment, actual suite counts and functional checks.
+
+Publication and verification are complete. This documentation/evidence closeout
+changes ROADMAP, this state file and the live JSON summary only. Local Markdown
+links, JSON parsing and diff-format checks passed. Its commit carries `[skip ci]`
+to preserve the verified deployment and bundle revision.
 
 **Board height cap (2026-11-08, released):** the maintainer
 requested a dynamic cap so the board is not cut off at the bottom. This replaces

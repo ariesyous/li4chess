@@ -1,0 +1,89 @@
+{
+  "revision": "9359757df3a37c195f95f771f08a8d4083e60be7",
+  "pr": "https://github.com/ariesyous/li4chess/pull/37",
+  "validatedHead": "9701f2c8a35b9820acabc8507b88652edcc4c319",
+  "prCi": "https://github.com/ariesyous/li4chess/actions/runs/42649091963",
+  "deployment": "https://github.com/ariesyous/li4chess/actions/runs/42650646429",
+  "mainCi": "https://github.com/ariesyous/li4chess/actions/runs/42650646574",
+  "mainCiStatus": "success",
+  "verification": "Headless Playwright 1.56.1 Chromium and WebKit on Windows, with viewport emulation. Native touch swipes and browser page-scale changes were tested; physical phones and mobile browser toolbars were not tested.",
+  "liveChromium": {
+    "browser": "Chromium",
+    "checkedAt": "2026-11-09T16:06:18.190Z",
+    "passed": 49,
+    "retries": 0,
+    "suites": {
+      "board-height.spec.ts": 10,
+      "board-size.spec.ts": 13,
+      "board-stability.spec.ts": 26
+    }
+  },
+  "liveWebKit": {
+    "browser": "WebKit",
+    "checkedAt": "2026-11-09T16:07:43.964Z",
+    "passed": 28,
+    "retries": 0,
+    "suites": {
+      "board-height.spec.ts": 10,
+      "board-stability.spec.ts": 18
+    }
+  },
+  "verifiedBehaviors": [
+    "Touch swipes near the former grip and over the board scroll without changing the board layout or saved size",
+    "Browser page-scale changes and native pans preserve the board layout",
+    "Explicit touch-slider input resizes and persists the chosen size",
+    "Real checkmate notices appear and clear without board resizing or player-card overlap",
+    "Actual desktop scrollbar transitions preserve board width",
+    "Selection and real CPU turns preserve size in normal and Zen modes",
+    "Window bounds, saved-size restoration, native mouse dragging and keyboard controls remain usable"
+  ],
+  "smoke": {
+    "revision": "9359757df3a37c195f95f771f08a8d4083e60be7",
+    "node": "v24.18.0",
+    "browser": "141.0.7390.37",
+    "checkedAt": "2026-11-09T16:06:10.286Z",
+    "pages": [
+      {
+        "route": "/learn/how-to-play-four-player-chess/",
+        "status": 200
+      },
+      {
+        "route": "/learn/four-player-chess-strategy/",
+        "status": 200
+      },
+      {
+        "route": "/about/",
+        "status": 200
+      },
+      {
+        "route": "/privacy/",
+        "status": 200
+      }
+    ],
+    "errors": [],
+    "bundle": "/assets/index-DAWAWFLc.js",
+    "highlights": [
+      {
+        "tint": "linear-gradient(rgba(155, 199, 0, 0.5), rgba(155, 199, 0, 0.5))",
+        "base": "rgb(181, 136, 99)"
+      },
+      {
+        "tint": "linear-gradient(rgba(155, 199, 0, 0.3), rgba(155, 199, 0, 0.3))",
+        "base": "rgb(240, 217, 181)"
+      }
+    ],
+    "tablet": {
+      "viewport": "820x1180",
+      "moves": 4,
+      "resize": "keyboard and persisted",
+      "zen": "entered and exited"
+    },
+    "phone": {
+      "viewport": "360x800",
+      "resizeGrip": "hidden",
+      "resizeControl": "Board display slider",
+      "horizontalOverflow": false
+    },
+    "passed": true
+  }
+}
