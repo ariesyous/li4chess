@@ -45,6 +45,16 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
+The maintainer's 2026-11-08 safe-integration request merged
+[PR #29](https://github.com/ariesyous/li4chess/pull/29) (move highlights),
+[#30](https://github.com/ariesyous/li4chess/pull/30) (guides and project pages),
+and [#31](https://github.com/ariesyous/li4chess/pull/31) (tablet resizing).
+Their combined file tree passed local and Linux CI validation; the existing
+Pages workflow published release `02435b0`, verified at li4chess.org. Validation,
+the CI runner compatibility fix, post-merge CI and live evidence are recorded in
+[project state](docs/project-state.md). Milestone status and deferred hosted
+scope are unchanged.
+
 The maintainer selected two evergreen beginner guides and clearer project/trust
 information on 2026-11-08: static rules and strategy pages, About, privacy,
 feedback links and navigation. After local implementation, the maintainer

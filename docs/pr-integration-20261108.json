@@ -1,0 +1,49 @@
+{
+  "revision": "02435b05651bad5806816b85bc947f8fcf0a3d53",
+  "node": "v24.18.0",
+  "checkedAt": "2026-11-09T01:43:29.285Z",
+  "pages": [
+    {
+      "route": "/learn/how-to-play-four-player-chess/",
+      "status": 200
+    },
+    {
+      "route": "/learn/four-player-chess-strategy/",
+      "status": 200
+    },
+    {
+      "route": "/about/",
+      "status": 200
+    },
+    {
+      "route": "/privacy/",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "bundle": "/assets/index-B-gcO_gW.js",
+  "highlights": [
+    {
+      "tint": "linear-gradient(rgba(155, 199, 0, 0.5), rgba(155, 199, 0, 0.5))",
+      "base": "rgb(181, 136, 99)"
+    },
+    {
+      "tint": "linear-gradient(rgba(155, 199, 0, 0.3), rgba(155, 199, 0, 0.3))",
+      "base": "rgb(240, 217, 181)"
+    }
+  ],
+  "tablet": {
+    "viewport": "820x1180",
+    "moves": 4,
+    "resize": "keyboard and persisted",
+    "zen": "entered and exited"
+  },
+  "phone": {
+    "viewport": "360x800",
+    "resizeGrip": "visible",
+    "horizontalOverflow": false
+  },
+  "passed": true,
+  "origin": "https://li4chess.org/",
+  "verification": "Headless Playwright 1.56.1 Chromium with viewport emulation; physical devices and Safari were not tested."
+}
