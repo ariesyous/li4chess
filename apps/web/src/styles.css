@@ -32,7 +32,7 @@ p { line-height: 1.5; }
 .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
 .play-area, .game-sidebar { min-width: 0; }
 /* --board-size is set on the shell only while the player has chosen a size; otherwise the board fits the window. */
-.play-area { --board-fit: 700px; width: 100%; margin: 0 auto; max-width: min(100%, var(--board-size, min(var(--board-fit), var(--board-fit-height, 700px)))); }
+.play-area { --board-fit: 700px; width: 100%; margin: 0 auto; max-width: min(100%, var(--board-fit-height, 700px), var(--board-size, var(--board-fit))); }
 .board-frame { display: flow-root; }
 @media (min-width: 961px) { .play-area { --board-fit: min(max(390px, calc(100dvh - 335px)), 760px); } }
 .turn-banner { min-height: 38px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; justify-content: space-between; font-size: 13px; padding-bottom: 6px; }
@@ -197,6 +197,14 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
   .seat-row label:last-child { grid-column: 2; }
   .resume-card { display: block; margin: 18px 0; padding: 12px; }
   .resume-card p { margin-top: 8px; }
+}
+/* Height-capped boards can be smaller even on wide screens; keep side cards inside the cut-out corners. */
+@media (max-height: 700px) {
+  .player-left, .player-right { padding: 5px 3px; gap: 2px; font-size: 10px; }
+  .player-left .player-name, .player-right .player-name { font-size: 12px; }
+  .player-left .player-name span, .player-right .player-name span { display: none; }
+  .player-left .player-state, .player-right .player-state { font-size: 10px; overflow-wrap: anywhere; }
+  .player-left .player-points, .player-right .player-points { font-size: 18px; }
 }
 /* Zen mode keeps the board, players, essential notices and credits; the board fits the window.
    The 258px reserve covers the slim header, turn banner, player panels, credits line and padding. */

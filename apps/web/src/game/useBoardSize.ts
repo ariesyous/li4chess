@@ -2,6 +2,9 @@ import { useLayoutEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { BOARD_SIZE_STEP, MAX_BOARD_SIZE, MIN_BOARD_SIZE, readBoardSize, snapBoardSize, writeBoardSize } from "./displayPrefs.js";
 
+/** Below this, fixed controls need scrolling; keep the chessboard usable instead of collapsing it. */
+const MIN_FITTED_BOARD_SIZE = 200;
+
 /**
  * The widest board the window could hold in the current arrangement: the viewport minus the shell's padding and,
  * while the side panel sits beside the board, that panel and its gap. It does not depend on the current board
@@ -22,7 +25,7 @@ function measureRoom(shell: HTMLElement, layout: HTMLElement): number {
  */
 export function useBoardSize(zen: boolean) {
   const [preferred, setPreferred] = useState<number | null>(() => readBoardSize());
-  const [room, setRoom] = useState(0);
+  const [room, setRoom] = useState<number | null>(null);
   const [rendered, setRendered] = useState(0);
   const [fitHeight, setFitHeight] = useState(MAX_BOARD_SIZE);
   const shellRef = useRef<HTMLElement>(null);
@@ -44,7 +47,7 @@ export function useBoardSize(zen: boolean) {
       // keep scrolling to the sidebar from changing the automatic board size.
       const available = Math.floor((window.visualViewport?.height ?? window.innerHeight)
         - (frameBox.top + window.scrollY) - chrome - 16);
-      setFitHeight(Math.max(MIN_BOARD_SIZE, available));
+      setFitHeight(Math.max(MIN_FITTED_BOARD_SIZE, available));
     };
     measure();
     const observer = new ResizeObserver(measure);
@@ -57,8 +60,12 @@ export function useBoardSize(zen: boolean) {
     };
   }, [zen]);
 
-  const max = Math.floor(room / BOARD_SIZE_STEP) * BOARD_SIZE_STEP;
+  // A remembered preference is a target; both current window dimensions bound its display.
+  // Leave the first layout unconstrained until it can be measured, rather than measuring a zero-width board.
+  const max = Math.max(BOARD_SIZE_STEP,
+    Math.floor(Math.min(room ?? MAX_BOARD_SIZE, fitHeight) / BOARD_SIZE_STEP) * BOARD_SIZE_STEP);
   const min = Math.min(MIN_BOARD_SIZE, max);
+  const value = snapBoardSize(preferred ?? rendered, min, max);
   const setSize = (size: number) => {
     const next = snapBoardSize(size, min, max);
     setPreferred(next); writeBoardSize(next);
@@ -67,15 +74,15 @@ export function useBoardSize(zen: boolean) {
 
   return {
     shellRef, layoutRef, boardAreaRef, frameRef, boardRef,
-    /** Automatic height fit applies in both modes; the custom width applies outside zen mode. */
+    /** Height bounds every board; the capped custom width applies outside zen mode. */
     style: { "--board-fit-height": `${fitHeight}px`,
-      ...(!zen && preferred !== null ? { "--board-size": `${preferred}px` } : {}),
+      ...(!zen && preferred !== null ? { "--board-size": `${value}px` } : {}),
     } as CSSProperties,
     custom: preferred !== null,
-    canResize: !zen && max > min,
+    canResize: !zen && room !== null && max > min,
     min, max,
     /** What the slider shows: the chosen size, or the fitted width until one is chosen, within what the window holds. */
-    value: snapBoardSize(preferred ?? rendered, min, max),
+    value,
     setSize, reset,
     /** The board's current on-screen width, for drags that start from whatever size is showing. */
     currentWidth: () => boardAreaRef.current?.getBoundingClientRect().width ?? rendered,

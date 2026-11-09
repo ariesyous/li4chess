@@ -73,11 +73,12 @@ clears the selection.
 **Board display** sets the board size with a slider (or drag the grip at the
 board's bottom right with a mouse or finger; double-click it to fit the window
 again). Focus the grip and use arrow keys to resize with a keyboard. The size is
-remembered in this browser and limited by the available width, so wide screens
-can show a larger board than the default. Large custom boards can require page
-scrolling. Phone users can shrink the board too.
-Automatic sizing accounts for the screen height and the board's player panels
-and controls. **Zen mode**, in the header, hides the
+remembered in this browser and limited by the available width and height,
+including space for the player panels and board controls. Resizing the window
+temporarily caps a larger saved choice; that choice returns when there is room.
+Phone users can shrink the board too. Very short windows keep a small usable
+board and allow scrolling; other controls and history can also need scrolling.
+**Zen mode**, in the header, hides the
 header, side panel and help text and fits the board to the window; it is
 remembered too. Leave zen mode to resign, save, export replays or review moves;
 the result, notices and any autosave problem still appear inside it.
