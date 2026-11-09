@@ -48,11 +48,12 @@ standalone outcome; no automatic progression to hosted play is planned.
 The maintainer selected two evergreen beginner guides and clearer project/trust
 information on 2026-11-08: static rules and strategy pages, About, privacy,
 feedback links and navigation. After local implementation, the maintainer
-requested a PR, authorizing a branch, commit and push for review. This bounded
-local/CPU maintenance work adds no milestone or ongoing publishing schedule.
-Merge, deployment, analytics configuration, new gameplay tracking, outreach and
-hosted work remain outside the request. Implementation and validation are
-tracked in [project state](docs/project-state.md).
+requested a PR and then safe merging of all open PRs, including this work and
+the highlight/resize fixes. This bounded local/CPU maintenance work adds no
+milestone or ongoing publishing schedule. The existing Pages workflow publishes
+main; analytics configuration, new gameplay tracking, outreach and hosted work
+remain outside the request. Implementation and validation are tracked in
+[project state](docs/project-state.md).
 
 The maintainer asked for usability improvements on 2026-10-30, starting with a
 resizable board and an optional zen mode. Both are browser-local display choices

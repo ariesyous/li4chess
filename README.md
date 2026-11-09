@@ -62,8 +62,7 @@ Cloudflare Zaraz. Local game storage does not imply an analytics-free public sit
 These pages are linked from setup and the game footer and remain readable without
 JavaScript. With `pnpm dev`, open `/li4chess/learn/how-to-play-four-player-chess/`,
 `/li4chess/learn/four-player-chess-strategy/`, `/li4chess/about/` or
-`/li4chess/privacy/`. This 2026-11-08 addition is awaiting PR review and has
-not been published.
+`/li4chess/privacy/`.
 
 ### Controls and saves
 

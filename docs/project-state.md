@@ -8,17 +8,22 @@ superseded handoffs.
 
 ## Current focus
 
-**Guides and trust information (2026-11-08, PR review requested):** the maintainer
-selected recommendation 1 (two evergreen guides) and 3 (visible project/trust
-information), explicitly requesting a separate Codex chat/worktree and local
-review before any commit or deployment. Work is based on `8a7f28e` in
-`C:\Users\sith\.codex\worktrees\da44\li4chess`; the original checkout and its
-unrelated display/accessibility/documentation edits are untouched. After the
-local implementation and validation, the maintainer explicitly requested a PR,
-authorizing a `codex/guides-and-trust-pages` branch, commit and push for review.
-Merge, publication, production settings changes, gameplay tracking/dashboard and
-outreach remain outside the request. No rules, engine research or hosted scope
-changed.
+**Safe PR integration (2026-11-08, in progress):** the maintainer requested
+review and safe merging of all open PRs: #29 (last-move highlights), #30
+(guides and project information), and #31 (tablet resizing). All three original
+heads passed Linux lint, units and build, but their browser installation failed
+because `ubuntu-latest` selected Ubuntu 26.04, unsupported by the pinned
+Playwright 1.56.1. Default CI now pins Ubuntu 24.04 without changing dependencies
+or skipping browser checks. Review and combined validation precede merging;
+the existing main-push Pages workflow will publish merged changes. Deferred
+multiplayer and hosting configuration remain outside this task.
+
+**Guides and trust information (2026-11-08, implemented for review):** the
+maintainer selected two evergreen guides and visible project/trust information,
+then requested PR #30 after local review. The implementation is based on
+`8a7f28e`; its original validation below predates the combined PR review.
+The later safe-merge request above authorizes integration and the existing
+automatic Pages publication. No rules, engine research or hosted scope changed.
 
 The web build now includes four additional real HTML entry points:
 `learn/how-to-play-four-player-chess/`, `learn/four-player-chess-strategy/`,
@@ -76,13 +81,31 @@ This is headless Chromium viewport emulation, not physical-device or
 screen-reader evidence. Deferred backend campaigns and live analytics settings
 were not audited, and publication/search indexing are not validation claims.
 
-**Next action:** PR and CI review. The local preview URL remains
-`http://127.0.0.1:5194/li4chess/` in this worktree. The PR follow-up updates review
-status in documentation and pins the generated SVGs to LF so fresh Windows
-checkouts retain byte-for-byte diagram verification. Generator verification and
-the Git checkout filter were checked again; implementation validation above is
-from the local implementation work, not a new test run. No merge, deployment or
-follow-on service work is authorized.
+The original PR follow-up pinned generated SVGs to LF so fresh Windows checkouts
+retain byte-for-byte diagram verification. Generator verification and the Git
+checkout filter were checked again; implementation validation above is from the
+local implementation work, not a new test run.
+
+**Last-move square contrast (2026-11-08, local implementation):** the maintainer
+requested Lichess-style highlights that retain each square's light/dark color
+and distinguish the source from the destination. The shared board now overlays
+a translucent green tint on its original square colors, with a softer source
+(30%) and stronger destination (50%). These opacity values are reversible
+implementation choices. Selection, check indicators and piece opacity retain
+their existing appearance. Validation on base `8a7f28e` plus this working tree
+used Windows, Node 24.18.0 and Corepack pnpm 10.33.0. `pnpm lint`, `pnpm test`
+(778 unit results: 63 web tests executed, 715 unchanged results reused from
+Turbo cache), and `pnpm build` passed; the changed UI kit and web lint/build
+tasks executed. All **86 browser tests** passed without retries using
+`pnpm --filter @li4chess/web test:e2e --config .generated/playwright.highlights.config.ts`.
+That ignored temporary config retains the default suite and uses port 5186 with
+a direct Vite invocation, because port 5183 already serves another checkout;
+localhost access required running outside the network sandbox. Desktop captures
+of all four source/destination light/dark pairings and a 360 px phone capture
+were inspected, with the original square colors, distinct tint opacities and
+fully opaque pieces verified in Chromium. This is viewport emulation, not
+physical-device evidence. Local documentation links and diff-format checks
+passed. No local blocker remains; the maintainer requested a PR for review.
 
 **Board size and zen mode (2026-10-30, released 2026-10-31):** the maintainer
 asked for usability improvements, starting with a resizable board
