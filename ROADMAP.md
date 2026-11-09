@@ -45,11 +45,12 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
-The maintainer requested a dynamic board-height cap on 2026-11-08, following the
-slider repair. Custom sizes now use the available window height as well as width,
-with larger saved choices retained for roomier windows. This bounded local/CPU
-maintenance follow-up adds no milestone; validation and publication are tracked
-in [project state](docs/project-state.md).
+The 2026-11-08 dynamic board-height cap shipped through
+[PR #35](https://github.com/ariesyous/li4chess/pull/35) at release `dac9088`,
+following the slider repair. Custom sizes now use the available window height
+as well as width, with larger saved choices retained for roomier windows. CI,
+publication and live checks are recorded in [project state](docs/project-state.md).
+This bounded local/CPU maintenance follow-up adds no milestone.
 
 The 2026-11-08 Board size slider oscillation follow-up shipped through
 [PR #33](https://github.com/ariesyous/li4chess/pull/33) at release `bd92c06`.

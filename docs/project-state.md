@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**Board height cap (2026-11-08, implementation and validation):** the maintainer
+**Board height cap (2026-11-08, released):** the maintainer
 requested a dynamic cap so the board is not cut off at the bottom. This replaces
 the earlier allowance for custom boards taller than the window. Both the range
 and grip now share a maximum derived from available width and measured height
@@ -38,9 +38,42 @@ Chromium reported 199.984px. After using the existing rounded-width convention,
 that case passed its targeted rerun. All 31 production-preview tests passed at
 each base path without retries, and the default project-path build was restored.
 Final short-desktop and narrow-phone captures were inspected. This is headless
-Chromium evidence, without physical-device or Safari testing. Publication and a
-fresh full CI run are next; the previous push/deploy direction is retained for
-this bounded follow-up. Rules, CPU policies and deferred hosted scope are unchanged.
+Chromium evidence, without physical-device or Safari testing. The previous
+push/deploy direction covers this bounded follow-up. Rules, CPU policies and
+deferred hosted scope are unchanged.
+
+[PR #35](https://github.com/ariesyous/li4chess/pull/35) merged as
+`dac9088e078024279f34ed715625b3f7198132b8` after
+[PR CI](https://github.com/ariesyous/li4chess/actions/runs/42560161864)
+passed on exact head `340ff92`: fresh Linux lint, all **782 unit tests**, build,
+**118 browser tests** and **31 production-preview tests**, without retries.
+The merge was guarded by its head SHA, and its file tree matches the validated
+head exactly. The existing
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/42560861485)
+succeeded for `dac9088`.
+[Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/42560861364)
+also passed fresh Linux lint, all **782 unit tests**, build, **118 browser tests**
+and **31 production-preview tests**, without retries.
+
+Fresh live Chromium sessions verified release `dac9088` in
+`/assets/index-Cwdm3OEY.js`. All **10 height-cap cases** and **four native-slider
+drag cases** passed without retries. The seven normal viewports retained the
+whole board frame with no card/square overlap; larger stored sizes survived
+shrink/reload/grow, and both resizing controls stopped at the height limit.
+The very short landscape fallback also passed. Native drags stayed monotonic
+with a stationary track at 1440px and 1920px in normal and tall windows. Desktop
+and narrow-phone live captures were inspected. A Red move and three CPU replies
+reached turn 5; keyboard sizing persisted across reload/resume, Zen mode entered
+and exited, the phone grip stayed visible, and all four information pages served
+HTTP 200 with correct headings/canonicals and loaded diagrams. The smoke run
+reported no page errors. The [deployment evidence](board-height-deployment-20261108.json)
+retains the revision, environment and actual live case results. Hosting settings
+and deferred multiplayer were unchanged.
+
+Publication and verification are complete. This documentation/evidence closeout
+changes ROADMAP, this state file and the live JSON summary only; all 145 local
+Markdown links, JSON parsing and diff-format checks passed. Its commit carries
+`[skip ci]` to preserve the verified deployment and bundle revision.
 
 **Board-size slider oscillation (2026-11-08, released):** the maintainer's QA
 walk-through showed large board sizes alternating with the 280px minimum during
