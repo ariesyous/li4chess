@@ -1,0 +1,104 @@
+{
+  "revision": "bd92c069c6afb75db3cd835d6d88302839eeff6d",
+  "pr": "https://github.com/ariesyous/li4chess/pull/33",
+  "validatedHead": "25ecaacc91f1b1484ea003030fdc794642224cc2",
+  "prCi": "https://github.com/ariesyous/li4chess/actions/runs/42555642508",
+  "deployment": "https://github.com/ariesyous/li4chess/actions/runs/42556300435",
+  "mainCi": "https://github.com/ariesyous/li4chess/actions/runs/42556300386",
+  "verification": "Headless Playwright 1.56.1 Chromium; viewport emulation, with no physical-device or Safari testing.",
+  "slider": {
+    "checkedAt": "2026-11-09T03:26:51.232Z",
+    "url": "https://li4chess.org/",
+    "revision": "bd92c069c6afb75db3cd835d6d88302839eeff6d",
+    "bundle": "/assets/index-D8Cv8jT4.js",
+    "node": "v24.18.0",
+    "browser": "141.0.7390.37",
+    "viewport": {
+      "width": 1920,
+      "height": 945
+    },
+    "initial": {
+      "x": 1606,
+      "y": 562.5,
+      "width": 204,
+      "height": 44
+    },
+    "range": {
+      "min": 280,
+      "max": 1530,
+      "value": 800
+    },
+    "samples": 63,
+    "reversals": 0,
+    "trackMovement": 0,
+    "errors": []
+  },
+  "liveRegressionCases": {
+    "viewports": [
+      {
+        "width": 1440,
+        "height": 945
+      },
+      {
+        "width": 1920,
+        "height": 945
+      }
+    ],
+    "passed": 2,
+    "retries": 0,
+    "checks": [
+      "Real mouse dragging in both directions",
+      "Stationary track",
+      "Board size follows input",
+      "Minimum and maximum bounds",
+      "No horizontal overflow"
+    ]
+  },
+  "smoke": {
+    "revision": "bd92c069c6afb75db3cd835d6d88302839eeff6d",
+    "node": "v24.18.0",
+    "checkedAt": "2026-11-09T03:27:01.694Z",
+    "pages": [
+      {
+        "route": "/learn/how-to-play-four-player-chess/",
+        "status": 200
+      },
+      {
+        "route": "/learn/four-player-chess-strategy/",
+        "status": 200
+      },
+      {
+        "route": "/about/",
+        "status": 200
+      },
+      {
+        "route": "/privacy/",
+        "status": 200
+      }
+    ],
+    "errors": [],
+    "bundle": "/assets/index-D8Cv8jT4.js",
+    "highlights": [
+      {
+        "tint": "linear-gradient(rgba(155, 199, 0, 0.5), rgba(155, 199, 0, 0.5))",
+        "base": "rgb(181, 136, 99)"
+      },
+      {
+        "tint": "linear-gradient(rgba(155, 199, 0, 0.3), rgba(155, 199, 0, 0.3))",
+        "base": "rgb(240, 217, 181)"
+      }
+    ],
+    "tablet": {
+      "viewport": "820x1180",
+      "moves": 4,
+      "resize": "keyboard and persisted",
+      "zen": "entered and exited"
+    },
+    "phone": {
+      "viewport": "360x800",
+      "resizeGrip": "visible",
+      "horizontalOverflow": false
+    },
+    "passed": true
+  }
+}

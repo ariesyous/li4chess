@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**Board-size slider oscillation (2026-11-08, deployment requested):** the maintainer's QA
+**Board-size slider oscillation (2026-11-08, released):** the maintainer's QA
 walk-through showed large board sizes alternating with the 280px minimum during
 a continuous slider drag. Reproduction on base `e0195e6` confirmed 1130 → 280px
 while the pointer continued rightward. Above the default layout's board width,
@@ -32,8 +32,38 @@ no horizontal track movement and no page errors across the same pointer
 sequence that reproduced the bug. Its capture was inspected. All 61 local
 Markdown file links and diff-format checks passed. This is headless Chromium
 evidence; physical devices and Safari were not tested. The maintainer subsequently
-requested pushing and deploying the fix. Publication uses PR CI and the existing
-main-push Pages workflow from `codex/fix-board-slider-oscillation`.
+requested pushing and deploying the fix.
+
+[PR #33](https://github.com/ariesyous/li4chess/pull/33) merged as
+`bd92c069c6afb75db3cd835d6d88302839eeff6d` after
+[PR CI](https://github.com/ariesyous/li4chess/actions/runs/42555642508)
+passed on exact head `25ecaac`: fresh Linux lint, all **782 unit tests**, build,
+**106 browser tests** and **21 production-preview tests**, without retries.
+The merge was guarded by its head SHA, and its file tree matches the validated
+head exactly. The existing
+[Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/42556300435)
+succeeded for `bd92c06`. [Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/42556300386)
+also passed fresh Linux lint, all **782 unit tests**, build, **106 browser tests**
+and **21 production-preview tests**, without retries.
+
+Fresh live Chromium sessions verified release `bd92c06` in
+`/assets/index-D8Cv8jT4.js`. The reported back-and-forth drag sequence produced
+no reversed size changes, no horizontal slider movement and no page errors over
+63 pointer samples. The same two real-mouse regressions also passed on the live
+site at 1440px and 1920px, including both bounds. A Red move and three CPU
+replies reached turn 5; keyboard resizing persisted through reload/resume,
+Zen mode entered/exited correctly, and phone layout retained a visible grip
+without horizontal overflow. All four information pages returned HTTP 200 with
+correct headings/canonicals and loaded diagrams. The live tablet, phone and
+slider captures were inspected. The
+[deployment evidence](slider-deployment-20261108.json) retains the revision,
+runtime and functional checks. Hosting/DNS/analytics settings and deferred
+multiplayer were unchanged.
+
+Publication and verification are complete. This documentation/evidence closeout
+changes ROADMAP, this state file and the live JSON summary only; all 104 local
+Markdown file links, JSON parsing and diff-format checks passed. Its commit
+carries `[skip ci]` to preserve the verified deployment and bundle revision.
 
 **Safe PR integration (2026-11-08, merged and live verified):** the maintainer
 requested review and safe merging of all open PRs. All three were reviewed and
