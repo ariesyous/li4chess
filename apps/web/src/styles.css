@@ -20,6 +20,8 @@ p { line-height: 1.5; }
 .game-shell { max-width: 1240px; margin: auto; padding: 0 24px 24px; }
 /* A chosen board wider than the default layout holds widens the shell: board + 24px gap + 310px side panel + 2 × 24px padding. */
 .local-game { max-width: max(1240px, calc(var(--board-size, 0px) + 382px)); }
+/* Keep the native range stationary while resizing: a moving track feeds the layout change back into the drag. */
+.local-game:has(.board-display[open]) { max-width: none; }
 .app-header { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
 .brand { text-decoration: none; font-size: 30px; font-weight: 400; letter-spacing: -1.3px; color: #514b44; }
 .brand span { display: block; font-size: 11px; letter-spacing: .15px; margin-top: 3px; color: var(--muted); }

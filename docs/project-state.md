@@ -8,6 +8,33 @@ superseded handoffs.
 
 ## Current focus
 
+**Board-size slider oscillation (2026-11-08, deployment requested):** the maintainer's QA
+walk-through showed large board sizes alternating with the 280px minimum during
+a continuous slider drag. Reproduction on base `e0195e6` confirmed 1130 → 280px
+while the pointer continued rightward. Above the default layout's board width,
+the chosen size widened the centered shell and moved the sidebar's native range
+under the pointer, feeding its changed position back into the next input event.
+
+While Board display is open, the local-game shell now uses the available window
+width so the controls keep a fixed horizontal position during a drag. The board
+still resizes live; its dynamic width limit, remembered sizes, Fit to window, corner
+grip and Zen mode retain their contracts. Large custom boards can still require
+vertical scrolling. Two real-mouse regressions at 1440px and 1920px check smooth
+dragging in both directions, stationary controls and both bounds. Both failed
+before the fix and passed afterwards. Fresh validation on `e0195e6` plus this
+working tree used Windows, Node 24.18.0, pnpm 10.33.0 and Playwright 1.56.1
+Chromium. `pnpm lint`, `pnpm test` (**782 unit results**, with 67 web tests
+executed and 715 unchanged results reused from Turbo cache), and `pnpm build`
+passed; the web lint/build tasks executed. All **106 browser tests** and **21
+production-preview tests at each base path** passed without retries. A direct
+production-bundle drag check also passed: no opposite-direction size changes,
+no horizontal track movement and no page errors across the same pointer
+sequence that reproduced the bug. Its capture was inspected. All 61 local
+Markdown file links and diff-format checks passed. This is headless Chromium
+evidence; physical devices and Safari were not tested. The maintainer subsequently
+requested pushing and deploying the fix. Publication uses PR CI and the existing
+main-push Pages workflow from `codex/fix-board-slider-oscillation`.
+
 **Safe PR integration (2026-11-08, merged and live verified):** the maintainer
 requested review and safe merging of all open PRs. All three were reviewed and
 merged in order, after fresh CI passed on their final heads:

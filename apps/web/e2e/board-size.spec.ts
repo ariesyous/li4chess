@@ -128,6 +128,41 @@ test.describe("board size on a 1440×900 window", () => {
 });
 
 test.describe("board size beyond the default layout", () => {
+  for (const width of [1440, 1920]) {
+    test(`dragging the size slider back and forth stays stable at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 945 });
+      await startSolo(page);
+      await openBoardDisplay(page);
+      const range = slider(page);
+      await range.fill("800");
+      const box = (await range.boundingBox())!;
+      const min = Number(await range.getAttribute("min")), max = Number(await range.getAttribute("max"));
+      let x = box.x + 8 + (box.width - 16) * (800 - min) / (max - min);
+      const y = box.y + box.height / 2;
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      for (const [destination, limit] of [[box.x + box.width + 50, max], [box.x - 50, min]] as const) {
+        const start = x;
+        let previous = Number(await range.inputValue());
+        for (let step = 1; step <= 25; step++) {
+          x = start + (destination - start) * step / 25;
+          await page.mouse.move(x, y);
+          // Let React and ResizeObserver settle before checking each real pointer event.
+          await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+          const current = Number(await range.inputValue());
+          if (destination > start) expect(current).toBeGreaterThanOrEqual(previous);
+          else expect(current).toBeLessThanOrEqual(previous);
+          expect(Math.abs((await range.boundingBox())!.x - box.x)).toBeLessThan(1);
+          expect(Math.abs((await board(page).boundingBox())!.width - current)).toBeLessThan(1);
+          previous = current;
+        }
+        await expect(range).toHaveValue(String(limit));
+      }
+      await page.mouse.up();
+      expect(await hasHorizontalScroll(page)).toBe(false);
+    });
+  }
+
   test("on a wide window the board can grow past the default layout without overflowing or crowding the side panel", async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
     await startSolo(page);
