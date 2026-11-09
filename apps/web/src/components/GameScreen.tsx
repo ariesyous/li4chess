@@ -98,6 +98,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
   ].sort((a, b) => a.sequence - b.sequence);
 
   return <main className={`game-shell local-game${zen ? " zen" : ""}`} ref={sizing.shellRef} style={sizing.style}>
+    <div className="board-viewport" aria-hidden="true" ref={sizing.viewportRef} />
     <header className="app-header">
       {!zen && <a className="brand" href="#" onClick={event => { event.preventDefault(); changeSettings(); }}>li4chess<span>Four players. One board.</span></a>}
       {!zen && <div className="context"><strong>Standard FFA</strong><span>{mode} · Local · No clock</span></div>}
@@ -198,7 +199,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
               <output htmlFor={sizeSliderId}>{sizing.value} px</output>
             </div>
             <div className="button-row"><button type="button" disabled={!sizing.custom} onClick={sizing.reset}>Fit to window</button></div>
-            <p className="subtle">Drag the grip at the bottom right of the board with a mouse or finger, or focus it and use arrow keys. The maximum size keeps the board and players within the window.</p>
+            <p className="subtle">Use this slider on a touchscreen. With a mouse, you can also drag the corner grip or focus it and use arrow keys. The maximum size fits the window; game updates keep your board size steady.</p>
           </div>}
           </details>
           <details className="game-tools"><summary>More game tools</summary>

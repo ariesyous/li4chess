@@ -1,12 +1,59 @@
 # Project state
 
-Last updated: 2026-11-08.
+Last updated: 2026-11-09.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Touch and in-game board stability (2026-11-09, implementation and validation):**
+the maintainer reported that mobile scrolling resized the board and that an
+elimination notice changed it again. The earlier desktop drags and viewport-fit
+checks did not cover these interactions. Native touch swipes reproduced the
+grip capturing a scroll; native visual-viewport zoom plus touch pans changed the
+layout width despite an unchanged window. A real Yellow checkmate on a 320×568
+phone reproduced the top card's longer status changing the measured height and
+shrinking both automatic and saved board sizes.
+With real desktop scrollbars enabled, a width-bound saved board also shrank as
+the notice introduced a scrollbar, then grew again when the notice cleared.
+
+The grip now handles mouse and keyboard input, is hidden for coarse pointers,
+and leaves touch gestures to the browser. Touch resizing uses the explicit
+Board display slider. Height fitting uses a measured
+[small viewport](https://www.w3.org/TR/css-values-4/#small-viewport-percentage-units) (`100svh`),
+excluding browser-bar changes and zoom. Initial layout, an actual window change,
+Fit to window or a Zen toggle can fit the board; notices, player
+statuses, selection hints and CPU updates cannot restart that fit. Stored-size
+restoration and the existing height/width caps are retained. Small-board cards
+keep scores on one line and reserve the cut-out corners for status text; the
+score unit remains available to assistive technology. Fit iterations only shrink
+until settled, preventing compact-card breakpoints from oscillating.
+The local game reserves scrollbar space from the start and measures the root's
+rendered width, avoiding Chromium's changing `clientWidth` for an empty gutter.
+
+New coverage observes every board-width change during native phone/tablet swipes,
+zoom and pans, explicit touch-slider input, real checkmate notices appearing and
+clearing, selection and real CPU replies in normal and Zen modes. The checkmate
+cases cover narrow phones through desktop and automatic/saved sizes. They also
+check that the frame remains in the window after mate, with cards clear of
+playable squares and real scrollbar space enabled in the width-bound case.
+Viewport captures avoid the screenshot tool's temporary full-page viewport
+resizes during gameplay measurements.
+
+Fresh final local validation on `7f62725` plus this working tree used Windows,
+Node 24.18.0, pnpm 10.33.0 and Playwright 1.56.1 Chromium/WebKit. Lint, unit
+checks and build passed: **782 unit results**, with 67 web tests executed and
+715 unchanged results reused from Turbo cache; web lint/build tasks executed.
+All **144 Chromium browser tests**, **37 WebKit layout/control checks** and
+**57 production-preview tests at each base path** passed without retries. The
+default project-path build was restored. Final narrow-phone captures before and
+after checkmate were inspected. These are headless browser and viewport-emulation
+checks, including native touch swipes and browser page-scale changes; no physical
+phone or mobile browser toolbar was tested. Publication and fresh full CI are
+next under the existing push/deploy direction. Rules, bot policy, hosting
+configuration and deferred scope are unchanged.
 
 **Board height cap (2026-11-08, released):** the maintainer
 requested a dynamic cap so the board is not cut off at the bottom. This replaces

@@ -218,7 +218,7 @@ test.describe("board size beyond the default layout", () => {
     await expect(page.getByLabel("Show piece-owner letters", { exact: true })).toBeVisible();
     await expect(slider(page)).toHaveCount(1);
     await expect(page.getByTestId("board-resizer")).toHaveCount(1);
-    expect(await boardWidth(page)).toBe(352);
+    expect(await boardWidth(page)).toBe(await page.evaluate(() => document.body.clientWidth - 8));
     await slider(page).focus();
     await page.keyboard.press("Home");
     await expect.poll(() => boardWidth(page)).toBe(280);

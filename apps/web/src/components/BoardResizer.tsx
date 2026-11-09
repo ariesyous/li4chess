@@ -3,12 +3,13 @@ import type { PointerEvent } from "react";
 import { BOARD_SIZE_STEP, boardSizeFromDrag } from "../game/displayPrefs.js";
 import { Icon } from "./Icon.js";
 
-/** Mouse, touch and keyboard grip below the lower-right player panel. */
+/** Mouse and keyboard grip; touch users have an explicit slider in Board display. */
 export function BoardResizer({ getWidth, onResize, onReset, min, max, value }: {
   getWidth: () => number; onResize: (width: number) => void; onReset: () => void;
   min: number; max: number; value: number;
 }) {
   const drag = useRef<{ id: number; x: number; y: number; width: number } | null>(null);
+  const pointerType = useRef("");
   const helpId = useId();
   const endDrag = (event: PointerEvent<HTMLDivElement>) => {
     if (drag.current?.id !== event.pointerId) return;
@@ -29,7 +30,8 @@ export function BoardResizer({ getWidth, onResize, onReset, min, max, value }: {
       event.preventDefault(); onResize(sizes[event.key]);
     }}
     onPointerDown={event => {
-      if (!event.isPrimary || event.button !== 0) return;
+      pointerType.current = event.pointerType;
+      if (event.pointerType !== "mouse" || !event.isPrimary || event.button !== 0) return;
       event.preventDefault();
       event.currentTarget.focus({ preventScroll: true });
       event.currentTarget.setPointerCapture(event.pointerId);
@@ -40,6 +42,6 @@ export function BoardResizer({ getWidth, onResize, onReset, min, max, value }: {
       if (start?.id === event.pointerId) onResize(boardSizeFromDrag(start.width, event.clientX - start.x, event.clientY - start.y));
     }}
     onPointerUp={endDrag} onPointerCancel={endDrag} onLostPointerCapture={endDrag}
-    onDoubleClick={onReset}><Icon name="resize" /></div>
-    <span id={helpId} className="sr-only">Drag to resize the board. Arrow keys adjust the size; Home makes it smallest and End makes it largest. Double-click to fit the window.</span></>;
+    onDoubleClick={() => { if (pointerType.current === "mouse") onReset(); }}><Icon name="resize" /></div>
+    <span id={helpId} className="sr-only">Drag with a mouse to resize the board. Arrow keys adjust the size; Home makes it smallest and End makes it largest. Double-click to fit the window.</span></>;
 }

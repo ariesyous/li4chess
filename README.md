@@ -70,12 +70,15 @@ Click a piece, then a highlighted destination. With a keyboard, **Tab** enters
 the board, **arrow keys** navigate, **Enter/Space** select or move, and **Escape**
 clears the selection.
 
-**Board display** sets the board size with a slider (or drag the grip at the
-board's bottom right with a mouse or finger; double-click it to fit the window
-again). Focus the grip and use arrow keys to resize with a keyboard. The size is
+**Board display** sets the board size with a slider. Touchscreens use this
+explicit control, leaving swipes around the board free to scroll. With a mouse,
+drag the bottom-right grip or double-click it to fit the window again. Focus the
+grip and use arrow keys to resize with a keyboard. The size is
 remembered in this browser and limited by the available width and height,
 including space for the player panels and board controls. Resizing the window
 temporarily caps a larger saved choice; that choice returns when there is room.
+Moves, checkmate notices, touch scrolling and zoom keep the board's layout size
+steady. The height fit uses the stable viewport with room for browser controls.
 Phone users can shrink the board too. Very short windows keep a small usable
 board and allow scrolling; other controls and history can also need scrolling.
 **Zen mode**, in the header, hides the
