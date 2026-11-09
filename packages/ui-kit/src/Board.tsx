@@ -79,6 +79,8 @@ export function Board({
       const isSelected = selectedSquare === square;
       const isLegalTarget = legalTargets?.has(square) ?? false;
       const isLastMove = lastMove?.from === square || lastMove?.to === square;
+      // Tint the original square so the checkerboard stays visible; emphasize the destination.
+      const lastMoveTint = lastMove?.to === square ? "rgba(155, 199, 0, 0.5)" : "rgba(155, 199, 0, 0.3)";
       const isDark = (file + rank) % 2 === 0;
       const isCheckedKingSquare =
         !isDead && piece?.type === PieceType.King && checkedColors?.has(piece.owner) === true;
@@ -107,13 +109,12 @@ export function Board({
             justifyContent: "center",
             fontSize: "clamp(20px, 4.6vw, 36px)",
             cursor: onSquareClick ? "pointer" : "default",
-            background: isSelected
+            backgroundColor: isSelected
               ? "#b7c66c"
-              : isLastMove
-                ? "#cdd18a"
-                : isDark
-                  ? "#b58863"
-                  : "#f0d9b5",
+              : isDark
+                ? "#b58863"
+                : "#f0d9b5",
+            backgroundImage: isLastMove && !isSelected ? `linear-gradient(${lastMoveTint}, ${lastMoveTint})` : undefined,
             boxShadow: isCheckedKingSquare ? "inset 0 0 0 3px #b82020, inset 0 0 18px 5px #e54040" : undefined,
             outline: "none",
             outlineOffset: "-3px",

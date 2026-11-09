@@ -8,6 +8,105 @@ superseded handoffs.
 
 ## Current focus
 
+**Safe PR integration (2026-11-08, in progress):** the maintainer requested
+review and safe merging of all open PRs: #29 (last-move highlights), #30
+(guides and project information), and #31 (tablet resizing). All three original
+heads passed Linux lint, units and build, but their browser installation failed
+because `ubuntu-latest` selected Ubuntu 26.04, unsupported by the pinned
+Playwright 1.56.1. Default CI now pins Ubuntu 24.04 without changing dependencies
+or skipping browser checks. Review and combined validation precede merging;
+the existing main-push Pages workflow will publish merged changes. Deferred
+multiplayer and hosting configuration remain outside this task.
+
+**Guides and trust information (2026-11-08, implemented for review):** the
+maintainer selected two evergreen guides and visible project/trust information,
+then requested PR #30 after local review. The implementation is based on
+`8a7f28e`; its original validation below predates the combined PR review.
+The later safe-merge request above authorizes integration and the existing
+automatic Pages publication. No rules, engine research or hosted scope changed.
+
+The web build now includes four additional real HTML entry points:
+`learn/how-to-play-four-player-chess/`, `learn/four-player-chess-strategy/`,
+`about/` and `privacy/`. Their full text, headings, navigation, descriptions,
+canonical/social metadata and images are available without application rendering.
+The two guides explain the implemented standard FFA contract, common mistakes,
+score-based endings and practical habits without strength/rating guarantees.
+Three original SVG diagrams reuse the credited Cburnett shapes. The generator
+and focused tests validate setup, all four promotion orientations, the complete
+four-move capture trap and the eliminated-high-scorer Claim Win example against
+the actual engine. Sparse examples are labeled teaching checkpoints/crops,
+without claims of prior reachability from a played Modern game.
+
+Setup, static homepage content and local-game credits link to the pages; source,
+license, credits and the existing GitHub Issues destination remain easy to find.
+The About page describes an independent project inspired by Lichess, with no
+affiliation or promised feature schedule. The sitemap lists the homepage and
+four new canonical pages. Vite uses explicit multi-page entries; links and
+assets follow the `/li4chess/` or `/` build base.
+
+Privacy evidence: the 2026-10-18 Zaraz setup record below documents GA4 and
+Clarity. The original checkout's 2026-10-24 project-state records were read
+without editing: GA4 was receiving pageviews, Search Console domain ownership
+was verified and linked to GA4, and its then-one-URL sitemap was successfully
+processed. These resolve the earlier receipt uncertainty, without supplying
+current search performance data. The 2026-10-31 deployment record below also
+observed Cloudflare RUM beacons. The privacy page distinguishes browser saves
+and exported game replays from page/interaction analytics, including Clarity
+session replay, hosting request data and public GitHub reports. Official Google,
+Microsoft, Cloudflare and GitHub documentation informs linked vendor details.
+No account IDs/emails, invented retention or consent configuration, blanket
+no-tracking promise or analytics configuration changes were added. Current
+provider account settings have not been audited in this task.
+
+Fresh validation on `8a7f28e` plus this working tree used Windows, Node 24.18.0,
+Corepack pnpm 10.33.0 and Playwright 1.56.1 Chromium. `pnpm lint`, `pnpm test`
+and `pnpm build` passed. All **67 web unit tests**, including four new guide
+tests, executed; **715 unchanged unit results** came from Turbo cache (**782
+total**). Web lint/build executed; unchanged package tasks used cache. All
+**96 default browser tests** passed without retries, including the retained
+keyboard quick-start flow, CPU turns/recovery, save/replay and zen/resize checks.
+The production-preview suite passed **21 tests at `/li4chess/` and 21 at `/`**,
+the latter after `pnpm --filter @li4chess/web build --base /`. Both production
+runs cover the final privacy wording. The default base is restored for local use.
+
+The page checks cover raw HTML, consistent metadata, all five sitemap locations,
+crawl files, same-origin links and SVG MIME/loading, no-JavaScript direct loads,
+skip links, section navigation and returning to play. The diagram generator's
+`--check` passed; 149 local Markdown file links in the changed documentation
+resolved, and `git diff --check` passed. Desktop and phone captures of all four
+pages and the diagrams were inspected. An additional local layout pass checked
+all pages at 1440×1000, 360×800 and 320×800, with no horizontal overflow or page
+errors; its captures/summary remain in ignored `.generated/growth-review/`.
+This is headless Chromium viewport emulation, not physical-device or
+screen-reader evidence. Deferred backend campaigns and live analytics settings
+were not audited, and publication/search indexing are not validation claims.
+
+The original PR follow-up pinned generated SVGs to LF so fresh Windows checkouts
+retain byte-for-byte diagram verification. Generator verification and the Git
+checkout filter were checked again; implementation validation above is from the
+local implementation work, not a new test run.
+
+**Last-move square contrast (2026-11-08, local implementation):** the maintainer
+requested Lichess-style highlights that retain each square's light/dark color
+and distinguish the source from the destination. The shared board now overlays
+a translucent green tint on its original square colors, with a softer source
+(30%) and stronger destination (50%). These opacity values are reversible
+implementation choices. Selection, check indicators and piece opacity retain
+their existing appearance. Validation on base `8a7f28e` plus this working tree
+used Windows, Node 24.18.0 and Corepack pnpm 10.33.0. `pnpm lint`, `pnpm test`
+(778 unit results: 63 web tests executed, 715 unchanged results reused from
+Turbo cache), and `pnpm build` passed; the changed UI kit and web lint/build
+tasks executed. All **86 browser tests** passed without retries using
+`pnpm --filter @li4chess/web test:e2e --config .generated/playwright.highlights.config.ts`.
+That ignored temporary config retains the default suite and uses port 5186 with
+a direct Vite invocation, because port 5183 already serves another checkout;
+localhost access required running outside the network sandbox. Desktop captures
+of all four source/destination light/dark pairings and a 360 px phone capture
+were inspected, with the original square colors, distinct tint opacities and
+fully opaque pieces verified in Chromium. This is viewport emulation, not
+physical-device evidence. Local documentation links and diff-format checks
+passed. No local blocker remains; the maintainer requested a PR for review.
+
 **Tablet resizing (2026-11-08, implemented for review):** the maintainer requested a
 bottom-right grip after observing a clipped board in a tablet recording, then
 asked for a focused PR. This follow-up is based on `8a7f28e`, preserving the
@@ -37,10 +136,9 @@ Turbo cache), `pnpm build`, and all **94 browser tests** passed with no retries.
 The web lint/build tasks executed freshly; unchanged package tasks reused cache.
 The tablet touch capture was visually inspected; all 135 local Markdown file
 links in README, ROADMAP and this state file resolved, and `git diff --check`
-passed. The validation closeout edits documentation only. PR CI and review are
-next; no merge or deployment is performed. No physical tablet or Safari claim is
-made. Rules, CPU behavior, deferred multiplayer and move highlighting are outside
-this PR. Unrelated local documentation remains in the original checkout.
+passed. This evidence is from the original resize implementation; combined
+integration is covered by the safe-merge work above. No physical tablet or Safari
+claim is made. Rules, CPU behavior and deferred multiplayer are unchanged.
 
 **Board size and zen mode (2026-10-30, released 2026-10-31):** the maintainer
 asked for usability improvements, starting with a resizable board

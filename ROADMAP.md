@@ -45,6 +45,16 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
+The maintainer selected two evergreen beginner guides and clearer project/trust
+information on 2026-11-08: static rules and strategy pages, About, privacy,
+feedback links and navigation. After local implementation, the maintainer
+requested a PR and then safe merging of all open PRs, including this work and
+the highlight/resize fixes. This bounded local/CPU maintenance work adds no
+milestone or ongoing publishing schedule. The existing Pages workflow publishes
+main; analytics configuration, new gameplay tracking, outreach and hosted work
+remain outside the request. Implementation and validation are tracked in
+[project state](docs/project-state.md).
+
 The maintainer requested a bottom-right resize grip on 2026-11-08 after observing
 tablet clipping. This maintenance follow-up builds on the released board-size
 controls: mouse/touch and keyboard dragging, phone resizing and height-aware

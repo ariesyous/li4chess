@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About li4chess: Free, Open-Source Four-Player Chess</title>
+    <meta name="description" content="Meet li4chess, an independent four-player chess project. Learn what you can play, find source code and asset credits, and report a bug or share feedback." />
+    <link rel="canonical" href="https://li4chess.org/about/" />
+    <meta name="theme-color" content="#eeece8" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="li4chess" />
+    <meta property="og:title" content="About li4chess: Free, Open-Source Four-Player Chess" />
+    <meta property="og:description" content="Meet li4chess, an independent four-player chess project. Learn what you can play, find source code and asset credits, and report a bug or share feedback." />
+    <meta property="og:url" content="https://li4chess.org/about/" />
+    <meta property="og:image" content="https://li4chess.org/social-preview.png" />
+    <meta property="og:image:alt" content="Four armies on the li4chess cross-shaped board" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About li4chess: Free, Open-Source Four-Player Chess" />
+    <meta name="twitter:description" content="Meet li4chess, an independent four-player chess project. Learn what you can play, find source code and asset credits, and report a bug or share feedback." />
+    <meta name="twitter:image" content="https://li4chess.org/social-preview.png" />
+    <link rel="stylesheet" href="/src/information.css" />
+  </head>
+  <body class="information-page">
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="info-header">
+      <a class="info-brand" href="%BASE_URL%" aria-label="li4chess home">li<span>4</span>chess</a>
+      <nav aria-label="Main navigation"><a href="%BASE_URL%">Play</a>
+        <a href="%BASE_URL%learn/how-to-play-four-player-chess/">How to play</a>
+        <a href="%BASE_URL%learn/four-player-chess-strategy/">Strategy</a><a href="%BASE_URL%about/" aria-current="page">About</a></nav>
+    </header>
+    <div class="info-layout">
+      <main id="content" class="info-article" tabindex="-1">
+        <article aria-labelledby="page-title">
+          <p class="eyebrow">The project</p>
+          <h1 id="page-title">About li4chess</h1>
+          <p class="lead">li4chess is a free, ad-free, open-source way to play four-player chess in your browser.
+            An independent project, made for local games and computer opponents.</p>
+          <p>The name and visual style take inspiration from <a href="https://lichess.org/">Lichess</a>.
+            li4chess is independently maintained and is not affiliated with or endorsed by Lichess or Chess.com.
+            Its four-player free-for-all rules follow the project's documented standard FFA contract.</p>
+          <a class="primary-button" href="%BASE_URL%">Play four-player chess</a>
+
+          <h2 id="play">What you can play here</h2>
+          <p>Play Red against three computers, mix human and CPU seats, or share one device with friends.
+            Computers run in your browser with ten difficulty levels. The game has no running clocks,
+            and you do not need an account, subscription or installation.</p>
+          <p>Legal-move highlights, keyboard controls, optional owner letters and board rotation help you follow four armies.
+            You can resize the board, use Zen mode, resume a browser-local save or export a replay to keep it.</p>
+          <p>The public site offers local and CPU play. Online friend-invite rooms, matchmaking,
+            persistent accounts and ratings are not available here. Development work preserved in the repository
+            does not imply an upcoming public service or a promised feature schedule.</p>
+          <p>New to this format? Read <a href="%BASE_URL%learn/how-to-play-four-player-chess/">the rules and scoring guide</a>,
+            then try <a href="%BASE_URL%learn/four-player-chess-strategy/">the beginner strategy guide</a>.</p>
+
+          <h2 id="feedback">Feedback and bug reports</h2>
+          <p>Use <a href="https://github.com/ariesyous/li4chess/issues">li4chess GitHub Issues</a>
+            to report a bug, ask a question about the game or suggest a focused improvement.
+            Reading existing reports is public; creating a report requires a GitHub account.</p>
+          <p>A useful bug report includes:</p>
+          <ul>
+            <li>What you expected, what happened, and the steps that reproduce it.</li>
+            <li>Your browser and device, plus a screenshot if it explains the problem.</li>
+            <li>A replay exported from <strong>More game tools</strong>, when the issue concerns a game position.</li>
+          </ul>
+          <p>Reports and attachments are public. Remove personal information before sharing them.
+            Feedback is welcome, but there is no guaranteed response time or delivery commitment.</p>
+          <div class="info-callout">
+            <p><a href="https://github.com/ariesyous/li4chess/issues">Give feedback or report a bug →</a></p>
+          </div>
+
+          <h2 id="open-source">Source, licensing and credits</h2>
+          <p>The application source is available in the <a href="https://github.com/ariesyous/li4chess">li4chess GitHub repository</a>
+            under <a href="https://github.com/ariesyous/li4chess/blob/main/LICENSE">GNU AGPL version 3 only</a>.
+            The repository includes setup instructions, the rules specification, tests and project decisions.</p>
+          <p>The chess piece artwork is by <strong>Colin M. L. Burnett</strong>, reused under
+            <strong>GPL version 2 or later</strong> from the Lichess source repository.
+            li4chess adapts its colors for the four armies. The learning diagrams use the same credited shapes
+            on original li4chess board layouts.</p>
+          <p>Browser CPU play uses the MIT-licensed <strong>Tetrarch v8</strong> adviser by IchNukeDichWeg,
+            with li4chess validating moves and determining rules and results. CPU levels describe resource budgets;
+            no measured rating or playing-strength guarantee is claimed.</p>
+          <p>See <a href="https://github.com/ariesyous/li4chess/blob/main/THIRD_PARTY_NOTICES.md">the complete third-party notices</a>
+            for retained licenses, upstream sources and runtime credits, including Emscripten.</p>
+
+          <h2 id="privacy">Local games and website analytics</h2>
+          <p>Your game and display preferences are saved in this browser when storage is available.
+            The public website also uses Google Analytics 4 and Microsoft Clarity through Cloudflare Zaraz
+            to understand visits and usability. Clarity can collect visible interactions for session replay.</p>
+          <p>Read <a href="%BASE_URL%privacy/">Privacy on li4chess</a> for the distinction between local game files,
+            website analytics and hosting, along with provider information and browser controls.</p>
+          <p class="reading-note">Information reviewed November 8, 2026.</p>
+        </article>
+      </main>
+      <nav class="info-toc" aria-label="On this page"><p>On this page</p>
+        <a href="#play">What you can play</a><a href="#feedback">Feedback &amp; bugs</a>
+        <a href="#open-source">Source &amp; credits</a><a href="#privacy">Privacy</a>
+      </nav>
+    </div>
+    <footer class="info-footer"><span>Free, local &amp; open source</span>
+      <a href="%BASE_URL%about/">About</a><a href="%BASE_URL%privacy/">Privacy</a>
+      <a href="https://github.com/ariesyous/li4chess/issues">Feedback / report a bug</a>
+      <a href="https://github.com/ariesyous/li4chess">Source</a><a href="https://github.com/ariesyous/li4chess/blob/main/LICENSE">License</a>
+      <a href="https://github.com/ariesyous/li4chess/blob/main/THIRD_PARTY_NOTICES.md">Pieces &amp; credits</a>
+    </footer>
+  </body>
+</html>

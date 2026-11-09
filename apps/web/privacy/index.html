@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy on li4chess: Local Saves &amp; Website Analytics</title>
+    <meta name="description" content="How li4chess uses browser-local saves, Google Analytics 4, Microsoft Clarity and Cloudflare Zaraz, plus hosting, replay files and your browser controls." />
+    <link rel="canonical" href="https://li4chess.org/privacy/" />
+    <meta name="theme-color" content="#eeece8" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="li4chess" />
+    <meta property="og:title" content="Privacy on li4chess: Local Saves &amp; Website Analytics" />
+    <meta property="og:description" content="How li4chess uses browser-local saves, Google Analytics 4, Microsoft Clarity and Cloudflare Zaraz, plus hosting, replay files and your browser controls." />
+    <meta property="og:url" content="https://li4chess.org/privacy/" />
+    <meta property="og:image" content="https://li4chess.org/social-preview.png" />
+    <meta property="og:image:alt" content="Four armies on the li4chess cross-shaped board" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Privacy on li4chess: Local Saves &amp; Website Analytics" />
+    <meta name="twitter:description" content="How li4chess uses browser-local saves, Google Analytics 4, Microsoft Clarity and Cloudflare Zaraz, plus hosting, replay files and your browser controls." />
+    <meta name="twitter:image" content="https://li4chess.org/social-preview.png" />
+    <link rel="stylesheet" href="/src/information.css" />
+  </head>
+  <body class="information-page">
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="info-header">
+      <a class="info-brand" href="%BASE_URL%" aria-label="li4chess home">li<span>4</span>chess</a>
+      <nav aria-label="Main navigation"><a href="%BASE_URL%">Play</a>
+        <a href="%BASE_URL%learn/how-to-play-four-player-chess/">How to play</a>
+        <a href="%BASE_URL%learn/four-player-chess-strategy/">Strategy</a><a href="%BASE_URL%about/">About</a></nav>
+    </header>
+    <div class="info-layout">
+      <main id="content" class="info-article" tabindex="-1">
+        <article aria-labelledby="page-title">
+          <p class="eyebrow">The project · Privacy</p>
+          <h1 id="page-title">Privacy on li4chess</h1>
+          <p class="lead">The game runs on your device. The public website also uses analytics
+            to understand visits and how the interface is used.</p>
+          <p class="reading-note">Last reviewed November 8, 2026. This explanation covers the public local/CPU site at li4chess.org.</p>
+          <div class="info-callout">
+            <p><strong>At a glance:</strong> no li4chess account is needed. Game saves stay in this browser.
+              Google Analytics 4 and Microsoft Clarity are configured through Cloudflare Zaraz;
+              Clarity can collect page interactions for heatmaps and session replays.</p>
+          </div>
+
+          <h2 id="local-data">Games, preferences and replay files</h2>
+          <p>li4chess uses browser storage to keep one saved game and display choices such as board size,
+            Zen mode and owner letters. Saves include the game position, seat choices and move history.
+            They are specific to this browser and device and do not sync to a cloud-save account.</p>
+          <p>Starting a new game replaces the saved game. Clearing this site's browser data can remove the save
+            and preferences. Private browsing or blocked storage can prevent a save from persisting.</p>
+          <p>Importing a replay reads the file in your browser. Exporting creates a file for you to download.
+            There is no automatic replay-upload feature. If you attach a replay or screenshot to a GitHub report,
+            it becomes public with that report.</p>
+          <p>Browser-local storage is separate from analytics. Information displayed on the page and your
+            interactions with the board or controls may be visible to the analytics services described below.</p>
+
+          <h2 id="analytics">Google Analytics 4 and Microsoft Clarity</h2>
+          <p>These services are configured at the Cloudflare edge using <strong>Zaraz</strong>.
+            Cloudflare can add the analytics integration while delivering the site,
+            even though the application's source HTML contains no analytics tag.</p>
+          <h3>Google Analytics 4: visits and usage</h3>
+          <p>GA4 helps the project understand page visits and overall site use. Google's documentation describes
+            session statistics, approximate location, and browser and device information among its default data categories.
+            Analytics can use browser identifiers and cookies, depending on the integration and storage settings.</p>
+          <p>See <a href="https://support.google.com/analytics/answer/11593727">Google's data collection explanation</a>
+            and <a href="https://policies.google.com/privacy">Google's Privacy Policy</a> for provider details.</p>
+          <h3>Microsoft Clarity: interface interactions</h3>
+          <p>Clarity helps identify confusing controls and usability problems through behavioral metrics,
+            heatmaps and session replay. It can collect clicks or taps, scrolling, mouse movement,
+            page structure and displayed content, along with technical and diagnostic information.
+            A session replay reconstructs visible website interactions; it is separate from an exported li4chess chess replay.</p>
+          <p>Clarity uses cookies and other tracking technologies, with collection depending on service settings,
+            browser behavior and applicable consent signals. Microsoft processes this information under its own policies;
+            its disclosure also describes uses for site optimization, security and advertising.</p>
+          <p>See <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-data">Clarity's data collection documentation</a>,
+            <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/privacy-disclosure">Microsoft's Clarity disclosure</a>
+            and the <a href="https://privacy.microsoft.com/en-us/privacystatement">Microsoft Privacy Statement</a>.</p>
+
+          <h2 id="hosting">Hosting and other services</h2>
+          <p>The website's files are hosted on <strong>GitHub Pages</strong> and delivered through
+            <strong>Cloudflare</strong>. Requests pass through these providers to load the site.
+            They may process technical request data such as your IP address, requested URL and browser information
+            to deliver, operate and protect their services.</p>
+          <p>Cloudflare also supplies Zaraz for the analytics integrations. Recent deployment checks recorded
+            Cloudflare RUM performance beacons on the public site; performance telemetry is another form of website measurement.</p>
+          <p>Read <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's Privacy Statement</a>,
+            <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare's Privacy Policy</a>
+            and <a href="https://developers.cloudflare.com/zaraz/faq/">the Zaraz FAQ</a> for more information.</p>
+          <p>Links to source code, credits and feedback lead to GitHub. Using GitHub to create an issue is subject
+            to its account and privacy terms. The public game itself does not create a li4chess account or offer hosted multiplayer.</p>
+
+          <h2 id="choices">Your browser controls</h2>
+          <ul>
+            <li><strong>Keep a game before clearing data.</strong> Export its replay from More game tools,
+              then use your browser's site-data controls to remove local storage and cookies.</li>
+            <li><strong>Manage cookies and tracking.</strong> Browser privacy controls or content blockers may limit analytics.
+              Blocking cookies alone may still allow some measurement; it does not guarantee that all collection stops.</li>
+            <li><strong>Read without JavaScript.</strong> These information pages and guides remain readable.
+              Playing the game requires JavaScript.</li>
+            <li><strong>Run your own copy.</strong> The <a href="https://github.com/ariesyous/li4chess#run-locally">repository's local setup instructions</a>
+              let you play outside the public domain's Cloudflare analytics injection.</li>
+          </ul>
+          <p>Analytics cookie behavior, retention and consent handling depend on the live service configuration
+            and provider policies. Site-specific retention periods and a universal analytics opt-out are not published here.
+            Consult the linked policies for provider controls and privacy rights.</p>
+          <h2 id="questions">Questions or corrections</h2>
+          <p>For questions about this explanation, use <a href="https://github.com/ariesyous/li4chess/issues">li4chess GitHub Issues</a>.
+            It is a public channel: keep account details, identifiers and other private information out of your report.</p>
+          <p><a href="%BASE_URL%about/">More about the project, source and credits →</a></p>
+        </article>
+      </main>
+      <nav class="info-toc" aria-label="On this page"><p>On this page</p>
+        <a href="#local-data">Local saves &amp; files</a><a href="#analytics">Analytics</a><a href="#hosting">Hosting &amp; services</a>
+        <a href="#choices">Browser controls</a><a href="#questions">Questions</a>
+      </nav>
+    </div>
+    <footer class="info-footer"><span>Free, local &amp; open source</span>
+      <a href="%BASE_URL%about/">About</a><a href="%BASE_URL%privacy/" aria-current="page">Privacy</a>
+      <a href="https://github.com/ariesyous/li4chess/issues">Feedback / report a bug</a>
+      <a href="https://github.com/ariesyous/li4chess">Source</a><a href="https://github.com/ariesyous/li4chess/blob/main/LICENSE">License</a>
+      <a href="https://github.com/ariesyous/li4chess/blob/main/THIRD_PARTY_NOTICES.md">Pieces &amp; credits</a>
+    </footer>
+  </body>
+</html>
