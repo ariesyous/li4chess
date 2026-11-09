@@ -1,9 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import { BOARD_SIZE_STEP, MIN_BOARD_SIZE, readBoardSize, snapBoardSize, writeBoardSize } from "./displayPrefs.js";
-
-/** With less spare range than this the board already fills the window, so resizing controls would do nothing useful. */
-const MIN_RESIZE_RANGE = 60;
+import { BOARD_SIZE_STEP, MAX_BOARD_SIZE, MIN_BOARD_SIZE, readBoardSize, snapBoardSize, writeBoardSize } from "./displayPrefs.js";
 
 /**
  * The widest board the window could hold in the current arrangement: the viewport minus the shell's padding and,
@@ -21,28 +18,43 @@ function measureRoom(shell: HTMLElement, layout: HTMLElement): number {
 
 /**
  * Remembered custom board size for the local game screen. Until a size is chosen the stylesheet fits the board to
- * the window. Attach the three refs to the game shell, its layout grid and the board's play area.
+ * the window. Refs measure the shell, layout, play area, board frame and square board.
  */
 export function useBoardSize(zen: boolean) {
   const [preferred, setPreferred] = useState<number | null>(() => readBoardSize());
   const [room, setRoom] = useState(0);
   const [rendered, setRendered] = useState(0);
+  const [fitHeight, setFitHeight] = useState(MAX_BOARD_SIZE);
   const shellRef = useRef<HTMLElement>(null);
   const layoutRef = useRef<HTMLDivElement>(null);
   const boardAreaRef = useRef<HTMLElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const shell = shellRef.current, layout = layoutRef.current, boardArea = boardAreaRef.current;
-    if (!shell || !layout || !boardArea) return;
+    const frame = frameRef.current, board = boardRef.current;
+    if (!shell || !layout || !boardArea || !frame || !board) return;
     const measure = () => {
       setRoom(measureRoom(shell, layout));
       setRendered(Math.round(boardArea.getBoundingClientRect().width));
+      const frameBox = frame.getBoundingClientRect();
+      const chrome = frameBox.height - board.getBoundingClientRect().height;
+      // Include the actual panels and wrapped controls. Document coordinates
+      // keep scrolling to the sidebar from changing the automatic board size.
+      const available = Math.floor((window.visualViewport?.height ?? window.innerHeight)
+        - (frameBox.top + window.scrollY) - chrome - 16);
+      setFitHeight(Math.max(MIN_BOARD_SIZE, available));
     };
     measure();
     const observer = new ResizeObserver(measure);
-    observer.observe(layout); observer.observe(boardArea);
+    observer.observe(layout); observer.observe(boardArea); observer.observe(frame);
     window.addEventListener("resize", measure);
-    return () => { observer.disconnect(); window.removeEventListener("resize", measure); };
+    window.visualViewport?.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect(); window.removeEventListener("resize", measure);
+      window.visualViewport?.removeEventListener("resize", measure);
+    };
   }, [zen]);
 
   const max = Math.floor(room / BOARD_SIZE_STEP) * BOARD_SIZE_STEP;
@@ -54,11 +66,13 @@ export function useBoardSize(zen: boolean) {
   const reset = () => { setPreferred(null); writeBoardSize(null); };
 
   return {
-    shellRef, layoutRef, boardAreaRef,
-    /** Carries the chosen size into the stylesheet; absent while the window decides, and always in zen mode. */
-    style: !zen && preferred !== null ? { "--board-size": `${preferred}px` } as CSSProperties : undefined,
+    shellRef, layoutRef, boardAreaRef, frameRef, boardRef,
+    /** Automatic height fit applies in both modes; the custom width applies outside zen mode. */
+    style: { "--board-fit-height": `${fitHeight}px`,
+      ...(!zen && preferred !== null ? { "--board-size": `${preferred}px` } : {}),
+    } as CSSProperties,
     custom: preferred !== null,
-    canResize: !zen && max - min >= MIN_RESIZE_RANGE,
+    canResize: !zen && max > min,
     min, max,
     /** What the slider shows: the chosen size, or the fitted width until one is chosen, within what the window holds. */
     value: snapBoardSize(preferred ?? rendered, min, max),

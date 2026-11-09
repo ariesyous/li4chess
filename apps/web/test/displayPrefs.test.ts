@@ -80,10 +80,12 @@ it("remembers zen mode only when it was explicitly turned on", () => {
   for (const raw of ["", "1", "yes", "TRUE", "false"]) expect(readZenMode(storage({ [ZEN_MODE_KEY]: raw })), `stored ${JSON.stringify(raw)}`).toBe(false);
 });
 
-it("sizes the board from a sideways drag of its top-right grip", () => {
+it("sizes the board from horizontal or vertical drags of its bottom-right grip", () => {
   // The board is centered, so its right edge moves half as far as its width: dragging the grip by dx changes the width by 2·dx.
   expect(boardSizeFromDrag(565, 0)).toBe(565);
   expect(boardSizeFromDrag(565, 100)).toBe(765);
   expect(boardSizeFromDrag(565, -100)).toBe(365);
   expect(boardSizeFromDrag(500, 0.5)).toBe(501);
+  expect(boardSizeFromDrag(700, 0, -80)).toBe(620);
+  expect(boardSizeFromDrag(700, -10, -80)).toBe(620);
 });

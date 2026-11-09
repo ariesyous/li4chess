@@ -55,6 +55,12 @@ main; analytics configuration, new gameplay tracking, outreach and hosted work
 remain outside the request. Implementation and validation are tracked in
 [project state](docs/project-state.md).
 
+The maintainer requested a bottom-right resize grip on 2026-11-08 after observing
+tablet clipping. This maintenance follow-up builds on the released board-size
+controls: mouse/touch and keyboard dragging, phone resizing and height-aware
+automatic fitting. Existing custom sizes and Zen mode are retained; no new
+milestone is added. Implementation and validation are tracked in project state.
+
 The maintainer asked for usability improvements on 2026-10-30, starting with a
 resizable board and an optional zen mode. Both are browser-local display choices
 on the local game screen, with no rules, CPU, save/replay, hosting or multiplayer

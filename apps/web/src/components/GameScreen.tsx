@@ -111,6 +111,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
     </header>
     <div className="game-layout" ref={sizing.layoutRef}>
       <section className="play-area" ref={sizing.boardAreaRef} aria-label="Game board and players">
+        <div className="board-frame" ref={sizing.frameRef}>
         <div className="turn-banner" data-testid="turn-banner" ref={turnBanner} tabIndex={-1} aria-live="polite" aria-atomic="true">
           {state.result ? <span>{state.result.reason === "abort" ? "Game aborted" : "Game finished"} · Results below</span> :
             <span data-testid="turn-status">Turn {state.turnNumber} — <strong>{soloHuman === state.turn && !humanEliminated ? "Your turn · " : ""}{PLAYER_COLOR_NAME[state.turn]} to move</strong>{checkedColors.has(state.turn) ? " · Check" : ""}</span>}
@@ -131,17 +132,19 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
               <span className="player-state">{status}</span>
             </section>;
           })}
-          <div className="board-slot"><Board board={state.board} onSquareClick={selectSquare} onClearSelection={clearSelection}
+          <div className="board-slot" ref={sizing.boardRef}><Board board={state.board} onSquareClick={selectSquare} onClearSelection={clearSelection}
             showOwnerLetters={showOwnerLetters}
             selectedSquare={selectedSquare} legalTargets={legalTargets} checkedColors={checkedColors} deadSquares={deadSquares}
             lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null} bottomColor={bottomColor} /></div>
-          {sizing.canResize && <BoardResizer getWidth={sizing.currentWidth} onResize={sizing.setSize} onReset={sizing.reset} />}
         </div>
         {!zen && <div className="board-tools">
           <label><input type="checkbox" checked={rotateToMover} onChange={event => setRotateToMover(event.target.checked)} /> Rotate board to current player</label>
           <span>Bottom: {PLAYER_COLOR_NAME[bottomColor]}</span>
+          {sizing.canResize && <BoardResizer getWidth={sizing.currentWidth} onResize={sizing.setSize} onReset={sizing.reset}
+            min={sizing.min} max={sizing.max} value={sizing.value} />}
         </div>}
         <p className={zen ? "sr-only" : "board-help"} role="status">{selectedSquare === null ? "Select a piece, then a marked square. Keyboard: arrows, Enter / Space; Escape clears." : `${squareLabel(selectedSquare)} selected · ${legalTargets.size} legal destinations. Choose a marked square; Escape clears.`}</p>
+        </div>
         {cpuNotice && <p className="notice" role="status">{cpuNotice}</p>}
         {zen && game.saveFailed && <section className="notice" data-testid="zen-save-warning" role="status" aria-label="Autosave problem">
           <p>Could not save on this browser. Your latest moves may not survive a refresh. Leave zen mode to export a replay to keep them.</p>
@@ -195,7 +198,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
               <output htmlFor={sizeSliderId}>{sizing.value} px</output>
             </div>
             <div className="button-row"><button type="button" disabled={!sizing.custom} onClick={sizing.reset}>Fit to window</button></div>
-            <p className="subtle">You can also drag the grip in the board's top-right corner. Zen mode always fits the board to the window.</p>
+            <p className="subtle">Drag the grip at the bottom right of the board with a mouse or finger, or focus it and use arrow keys. Zen mode always fits the board to the window.</p>
           </div>}
           </details>
           <details className="game-tools"><summary>More game tools</summary>

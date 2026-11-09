@@ -49,6 +49,7 @@ test("keyboard-only setup, board selection, clearing, move and game controls", a
   await page.keyboard.press("Enter"); await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
   await page.keyboard.press("Tab"); await expect(page.getByLabel("Rotate board to current player")).toBeFocused();
   await page.keyboard.press("Space"); await expect(page.locator(".chess-board")).toHaveAttribute("data-bottom-color", "1");
+  await page.keyboard.press("Tab"); await expect(page.getByRole("slider", { name: "Resize board", exact: true })).toBeFocused();
   await page.keyboard.press("Tab"); await expect(page.getByRole("button", { name: "Resign Blue", exact: true })).toBeFocused();
   await page.keyboard.press("Tab"); await expect(page.getByText("Board display", { exact: true })).toBeFocused();
   await page.keyboard.press("Tab"); await expect(page.locator("summary").filter({ hasText: /^More game tools$/ })).toBeFocused();

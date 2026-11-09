@@ -5,8 +5,8 @@
 export const BOARD_SIZE_KEY = "li4chess.board-size";
 export const ZEN_MODE_KEY = "li4chess.zen-mode";
 
-/** Smallest custom board in CSS pixels; matches the floor of the automatic fit, where panels and pieces stay legible. */
-export const MIN_BOARD_SIZE = 390;
+/** Smallest custom board in CSS pixels, allowing phone and tablet users to shrink the board too. */
+export const MIN_BOARD_SIZE = 280;
 /** Sanity bound for stored values only. The layout always clamps to the room the window actually offers. */
 export const MAX_BOARD_SIZE = 8000;
 /** Granularity of the slider and of drag resizing. */
@@ -52,10 +52,11 @@ export function writeZenMode(zen: boolean, storage: PreferenceStorage | null = b
 }
 
 /**
- * Board width after dragging the grip in the board's top-right corner sideways by `dx` from a board of `startSize`.
+ * Board width after dragging the bottom-right grip from a board of `startSize`.
  * The board is centered, so its right edge moves half as far as its width changes; doubling the pointer's
- * movement keeps the grip under the pointer. Vertical movement does not matter.
+ * movement keeps the grip under the pointer. A vertical drag changes the height by the same distance.
  */
-export function boardSizeFromDrag(startSize: number, dx: number): number {
-  return startSize + 2 * dx;
+export function boardSizeFromDrag(startSize: number, dx: number, dy = 0): number {
+  const horizontal = 2 * dx;
+  return startSize + (Math.abs(horizontal) >= Math.abs(dy) ? horizontal : dy);
 }

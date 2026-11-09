@@ -30,7 +30,8 @@ p { line-height: 1.5; }
 .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
 .play-area, .game-sidebar { min-width: 0; }
 /* --board-size is set on the shell only while the player has chosen a size; otherwise the board fits the window. */
-.play-area { --board-fit: 700px; width: 100%; margin: 0 auto; max-width: min(100%, var(--board-size, var(--board-fit))); }
+.play-area { --board-fit: 700px; width: 100%; margin: 0 auto; max-width: min(100%, var(--board-size, min(var(--board-fit), var(--board-fit-height, 700px)))); }
+.board-frame { display: flow-root; }
 @media (min-width: 961px) { .play-area { --board-fit: min(max(390px, calc(100dvh - 335px)), 760px); } }
 .turn-banner { min-height: 38px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; justify-content: space-between; font-size: 13px; padding-bottom: 6px; }
 .turn-banner [data-testid="cpu-status"] { font-size: 11px; color: var(--muted); }
@@ -57,11 +58,12 @@ p { line-height: 1.5; }
 .player-left .player-points, .player-right .player-points { font-size: 20px; }
 .current-player { background: #fff; box-shadow: inset 0 0 0 1px #817b70, 0 2px 4px #2926211c; }
 .current-player .player-state { font-weight: 700; color: #32671e; }
-.board-tools { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; padding-top: 4px; }
+.board-tools { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; padding: 4px 48px 0 0; }
+.board-tools label { flex: 1; min-width: 0; }
 .board-tools span { white-space: nowrap; color: var(--muted); }
-/* The board's top-right corner is empty (cut off the cross) and no seat panel sits there, so the grip needs no board space. */
-.board-resizer { position: absolute; top: 0; right: 0; z-index: 1; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 3px; color: var(--muted); cursor: ew-resize; touch-action: none; user-select: none; }
-.board-resizer:hover { background: #e8e5df; color: #25221e; }
+/* The grip sits below the lower-right player card, clear of playable squares and player information. */
+.board-resizer { position: absolute; top: 0; right: 0; z-index: 1; display: grid; place-items: end; width: 44px; height: 44px; padding: 8px; border-radius: 3px; color: var(--muted); cursor: nwse-resize; touch-action: none; user-select: none; }
+.board-resizer:hover, .board-resizer:focus-visible { background: #e8e5df; color: #25221e; }
 .board-resizer .control-icon { width: 22px; height: 22px; margin: 0; vertical-align: 0; }
 .board-help { font-size: 11px; color: var(--muted); min-height: 32px; margin: 4px 0 8px; }
 .game-sidebar { display: flex; flex-direction: column; gap: 14px; padding-top: 38px; }
@@ -173,7 +175,7 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
   .player-left, .player-right { padding: 5px 3px; gap: 3px; min-height: 76px; font-size: 10px; }
   .player-left .player-state, .player-right .player-state { font-size: 10px; overflow-wrap: anywhere; }
   .player-points { font-size: 18px; }
-  .board-tools { padding: 4px; font-size: 10px; gap: 4px; }
+  .board-tools { padding: 4px 48px 4px 4px; font-size: 10px; gap: 4px; }
   .board-tools label { gap: 4px; }
   .board-help { padding: 0 5px; }
   .game-layout { gap: 8px; }

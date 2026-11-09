@@ -21,11 +21,13 @@ test.describe("board size on a 1440×900 window", () => {
 
   test("the Board size slider resizes the board, is remembered, and Fit to window restores the automatic size", async ({ page }) => {
     await startSolo(page);
-    // The automatic fit (window height − 335px) is the unchanged default.
+    // The automatic fit includes the actual player cards, controls and wrapped help.
     const fitted = await boardWidth(page);
-    expect(fitted).toBe(565);
+    expect(fitted).toBeGreaterThan(390);
+    expect(fitted).toBeLessThanOrEqual(565);
+    await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await openBoardDisplay(page);
-    await expect(slider(page)).toHaveAttribute("min", "390");
+    await expect(slider(page)).toHaveAttribute("min", "280");
     expect(Math.abs(Number(await slider(page).inputValue()) - fitted)).toBeLessThanOrEqual(5);
     await expect(fitButton(page)).toBeDisabled();
 
@@ -61,7 +63,7 @@ test.describe("board size on a 1440×900 window", () => {
     for (let i = 0; i < 3; i++) await page.keyboard.press("ArrowRight");
     await expect.poll(() => boardWidth(page)).toBe(530);
     await page.keyboard.press("Home");
-    await expect.poll(() => boardWidth(page)).toBe(390);
+    await expect.poll(() => boardWidth(page)).toBe(280);
     await page.keyboard.press("End");
     const max = Number(await slider(page).getAttribute("max"));
     await expect.poll(() => boardWidth(page)).toBe(max);
@@ -71,7 +73,10 @@ test.describe("board size on a 1440×900 window", () => {
   test("dragging the corner grip resizes the board under the pointer; double-clicking fits it to the window", async ({ page }) => {
     await startSolo(page);
     const grip = page.getByTestId("board-resizer");
-    await expect(grip).toHaveAttribute("aria-hidden", "true");
+    await expect(grip).toHaveAttribute("role", "slider");
+    await expect(grip).toHaveAccessibleName("Resize board");
+    const fitted = await boardWidth(page);
+    const enlarged = Math.round((fitted + 200) / 10) * 10;
     const start = (await grip.boundingBox())!;
     const x = start.x + start.width / 2, y = start.y + start.height / 2;
     await page.mouse.move(x, y);
@@ -79,20 +84,22 @@ test.describe("board size on a 1440×900 window", () => {
     await page.mouse.move(x + 100, y + 25, { steps: 6 });
     await page.mouse.up();
     // Centered board: its right edge moves half as far as its width grows, so +100px of pointer is +200px of board (on the 10px grid).
-    await expect.poll(() => boardWidth(page)).toBe(770);
-    expect(await storedSize(page)).toBe("770");
+    await expect.poll(() => boardWidth(page)).toBe(enlarged);
+    expect(await storedSize(page)).toBe(String(enlarged));
     const moved = (await grip.boundingBox())!;
     expect(Math.abs(moved.x + moved.width / 2 - (x + 100))).toBeLessThanOrEqual(6);
 
     // Dragging far to the left stops at the smallest board rather than collapsing it.
-    await page.mouse.move(moved.x + 20, moved.y + 20);
+    await grip.scrollIntoViewIfNeeded();
+    const shrinkStart = (await grip.boundingBox())!;
+    await page.mouse.move(shrinkStart.x + 20, shrinkStart.y + 20);
     await page.mouse.down();
-    await page.mouse.move(moved.x - 500, moved.y + 20, { steps: 8 });
+    await page.mouse.move(shrinkStart.x - 500, shrinkStart.y + 20, { steps: 8 });
     await page.mouse.up();
-    await expect.poll(() => boardWidth(page)).toBe(390);
+    await expect.poll(() => boardWidth(page)).toBe(280);
 
     await grip.dblclick();
-    await expect.poll(() => boardWidth(page)).toBe(565);
+    await expect.poll(() => boardWidth(page)).toBe(fitted);
     expect(await storedSize(page)).toBeNull();
   });
 
@@ -113,7 +120,9 @@ test.describe("board size on a 1440×900 window", () => {
     test(`a remembered size of "${remembered}" is ignored and the board fits the window`, async ({ page }) => {
       await page.addInitScript(([key, value]) => localStorage.setItem(key!, value!), [BOARD_SIZE_KEY, remembered]);
       await startSolo(page);
-      expect(await boardWidth(page)).toBe(565);
+      expect(await boardWidth(page)).toBeGreaterThan(390);
+      expect(await page.locator(".local-game").evaluate(element => element.style.getPropertyValue("--board-size"))).toBe("");
+      await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     });
   }
 });
@@ -122,7 +131,9 @@ test.describe("board size beyond the default layout", () => {
   test("on a wide window the board can grow past the default layout without overflowing or crowding the side panel", async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
     await startSolo(page);
-    expect(await boardWidth(page)).toBe(745);
+    expect(await boardWidth(page)).toBeGreaterThan(390);
+    expect(await boardWidth(page)).toBeLessThanOrEqual(745);
+    await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await openBoardDisplay(page);
     const max = Number(await slider(page).getAttribute("max"));
     // The default layout holds at most 858px (1240px shell − padding − side panel); a wide window offers more.
@@ -148,13 +159,16 @@ test.describe("board size beyond the default layout", () => {
     expect(await hasHorizontalScroll(page)).toBe(false);
   });
 
-  test("a window already filled by the board offers no resizing", async ({ page }) => {
+  test("a phone can shrink its board even when it starts at full width", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 800 });
     await startSolo(page);
     await openBoardDisplay(page);
     await expect(page.getByLabel("Show piece-owner letters", { exact: true })).toBeVisible();
-    await expect(slider(page)).toHaveCount(0);
-    await expect(page.getByTestId("board-resizer")).toHaveCount(0);
+    await expect(slider(page)).toHaveCount(1);
+    await expect(page.getByTestId("board-resizer")).toHaveCount(1);
     expect(await boardWidth(page)).toBe(352);
+    await slider(page).focus();
+    await page.keyboard.press("Home");
+    await expect.poll(() => boardWidth(page)).toBe(280);
   });
 });
