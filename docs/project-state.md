@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**Site favicon (2026-11-09, validated locally):** the maintainer requested a favicon
+**Site favicon (2026-11-09, released):** the maintainer requested a favicon
 and deployment. All five HTML entry points now declare an original ivory king
 on charcoal with the four army colors in board order (Yellow top, Blue left,
 Green right, Red bottom). The editable SVG has PNG, 16/32/48px ICO and 180px Apple
@@ -24,8 +24,19 @@ MIME types and browser image decoding without page errors. PNG dimensions and
 all three ICO frames passed structural checks; the 32px and 180px renders were
 inspected. The normal project-path build was restored. All 105 local links in
 README/this file, the generator command and `git diff --check` passed.
-Publication through the existing Pages workflow is next. This is bounded
-local/CPU site maintenance with no new milestone or rules change.
+Release `73931455a91f4b1fedd5036dcd4906c4f01ef109` was fast-forwarded to main
+and published by the existing
+[Pages workflow](https://github.com/ariesyous/li4chess/actions/runs/42653925984).
+[CI](https://github.com/ariesyous/li4chess/actions/runs/42653926104) passed Linux
+lint, unit checks, build, **144 browser tests** and **57 production-preview tests**
+without retries. Fresh live Chromium checks verified all five pages and 20 icon
+declarations at li4chess.org, byte-identical assets with correct MIME types,
+decoding of all four formats, a Red move plus three CPU replies, and reload/resume
+at turn 5, with no page errors. The temporary live smoke assertion initially
+omitted the existing "Your turn" text; it was corrected and the complete check
+passed on rerun. This documentation closeout uses `[skip ci]` to retain the
+verified deployment. This is bounded local/CPU site maintenance with no new
+milestone or rules change; publication and verification are complete.
 
 **Touch and in-game board stability (2026-11-09, released):**
 the maintainer reported that mobile scrolling resized the board and that an

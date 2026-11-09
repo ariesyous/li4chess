@@ -45,6 +45,12 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
+The 2026-11-09 favicon follow-up shipped at release `7393145`. All five public
+pages share an original four-color king mark with SVG, PNG, multi-size ICO and
+Apple touch assets. Local checks, Linux CI, Pages publication and live icon/game
+verification are recorded in [project state](docs/project-state.md). This bounded
+site maintenance adds no milestone.
+
 The 2026-11-09 board-stability follow-up shipped through
 [PR #37](https://github.com/ariesyous/li4chess/pull/37) at release `9359757`.
 Touch sizing is explicit in Board display; scrolling, zoom, game updates and
