@@ -45,11 +45,12 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
-The maintainer reported unwanted touch resizing and checkmate-related board
-size changes on 2026-11-09. This bounded maintenance follow-up makes touch sizing
-explicit in Board display and keeps layout size steady during play. Reproduction,
-validation and publication are tracked in [project state](docs/project-state.md);
-milestone status is unchanged.
+The 2026-11-09 board-stability follow-up shipped through
+[PR #37](https://github.com/ariesyous/li4chess/pull/37) at release `9359757`.
+Touch sizing is explicit in Board display; scrolling, zoom, game updates and
+scrollbar transitions keep layout size steady. Reproduction, CI and live Chromium
+and WebKit checks are recorded in [project state](docs/project-state.md).
+This bounded maintenance work adds no milestone.
 
 The 2026-11-08 dynamic board-height cap shipped through
 [PR #35](https://github.com/ariesyous/li4chess/pull/35) at release `dac9088`,
