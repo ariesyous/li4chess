@@ -8,6 +8,16 @@ superseded handoffs.
 
 ## Current focus
 
+**Safe PR integration (2026-11-08, in progress):** the maintainer requested
+review and safe merging of all open PRs: #29 (last-move highlights), #30
+(guides and project information), and #31 (tablet resizing). All three original
+heads passed Linux lint, units and build, but their browser installation failed
+because `ubuntu-latest` selected Ubuntu 26.04, unsupported by the pinned
+Playwright 1.56.1. Default CI now pins Ubuntu 24.04 without changing dependencies
+or skipping browser checks. Review and combined validation precede merging;
+the existing main-push Pages workflow will publish merged changes. Deferred
+multiplayer and hosting configuration remain outside this task.
+
 **Last-move square contrast (2026-11-08, local implementation):** the maintainer
 requested Lichess-style highlights that retain each square's light/dark color
 and distinguish the source from the destination. The shared board now overlays
