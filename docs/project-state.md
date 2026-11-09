@@ -1,12 +1,43 @@
 # Project state
 
-Last updated: 2026-10-31.
+Last updated: 2026-11-08.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Safe PR integration (2026-11-08, in progress):** the maintainer requested
+review and safe merging of all open PRs: #29 (last-move highlights), #30
+(guides and project information), and #31 (tablet resizing). All three original
+heads passed Linux lint, units and build, but their browser installation failed
+because `ubuntu-latest` selected Ubuntu 26.04, unsupported by the pinned
+Playwright 1.56.1. Default CI now pins Ubuntu 24.04 without changing dependencies
+or skipping browser checks. Review and combined validation precede merging;
+the existing main-push Pages workflow will publish merged changes. Deferred
+multiplayer and hosting configuration remain outside this task.
+
+**Last-move square contrast (2026-11-08, local implementation):** the maintainer
+requested Lichess-style highlights that retain each square's light/dark color
+and distinguish the source from the destination. The shared board now overlays
+a translucent green tint on its original square colors, with a softer source
+(30%) and stronger destination (50%). These opacity values are reversible
+implementation choices. Selection, check indicators and piece opacity retain
+their existing appearance. Validation on base `8a7f28e` plus this working tree
+used Windows, Node 24.18.0 and Corepack pnpm 10.33.0. `pnpm lint`, `pnpm test`
+(778 unit results: 63 web tests executed, 715 unchanged results reused from
+Turbo cache), and `pnpm build` passed; the changed UI kit and web lint/build
+tasks executed. All **86 browser tests** passed without retries using
+`pnpm --filter @li4chess/web test:e2e --config .generated/playwright.highlights.config.ts`.
+That ignored temporary config retains the default suite and uses port 5186 with
+a direct Vite invocation, because port 5183 already serves another checkout;
+localhost access required running outside the network sandbox. Desktop captures
+of all four source/destination light/dark pairings and a 360 px phone capture
+were inspected, with the original square colors, distinct tint opacities and
+fully opaque pieces verified in Chromium. This is viewport emulation, not
+physical-device evidence. Local documentation links and diff-format checks
+passed. No local blocker remains; the maintainer requested a PR for review.
 
 **Board size and zen mode (2026-10-30, released 2026-10-31):** the maintainer
 asked for usability improvements, starting with a resizable board
