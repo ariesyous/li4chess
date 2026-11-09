@@ -1,0 +1,127 @@
+{
+  "revision": "dac9088e078024279f34ed715625b3f7198132b8",
+  "pr": "https://github.com/ariesyous/li4chess/pull/35",
+  "validatedHead": "340ff928ffdd3a84873e98cf9c2c6089eb135cad",
+  "prCi": "https://github.com/ariesyous/li4chess/actions/runs/42560161864",
+  "deployment": "https://github.com/ariesyous/li4chess/actions/runs/42560861485",
+  "mainCi": "https://github.com/ariesyous/li4chess/actions/runs/42560861364",
+  "mainCiStatus": "success",
+  "verification": "Headless Playwright 1.56.1 Chromium; viewport emulation, without physical-device or Safari testing.",
+  "liveCapRegressions": {
+    "checkedAt": "2026-11-09T04:17:42.858Z",
+    "passed": 10,
+    "retries": 0,
+    "cases": [
+      {
+        "title": "an oversized saved board fits the 1920×945 window",
+        "passed": true
+      },
+      {
+        "title": "an oversized saved board fits the 1440×900 window",
+        "passed": true
+      },
+      {
+        "title": "an oversized saved board fits the 1280×600 window",
+        "passed": true
+      },
+      {
+        "title": "an oversized saved board fits the 820×1180 window",
+        "passed": true
+      },
+      {
+        "title": "an oversized saved board fits the 360×800 window",
+        "passed": true
+      },
+      {
+        "title": "an oversized saved board fits the 360×600 window",
+        "passed": true
+      },
+      {
+        "title": "an oversized saved board fits the 320×568 window",
+        "passed": true
+      },
+      {
+        "title": "a saved size shrinks for a short window and returns when the window grows",
+        "passed": true
+      },
+      {
+        "title": "dragging the grip beyond the bottom stops at the shared height limit",
+        "passed": true
+      },
+      {
+        "title": "a very short landscape window keeps a usable board and scrollable controls",
+        "passed": true
+      }
+    ]
+  },
+  "liveSliderRegressions": {
+    "checkedAt": "2026-11-09T04:17:53.440Z",
+    "passed": 4,
+    "retries": 0,
+    "cases": [
+      {
+        "title": "dragging the size slider back and forth stays stable at 1440×945",
+        "passed": true
+      },
+      {
+        "title": "dragging the size slider back and forth stays stable at 1440×1800",
+        "passed": true
+      },
+      {
+        "title": "dragging the size slider back and forth stays stable at 1920×945",
+        "passed": true
+      },
+      {
+        "title": "dragging the size slider back and forth stays stable at 1920×1800",
+        "passed": true
+      }
+    ]
+  },
+  "smoke": {
+    "revision": "dac9088e078024279f34ed715625b3f7198132b8",
+    "node": "v24.18.0",
+    "checkedAt": "2026-11-09T04:17:35.195Z",
+    "pages": [
+      {
+        "route": "/learn/how-to-play-four-player-chess/",
+        "status": 200
+      },
+      {
+        "route": "/learn/four-player-chess-strategy/",
+        "status": 200
+      },
+      {
+        "route": "/about/",
+        "status": 200
+      },
+      {
+        "route": "/privacy/",
+        "status": 200
+      }
+    ],
+    "errors": [],
+    "bundle": "/assets/index-Cwdm3OEY.js",
+    "highlights": [
+      {
+        "tint": "linear-gradient(rgba(155, 199, 0, 0.5), rgba(155, 199, 0, 0.5))",
+        "base": "rgb(181, 136, 99)"
+      },
+      {
+        "tint": "linear-gradient(rgba(155, 199, 0, 0.3), rgba(155, 199, 0, 0.3))",
+        "base": "rgb(240, 217, 181)"
+      }
+    ],
+    "tablet": {
+      "viewport": "820x1180",
+      "moves": 4,
+      "resize": "keyboard and persisted",
+      "zen": "entered and exited"
+    },
+    "phone": {
+      "viewport": "360x800",
+      "resizeGrip": "visible",
+      "horizontalOverflow": false
+    },
+    "passed": true
+  }
+}
