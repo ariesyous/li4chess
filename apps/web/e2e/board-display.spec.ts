@@ -74,24 +74,18 @@ test("mouse drag resizes immediately, survives resume, and preserves board input
   await expect(page.getByTestId("move-history").locator("li").first()).toContainText("g2-g4");
 });
 
-test.describe("tablet touch resizing", () => {
+test.describe("tablet touch controls", () => {
   test.use({ hasTouch: true, viewport: { width: 820, height: 1180 } });
-  test("touch drag captures the finger without scrolling or making a move", async ({ page }, testInfo) => {
+  test("touch resizing uses Board display and leaves the board free to scroll", async ({ page }, testInfo) => {
     await page.goto("/li4chess/");
     await page.getByRole("button", { name: "Play against computers", exact: true }).tap();
     const handle = page.getByRole("slider", { name: "Resize board", exact: true });
-    const original = Number(await handle.getAttribute("aria-valuenow"));
-    const grip = (await handle.boundingBox())!;
-    const session = await page.context().newCDPSession(page);
-    const x = grip.x + 22, y = grip.y + 22;
-    await session.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
-    for (let step = 1; step <= 8; step++) {
-      await session.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y: y - step * 10 }] });
-    }
-    await expect.poll(async () => Number(await handle.getAttribute("aria-valuenow"))).toBe(original - 80);
-    await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
-    await session.detach();
-    expect(await page.evaluate(() => scrollY)).toBe(0);
+    await expect(handle).toBeHidden();
+    await page.getByText("Board display", { exact: true }).tap();
+    const range = page.getByRole("slider", { name: "Board size", exact: true });
+    await range.tap({ position: { x: 8, y: 22 } });
+    await expect(range).toHaveValue("280");
+    await expect.poll(async () => Math.round((await page.locator(".chess-board").boundingBox())!.width)).toBe(280);
     await expect(page.locator('.board-square[aria-pressed="true"]')).toHaveCount(0);
     await expect(page.getByTestId("move-history").locator("li")).toHaveCount(0);
     await page.screenshot({ path: testInfo.outputPath("tablet-resized.png"), fullPage: true });

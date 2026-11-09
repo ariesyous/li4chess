@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-11-08. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-11-09. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -44,6 +44,12 @@ Teams/2v2 and other variants remain ideas. The local/CPU Pages release is a
 standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
+
+The maintainer reported unwanted touch resizing and checkmate-related board
+size changes on 2026-11-09. This bounded maintenance follow-up makes touch sizing
+explicit in Board display and keeps layout size steady during play. Reproduction,
+validation and publication are tracked in [project state](docs/project-state.md);
+milestone status is unchanged.
 
 The 2026-11-08 dynamic board-height cap shipped through
 [PR #35](https://github.com/ariesyous/li4chess/pull/35) at release `dac9088`,
