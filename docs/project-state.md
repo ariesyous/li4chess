@@ -8,15 +8,63 @@ superseded handoffs.
 
 ## Current focus
 
-**Safe PR integration (2026-11-08, in progress):** the maintainer requested
-review and safe merging of all open PRs: #29 (last-move highlights), #30
-(guides and project information), and #31 (tablet resizing). All three original
-heads passed Linux lint, units and build, but their browser installation failed
-because `ubuntu-latest` selected Ubuntu 26.04, unsupported by the pinned
-Playwright 1.56.1. Default CI now pins Ubuntu 24.04 without changing dependencies
-or skipping browser checks. Review and combined validation precede merging;
-the existing main-push Pages workflow will publish merged changes. Deferred
-multiplayer and hosting configuration remain outside this task.
+**Safe PR integration (2026-11-08, merged and live verified):** the maintainer
+requested review and safe merging of all open PRs. All three were reviewed and
+merged in order, after fresh CI passed on their final heads:
+
+| PR | Change | Validated head | Merge |
+| --- | --- | --- | --- |
+| [#29](https://github.com/ariesyous/li4chess/pull/29) | Last-move square contrast | `48cec13` ([CI](https://github.com/ariesyous/li4chess/actions/runs/42546017439)) | `6e1800c` |
+| [#30](https://github.com/ariesyous/li4chess/pull/30) | Guides and project information | `0033bf2` ([CI](https://github.com/ariesyous/li4chess/actions/runs/42546089299)) | `f98f290` |
+| [#31](https://github.com/ariesyous/li4chess/pull/31) | Tablet board fitting and resizing | `73946fd` ([CI](https://github.com/ariesyous/li4chess/actions/runs/42546131443)) | `02435b0` |
+
+All three original heads passed Linux lint, units and build but failed browser
+installation: `ubuntu-latest` selected Ubuntu 26.04, unsupported by pinned
+Playwright 1.56.1. Default CI now pins Ubuntu 24.04. Dependencies, assertions and
+timeouts are unchanged; browser checks were retained. Integration preserved all
+three changes, resolving conflicts only in ROADMAP and this state file. The
+obsolete guide-review publication restriction was updated for the later merge
+request. Expected-head SHA guards protected each merge; each prospective and
+actual merge tree matched its validated PR head. Final release
+`02435b05651bad5806816b85bc947f8fcf0a3d53` has the identical file tree to the
+combined head `73946fd7e615d4ac6f228f6458b89aae2b3edea0` tested locally and in CI.
+
+Fresh local validation on combined head `73946fd` used Windows, Node 24.18.0,
+pnpm 10.33.0 and Playwright 1.56.1 Chromium. `pnpm lint`, `pnpm test` (**782
+unit results**) and `pnpm build` passed. The first uncached unit run timed out
+the existing arena auto-claim test at its unchanged five-second limit; a rerun
+passed all 13 arena tests and reused the other 769 successful results from that
+same working tree. All **104 default browser tests** and **21 production-preview
+tests at each of `/li4chess/` and `/`** passed without retries. Diagram
+regeneration verification, all 149 local Markdown file links and diff-format
+checks passed. Tablet/phone game renders and desktop/phone information-page
+renders were inspected. The default project-path build was restored afterwards.
+
+The existing [Pages deployment](https://github.com/ariesyous/li4chess/actions/runs/42546852654)
+succeeded for `02435b0`. [Post-merge CI](https://github.com/ariesyous/li4chess/actions/runs/42546852609)
+also passed fresh Linux lint, all **782 unit tests**, build, **104 browser tests**
+and **21 production-preview tests**, without browser retries.
+
+A fresh live Chromium session at `https://li4chess.org/` verified that
+`/assets/index-B-gcO_gW.js` contains the exact release SHA. All four new pages
+returned HTTP 200 with correct headings/canonicals, loaded diagrams and no
+horizontal overflow. A real Red move and three CPU replies reached turn 5;
+the two last-move endpoints retained their square colors under distinct 30%/50%
+tints. Tablet keyboard resizing survived reload/resume with all four moves,
+Zen mode entered/exited correctly, and the phone grip was visible without
+horizontal overflow. No page errors occurred. The first live probe preceded
+publication and still saw the old bundle; the post-publication check passed.
+The [live summary](pr-integration-20261108.json) records the release and checks.
+This is Chromium viewport emulation; physical devices and Safari were not tested.
+Deferred multiplayer campaigns, analytics settings and hosting configuration
+were not changed or audited. Frozen bot sources and archived research remain
+untouched; no new feature phase or maintenance commitment is implied.
+
+No release blocker or outstanding integration task remains. This documentation
+and live-evidence closeout changes only ROADMAP, this state file and its JSON
+summary; 102 local Markdown file links, JSON parsing and diff-format checks
+passed. Its commit carries `[skip ci]` to preserve the verified deployment and
+bundle revision, as with earlier documentation-only release records.
 
 **Guides and trust information (2026-11-08, implemented for review):** the
 maintainer selected two evergreen guides and visible project/trust information,
