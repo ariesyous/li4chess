@@ -45,6 +45,13 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
+The 2026-11-08 Board size slider oscillation follow-up shipped through
+[PR #33](https://github.com/ariesyous/li4chess/pull/33) at release `bd92c06`.
+Controls keep a fixed horizontal position while Board display is open, so
+native dragging remains smooth across the available width. CI and live checks
+are recorded in [project state](docs/project-state.md). This is maintenance of
+the local/CPU product; milestone status and deferred hosted scope are unchanged.
+
 The maintainer's 2026-11-08 safe-integration request merged
 [PR #29](https://github.com/ariesyous/li4chess/pull/29) (move highlights),
 [#30](https://github.com/ariesyous/li4chess/pull/30) (guides and project pages),
