@@ -12,5 +12,16 @@ export default defineConfig(({ command, mode }) => ({
   // Local/project-path builds use /li4chess/. Pages supplies its configured base
   // at build time: / for the existing li4chess.org custom domain.
   base: mode === "workers" ? "/" : "/li4chess/",
-  build: { outDir: mode === "workers" ? "dist-workers" : "dist" },
+  build: {
+    outDir: mode === "workers" ? "dist-workers" : "dist",
+    rollupOptions: {
+      input: Object.fromEntries([
+        "index.html",
+        "learn/how-to-play-four-player-chess/index.html",
+        "learn/four-player-chess-strategy/index.html",
+        "about/index.html",
+        "privacy/index.html",
+      ].map(path => [path === "index.html" ? "index" : path, fileURLToPath(new URL(path, import.meta.url))])),
+    },
+  },
 }));

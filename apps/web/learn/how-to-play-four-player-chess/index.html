@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How to Play Four-Player Chess: Rules &amp; Scoring | li4chess</title>
+    <meta name="description" content="Learn four-player free-for-all chess on li4chess: the board, turn order, capture points, promotion, checkmate and how to start your first game." />
+    <link rel="canonical" href="https://li4chess.org/learn/how-to-play-four-player-chess/" />
+    <meta name="theme-color" content="#eeece8" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="li4chess" />
+    <meta property="og:title" content="How to Play Four-Player Chess: Rules &amp; Scoring | li4chess" />
+    <meta property="og:description" content="Learn four-player free-for-all chess on li4chess: the board, turn order, capture points, promotion, checkmate and how to start your first game." />
+    <meta property="og:url" content="https://li4chess.org/learn/how-to-play-four-player-chess/" />
+    <meta property="og:image" content="https://li4chess.org/social-preview.png" />
+    <meta property="og:image:alt" content="Four armies on the li4chess cross-shaped board" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How to Play Four-Player Chess: Rules &amp; Scoring | li4chess" />
+    <meta name="twitter:description" content="Learn four-player free-for-all chess on li4chess: the board, turn order, capture points, promotion, checkmate and how to start your first game." />
+    <meta name="twitter:image" content="https://li4chess.org/social-preview.png" />
+    <link rel="stylesheet" href="/src/information.css" />
+  </head>
+  <body class="information-page">
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="info-header">
+      <a class="info-brand" href="%BASE_URL%" aria-label="li4chess home">li<span>4</span>chess</a>
+      <nav aria-label="Main navigation">
+        <a href="%BASE_URL%">Play</a>
+        <a href="%BASE_URL%learn/how-to-play-four-player-chess/" aria-current="page">How to play</a>
+        <a href="%BASE_URL%learn/four-player-chess-strategy/">Strategy</a>
+        <a href="%BASE_URL%about/">About</a>
+      </nav>
+    </header>
+    <div class="info-layout">
+      <main id="content" class="info-article" tabindex="-1">
+        <article aria-labelledby="page-title">
+          <p class="eyebrow">Learn · The rules</p>
+          <h1 id="page-title">How to play four-player chess</h1>
+          <p class="lead">Four armies share a board. Every player competes for points.
+            Keep your King safe, watch all three opponents, and aim for the highest final score.</p>
+          <p>This guide explains the free-for-all rules implemented by li4chess.
+            Other four-player variants can score or end games differently. There are no teams here.</p>
+          <a class="primary-button" href="%BASE_URL%">Play four-player chess</a>
+          <p class="reading-note">Free, no account needed · Computers or friends on one device</p>
+
+          <h2 id="board">Meet the board and the four armies</h2>
+          <p>The board is a 14-by-14 grid with its four corners cut away, leaving
+            <strong>160 playable squares</strong>. Each player starts with the familiar 16 pieces:
+            eight pawns, two Knights, two Bishops, two Rooks, a Queen and a King.</p>
+          <p>With Red at the bottom, Blue sits on the left, Yellow at the top and Green on the right.
+            <strong>Red moves first. Turns go Red → Blue → Yellow → Green</strong>, then repeat.
+            Passive, eliminated armies are skipped. A resigned player's automatically moving King is a special case explained below.</p>
+          <figure class="guide-figure">
+            <img src="/guide-diagrams/starting-board.svg" width="696" height="724" fetchpriority="high"
+              alt="The starting board: Red below, Blue left, Yellow above, Green right. Arrows point each army's pawns toward the center; numbers show the turn order, one through four." />
+            <figcaption>The actual li4chess starting position. Every army faces inward.
+              Board coordinates in these diagrams use Red's perspective: files a–n and ranks 1–14.</figcaption>
+          </figure>
+          <p>Rooks move along ranks and files, Bishops diagonally, Queens both ways,
+            Kings one square and Knights in an L shape. Knights can jump over pieces;
+            sliding pieces stop at the first occupied square. No piece can enter a cut-out corner.</p>
+          <p>Pawns move forward toward the center from their own side, capture one square diagonally
+            forward, and may advance two squares on their first move from their starting line if both squares are clear.
+            “Forward” is up for Red, right for Blue, down for Yellow and left for Green.</p>
+
+          <h2 id="scoring">Score points, then compare the final totals</h2>
+          <p>Capturing a piece from a live army adds points to your score.
+            A piece's capture value is separate from how useful it is on the board.</p>
+          <table class="info-table">
+            <caption>Points for capturing an active piece</caption>
+            <thead><tr><th scope="col">Piece</th><th scope="col">Points</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Pawn</th><td>1</td></tr>
+              <tr><th scope="row">Knight</th><td>3</td></tr>
+              <tr><th scope="row">Bishop</th><td>5</td></tr>
+              <tr><th scope="row">Rook</th><td>5</td></tr>
+              <tr><th scope="row">Original Queen</th><td>9</td></tr>
+              <tr><th scope="row">Queen promoted from a pawn</th><td>1</td></tr>
+              <tr><th scope="row">Passive piece from an eliminated army</th><td>0</td></tr>
+            </tbody>
+          </table>
+          <p>Live Kings cannot be captured. When a player is checkmated on their scheduled turn,
+            the active players checking that King split <strong>20 points equally</strong>.
+            For example, two checking players receive 10 each. A player who only blocks an escape square receives no share.</p>
+          <p>Ordinary single checks score nothing by themselves. A move that newly checks
+            two or three active enemy Kings with your army earns a multi-check bonus:</p>
+          <table class="info-table">
+            <caption>New checks caused by your army in one move</caption>
+            <thead><tr><th scope="col">Newly checked Kings</th><th scope="col">A Queen gives any of these checks</th><th scope="col">No Queen gives these checks</th></tr></thead>
+            <tbody><tr><th scope="row">Two</th><td>+1</td><td>+5</td></tr><tr><th scope="row">Three</th><td>+5</td><td>+20</td></tr></tbody>
+          </table>
+          <p>Already checked Kings do not count as new checks. Discovered checks from your other pieces do count.
+            Capture and multi-check points can add together, with any checkmate award resolved later.</p>
+          <div class="info-callout">
+            <p><strong>The highest final score wins, even if that player was eliminated.</strong>
+              Staying alive gives you more chances to score, but survival alone does not guarantee first place.
+              Equal totals share a place: a tie for first produces places 1, 1, 3, 4.</p>
+          </div>
+          <p>For a simple capture example, taking a live Bishop and then a live pawn earns 5 + 1 = 6 points.
+            Capturing those same pieces after their army becomes passive earns zero.
+            Open <strong>Points history</strong> during a game to see where each award came from.</p>
+
+          <h2 id="king-safety">Check, checkmate and the pieces left behind</h2>
+          <p>A legal move must leave <strong>your own King safe from every active opponent</strong>.
+            You cannot ignore your own check to take a valuable piece elsewhere. The game highlights legal destinations when you select a piece.</p>
+          <p>Checkmate and stalemate are assessed when the affected player's turn arrives.
+            If Blue checks Red, Yellow and Green still move before Red is assessed.
+            One of them might remove the checking piece or open an escape. Their moves must protect their own Kings;
+            they are not required to rescue Red.</p>
+          <p>A checked player with no legal move on their turn is checkmated. A player with no legal move
+            while not in check is stalemated. <strong>Both armies stay on their squares as passive blockers</strong>:
+            they cannot move or attack, and all their pieces, including the King, are worth zero capture points.</p>
+          <p>Passive pieces still block lines. Removing one may expose your King to another army's Rook,
+            Bishop or Queen, making an apparently easy capture illegal.</p>
+          <p>Stalemate also has a scoring rule: a self-caused stalemate gives that player +20;
+            an opponent-caused stalemate gives each remaining active player +10.
+            li4chess tracks the move that closed the last legal escape rather than guessing from the final diagram.</p>
+
+          <h2 id="special-moves">Promotion, castling and en passant</h2>
+          <h3>Promote on your eighth rank</h3>
+          <p>A pawn automatically becomes a Queen when it reaches its own eighth rank.
+            <strong>It does not need to cross the whole board.</strong> From Red's fixed perspective,
+            Red promotes on rank 8, Blue on file h, Yellow on rank 7 and Green on file g.
+            There is no promotion choice. The new Queen moves like a Queen but is worth only one point if captured while active.</p>
+          <figure class="guide-figure compact">
+            <img src="/guide-diagrams/red-promotion.svg" width="344" height="344" loading="lazy"
+              alt="Cropped Red promotion example: a Red pawn on f7 advances to the highlighted f8 square, its eighth rank, and becomes a Queen." />
+            <figcaption>Red's f7–f8 promotes immediately. This is a cropped teaching position;
+              the other Kings are outside the view. The arrow shows a legal move checked by the li4chess engine.</figcaption>
+          </figure>
+          <h3>Castle while the route is safe</h3>
+          <p>Castling moves your unmoved King two squares toward its unmoved home Rook and places that Rook on the intervening square.
+            The required spaces must be empty. Your King cannot start in check or cross or land on a square attacked by an active opponent.
+            Moving the King or the relevant Rook loses that right; returning it does not restore it.</p>
+          <h3>En passant waits for your opportunity</h3>
+          <p>After an enemy pawn's two-square advance, your pawn may be eligible to capture it on the square it passed over.
+            The opportunity lasts until <strong>your next scheduled turn</strong>; intervening opponents' moves do not automatically cancel it.
+            If you choose another move, your opportunity expires. The capture must still leave your King safe,
+            and the double-pushed pawn must still be available to capture.</p>
+
+          <h2 id="endings">How a game ends</h2>
+          <p>The third elimination ends normal play and freezes the placements by final points.
+            If live automatically moving Kings remain from earlier resignations or timeouts, the survivor receives +20 for each of them.
+            There is no blanket extra survival award for every already checkmated army.</p>
+          <p>Resigning while <em>any</em> seat has completed fewer than three moves aborts the game with no normal result.
+            After that opening guard, a resigning player's army becomes passive except for its King.
+            That King makes automatically selected legal moves on its normal turn until it is eliminated;
+            it cannot be captured. The same rules apply to the game's explicit simulated timeout action.
+            Public local games have no running clocks.</p>
+          <p>With exactly two active players, a leader at least 21 points ahead of the other can use <strong>Claim Win</strong>.
+            This immediately surrenders the leader's King, gives the other active player +20 and ends the game.
+            Compare all four totals first: a previously eliminated player may still finish above both of you.</p>
+          <p>Threefold repetition, specified insufficient-material positions, or 200 consecutive individual moves without
+            a pawn move or capture end play automatically. Each active player receives a flat +10;
+            passive and walking-King players receive none. Final totals still decide placements.</p>
+
+          <h2 id="first-game">Start your first game</h2>
+          <ol>
+            <li>Return to <a href="%BASE_URL%">the play page</a> and choose <strong>Play against computers</strong>.
+              You are Red against three level-3 CPUs.</li>
+            <li>Select one of your pieces, then a highlighted destination. On a keyboard, Tab enters the board,
+              arrow keys navigate, Enter or Space selects and moves, and Escape clears your selection.</li>
+            <li>Check the turn banner and all four scores after each round. In <strong>Customize game</strong>,
+              you can choose levels 1–10 or turn CPU control off for friends sharing your device.</li>
+          </ol>
+          <p>Games autosave in this browser when storage is available. Starting a new one replaces the save;
+            export a replay from <strong>More game tools</strong> first if you want to keep it.</p>
+          <div class="info-callout">
+            <h2>Ready for the next move?</h2>
+            <p><a href="%BASE_URL%learn/four-player-chess-strategy/">Read the beginner strategy guide</a>
+              for a practical checklist, a capture trap and a way to learn from your games.</p>
+          </div>
+          <p class="reading-note">Rules checked against li4chess-ffa-standard-v1, November 8, 2026.
+            The <a href="https://github.com/ariesyous/li4chess/blob/main/docs/rules-spec.md">full rules specification</a>
+            covers edge cases. Diagrams use engine-validated positions and the credited Cburnett piece artwork.</p>
+        </article>
+      </main>
+      <nav class="info-toc" aria-label="On this page"><p>On this page</p>
+        <a href="#board">Board &amp; turns</a><a href="#scoring">Points &amp; placements</a>
+        <a href="#king-safety">Check &amp; elimination</a><a href="#special-moves">Special moves</a>
+        <a href="#endings">Game endings</a><a href="#first-game">Your first game</a>
+      </nav>
+    </div>
+    <footer class="info-footer"><span>Free, local &amp; open source</span>
+      <a href="%BASE_URL%about/">About</a><a href="%BASE_URL%privacy/">Privacy</a>
+      <a href="https://github.com/ariesyous/li4chess/issues">Feedback / report a bug</a>
+      <a href="https://github.com/ariesyous/li4chess">Source</a>
+      <a href="https://github.com/ariesyous/li4chess/blob/main/LICENSE">License</a>
+      <a href="https://github.com/ariesyous/li4chess/blob/main/THIRD_PARTY_NOTICES.md">Pieces &amp; credits</a>
+    </footer>
+  </body>
+</html>

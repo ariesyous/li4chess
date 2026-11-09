@@ -49,6 +49,22 @@ opening guard leaves a king that moves automatically on its regular turn.
 See the [standard FFA rules specification](docs/rules-spec.md) for scoring,
 endings and special cases. The implemented ruleset is `li4chess-ffa-standard-v1`.
 
+### Guides and project information
+
+The local build includes two illustrated, static guides:
+[How to play four-player chess](apps/web/learn/how-to-play-four-player-chess/index.html)
+and [Four-player chess strategy for beginners](apps/web/learn/four-player-chess-strategy/index.html).
+An [About page](apps/web/about/index.html) explains the independent project,
+feedback, source and credits. The [privacy explanation](apps/web/privacy/index.html)
+covers local saves, hosting and the existing GA4/Clarity analytics loaded through
+Cloudflare Zaraz. Local game storage does not imply an analytics-free public site.
+
+These pages are linked from setup and the game footer and remain readable without
+JavaScript. With `pnpm dev`, open `/li4chess/learn/how-to-play-four-player-chess/`,
+`/li4chess/learn/four-player-chess-strategy/`, `/li4chess/about/` or
+`/li4chess/privacy/`. This 2026-11-08 addition is awaiting PR review and has
+not been published.
+
 ### Controls and saves
 
 Click a piece, then a highlighted destination. With a keyboard, **Tab** enters
@@ -90,7 +106,7 @@ pnpm --filter @li4chess/web test:e2e # Browser tests; starts its own Vite server
 ```
 
 [CI](.github/workflows/ci.yml) runs these checks on pull requests and pushes to
-`main`, plus production-preview checks for the bundled CPU runtime and homepage.
+`main`, plus production-preview checks for the bundled CPU runtime and static pages.
 To run those preview checks locally after building:
 
 ```sh
@@ -104,9 +120,17 @@ The [GitHub Pages workflow](.github/workflows/deploy-pages.yml) publishes
 [li4chess.org](https://li4chess.org/). Local builds default to `/li4chess/`.
 See the [release notes and rollback procedure](docs/l1-release.md).
 
-Homepage metadata lives in [`apps/web/index.html`](apps/web/index.html); crawl
-files live in [`apps/web/public`](apps/web/public). Keep the canonical URL,
-social URLs and sitemap in sync if the public domain changes.
+Homepage metadata lives in [`apps/web/index.html`](apps/web/index.html); the
+information pages keep their metadata and full content in their own `index.html`
+files. Vite builds all five HTML entry points for static hosting. Internal links
+follow the configured base, while canonical/search/social URLs use li4chess.org.
+Crawl files live in [`apps/web/public`](apps/web/public); keep every canonical
+URL and the sitemap in sync if the public domain changes.
+
+Guide diagrams reuse the credited piece SVGs and engine-validated teaching
+positions. Regenerate them with `pnpm --filter @li4chess/web generate:guide-diagrams`,
+or add `--check` to verify the checked-in output. No browser rendering is needed
+to read the guides' HTML.
 
 ## Project structure
 

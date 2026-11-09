@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344 344" role="img" aria-labelledby="title description">
+<title id="title">Promotion is closer than the far edge</title><desc id="description">Cropped teaching position, viewed from Red. Red's pawn on f7 moves to f8 and automatically becomes a Queen. A later active capture of that Queen is worth one point.</desc>
+<!-- Board and annotations: li4chess, AGPL-3.0-only. Piece shapes: Colin M. L. Burnett, GPL-2.0-or-later. See THIRD_PARTY_NOTICES.md. -->
+<rect width="344" height="344" rx="4" fill="#eeece8"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#2d526c"/></marker></defs>
+<rect x="40" y="260" width="44" height="44" fill="#f0d9b5"/>
+<rect x="84" y="260" width="44" height="44" fill="#b58863"/>
+<rect x="128" y="260" width="44" height="44" fill="#f0d9b5"/>
+<rect x="172" y="260" width="44" height="44" fill="#b58863"/>
+<rect x="216" y="260" width="44" height="44" fill="#f0d9b5"/>
+<rect x="260" y="260" width="44" height="44" fill="#b58863"/>
+<rect x="40" y="216" width="44" height="44" fill="#b58863"/>
+<rect x="84" y="216" width="44" height="44" fill="#f0d9b5"/>
+<rect x="128" y="216" width="44" height="44" fill="#b58863"/>
+<rect x="172" y="216" width="44" height="44" fill="#f0d9b5"/>
+<rect x="216" y="216" width="44" height="44" fill="#b58863"/>
+<rect x="260" y="216" width="44" height="44" fill="#f0d9b5"/>
+<rect x="40" y="172" width="44" height="44" fill="#f0d9b5"/>
+<rect x="84" y="172" width="44" height="44" fill="#b58863"/>
+<rect x="128" y="172" width="44" height="44" fill="#f0d9b5"/>
+<rect x="172" y="172" width="44" height="44" fill="#b58863"/>
+<rect x="216" y="172" width="44" height="44" fill="#f0d9b5"/>
+<rect x="260" y="172" width="44" height="44" fill="#b58863"/>
+<rect x="40" y="128" width="44" height="44" fill="#b58863"/>
+<rect x="84" y="128" width="44" height="44" fill="#f0d9b5"/>
+<rect x="128" y="128" width="44" height="44" fill="#b58863"/>
+<rect x="172" y="128" width="44" height="44" fill="#f0d9b5"/>
+<rect x="216" y="128" width="44" height="44" fill="#b58863"/>
+<rect x="260" y="128" width="44" height="44" fill="#f0d9b5"/>
+<rect x="40" y="84" width="44" height="44" fill="#f0d9b5"/>
+<rect x="84" y="84" width="44" height="44" fill="#b58863"/>
+<rect x="128" y="84" width="44" height="44" fill="#f0d9b5"/>
+<rect x="172" y="84" width="44" height="44" fill="#b58863"/>
+<rect x="216" y="84" width="44" height="44" fill="#f0d9b5"/>
+<rect x="260" y="84" width="44" height="44" fill="#b58863"/>
+<rect x="40" y="40" width="44" height="44" fill="#b58863"/>
+<rect x="84" y="40" width="44" height="44" fill="#f0d9b5"/>
+<rect x="128" y="40" width="44" height="44" fill="#b58863"/>
+<rect x="172" y="40" width="44" height="44" fill="#f0d9b5"/>
+<rect x="216" y="40" width="44" height="44" fill="#b58863"/>
+<rect x="260" y="40" width="44" height="44" fill="#f0d9b5"/>
+<rect x="130" y="130" width="40" height="40" fill="none" stroke="#286134" stroke-width="4"/>
+<svg x="129" y="173" width="42" height="42" viewBox="0 0 45 45"><path fill="#e66b64" stroke="#292621" stroke-linecap="round" stroke-width="1.5" d="M22.5 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38C17.33 16.5 16 18.59 16 21c0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z"/></svg>
+<path d="M150 179L150 162" fill="none" stroke="#2d526c" stroke-width="6" stroke-linecap="round" marker-end="url(#arrow)"/>
+<g font-family="Arial,sans-serif" font-size="15" fill="#514b44" text-anchor="middle">
+<text x="62" y="329">d</text>
+<text x="106" y="329">e</text>
+<text x="150" y="329">f</text>
+<text x="194" y="329">g</text>
+<text x="238" y="329">h</text>
+<text x="282" y="329">i</text>
+<text x="20" y="67">10</text>
+<text x="20" y="111">9</text>
+<text x="20" y="155">8</text>
+<text x="20" y="199">7</text>
+<text x="20" y="243">6</text>
+<text x="20" y="287">5</text>
+
+</g></svg>

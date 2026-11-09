@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-10-24. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-11-08. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -44,6 +44,15 @@ Teams/2v2 and other variants remain ideas. The local/CPU Pages release is a
 standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
+
+The maintainer selected two evergreen beginner guides and clearer project/trust
+information on 2026-11-08: static rules and strategy pages, About, privacy,
+feedback links and navigation. After local implementation, the maintainer
+requested a PR, authorizing a branch, commit and push for review. This bounded
+local/CPU maintenance work adds no milestone or ongoing publishing schedule.
+Merge, deployment, analytics configuration, new gameplay tracking, outreach and
+hosted work remain outside the request. Implementation and validation are
+tracked in [project state](docs/project-state.md).
 
 The maintainer asked for usability improvements on 2026-10-30, starting with a
 resizable board and an optional zen mode. Both are browser-local display choices

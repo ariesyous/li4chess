@@ -110,6 +110,8 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
 .setup-header h1 span { color: #397caa; }
 .setup-header .eyebrow { margin-bottom: 16px; }
 .setup-header p:last-child { max-width: 510px; margin: 0 auto; font-size: 14px; color: var(--muted); }
+.setup-learn-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px; margin: 0 0 16px; font-size: 13px; }
+.setup-learn-links a { display: inline-flex; align-items: center; min-height: 36px; text-underline-offset: 3px; }
 .quick-start-card { margin: 24px 0 18px; padding: 22px; background: #faf9f7; border-radius: 3px; box-shadow: 0 2px 5px #29262112; }
 .quick-start-copy h2 { font-size: 20px; margin-bottom: 10px; }
 .quick-start-copy p { margin-bottom: 0; font-size: 14px; color: var(--muted); }
@@ -142,6 +144,7 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
 .about-game p { font-size: 14px; line-height: 1.65; }
 .about-game .eyebrow { font-size: 11px; }
 .about-game p:last-child { margin-bottom: 0; }
+.about-game .guide-links { border-top: 1px solid var(--line); margin-top: 24px; padding-top: 6px; }
 .app-footer { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 18px; padding: 22px 0 8px; font-size: 11px; color: var(--muted); }
 .app-footer a { text-decoration: none; }
 .app-footer a:hover { text-decoration: underline; }

@@ -1,12 +1,88 @@
 # Project state
 
-Last updated: 2026-10-31.
+Last updated: 2026-11-08.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Guides and trust information (2026-11-08, PR review requested):** the maintainer
+selected recommendation 1 (two evergreen guides) and 3 (visible project/trust
+information), explicitly requesting a separate Codex chat/worktree and local
+review before any commit or deployment. Work is based on `8a7f28e` in
+`C:\Users\sith\.codex\worktrees\da44\li4chess`; the original checkout and its
+unrelated display/accessibility/documentation edits are untouched. After the
+local implementation and validation, the maintainer explicitly requested a PR,
+authorizing a `codex/guides-and-trust-pages` branch, commit and push for review.
+Merge, publication, production settings changes, gameplay tracking/dashboard and
+outreach remain outside the request. No rules, engine research or hosted scope
+changed.
+
+The web build now includes four additional real HTML entry points:
+`learn/how-to-play-four-player-chess/`, `learn/four-player-chess-strategy/`,
+`about/` and `privacy/`. Their full text, headings, navigation, descriptions,
+canonical/social metadata and images are available without application rendering.
+The two guides explain the implemented standard FFA contract, common mistakes,
+score-based endings and practical habits without strength/rating guarantees.
+Three original SVG diagrams reuse the credited Cburnett shapes. The generator
+and focused tests validate setup, all four promotion orientations, the complete
+four-move capture trap and the eliminated-high-scorer Claim Win example against
+the actual engine. Sparse examples are labeled teaching checkpoints/crops,
+without claims of prior reachability from a played Modern game.
+
+Setup, static homepage content and local-game credits link to the pages; source,
+license, credits and the existing GitHub Issues destination remain easy to find.
+The About page describes an independent project inspired by Lichess, with no
+affiliation or promised feature schedule. The sitemap lists the homepage and
+four new canonical pages. Vite uses explicit multi-page entries; links and
+assets follow the `/li4chess/` or `/` build base.
+
+Privacy evidence: the 2026-10-18 Zaraz setup record below documents GA4 and
+Clarity. The original checkout's 2026-10-24 project-state records were read
+without editing: GA4 was receiving pageviews, Search Console domain ownership
+was verified and linked to GA4, and its then-one-URL sitemap was successfully
+processed. These resolve the earlier receipt uncertainty, without supplying
+current search performance data. The 2026-10-31 deployment record below also
+observed Cloudflare RUM beacons. The privacy page distinguishes browser saves
+and exported game replays from page/interaction analytics, including Clarity
+session replay, hosting request data and public GitHub reports. Official Google,
+Microsoft, Cloudflare and GitHub documentation informs linked vendor details.
+No account IDs/emails, invented retention or consent configuration, blanket
+no-tracking promise or analytics configuration changes were added. Current
+provider account settings have not been audited in this task.
+
+Fresh validation on `8a7f28e` plus this working tree used Windows, Node 24.18.0,
+Corepack pnpm 10.33.0 and Playwright 1.56.1 Chromium. `pnpm lint`, `pnpm test`
+and `pnpm build` passed. All **67 web unit tests**, including four new guide
+tests, executed; **715 unchanged unit results** came from Turbo cache (**782
+total**). Web lint/build executed; unchanged package tasks used cache. All
+**96 default browser tests** passed without retries, including the retained
+keyboard quick-start flow, CPU turns/recovery, save/replay and zen/resize checks.
+The production-preview suite passed **21 tests at `/li4chess/` and 21 at `/`**,
+the latter after `pnpm --filter @li4chess/web build --base /`. Both production
+runs cover the final privacy wording. The default base is restored for local use.
+
+The page checks cover raw HTML, consistent metadata, all five sitemap locations,
+crawl files, same-origin links and SVG MIME/loading, no-JavaScript direct loads,
+skip links, section navigation and returning to play. The diagram generator's
+`--check` passed; 149 local Markdown file links in the changed documentation
+resolved, and `git diff --check` passed. Desktop and phone captures of all four
+pages and the diagrams were inspected. An additional local layout pass checked
+all pages at 1440×1000, 360×800 and 320×800, with no horizontal overflow or page
+errors; its captures/summary remain in ignored `.generated/growth-review/`.
+This is headless Chromium viewport emulation, not physical-device or
+screen-reader evidence. Deferred backend campaigns and live analytics settings
+were not audited, and publication/search indexing are not validation claims.
+
+**Next action:** PR and CI review. The local preview URL remains
+`http://127.0.0.1:5194/li4chess/` in this worktree. The PR follow-up updates review
+status in documentation and pins the generated SVGs to LF so fresh Windows
+checkouts retain byte-for-byte diagram verification. Generator verification and
+the Git checkout filter were checked again; implementation validation above is
+from the local implementation work, not a new test run. No merge, deployment or
+follow-on service work is authorized.
 
 **Board size and zen mode (2026-10-30, released 2026-10-31):** the maintainer
 asked for usability improvements, starting with a resizable board

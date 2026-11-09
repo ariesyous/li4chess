@@ -43,3 +43,6 @@ packages/tetrarch-engine/native/bridge.c text eol=lf
 packages/tetrarch-engine/scripts/build.mjs text eol=lf
 docs/engine/tetrarch-browser-evidence/** -text
 docs/engine/tetrarch-browser-evidence/*.log whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+
+# Generated guide SVGs must match the generator output on Windows and Linux.
+apps/web/public/guide-diagrams/*.svg text eol=lf
