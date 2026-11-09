@@ -53,6 +53,11 @@ export function SeatSetupScreen({ seats, onSeatsChange, customizeOpen, hasSavedG
     <button className="primary-button" type="button" onClick={() => onStart(seats)}><Icon name="play" />Start game</button>
     <p className="setup-note">Levels 1–10 give the CPU more thinking time, from 50 ms to 10 seconds per turn. The CPU may move sooner. These are search budgets, not ratings. All games are anonymous and local, with no running clocks.</p>
     </div></details>
+    <nav className="setup-learn-links" aria-label="Learn and about li4chess">
+      <a href={`${import.meta.env.BASE_URL}learn/how-to-play-four-player-chess/`}>How to play</a>
+      <a href={`${import.meta.env.BASE_URL}learn/four-player-chess-strategy/`}>Beginner strategy</a>
+      <a href={`${import.meta.env.BASE_URL}about/`}>About</a>
+    </nav>
     <section className="card"><RulesHelp /></section>
   </main>;
 }

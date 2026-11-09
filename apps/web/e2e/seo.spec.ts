@@ -44,7 +44,7 @@ test("initial HTML includes descriptive content and consistent search metadata",
   expect(document.noScript).toMatch(/JavaScript/i);
 });
 
-test("crawl files allow the public site and list only the canonical homepage", async ({ request, page }) => {
+test("crawl files allow the public site and list the canonical public pages", async ({ request, page }) => {
   const robotsResponse = await request.get(`${homepage}robots.txt`);
   expect(robotsResponse.ok()).toBe(true);
   expect(robotsResponse.headers()["content-type"]).toContain("text/plain");
@@ -69,7 +69,8 @@ test("crawl files allow the public site and list only the canonical homepage", a
     invalid: false,
     root: "urlset",
     namespace: "http://www.sitemaps.org/schemas/sitemap/0.9",
-    locations: [canonical],
+    locations: [canonical, `${canonical}learn/how-to-play-four-player-chess/`,
+      `${canonical}learn/four-player-chess-strategy/`, `${canonical}about/`, `${canonical}privacy/`],
   });
 });
 

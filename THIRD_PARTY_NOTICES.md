@@ -26,8 +26,16 @@ details/outlines with `#292621`. The renderer applies red, blue, yellow, green
 or passive-grey fills. Geometry is unchanged. Regenerate from the repository
 root with `node packages/ui-kit/scripts/generate-pieces.mjs`.
 
-SVGs are bundled inline: no third-party requests or domain-root asset paths.
+The game's piece SVGs are bundled inline: no third-party requests or domain-root asset paths.
 Source and credits links appear on setup and local game screens.
+
+The learning pages also reuse these shapes in original li4chess SVG board
+diagrams under `apps/web/public/guide-diagrams`. The diagram generator recolors
+the retained sources without changing their geometry; each SVG records the
+piece attribution and license, and the pages link to these notices. Regenerate
+with `pnpm --filter @li4chess/web generate:guide-diagrams` (add `--check` to
+verify the checked-in output). Positions and illustrated moves come from
+`apps/web/src/content/guidePositions.ts` and are validated by the rules engine.
 
 ## Interface and board
 
