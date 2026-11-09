@@ -198,7 +198,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
               <output htmlFor={sizeSliderId}>{sizing.value} px</output>
             </div>
             <div className="button-row"><button type="button" disabled={!sizing.custom} onClick={sizing.reset}>Fit to window</button></div>
-            <p className="subtle">Drag the grip at the bottom right of the board with a mouse or finger, or focus it and use arrow keys. Zen mode always fits the board to the window.</p>
+            <p className="subtle">Drag the grip at the bottom right of the board with a mouse or finger, or focus it and use arrow keys. The maximum size keeps the board and players within the window.</p>
           </div>}
           </details>
           <details className="game-tools"><summary>More game tools</summary>

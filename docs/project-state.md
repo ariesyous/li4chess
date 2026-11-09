@@ -8,6 +8,40 @@ superseded handoffs.
 
 ## Current focus
 
+**Board height cap (2026-11-08, implementation and validation):** the maintainer
+requested a dynamic cap so the board is not cut off at the bottom. This replaces
+the earlier allowance for custom boards taller than the window. Both the range
+and grip now share a maximum derived from available width and measured height
+after the header, player cards and board controls. Automatic boards and custom
+sizes respect that height. A larger stored preference is capped for display
+without being overwritten, and returns when the window grows. Initial layout
+is measured before clamping a stored size, preventing a zero-width feedback loop.
+
+Normal custom choices retain the 280px minimum. When less height remains, the
+board can fit below that minimum and ineffective resize controls are hidden.
+A 200px fitted minimum keeps very short windows usable with scrolling. Compact
+side cards on short screens omit the decorative turn marker and retain their
+names, points and text states while clearing playable squares. The stationary
+native slider, Fit to window, rotation and Zen behavior are preserved.
+
+New browser coverage checks seven viewport sizes, no card/square overlap,
+oversized saves, shrink/reload/grow restoration, grip bounds and very short
+landscape fallback. Tall-window native drags retain coverage beyond the original
+858px layout, alongside normal-height drags. The whole-frame regression failed
+before the change, and the first 39 focused display checks passed after it.
+The new height checks also run against production bundles. Fresh local validation
+used Windows, Node 24.18.0, pnpm 10.33.0 and Playwright 1.56.1 Chromium. Lint,
+unit tests and build passed: 782 unit results, with 67 web tests executed and 715
+unchanged results reused from Turbo cache. The default browser run passed 117
+cases; its one failure was the new 200px test expecting an exact CSS string when
+Chromium reported 199.984px. After using the existing rounded-width convention,
+that case passed its targeted rerun. All 31 production-preview tests passed at
+each base path without retries, and the default project-path build was restored.
+Final short-desktop and narrow-phone captures were inspected. This is headless
+Chromium evidence, without physical-device or Safari testing. Publication and a
+fresh full CI run are next; the previous push/deploy direction is retained for
+this bounded follow-up. Rules, CPU policies and deferred hosted scope are unchanged.
+
 **Board-size slider oscillation (2026-11-08, released):** the maintainer's QA
 walk-through showed large board sizes alternating with the 280px minimum during
 a continuous slider drag. Reproduction on base `e0195e6` confirmed 1130 → 280px

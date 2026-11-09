@@ -28,12 +28,13 @@ test.describe("board size on a 1440×900 window", () => {
     await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await openBoardDisplay(page);
     await expect(slider(page)).toHaveAttribute("min", "280");
+    const custom = Math.max(280, Math.floor((fitted - 60) / 10) * 10);
     expect(Math.abs(Number(await slider(page).inputValue()) - fitted)).toBeLessThanOrEqual(5);
     await expect(fitButton(page)).toBeDisabled();
 
-    await slider(page).fill("700");
-    await expect.poll(() => boardWidth(page)).toBe(700);
-    expect(await storedSize(page)).toBe("700");
+    await slider(page).fill(String(custom));
+    await expect.poll(() => boardWidth(page)).toBe(custom);
+    expect(await storedSize(page)).toBe(String(custom));
     await expect(fitButton(page)).toBeEnabled();
     expect(await hasHorizontalScroll(page)).toBe(false);
     const box = (await board(page).boundingBox())!;
@@ -43,9 +44,9 @@ test.describe("board size on a 1440×900 window", () => {
 
     await page.reload();
     await page.getByRole("button", { name: "Resume saved game", exact: true }).click();
-    await expect.poll(() => boardWidth(page)).toBe(700);
+    await expect.poll(() => boardWidth(page)).toBe(custom);
     await openBoardDisplay(page);
-    await expect(slider(page)).toHaveValue("700");
+    await expect(slider(page)).toHaveValue(String(custom));
 
     await fitButton(page).click();
     await expect.poll(() => boardWidth(page)).toBe(fitted);
@@ -57,11 +58,11 @@ test.describe("board size on a 1440×900 window", () => {
   test("the slider is keyboard operable and stops at its limits", async ({ page }) => {
     await startSolo(page);
     await openBoardDisplay(page);
-    await slider(page).fill("500");
-    await expect.poll(() => boardWidth(page)).toBe(500);
+    await slider(page).fill("350");
+    await expect.poll(() => boardWidth(page)).toBe(350);
     await slider(page).focus();
     for (let i = 0; i < 3; i++) await page.keyboard.press("ArrowRight");
-    await expect.poll(() => boardWidth(page)).toBe(530);
+    await expect.poll(() => boardWidth(page)).toBe(380);
     await page.keyboard.press("Home");
     await expect.poll(() => boardWidth(page)).toBe(280);
     await page.keyboard.press("End");
@@ -76,7 +77,13 @@ test.describe("board size on a 1440×900 window", () => {
     await expect(grip).toHaveAttribute("role", "slider");
     await expect(grip).toHaveAccessibleName("Resize board");
     const fitted = await boardWidth(page);
-    const enlarged = Math.round((fitted + 200) / 10) * 10;
+    const cap = Number(await grip.getAttribute("aria-valuemax"));
+    const smaller = Math.max(280, cap - 200);
+    await openBoardDisplay(page);
+    await slider(page).fill(String(smaller));
+    await openBoardDisplay(page);
+    await expect.poll(() => boardWidth(page)).toBe(smaller);
+    const enlarged = Math.min(cap, smaller + 200);
     const start = (await grip.boundingBox())!;
     const x = start.x + start.width / 2, y = start.y + start.height / 2;
     await page.mouse.move(x, y);
@@ -87,7 +94,7 @@ test.describe("board size on a 1440×900 window", () => {
     await expect.poll(() => boardWidth(page)).toBe(enlarged);
     expect(await storedSize(page)).toBe(String(enlarged));
     const moved = (await grip.boundingBox())!;
-    expect(Math.abs(moved.x + moved.width / 2 - (x + 100))).toBeLessThanOrEqual(6);
+    expect(Math.abs(moved.x + moved.width / 2 - (x + (enlarged - smaller) / 2))).toBeLessThanOrEqual(6);
 
     // Dragging far to the left stops at the smallest board rather than collapsing it.
     await grip.scrollIntoViewIfNeeded();
@@ -106,14 +113,16 @@ test.describe("board size on a 1440×900 window", () => {
   test("zen mode fits the board to the window whatever size was chosen, and leaving zen restores that size", async ({ page }) => {
     await page.addInitScript(key => localStorage.setItem(key, "700"), BOARD_SIZE_KEY);
     await startSolo(page);
-    expect(await boardWidth(page)).toBe(700);
+    const capped = await boardWidth(page);
+    expect(capped).toBeLessThanOrEqual(700);
+    await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await page.getByRole("button", { name: "Zen mode", exact: true }).click();
     await expect(page.getByRole("button", { name: "Exit zen mode", exact: true })).toBeVisible();
     await expect.poll(() => boardWidth(page)).toBe(642);
     await expect(page.getByTestId("board-resizer")).toHaveCount(0);
     expect(await storedSize(page)).toBe("700");
     await page.getByRole("button", { name: "Exit zen mode", exact: true }).click();
-    await expect.poll(() => boardWidth(page)).toBe(700);
+    await expect.poll(() => boardWidth(page)).toBe(capped);
   });
 
   for (const remembered of ["abc", "100"]) {
@@ -128,20 +137,24 @@ test.describe("board size on a 1440×900 window", () => {
 });
 
 test.describe("board size beyond the default layout", () => {
-  for (const width of [1440, 1920]) {
-    test(`dragging the size slider back and forth stays stable at ${width}px`, async ({ page }) => {
-      await page.setViewportSize({ width, height: 945 });
+  for (const width of [1440, 1920]) for (const height of [945, 1800]) {
+    test(`dragging the size slider back and forth stays stable at ${width}×${height}`, async ({ page }) => {
+      await page.setViewportSize({ width, height });
       await startSolo(page);
       await openBoardDisplay(page);
       const range = slider(page);
-      await range.fill("800");
+      const min = Number(await range.getAttribute("min"));
+      // Tall windows retain coverage above the old 858px layout, where the track used to move.
+      const initial = Math.max(min, Math.min(800, Number(await range.getAttribute("max")) - 60));
+      await range.fill(String(initial));
+      await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
       const box = (await range.boundingBox())!;
-      const min = Number(await range.getAttribute("min")), max = Number(await range.getAttribute("max"));
-      let x = box.x + 8 + (box.width - 16) * (800 - min) / (max - min);
+      const max = Number(await range.getAttribute("max"));
+      let x = box.x + 8 + (box.width - 16) * (initial - min) / (max - min);
       const y = box.y + box.height / 2;
       await page.mouse.move(x, y);
       await page.mouse.down();
-      for (const [destination, limit] of [[box.x + box.width + 50, max], [box.x - 50, min]] as const) {
+      for (const [destination, limit] of [[box.x + box.width + 50, "max"], [box.x - 50, "min"]] as const) {
         const start = x;
         let previous = Number(await range.inputValue());
         for (let step = 1; step <= 25; step++) {
@@ -156,7 +169,8 @@ test.describe("board size beyond the default layout", () => {
           expect(Math.abs((await board(page).boundingBox())!.width - current)).toBeLessThan(1);
           previous = current;
         }
-        await expect(range).toHaveValue(String(limit));
+        await expect(range).toHaveValue(String(Number(await range.getAttribute(limit))));
+        await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
       }
       await page.mouse.up();
       expect(await hasHorizontalScroll(page)).toBe(false);
@@ -164,10 +178,10 @@ test.describe("board size beyond the default layout", () => {
   }
 
   test("on a wide window the board can grow past the default layout without overflowing or crowding the side panel", async ({ page }) => {
-    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.setViewportSize({ width: 1920, height: 2160 });
     await startSolo(page);
     expect(await boardWidth(page)).toBeGreaterThan(390);
-    expect(await boardWidth(page)).toBeLessThanOrEqual(745);
+    expect(await boardWidth(page)).toBeLessThanOrEqual(760);
     await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await openBoardDisplay(page);
     const max = Number(await slider(page).getAttribute("max"));
@@ -175,6 +189,7 @@ test.describe("board size beyond the default layout", () => {
     expect(max).toBeGreaterThan(1000);
     await slider(page).fill(String(max));
     await expect.poll(() => boardWidth(page)).toBe(max);
+    await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     expect(await hasHorizontalScroll(page)).toBe(false);
     const sidebar = (await page.getByRole("complementary", { name: "Game controls and history" }).boundingBox())!;
     const box = (await board(page).boundingBox())!;
@@ -188,7 +203,9 @@ test.describe("board size beyond the default layout", () => {
     await page.addInitScript(key => localStorage.setItem(key, "1500"), BOARD_SIZE_KEY);
     await startSolo(page);
     const box = (await board(page).boundingBox())!;
-    expect(box.width).toBeGreaterThan(700);
+    expect(box.width).toBeGreaterThan(280);
+    await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
+    expect(await storedSize(page)).toBe("1500");
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(800);
     expect(await hasHorizontalScroll(page)).toBe(false);

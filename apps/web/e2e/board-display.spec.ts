@@ -42,7 +42,9 @@ for (const viewport of [
   await page.goto("/li4chess/");
   await page.getByRole("button", { name: "Play against computers", exact: true }).click();
   const handle = page.getByRole("slider", { name: "Resize board", exact: true });
-  await expect(handle).toBeInViewport({ ratio: 1 });
+  await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
+  if (await handle.count()) await expect(handle).toBeInViewport({ ratio: 1 });
+  else expect((await page.locator(".chess-board").boundingBox())!.width).toBeLessThanOrEqual(280);
   await expect(page.locator(".chess-board")).toBeInViewport({ ratio: 1 });
   const board = await page.locator(".chess-board").boundingBox();
   expect(Math.abs(board!.width - board!.height)).toBeLessThan(1);
