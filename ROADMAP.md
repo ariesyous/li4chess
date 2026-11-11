@@ -45,14 +45,14 @@ standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
 
-The 2026-11-10 desktop sizing follow-up is implemented and validated locally.
-After local playtesting, the maintainer requested captured pieces inside each
-player card. The working tree adds colored capture icons, duplicate counts and
-an accessible full list, derived from recorded moves. The sizing fix removes the
-fixed desktop board/page caps, puts player cards in the unused board corners,
-and combines Zen's turn status and exit control into one row. The maintainer
-confirmed both changes locally and authorized deployment after the playtest. These maintenance
-changes add no milestone; validation and the handoff are in
+The 2026-11-10 desktop sizing and captured-piece follow-up shipped through
+[PR #39](https://github.com/ariesyous/li4chess/pull/39) at release `33f3762` after
+the maintainer's local playtest and deployment approval. Desktop boards use the
+available window space, player cards occupy the unused corners, and Zen shares
+one row for turn status and its exit control. Each card shows the player's
+captures with original colors, duplicate counts and an accessible full list;
+existing saves and replays need no migration. These maintenance changes add no
+milestone; validation and publication evidence are in
 [project state](docs/project-state.md).
 
 The 2026-11-09 favicon follow-up shipped at release `7393145`. All five public

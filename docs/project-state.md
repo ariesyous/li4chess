@@ -8,9 +8,9 @@ superseded handoffs.
 
 ## Current focus
 
-**Captured pieces in player cards (2026-11-10, deployment authorized):** after
+**Captured pieces in player cards (2026-11-10, released):** after
 trying the desktop sizing fix, the maintainer requested each player's captures
-in the empty right side of their corner card. The working tree adds original-color
+in the empty right side of their corner card. The release adds original-color
 piece icons grouped by owner/type and duplicate count, with a bounded four-group
 preview and a remaining-piece count. Small boards use a compact total. Clicking
 either presentation opens the full list in a keyboard-accessible native dialog;
@@ -45,12 +45,30 @@ were inspected. All 152 local Markdown file links in README, ROADMAP and this
 file resolve, and `git diff --check` passed. These are local automated-browser
 checks. The maintainer confirmed the local result and requested deployment.
 
-The local preview is `http://127.0.0.1:5173/li4chess/`. The sizing fix and capture
-enhancement are being released together through CI and the existing GitHub Pages
-workflow. Publication and live verification are pending; no new hosting services
+Release `33f3762b373b17ed26140119545ad4a0c9d17516` was fast-forwarded to main,
+merging [PR #39](https://github.com/ariesyous/li4chess/pull/39), after
+[PR CI](https://github.com/ariesyous/li4chess/actions/runs/42959869992) passed
+Linux lint, unit checks, build, **152 browser tests** and **65 production-preview
+tests** without retries. The existing
+[Pages workflow](https://github.com/ariesyous/li4chess/actions/runs/42960820025)
+published it successfully at li4chess.org. The live app's JS identifies this
+exact source revision, and the new JS/CSS assets return HTTP 200.
+
+All **7 live checks** passed: Chromium and WebKit at 1898×943, 3840×2160 and
+360×800 verified captures for all four players, duplicate counts, full lists,
+rotation, normal/Zen fitting and reload/resume. At 3840×2160 the live normal/Zen
+board sizes are approximately 1942/2078px. A real Red move plus three CPU replies
+and subsequent resume passed in Chromium; all WASM/NNUE/parameter requests
+returned HTTP 200. Live captures were inspected, and there were no page errors.
+[Main-branch CI](https://github.com/ariesyous/li4chess/actions/runs/42960820061)
+also passed lint, unit checks, build, all 152 browser tests and all 65
+production-preview tests without retries. This documentation closeout uses
+`[skip ci]` to retain the verified deployment. Publication and verification are
+complete.
+The local preview remains `http://127.0.0.1:5173/li4chess/`. No new hosting services
 or deferred multiplayer activation are part of this release.
 
-**Desktop board space (2026-11-10, locally validated and playtested):** the maintainer
+**Desktop board space (2026-11-10, released with captured pieces):** the maintainer
 reported an artificially small resize limit on a 4K monitor in normal mode,
 then pointed out wasted space in Zen too. These changes were first prepared for
 local playtesting. On base `86a0536`, a 1898×943 CSS-pixel viewport reproduced
@@ -58,7 +76,7 @@ the screenshot: 577px automatic / 570px maximum board, with 350px of header,
 player-card rows and board controls before the remaining margin. At 3840×2160,
 automatic normal mode stopped at 760px and Zen at the 1192px shell interior.
 
-The working tree removes those desktop caps and sizes the shell from the
+The release removes those desktop caps and sizes the shell from the
 available fit, keeping the sidebar and slider stationary across custom sizes.
 Desktop cards use all four unplayable corners; compact boards retain their text
 states and accessible point units. The header is shorter, and desktop Zen shares
@@ -91,8 +109,8 @@ ROADMAP and this file resolve, and `git diff --check` passed. These are local
 headless-browser/viewport checks. The maintainer then reported that the local
 layout was better and requested the captured-piece enhancement above.
 
-The maintainer subsequently approved deploying the desktop fix and captured-piece
-enhancement together; publication is tracked above.
+The desktop fix and captured-piece enhancement shipped together; publication
+and live verification are recorded above.
 
 **Site favicon (2026-11-09, released):** the maintainer requested a favicon
 and deployment. All five HTML entry points now declare an original ivory king
