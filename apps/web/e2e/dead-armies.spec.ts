@@ -54,6 +54,9 @@ for (const status of ["checkmated", "stalemated"] as const) for (const walking o
     await expect(page.getByRole("button", { name:/dead Red/ })).toHaveCount(1);
     await expect(page.getByTestId("player-1")).toContainText(`${status === "checkmated" ? 20 : 10} pts`);
     await expect(page.getByTestId("player-1")).toContainText("Human");
+    await page.getByRole("button", { name: "Pieces captured by Blue: 1", exact: true }).click();
+    await expect(page.getByRole("dialog", { name: "Pieces captured by Blue", exact: true }).getByRole("listitem")).toHaveText(["1 Red Pawn"]);
+    await page.keyboard.press("Escape");
     expect(errors).toEqual([]);
   });
 }

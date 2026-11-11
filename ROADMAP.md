@@ -1,6 +1,6 @@
 # li4chess roadmap
 
-Last reviewed: 2026-11-09. This is a capability roadmap, not a dated delivery
+Last reviewed: 2026-11-10. This is a capability roadmap, not a dated delivery
 promise. Milestone order and implementation choices are the working plan; the
 product decisions below were confirmed by the maintainer.
 
@@ -44,6 +44,16 @@ Teams/2v2 and other variants remain ideas. The local/CPU Pages release is a
 standalone outcome; no automatic progression to hosted play is planned.
 
 ## Current baseline
+
+The 2026-11-10 desktop sizing follow-up is implemented and validated locally.
+After local playtesting, the maintainer requested captured pieces inside each
+player card. The working tree adds colored capture icons, duplicate counts and
+an accessible full list, derived from recorded moves. The sizing fix removes the
+fixed desktop board/page caps, puts player cards in the unused board corners,
+and combines Zen's turn status and exit control into one row. The maintainer
+confirmed both changes locally and authorized deployment after the playtest. These maintenance
+changes add no milestone; validation and the handoff are in
+[project state](docs/project-state.md).
 
 The 2026-11-09 favicon follow-up shipped at release `7393145`. All five public
 pages share an original four-color king mark with SVG, PNG, multi-size ICO and

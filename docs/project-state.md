@@ -1,12 +1,98 @@
 # Project state
 
-Last updated: 2026-11-09.
+Last updated: 2026-11-10.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Captured pieces in player cards (2026-11-10, deployment authorized):** after
+trying the desktop sizing fix, the maintainer requested each player's captures
+in the empty right side of their corner card. The working tree adds original-color
+piece icons grouped by owner/type and duplicate count, with a bounded four-group
+preview and a remaining-piece count. Small boards use a compact total. Clicking
+either presentation opens the full list in a keyboard-accessible native dialog;
+Escape/Close returns focus to the capture button in Chromium and WebKit.
+Compact cards make their whole area tappable without enlarging their layout;
+keyboard navigation reaches the board first, then the four capture inventories.
+Capture updates keep card and board size steady. The icon area reserves text
+space for walking-King labels even at its 600px board-width breakpoint.
+
+Inventories come from canonical move-history captures attributed to the mover,
+including zero-point dead-army captures. Promoted Queens retain their pawn
+provenance in the full list. Existing saves and validated imported replays need
+no migration; rotation and Zen keep inventories attached to the capturing player.
+No rules, scoring, save formats or deferred multiplayer behavior changed.
+New [browser coverage](../apps/web/e2e/captured-pieces.spec.ts) exercises actual
+captures by all four players, duplicate
+counts, original colors, rotation, Zen, reload/resume, reset, crowded previews,
+small boards and keyboard dialog use. Existing promotion/dead-army browser cases
+now check their captured inventories too. The capture suite also runs in the
+production-preview configuration.
+
+Fresh validation on `86a0536` plus this working tree used Windows, Node 24.18.0,
+pinned pnpm 10.33.0 via Corepack and Playwright 1.56.1. `pnpm lint`, `pnpm test`
+and `pnpm build` passed; web checks/build and all 67 web unit tests executed,
+while unchanged package tasks reused Turbo cache. All **152 Chromium browser
+tests**, **57 WebKit accessibility/capture/layout checks** and **18 local
+production-preview capture/sizing checks** passed without retries. The keyboard
+regression also passed ten consecutive Chromium runs after fixing delayed focus
+restoration. The keyboard fixture waits for the setup screen before its first
+Tab, avoiding a render-readiness race in WebKit. Desktop, phone and Zen captures
+were inspected. All 152 local Markdown file links in README, ROADMAP and this
+file resolve, and `git diff --check` passed. These are local automated-browser
+checks. The maintainer confirmed the local result and requested deployment.
+
+The local preview is `http://127.0.0.1:5173/li4chess/`. The sizing fix and capture
+enhancement are being released together through CI and the existing GitHub Pages
+workflow. Publication and live verification are pending; no new hosting services
+or deferred multiplayer activation are part of this release.
+
+**Desktop board space (2026-11-10, locally validated and playtested):** the maintainer
+reported an artificially small resize limit on a 4K monitor in normal mode,
+then pointed out wasted space in Zen too. These changes were first prepared for
+local playtesting. On base `86a0536`, a 1898×943 CSS-pixel viewport reproduced
+the screenshot: 577px automatic / 570px maximum board, with 350px of header,
+player-card rows and board controls before the remaining margin. At 3840×2160,
+automatic normal mode stopped at 760px and Zen at the 1192px shell interior.
+
+The working tree removes those desktop caps and sizes the shell from the
+available fit, keeping the sidebar and slider stationary across custom sizes.
+Desktop cards use all four unplayable corners; compact boards retain their text
+states and accessible point units. The header is shorter, and desktop Zen shares
+one row for turn status and Exit zen mode while reserving its measured credits.
+At 1898×943, automatic normal/Zen boards now measure 725/861px; at 3840×2160,
+they measure approximately 1942/2078px. Normal and Zen captures were inspected.
+Window caps, saved choices, phone/tablet controls, stable game-update sizing and
+the small-window scrolling fallback remain covered by the existing regressions.
+Real window changes wait for the new media/container layout before fitting;
+obsolete fits are cancelled during continuous resizing. This fixes WebKit
+occasionally retaining a small fit after a rapid desktop/tablet transition.
+
+New [browser cases](../apps/web/e2e/board-desktop-space.spec.ts) reproduce the
+reported desktop space issue, exercise three large viewports, minimum/maximum
+resizing, corner clearance, Zen entry/exit and
+restoration of a small saved size. A real post-opening resignation fixture
+checks walking-King labels at the minimum size. They also run in production-preview
+checks. The scrollbar regression now uses a 1320px-tall desktop: the more compact
+layout needs that height to actually transition from no scrollbar to a scrollbar
+when a checkmate notice appears, while retaining the same board width.
+The regression failed on the unmodified layout at 577px. Fresh final validation
+on `86a0536` plus this working tree used Windows, Node 24.18.0, pinned pnpm 10.33.0
+and Playwright 1.56.1. `pnpm lint`, `pnpm test` and `pnpm build` passed: web
+lint/build and all 67 web unit tests executed; unchanged package tasks reused
+Turbo cache. All **149 Chromium browser tests**, **45 WebKit layout/control
+checks** and **15 local production-preview sizing checks** at `/li4chess/`
+passed without retries. The final built normal/Zen captures and the minimum-size
+walking-King cards were inspected. All 152 local Markdown file links in README,
+ROADMAP and this file resolve, and `git diff --check` passed. These are local
+headless-browser/viewport checks. The maintainer then reported that the local
+layout was better and requested the captured-piece enhancement above.
+
+The maintainer subsequently approved deploying the desktop fix and captured-piece
+enhancement together; publication is tracked above.
 
 **Site favicon (2026-11-09, released):** the maintainer requested a favicon
 and deployment. All five HTML entry points now declare an original ivory king
@@ -1344,10 +1430,14 @@ engineering contracts retain their evidence; deferred features are not commitmen
 
 ## Next actionable tasks
 
-1. **Search discovery:** usability/SEO improvements are published and live
+1. **Desktop sizing:** let the maintainer test the local working tree at
+   `http://127.0.0.1:5173/li4chess/`, including normal and Zen modes. Use Board
+   display → Fit to window if a previous smaller size is restored. This task
+   explicitly excludes deployment; the changes remain unpublished.
+2. **Search discovery:** usability/SEO improvements are published and live
    crawl files and canonical HTML are verified. Optional Search Console/Bing
    registration and submission remain separate; no indexing guarantee is made.
-2. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
+3. **After L1: maintenance checkpoint.** Focus on bugs and occasional feedback;
    no promised feature schedule. Additional hosting work and hosted multiplayer
    remain shelved. The [preserved hosted handoff](m3-hosted-handoff.md) needs a new
    scope decision. Matchmaking/ratings and other ideas have no active task queue.

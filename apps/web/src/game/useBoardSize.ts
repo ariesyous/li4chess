@@ -42,7 +42,7 @@ export function useBoardSize(zen: boolean) {
     const shell = shellRef.current, layout = layoutRef.current, boardArea = boardAreaRef.current;
     const viewportElement = viewportRef.current;
     if (!shell || !layout || !boardArea || !viewportElement) return;
-    let lastWidth = 0, lastHeight = 0;
+    let lastWidth = 0, lastHeight = 0, fitFrame = 0;
     const measure = () => {
       setRoom(measureRoom(shell, layout));
       setRendered(Math.round(boardArea.getBoundingClientRect().width));
@@ -50,9 +50,14 @@ export function useBoardSize(zen: boolean) {
       // Only a changed window (or explicit Zen toggle) starts a fresh height fit.
       const width = window.innerWidth, height = Math.round(viewportElement.getBoundingClientRect().height);
       if (width !== lastWidth || height !== lastHeight) {
+        const initial = lastWidth === 0;
         lastWidth = width; lastHeight = height;
-        setViewport({ width, height });
-        setFitHeight(MAX_BOARD_SIZE);
+        const fit = () => { setViewport({ width, height }); setFitHeight(MAX_BOARD_SIZE); };
+        cancelAnimationFrame(fitFrame);
+        if (initial) fit();
+        // WebKit can deliver resize before the new media/container layout is ready.
+        // Fit the settled arrangement; cancel obsolete work during a continuous drag.
+        else fitFrame = requestAnimationFrame(() => { fitFrame = requestAnimationFrame(fit); });
       }
     };
     measure();
@@ -61,6 +66,7 @@ export function useBoardSize(zen: boolean) {
     window.addEventListener("resize", measure);
     return () => {
       observer.disconnect(); window.removeEventListener("resize", measure);
+      cancelAnimationFrame(fitFrame);
     };
   }, [zen]);
 
@@ -69,7 +75,11 @@ export function useBoardSize(zen: boolean) {
     if (!viewport || !frame || !board) return;
     const frameBox = frame.getBoundingClientRect();
     const chrome = frameBox.height - board.getBoundingClientRect().height;
-    const available = Math.floor(viewport.height - (frameBox.top + window.scrollY) - chrome - 16);
+    // Zen has no sidebar; its credits can fit with the board instead of adding a scrollbar.
+    const shell = shellRef.current;
+    const footer = zen ? shell?.querySelector(".app-footer") : null;
+    const bottom = footer && shell ? footer.getBoundingClientRect().height + parseFloat(getComputedStyle(shell).paddingBottom) : 16;
+    const available = Math.floor(viewport.height - (frameBox.top + window.scrollY) - chrome - Math.max(16, bottom));
     // A fit only shrinks until settled. Compact card breakpoints must not
     // alternate between two sizes; window/Zen changes start again from MAX.
     setFitHeight(Math.min(fitHeight, Math.max(MIN_FITTED_BOARD_SIZE, available)));

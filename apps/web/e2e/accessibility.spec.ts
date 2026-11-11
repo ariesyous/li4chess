@@ -29,6 +29,7 @@ test("a check against a non-current player is announced alongside its score", as
 
 test("keyboard-only setup, board selection, clearing, move and game controls", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByRole("button", { name: "Play against computers" })).toBeVisible();
   await page.keyboard.press("Tab"); await expect(page.getByRole("button", { name: "Play against computers" })).toBeFocused();
   await page.keyboard.press("Tab"); await expect(page.locator("summary").filter({ hasText: /^Customize game$/ })).toBeFocused();
   await page.keyboard.press("Enter");
@@ -47,6 +48,15 @@ test("keyboard-only setup, board selection, clearing, move and game controls", a
   await expect(page.locator('[data-square="48"]')).toHaveAccessibleName("g4 empty, legal destination");
   await expect(page.locator('[data-square="48"]')).toHaveCSS("outline-style", "solid");
   await page.keyboard.press("Enter"); await expect(page.getByTestId("turn-status")).toContainText("Blue to move");
+  for (const name of ["Red", "Blue", "Yellow", "Green"]) {
+    await page.keyboard.press("Tab");
+    const captures = page.getByRole("button", { name: `Pieces captured by ${name}: 0`, exact: true });
+    await expect(captures).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("dialog", { name: `Pieces captured by ${name}`, exact: true })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(captures).toBeFocused();
+  }
   await page.keyboard.press("Tab"); await expect(page.getByLabel("Rotate board to current player")).toBeFocused();
   await page.keyboard.press("Space"); await expect(page.locator(".chess-board")).toHaveAttribute("data-bottom-color", "1");
   await page.keyboard.press("Tab"); await expect(page.getByRole("slider", { name: "Resize board", exact: true })).toBeFocused();

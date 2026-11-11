@@ -34,4 +34,7 @@ test("eighth-rank promotion displays Queen and history, then capture scores one 
   await expect(page.getByTestId("award-ledger")).toContainText("Blue +1 capture — 1 pts");
   await expect(page.getByTestId("action-announcement")).toContainText("Blue gained 1 points; total 1.");
   await expect(page.locator('[aria-live="polite"]')).toContainText("Blue moved e10 to f8, capture.");
+  await page.getByRole("button", { name: "Pieces captured by Blue: 1", exact: true }).click();
+  await expect(page.getByRole("dialog", { name: "Pieces captured by Blue", exact: true }).getByRole("listitem"))
+    .toHaveText("1 Red Queen (promoted pawn)");
 });

@@ -20,10 +20,6 @@ p { line-height: 1.5; }
 .game-shell { max-width: 1240px; margin: auto; padding: 0 24px 24px; }
 /* A new notice must not take width from the board when a page scrollbar appears. */
 html:has(.local-game) { scrollbar-gutter: stable; }
-/* A chosen board wider than the default layout holds widens the shell: board + 24px gap + 310px side panel + 2 × 24px padding. */
-.local-game { max-width: max(1240px, calc(var(--board-size, 0px) + 382px)); }
-/* Keep the native range stationary while resizing: a moving track feeds the layout change back into the drag. */
-.local-game:has(.board-display[open]) { max-width: none; }
 .app-header { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
 .brand { text-decoration: none; font-size: 30px; font-weight: 400; letter-spacing: -1.3px; color: #514b44; }
 .brand span { display: block; font-size: 11px; letter-spacing: .15px; margin-top: 3px; color: var(--muted); }
@@ -48,7 +44,7 @@ html:has(.local-game) { scrollbar-gutter: stable; }
 .chess-board .board-square:focus-visible { z-index: 2; outline-offset: -3px; }
 .chess-piece { width: 94%; height: 94%; display: block; pointer-events: none; }
 .piece-owner { position: absolute; left: 1px; top: 1px; color: #302c27; background: #fff9eddf; border-radius: 1px; font: 700 clamp(7px, .65vw, 9px)/1 Arial, sans-serif; padding: 1px; pointer-events: none; }
-.player-panel { border-left: 4px solid var(--seat-color); border-radius: 3px; background: #faf9f7; padding: 8px 10px; display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; font-size: 12px; align-content: center; box-shadow: 0 1px 2px #29262116; }
+.player-panel { position: relative; border-left: 4px solid var(--seat-color); border-radius: 3px; background: #faf9f7; padding: 8px 10px; display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; font-size: 12px; align-content: center; box-shadow: 0 1px 2px #29262116; }
 .player-top { grid-column: 2; grid-row: 1; }
 .player-bottom { grid-column: 2; grid-row: 3; }
 .player-left, .player-right { position: absolute; z-index: 1; width: 20.4%; min-height: 76px; padding: 6px 8px; grid-template-columns: 1fr; gap: 3px; font-size: 12px; }
@@ -64,6 +60,20 @@ html:has(.local-game) { scrollbar-gutter: stable; }
 .player-left .player-points, .player-right .player-points { font-size: 20px; }
 .current-player { background: #fff; box-shadow: inset 0 0 0 1px #817b70, 0 2px 4px #2926211c; }
 .current-player .player-state { font-weight: 700; color: #32671e; }
+/* Capture buttons keep a fixed footprint. Long inventories open outside the board in a native dialog. */
+.player-captures { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; padding: 0; border: 0; background: transparent; color: var(--muted); font: 10px/1 Arial, sans-serif; }
+.player-captures:hover { background: transparent; box-shadow: inset 0 0 0 1px var(--line); }
+.captures-compact { display: inline-flex; vertical-align: middle; width: 28px; height: 16px; margin-left: 3px; align-items: center; justify-content: center; gap: 1px; border-radius: 2px; background: #eeece8; color: var(--muted); font: 10px/1 Arial, sans-serif; }
+.captures-compact .chess-piece { width: 12px; height: 14px; }
+.captures-preview { display: none; }
+.captures-dialog { width: min(460px, calc(100vw - 32px)); max-height: min(80svh, 640px); padding: 20px; border: 1px solid var(--line); border-radius: 5px; background: #faf9f7; color: #45413c; box-shadow: 0 8px 40px #29262140; }
+.captures-dialog::backdrop { background: #29262166; }
+.captures-dialog header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.captures-dialog h2 { margin: 0; line-height: 1.4; }
+.captures-dialog ul { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.captures-dialog li { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.captures-dialog .chess-piece { width: 32px; height: 32px; flex-shrink: 0; }
+.captures-dialog p { margin-bottom: 0; }
 .board-tools { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; padding: 4px 48px 0 0; }
 .board-tools label { flex: 1; min-width: 0; }
 .board-tools span { white-space: nowrap; color: var(--muted); }
@@ -210,13 +220,56 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
   .player-left .player-state, .player-right .player-state { font-size: 10px; overflow-wrap: anywhere; }
   .player-left .player-points, .player-right .player-points { font-size: 18px; }
 }
-/* Zen mode keeps the board, players, essential notices and credits; the board fits the window.
-   The 258px reserve covers the slim header, turn banner, player panels, credits line and padding. */
+/* Compact screens keep the stacked player panels and a separate exit row. */
 .zen .app-header { min-height: 52px; margin-bottom: 0; padding-top: 4px; padding-bottom: 4px; border-bottom: 0; justify-content: flex-end; }
 .zen .game-layout { grid-template-columns: minmax(0, 1fr); }
 .zen .play-area { --board-fit: max(390px, calc(100svh - 258px)); }
 .local-game.zen { padding-bottom: 8px; }
 .zen .app-footer { padding: 10px 0 0; }
+/* Desktop boards use their actual height fit, without the old 760px board / 1240px shell caps.
+   The four unplayable corners hold the player cards, leaving the full square for the board. */
+@media (min-width: 961px) {
+  /* Use the available fit, not the chosen size, so the sidebar slider stays stationary during a drag. */
+  .local-game { max-width: calc(var(--board-fit-height, 100svh) + 382px); }
+  .local-game .play-area { --board-fit: var(--board-fit-height, 100svh); }
+  .local-game:not(.zen) .app-header { min-height: 64px; margin-bottom: 8px; }
+  .local-game.zen { max-width: calc(var(--board-fit-height, 100svh) + 48px); }
+  @container (min-width: 280px) {
+    .local-game .board-slot { grid-row: 1 / -1; }
+    .local-game .player-panel { position: absolute; z-index: 1; grid-area: auto; width: 20.4%; min-height: 76px; padding: 6px 8px; grid-template-columns: 1fr; gap: 3px; }
+    .local-game .player-top { right: 0; top: 0; }
+    .local-game .player-bottom { left: 0; bottom: 0; }
+    .local-game .player-points, .local-game .player-state { grid-column: 1; grid-row: auto; }
+    .local-game .player-points { font-size: 20px; }
+  }
+  @container (min-width: 280px) and (max-width: 420px) {
+    .local-game .player-panel { min-height: 0; padding: 2px; gap: 1px; font-size: 10px; line-height: 1.1; }
+    .local-game .player-panel .player-name { font-size: 11px; }
+    .local-game .player-name span { display: none; }
+    .local-game .player-points { font-size: 14px; white-space: nowrap; }
+    .local-game .player-panel .player-state { font-size: clamp(8px, 2.85cqw, 11px); font-weight: 400; }
+    .local-game .player-points small { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  }
+  @container (min-width: 600px) {
+    .local-game .player-captures { position: absolute; top: 6px; right: 6px; bottom: 6px; left: max(80px, 55%); width: auto; height: auto; margin: 0; padding: 0; background: transparent; border-radius: 2px; }
+    .local-game .player-captures:hover, .local-game .player-captures:focus-visible { background: #eeece8; }
+    .local-game .captures-compact { display: none; }
+    .local-game .captures-preview { display: flex; height: 100%; flex-direction: column; gap: 2px; overflow: hidden; }
+    .captures-caption { font-size: 9px; line-height: 12px; font-weight: 400; }
+    .captures-icons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
+    .capture-piece { position: relative; display: flex; justify-content: center; height: clamp(16px, 2.75cqw, 22px); min-width: 0; }
+    .capture-piece .chess-piece { width: auto; height: 100%; max-width: 100%; }
+    .capture-count { position: absolute; right: 0; bottom: 0; padding: 0 1px; border-radius: 2px; background: #faf9f7ed; color: #45413c; font-size: 9px; line-height: 10px; }
+    .captures-empty { font-size: 14px; padding-top: 6px; }
+    .captures-more { font-size: 9px; line-height: 11px; }
+  }
+}
+/* Share a single row for turn status and Exit zen mode, instead of reserving two rows. */
+@media (min-width: 961px) and (min-height: 700px) {
+  .local-game.zen { position: relative; }
+  .zen .app-header { position: absolute; top: 0; right: 24px; z-index: 2; }
+  .zen .turn-banner { min-height: 52px; padding-right: 176px; }
+}
 /* Small boards retain readable status rows without scores wrapping into playable squares. */
 @container (max-width: 280px) {
   .player-name span { display: none; }
@@ -225,6 +278,8 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
   .player-left .player-state, .player-right .player-state { font-size: 10px; overflow-wrap: anywhere; }
   .player-left .player-points, .player-right .player-points { font-size: clamp(10px, 5cqw, 14px); white-space: nowrap; }
   .player-left .player-points small, .player-right .player-points small { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .captures-compact { width: 14px; height: 12px; font-size: 8px; margin-left: 1px; }
+  .captures-compact .chess-piece { display: none; }
 }
 @media (pointer: coarse) { .board-resizer { display: none; } .board-tools { padding-right: 4px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }

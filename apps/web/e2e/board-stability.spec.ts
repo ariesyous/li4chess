@@ -123,7 +123,8 @@ const producer = { format: "li4chess-engine-build-v1" as const, sourceRevision: 
   packageVersions: { "@li4chess/engine": "0.0.0", "@li4chess/protocol": "0.0.0" },
   workingTree: { status: "unreproducible" as const, reason: "Board stability browser fixture" } };
 
-for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 700 }, { width: 360, height: 800 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }, { width: 1440, height: 1500 }]) {
+// The tall desktop is width-bound but just short enough for a new notice to introduce a scrollbar.
+for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 700 }, { width: 360, height: 800 }, { width: 820, height: 1180 }, { width: 1440, height: 900 }, { width: 1440, height: 1320 }]) {
   test.describe(`checkmate layout at ${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport, hasTouch: viewport.width < 1000, isMobile: viewport.width < 1000 });
     for (const saved of [false, true]) test(`checkmate notice appearing and clearing preserves the ${saved ? "saved" : "automatic"} board size`, async ({ page, browserName }, info) => {
@@ -161,6 +162,9 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 700 }
       await page.screenshot({ path: info.outputPath("before-mate.png") });
       await settle(page);
       const initial = await width(page);
+      if (viewport.height === 1320 && saved && browserName === "chromium") {
+        expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight)).toBe(true);
+      }
       await watchWidths(page);
       const play = async (file: number, rank: number) => {
         const square = page.locator(`[data-square="${transform(squareOf(file, rank))}"]`);
@@ -169,7 +173,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 700 }
       await play(13, 7); await play(12, 7);
       await expect(page.getByText(`${victimName} is checkmated`, { exact: false })).toBeVisible();
       await expect(page.getByTestId(`player-${victim}`)).toContainText("Dead army");
-      if (viewport.height === 1500 && saved && browserName === "chromium") {
+      if (viewport.height === 1320 && saved && browserName === "chromium") {
         expect(await page.evaluate(() => innerWidth - document.documentElement.clientWidth)).toBeGreaterThan(0);
       }
       await page.evaluate(() => scrollTo(0, 0));

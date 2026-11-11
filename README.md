@@ -21,7 +21,8 @@ one device with friends, right in your browser. Inspired by [lichess](https://li
   using the Tetrarch advisory hybrid with a native fallback. li4chess validates
   every move and determines all rules and results.
 - **Follow the action.** Legal-move highlights, check indicators, optional board
-  rotation, move history and a points ledger help you keep track of four armies.
+  rotation, captured pieces in each player's card, move history and a points
+  ledger help you keep track of four armies.
 - **Pick up where you left off.** Games autosave in this browser. Resume from
   setup, or export and import validated replay files for portable backups.
 - **Play comfortably.** A responsive board, keyboard controls, optional
@@ -70,19 +71,28 @@ Click a piece, then a highlighted destination. With a keyboard, **Tab** enters
 the board, **arrow keys** navigate, **Enter/Space** select or move, and **Escape**
 clears the selection.
 
+Each player's card shows the pieces **that player captured**, in their original
+army colors, with duplicate pieces grouped by count. Click the capture area for
+the full list; small boards show a compact total and let you tap the whole card.
+Captures also appear
+in Zen mode and are restored from saved games and imported replays.
+
 **Board display** sets the board size with a slider. Touchscreens use this
 explicit control, leaving swipes around the board free to scroll. With a mouse,
 drag the bottom-right grip or double-click it to fit the window again. Focus the
 grip and use arrow keys to resize with a keyboard. The size is
 remembered in this browser and limited by the available width and height,
-including space for the player panels and board controls. Resizing the window
+including space for the player panels and board controls. On desktop, the four
+player cards occupy the board's unused corners, and automatic sizing uses the
+available window space without a fixed desktop width cap. Resizing the window
 temporarily caps a larger saved choice; that choice returns when there is room.
 Moves, checkmate notices, touch scrolling and zoom keep the board's layout size
 steady. The height fit uses the stable viewport with room for browser controls.
 Phone users can shrink the board too. Very short windows keep a small usable
 board and allow scrolling; other controls and history can also need scrolling.
 **Zen mode**, in the header, hides the
-header, side panel and help text and fits the board to the window; it is
+header, side panel and help text and fits the board to the window; the desktop
+turn status shares a row with **Exit zen mode** to leave more board space. It is
 remembered too. Leave zen mode to resign, save, export replays or review moves;
 the result, notices and any autosave problem still appear inside it.
 

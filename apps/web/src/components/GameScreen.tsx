@@ -2,13 +2,15 @@ import { ALL_COLORS, PlayerColor, isPlayerInCheck, isLivePiece, hasLiveKing, can
 import { CPU_POLICIES } from "@li4chess/bot";
 import type { CpuLevel } from "@li4chess/bot";
 import { Board, PLAYER_COLOR_HEX, PLAYER_COLOR_NAME } from "@li4chess/ui-kit";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { SeatSetups, useLocalGame } from "../game/useLocalGame.js";
 import type { ResumedGame } from "../game/localSave.js";
 import { BOARD_SIZE_STEP, readZenMode, writeZenMode } from "../game/displayPrefs.js";
 import { useBoardSize } from "../game/useBoardSize.js";
 import { BoardResizer } from "./BoardResizer.js";
+import { CapturedPieces } from "./CapturedPieces.js";
+import { capturedPiecesByPlayer } from "../game/capturedPieces.js";
 import { RulesHelp } from "./RulesHelp.js";
 import { Credits } from "./Credits.js";
 import { Icon } from "./Icon.js";
@@ -51,6 +53,7 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
   }, [state.result]);
   const bottomColor = rotateToMover ? state.turn : PlayerColor.Red;
   const lastMove = state.moveHistory.at(-1) ?? null;
+  const captures = useMemo(() => capturedPiecesByPlayer(state.moveHistory), [state.moveHistory]);
   const deadSquares = new Set(state.board.flatMap((piece, square) => piece && !isLivePiece(state, piece) ? [square] : []));
   const checkedColors = new Set(ALL_COLORS.filter(color => hasLiveKing(state, color) && isPlayerInCheck(state, color)));
   const previous = useRef({ state, checkedColors });
@@ -120,6 +123,10 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
           <span className="sr-only" data-testid="action-announcement">{actionAnnouncement}</span>
         </div>
         <div className="arena">
+          <div className="board-slot" ref={sizing.boardRef}><Board board={state.board} onSquareClick={selectSquare} onClearSelection={clearSelection}
+            showOwnerLetters={showOwnerLetters}
+            selectedSquare={selectedSquare} legalTargets={legalTargets} checkedColors={checkedColors} deadSquares={deadSquares}
+            lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null} bottomColor={bottomColor} /></div>
           {ALL_COLORS.map(color => {
             const player = state.players[color], direction = directions[(color - bottomColor + 4) % 4];
             const current = !state.result && color === state.turn;
@@ -129,14 +136,10 @@ export function GameScreen({ seats, onRestart, resumed }: { seats: SeatSetups; o
               data-testid={`player-${color}`} data-direction={direction} aria-label={`${PLAYER_COLOR_NAME[color]}, ${direction} player`}>
               <strong className="player-name">{PLAYER_COLOR_NAME[color]} <span aria-hidden="true">{current ? "◆" : "◇"}</span></strong>
               <span className="player-kind">{player.isCPU ? `CPU L${player.cpuDifficulty ?? 3}` : color === soloHuman ? "You" : "Human"}</span>
-              <strong className="player-points">{points(player.score)} <small>pts</small></strong>
+              <strong className="player-points">{points(player.score)} <small>pts</small><CapturedPieces player={color} groups={captures[color]} /></strong>
               <span className="player-state">{status}</span>
             </section>;
           })}
-          <div className="board-slot" ref={sizing.boardRef}><Board board={state.board} onSquareClick={selectSquare} onClearSelection={clearSelection}
-            showOwnerLetters={showOwnerLetters}
-            selectedSquare={selectedSquare} legalTargets={legalTargets} checkedColors={checkedColors} deadSquares={deadSquares}
-            lastMove={lastMove ? { from: lastMove.from, to: lastMove.to } : null} bottomColor={bottomColor} /></div>
         </div>
         {!zen && <div className="board-tools">
           <label><input type="checkbox" checked={rotateToMover} onChange={event => setRotateToMover(event.target.checked)} /> Rotate board to current player</label>

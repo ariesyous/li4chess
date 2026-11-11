@@ -50,7 +50,7 @@ test.describe("on a 1440×900 window", () => {
     await expect(board(page)).toBeVisible();
     await expect(page.getByRole("link", { name: "Pieces & credits", exact: true })).toBeVisible();
     // The board takes the room the removed chrome left, with no scrolling needed.
-    await expect.poll(() => boardWidth(page)).toBe(642);
+    await expect.poll(() => boardWidth(page)).toBeGreaterThan(800);
     expect(await boardWidth(page)).toBeGreaterThan(normalWidth);
     expect(await hasVerticalScroll(page)).toBe(false);
     expect(await hasHorizontalScroll(page)).toBe(false);

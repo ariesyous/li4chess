@@ -116,9 +116,10 @@ test("keyboard and display slider respect bounds, reset to fit, and adapt to rot
   await handle.focus();
   await page.keyboard.press("End");
   await page.getByRole("button", { name: "Fit to window", exact: true }).click();
+  const portraitSize = Number(await handle.getAttribute("aria-valuenow"));
   await handle.focus();
   await page.setViewportSize({ width: 1024, height: 768 });
-  await expect.poll(async () => Number(await handle.getAttribute("aria-valuenow"))).toBeLessThan(500);
+  await expect.poll(async () => Number(await handle.getAttribute("aria-valuenow"))).toBeLessThan(portraitSize);
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect(handle).toBeInViewport({ ratio: 1 });
   await expect(page.locator(".chess-board")).toBeInViewport({ ratio: 1 });

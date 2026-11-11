@@ -23,8 +23,7 @@ test.describe("board size on a 1440×900 window", () => {
     await startSolo(page);
     // The automatic fit includes the actual player cards, controls and wrapped help.
     const fitted = await boardWidth(page);
-    expect(fitted).toBeGreaterThan(390);
-    expect(fitted).toBeLessThanOrEqual(565);
+    expect(fitted).toBeGreaterThan(660);
     await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await openBoardDisplay(page);
     await expect(slider(page)).toHaveAttribute("min", "280");
@@ -118,7 +117,8 @@ test.describe("board size on a 1440×900 window", () => {
     await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await page.getByRole("button", { name: "Zen mode", exact: true }).click();
     await expect(page.getByRole("button", { name: "Exit zen mode", exact: true })).toBeVisible();
-    await expect.poll(() => boardWidth(page)).toBe(642);
+    await expect.poll(() => boardWidth(page)).toBeGreaterThan(800);
+    await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await expect(page.getByTestId("board-resizer")).toHaveCount(0);
     expect(await storedSize(page)).toBe("700");
     await page.getByRole("button", { name: "Exit zen mode", exact: true }).click();
@@ -177,16 +177,17 @@ test.describe("board size beyond the default layout", () => {
     });
   }
 
-  test("on a wide window the board can grow past the default layout without overflowing or crowding the side panel", async ({ page }) => {
+  test("on a wide window the automatic board fills the available width without crowding the side panel", async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 2160 });
     await startSolo(page);
-    expect(await boardWidth(page)).toBeGreaterThan(390);
-    expect(await boardWidth(page)).toBeLessThanOrEqual(760);
+    expect(await boardWidth(page)).toBeGreaterThan(1500);
     await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
     await openBoardDisplay(page);
     const max = Number(await slider(page).getAttribute("max"));
     // The default layout holds at most 858px (1240px shell − padding − side panel); a wide window offers more.
     expect(max).toBeGreaterThan(1000);
+    // Automatic fitting already fills the width; choose a smaller value before enlarging it.
+    await slider(page).fill("800");
     await slider(page).fill(String(max));
     await expect.poll(() => boardWidth(page)).toBe(max);
     await expect(page.locator(".board-frame")).toBeInViewport({ ratio: 1 });
