@@ -8,6 +8,7 @@ import type { CSSProperties } from "react";
 import { SeatSetups } from "../game/useLocalGame.js";
 import { RulesHelp } from "./RulesHelp.js";
 import { Icon } from "./Icon.js";
+import homeBanner from "../home-banner.webp";
 
 export const DEFAULT_SEATS: SeatSetups = {
   [PlayerColor.Red]: { isCPU: false, difficulty: 3 }, [PlayerColor.Blue]: { isCPU: true, difficulty: 3 },
@@ -19,10 +20,12 @@ export function SeatSetupScreen({ seats, onSeatsChange, customizeOpen, hasSavedG
 }) {
   const [customizing, setCustomizing] = useState(customizeOpen);
   return <main className="setup-shell">
-    <header className="setup-header"><h1>li<span>4</span>chess</h1><p className="eyebrow">Four players. One board.</p>
-      <p>Take on three computer opponents in free-for-all chess. Free to play, right here in your browser.</p></header>
+    <header className="setup-header">
+      <h1 className="sr-only">li4chess — Free four-player chess</h1>
+      <img src={homeBanner} width={1734} height={907} alt="Red, blue, yellow, and green armies on a cross-shaped chessboard" />
+    </header>
     <section className="quick-start-card" aria-label="Play against computers">
-      <div className="quick-start-copy"><h2>One board. Every player for themselves.</h2>
+      <div className="quick-start-copy"><h2>Play free four-player chess</h2>
         <p>You play Red against three level-3 computers. No account or clock needed.</p></div>
       <button className="primary-button" type="button" onClick={() => onStart(DEFAULT_SEATS)}><Icon name="play" />Play against computers</button>
       {hasSavedGame && <p className="setup-note">Starting a new game replaces the game saved in this browser.</p>}

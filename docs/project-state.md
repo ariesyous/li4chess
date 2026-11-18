@@ -1,12 +1,25 @@
 # Project state
 
-Last updated: 2026-11-10.
+Last updated: 2026-11-18.
 
 Read with [ROADMAP.md](../ROADMAP.md), [AGENTS.md](../AGENTS.md) and the working
 tree. This file retains current decisions and evidence; Git history preserves
 superseded handoffs.
 
 ## Current focus
+
+**Homepage introduction (2026-11-18, local).** The maintainer requested the
+existing social artwork on the homepage after a visitor was unsure what
+li4chess.org offered. The setup screen now shows the complete illustration as
+a 62 KB WebP above the play controls, with a readable four-player chess label
+on narrow screens and an accessible heading and board description.
+
+Local validation on `7317d80` plus the homepage changes passed `pnpm lint`,
+`pnpm test` and `pnpm build` on Windows with Node 24.18.0 and pnpm 10.33.0.
+All 67 web unit tests ran, and unchanged package tasks reused Turbo cache.
+All 152 Chromium browser tests and five homepage checks against the production
+build at `/` passed on an alternate local port. The 1440×1000 and 360×800
+screenshots show the full banner and play button together.
 
 **Captured pieces in player cards (2026-11-10, released):** after
 trying the desktop sizing fix, the maintainer requested each player's captures

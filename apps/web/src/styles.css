@@ -123,11 +123,7 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
 .placements { padding: 0; list-style: none; }
 .placements li { padding: 12px; font-size: 13px; background: #f0eeea; border-left: 4px solid var(--seat-color); margin: 4px 0; }
 .setup-shell { max-width: 780px; margin: 0 auto; padding: 32px 24px 16px; }
-.setup-header { text-align: center; }
-.setup-header h1 { font-size: 48px; font-weight: 400; letter-spacing: -2px; margin-bottom: 10px; color: #514b44; }
-.setup-header h1 span { color: #397caa; }
-.setup-header .eyebrow { margin-bottom: 16px; }
-.setup-header p:last-child { max-width: 510px; margin: 0 auto; font-size: 14px; color: var(--muted); }
+.setup-header img { display: block; width: 100%; height: auto; border-radius: 3px; }
 .setup-learn-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px; margin: 0 0 16px; font-size: 13px; }
 .setup-learn-links a { display: inline-flex; align-items: center; min-height: 36px; text-underline-offset: 3px; }
 .quick-start-card { margin: 24px 0 18px; padding: 22px; background: #faf9f7; border-radius: 3px; box-shadow: 0 2px 5px #29262112; }
@@ -200,8 +196,6 @@ input[type="file"]::file-selector-button { min-height: 44px; border: 1px solid v
   .move-list { max-height: 200px; }
   .setup-shell { margin: 0; padding: 20px 14px 10px; }
   .site-information, .javascript-notice { padding-left: 14px; padding-right: 14px; }
-  .setup-header h1 { font-size: 38px; }
-  .setup-header p:last-child { font-size: 13px; }
   .quick-start-card { margin-top: 18px; padding: 16px; }
   .quick-start-copy h2 { font-size: 18px; }
   .seat-grid { grid-template-columns: 1fr; gap: 8px; }

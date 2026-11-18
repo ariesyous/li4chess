@@ -92,7 +92,11 @@ for (const [name, width, height] of [["desktop", 1440, 1000], ["phone", 360, 800
     test("setup information fits the viewport and stays out of an active game", async ({ page }, info) => {
       await page.goto(homepage);
       const information = page.locator("#site-information");
+      const banner = page.getByRole("img", { name: /armies on a cross-shaped chessboard/ });
       const play = page.getByRole("button", { name: "Play against computers", exact: true });
+      await expect(banner).toBeInViewport();
+      await expect(banner).toHaveJSProperty("naturalWidth", 1734);
+      await expect(page.getByRole("heading", { name: "Play free four-player chess" })).toBeInViewport();
       await expect(information).toBeVisible();
       await expect(play).toBeInViewport();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -100,8 +104,10 @@ for (const [name, width, height] of [["desktop", 1440, 1000], ["phone", 360, 800
 
       await play.click();
       await expect(page.getByTestId("turn-status")).toContainText("Your turn");
+      await expect(banner).toBeHidden();
       await expect(information).toBeHidden();
       await page.getByRole("button", { name: "New game", exact: true }).click();
+      await expect(banner).toBeVisible();
       await expect(information).toBeVisible();
       await expect(play).toBeVisible();
     });

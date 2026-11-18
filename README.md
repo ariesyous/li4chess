@@ -13,6 +13,9 @@ one device with friends, right in your browser. Inspired by [lichess](https://li
 
 ## Play your way
 
+The homepage shows all four armies on the cross-shaped board above the
+quick-start controls.
+
 - **Jump straight in.** Choose **Play against computers** to play Red against
   three level-3 CPUs, or **Customize game** to mix human and CPU seats. All four
   seats can be computers, too.
