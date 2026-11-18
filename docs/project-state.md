@@ -8,7 +8,7 @@ superseded handoffs.
 
 ## Current focus
 
-**Homepage introduction (2026-11-18, local).** The maintainer requested the
+**Homepage introduction (2026-11-18, released).** The maintainer requested the
 existing social artwork on the homepage after a visitor was unsure what
 li4chess.org offered. The setup screen now shows the complete illustration as
 a 62 KB WebP above the play controls, with a readable four-player chess label
@@ -20,6 +20,21 @@ All 67 web unit tests ran, and unchanged package tasks reused Turbo cache.
 All 152 Chromium browser tests and five homepage checks against the production
 build at `/` passed on an alternate local port. The 1440×1000 and 360×800
 screenshots show the full banner and play button together.
+
+The maintainer approved deployment after reviewing the homepage. Release
+`2520a49a7597bc13a190b6e020ffe8565f02467e` reached `main` through
+[PR #40](https://github.com/ariesyous/li4chess/pull/40). The
+[PR CI run](https://github.com/ariesyous/li4chess/actions/runs/44342874878)
+passed lint, unit tests, build, 152 browser tests and 65 production-preview
+tests. The [Pages workflow](https://github.com/ariesyous/li4chess/actions/runs/44344830865)
+published the release at [li4chess.org](https://li4chess.org/).
+
+Live Chromium checks at 1440×1000 and 360×800 verified the deployed revision,
+the exact banner asset, visible quick start and returning to setup. The
+desktop check played a Red move and received all three CPU replies, with
+successful WASM, network and parameter asset responses.
+[Main-branch CI](https://github.com/ariesyous/li4chess/actions/runs/44344830807)
+passed every step on the deployed revision.
 
 **Captured pieces in player cards (2026-11-10, released):** after
 trying the desktop sizing fix, the maintainer requested each player's captures
